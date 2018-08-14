@@ -1,6 +1,6 @@
 {
     "require-dev": {
-        "phpunit/phpunit": "^4.8.36",
+        "phpunit/phpunit": "^7.2",
         "vinnyfs89/x-dump": "dev-master",
         "vinnyfs89/r-enc": "dev-master",
         "squizlabs/php_codesniffer": "*"
@@ -48,6 +48,9 @@
             "Application\\Modules\\Parecer\\Service\\Assinatura\\AnaliseCNIC\\Acao\\": "./application/modules/parecer/service/assinatura/analise-cnic/acao/",
             "MinC\\Assinatura\\": "./library/MinC/Assinatura/",
             "MinC\\Db\\Model\\": "./library/MinC/Db/Model/"
+        },
+        "psr-0" : {
+            "MinC" : "library/"
         }
     },
     "archive": {
@@ -59,7 +62,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.0"
+            "php": "7.2"
         }
     },
     "before_script" : {

@@ -2,22 +2,22 @@
 
 class AssinaturaControllerTest extends MinC_Test_ControllerActionTestCase
 {
-     public function setUp()
-     {
-         parent::setUp();
+    public function setUp()
+    {
+        parent::setUp();
 
-         $this->idPronac = '209649';
-         
-         $this->autenticar();
+        $this->idPronac = '209649';
+
+        $this->autenticar();
 
         $this->alterarPerfil(Autenticacao_Model_Grupos::COORDENADOR_GERAL_ADMISSIBILIDADE, Orgaos::ORGAO_SEFIC_DIC);
 
         //reset para garantir respostas.
         $this->resetRequest()
             ->resetResponse();
-     }
-    
-    
+    }
+
+
     /**
      * TestGerenciarAssinatura
      *
@@ -30,7 +30,7 @@ class AssinaturaControllerTest extends MinC_Test_ControllerActionTestCase
         $this->alterarPerfil(Autenticacao_Model_Grupos::COMPONENTE_COMISSAO, Orgaos::ORGAO_SUPERIOR_SAV);
         $this->alterarPerfil(Autenticacao_Model_Grupos::GESTOR_SALIC, Orgaos::ORGAO_SUPERIOR_SEFIC);
         $this->dispatch('/assinatura/index/gerenciar-assinaturas');
-        $this->assertUrl('assinatura','index', 'gerenciar-assinaturas');
+        $this->assertUrl('assinatura', 'index', 'gerenciar-assinaturas');
     }
 
     /**
@@ -45,7 +45,7 @@ class AssinaturaControllerTest extends MinC_Test_ControllerActionTestCase
         $this->alterarPerfil(Autenticacao_Model_Grupos::COMPONENTE_COMISSAO, Orgaos::ORGAO_SUPERIOR_SAV);
         $this->alterarPerfil(Autenticacao_Model_Grupos::GESTOR_SALIC, Orgaos::ORGAO_SUPERIOR_SEFIC);
         $this->dispatch('/assinatura/index/visualizar-assinaturas');
-        $this->assertUrl('assinatura','index', 'visualizar-assinaturas');
+        $this->assertUrl('assinatura', 'index', 'visualizar-assinaturas');
     }
 
     /**
@@ -57,7 +57,7 @@ class AssinaturaControllerTest extends MinC_Test_ControllerActionTestCase
     public function testVisualizarProjeto()
     {
         $this->dispatch('/assinatura/index/visualizar-projeto?idDocumentoAssinatura=5842');
-        $this->assertUrl('assinatura','index', 'visualizar-projeto');
+        $this->assertUrl('assinatura', 'index', 'visualizar-projeto');
     }
 
     /**
@@ -69,7 +69,7 @@ class AssinaturaControllerTest extends MinC_Test_ControllerActionTestCase
     public function testVisualizarDocumentosAssinaturaAjax()
     {
         $this->dispatch('/assinatura/index/visualizar-documentos-assinatura-ajax/idPronac/' . $this->idPronac);
-        $this->assertUrl('assinatura','index', 'visualizar-documentos-assinatura-ajax');
+        $this->assertUrl('assinatura', 'index', 'visualizar-documentos-assinatura-ajax');
     }
 
     /**
@@ -81,6 +81,6 @@ class AssinaturaControllerTest extends MinC_Test_ControllerActionTestCase
     public function testVisualizarDocumentoAssinado()
     {
         $this->dispatch('/assinatura/index/visualizar-documento-assinado/idPronac/' . $this->idPronac . '?idDocumentoAssinatura=32');
-        $this->assertUrl('assinatura','index', 'visualizar-documento-assinado');
-    }    
+        $this->assertUrl('assinatura', 'index', 'visualizar-documento-assinado');
+    }
 }

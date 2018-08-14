@@ -24,6 +24,8 @@ set_include_path(implode(PATH_SEPARATOR, array(
 define('APPLICATION_ENV', 'testing');
 
 /** Zend_Application */
-require_once 'Zend/Application.php';
+# require_once 'Zend/Application.php';
 
 require_once APPLICATION_PATH . '/../vendor/autoload.php';
+
+

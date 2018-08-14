@@ -11,6 +11,9 @@
     <testsuite name="Analise">
         <directory>application/modules/analise</directory>
     </testsuite>
+    <testsuite name="Assinatura">
+        <directory>application/modules/assinatura</directory>
+    </testsuite>
 
     <filter>
         <whitelist>

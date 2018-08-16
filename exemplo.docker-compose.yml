@@ -27,7 +27,6 @@ services:
 
       - XDEBUG_DEFAULT_ENABLE=1
       - XDEBUG_IDEKEY=PHPSTORM
-
       - DB_ADAPTER=PDO_MSSQL
       - DB_USERNAME=usuarios_internet
       - DB_PASSWORD=_Salic
@@ -39,7 +38,7 @@ services:
 #    networks:
 #      static-network:
 #        ipv4_address: 172.20.0.3
-#networks:
+# networks:
 #   static-network:
 #    ipam:
 #      config:

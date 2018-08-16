@@ -24,30 +24,19 @@ class Finalizar implements IAcaoFinalizar
             'IdPRONAC' => $modeloTbAssinatura->getIdPronac()
         ));
 
-        $objOrgaos = new \Orgaos();
-        $dadosOrgaoSuperior = $objOrgaos->obterOrgaoSuperior($dadosProjeto['Orgao']);
-
-        if ((int)$dadosOrgaoSuperior['Codigo'] == (int)\Orgaos::ORGAO_SUPERIOR_SEFIC) {
-            $orgaoDestino = (int)\Orgaos::ORGAO_GEAAP_SUAPI_DIAAPI;
-        } elseif ((int)$dadosOrgaoSuperior['Codigo'] == (int)\Orgaos::ORGAO_SUPERIOR_SAV) {
-            $orgaoDestino = (int)\Orgaos::ORGAO_SAV_DAP;
-        }
-        if (isset($orgaoDestino)) {
-            $objTbProjetos->alterarOrgao(
-                $orgaoDestino,
-                $modeloTbAssinatura->getIdPronac()
-            );
-        }
+        $objTbProjetos->alterarOrgao(
+            $dadosProjeto['OrgaoOrigem'],
+            $modeloTbAssinatura->getIdPronac()
+        );
 
         $tbDistribuirParecer = new \tbDistribuirParecer();
         $dadosDistribuirParecer = $tbDistribuirParecer->findBy([
-            'IdPRONAC' => $modeloTbAssinatura->getIdPronac(),
-            'stEstado' => 0,
-            'stPrincipal' => 1
+            'idPRONAC = ?' => $modeloTbAssinatura->getIdPronac(),
+            'stEstado = ?' => 0,
+            'stPrincipal = ?' => 1
         ]);
 
         if (count($dadosDistribuirParecer) > 0) {
-            $tbDistribuirParecer = new tbDistribuirParecer();
 
             $distribuirParecer = $tbDistribuirParecer->find(
                 $dadosDistribuirParecer['idDistribuirParecer']

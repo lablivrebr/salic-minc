@@ -48,26 +48,22 @@ Vue.component(
                         </div>
                         <div class="card-content">
                             <table class="bordered">
-                                <tbody>
+                                <thead>
                                     <tr>
                                         <th v-html>Data Inicio da execu&ccedil;&atilde;o</th>
-                                        <td>{{ dataInicio }}</td>
-                                    </tr>
-                                    <tr>
                                         <th v-html>Data Final da execu&ccedil;&atilde;o</th>
+                                        <th class="right-align">Valor Aprovado</th>
+                                        <th class="right-align">Valor Comprovado</th>
+                                        <th class="right-align">Valor a Comprovar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ dataInicio }}</td>
                                         <td>{{ dataFim }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Valor Aprovado</th>
-                                        <td>R$ {{ converterParaReal(informacoes.vlAprovado) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Valor Comprovado</th>
-                                        <td>R$ {{ converterParaReal(informacoes.vlComprovado) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Valor a Comprovar</th>
-                                        <td>R$ {{ converterParaReal(informacoes.vlComprovar) }}</td>
+                                        <td class="right-align">R$ {{ converterParaReal(informacoes.vlAprovado) }}</td>
+                                        <td class="right-align">R$ {{ converterParaReal(informacoes.vlComprovado) }}</td>
+                                        <td class="right-align">R$ {{ converterParaReal(informacoes.vlComprovar) }}</td>
                                     </tr>
                                 </tbody>
                             </table>

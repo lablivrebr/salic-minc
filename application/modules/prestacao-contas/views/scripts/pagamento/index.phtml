@@ -9,7 +9,11 @@
 <script src="/public/scripts/prestacao-contas/components/planilha/sl-planilha-button.vue.js"></script>
 <script src="/public/scripts/prestacao-contas/components/button-scroll-top.vue.js"></script>
 <script src="/public/scripts/prestacao-contas/views/comprovacao-financeira.vue.js"></script>
-<!-- vendor -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.6.7/c3.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.6.7/c3.js"></script>
+
 <div class="container-fluid" id="app">
     <div class="page-title">
         <div class="row">
@@ -25,14 +29,12 @@
     </div>
     <div class="row" >
         <div class="col s12 m12">
-            <div class="card horizontal">
-                <div class="card-stacked">
-                    <div class="center-align card-content  lighten-4">
-                        <span class="card-title"><?php echo $this->pronac . " - " . $this->nomeProjeto ?></span>
-                    </div>
-                    <div class="card-panel teal">
-                        <span class="white-text" style="font-weight: bold; font-size: medium">
-                             <table>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title"><?php echo $this->pronac . " - " . $this->nomeProjeto ?></span>
+                    <div class="row">
+                        <div class="col s9 m9">
+                             <table class="bordered">
                                 <tbody>
                                     <tr>
                                         <td>Valor Aprovado</td>
@@ -48,18 +50,22 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </span>
+                        </div>
+                        <div class="center-align col s3 m3">
+                             <div id="chart1"></div>
+                        </div>
                     </div>
                     <div class="card-action">
-                    <a href="/consultardadosprojeto/index?idPronac=<?php echo $this->idpronac?>" target="_blank" class="btn waves-effect waves-dark white-text">Ver Projeto</a>
+                        <a href="/consultardadosprojeto/index?idPronac=<?php echo $this->idpronac?>" target="_blank" class="btn waves-effect waves-dark white-text">Ver Projeto</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col s12 m12">
-                        <comprovacao-financeira idpronac="<?php echo $this->idpronac ?>"></comprovacao-financeira>
+            <comprovacao-financeira idpronac="<?php echo $this->idpronac ?>"></comprovacao-financeira>
         </div>
     </div>
     <div class="row">
@@ -172,6 +178,24 @@
                 }, 700);
             });
         }
+
+        var chart = c3.generate({
+            bindto:'#chart1',
+            data: {
+                columns: [
+                    ['Falta Comprovar', <?php echo $this->vlTotalComprovar ?> ],
+                    ['Comprovado', <?php echo $this->vlComprovado ?>],
+                ],
+                type : 'pie',
+                 colors: {
+                    'Falta Comprovar': '#586057',
+                    'Comprovado': '#35b225',
+                },
+            },
+            size: {
+                height: 200,
+                width: 150 
+            },
+        });
     });
 </script>
-<!-- views -->

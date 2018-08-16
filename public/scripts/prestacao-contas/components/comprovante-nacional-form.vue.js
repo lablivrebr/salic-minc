@@ -31,7 +31,8 @@ Vue.component('sl-comprovante-nacional-form',
                 </div>
                     <div class="row">
                         <div
-                            :class="[this.c.fornecedor.CNPJCPF.css, 'input-field col s6']" >
+                            :class="[this.c.fornecedor.CNPJCPF.css, 'input-field col s6']" 
+                        >
                             <input
                                 type="text"
                                 ref="CNPJCPF"
@@ -76,6 +77,16 @@ Vue.component('sl-comprovante-nacional-form',
                             </template>
                         </div>
                     </div>
+                    <div class="row" v-show="novoFornecedor">
+                        <div class="col s12">
+                            <a 
+                                target="blank" 
+                                :href="'/prestacao-contas/fornecedor/index/cpfcnpj/'+comprovante.fornecedor.CNPJCPF"
+                                class="btn red">
+                                Cadastrar Fornecedor
+                            </a>
+                        </div>
+                    </div>
             </fieldset>
             <template v-if="(!comprovante.fornecedor.eInternacional)">
                 <fieldset>
@@ -111,8 +122,15 @@ Vue.component('sl-comprovante-nacional-form',
                             >Data de Emiss&atilde;o</label>
                         </div>
                         <div class="input-field col s1">
-                            <i class="material-icons tooltipped" data-position="bottom" data-delay="50"
-                                :data-tooltip="'Inicio em: ' + dataInicio + ' at\xe9 ' + dataFim">help</i>
+                            <i 
+                                class="material-icons 
+                                tooltipped" 
+                                data-position="bottom" 
+                                data-delay="50"
+                                :data-tooltip="'Inicio em: ' + dataInicio + ' at\xe9 ' + dataFim"
+                            >
+                                help
+                            </i>
                         </div>
                         <div class="input-field col s3">
                             <input
@@ -162,12 +180,15 @@ Vue.component('sl-comprovante-nacional-form',
                     <div class="row">
                         <div class=" col s3 m3">
                             <label>Forma de Pagamento<span style='color:red'>*</span></label>
-                            <select class="browser-default" name="tpFormaDePagamento" id="tpFormaDePagamento"
-                                    v-model="comprovante.forma"
-                                    >
-                                    <option value="1">Cheque</option>
-                                    <option value="2">Transfer&ecirc;ncia Banc&aacute;ria</option>
-                                    <option value="3">Saque/Dinheiro</option>
+                            <select 
+                                class="browser-default" 
+                                name="tpFormaDePagamento" 
+                                id="tpFormaDePagamento"
+                                v-model="comprovante.forma"
+                            >
+                                <option value="1">Cheque</option>
+                                <option value="2">Transfer&ecirc;ncia Banc&aacute;ria</option>
+                                <option value="3">Saque/Dinheiro</option>
                             </select>
                         </div>
                         <div class="input-field col s3">
@@ -272,6 +293,10 @@ Vue.component('sl-comprovante-nacional-form',
             this.comprovante.arquivo = { nome: this.dados.arquivo.nome };
             this.comprovante.justificativa = this.dados.justificativa;
         }
+        $3('textarea').trigger('autoresize');
+    },
+    updated(){
+        $3('textarea').trigger('autoresize');
     },
     props: {
         dados: null,
@@ -307,7 +332,7 @@ Vue.component('sl-comprovante-nacional-form',
             return numeral(parseFloat(this.valorantigo)).format('0,0.00');
         }
     },
-    data () {
+    data() {
         return {
             money:{
              decimal: ',',
@@ -372,7 +397,8 @@ Vue.component('sl-comprovante-nacional-form',
                     css: '',
                 },
             },
-            random: ''
+            random: '',
+            novoFornecedor: false
         }
     },
     methods: {
@@ -580,7 +606,9 @@ Vue.component('sl-comprovante-nacional-form',
         },
         pesquisarFornecedor: function(){
            var vue = this;
-           var url = '/prestacao-contas/gerenciar/fornecedor' ;
+           //var url = '/prestacao-contas/gerenciar/fornecedor' ;
+           var url = '/agente/agentes/agentecadastrado';
+
 
            if (
                (this.comprovante.fornecedor.tipoPessoa == 1
@@ -591,13 +619,18 @@ Vue.component('sl-comprovante-nacional-form',
                $3.ajax({
                     url: url,
                     method: 'POST',
-                    data: {cnpjcpf: this.comprovante.fornecedor.CNPJCPF},
+                    data: {cpf: this.comprovante.fornecedor.CNPJCPF},
                     dataType: "json",
                }).done(function(data){
-                    if (data.retorno){
-                        vue.comprovante.fornecedor.nome= data.nome;
-                        vue.comprovante.fornecedor.idAgente = data.idAgente;
+                   vue.comprovante.fornecedor.nome = '';
+                   if (data.length > 0 && data[0]['msgCPF'] == 'cadastrado') {
+                        vue.comprovante.fornecedor.nome= data[0]['Nome'];
+                        vue.comprovante.fornecedor.idAgente = data[0]['idAgente'];
                         vue.c.fornecedor.CNPJCPF.css = {};
+                        vue.novoFornecedor = false;
+                    } else {
+                        alert('Fornecedor n\xe3o cadastrado! Cadastre antes esse fornecedor.');
+                        vue.novoFornecedor = true;
                     }
                });
            }
@@ -616,13 +649,12 @@ Vue.component('sl-comprovante-nacional-form',
            });
         },
         inputCNPJCPF: function(e) {
+            console.log(e);
             if (e.length < 15) {
                 if (e.length == 11 || e.length == 14) {
                    this.comprovante.fornecedor.CNPJCPF = e;
                    this.comprovante.fornecedor.cnpjcpfMask = this.cnpjcpfMask();
-                } else {
-                   this.comprovante.fornecedor.CNPJCPF = '';
-                }
+                } 
             }
         },
         cnpjcpfMask: function() {

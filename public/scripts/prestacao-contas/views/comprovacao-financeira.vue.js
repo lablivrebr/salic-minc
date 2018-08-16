@@ -1,8 +1,9 @@
 Vue.component('comprovacao-financeira', {
     props: ['idpronac'],
-    template: `<div>
-                        <sl-planilha-produtos :produtos="produtos" :idpronac="idpronac"></sl-planilha-produtos>
-                    </div>`,
+    template: `
+        <div>
+            <sl-planilha-produtos :produtos="produtos" :idpronac="idpronac"></sl-planilha-produtos>
+        </div>`,
     created: function () {
         $3(document).ajaxStart(function () {
             $3('#container-loading').fadeIn('slow');

@@ -29,7 +29,7 @@ Vue.component('sl-comprovar-form',
                     :item="itemId"
                     :idplanilhaaprovacao="idplanilhaaprovacaoId"
                     :datainicio="datainicio"
-                    :datafim="datainicio"
+                    :datafim="datafim"
                     :valoraprovado="valoraprovado"
                     :valorcomprovado="valorComprovado"
                     :valorantigo="0"

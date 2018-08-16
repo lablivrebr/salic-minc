@@ -131,9 +131,18 @@ $(document).ready(function () {
                         "data": "nomeprojeto"
                     },
                     {
+                        data: null,
                         "name": "situacao",
-                        "data": "situacao"
+                        render: function (data, type, row) {
+                                if(data.emAnaliseCnic === true) {
+                                    return '<div style="background-color: #EF5350" class="darken-2 padding10 white-text">\n' +
+                                        ' Projeto em an&aacute;lise pela Comiss&atilde;o Nacional\n' +
+                                        'de Incentivo &agrave; Cultura-CNIC. Aguardar resultado da avalia&ccedil;&atilde;o.\n' +
+                                        '</div>';
+                                }
 
+                            return data.situacao;
+                        }
                     },
                     {
                         "name": "periodo",

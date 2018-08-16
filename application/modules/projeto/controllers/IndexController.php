@@ -107,6 +107,7 @@ class Projeto_IndexController extends Projeto_GenericController
         $recordsFiltered = 0;
         $dados = array();
         $tbMecanismo = new Mecanismo();
+        $parecer = new Parecer();
         if (!empty($projetos)) {
             foreach ($projetos as $key => $projeto) {
                 $novoProjeto = new stdClass();
@@ -121,6 +122,7 @@ class Projeto_IndexController extends Projeto_GenericController
                 $novoProjeto->situacao = utf8_encode($projeto->Situacao) . ' - ' . utf8_encode($projeto->Descricao);
                 $novoProjeto->podeClonarProjeto = !empty($projeto->idProjeto) ? true : false;
                 $novoProjeto->podeAdequarProjeto = (boolean) $tbProjetos->fnChecarLiberacaoDaAdequacaoDoProjeto($projeto->IdPRONAC);
+                $novoProjeto->emAnaliseCnic = count($parecer->verificaProjSituacaoCNIC($projeto->Pronac)) > 0 ? true : false;
                 $dados[$key] = $novoProjeto;
             }
 

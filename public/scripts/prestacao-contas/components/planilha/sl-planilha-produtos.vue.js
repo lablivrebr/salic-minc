@@ -3,7 +3,7 @@ Vue.component('sl-planilha-produtos', {
     template: `
         <ul class="collapsible no-margin" data-collapsible="expandable" id="produtos-collapsible">
             <li class="active" v-for="(produto, index) in produtos">
-                <div class="collapsible-header green-text" v-bind:class="{ active: isExpanded(produto.cdProduto) }" >
+                <div class=" active collapsible-header green-text" v-bind:class="{ active: isExpanded(produto.cdProduto) }" >
                     <i class="material-icons">perm_media</i>
                     {{ produto.produto }}
                 </div>

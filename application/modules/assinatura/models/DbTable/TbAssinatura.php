@@ -224,9 +224,9 @@ class Assinatura_Model_DbTable_TbAssinatura extends MinC_Db_Table_Abstract
         return $this->_db->fetchAll($query);
     }
 
-    public function obterQuantidadeTotalAssinaturas()
+    public function obterQuantidadeAssinaturasRealizadas()
     {
-        if (is_null($this->modeloTbDocumentoAssinatura->getIdDocumentoAssinatura())) {
+        if (is_null($this->modeloTbAssinatura->getIdDocumentoAssinatura())) {
             throw new Exception("`Identificador do Documento Assinatura n&atilde;o informado.");
         }
 
@@ -239,11 +239,11 @@ class Assinatura_Model_DbTable_TbAssinatura extends MinC_Db_Table_Abstract
             $this->_schema
         );
 
-        $query->where("idDocumentoAssinatura = ?", $this->modeloTbDocumentoAssinatura->getIdDocumentoAssinatura());
+        $query->where("idDocumentoAssinatura = ?", $this->modeloTbAssinatura->getIdDocumentoAssinatura());
         $quantidadeAssinaturas = $this->_db->fetchRow($query);
-
-        if ($quantidadeTotalAssinaturas) {
-            return $quantidadeTotalAssinaturas->quantidade;
+        
+        if ($quantidadeAssinaturas) {
+            return $quantidadeAssinaturas['quantidade'];
         }
     }
         

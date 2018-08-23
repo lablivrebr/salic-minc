@@ -122,13 +122,13 @@ class Assinatura implements IServico
             $modeloTbAtoAdministrativo->getIdOrdemDaAssinatura(),
             $modeloTbAtoAdministrativo->getIdOrgaoSuperiorDoAssinante()
         );
-
+        
         if ($codigoOrgaoDestino) {
             $this->encaminhar();
         } else {
 
-            $quantidadeTotalAssinaturas = $dbTableTbAssinatura->obterQuantidadeTotalAssinaturas();
-            $quantidadeMinimaAssinaturas = $dbTableTbAtoAdministrativo->obterQuantidadeMinimaAssinaturas(
+            $quantidadeAssinaturasRealizadas = $dbTableTbAssinatura->obterQuantidadeAssinaturasRealizadas();
+            $quantidadeMinimaAssinaturas = $objTbAtoAdministrativo->obterQuantidadeMinimaAssinaturas(
                 $modeloTbAtoAdministrativo->getIdTipoDoAto(),
                 $modeloTbAtoAdministrativo->getIdOrgaoSuperiorDoAssinante()
             );

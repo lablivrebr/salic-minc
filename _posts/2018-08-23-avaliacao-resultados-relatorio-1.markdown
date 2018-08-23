@@ -1,5 +1,6 @@
 
 ---
+layout: post
 title:  "Avalição de Resultados: Relatorio 1"
 date:   2018-08-23 18:15:00 -0200
 categories: artigos

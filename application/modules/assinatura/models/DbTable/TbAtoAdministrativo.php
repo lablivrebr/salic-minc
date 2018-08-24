@@ -80,7 +80,8 @@ class Assinatura_Model_DbTable_TbAtoAdministrativo extends MinC_Db_Table_Abstrac
 
         $objResultado = $this->fetchRow($objQuery);
         if ($objResultado) {
-            return $resultadoArray->quantidade_assinaturas;
+            $resultadoArray = $objResultado->toArray();
+            return $resultadoArray['quantidade_assinaturas'];
         }
     }
 

@@ -304,7 +304,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 $this->grupoAtivo->codGrupo,
                 $this->grupoAtivo->codOrgao
             );
-
+            
             if ($post) {
 
                 try {
@@ -318,6 +318,9 @@ class Assinatura_IndexController extends Assinatura_GenericController
                                 'stEstado' => Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_ATIVO
                             )
                         );
+                        $tblUsuario = new Autenticacao_Model_DbTable_Usuario();
+                        $codOrgaoMaxSuperior = $tblUsuario->recuperarOrgaoMaxSuperior($this->grupoAtivo->codOrgao);
+                        
                         $servicoAssinatura = new \MinC\Assinatura\Servico\Assinatura(
                             [
                                 'idPronac' => $idPronac,
@@ -328,7 +331,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
                                 'idTipoDoAto' => $idTipoDoAtoAdministrativo,
                                 'idOrgaoDoAssinante' => $this->grupoAtivo->codOrgao,
                                 'idPerfilDoAssinante' => $this->grupoAtivo->codGrupo,
-                                'idOrgaoSuperiorDoAssinante' => $this->auth->getIdentity()->usu_org_max_superior
+                                'idOrgaoSuperiorDoAssinante' => $codOrgaoMaxSuperior
                             ]
                         );
 

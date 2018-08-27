@@ -243,7 +243,7 @@
                             <th>Dt. Emiss&atilde;o do comprovante de despesa</th>
                             <td>{{dataEmissaoComprovante}}</td>
                             <th>Forma de Pagamento</th>
-                            <td>{{dados.tpFormaDePagamento}}</td>
+                            <td>{{formaPagamento}}</td>
                             <th>Data do Pagamento</th>
                             <td>{{dataPagamento}}</td>
                             <th>N&ordm; Documento Pagamento</th>
@@ -281,14 +281,25 @@
                 return CNPJCPF;
             },
             dataEmissaoComprovante() {
-                return moment(this.dados.dtEmissao).format('DD/MM/Y');
+                return moment(this.dados.dataEmissao).format('DD/MM/Y');
             },
             dataPagamento() {
-                return moment(this.dados.dtPagamento).format('DD/MM/Y');
+                return moment(this.dados.dataPagamento).format('DD/MM/Y');
             },
             valor() {
                 return parseFloat(this.dados.vlComprovacao).toFixed(2);
-            }
+            },
+            formaPagamento() {
+                forma = '';
+                console.log(this.dados.forma);
+                switch(parseInt(this.dados.forma)) {
+                    case 1: forma = 'Cheque'; break;
+                    case 2: forma = 'Transfer\xeancia Banc\xe1ria'; break;
+                    case 3: forma = 'Saque/Dinheiro'; break;
+                }
+
+                return forma;
+            },
         },
     };
 

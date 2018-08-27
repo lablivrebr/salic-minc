@@ -5,7 +5,8 @@
         </div>
 
         <div class="row" v-if="dadosProjeto.ProponenteInabilitado">
-            <div style="background-color: #EF5350; text-transform: uppercase" class="darken-2 padding10 white-text center-align">
+            <div style="background-color: #EF5350; text-transform: uppercase"
+                 class="darken-2 padding10 white-text center-align">
                 <div><b>Proponente Inabilitado</b></div>
             </div>
         </div>
@@ -372,7 +373,6 @@
                     <td align="center">{{ dadosProjeto.CaixaFinal }}</td>
                 </tr>
             </table>
-
             <ValoresDoProjeto :idPronac="idPronac" :dadosProjeto="dadosProjeto"/>
         </div>
     </div>
@@ -423,7 +423,8 @@
         },
         methods: {
             isDataExpirada(date) {
-                return moment().diff(date, 'days') > 0;
+                return moment()
+                    .diff(date, 'days') > 0;
             },
             formatarAgencia(agencia) {
                 // formato: 9999-9
@@ -446,7 +447,8 @@
                 if (date.length === 0) {
                     return '-';
                 }
-                return moment(date).format('DD/MM/YYYY');
+                return moment(date)
+                    .format('DD/MM/YYYY');
             },
         },
     };

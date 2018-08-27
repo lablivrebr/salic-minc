@@ -362,25 +362,26 @@ table > tbody > tr {
     border: 1px solid #d0d0d0;
 }
 
-table tr td.destacar-celula {
+.destacar-celula {
     /*background-color: #fce4d7 !important;*/
     background-color: #d6ecd8 !important;
 }
 
-table .destaque-texto,
-table .destaque-texto a {
+.destaque-texto,
+.destaque-texto a {
     color: #009900 !important;
 }
 
-#conteudo table td.destaque-texto-primary a:not(.btn),
-table .destaque-texto-primary,
-table .destaque-texto-primary a {
+#conteudo .destaque-texto-primary a:not(.btn),
+.destaque-texto-primary,
+.destaque-texto-primary a {
     color: #0000FF !important;
+    cursor: pointer;
 }
 
-table .destaque-texto-secondary,
-table .destaque-texto-secondary a {
+#conteudo .destaque-texto-secondary a:not(.btn),
+.destaque-texto-secondary,
+.destaque-texto-secondary a {
     color: #CC0000 !important;
+    cursor: pointer;
 }
-
-

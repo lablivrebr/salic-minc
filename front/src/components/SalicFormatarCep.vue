@@ -20,6 +20,8 @@
                 if (cep.length === 8) {
                     return this.adicionarMascaraCep(cep);
                 }
+
+                return '';
             },
             // formato: 99.999.999
             adicionarMascaraCep(v) {

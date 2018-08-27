@@ -7,7 +7,7 @@
             label="Standard"
           ></v-select>
         </v-flex>
-  
+
         <v-flex xs12 sm6 d-flex>
           <v-select
             :items="items"
@@ -15,7 +15,7 @@
             label="Box style"
           ></v-select>
         </v-flex>
-  
+
         <v-flex xs12 sm6 d-flex>
           <v-select
             :items="items"
@@ -23,7 +23,7 @@
             outline
           ></v-select>
         </v-flex>
-  
+
         <v-flex xs12 sm6 d-flex>
           <v-select
             :items="items"
@@ -47,7 +47,7 @@ export default {
                 Codigo: '',
                 DadoNr: '',
             },
-            items: ['pedro', 'leo']
+            items: ['pedro', 'leo'],
         };
     },
     props: ['registroAtivo'],
@@ -75,9 +75,6 @@ export default {
             // eslint-disable-next-line
             $3('#modalTemplate').modal('close');
             this.modalClose();
-        },
-        alert() {
-            alert('teste');
         },
     },
     computed: {

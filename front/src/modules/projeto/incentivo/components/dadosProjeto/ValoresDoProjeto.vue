@@ -197,12 +197,22 @@
                         </a>
                     </b>
                 </td>
-                <td class="right-align"><b>
-                    <SalicFormatarValor :valor="dadosProjeto.vlTransferido"/>
-                </b></td>
-                <td class="right-align"><b>
-                    <SalicFormatarValor :valor="dadosProjeto.vlRecebido"/>
-                </b></td>
+                <td class="right-align">
+                    <b v-if="dadosProjeto.vlTransferido === '0'">
+                        <SalicFormatarValor :valor="dadosProjeto.vlTransferido"/>
+                    </b>
+                    <b v-else>
+                        <TransferenciaRecursos :valor="dadosProjeto.vlTransferido" :acao="'transferidor'"></TransferenciaRecursos>
+                    </b>
+                </td>
+                <td class="right-align">
+                    <b v-if="dadosProjeto.vlRecebido === '0'">
+                        <SalicFormatarValor :valor="dadosProjeto.vlRecebido"/>
+                    </b>
+                    <b v-else>
+                        <TransferenciaRecursos :valor="dadosProjeto.vlRecebido" :acao="'recebedor'"></TransferenciaRecursos>
+                    </b>
+                </td>
                 <td class="right-align destacar-celula"><b>
                     <SalicFormatarValor :valor="dadosProjeto.vlSaldoACaptar"/>
                 </b></td>
@@ -255,13 +265,14 @@
     </fieldset>
 </template>
 <script>
-
-    import SalicFormatarValor from '@/components/SalicFormatarValor';
     import { utils } from '@/mixins/utils';
+    import SalicFormatarValor from '@/components/SalicFormatarValor';
+    import TransferenciaRecursos from '@/modules/projeto/incentivo/components/dadosProjeto/TransferenciaRecursos';
 
     export default {
         components: {
             SalicFormatarValor,
+            TransferenciaRecursos,
         },
         mixins: [utils],
         props: {

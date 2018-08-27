@@ -13,12 +13,12 @@
 class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
 {
     /**
-     * Vari�vel com o id do usu�rio logado
+     * Variavel com o id do usuario logado
      */
     private $getIdUsuario = 0;
 
     /**
-     * Reescreve o m�todo init()
+     * Reescreve o metodo init()
      * @access public
      * @param void
      * @return void
@@ -28,7 +28,7 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
 
         // verifica as permissoes
         $PermissoesGrupo = array();
-        $auth = Zend_Auth::getInstance(); // instancia da autentica��o
+        $auth = Zend_Auth::getInstance(); // instancia da autenticacao
         $GrupoAtivo   = new Zend_Session_Namespace('GrupoAtivo');
 
         $idPronac = $this->_request->getParam("idPronac"); // pega o id do pronac via get
@@ -46,19 +46,18 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
             /* ==== VERIFICA PERMISSAO DE ACESSO DO PROPONENTE A PROPOSTA OU AO PROJETO ====== */
             /* =============================================================================== */
             if (!isset($idPronac) || empty($idPronac)) {
-                parent::message('� necess�rio o n�mero do PRONAC para acessar essa p�gina!', "principalproponente", "ERROR");
+                parent::message('É necessário o número do PRONAC para acessar essa página!', "principalproponente", "ERROR");
             }
 //            $this->verificarPermissaoAcesso(false, true, false);
         }
 
-        //SE CAIU A SECAO REDIRECIONA
         if (!$auth->hasIdentity()) {
             $url = Zend_Controller_Front::getInstance()->getBaseUrl();
             JS::redirecionarURL($url);
         }
 
-        parent::init(); // chama o init() do pai GenericControllerNew
-    } // fecha m�todo init()
+        parent::init();
+    }
 
 
 
@@ -74,16 +73,13 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
         $this->forward("recurso");
     }
 
-
-
     /**
-     * M�todo com os recursos (Projetos Aprovados e N�o Aprovados)
+     * Metodo com os recursos (Projetos Aprovados e Nao Aprovados)
      * @param void
      * @return void
      */
     public function recursoAction()
     {
-        // caso o formul�rio seja enviado via post
         if ($this->getRequest()->isPost()) {
             $post          	= Zend_Registry::get('post');
             $idPronac      	= $post->idPronac;
@@ -124,9 +120,8 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
                 $cadastrar = $tbRecurso->inserir($dados);
 
                 if ($cadastrar) {
-                    // altera a situa��o do projeto
                     $alterarSituacao = ProjetoDAO::alterarSituacao($idPronac, 'D20');
-                    parent::message('Solicita��o enviada com sucesso!', "consultardadosprojeto/index?idPronac=".Seguranca::encrypt($idPronac), "CONFIRM");
+                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "consultardadosprojeto/index?idPronac=".Seguranca::encrypt($idPronac), "CONFIRM");
                 } // fecha if
                 else {
                     throw new Exception("Erro ao cadastrar recurso!");
@@ -142,22 +137,30 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
             $this->view->idPronac = $idPronac;
 
             // recebe os dados via get
-            $cpf_cnpj = isset($_GET['cpf_cnpj']) ? $_GET['cpf_cnpj'] : '';
+            $cpf_cnpj = $this->_request->getParam('cpf_cnpj', '');
 
-            if (!isset($idPronac) || empty($idPronac)) {
-                parent::message('� necess�rio o n�mero do PRONAC para acessar essa p�gina!', "consultardadosprojeto?idPronac=".$idPronac, "ERROR");
-            } else {
-                // busca os projetos
-                $buscarProjetos = SolicitarRecursoDecisaoDAO::buscarProjetos($idPronac, $cpf_cnpj);
-                $this->view->projetos = $buscarProjetos;
+            if (empty($idPronac)) {
+                parent::message('&Eacute; necess&aacute;rio o n&uacute;mero do PRONAC para acessar essa p&aacute;gina!', "consultardadosprojeto?idPronac=" . $idPronac, "ERROR");
             }
+
+//            // busca os projetos
+//            $buscarProjetos = SolicitarRecursoDecisaoDAO::buscarProjetos($idPronac, $cpf_cnpj);
+//            $dbTableProjetos = new Projeto_Model_DbTable_Projetos();
+//            $where = [];
+//            $where = ['projeto.Situacao in (?)' => Recurso_Model_TbRecurso::SITUACOES_PASSIVEIS_DE_RECURSO];
+//
+//            if($cpf_cnpj) {
+//                $where = ['projeto.CgcCpf = ?' => $cpf_cnpj;
+//            }
+//            $projetoComRecurso = $dbTableProjetos->obterProjetoComSituacao($idPronac, $cpf_cnpj);
+
+            $tbRecursoMapper = new Recurso_Model_TbRecursoMapper();
+            $this->view->projeto = $tbRecursoMapper->obterProjetoPassivelDeRecurso($idPronac, $cpf_cnpj);
         }
     }
 
     /**
-     * M�todo para chamar a tela de descri��o do termo de deisit�ncia do recurso
-     * @author Jefferson Alessandro <jefferson.silva@cultura.gov.br>
-     * @since 21/10/2013
+     * Meodo para chamar a tela de descricao do termo de deisitencia do recurso
      */
     public function recursoDesistirAction()
     {
@@ -186,14 +189,12 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
 
 
     /**
-     * M�todo para aplicar no banco de dados a desist�ncia do recurso
-     * @author Jefferson Alessandro <jefferson.silva@cultura.gov.br>
-     * @since 24/10/2013
+     * Metodo para aplicar no banco de dados a desistencia do recurso
      */
     public function recursoDesistenciaAction()
     {
         $post = Zend_Registry::get('post');
-        $idPronac = $this->_request->getParam("idPronac"); // pega o id do pronac via get
+        $idPronac = $this->_request->getParam("idPronac");
         $auth = Zend_Auth::getInstance();
 
         if (strlen($idPronac) > 7) {
@@ -223,16 +224,16 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
             }
 
             RecursoDAO::cadastrar($dados);
-            parent::message('A desist�ncia do prazo recursal foi cadastrada com sucesso!', "consultardadosprojeto?idPronac=". Seguranca::encrypt($idPronac), "CONFIRM");
+            parent::message('A desist&ecirc;ncia do prazo recursal foi cadastrada com sucesso!', "consultardadosprojeto?idPronac=". Seguranca::encrypt($idPronac), "CONFIRM");
         } else {
-            parent::message('� necess�rio estar de acordo com os termos para registrar a sua desist�ncia do prazo recursal!', "solicitarrecursodecisao/recurso-desistir?idPronac=". Seguranca::encrypt($idPronac), "ERROR");
+            parent::message('&Eacute; necess&aacute;rio estar de acordo com os termos para registrar a sua desist&ecirc;ncia do prazo recursal!', "solicitarrecursodecisao/recurso-desistir?idPronac=". Seguranca::encrypt($idPronac), "ERROR");
         }
     }
 
     public function recursoDesistenciaEnquadramentoAction()
     {
         $post = Zend_Registry::get('post');
-        $idPronac = $this->_request->getParam("idPronac"); // pega o id do pronac via get
+        $idPronac = $this->_request->getParam("idPronac");
         $auth = Zend_Auth::getInstance();
 
         if (strlen($idPronac) > 7) {
@@ -262,21 +263,21 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
             }
 
             RecursoDAO::cadastrar($dados);
-            parent::message('A desist�ncia do prazo recursal foi cadastrada com sucesso!', "consultardadosprojeto?idPronac=". Seguranca::encrypt($idPronac), "CONFIRM");
+            parent::message('A desistência do prazo recursal foi cadastrada com sucesso!', "consultardadosprojeto?idPronac=". Seguranca::encrypt($idPronac), "CONFIRM");
         } else {
             parent::message('� necess�rio estar de acordo com os termos para registrar a sua desist�ncia do prazo recursal!', "solicitarrecursodecisao/recurso-desistir-enquadramento?idPronac=". Seguranca::encrypt($idPronac), "ERROR");
         }
     }
 
     /**
-     * M�todo para buscar os projetos aprovados e n�o aprovados
+     * Metodo para buscar os projetos aprovados e nao aprovados
      * @access public
      * @param void
      * @return void
      */
     public function proponenteprojetoAction()
     {
-        // recebe os dados do formul�rio via get
+        // recebe os dados do formulario via get
         $get      = Zend_Registry::get('get');
         $idpronac = $get->idpronac;
         $cpf      = $get->cpf;
@@ -285,7 +286,7 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
         $buscaprojetoaprovado = SolicitarRecursoDecisaoDAO::buscaprojetosaprovados($idpronac, $cpf);
         $this->view->projetoaprovado = $buscaprojetoaprovado;
 
-        // n�o aprovados
+        // nao aprovados
         $buscaprojetonaoaprovado = SolicitarRecursoDecisaoDAO::buscaprojetosnaoaprovados($idpronac, $cpf);
         $this->view->projetonaoaprovado = $buscaprojetonaoaprovado;
     } // fecha m�todo proponenteprojetoAction()
@@ -306,8 +307,8 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
             parent::message('� necess�rio o n�mero do PRONAC para acessar essa p�gina!', "consultardadosprojeto?idPronac=".$idPronac, "ERROR");
         }
         // busca os projetos
-        $buscarProjetos = SolicitarRecursoDecisaoDAO::buscarProjetos($idPronac, $cpf_cnpj);
-        $this->view->projeto = $buscarProjetos[0];
+        $tbRecursoMapper = new Recurso_Model_TbRecursoMapper();
+        $this->view->projeto = $tbRecursoMapper->obterProjetoPassivelDeRecurso($idPronac, $cpf_cnpj);
         $this->view->recurso = $recurso->existeRecursoIndeferido($idPronac);
     }
 
@@ -316,7 +317,7 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
      *
      * @access public
      * @return void
-     * @todo metodo em constru��o
+     * @todo metodo em construcao
      */
     public function recursoEnquadramentoSalvarAction()
     {
@@ -357,8 +358,8 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
                 $cadastrar = $tbRecurso->insert($dados);
 
                 if ($cadastrar) {
-                    // altera a situa��o do projeto
-                    parent::message('Solicita��o enviada com sucesso!', "consultardadosprojeto/index?idPronac=".Seguranca::encrypt($idPronac), "CONFIRM");
+                    // altera a situacao do projeto
+                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "consultardadosprojeto/index?idPronac=".Seguranca::encrypt($idPronac), "CONFIRM");
                 } else {
                     throw new Exception("Erro ao cadastrar recurso!");
                 }
@@ -397,9 +398,9 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
             $resultadoPesquisa = $tbRecurso->buscar(array('IdPRONAC = ?'=> $idPronac));
 
             RecursoDAO::cadastrar($dados);
-            parent::message('A desist�ncia do prazo recursal foi cadastrada com sucesso!', "consultardadosprojeto?idPronac=". Seguranca::encrypt($idPronac), "CONFIRM");
+            parent::message('A desist&ecirc;ncia do prazo recursal foi cadastrada com sucesso!', "consultardadosprojeto?idPronac=". Seguranca::encrypt($idPronac), "CONFIRM");
         } else {
-            parent::message('N�o foi poss�vel cadastrar a desist�ncia do prazo recursal!', "consultardadosprojeto?idPronac=". Seguranca::encrypt($idPronac), "ERROR");
+            parent::message('N&atilde;o foi poss&iacute;vel cadastrar a desist&ecirc;ncia do prazo recursal!', "consultardadosprojeto?idPronac=". Seguranca::encrypt($idPronac), "ERROR");
         }
     }
 

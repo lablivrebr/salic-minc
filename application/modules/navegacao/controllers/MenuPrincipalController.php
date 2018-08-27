@@ -4,6 +4,16 @@
 
         public function init()
         {
+            $this->auth = Zend_Auth::getInstance();
+
+            $this->GrupoAtivo = new Zend_Session_Namespace('GrupoAtivo');
+
+            if (isset($this->auth->getIdentity()->usu_codigo)) {
+                $this->codGrupo = $this->GrupoAtivo->codGrupo;
+                $this->codOrgao = $this->GrupoAtivo->codOrgao;
+                $this->codOrgaoSuperior = (!empty($this->auth->getIdentity()->usu_org_max_superior)) ? $this->auth->getIdentity()->usu_org_max_superior : null;
+            }
+
             $this->_helper->getHelper('contextSwitch')
                 ->addActionContext('get', 'json')
                 ->addActionContext('index', 'json')
@@ -13,16 +23,19 @@
                 ->initContext('json');
         }
 
-        public function indexAction()
-        {
+        public function indexAction(){
+//            ini_set('xdebug.var_display_max_depth', 5);
+//           var_dump($this->usuarioProponente());die;
+            $menuProponente = [];
             $menu = [];
+            $menuProponente += $this->administrativoProponente();
+            $menuProponente += $this->propostaProponente();
+            $menuProponente += $this->projetoProponente();
+            $menuProponente += $this->solicitacoesProponente();
+            $menuProponente += $this->usuarioProponente();
             $menu += $this->prestacaoContas();
             $menu += $this->analise();
             $menu += $this->administrativo();
-            $menu += $this->proposta();
-            $menu += $this->projeto();
-            $menu += $this->solicitacoes();
-            $menu += $this->usuario();
             $menu += $this->assinatura();
             $menu += $this->atendimento();
             $menu += $this->acompanhamento();
@@ -36,11 +49,13 @@
             $menu += $this->aulas();
             $menu += $this->manutencao();
 
+
+            $menu = $this->filtro($menu,$menuProponente);
             $this->view->assign('data', $menu );
             $this->getResponse()->setHttpResponseCode(200);
         }
 
-        public function prestacaoContas(){
+        public function prestacaoContas():array{
             $arrMenu['prestacao-contas'] = [
                 'id' => 'prestacao-contas',
                 'label' => 'Presta&ccedil;&atilde;o de Contas',
@@ -123,7 +138,8 @@
             ];
             return $arrMenu;
         }
-        public function analise (){
+
+        public function analise(){
             $arrMenu['analise'] = [
                 'id' => 'analise',
                 'label' => 'An&aacute;lise',
@@ -339,34 +355,6 @@
         }
         public function administrativo(){
 
-            $arrMenuProponente['administrativo'] = [
-                'id' => 'administrativo',
-                'label' => 'Administrativo',
-                'title' => 'Ir para Administrativo',
-                'menu' => [],
-                'grupo' => [],
-            ];
-            $arrMenuProponente['administrativo']['menu'][] = [
-                'label' => 'Cadastrar Proponente',
-                'title' => 'Ir para Manter Agentes',
-                'url' => ['module' => 'agente','controller' => 'agentes', 'action' => 'incluiragente'],
-                'grupo' => []
-            ];
-
-            //if ($this->idAgenteKeyLog != 0) {
-            $arrMenuProponente['administrativo']['menu'][] = [
-                'label' => 'Gerenciar respons&aacute;veis',
-                'title' => 'Ir para Aceitar vinculo',
-                'url' =>['module' => 'proposta', 'controller' => 'manterpropostaincentivofiscal','action' => 'consultarresponsaveis'],
-                'grupo' => []
-                ];
-         //   }
-            $arrMenuProponente['administrativo']['menu'][] = [
-                'label' => 'Procura&ccedil;&atilde;o',
-                'title' => 'Ir para Procura&ccedil;&atilde;o',
-                'url' => ['module'=> 'default','controller' => 'procuracao', 'action' => 'index'],
-                'grupo' => []
-            ];
             $arrMenu['administrativo'] = [
                 'id' => 'administrativo',
                 'label' => 'Administrativo',
@@ -449,7 +437,36 @@
 
             return $arrMenuProponente;
         }
-        public function Proposta(){
+        public function administrativoProponente(){
+
+            $arrMenuProponente['administrativo'] = [
+                'id' => 'administrativo',
+                'label' => 'Administrativo',
+                'title' => 'Ir para Administrativo',
+                'menu' => [],
+                'grupo' => [],
+            ];
+            $arrMenuProponente['administrativo']['menu'][] = [
+                'label' => 'Cadastrar Proponente',
+                'title' => 'Ir para Manter Agentes',
+                'url' => ['module' => 'agente','controller' => 'agentes', 'action' => 'incluiragente'],
+                'grupo' => []
+            ];
+            $arrMenuProponente['administrativo']['menu'][] = [
+                'label' => 'Gerenciar respons&aacute;veis',
+                'title' => 'Ir para Aceitar vinculo',
+                'url' =>['module' => 'proposta', 'controller' => 'manterpropostaincentivofiscal','action' => 'consultarresponsaveis'],
+                'grupo' => []
+            ];
+            $arrMenuProponente['administrativo']['menu'][] = [
+                'label' => 'Procura&ccedil;&atilde;o',
+                'title' => 'Ir para Procura&ccedil;&atilde;o',
+                'url' => ['module'=> 'default','controller' => 'procuracao', 'action' => 'index'],
+                'grupo' => []
+            ];
+            return $arrMenuProponente;
+        }
+        public function propostaProponente(){
             $arrMenuProponente['proposta'] = [
                 'id' => 'proposta',
                 'label' => 'Proposta',
@@ -472,7 +489,7 @@
             ];
             return $arrMenuProponente;
         }
-        public function projeto(){
+        public function projetoProponente(){
 
             $arrMenuProponente['projeto'] = [
                 'id' => 'projeto',
@@ -490,7 +507,7 @@
 
             return $arrMenuProponente;
         }
-        public function solicitacoes (){
+        public function solicitacoesProponente(){
             $arrMenuProponente['solicitacoes'] = [
                 'id' => 'solicitacoes',
                 'label' => 'Solicita&ccedil;&otilde;es',
@@ -505,7 +522,7 @@
                 ];
             return $arrMenuProponente;
         }
-        public function usuario(){
+        public function usuarioProponente(){
             $arrMenuProponente['usuario'] = [
                 'id' => 'usuario',
                 'label' => 'Usu&aacute;rio',
@@ -1039,7 +1056,7 @@
                 'grupo' => [97],
             ];
             $arrMenu['seguranca']['menu'][] = [
-                'url' => ['module' => 'default', 'controller' => 'manterusuario', 'action' => 'permissoessalic'],
+                'url' => ['module' => 'default', 'controller' => 'manterusuario', 'action' => 'permissoessalic']. '?session=x&pag=1',
                 'title' => 'Ir para Permiss&otilde;es do SalicWeb',
                 'label' => 'Permiss&otilde;es do SalicWeb',
                 'grupo' => [97],
@@ -1181,6 +1198,32 @@
             ];
 
             return $arrMenu;
+        }
+        public function filtro( $arrMenu,$menuProponente){
+//            $arrMenuProponente = $arrMenu;
+            $auth = (array)$this->auth->getIdentity();
+//            var_dump($this->grupoAtivo);die;
+            if (isset ($auth['cpf'])) {
+//                $arrMenu = $arrMenuProponente;
+            } elseif (isset($auth['usu_codigo'])) {
+                $arrMenu = array_filter($arrMenu, function ($arrMenu) {
+//                    return (empty($arrMenu['grupo']) || in_array($this->grupoAtivo, $arrMenu['grupo']));
+                    return (empty($arrMenu['grupo']) || in_array($this->codGrupo, $arrMenu['grupo']));
+                });
+
+                $arrMenu = array_map(function ($arrMenu) {
+                    $arrMenu['menu'] = array_filter($arrMenu['menu'], function ($arrMenu2) {
+//                        return (empty($arrMenu2['grupo']) || in_array($this->grupoAtivo, $arrMenu2['grupo']));
+                        return (empty($arrMenu2['grupo']) || in_array($this->codGrupo, $arrMenu2['grupo']));
+                    });
+                    return $arrMenu;
+                }, $arrMenu);
+            } else if (!isset($auth['usu_codigo']) && !isset($auth['cpf'])) {
+                $arrMenu = [];
+            }
+          return $arrMenu;
+
+
         }
 
 

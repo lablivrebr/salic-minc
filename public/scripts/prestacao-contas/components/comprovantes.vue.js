@@ -138,6 +138,12 @@ Vue.component('comprovantes', {
             vue.valorComprovado = (parseFloat(vue.valorcomprovado) - parseFloat(data.valorAntigo)) + parseFloat(data.valor);
         })
 
+        this.$root.$on('cancelar-comprovante-nacional', function(data) {
+            if(vue.tipo =='nacional'){
+                vue.formVisivel = false;
+            }
+        })
+
         this.$root.$on('novo-comprovante-internacional', function(data) {
             if(vue.tipo =='internacional'){
                 data.status='novo';
@@ -159,6 +165,12 @@ Vue.component('comprovantes', {
                 Vue.set(vue.$data.dados, data._index, data);
             }
             vue.valorComprovado = (parseFloat(vue.valorcomprovado) - parseFloat(data.valorAntigo)) + parseFloat(data.valor);
+        })
+
+        this.$root.$on('cancelar-comprovante-internacional', function(data) {
+            if(vue.tipo =='internacional'){
+                vue.formVisivel = false;
+            }
         })
     },
     mounted: function() {

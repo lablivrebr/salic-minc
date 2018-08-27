@@ -2968,6 +2968,13 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
                 $sugestaoEnquadramento->setIdPerfilUsuario($this->grupoAtivo->codGrupo);
                 $proposta->isEnquadrada = $sugestaoEnquadramentoDbTable->isPropostaEnquadrada($sugestaoEnquadramento);
 
+                $proposta->isRecursoDesistidoDePrazoRecursal = false;
+                if ($proposta->tipo_recurso != '-') {
+                    $sugestaoEnquadramentoDbTable->sugestaoEnquadramento->setIdPreprojeto($proposta->idProjeto);
+                    $recursoEnquadramento   = $sugestaoEnquadramentoDbTable->obterRecursoEnquadramentoProposta();
+
+                    $proposta->isRecursoDesistidoDePrazoRecursal = $this->isRecursoDesistidoDePrazoRecursal($recursoEnquadramento);
+                }
                 $aux[$key] = $proposta;
             }
 

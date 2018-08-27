@@ -1,57 +1,3 @@
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        CKEDITOR.replace('dsRecurso', {toolbar: []});
-
-        $('#bt_enviar').click(function () {
-            var dsRecurso = CKEDITOR.instances['dsRecurso'].getData().toString().replace(/(<.*?>)|(&nbsp;)|(\s+)/g, ''),
-                texto = CKEDITOR.instances['dsRecurso'].getData(),
-                erro = 0,
-                countChecks = 0,
-                msg = 'Favor preencher os dados obrigatórios!';
-
-            if (dsRecurso == '') {
-                erro++;
-            }
-
-//            if(texto.length > 8000){
-//                erro++;
-//                msg = 'O campo só permite 8.000 caracteres!';
-//            }
-
-            $('.checkObrigatorio').each(function () {
-                if ($(this).attr('checked')) {
-                    countChecks++;
-                }
-            });
-
-            if (erro > 0 || countChecks == 0) {
-                $("#msgAlerta").dialog("destroy");
-                $("#msgAlerta").html(msg);
-                $("#msgAlerta").dialog({
-                    resizable: false,
-                    title: 'Alerta!',
-                    width: 300,
-                    height: 160,
-                    modal: true,
-                    buttons: {
-                        'OK': function () {
-                            $(this).dialog('close');
-                        }
-                    }
-                });
-                $('.ui-dialog-titlebar-close').remove();
-            } else {
-                $('#form').submit();
-            }
-        });
-
-        $('#bt_cancelar').click(function () {
-            voltar();
-        });
-    });
-</script>
-
 <style type="text/css">
     label {
         font-weight: normal;
@@ -77,9 +23,11 @@ $breadcrumb = [
     <div id="conteudo">
         <?php
         if ($this->projeto) : ?>
-            <form name="form" id="form"
-                  action="<?php echo $this->url(array('controller' => 'solicitarrecursodecisao', 'action' => 'recurso')); ?>?idPronac=<?php echo $this->projeto['idPronac']; ?>"
-                  method="post">
+            <form
+                name="formEnviarRecurso"
+                id="formEnviarRecurso"
+                action="<?php echo $this->url(array('controller' => 'solicitarrecursodecisao', 'action' => 'recurso')); ?>"
+                method="post">
                 <input type="hidden" name="idPronac" id="idPronac"
                        value="<?php echo $this->escape($this->projeto['idPronac']); ?>"/>
                 <table class="tabela">
@@ -97,19 +45,10 @@ $breadcrumb = [
                     </tr>
                     <tr>
                         <td>
-                            <?= $this->projeto['descricaoSituacao']; ?>
+                            <?= $this->projeto['situacao']; ?> - <?= $this->projeto['descricaoSituacao']; ?>
                         </td>
                         <td>
-                            <?php if ($this->escape($this->projeto['statusProjeto']) == "Projeto Aprovado") : ?>
-                                <label><input type="checkbox" name="checkEnquadramento" value="1"
-                                              class="checkObrigatorio"/>Enquadramento</label>
-                                <label><input type="checkbox" name="checkOrcamento" value="1" class="checkObrigatorio"/>Or&ccedil;amento</label>
-                            <?php else : ?>
-                                Projeto Indeferido
-                                <input type="hidden" name="checkProjetoIndeferido" value="1"
-                                       class="checkObrigatorio sumir"/>
-                                <input type="hidden" name="tpSolicitacao" id="PI" value="PI"/>
-                            <?php endif; ?>
+                            <?= $this->projeto['tpSolicitacao'] == 'PI' ? 'Projeto Indeferido' : 'Or&ccedil;amento'; ?>
                         </td>
                     </tr>
                 </table>
@@ -120,17 +59,21 @@ $breadcrumb = [
                     </tr>
                     <tr>
                         <td>
-                        <textarea class="textarea_simples" cols="80" id="dsRecurso" name="dsRecurso"
-                                  rows="10"></textarea>
+                            <textarea class="textarea_simples dsRecurso" cols="80" id="dsRecurso" name="dsRecurso"
+                                      rows="10"></textarea>
                         </td>
                     </tr>
                 </table>
 
                 <div style="width: 100%; text-align: center;">
-                    <a id="bt_enviar" class=" waves-effect waves-dark white-text tooltipped btn btn-primary"
-                       data-tooltip="Enviar recurso" href="javascript:void(0)">
-                        <i class="material-icons left">send</i>Enviar
-                    </a>
+                    <button id="bt_enviar"
+                            data-tooltip="Enviar recurso"
+                            class="waves-effect waves-dark white-text tooltipped btn btn-primary"
+                            type="submit"
+                            name="action">
+                        Enviar <i class="material-icons right">send</i>
+                    </button>
+
                     <a id="bt_cancelar" class="waves-effect waves-dark white-text tooltipped btn btn-info"
                        data-tooltip="Cancelar envio de recurso" href="javascript:void(0)">
                         <i class="material-icons left">close</i>Cancelar
@@ -146,3 +89,97 @@ $breadcrumb = [
         <?php endif; ?>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var editorRico = $("#dsRecurso").editorRico({
+            altura: 200,
+            isLimitarCarateres: true
+        });
+
+        // CKEDITOR.replace('dsRecurso', {toolbar: []});
+
+        $("#formEnviarRecurso").validate({
+            rules: {
+                dsRecurso: {
+                    validarPreenchimento: true,
+                    validarPreenchimentoMaximo: true
+                }
+            },
+            messages: {
+                dsRecurso: {
+                    validarPreenchimento: "Texto do Recurso &eacute; obrigat&oacute;rio",
+                    validarPreenchimentoMaximo: "Limite excedido"
+                }
+            },
+            submitHandler: function (form) {
+                $("#container-loading").show();
+                $("#bt_enviar").addClass("disabled");
+                form.submit();
+            },
+            invalidHandler: function (event, validator) {
+                Materialize.toast(validator.submitted.dsRecurso, 4000);
+            }
+        });
+
+        $.validator.addMethod("validarPreenchimento", function (value, element) {
+            if (editorRico.contarCaracteres() > 0) {
+                return true;
+            }
+        });
+        $.validator.addMethod("validarPreenchimentoMaximo", function (value, element) {
+            if (editorRico.contarCaracteres() <= 30000) {
+                return true;
+            }
+        });
+
+        // $('#bt_enviar').click(function () {
+//             var dsRecurso = CKEDITOR.instances['dsRecurso'].getData().toString().replace(/(<.*?>)|(&nbsp;)|(\s+)/g, ''),
+//                 texto = CKEDITOR.instances['dsRecurso'].getData(),
+//                 erro = 0,
+//                 countChecks = 0,
+//                 msg = 'Favor preencher os dados obrigatórios!';
+//
+//             if (dsRecurso == '') {
+//                 erro++;
+//             }
+//
+// //            if(texto.length > 8000){
+// //                erro++;
+// //                msg = 'O campo só permite 8.000 caracteres!';
+// //            }
+//
+//             $('.checkObrigatorio').each(function () {
+//                 if ($(this).attr('checked')) {
+//                     countChecks++;
+//                 }
+//             });
+//
+//             if (erro > 0 || countChecks == 0) {
+//                 $("#msgAlerta").dialog("destroy");
+//                 $("#msgAlerta").html(msg);
+//                 $("#msgAlerta").dialog({
+//                     resizable: false,
+//                     title: 'Alerta!',
+//                     width: 300,
+//                     height: 160,
+//                     modal: true,
+//                     buttons: {
+//                         'OK': function () {
+//                             $(this).dialog('close');
+//                         }
+//                     }
+//                 });
+//                 $('.ui-dialog-titlebar-close').remove();
+//             } else {
+//                 $('#form').submit();
+//             }
+//         });
+
+        // $('#bt_cancelar').click(function () {
+        //     voltar();
+        // });
+    });
+</script>

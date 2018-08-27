@@ -5,35 +5,34 @@
  *
  *
  *
-select * from sac.dbo.tbRecurso;
--- tpRecurso 1 - quando é pedido de reconsideração 2 - quando é recurso
--- tpSolicitacao - PI - Projeto Indeferido; DR - Desitência do prazo recursal; OR - Orcamento; - EN - Enquadramento;
--- siFaseProjeto = 2 homologação
--- siRecurso - 1 - quando envia; 12 - quando cadastra; 9 - foi finalizado 15 - finaliza
--- stEstado - 1 inativo e 0 é ativo
-
---finalizado -- stEstado = 1 e siRecurso = 9
---arquivado -- stEstado = 1 e siRecurso = 15
--- desistencia -- stEstado = 1 e tpSolicitacao = DR e siRecurso = 0;
-
-select * from sac.dbo.tbRecurso where IdPRONAC = 209751 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0; -- desistiu do prazo recursal
-select * from sac.dbo.tbRecurso where IdPRONAC = 167719 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0; -- desistiu do prazo recursal
-select * from sac.dbo.tbRecurso; --where IdPRONAC = 209751 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0;
-
-select * from sac.dbo.tbRecurso where IdPRONAC = 167719 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0;
-
-select * from sac.dbo.tbRecurso where tpSolicitacao = 'or';
-
-
---se desistiu não pode mais entrar com recurso --  IdPRONAC = 167719
-select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' AND siRecurso = 0 AND tpRecurso = 1;
-
--- verificar se tem direito a segundo recurso --  IdPRONAC = 167719
-select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao in ('PI', 'OR', 'EN') and siRecurso in (9, 15) AND tpRecurso = 1;
-
--- ja teve os dois recursos
-select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao in ('PI', 'OR', 'EN') and siRecurso in (9, 15) AND tpRecurso = 2;
-
+ * select * from sac.dbo.tbRecurso;
+ * -- tpRecurso 1 - quando é pedido de reconsideração 2 - quando é recurso
+ * -- tpSolicitacao - PI - Projeto Indeferido; DR - Desitência do prazo recursal; OR - Orcamento; - EN - Enquadramento;
+ * -- siFaseProjeto = 2 homologação
+ * -- siRecurso - 1 - quando envia; 12 - quando cadastra; 9 - foi finalizado 15 - finaliza
+ * -- stEstado - 1 inativo e 0 é ativo
+ *
+ * --finalizado -- stEstado = 1 e siRecurso = 9
+ * --arquivado -- stEstado = 1 e siRecurso = 15
+ * -- desistencia -- stEstado = 1 e tpSolicitacao = DR e siRecurso = 0;
+ *
+ * select * from sac.dbo.tbRecurso where IdPRONAC = 209751 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0; -- desistiu do prazo recursal
+ * select * from sac.dbo.tbRecurso where IdPRONAC = 167719 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0; -- desistiu do prazo recursal
+ * select * from sac.dbo.tbRecurso; --where IdPRONAC = 209751 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0;
+ *
+ * select * from sac.dbo.tbRecurso where IdPRONAC = 167719 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0;
+ *
+ * select * from sac.dbo.tbRecurso where tpSolicitacao = 'or';
+ *
+ *
+ * --se desistiu não pode mais entrar com recurso --  IdPRONAC = 167719
+ * select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' AND siRecurso = 0 AND tpRecurso = 1;
+ *
+ * -- verificar se tem direito a segundo recurso --  IdPRONAC = 167719
+ * select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao in ('PI', 'OR', 'EN') and siRecurso in (9, 15) AND tpRecurso = 1;
+ *
+ * -- ja teve os dois recursos
+ * select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao in ('PI', 'OR', 'EN') and siRecurso in (9, 15) AND tpRecurso = 2;
  */
 
 class Recurso_Model_TbRecurso extends MinC_Db_Model
@@ -53,47 +52,50 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
     /**
      * O proponente pode interpor recurso duas vezes:
      * @var $_tpRecurso
-        1 => Pedido de reconsideção
-        2 => Recurso
+     * 1 => Pedido de reconsideração
+     * 2 => Recurso
      */
     protected $_tpRecurso;
 
     /**
      * @var $_tpSolicitacao
-        DR => Desistência do Prazo Recursal
-        PI => Projet Indeferido
-        EN => Enquadramento
-        OR => Orçamento
+     * DR => Desistência do Prazo Recursal
+     * PI => Projet Indeferido
+     * EN => Enquadramento
+     * OR => Orçamento
      */
     protected $_tpSolicitacao;
 
     /**
      * @var $_siFaseProjeto
-        1 => admissibilidade
-        2 => homologação
+     * 1 => admissibilidade
+     * 2 => homologação
      */
     protected $_siFaseProjeto;
 
     /**
      * @var $_siRecurso
-        1 => Recurso enviado
-        12 => Recurso cadastrado
-        9 => Finalizado
-        15 => Arquivado
+     * 1 => Recurso enviado
+     * 12 => Recurso cadastrado
+     * 9 => Finalizado
+     * 15 => Arquivado
      */
     protected $_siRecurso;
 
     /**
      * @var $_stEstado
-        0 => ativo
-        1 => inativo
+     * 0 => ativo
+     * 1 => inativo
      */
     protected $_stEstado;
 
-    const RECURSO_DESISTENCIA_DO_PRAZO_RECURSAL = 'DR';
-    const RECURSO_PROJETO_INDEFERIDO = 'PI';
-    const RECURSO_ENQUADRAMENTO = 'EN';
-    const RECURSO_ORCAMENTO = 'OR';
+    const PEDIDO_DE_RECONSIDERACAO = 1;
+    const RECURSO = 2;
+
+    const TIPO_RECURSO_DESISTENCIA_DO_PRAZO_RECURSAL = 'DR';
+    const TIPO_RECURSO_ENQUADRAMENTO = 'EN';
+    const TIPO_RECURSO_PROJETO_INDEFERIDO = 'PI';
+    const TIPO_RECURSO_ORCAMENTO = 'OR';
 
     const SITUACAO_RECURSO_ATIVO = 0;
     const SITUACAO_RECURSO_INATIVO = 1;
@@ -106,10 +108,22 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
     const FASE_ADMISSIBILIDADE = 1;
     const FASE_HOMOLOGACAO = 2;
 
-    const PRAZO_RECURSAL_PADRAO = 10;
-    const PRAZO_RECURSAL_CNIC = 10;
+    const PRAZO_RECURSAL_INDEFERIDO = 10;
+    const PRAZO_RECURSAL_ORCAMENTO = 10;
 
-    const SITUACOES_PASSIVEIS_DE_RECURSO_CNIC = [
+    /**
+     * liberar o recurso após alterar a situação
+     */
+    const SITUACOES_RECURSO_ORCAMENTO = [
+        Projeto_Model_Situacao::READEQUACAO_DO_PROJETO_APROVADA_AGUARDANDO_ANALISE_DOCUMENTAL,
+        Projeto_Model_Situacao::PROJETO_APROVADO_AGUARDANDO_ANALISE_DOCUMENTAL,
+        Projeto_Model_Situacao::PROJETO_HOMOLOGADO
+    ];
+
+    /**
+     * liberar o recurso após a reunião da cnic - tbReuniao
+     */
+    const SITUACOES_RECURSO_PROJETO_INDEFERIDO = [
         Projeto_Model_Situacao::INDEFERIDO_NAO_ENQUADRAMENTO_NOS_OBJETIVOS,
         Projeto_Model_Situacao::INDEFERIDO_PROJETO_JA_REALIZADO,
         Projeto_Model_Situacao::INDEFERIDO_NAO_ATENDIMENTO_A_DILIGENCIA,
@@ -117,14 +131,7 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
         Projeto_Model_Situacao::INDEFERIDO_SOMATORIO_DOS_PROJETOS_EXCEDE_O_LIMITE_PESSOA_FISICA,
         Projeto_Model_Situacao::INDEFERIDO_SOMATORIO_DOS_PROJETOS_EXCEDE_O_LIMITE_PESSOA_JURIDICA,
         Projeto_Model_Situacao::INDEFERIDO_50_PORCENTO_DE_CORTE_VALOR_SOLICITADO,
-        Projeto_Model_Situacao::PROJETO_ENQUADRADO,
-        Projeto_Model_Situacao::READEQUACAO_DO_PROJETO_APROVADA_AGUARDANDO_ANALISE_DOCUMENTAL,
-        Projeto_Model_Situacao::PROJETO_INDEFERIDO,
-        Projeto_Model_Situacao::PROJETO_APROVADO_AGUARDANDO_ANALISE_DOCUMENTAL
-    ];
-
-    const SITUACOES_PASSIVEIS_DE_RECURSO_PADRAO  = [
-        Projeto_Model_Situacao::PROJETO_HOMOLOGADO
+        Projeto_Model_Situacao::PROJETO_INDEFERIDO
     ];
 
     public function getIdRecurso()
@@ -287,12 +294,11 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
         $this->_stEstado = $stEstado;
     }
 
-
-    public static function obterSituacoesRecurso()
+    public static function obterSituacoesPassiveisDeRecurso()
     {
         return array_merge(
-            self::SITUACOES_PASSIVEIS_DE_RECURSO_PADRAO,
-            self::SITUACOES_PASSIVEIS_DE_RECURSO_CNIC
+            self::SITUACOES_RECURSO_PROJETO_INDEFERIDO,
+            self::SITUACOES_RECURSO_ORCAMENTO
         );
     }
 

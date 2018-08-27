@@ -80,82 +80,48 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
      */
     public function recursoAction()
     {
-        if ($this->getRequest()->isPost()) {
-            $post          	= Zend_Registry::get('post');
-            $idPronac      	= $post->idPronac;
-            $tpSolicitacao 	= $post->tpSolicitacao;
-            $StatusProjeto	= $post->StatusProjeto;
-            $auth           = Zend_Auth::getInstance();
+        try {
+            $idPronac = $this->_request->getParam("idPronac");
+            $cpfCnpj = $this->_request->getParam('cpf_cnpj', '');
 
-            try {
-                if (isset($_POST['checkEnquadramento']) && !empty($_POST['checkEnquadramento']) && isset($_POST['checkOrcamento']) && !empty($_POST['checkOrcamento'])) {
-                    $tpSolicitacao = 'EO';
-                } elseif (isset($_POST['checkEnquadramento']) && !empty($_POST['checkEnquadramento']) && !isset($_POST['checkOrcamento'])) {
-                    $tpSolicitacao = 'EN';
-                } elseif (isset($_POST['checkOrcamento']) && !empty($_POST['checkOrcamento']) && !isset($_POST['checkEnquadramento'])) {
-                    $tpSolicitacao = 'OR';
-                } else {
-                    $tpSolicitacao = 'PI';
-                }
-
-                $dados = array(
-                    'IdPRONAC'              => $_POST['idPronac'],
-                    'dtSolicitacaoRecurso'  => new Zend_Db_Expr('GETDATE()'),
-                    'dsSolicitacaoRecurso'  => $_POST['dsRecurso'],
-                    'idAgenteSolicitante'   => $auth->getIdentity()->IdUsuario,
-                    'stAtendimento'         => 'N',
-                    'tpSolicitacao'         => $tpSolicitacao
-                );
-
-                $tbRecurso = new tbRecurso();
-                $resultadoPesquisa = $tbRecurso->buscar(array('IdPRONAC = ?'=>$_POST['idPronac']));
-
-                $dados['tpRecurso'] = 1;
-                if (count($resultadoPesquisa)>0) {
-                    $dados['tpRecurso'] = 2;
-                }
-
-                // tenta cadastrar o recurso
-//                $cadastrar = RecursoDAO::cadastrar($dados);
-                $cadastrar = $tbRecurso->inserir($dados);
-
-                if ($cadastrar) {
-                    $alterarSituacao = ProjetoDAO::alterarSituacao($idPronac, 'D20');
-                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "consultardadosprojeto/index?idPronac=".Seguranca::encrypt($idPronac), "CONFIRM");
-                } // fecha if
-                else {
-                    throw new Exception("Erro ao cadastrar recurso!");
-                }
-            } catch (Exception $e) {
-                parent::message($e->getMessage(), "solicitarrecursodecisao/recurso?idPronac=".$idPronac, "ERROR");
-            }
-        } else {
-            $idPronac = $this->_request->getParam("idPronac"); // pega o id do pronac via get
             if (strlen($idPronac) > 7) {
                 $idPronac = Seguranca::dencrypt($idPronac);
             }
-            $this->view->idPronac = $idPronac;
-
-            // recebe os dados via get
-            $cpf_cnpj = $this->_request->getParam('cpf_cnpj', '');
 
             if (empty($idPronac)) {
-                parent::message('&Eacute; necess&aacute;rio o n&uacute;mero do PRONAC para acessar essa p&aacute;gina!', "consultardadosprojeto?idPronac=" . $idPronac, "ERROR");
+                throw new Zend_Controller_Action_Exception("&Eacute; necess&aacute;rio o n&uacute;mero do PRONAC para acessar essa p&aacute;gina!");
             }
 
-//            // busca os projetos
-//            $buscarProjetos = SolicitarRecursoDecisaoDAO::buscarProjetos($idPronac, $cpf_cnpj);
-//            $dbTableProjetos = new Projeto_Model_DbTable_Projetos();
-//            $where = [];
-//            $where = ['projeto.Situacao in (?)' => Recurso_Model_TbRecurso::SITUACOES_PASSIVEIS_DE_RECURSO];
-//
-//            if($cpf_cnpj) {
-//                $where = ['projeto.CgcCpf = ?' => $cpf_cnpj;
-//            }
-//            $projetoComRecurso = $dbTableProjetos->obterProjetoComSituacao($idPronac, $cpf_cnpj);
-
             $tbRecursoMapper = new Recurso_Model_TbRecursoMapper();
-            $this->view->projeto = $tbRecursoMapper->obterProjetoPassivelDeRecurso($idPronac, $cpf_cnpj);
+            $projeto = $tbRecursoMapper->obterProjetoPassivelDeRecurso($idPronac, $cpfCnpj);
+
+            $this->view->idPronac = $idPronac;
+            $this->view->projeto = $projeto;
+
+            if (empty($projeto)) {
+                throw new Zend_Controller_Request_Exception("Projeto para recurso n&atilde;o encontrado");
+            }
+
+            if ($this->getRequest()->isPost()) {
+                $post = Zend_Registry::get('post');
+                $idPronac = $post->idPronac;
+
+                $recurso = [
+                    'idPronac' => $idPronac,
+                    'dsSolicitacaoRecurso' => $post->dsRecurso,
+                    'tpSolicitacao' => $projeto['tpSolicitacao']
+                ];
+
+                $retorno = $tbRecursoMapper->inserirRecurso($recurso);
+
+                if ($retorno) {
+                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "/projeto/index/index/#/incentivo/" . Seguranca::encrypt($idPronac), "CONFIRM");
+                }
+            }
+        } catch (Zend_Controller_Request_Exception $e) {
+            parent::message($e->getMessage(), "/default/solicitarrecursodecisao/recurso?idPronac=" . $idPronac, "ERROR");
+        } catch (Zend_Controller_Action_Exception $ex) {
+            parent::message($ex->getMessage(), "/projeto/index/listar", "ERROR");
         }
     }
 

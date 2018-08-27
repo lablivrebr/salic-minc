@@ -181,7 +181,7 @@ class fnLiberarLinks extends MinC_Db_Table_Abstract
         $data = new Zend_Db_Expr("SELECT DATEDIFF(DAY, '$dadosCnic->DtReuniao', GETDATE()) AS dado");
         $data = $db->fetchOne($data);
 
-        $situacoesRecurso = Recurso_Model_TbRecurso::SITUACOES_PASSIVEIS_DE_RECURSO_CNIC;
+        $situacoesRecurso = Recurso_Model_TbRecurso::obterSituacoesPassiveisDeRecurso();
 
         $recurso1 = $db->select()
            ->from(

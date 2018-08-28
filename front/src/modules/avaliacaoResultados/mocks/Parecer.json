@@ -1,0 +1,60 @@
+{
+    post:
+    {
+        "idPronac": 2,
+        "dtAvaliacaoFinanceira": "12:12:12 12-12-12",
+        "tpAvaliacaoFinanceira": 1,
+        "siManifestacao": "A",
+        "dsParecer": "jhfaiphfçahfpiaçkfhçfkh",
+        "idUsuario": 913
+    },
+    put:
+    {
+        "idAvaliacaoFinanceira": 1,
+        "idPronac": 2,
+        "dtAvaliacaoFinanceira": "12:12:12 12-12-12",
+        "tpAvaliacaoFinanceira": 1,
+        "siManifestacao": "A",
+        "dsParecer": "jhfaiphfçahfpiaçkfhçfkh",
+        "idUsuario": 913
+    },
+    get: {
+        pronac: {
+            "idPronac": 123456
+        },
+        response: {
+            "data": {
+                "code": 200,
+                "items": {
+                    "projeto": {
+                        "IdPronac": 123456,
+                        "Pronac": "103223",
+                        "NomeProjeto": "Potencializamdo a cadeia produtiva por meio da D-Economia"
+                    },
+                    "proponente": {
+                        "CnpjCpf": "434234234",
+                        "Proponente": "Instituto Eletrocooperativa"
+                        //alterar proponente -> nome
+                    },
+                    "parecer": {
+                        //inserir aqui os dados caso ja tenha um parecer gravado
+                    },
+                    "consolidacaoComprovantes": {
+                        "qtTotalComprovante": 0,
+                        "qtComprovantesValidadosProjeto": 0,
+                        "qtComprovantesRecusadosProjeto": 0,
+                        "qtComprovantesNaoAvaliados": 0,
+                        "vlComprovadoProjeto": 0,
+                        "vlComprovadoValidado": 0,
+                        "vlComprovadoRecusado": 0,
+                        "vlNaoComprovado": 0
+                    }
+                }
+            }
+        }
+    },
+    delete:
+    {
+        mensagem: "error 403"
+    }
+}

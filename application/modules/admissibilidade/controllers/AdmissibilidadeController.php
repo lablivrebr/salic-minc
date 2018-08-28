@@ -887,7 +887,7 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
                 );
                 $servicoDocumentoAssinatura->iniciarFluxo();
 
-                $tblProjeto>alterarSituacao(
+                $tblProjeto->alterarSituacao(
                     $rsProjeto->idPronac,
                     null,
                     Projeto_Model_Situacao::PROJETO_EM_AVALIACAO_DOCUMENTAL,

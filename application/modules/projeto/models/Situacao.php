@@ -7,7 +7,9 @@ class Projeto_Model_Situacao extends MinC_Db_Table_Abstract
     protected $_primary = 'Codigo';
 
     const PROPOSTA_TRANSFORMADA_EM_PROJETO = 'B01';
+    const PROJETO_ENQUADRADO = 'B02';
     const PROJETO_ENQUADRADO_COM_RECURSO = 'B03';
+    const PROJETO_EM_AVALIACAO_DOCUMENTAL = 'B04';
     const PROJETO_DEVOLVIDO_PARA_ENQUADRAMENTO = 'B05';
     const ENCAMINHADO_PARA_ANALISE_TECNICA = 'B11';
     const PROJETO_ADEQUADO_A_REALIDADE_DE_EXECUCAO = 'B20';

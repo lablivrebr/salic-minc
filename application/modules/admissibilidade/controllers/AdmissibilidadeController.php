@@ -880,6 +880,20 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
                     $rsProjeto,
                     $authIdentity['usu_codigo']
                 );
+
+                $servicoDocumentoAssinatura = new \Application\Modules\Admissibilidade\Service\Assinatura\DocumentoAssinatura(
+                    $rsProjeto->idPronac,
+                    Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ENQUADRAMENTO
+                );
+                $servicoDocumentoAssinatura->iniciarFluxo();
+
+                $tblProjeto>alterarSituacao(
+                    $rsProjeto->idPronac,
+                    null,
+                    Projeto_Model_Situacao::PROJETO_EM_AVALIACAO_DOCUMENTAL,
+                    "Proposta transformada em projeto e encaminhado para assinatura."
+                );
+
             }
         } catch (Exception $objException) {
             $retorno['erro'] = $objException->getMessage();
@@ -937,7 +951,7 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
             $projetos->atualizarProjetoEnquadrado(
                 $dadosProjeto,
                 $idUsuario,
-                'B02'
+                Projeto_Model_Situacao::PROJETO_ENQUADRADO
             );
             return true;
         } catch (Exception $exception) {

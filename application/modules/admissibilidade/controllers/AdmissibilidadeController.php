@@ -882,7 +882,7 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
                 );
 
                 $servicoDocumentoAssinatura = new \Application\Modules\Admissibilidade\Service\Assinatura\DocumentoAssinatura(
-                    $rsProjeto->idPronac,
+                    $rsProjeto->IdPRONAC,
                     Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ENQUADRAMENTO
                 );
                 $servicoDocumentoAssinatura->iniciarFluxo();

@@ -25,11 +25,32 @@ class AvaliacaoFinanceira
     public function buscarDadosProjeto()
     {
         $vwResultadoDaAvaliacaoFinanceira = new \AvaliacaoResultados_Model_DbTable_vwResultadoDaAvaliacaoFinanceira();
-        $where = [
-            'IdPronac' => $this->request->idPronac
-        ];
+        $dadosAvaliacaoFinanceira = $vwResultadoDaAvaliacaoFinanceira->buscarConsolidacaoComprovantes($this->request->idPronac);
+        $dadosAvaliacaoFinanceira = $dadosAvaliacaoFinanceira->toArray();
 
-        return $vwResultadoDaAvaliacaoFinanceira->findBy($where);
+        $projeto = new \Projetos();
+        $dadosProjeto = $projeto->buscar([
+            'idPronac = ?' => $this->request->idPronac
+        ]);
+        $dadosProjeto = $dadosProjeto->toArray()[0];
+
+        $proponente = new \ProponenteDAO();
+        $dadosProponente = $proponente->buscarDadosProponente($this->request->idPronac);
+        $dadosProponente = (array) $dadosProponente[0];
+
+        $tbAvaliacaoFinanceira = new \AvaliacaoResultados_Model_DbTable_tbAvaliacaoFinanceira();
+        $where = [
+            'idPronac' => $this->request->idPronac
+        ];
+        $dadosParecer = $tbAvaliacaoFinanceira->findBy($where);
+        $dadosParecer = ($dadosParecer)?: new \stdClass();
+
+        return [
+            'consolidacaoComprovantes' => $dadosAvaliacaoFinanceira,
+            'projeto' => $dadosProjeto,
+            'proponente' => $dadosProponente,
+            'parecer' => $dadosParecer
+        ];
     }
 
     public function buscarAvaliacaoFinanceira()

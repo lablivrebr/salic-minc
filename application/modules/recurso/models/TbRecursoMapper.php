@@ -12,146 +12,200 @@ class Recurso_Model_TbRecursoMapper extends MinC_Db_Mapper
         return parent::save($model);
     }
 
-    public function obterProjetoPassivelDeRecurso($idPronac, $cpfCnpj, $siFaseProjeto = 2)
+    public function obterProjetoPassivelDeRecurso($idPronac)
     {
         try {
-
             if (empty($idPronac)) {
                 throw new Exception("IdPronac n&atilde;o informado");
             }
 
-            $dbTableProjetos = new Projeto_Model_DbTable_Projetos();
-
             $whereProjeto = [];
             $whereProjeto['projeto.IdPRONAC = ?'] = $idPronac;
-            $whereProjeto['projeto.Situacao in (?)'] = Recurso_Model_TbRecurso::obterSituacoesPassiveisDeRecurso();
-
-            if ($cpfCnpj) {
-                $whereProjeto['projeto.CgcCpf = ?'] = $cpfCnpj;
-            }
-
+            $dbTableProjetos = new Projeto_Model_DbTable_Projetos();
             $projeto = $dbTableProjetos->obterProjetosESituacao($whereProjeto)->current()->toArray();
 
             if (empty($projeto)) {
+                throw new Exception("Projeto n&atilde;o encontrado");
+            }
+
+            if (!$this->isProjetoEmSituacaoDeRecurso($projeto)) {
                 return false;
             }
 
-            $projeto['tpSolicitacao'] = Recurso_Model_TbRecurso::TIPO_RECURSO_ORCAMENTO;
-            $projeto['diasParaRecurso'] = Recurso_Model_TbRecurso::PRAZO_RECURSAL_ORCAMENTO - (int)$projeto['diasSituacao'];
+            $dados = [];
+            $dados['siFaseProjeto'] = $this->obterFaseRecurso($projeto['situacao']);
 
-            if (in_array($projeto['situacao'], Recurso_Model_TbRecurso::SITUACOES_RECURSO_PROJETO_INDEFERIDO)) {
-                $projeto['tpSolicitacao'] = Recurso_Model_TbRecurso::TIPO_RECURSO_PROJETO_INDEFERIDO;
+            $tbRecurso = new tbRecurso();
+            $recurso = $tbRecurso->buscar([
+                'IdPRONAC = ?' => $projeto['idPronac'],
+                'siFaseProjeto = ?' => $dados['siFaseProjeto']
+            ], ['idRecurso DESC'])->current();
 
-                $tbReuniao = new tbreuniao();
-                $reuniao = $tbReuniao->obterReuniaoDeAvaliacaoDoProjeto($idPronac);
-                $projeto['diasParaRecurso'] = Recurso_Model_TbRecurso::PRAZO_RECURSAL_INDEFERIDO - (int)$reuniao->diasAnaliseProjeto;
+            if (!empty($recurso)) {
+                if ($recurso['stEstado'] == Recurso_Model_TbRecurso::SITUACAO_RECURSO_ATIVO
+                    || $recurso['tpRecurso'] == Recurso_Model_TbRecurso::RECURSO
+                    || $recurso['tpSolicitacao'] == Recurso_Model_TbRecurso::TIPO_RECURSO_DESISTENCIA_DO_PRAZO_RECURSAL) {
+                    return false;
+                }
+                $recurso = $recurso->toArray();
             }
 
-            if (!$this->isPassivelRecurso($projeto)) {
+            $dados['prazoRecurso'] = $this->obterPrazoDoRecurso($projeto, $recurso);
+
+            if ($dados['prazoRecurso'] <= 0) {
                 return false;
             }
 
-            return $projeto;
+            $dados['tpSolicitacao'] = $this->obterTipoDaSolicitacao($projeto['situacao']);
+            $dados['tpRecurso'] = $this->obterTipoRecurso($recurso);
+
+            return array_merge($projeto, $dados);
         } catch (Exception $objException) {
             throw $objException;
         }
     }
 
-    public function isPassivelRecurso($projeto, $siFaseProjeto = 2)
+    public function obterFaseRecurso($situacao)
     {
-
-        $tbRecurso = new tbRecurso();
-        $whereRecursoExistente = [
-            'IdPRONAC = ?' => $projeto['idPronac'],
-            'tpSolicitacao = ?' => $projeto['tpSolicitacao'],
-        ];
-
-        if ($siFaseProjeto) {
-            $whereRecursoExistente['siFaseProjeto = ?'] = $siFaseProjeto;
+        if (in_array($situacao, Recurso_Model_TbRecurso::obterSituacoesPassiveisDeRecursoFase2())) {
+            return Recurso_Model_TbRecurso::FASE_HOMOLOGACAO;
         }
 
-        $recursoExistente = $tbRecurso->buscar($whereRecursoExistente, ['idRecurso DESC']);
+        return Recurso_Model_TbRecurso::FASE_ADMISSIBILIDADE;
+    }
 
-        if (count($recursoExistente) == 0) {
+    public function obterTipoDaSolicitacao($situacao)
+    {
+        $tipoSolicitacao = Recurso_Model_TbRecurso::TIPO_RECURSO_DESISTENCIA_DO_PRAZO_RECURSAL;
+        if (in_array($situacao, Recurso_Model_TbRecurso::SITUACOES_RECURSO_PROJETO_INDEFERIDO)) {
+            $tipoSolicitacao = Recurso_Model_TbRecurso::TIPO_RECURSO_PROJETO_INDEFERIDO;
+        }
+
+        if (in_array($situacao, Recurso_Model_TbRecurso::SITUACOES_RECURSO_ORCAMENTO)) {
+            $tipoSolicitacao = Recurso_Model_TbRecurso::TIPO_RECURSO_ORCAMENTO;
+        }
+
+        return $tipoSolicitacao;
+    }
+
+    public function obterPrazoDoRecurso($projeto, $recurso = null)
+    {
+        $prazoRecursal = Recurso_Model_TbRecurso::PRAZO_RECURSAL - (int)$projeto['diasSituacao'];
+
+        if ($recurso && !empty($recurso['dtAvaliacao'])) {
+            $prazoRecursal = Recurso_Model_TbRecurso::PRAZO_RECURSAL - Data::datadiff($recurso['dtAvaliacao'], 'now');
+        }
+
+        if (in_array($projeto['situacao'], Recurso_Model_TbRecurso::SITUACOES_RECURSO_PROJETO_INDEFERIDO)) {
+            $tbReuniao = new tbreuniao();
+            $reuniao = $tbReuniao->obterReuniaoDeAvaliacaoDoProjeto($projeto['idPronac']);
+            $prazoRecursal = Recurso_Model_TbRecurso::PRAZO_RECURSAL - (int)$reuniao->diasAnaliseProjeto;
+        }
+
+        return $prazoRecursal;
+    }
+
+    public function obterTipoRecurso($recurso)
+    {
+        if (count($recurso) > 0) {
+            return Recurso_Model_TbRecurso::RECURSO;
+        }
+
+        return Recurso_Model_TbRecurso::PEDIDO_DE_RECONSIDERACAO;
+    }
+
+    public function isProjetoEmSituacaoDeRecurso($projeto)
+    {
+        if (in_array(
+            $projeto['situacao'],
+            Recurso_Model_TbRecurso::obterSituacoesPassiveisDeRecurso())
+        ) {
             return true;
         }
 
-
-        /**
-         *  'stEstado = ?' => 1,
-         *  'siRecurso in (?)' => [9, 15],
-         */
-        # 9 => solicitacao encaminhada portaria,
-        # 15 - solicitacao finalizada pelo minc
-        #tbTipoEncaminhamento
-
-        $projeto['tpRecurso'] = Recurso_Model_TbRecurso::PEDIDO_DE_RECONSIDERACAO;
-        if (count($recursoExistente) > 0) {
-
-            /**
-             * se existir um recurso do tipo 2, o proponente não pode entrar com novo recurso, ou seja,
-             * esse projeto não tem direito à recurso nessa fase.
-             */
-            if ($recursoExistente['tpRecurso'] == Recurso_Model_TbRecurso::RECURSO) {
-                return false;
-            }
-
-            $projeto['tpRecurso'] = Recurso_Model_TbRecurso::RECURSO;
-        }
-
-        return $projeto;
+        return false;
     }
 
     public function inserirRecurso($recurso)
     {
         try {
 
-            if (empty($recurso['idPronac'])) {
+            if (empty($recurso->idPronac)) {
                 throw new Exception("IdPronac &eacute; obrigat&oacute;rio");
             }
 
-            if (empty($recurso['dsSolicitacaoRecurso']) || strlen($recurso['dsSolicitacaoRecurso']) < 5) {
+            if (empty($recurso->dsSolicitacaoRecurso) || strlen($recurso->dsSolicitacaoRecurso) < 5) {
                 throw new Exception ("Texto do recurso &eacute; obrigat&oacute;rio!");
+            }
+
+            $projeto = $this->obterProjetoPassivelDeRecurso($recurso->idPronac);
+
+            if (empty($projeto)) {
+                throw new Exception("Projeto para recurso n&atilde;o encontrado!");
             }
 
             $auth = Zend_Auth::getInstance();
             $dados = [
-                'IdPRONAC' => $recurso['idPronac'],
+                'IdPRONAC' => $recurso->idPronac,
                 'dtSolicitacaoRecurso' => new Zend_Db_Expr('GETDATE()'),
-                'dsSolicitacaoRecurso' => $recurso['dsSolicitacaoRecurso'],
+                'dsSolicitacaoRecurso' => $recurso->dsSolicitacaoRecurso,
                 'idAgenteSolicitante' => $auth->getIdentity()->IdUsuario,
                 'stAtendimento' => 'N',
-                'tpSolicitacao' => $recurso['tpSolicitacao']
+                'tpSolicitacao' => $projeto['tpSolicitacao'],
+                'siFaseProjeto' => $projeto['siFaseProjeto'],
+                'tpRecurso' => $projeto['tpRecurso']
             ];
 
             $tbRecurso = new tbRecurso();
-            $whereRecursoExistente = [
-                'IdPRONAC = ?' => $recurso['idPronac'],
-                'tpSolicitacao = ?' => $recurso['tpSolicitacao'],
-            ];
-
-            $recursoExistente = $tbRecurso->buscar($whereRecursoExistente, ['idRecurso DESC'])->current();
-
-            $dados['tpRecurso'] = Recurso_Model_TbRecurso::PEDIDO_DE_RECONSIDERACAO;
-            if(count($recursoExistente) > 0) {
-                if ($recursoExistente->tpRecurso == Recurso_Model_TbRecurso::RECURSO) {
-                    throw new Exception("Voc&ecirc; n&atilde;o pode solicitar recurso");
-                }
-
-                $dados['tpRecurso'] = Recurso_Model_TbRecurso::RECURSO;
-            }
-
             if (!$tbRecurso->inserir($dados)) {
                 return false;
             }
 
-//            $tbProjetos = new Projetos();
-//            $tbProjetos->alterarSituacao($recurso['idPronac'], '', $situacao, $providenciaTomada);
-            ProjetoDAO::alterarSituacao($recurso['idPronac'], 'D20');
+            ProjetoDAO::alterarSituacao($recurso->idPronac, 'D20');
 
             return true;
         } catch (Exception $objException) {
             throw $objException;
         }
     }
+
+    public function inserirDesistenciaRecursal($recurso)
+    {
+        try {
+            if (empty($recurso->idPronac)) {
+                throw new Exception('IdPronac &eacute; obrigat&oacute;rio');
+            }
+
+            if (!$recurso->deacordo) {
+                throw new Exception('Voc&ecirc; deve concordar com os termos para desistir do recurso');
+            }
+
+            $projeto = $this->obterProjetoPassivelDeRecurso($recurso->idPronac);
+
+            if (empty($projeto)) {
+                throw new Exception("Projeto para recurso n&atilde;o encontrado!");
+            }
+
+            $auth = Zend_Auth::getInstance();
+            $dados = array(
+                'IdPRONAC' => $recurso->idPronac,
+                'dtSolicitacaoRecurso' => new Zend_Db_Expr('GETDATE()'),
+                'dsSolicitacaoRecurso' => 'Desist&ecirc;ncia do prazo recursal',
+                'idAgenteSolicitante' => $auth->getIdentity()->IdUsuario,
+                'stAtendimento' => 'N',
+                'siFaseProjeto' => $projeto['siFaseProjeto'],
+                'siRecurso' => 0,
+                'tpSolicitacao' => Recurso_Model_TbRecurso::TIPO_RECURSO_DESISTENCIA_DO_PRAZO_RECURSAL,
+                'tpRecurso' => $projeto['tpRecurso'],
+                'stAnalise' => null,
+                'stEstado' => Recurso_Model_TbRecurso::SITUACAO_RECURSO_INATIVO
+            );
+
+            $tbRecurso = new tbRecurso();
+            $tbRecurso->inserir($dados);
+        } catch (Exception $objException) {
+            throw $objException;
+        }
+    }
+
 }

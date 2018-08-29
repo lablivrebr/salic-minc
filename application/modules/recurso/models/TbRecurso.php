@@ -77,7 +77,8 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
      * @var $_siRecurso
      * 1 => Recurso enviado
      * 12 => Recurso cadastrado
-     * 9 => Finalizado
+     * 8 => Enviado a plenaria
+     * 9 => Finalizado enviado para portaria
      * 15 => Arquivado
      */
     protected $_siRecurso;
@@ -108,8 +109,7 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
     const FASE_ADMISSIBILIDADE = 1;
     const FASE_HOMOLOGACAO = 2;
 
-    const PRAZO_RECURSAL_INDEFERIDO = 10;
-    const PRAZO_RECURSAL_ORCAMENTO = 10;
+    const PRAZO_RECURSAL = 10;
 
     /**
      * liberar o recurso após alterar a situação
@@ -294,12 +294,17 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
         $this->_stEstado = $stEstado;
     }
 
-    public static function obterSituacoesPassiveisDeRecurso()
+    public static function obterSituacoesPassiveisDeRecursoFase2()
     {
         return array_merge(
             self::SITUACOES_RECURSO_PROJETO_INDEFERIDO,
             self::SITUACOES_RECURSO_ORCAMENTO
         );
+    }
+
+    public static function obterSituacoesPassiveisDeRecurso()
+    {
+        return self::obterSituacoesPassiveisDeRecursoFase2();
     }
 
 //    public function isRecursoExpirouPrazoRecursal(array $recursoEnquadramento)

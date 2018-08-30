@@ -335,6 +335,14 @@ class Admissibilidade_Model_DbTable_SugestaoEnquadramento extends MinC_Db_Table_
             ]);
         }
 
+        $tbRecursoPropostaDbTable = new Recurso_Model_DbTable_TbRecursoProposta();
+        $recursosAtivos = $tbRecursoPropostaDbTable->obterRecursoAtual($dadosSugestaoEnquadramento['id_preprojeto']);
+
+        if (!empty($recursosAtivos)) {
+            $tbRecursoPropostaDbTable->inativarRecursos($dadosSugestaoEnquadramento['id_preprojeto']);
+
+        }
+
         /**
          * @todo Mover bloco abaixo para o método "Cadastrar Recurso de proposta"
          */
@@ -357,7 +365,6 @@ class Admissibilidade_Model_DbTable_SugestaoEnquadramento extends MinC_Db_Table_
                 $id_segmento_proponente
             )
             ) {
-            $tbRecursoPropostaDbTable = new Recurso_Model_DbTable_TbRecursoProposta();
             $tbRecursoPropostaDbTable->cadastrarRecurso($dadosSugestaoEnquadramento['id_preprojeto']);
         }
 

@@ -2983,11 +2983,14 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
                 $proposta->isEnquadrada = $sugestaoEnquadramentoDbTable->isPropostaEnquadrada($sugestaoEnquadramento);
 
                 $proposta->isRecursoDesistidoDePrazoRecursal = false;
+                $proposta->isRecursoExpirou10dias = false;
+
                 if ($proposta->tipo_recurso != '-') {
                     $sugestaoEnquadramentoDbTable->sugestaoEnquadramento->setIdPreprojeto($proposta->idProjeto);
                     $recursoEnquadramento   = $sugestaoEnquadramentoDbTable->obterRecursoEnquadramentoProposta();
 
                     $proposta->isRecursoDesistidoDePrazoRecursal = $this->isRecursoDesistidoDePrazoRecursal($recursoEnquadramento);
+                    $proposta->isRecursoExpirou10dias = $this->isRecursoExpirou10dias($recursoEnquadramento);
                 }
                 $aux[$key] = $proposta;
             }

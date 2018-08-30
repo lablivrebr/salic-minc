@@ -41,7 +41,7 @@
                     && data.tipo_recurso == "-"
                 ) {
                         $(row).addClass('green lighten-5')
-                    } else if (data.tipo_recurso != '-' || data.isRecursoDesistidoDePrazoRecursal){
+                    } else if (data.tipo_recurso != '-' || data.isRecursoDesistidoDePrazoRecursal || data.isRecursoExpirou10dias){
                         $(row).addClass('blue lighten-5')
                     }
                 },

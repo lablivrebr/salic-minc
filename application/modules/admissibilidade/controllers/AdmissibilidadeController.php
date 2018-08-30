@@ -383,16 +383,16 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
         $id_segmento_proponente = $planoDistribuicao[0]['Segmento'];
         $sugestaoEnquadramentoDbTable = new Admissibilidade_Model_DbTable_SugestaoEnquadramento();
 
-        $isEnquadramentoProponenteIgualEndramentoAvaliador = false;
+        $isEnquadramentoProponenteIgualEnquadramentoAvaliador = false;
         if(is_array($ultimaSugestaoEnquadramento) && count($ultimaSugestaoEnquadramento) > 0) {
-            $isEnquadramentoProponenteIgualEndramentoAvaliador = $sugestaoEnquadramentoDbTable->isEnquadramentoProponenteIgualEndramentoAvaliador(
+            $isEnquadramentoProponenteIgualEnquadramentoAvaliador = $sugestaoEnquadramentoDbTable->isEnquadramentoProponenteIgualEnquadramentoAvaliador(
                 $ultimaSugestaoEnquadramento,
                 $id_area_proponente,
                 $id_segmento_proponente
             );
         }
 
-        if($isEnquadramentoProponenteIgualEndramentoAvaliador
+        if($isEnquadramentoProponenteIgualEnquadramentoAvaliador
             && count($distribuicaoAvaliacaoPropostaAtual) > 0
             && (int)$distribuicaoAvaliacaoPropostaAtual['id_perfil'] == (int)Autenticacao_Model_Grupos::COORDENADOR_GERAL_ADMISSIBILIDADE) {
             return true;

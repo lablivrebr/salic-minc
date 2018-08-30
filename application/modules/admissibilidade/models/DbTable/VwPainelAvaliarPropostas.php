@@ -248,7 +248,7 @@ class Admissibilidade_Model_DbTable_VwPainelAvaliarPropostas extends MinC_Db_Tab
         }
 
         if (!empty($search['value'])) {
-            $select->where('idProjeto like ? OR NomeProposta like ? OR Tecnico like ?', "%{$search['value']}%");
+            $select->where('vwPainelAvaliarPropostas.idProjeto like ? OR vwPainelAvaliarPropostas.NomeProposta like ? OR Tecnico like ?', "%{$search['value']}%");
         }
 
         $restricaoPropostasParaAvaliacao = $this->obterRestricaoPropostasParaAvaliacao($distribuicaoAvaliacaoProposta);

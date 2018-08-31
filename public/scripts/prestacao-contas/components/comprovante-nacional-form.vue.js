@@ -132,21 +132,23 @@ Vue.component('sl-comprovante-nacional-form',
                                 help
                             </i>
                         </div>
-                        <div class="input-field col s3">
+                        <div class="input-field col s2">
                             <input
                                type="text"
-                               name="nrDocumentoDePagamento"
-                               v-model="comprovante.numeroDocumento"
-                               :class="c.numeroDocumento.css"
-                               placeholder="00000000000"
-                               id="nrDocumentoDePagamento"
-                               maxlength="10"
-                               ref="numeroDocumento"
-                               v-on:input="inputNumeroDocumento($event.target.value)"
-                           />
-                           <label for="nrDocumentoDePagamento"
-                               :class="[c.numeroDocumento.css]"
-                           >N&ordm; Documento Pagamento*</label>
+                               name="nrComprovante"
+                               id="nrComprovante"
+                               maxlength="50"
+                               placeholder="00000000"
+                               value=""
+                               v-model="comprovante.numero"
+                               :class="c.numero.css"
+                               ref="numero"
+                               v-on:input="inputNumero($event.target.value)"
+                            />
+                            <label
+                                for="nrComprovante"
+                                :class="[c.numero.css]"
+                            >N&uacute;mero * </label>
                         </div>
                         <div class="input-field col s2">
                            <input type="text"
@@ -209,20 +211,18 @@ Vue.component('sl-comprovante-nacional-form',
                         <div class="input-field col s2">
                             <input
                                type="text"
-                               name="nrComprovante"
-                               id="nrComprovante"
-                               maxlength="50"
-                               placeholder="00000000"
-                               value=""
-                               v-model="comprovante.numero"
-                               :class="c.numero.css"
-                               ref="numero"
-                               v-on:input="inputNumero($event.target.value)"
-                            />
-                            <label
-                                for="nrComprovante"
-                                :class="[c.numero.css]"
-                            >N&uacute;mero * </label>
+                               name="nrDocumentoDePagamento"
+                               v-model="comprovante.numeroDocumento"
+                               :class="c.numeroDocumento.css"
+                               placeholder="00000000000"
+                               id="nrDocumentoDePagamento"
+                               maxlength="10"
+                               ref="numeroDocumento"
+                               v-on:input="inputNumeroDocumento($event.target.value)"
+                           />
+                           <label for="nrDocumentoDePagamento"
+                               :class="[c.numeroDocumento.css]"
+                           >N&ordm; Documento Pagamento*</label>
                         </div>
                         <div class="input-field col s4">
                             <input

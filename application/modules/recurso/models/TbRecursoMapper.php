@@ -12,7 +12,7 @@ class Recurso_Model_TbRecursoMapper extends MinC_Db_Mapper
         return parent::save($model);
     }
 
-    public function obterProjetoPassivelDeRecurso($idPronac)
+    public function obterProjetoPassivelDeRecurso($idPronac, $cpfCnpj, $siFaseProjeto = null)
     {
         try {
             if (empty($idPronac)) {
@@ -28,12 +28,19 @@ class Recurso_Model_TbRecursoMapper extends MinC_Db_Mapper
                 throw new Exception("Projeto n&atilde;o encontrado");
             }
 
-            if (!$this->isProjetoEmSituacaoDeRecurso($projeto)) {
-                return false;
+
+            if (empty($siFaseProjeto)) {
+
+                if (!$this->isProjetoEmSituacaoDeRecurso($projeto)) {
+                    return false;
+                }
+
+                $siFaseProjeto = $this->obterFaseRecurso($projeto['situacao']);
+
             }
 
             $dados = [];
-            $dados['siFaseProjeto'] = $this->obterFaseRecurso($projeto['situacao']);
+            $dados['siFaseProjeto'] = $siFaseProjeto;
 
             $tbRecurso = new tbRecurso();
             $recurso = $tbRecurso->buscar([

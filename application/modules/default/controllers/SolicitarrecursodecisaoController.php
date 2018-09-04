@@ -156,20 +156,20 @@ class SolicitarRecursoDecisaoController extends MinC_Controller_Action_Abstract
      */
     public function recursoDesistenciaAction()
     {
-        $post = Zend_Registry::get('post');
-        $idPronac = $this->_request->getParam("idPronac");
-        $auth = Zend_Auth::getInstance();
+        try {
+            $post = Zend_Registry::get('post');
+            $idPronac = $this->_request->getParam("idPronac");
+            $auth = Zend_Auth::getInstance();
 
-        if (strlen($idPronac) > 7) {
-            $idPronac = Seguranca::dencrypt($idPronac);
-        }
-        $tbRecursoMapper = new Recurso_Model_TbRecursoMapper();
-        $resposta = $tbRecursoMapper->inserirDesistenciaRecursal($post);
+            if (strlen($idPronac) > 7) {
+                $idPronac = Seguranca::dencrypt($idPronac);
+            }
+            $tbRecursoMapper = new Recurso_Model_TbRecursoMapper();
+            $resposta = $tbRecursoMapper->inserirDesistenciaRecursal($post);
 
-        if ($resposta) {
-            parent::message('A desist&ecirc;ncia do prazo recursal foi cadastrada com sucesso!', "consultardadosprojeto?idPronac=" . Seguranca::encrypt($idPronac), "CONFIRM");
-        } else {
-            parent::message('&Eacute; necess&aacute;rio estar de acordo com os termos para registrar a sua desist&ecirc;ncia do prazo recursal!', "solicitarrecursodecisao/recurso-desistir?idPronac=" . Seguranca::encrypt($idPronac), "ERROR");
+            parent::message('A desist&ecirc;ncia do prazo recursal foi cadastrada com sucesso!', "/projeto/#/incentivo/" . Seguranca::encrypt($idPronac), "CONFIRM");
+        } catch (Exception $objException) {
+            parent::message($objException->getMessage(), "solicitarrecursodecisao/recurso-desistir?idPronac=" . Seguranca::encrypt($idPronac), "ERROR");
         }
     }
 

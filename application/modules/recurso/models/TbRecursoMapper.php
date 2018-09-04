@@ -12,7 +12,7 @@ class Recurso_Model_TbRecursoMapper extends MinC_Db_Mapper
         return parent::save($model);
     }
 
-    public function obterProjetoPassivelDeRecurso($idPronac, $cpfCnpj, $siFaseProjeto = null)
+    public function obterProjetoPassivelDeRecurso($idPronac, $cpfCnpj = null, $siFaseProjeto = null)
     {
         try {
             if (empty($idPronac)) {

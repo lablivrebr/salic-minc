@@ -2,7 +2,6 @@
 
 namespace Application\Modules\AvaliacaoResultados\Service\ParecerTecnico;
 
-
 class Encaminhamento
 {
     /**
@@ -20,32 +19,32 @@ class Encaminhamento
     {
         $this->request = $request;
         $this->response = $response;
-    }
 
-    public function buscarHistoricos()
-    {
-        $vwResultadoDaAvaliacaoFinanceira = new \AvaliacaoResultados_Model_DbTable_tbEncaminhamentoPrestacaoContas();
-        $where = [
-            'IdPronac' => $this->request->idPronac
-        ];
+        $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
 
-        return $vwResultadoDaAvaliacaoFinanceira->findAll($where);
+//        $GrupoAtivo->unlockAll();
+        xd($GrupoAtivo);
+//        xd($GrupoAtivo->__get('codGrupo'));
+//        $authIdentityInstance = (array) \Zend_Auth::getInstance()->getIdentity();
+
+//        xd(gettype($GrupoAtivo));
+//        foreach($GrupoAtivo as $chave => $valor){
+//            $this->{$chave} = $valor;
+//        }
     }
 
     public function buscarHistorico()
     {
         $vwResultadoDaAvaliacaoFinanceira = new \AvaliacaoResultados_Model_DbTable_tbEncaminhamentoPrestacaoContas();
         $where = [
-            $vwResultadoDaAvaliacaoFinanceira->getPrimary() => $this->request->idPronac,
-            'StAtivo' => '1'
+            'idPronac = ?' => $this->request->idPronac
         ];
 
-        return $vwResultadoDaAvaliacaoFinanceira->findBy($where);
+        return $vwResultadoDaAvaliacaoFinanceira->buscar($where)->toArray();
     }
 
-    public function encaminharProjeto(){
-        $tipoFiltro = $this->request->getParam('tipoFiltro');
-
+    public function encaminharProjeto()
+    {
         // caso o formulario seja enviado via post
         $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo'); // cria a sessao com o grupo ativo
         $auth = \Zend_Auth::getInstance();
@@ -54,7 +53,6 @@ class Encaminhamento
         $idAgenteOrigem = $idagente['idAgente'];
         $idPerfilDestino = (null === $this->request->getParam('idPerfilDestino')) ? 124 : $this->request->getParam('idPerfilDestino'); // se nao receber idPerfilDestino, define como 124 por padrao (tecnico)
         $this->usu_codigo = $auth->getIdentity()->usu_codigo;
-        $this->view->idPerfilDestino = $idPerfilDestino;
 
         // recebe os dados via post
         $post = \Zend_Registry::get('post');
@@ -75,7 +73,6 @@ class Encaminhamento
                 //100: 177 AECI
                 //100: 12 CONJUR
                 //SE O ENCAMINHAMENTO FOR DO COORDENADOR PARA O TECNICO - ALTERA SITUACAO DO PROJETO
-
 
                 if (
                     ($this->codGrupo == 125 || $this->codGrupo == 126 || $this->codGrupo == 132) &&
@@ -117,42 +114,60 @@ class Encaminhamento
 
                 if ($idTblEncaminhamento) {
                     // altera todos os encaminhamentos anteriores para stAtivo = 0
-                    $tblEncaminhamento->update(array('stAtivo' => 0), array('idPronac = ?' => $idPronac, 'idEncPrestContas != ?' => $idTblEncaminhamento));
+                    $tblEncaminhamento->update(
+                        array('stAtivo' => 0), 
+                        array('idPronac = ?' => $idPronac, 'idEncPrestContas != ?' => $idTblEncaminhamento)
+                    );
                 }
 
-                if ($this->codGrupo == 132) {
-                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "realizarprestacaodecontas/chefedivisaoprestacaocontas?tipoFiltro=" . $tipoFiltro, 'CONFIRM');
-                } elseif ($this->codGrupo == 124) {
-                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "realizarprestacaodecontas/tecnicoprestacaocontas?tipoFiltro=" . $tipoFiltro, 'CONFIRM');
-                } else {
-                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "realizarprestacaodecontas/painel?tipoFiltro=" . $tipoFiltro, 'CONFIRM');
-                }
+//                if ($this->codGrupo == 132) {
+//                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "realizarprestacaodecontas/chefedivisaoprestacaocontas?tipoFiltro=" . $tipoFiltro, 'CONFIRM');
+//                } elseif ($this->codGrupo == 124) {
+//                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "realizarprestacaodecontas/tecnicoprestacaocontas?tipoFiltro=" . $tipoFiltro, 'CONFIRM');
+//                } else {
+//                    parent::message('Solicita&ccedil;&atilde;o enviada com sucesso!', "realizarprestacaodecontas/painel?tipoFiltro=" . $tipoFiltro, 'CONFIRM');
+//                }
             } catch (Exception $e) {
                 parent::message('Erro ao tentar salvar os dados!', "principal", 'ERROR');
             }
         }
     }
 
+    public function buscarDestinatariosAction()
+    {
+//        $tbProjetos = new \Projetos();
+        $ttea = \Zend_Auth::getInstance()->getIdentity();
+//        xd($ttea);
+
+        xd($this->codOrgao);
+//        xd($teste->codOrgao,$teste->codGrupo);
+
+        return $tbProjetos->buscarComboOrgaos(
+            $this->request->idOrgaoDestino,
+            $this->request->idPerfilDestino
+        );
+    }
+
     public function salvar()
     {
-        $authInstance = \Zend_Auth::getInstance();
-        $arrAuth = array_change_key_case((array) $authInstance->getIdentity());
-
-        $parametros = $this->request->getParams();
-        $tbAvaliacaoFinanceira = new \AvaliacaoResultados_Model_tbAvaliacaoFinanceira($parametros);
-        $tbAvaliacaoFinanceira->setDtAvaliacaoFinanceira(date('Y-m-d h:i:s'));
-        $tbAvaliacaoFinanceira->setIdUsuario($arrAuth['usu_codigo']);
-
-        $mapper = new \AvaliacaoResultados_Model_tbAvaliacaoFinanceiraMapper();
-        $codigo = $mapper->save($tbAvaliacaoFinanceira);
-
-        $this->request->setParam('idAvaliacaoFinanceira', $codigo);
-
-        if(!$codigo){
-            return $mapper->getMessages();
-        }
-
-        return $this->buscarAvaliacaoFinanceira();
+//        $authInstance = \Zend_Auth::getInstance();
+//        $arrAuth = array_change_key_case((array) $authInstance->getIdentity());
+//
+//        $parametros = $this->request->getParams();
+//        $tbAvaliacaoFinanceira = new \AvaliacaoResultados_Model_tbAvaliacaoFinanceira($parametros);
+//        $tbAvaliacaoFinanceira->setDtAvaliacaoFinanceira(date('Y-m-d h:i:s'));
+//        $tbAvaliacaoFinanceira->setIdUsuario($arrAuth['usu_codigo']);
+//
+//        $mapper = new \AvaliacaoResultados_Model_tbAvaliacaoFinanceiraMapper();
+//        $codigo = $mapper->save($tbAvaliacaoFinanceira);
+//
+//        $this->request->setParam('idAvaliacaoFinanceira', $codigo);
+//
+//        if(!$codigo){
+//            return $mapper->getMessages();
+//        }
+//
+//        return $this->buscarAvaliacaoFinanceira();
     }
 
 }

@@ -1,11 +1,34 @@
 import * as types from './types';
+import Mock from '../mocks/Parecer.json';
 
 export const state = {
+    consolidacaoComprovantes: {},
     dadosTabela: [],
+    destinatarios: {},
+    mock: Mock,
+    parecer: {},
+    projeto: {},
+    proponente: {},
     registroAtivo: {},
+
 };
 
 export const mutations = {
+    [types.MOCK_AVALIACAO_RESULTADOS](state){
+        state.mock = Mock;
+    },
+    [types.GET_CONSOLIDACAO_PARECER](state, consolidacaoComprovantes){
+        state.consolidacaoComprovantes = consolidacaoComprovantes;
+    },
+    [types.GET_PARECER](state, parecer){
+        state.parecer = parecer;
+    },
+    [types.GET_PROJETO](state, projeto){
+        state.projeto = projeto;
+    },
+    [types.GET_PROPONENTE](state, proponente){
+        state.proponente = proponente;
+    },
     [types.SET_REGISTROS_TABELA](state, dadosTabela) {
         state.dadosTabela = dadosTabela;
     },
@@ -33,4 +56,7 @@ export const mutations = {
             }
         });
     },
+    [types.DESTINATARIOS_ENCAMINHAMENTO](state, destinatarios){
+        state.destinatarios = destinatarios;
+    }
 };

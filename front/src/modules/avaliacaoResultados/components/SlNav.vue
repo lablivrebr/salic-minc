@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div v-if="dados">
         <v-toolbar
           app
           color="green darken-4 "
@@ -12,21 +13,21 @@
             <v-spacer></v-spacer>
             <v-menu
                 :nudge-width="100"
-                v-for="item in dadosMenu"
-                :key="item"
+                v-for="(item, index) in dadosMenu"
+                :key="item.id"
                 offset-y
             >
                 <v-toolbar-title
                     slot="activator"
                 >
                     <v-btn flat>
-                        <span v-html="item.label"></span> 
+                        <span v-html="item.label"></span>
                         <v-icon right dark>arrow_drop_down</v-icon>
                     </v-btn>
                 </v-toolbar-title>
                 <v-list
-                    v-for="menu in item.menu"
-                    :key="item.menu"
+                    v-for="(menu, index) in item.menu"
+                    :key="index"
                 >
                     <v-list-tile>
                         <v-list-tile-title >
@@ -59,6 +60,10 @@
             </v-menu>
         </v-toolbar>
     </div>
+    <div v-else>
+        Carregando... 
+    </div>
+    </div>
 </template>
 
 <script>
@@ -68,51 +73,25 @@ export default {
     name: 'SlNav',
     components: {
     },
-    props: ['registroAtivo'],
+    props: [],
     data() {
         return {
-            currentRegistro: {
-                Codigo: '',
-                DadoNr: '',
-            },
-            items: ['pedro', 'leo'],
+            dados: this.dadosMenuAjax(),
+            //dados: '',
         };
     },
     computed: {
         ...mapGetters({
             dadosMenu: 'avaliacaoResultados/dadosMenu',
-            modalVisible: 'modal/default',
         }),
     },
     mounted() {
-        this.dadosMenuAjax();
+        //this.dadosMenuAjax();
     },
     methods: {
         ...mapActions({
-            atualizarRegistro: 'avaliacaoResultados/atualizarRegistro',
             dadosMenuAjax: 'avaliacaoResultados/dadosMenu',
- //           setRegistroAtivo: 'avaliacaoResultados/setRegistroAtivo',
-  //          modalOpen: 'modal/modalOpen',
-   //         modalClose: 'modal/modalClose',
         }),
-        buildRegistro(event) {
-            const DadoNr = event.target.value;
-            this.currentRegistro.DadoNr = DadoNr;
-            this.currentRegistro.Codigo = this.registro.Codigo;
-        },
-        checkChangesAndUpdate() {
-            if (this.currentRegistro !== this.registro) {
-                this.atualizarRegistro(this.currentRegistro);
-            }
-        },
-        fecharModal() {
-            // eslint-disable-next-line
-            $3('#modalTemplate').modal('close');
-            this.modalClose();
-        },
-        alert() {
-            alert('teste');
-        },
     },
 };
 </script>

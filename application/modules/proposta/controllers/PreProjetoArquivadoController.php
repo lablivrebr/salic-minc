@@ -75,6 +75,7 @@ class Proposta_PreProjetoArquivadoController extends Proposta_GenericController
             foreach ($rsPreProjetoArquivado as $key => $proposta) {
                 $proposta->nomeproponente = utf8_encode($proposta->nomeproponente);
                 $proposta->nomeprojeto = utf8_encode($proposta->nomeprojeto);
+                $proposta->MotivoArquivamento = utf8_encode($proposta->MotivoArquivamento);
 
                 $aux[$key] = $proposta;
             }

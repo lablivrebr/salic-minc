@@ -36,10 +36,6 @@
                             <?php endif; ?>
                         </select>&nbsp;
                         <span id="msgValidaProponente"></span>&nbsp;&nbsp;&nbsp;
-
-                        <a id="localizar" class="btn-localizar waves-effect waves-light btn btn-default small">
-                            <i class="material-icons left">search</i>Localizar
-                        </a>
                     </form>
                 </div>
             </div>
@@ -223,10 +219,6 @@
                 }
             );
 
-            $("#localizar").click(function () {
-                table.ajax.reload();
-            });
-
             $("tbody").on('click','button', function () {
                 let idpreprojeto = $3(this).data('idpreprojeto');
                 let motivoarquivamento = $3(this).data('motivoarquivamento');
@@ -256,6 +248,11 @@
                 }
 
             });
+
+            $("#proponente, #mecanismo").change(function () {
+                table.ajax.reload();
+            });
+            
         });
     }($.noConflict(true)));
 </script>

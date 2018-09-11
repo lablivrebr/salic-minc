@@ -73,9 +73,11 @@ class Proposta_PreProjetoArquivadoController extends Proposta_GenericController
         $aux = array();
         if (!empty($rsPreProjetoArquivado)) {
             foreach ($rsPreProjetoArquivado as $key => $proposta) {
+
                 $proposta->nomeproponente = utf8_encode($proposta->nomeproponente);
                 $proposta->nomeprojeto = utf8_encode($proposta->nomeprojeto);
                 $proposta->MotivoArquivamento = utf8_encode($proposta->MotivoArquivamento);
+                $proposta->SolicitacaoDesarquivamento = utf8_encode($proposta->SolicitacaoDesarquivamento);
 
                 $aux[$key] = $proposta;
             }
@@ -185,7 +187,7 @@ class Proposta_PreProjetoArquivadoController extends Proposta_GenericController
         $arquivar = new Proposta_Model_PreProjetoArquivado();
 
         if($SolicitacaoDesarquivamento){
-            $data['SolicitacaoDesarquivamento'] = $SolicitacaoDesarquivamento;
+            $data['SolicitacaoDesarquivamento'] = utf8_decode($SolicitacaoDesarquivamento);
             $data['dtSolicitacaoDesarquivamento'] = new Zend_Db_Expr('GETDATE()');
         }
 

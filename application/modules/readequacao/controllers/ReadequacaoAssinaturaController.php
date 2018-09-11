@@ -75,7 +75,7 @@ class Readequacao_ReadequacaoAssinaturaController extends Readequacao_GenericCon
         $get = Zend_Registry::get('get');
         try {
             if (!filter_input(INPUT_GET, 'IdPRONAC')) {
-                throw new Exception("Identificador do projeto é necessário para acessar essa funcionalidade.");
+                throw new Exception("Identificador do projeto &eacute; necess&atilde;rio para acessar essa funcionalidade.");
             }
 
             if ($this->grupoAtivo->codGrupo == Autenticacao_Model_Grupos::PARECERISTA) {
@@ -118,6 +118,9 @@ class Readequacao_ReadequacaoAssinaturaController extends Readequacao_GenericCon
                 );
             }
 
+            if ($this->idTipoDoAtoAdministrativo == '') {
+                $this->idTipoDoAtoAdministrativo = Readequacao_ReadequacaoAssinaturaController::obterIdTipoAtoAdministativoPorOrgaoSuperior($this->grupoAtivo->codOrgao);
+            }
             $objModelDocumentoAssinatura = new Assinatura_Model_DbTable_TbDocumentoAssinatura();
             $this->view->abertoParaDevolucao = $objModelDocumentoAssinatura->isProjetoDisponivelParaAssinatura(
                 $get->IdPRONAC,

@@ -98,7 +98,7 @@
                     const self = this;
                     /* eslint-disable */
                     $3.ajax({
-                        url: '/solicitacao/mensagem-rest/historico-solicitacoes/idPreProjeto/' + 282175
+                        url: '/solicitacao/mensagem-rest/historico-solicitacoes/idPreProjeto/' + self.idpreprojeto
                     })
                         .done(function (response) {
                             console.log(response.data);

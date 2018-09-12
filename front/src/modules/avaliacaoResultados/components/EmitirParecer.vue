@@ -95,7 +95,7 @@
                         <v-layout wrap align-center>
                             <v-flex>
                                 <v-select height="20px"
-                                          v-model="item"
+                                          v-model="parecer.siManifestacao"
                                           :rules="itemRules"
                                           :items="items"
                                           item-text="text"
@@ -108,7 +108,7 @@
                         </v-layout>
                         <v-flex>
                             <v-textarea
-                                v-model="laudoTecnico"
+                                v-model="parecer.dsParecer"
                                 :rules="parecerRules"
                                 color="deep-purple"
                                 label="Parecer *"
@@ -124,7 +124,7 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
     import ModalTemplate from '@/components/modal';
 
     export default {
@@ -132,7 +132,7 @@
         data()
         {
             return {
-                siManifestacao: 0,
+                tipo: true,
                 idPronac: this.$route.params.id,
                 redirectLink: '/prestacao-contas/realizar-prestacao-contas/index/idPronac/',
                 valid: false,
@@ -144,8 +144,6 @@
                     v => !!v || 'Parecer e obrigatório!',
                     v => v.length >= 10 || 'Parecer deve conter mais que 10 characters'
                 ],
-                laudoTecnico: '',
-                item: '',
                 items: [
                     {
                         id: "R",
@@ -184,7 +182,7 @@
                     this.requestEmissaoParecer(id);
                 },
                 salvarParecer(){
-                   const data = {idPronac:this.idPronac, tpAvaliacaoFinanceira: this.tpAvaliacaoFinanceira, siManifestacao:this.item , dsParecer:this.laudoTecnico, };
+                   const data = {idPronac:this.idPronac, tpAvaliacaoFinanceira: this.tipo, siManifestacao:this.parecer.siManifestacao , dsParecer:this.parecer.dsParecer };
                     this.salvar(data);
                     this.dialog = false;
                 }

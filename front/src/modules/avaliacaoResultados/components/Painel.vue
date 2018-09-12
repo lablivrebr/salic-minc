@@ -54,6 +54,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import ModalTemplate from '@/components/modal';
+import ComponenteEncaminhar from './ComponenteEncaminhar';
 
 export default {
     name: 'Painel',
@@ -103,6 +104,7 @@ export default {
     },
     components: {
         ModalTemplate,
+        ComponenteEncaminhar,
     },
     methods: {
         ...mapActions({

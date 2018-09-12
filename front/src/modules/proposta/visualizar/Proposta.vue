@@ -32,6 +32,22 @@
                     </div>
                 </li>
                 <li>
+                    <div class="collapsible-header"><i class="material-icons">history</i>Historico de sugestoes de enquadramento</div>
+                    <div class="collapsible-body padding20" v-if="dados">
+                        <PropostaHistoricoSugestoesEnquadramento
+                            :idpreprojeto="dados.idPreProjeto"
+                        ></PropostaHistoricoSugestoesEnquadramento>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">history</i>Historico de solicitaçoes</div>
+                    <div class="collapsible-body padding20" v-if="dados">
+                        <PropostaHistoricoSolicitacoes
+                            :idpreprojeto="dados.idPreProjeto"
+                        ></PropostaHistoricoSolicitacoes>
+                    </div>
+                </li>
+                <li>
                     <div class="collapsible-header"><i class="material-icons">person</i>Proponente</div>
                     <div class="collapsible-body padding20">
                         <AgenteProponente :idagente="dados.idAgente"></AgenteProponente>
@@ -155,21 +171,21 @@
                     </div>
                 </li>
                 <li>
-                    <div id="planilha-orcamentaria" class="collapsible-header"><i class="material-icons">attach_money</i>Planilha
-                        or&ccedil;ament&aacute;ria
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <Planilha
-                                :arrayPlanilha="dados.tbplanilhaproposta"
-                        ></Planilha>
-                    </div>
-                </li>
-                <li>
                     <div class="collapsible-header"><i class="material-icons">attach_money</i>Custos Vinculados</div>
                     <div class="collapsible-body padding20" v-if="dados">
                          <PropostaCustosVinculados
                                  :arrayCustos="dados.tbcustosvinculados"
                          ></PropostaCustosVinculados>
+                    </div>
+                </li>
+                <li>
+                    <div id="planilha-orcamentaria" class="collapsible-header"><i class="material-icons">attach_money</i>Planilha
+                        or&ccedil;ament&aacute;ria
+                    </div>
+                    <div class="collapsible-body padding20">
+                        <Planilha
+                            :arrayPlanilha="dados.tbplanilhaproposta"
+                        ></Planilha>
                     </div>
                 </li>
             </ul>
@@ -186,6 +202,8 @@ import Carregando from '@/components/Carregando';
 import SalicTextoSimples from '@/components/SalicTextoSimples';
 import PropostaIdentificacao from './components/PropostaIdentificacao';
 import PropostaHistoricoAvaliacoes from './components/PropostaHistoricoAvaliacoes';
+import PropostaHistoricoSugestoesEnquadramento from './components/PropostaHistoricoSugestoesEnquadramento';
+import PropostaHistoricoSolicitacoes from './components/PropostaHistoricoSolicitacoes';
 import AgenteProponente from '../components/AgenteProponente';
 import AgenteUsuario from '../components/AgenteUsuario';
 import PropostaDocumentos from './components/PropostaDocumentos';
@@ -211,6 +229,8 @@ export default {
     components: {
         PropostaIdentificacao,
         PropostaHistoricoAvaliacoes,
+        PropostaHistoricoSugestoesEnquadramento,
+        PropostaHistoricoSolicitacoes,
         AgenteProponente,
         AgenteUsuario,
         SalicTextoSimples,

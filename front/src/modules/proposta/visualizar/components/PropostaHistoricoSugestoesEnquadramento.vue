@@ -36,7 +36,7 @@
 
                     /* eslint-disable */
                     $3.ajax({
-                        url: '/proposta/visualizar-rest/obter-sugestao-enquadramento/idPreProjeto/' + self.idpreprojeto
+                        url: '/proposta/visualizar-rest/index/idPreProjeto/' + self.idpreprojeto
                     }).done(function (response) {
                         self.dado = response.data.items;
                     });

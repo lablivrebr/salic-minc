@@ -15,7 +15,7 @@ class Solicitacao_MensagemRestController extends MinC_Controller_Rest_Abstract
         parent::__construct($request, $response, $invokeArgs);
     }
 
-    public function historicoSolicitacoesAction()
+    public function indexAction()
     {
         try {
             $mensagemService = new MensagemService($this->getRequest(), $this->getResponse());
@@ -25,11 +25,6 @@ class Solicitacao_MensagemRestController extends MinC_Controller_Rest_Abstract
         } catch (Exception $e) {
             $this->renderJsonResponse($solicitacoes, 400);
         }
-    }
-
-    public function indexAction()
-    {
-        $this->renderJsonResponse(200);
     }
 
     public function getAction()

@@ -15,7 +15,7 @@ class Proposta_VisualizarRestController extends MinC_Controller_Rest_Abstract
         parent::__construct($request, $response, $invokeArgs);
     }
 
-    public function obterSugestaoEnquadramentoAction()
+    public function indexAction()
     {
         $idPreProjeto = $this->_request->getParam('idPreProjeto');
 
@@ -31,11 +31,6 @@ class Proposta_VisualizarRestController extends MinC_Controller_Rest_Abstract
         } catch (Exception $e) {
             $this->renderJsonResponse($data, 400);
         }
-    }
-
-    public function indexAction()
-    {
-        $this->renderJsonResponse(200);
     }
 
     public function getAction()

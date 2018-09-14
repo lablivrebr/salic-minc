@@ -5,7 +5,6 @@ namespace Application\Modules\Proposta\Service\Proposta;
 class Visualizar
 {
     const OBJECT_KEYS = [
-        'ultima_sugestao' => 'N&uacute;mero',
         'data_avaliacao' => 'Data',
         'usu_nome' => 'Avaliador',
         'org_sigla' => 'Unidade',

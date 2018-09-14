@@ -85,3 +85,21 @@ export const getDestinatariosEncaminhamento = ({ commit }, params) => {
     //         commit(types.DESTINATARIOS_ENCAMINHAMENTO, destinatarios);
     //     });
 };
+
+export const obterDadosTabelaTecnico = ({ commit }) => {
+    avaliacaoResultadosHelperAPI.obterDadosTabelaTecnico()
+        .then((response) => {
+            const data = response.data;
+            const dadosTabela = data.data;
+            commit(types.PROJETOS_AVALIACAO_TECNICA, dadosTabela);
+        });
+};
+
+export const obterHistoricoEncaminhamento = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.obterHistoricoEncaminhamento(params)
+        .then((response) => {
+            const dadosEncaminhamento = response.data.data;
+            console.log(dadosEncaminhamento );
+            commit(types.HISTORICO_ENCAMINHAMENTO, dadosEncaminhamento.items);
+        });
+};

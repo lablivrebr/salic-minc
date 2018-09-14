@@ -1,71 +1,66 @@
 <template>
+    <v-container fluid>
         <v-data-table
                 :headers="cabecalho"
-                :items="dados"
+                :items="dadosTabelaTecnico.items"
                 hide-actions
                 class="elevation-1"
         >
             <template slot="items" slot-scope="props">
-                <td>{{ props.item.numero }}</td>
-                <td class="text-xs-right">{{ props.item.pronac }}
+                <td>{{ props.index+1 }}</td>
+                <td class="text-xs-right">
                     <v-flex xs12 sm4 text-xs-center>
                         <div>
-                            <v-btn>131313131</v-btn>
+                            <v-btn>{{ props.item.Pronac }}</v-btn>
                         </div>
                     </v-flex>
                 </td>
-                <td class="text-xs-right">{{ props.item.nome }}</td>
-                <td class="text-xs-right">{{ props.item.situacao }}</td>
-                <td class="text-xs-right">{{ props.item.area }}</td>
-                <td class="text-xs-right">{{ props.item.estado }}</td>
-                <td class="text-xs-right">{{ props.item.mecanismo }}</td>
-                <td class="text-xs-right">{{ props.item.data }}</td>
-                <td class="text-xs-right">{{ props.item.analisar }}
-                    <div>
-                        <v-btn dark color="teal lighten-2" to="/tipo-avaliacao">
-                            <i class="material-icons">compare_arrows</i>
-                        </v-btn>
-                    </div>
+                <td class="text-xs-right">{{ props.item.NomeProjeto }}</td>
+                <td class="text-xs-right">{{ props.item.Situacao }}</td>
+                <td class="text-xs-right">{{ props.item.Area }}/{{ props.item.Segmento }}</td>
+                <td class="text-xs-right">{{ props.item.UfProjeto }}</td>
+                <td class="text-xs-right">{{ props.item.Mecanismo }}</td>
+                <td class="text-xs-right">{{ props.item.DtSituacao }}</td>
+                <td class="text-xs-right">
+                    <v-btn flat icon color="green">
+                        <v-icon class="material-icons">compare_arrows</v-icon>
+                    </v-btn>
                 </td>
-                <td class="text-xs-right">{{ props.item.diligencia }}
-                    <div>
-                        <v-btn dark color="yellow accent-3">
-                            <i class="material-icons">
-                                warning
-                            </i>
-                        </v-btn>
-                    </div>
+                <td class="text-xs-right">
+                    <v-btn flat icon color="indigo">
+                        <v-icon>warning</v-icon>
+                    </v-btn>
                 </td>
-                <td class="text-xs-right">{{ props.item.historico }}
-                    <v-flex xs12 sm4 text-xs-center>
-                        <div>
-                            <v-btn to="/historico">
-                                <i class="material-icons">
-                                history
-                            </i></v-btn>
-                        </div>
-                    </v-flex>
+                <td class="text-xs-right">
+                    <Historico :id-pronac="props.item.idPronac"></Historico>
+
                 </td>
             </template>
         </v-data-table>
-    </div>
+    </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import ModalTemplate from '@/components/modal';
-import ComponenteEncaminhar from './ComponenteEncaminhar';
+import Historico from './Historico';
 
 export default {
     name: 'Painel',
-    data () {
+    created() {
+        this.obterDadosTabelaTecnico();
+    },
+    // mounted(){
+    //     console.info(this);
+    // },
+    data() {
         return {
             cabecalho: [
                 {
                     text: '#',
                     align: 'left',
                     sortable: false,
-                    value: 'numero'
+                    value: 'numero',
                 },
                 { text: 'PRONAC', value: 'pronac' },
                 { text: 'Nome Do Projeto', value: 'nome' },
@@ -79,47 +74,26 @@ export default {
                 { text: 'Historico', value: 'historico' },
 
             ],
-            dados: [
-                {
-                    numero: 1,
-                    nome:'Crianca e vida - 15 anos',
-                    situacao:'E17',
-                    area:'Artes Integradas / Artes Integradas',
-                    estado: 'SP',
-                    mecanismo: 'Incentivo Fiscal',
-                    data: '27/10/2017',
-                },
-                {
-                    numero: 1,
-                    nome:'Crianca e vida - 15 anos',
-                    situacao:'E17',
-                    area:'Artes Integradas / Artes Integradas',
-                    estado: 'SP',
-                    mecanismo: 'Incentivo Fiscal',
-                    data: '27/10/2017',
-                },
-
-            ]
+        };
+    },
+    watch:{
+        dadosTabelaTecnico(a){
+            console.log(a)
         }
     },
     components: {
         ModalTemplate,
-        ComponenteEncaminhar,
+        Historico,
     },
     methods: {
         ...mapActions({
-            criarRegistro: 'foo/criarRegistro',
-            modalOpen: 'modal/modalOpen',
-            modalClose: 'modal/modalClose',
+            obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
         }),
-        fecharModal() {
-            // eslint-disable-next-line
-            $3('#modalTemplate').modal('close');
-            this.modalClose();
-        },
     },
-    computed: mapGetters({
-        modalVisible: 'modal/default',
-    }),
+    computed: {
+        ...mapGetters({
+            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico'
+        }),
+    },
 };
 </script>

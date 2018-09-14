@@ -197,7 +197,7 @@ class Proposta_PreProjetoArquivadoController extends Proposta_GenericController
                 $data['dtAvaliacao'] = new Zend_Db_Expr('GETDATE()');
                 $data['idAvaliadorAnaliseDesarquivamento'] = $this->auth->getIdentity()->usu_codigo;
             }else{
-                throw new Exception("É necessário preencher a Avaliação!");
+                throw new Exception("&Eacute; necess&aacute;rio preencher a Avalia&ccedil;&atilde;o!");
             }
         }
 
@@ -211,12 +211,12 @@ class Proposta_PreProjetoArquivadoController extends Proposta_GenericController
 
         try {
             $arquivar->update($data, array('idPreProjeto = ?' => $idPreProjeto));
-            $message = 'Solicitação enviada!' . $idPreProjeto;
+            $message = 'Solicita&ccedil;&atilde;o enviada!' . $idPreProjeto;
         } catch(Exception $e){
             $message = $e->getMessage();
             $success = false;
         }
-
+        $data['SolicitacaoDesarquivamento'] = $SolicitacaoDesarquivamento;
         $this->_helper->json(
             [
                 'data' => $data,

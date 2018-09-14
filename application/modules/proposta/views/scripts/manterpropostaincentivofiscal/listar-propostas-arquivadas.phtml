@@ -229,8 +229,10 @@
 
             $("#enviarSolicitacao").on('click', function () {
                 if ($3('#SolicitacaoDesarquivamento').val().length == 0){
-                    Materialize.toast('� necess�rio preencher a solicita��o!', 4000, 'red white-text');
-                }else{
+                    Materialize.toast('&Eacute; necess&aacute;rio preencher a solicita&ccedil;&atilde;o!', 4000, 'red white-text');
+                    return false;
+                }
+                else{
                     $3.ajax({
                         url:'/proposta/pre-projeto-arquivado/update',
                         data: {
@@ -244,7 +246,7 @@
                         table.ajax.reload();
                     });
                 }
-
+                    Materialize.toast('Solicita&ccedil;&atilde;o enviada!', 4000,  'blue white-text');
             });
 
             $("#proponente, #mecanismo").change(function () {

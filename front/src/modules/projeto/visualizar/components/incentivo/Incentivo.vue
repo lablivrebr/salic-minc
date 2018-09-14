@@ -421,6 +421,7 @@
                 return moment()
                     .diff(date, 'days') > 0;
             },
+
         },
         filters: {
             formatarData(date) {
@@ -433,17 +434,14 @@
             formatarAgencia(agencia) {
                 // formato: 9999-9
                 if (agencia.length === 5) {
-                    agencia = agencia.replace(/(\d{4})(\d)/, '$1-$2');
+                    agencia = agencia.replace(/(\d{4})(\S)/, '$1-$2');
                 }
                 return agencia;
             },
             formatarConta(conta) {
-                // formato: 99999-9
-                conta = parseInt(conta, 10);
-                // conta = conta.replace(/^0|0/g, '');
-                conta = conta.toString().replace(/(\d)(\d{1})$/, '$1-$2');
-
-                return conta;
+                // formato: 99999-9 ou 99999-x
+                var regex = /^(0+)(\d+)(\S{1})$/;
+                return conta.replace(regex, '$2-$3');
             },
         },
     };

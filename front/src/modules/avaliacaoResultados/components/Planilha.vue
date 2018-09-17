@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-container fliod>
         <v-card>
             <v-card-title primary-title>
                 <h3>TÍTULO A SER DEFINIDO</h3>
@@ -24,38 +24,34 @@
                     <div slot="header">{{ produto.produto }}</div>
                     <v-card flat="true">
                         <!-- ETAPA -->
-                        <v-expansion-panel class="pl-3" value="true">
+                        <v-expansion-panel class="pl-3 elevation-0" value="true">
                             <v-expansion-panel-content
                                 v-for="(etapa,i) in produto.etapa"
                                 :key="i"
                             >
-                            <div slot="header">{{ etapa.etapa }}</div>
-                            <v-card flat="true">
+                                <div slot="header">{{ etapa.etapa }}</div>
                                 <!-- UF -->
-                                    <v-expansion-panel class="pl-3" value="true">
-                                        <v-expansion-panel-content
-                                            v-for="(uf,i) in etapa.UF"
-                                            :key="i"
-                                        >
-                                        <div slot="header">{{ uf.Uf }}</div>
-                                        <v-card flat="true">
-                                            <!-- CIDADE -->
-                                                <v-expansion-panel class="pl-3" value="true">
-                                                    <v-expansion-panel-content
-                                                        v-for="(cidade,i) in uf.cidade"
-                                                        :key="i"
-                                                    >
-                                                    <div slot="header">{{ cidade.cidade }}</div>
-                                                    <v-card flat="true">
-                                                        <!-- DADOS -->
-                                                        #INSERIR COMPONENTE DA TABELA DE DADOS
-                                                    </v-card>
-                                                    </v-expansion-panel-content>
-                                                </v-expansion-panel>
-                                        </v-card>
-                                        </v-expansion-panel-content>
-                                    </v-expansion-panel>
-                            </v-card>
+                                <v-expansion-panel class="pl-3 elevation-0" value="true">
+                                    <v-expansion-panel-content
+                                        v-for="(uf,i) in etapa.UF"
+                                        :key="i"
+                                    >
+                                    <div slot="header">{{ uf.Uf }}</div>
+                                        <!-- CIDADE -->
+                                            <v-expansion-panel class="pl-3 elevation-0" value="true">
+                                                <v-expansion-panel-content
+                                                    v-for="(cidade,i) in uf.cidade"
+                                                    :key="i"
+                                                >
+                                                <div slot="header">{{ cidade.cidade }}</div>
+                                                <v-card flat="true">
+                                                    <!-- DADOS -->
+                                                    #INSERIR COMPONENTE DA TABELA DE DADOS
+                                                </v-card>
+                                                </v-expansion-panel-content>
+                                            </v-expansion-panel>
+                                    </v-expansion-panel-content>
+                                </v-expansion-panel>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                     </v-card>
@@ -79,7 +75,7 @@
                 </tr>
             </table>
         </v-card>
-    </div>
+    </v-container>
 </template>
 
 <script>

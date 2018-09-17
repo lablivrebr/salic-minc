@@ -14,39 +14,39 @@
             </v-card-actions>
         </v-card>
 
-        <v-card class="mt-3">
+        <v-card class="mt-3" flat="true">
             <!-- PRODUTO -->
-            <v-expansion-panel>
+            <v-expansion-panel value="true">
                 <v-expansion-panel-content
-                v-for="(produto,i) in produtos"
-                :key="i"
+                    v-for="(produto,i) in produtos"
+                    :key="i"
                 >
                     <div slot="header">{{ produto.produto }}</div>
-                    <v-card>
+                    <v-card flat="true">
                         <!-- ETAPA -->
-                        <v-expansion-panel class="pl-3">
+                        <v-expansion-panel class="pl-3" value="true">
                             <v-expansion-panel-content
-                            v-for="(etapa,i) in produto.etapa"
-                            :key="i"
+                                v-for="(etapa,i) in produto.etapa"
+                                :key="i"
                             >
                             <div slot="header">{{ etapa.etapa }}</div>
-                            <v-card>
+                            <v-card flat="true">
                                 <!-- UF -->
-                                    <v-expansion-panel class="pl-3">
+                                    <v-expansion-panel class="pl-3" value="true">
                                         <v-expansion-panel-content
-                                        v-for="(uf,i) in etapa.UF"
-                                        :key="i"
+                                            v-for="(uf,i) in etapa.UF"
+                                            :key="i"
                                         >
                                         <div slot="header">{{ uf.Uf }}</div>
-                                        <v-card>
+                                        <v-card flat="true">
                                             <!-- CIDADE -->
-                                                <v-expansion-panel class="pl-3">
+                                                <v-expansion-panel class="pl-3" value="true">
                                                     <v-expansion-panel-content
-                                                    v-for="(cidade,i) in uf.cidade"
-                                                    :key="i"
+                                                        v-for="(cidade,i) in uf.cidade"
+                                                        :key="i"
                                                     >
                                                     <div slot="header">{{ cidade.cidade }}</div>
-                                                    <v-card>
+                                                    <v-card flat="true">
                                                         <!-- DADOS -->
                                                         #INSERIR COMPONENTE DA TABELA DE DADOS
                                                     </v-card>

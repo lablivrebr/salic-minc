@@ -18,6 +18,7 @@ export const state = {
     proponente: {},
     registroAtivo: {},
     tipoAvaliacao: {},
+    redirectLink:{}
 };
 
 export const mutations = {
@@ -77,6 +78,9 @@ export const mutations = {
     },
     [types.GET_TIPO_AVALIACAO](state,tipoAvaliacao){
         state.tipoAvaliacao = tipoAvaliacao[0];
+    },
+    [types.LINK_REDIRECIONAMENTO_TIPO_AVALIACAO_RESULTADO] (state, redirectLink){
+        state.redirectLink = redirectLink;
     }
 
 };

@@ -82,7 +82,12 @@ class Visualizar
         $current_object = [];
 
         foreach (self::OBJECT_KEYS as $key => $value) {
-            $current_object[$key] = html_entity_decode(utf8_encode($sugestao_enquadramento[$key]));
+            if ($key != 'data_avaliacao') {
+                $current_object[$key] = html_entity_decode(utf8_encode($sugestao_enquadramento[$key]));
+            } else {
+                $date = new \DateTime($sugestao_enquadramento[$key]);
+                $current_object[$key] = $date->format('d/m/Y H:i:s');
+            }
         }
 
         return $current_object;

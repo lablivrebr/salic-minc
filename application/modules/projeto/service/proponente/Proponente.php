@@ -56,7 +56,6 @@ class Proponente
             $proponenteDAO = new \ProponenteDAO();
 
             $dadosProponente = $proponenteDAO->execPaProponente($idPronac, \Zend_DB::FETCH_ASSOC);
-            $proponente['dados'] = $dadosProponente[0];
 
             $dbTableInabilitado = new \Inabilitado();
             $proponenteInabilitado = $dbTableInabilitado->BuscarInabilitado($projeto["CgcCpf"], null, null, true);
@@ -65,6 +64,12 @@ class Proponente
             $this->autenticacao = array_change_key_case((array)\Zend_Auth::getInstance()->getIdentity());
 
             $proponente['isProponente'] = isset($this->autenticacao['usu_codigo']) ? false : true;
+
+            if (empty($dadosProponente)) {
+                return $proponente;
+            }
+
+            $proponente['dados'] = $dadosProponente[0];
 
             if (!empty($dadosProponente[0]['idAgente'])){
                 $idAgente = $dadosProponente[0]['idAgente'];

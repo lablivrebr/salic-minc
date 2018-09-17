@@ -32,7 +32,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>Historico de sugestoes de enquadramento</div>
+                    <div class="collapsible-header"><i class="material-icons">history</i>Hist&oacute;rico de sugest&otilde;es de enquadramento</div>
                     <div class="collapsible-body padding20" v-if="dados">
                         <PropostaHistoricoSugestoesEnquadramento
                             :idpreprojeto="dados.idPreProjeto"
@@ -40,7 +40,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>Historico de solicitaçoes</div>
+                    <div class="collapsible-header"><i class="material-icons">history</i>Hist&oacute;rico de solicita&ccedil;&otilde;es</div>
                     <div class="collapsible-body padding20" v-if="dados">
                         <PropostaHistoricoSolicitacoes
                             :idpreprojeto="dados.idPreProjeto"

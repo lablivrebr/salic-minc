@@ -4,17 +4,17 @@
             <table>
                 <thead>
                 <tr>
-                    <th style="text-align: center">Proposta/Projeto</th>
-                    <th style="text-align: center">Solicita&ccedil;&atilde;o</th>
-                    <th style="text-align: center">Estado</th>
+                    <th>Proposta/Projeto</th>
+                    <th>Solicita&ccedil;&atilde;o</th>
+                    <th>Estado</th>
                     <th>Dt. Solicita&ccedil;&atilde;o</th>
                     <th>Dt. Resposta</th>
-                    <th style="text-align: center">#</th>
+                    <th>#</th>
                 </tr>
                 </thead>
                 <tbody v-for="(dado, index) in dados" :key="index">
                 <tr>
-                    <td style="text-align: center">{{ dado.NomeProjeto }}</td>
+                    <td>{{ dado.NomeProjeto }}</td>
                     <td>{{ dado.dsSolicitacao }}</td>
                     <td>{{ dado.dsEncaminhamento }}</td>
                     <td>{{ dado.dtSolicitacao }}</td>

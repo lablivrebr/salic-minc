@@ -34,6 +34,8 @@ label {
     color: #0e0e0e;
 }
 
+
+
 #sidenav-overlay {
     z-index: 988;
 }
@@ -107,6 +109,12 @@ textarea.materialize-textarea:focus.invalid {
 .input-field label {
     color: #1b5e20;
 }
+
+.solicitacao .input-field label:not(.label-icon).active {
+    -webkit-transform: translateY(-22px) scale(1);
+    transform: translateY(-22px) scale(1);
+}
+
 .input-field {
     color: #1b5e20;
 }

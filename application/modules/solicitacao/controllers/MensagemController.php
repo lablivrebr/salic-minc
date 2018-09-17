@@ -46,6 +46,12 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
             $tbl = new Arquivo_Model_DbTable_TbDocumento();
             $dataForm['arquivo'] = $tbl->buscarDocumento($dataForm['idDocumento'])->toArray();
         }
+
+        if (!empty($dataForm['idDocumentoResposta'])) {
+            $tbl = new Arquivo_Model_DbTable_TbDocumento();
+            $dataForm['arquivoResposta'] = $tbl->buscarDocumento($dataForm['idDocumentoResposta'])->toArray();
+        }
+
         if ($this->proposta) {
             $dataForm['idProjeto'] = $this->idPreProjeto;
             $dataForm['NomeProjeto'] = isset($this->proposta->NomeProjeto) ? $this->proposta->NomeProjeto : '';
@@ -248,7 +254,7 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
 
             if (!isset(Zend_Auth::getInstance()->getIdentity()->usu_codigo)) {
                 if ($dataForm['idPronac']) {
-                    $condicoesMenu = self::liberarOpcoesMenuLateral($dataForm['idPronac']);
+                    $condicoesMenu = $this->liberarOpcoesMenuLateral($dataForm['idPronac']);
                     foreach ($condicoesMenu as $condicao => $valor) {
                         $this->view->{$condicao} = $valor;
                     }
@@ -259,7 +265,7 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
 
             $arrConfig['dsResposta']['show'] = true;
 
-            self::prepareForm($dataForm, $arrConfig, $urlAction);
+            $this->prepareForm($dataForm, $arrConfig, $urlAction);
 
         } catch (Exception $objException) {
             parent::message($objException->getMessage(), "/solicitacao/mensagem", "ALERT");
@@ -304,13 +310,13 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
             }
 
             if ($this->idPronac) {
-                $condicoesMenu = self::liberarOpcoesMenuLateral($this->idPronac);
+                $condicoesMenu = $this->liberarOpcoesMenuLateral($this->idPronac);
                 foreach ($condicoesMenu as $condicao => $valor) {
                     $this->view->{$condicao} = $valor;
                 }
             }
 
-            self::prepareForm($dataForm, $arrConfig, $urlAction, $urlCallBack);
+            $this->prepareForm($dataForm, $arrConfig, $urlAction, $urlCallBack);
 
 
         } catch (Exception $objException) {
@@ -458,7 +464,7 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
                 ];
 
 
-                self::prepareForm($solicitacao, $arrConfig, '', $strActionBack);
+                $this->prepareForm($solicitacao, $arrConfig, '', $strActionBack);
             }
 
             $this->view->arrConfig['dsMensagem'] = ['disabled' => true];
@@ -467,7 +473,7 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
             parent::message($objException->getMessage(), $strActionBack, "ALERT");
         }
     }
-    
+
     public function encaminharAction()
     {
         $idSolicitacao = $this->getRequest()->getParam('id', null);
@@ -505,10 +511,10 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
                 'actionredistribuirSolicitacao' => $this->_urlPadrao . "/solicitacao/mensagem/redistribuir-solicitacao",
                 'unidades' => $orgaos->pesquisarUnidades(array('o.Sigla != ?' => '', 'o.idSecretaria IN (?)' => [160,251])),
                 'tecnico' => $solicitacao['idTecnico'],
-                
+
             ];
 
-            self::prepareForm($solicitacao, $arrConfig, '', $strActionBack);
+            $this->prepareForm($solicitacao, $arrConfig, '', $strActionBack);
 
             $this->view->arrConfig['dsMensagem'] = ['disabled' => true];
 
@@ -516,17 +522,20 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
             parent::message($objException->getMessage(), $strActionBack, "ALERT");
         }
     }
-    
+
     public function usuariosAction()
     {
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        $vw = new vwUsuariosOrgaosGrupos();
-        $intId = $this->getRequest()->getParam('intId', null);
-        $arrUsuarios = $vw->carregarTecnicosPorUnidade($intId)->toArray();
-        // xd($arrUsuarios);
-        $arrUsuarios = TratarArray::utf8EncodeArray($arrUsuarios);
-        $this->_helper->json($arrUsuarios);
+        try {
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender(true);
+            $vw = new vwUsuariosOrgaosGrupos();
+            $intId = $this->getRequest()->getParam('intId', null);
+            $arrUsuarios = $vw->carregarTecnicosPorUnidade($intId)->toArray();
+            $arrUsuarios = TratarArray::utf8EncodeArray($arrUsuarios);
+            $this->_helper->json($arrUsuarios);
+        }  catch (Exception $objException) {
+            $this->_helper->json(array('status' => false, 'msg' => $objException->getMessage()));
+        }
     }
 
     public function redistribuirSolicitacaoAction()
@@ -550,7 +559,7 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
 
                 $where = [];
                 $where['idSolicitacao = ?'] = $arrayForm['idSolicitacao'];
-    
+
                 $tbSolicitacao = new Solicitacao_Model_DbTable_TbSolicitacao();
                 $solicitacao = $tbSolicitacao->obterSolicitacoes($where)->current()->toArray();
 
@@ -587,12 +596,13 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
 
         try {
             $tbSolicitacao = new Solicitacao_Model_DbTable_TbSolicitacao();
-            $solicitacao = $tbSolicitacao->obterSolicitacoes(
-                ['a.idDocumento = ?' => $idDocumento]
-            )->current();
+            $solicitacao = $tbSolicitacao->findBy(
+                ['idDocumentoResposta = ? OR idDocumento = ?' => $idDocumento]
+            );
 
-            if (empty($solicitacao))
+            if (empty($solicitacao)) {
                 throw new Exception('Documento n&atilde;o encontrado!');
+            }
 
             $idProjeto = $solicitacao['idProjeto'] ? $solicitacao['idProjeto'] : false;
             $idPronac = $solicitacao['idPronac'] ? $solicitacao['idPronac'] : false;
@@ -600,8 +610,9 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
             # verificar se o usuario tem permissao para acessar este documento por meio do id do projeto/proposta
             $permissao = parent::verificarPermissaoAcesso($idProjeto, $idPronac, false, true);
 
-            if ($permissao['status'] === false)
+            if ($permissao['status'] === false) {
                 throw new Exception('Voc&ecirc; n&atilde;o tem permiss&atilde;o para baixar esse arquivo!');
+            }
 
             parent::abrirDocumento($idDocumento);
 

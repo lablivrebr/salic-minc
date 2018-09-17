@@ -1,5 +1,5 @@
 <template>
-    <v-container fliod>
+    <v-container fluid>
         <v-card>
             <v-card-title primary-title>
                 <h3>TÍTULO A SER DEFINIDO</h3>
@@ -21,7 +21,11 @@
                     v-for="(produto,i) in produtos"
                     :key="i"
                 >
-                    <div slot="header">{{ produto.produto }}</div>
+                    <v-layout slot="header" class="green--text">
+                        <v-icon class="mr-3 green--text">perm_media</v-icon>
+                        {{ produto.produto }}
+                    </v-layout>
+                    
                     <v-card flat="true">
                         <!-- ETAPA -->
                         <v-expansion-panel class="pl-3 elevation-0" value="true">
@@ -29,27 +33,38 @@
                                 v-for="(etapa,i) in produto.etapa"
                                 :key="i"
                             >
-                                <div slot="header">{{ etapa.etapa }}</div>
+                                <v-layout slot="header" class="orange--text">
+                                    <v-icon class="mr-3 orange--text">label</v-icon>
+                                    {{ etapa.etapa }}
+                                </v-layout>
+
                                 <!-- UF -->
                                 <v-expansion-panel class="pl-3 elevation-0" value="true">
                                     <v-expansion-panel-content
                                         v-for="(uf,i) in etapa.UF"
                                         :key="i"
                                     >
-                                    <div slot="header">{{ uf.Uf }}</div>
+                                        <v-layout slot="header" class="blue--text">
+                                            <v-icon class="mr-3 blue--text">place</v-icon>
+                                            {{ uf.Uf }}
+                                        </v-layout>
+
                                         <!-- CIDADE -->
-                                            <v-expansion-panel class="pl-3 elevation-0" value="true">
-                                                <v-expansion-panel-content
-                                                    v-for="(cidade,i) in uf.cidade"
-                                                    :key="i"
-                                                >
-                                                <div slot="header">{{ cidade.cidade }}</div>
+                                        <v-expansion-panel class="pl-3 elevation-0" value="true">
+                                            <v-expansion-panel-content
+                                                v-for="(cidade,i) in uf.cidade"
+                                                :key="i"
+                                            >
+                                                <v-layout slot="header" class="blue--text">
+                                                    <v-icon class="mr-3 blue--text">place</v-icon>
+                                                    {{ cidade.cidade }}
+                                                </v-layout>
                                                 <v-card flat="true">
                                                     <!-- DADOS -->
                                                     #INSERIR COMPONENTE DA TABELA DE DADOS
                                                 </v-card>
-                                                </v-expansion-panel-content>
-                                            </v-expansion-panel>
+                                            </v-expansion-panel-content>
+                                        </v-expansion-panel>
                                     </v-expansion-panel-content>
                                 </v-expansion-panel>
                             </v-expansion-panel-content>

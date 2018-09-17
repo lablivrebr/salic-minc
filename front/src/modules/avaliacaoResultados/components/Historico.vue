@@ -16,12 +16,12 @@
             <v-subheader inset>Encaminhamentos</v-subheader>
             <v-data-table
                 :headers="projetoHeaders"
-                :items="projetos"
+                :items="[]"
                 hide-actions
             >
-                <template slot="items" slot-scope="props">
-                    <td>{{ props.item.pronac }}</td>
-                    <td>{{ props.item.nomeProjeto }}</td>
+                <template slot="no-data">
+                    <td>{{pronac}}</td>
+                    <td>{{nomeProjeto}}</td>
                 </template>
             </v-data-table>
             <v-data-table
@@ -35,6 +35,11 @@
                     <td>{{ props.item.NomeDestino }}</td>
                     <td>{{ props.item.dsJustificativa }}</td>
                 </template>
+                <template slot="no-data">
+                    <v-alert :value="true" color="error" icon="warning">
+                        Nenhum dado encontrado ¯\_(ツ)_/¯
+                    </v-alert>
+                </template>
             </v-data-table>
         </v-card-text>
 
@@ -42,7 +47,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" flat @click="dialog = false">
+          <v-btn
+                  color="red"
+                  flat
+                  @click="dialog = false">
             Fechar
           </v-btn>
         </v-card-actions>
@@ -56,14 +64,15 @@ import ModalTemplate from '@/components/modal';
 
 export default {
     name: 'Painel',
-    props: ['idPronac'],
-    // created () {
-    //     console.log(this.idPronac);
-    // },
+    props: [
+        'idPronac',
+        'pronac',
+        'nomeProjeto',
+    ],
     watch: {
         dialog(val) {
             if(val){
-                this.obterHistoricoEncaminhamento(123123);
+                this.obterHistoricoEncaminhamento(this.idPronac);
             }
         },
     },
@@ -81,13 +90,6 @@ export default {
                     align: 'left',
                     sortable: false,
                     value: 'nomeProjeto'
-                }
-            ],
-            projetos: [
-                {
-                    value: false,
-                    pronac: '1012121',
-                    nomeProjeto: 'Criança é Vida - 15 anos'
                 }
             ],
             historicoHeaders: [

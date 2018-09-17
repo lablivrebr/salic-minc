@@ -99,7 +99,6 @@ export const obterHistoricoEncaminhamento = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI.obterHistoricoEncaminhamento(params)
         .then((response) => {
             const dadosEncaminhamento = response.data.data;
-            console.log(dadosEncaminhamento );
             commit(types.HISTORICO_ENCAMINHAMENTO, dadosEncaminhamento.items);
         });
 };

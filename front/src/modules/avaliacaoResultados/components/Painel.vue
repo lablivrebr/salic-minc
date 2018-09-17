@@ -1,99 +1,22 @@
 <template>
     <v-container fluid>
-        <v-data-table
-                :headers="cabecalho"
-                :items="dadosTabelaTecnico.items"
-                hide-actions
-                class="elevation-1"
-        >
-            <template slot="items" slot-scope="props">
-                <td>{{ props.index+1 }}</td>
-                <td class="text-xs-right">
-                    <v-flex xs12 sm4 text-xs-center>
-                        <div>
-                            <v-btn>{{ props.item.Pronac }}</v-btn>
-                        </div>
-                    </v-flex>
-                </td>
-                <td class="text-xs-right">{{ props.item.NomeProjeto }}</td>
-                <td class="text-xs-right">{{ props.item.Situacao }}</td>
-                <td class="text-xs-right">{{ props.item.Area }}/{{ props.item.Segmento }}</td>
-                <td class="text-xs-right">{{ props.item.UfProjeto }}</td>
-                <td class="text-xs-right">{{ props.item.Mecanismo }}</td>
-                <td class="text-xs-right">{{ props.item.DtSituacao }}</td>
-                <td class="text-xs-right">
-                    <v-btn flat icon color="green">
-                        <v-icon class="material-icons">compare_arrows</v-icon>
-                    </v-btn>
-                </td>
-                <td class="text-xs-right">
-                    <v-btn flat icon color="indigo">
-                        <v-icon>warning</v-icon>
-                    </v-btn>
-                </td>
-                <td class="text-xs-right">
-                    <Historico :id-pronac="props.item.idPronac"></Historico>
-
-                </td>
-            </template>
-        </v-data-table>
+       <TabelaProjetos
+               :analisar="true"
+       ></TabelaProjetos>
     </v-container>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import ModalTemplate from '@/components/modal';
-import Historico from './Historico';
+import TabelaProjetos from './TabelaProjetos';
 
 export default {
     name: 'Painel',
-    created() {
-        this.obterDadosTabelaTecnico();
-    },
-    // mounted(){
-    //     console.info(this);
-    // },
     data() {
         return {
-            cabecalho: [
-                {
-                    text: '#',
-                    align: 'left',
-                    sortable: false,
-                    value: 'numero',
-                },
-                { text: 'PRONAC', value: 'pronac' },
-                { text: 'Nome Do Projeto', value: 'nome' },
-                { text: 'Situacao', value: 'situacao' },
-                { text: 'Area/Segmento', value: 'area' },
-                { text: 'Estado', value: 'estado' },
-                { text: 'Mecanismo', value: 'mecanismo' },
-                { text: 'Dt.recebimento', value: 'data' },
-                { text: 'Analisar', value: 'analisar' },
-                { text: 'Diligencia', value: 'diligencia' },
-                { text: 'Historico', value: 'historico' },
-
-            ],
         };
     },
-    watch:{
-        dadosTabelaTecnico(a){
-            console.log(a)
-        }
-    },
     components: {
-        ModalTemplate,
-        Historico,
-    },
-    methods: {
-        ...mapActions({
-            obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
-        }),
-    },
-    computed: {
-        ...mapGetters({
-            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico'
-        }),
+        TabelaProjetos,
     },
 };
 </script>

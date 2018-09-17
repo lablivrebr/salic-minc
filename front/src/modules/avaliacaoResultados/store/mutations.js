@@ -64,6 +64,7 @@ export const mutations = {
         state.dadosTabelaTecnico = dados;
     },
     [types.HISTORICO_ENCAMINHAMENTO](state, dados){
+        state.dadosHistoricoEncaminhamento = [];
         Object.values(dados).forEach(function(historico) {
             state.dadosHistoricoEncaminhamento.push(historico);
         });

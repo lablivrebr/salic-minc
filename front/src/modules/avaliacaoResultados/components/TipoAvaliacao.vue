@@ -16,8 +16,8 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td></td>
-                                        <td class="text-xs-left">Cumpriu objeto e objetivos</td>
+                                        <td>{{tipoAvaliacao.DtEnvioDaPrestacaoContas}}</td>
+                                        <td class="text-xs-left">{{tipoAvaliacao.ResultadoAvaliacaoObjeto}}</td>
                                     </tr>
                                 </table>
                             </v-card-text>
@@ -46,13 +46,13 @@
                                         <th>99%</th>
                                     </tr>
                                     <tr>
-                                        <td class="text-xs-center">{{aprovado}}</td>
-                                        <td class="text-xs-center">{{captado}}</td>
-                                        <td class="text-xs-center">{{comprovado}}</td>
-                                        <td class="text-xs-center">{{todos}}</td>
-                                        <td class="text-xs-center">{{valor1}}</td>
-                                        <td class="text-xs-center">{{valor2}}</td>
-                                        <td class="text-xs-center">{{valor3}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.vlAprovado}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.vlCaptado}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.vlComprovado}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.qtComprovacao}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.qtNC_90}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.qtNC_95}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.qtNC_99}}</td>
                                     </tr>
                                 </table>
                             </v-card-text>
@@ -66,7 +66,7 @@
                                     <legend>SELECIONAR O TIPO DE AVALIACAO FINANCERIA</legend>
                                     <p>Avaliar comprovantes por nivel de confianca:</p>
                                     <v-flex xs12 sm6 md6>
-                                        <v-radio-group  column v-model="tipoAvaliacao">
+                                        <v-radio-group  column >
 
                                             <v-radio
                                                     label="Todos Comprovantes"
@@ -114,6 +114,7 @@ export default {
     name: 'Painel',
     data() {
         return {
+            idPronac: this.$route.params.id,
             aprovado:300,
             captado:200,
             comprovado:100,
@@ -121,11 +122,6 @@ export default {
             valor1:80,
             valor2:10,
             valor3:20,
-            tipoAvaliacao:""
-
-
-
-
         };
     },
     components: {
@@ -136,16 +132,29 @@ export default {
             criarRegistro: 'foo/criarRegistro',
             modalOpen: 'modal/modalOpen',
             modalClose: 'modal/modalClose',
+            getTipo: 'avaliacaoResultados/getTipoAvaliacao',
         }),
+
+        getTipoAvaliacaoResultado(id)
+        {
+            this.getTipo(id);
+        },
         fecharModal() {
             // eslint-disable-next-line
             $3('#modalTemplate').modal('close');
             this.modalClose();
         },
     },
-    computed: mapGetters({
-        modalVisible: 'modal/default',
-    }),
+    computed: {
+        ...mapGetters({
+            modalVisible: 'modal/default',
+            tipoAvaliacao: 'avaliacaoResultados/tipoAvaliacao',
+        }),
+    },
+    mounted()
+    {
+        this.getTipoAvaliacaoResultado(this.idPronac);
+    },
 };
 </script>
 

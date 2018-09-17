@@ -102,3 +102,17 @@ export const obterHistoricoEncaminhamento = ({ commit }, params) => {
             commit(types.HISTORICO_ENCAMINHAMENTO, dadosEncaminhamento.items);
         });
 };
+
+export const getTipoAvaliacao = ({ commit }, params) => {
+    return new Promise((resolve) => {
+        avaliacaoResultadosHelperAPI.getTipoAvaliacao(params)
+            .then((response) => {
+                console.info(params);
+
+                const data = response.data.data.items;
+
+                commit(types.GET_TIPO_AVALIACAO, data);
+                resolve();
+            }).catch(error => console.info(error));
+    });
+};

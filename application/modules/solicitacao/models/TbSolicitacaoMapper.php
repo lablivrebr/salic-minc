@@ -97,6 +97,7 @@ class Solicitacao_Model_TbSolicitacaoMapper extends MinC_Db_Mapper
                 $model->setIdProjeto($arrData['idProjeto']);
                 $model->setIdTecnico($arrData['idTecnico']);
                 $model->setIdSolicitante($arrData['idUsuario']);
+                $model->setDtEncaminhamento(date('Y-m-d h:i:s'));
 
                 $mensagemSucesso = "Solicita&ccedil;&atilde;o enviada com sucesso!";
                 $model->setSiEncaminhamento(Solicitacao_Model_TbSolicitacao::SITUACAO_ENCAMINHAMENTO_ENCAMINHADA_AO_MINC);

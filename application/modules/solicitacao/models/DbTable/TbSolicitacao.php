@@ -28,6 +28,7 @@ class Solicitacao_Model_DbTable_TbSolicitacao extends MinC_Db_Table_Abstract
                     'idDocumento',
                     'siEncaminhamento',
                     'idTecnico',
+                    'dtEncaminhamento',
                     new Zend_Db_Expr("
                         CASE
                             WHEN a.dtSolicitacao IS NOT NULL AND a.dtResposta IS NULL

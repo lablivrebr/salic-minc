@@ -10,7 +10,8 @@ export const state = {
     projeto: {},
     proponente: {},
     registroAtivo: {},
-
+    dadosTabelaTecnico: [],
+    dadosHistoricoEncaminhamento: [],
 };
 
 export const mutations = {
@@ -58,5 +59,14 @@ export const mutations = {
     },
     [types.DESTINATARIOS_ENCAMINHAMENTO](state, destinatarios){
         state.destinatarios = destinatarios;
-    }
+    },
+    [types.PROJETOS_AVALIACAO_TECNICA](state, dados){
+        state.dadosTabelaTecnico = dados;
+    },
+    [types.HISTORICO_ENCAMINHAMENTO](state, dados){
+        state.dadosHistoricoEncaminhamento = [];
+        Object.values(dados).forEach(function(historico) {
+            state.dadosHistoricoEncaminhamento.push(historico);
+        });
+    },
 };

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="idpreprojeto || dados" class="proposta">
+        <div v-if="dados" class="proposta">
             <div v-if="loading" class="row">
                 <Carregando :text="'Carregando proposta'"></Carregando>
             </div>
@@ -211,7 +211,7 @@ import PropostaPlanoDistribuicao from './components/PropostaPlanoDistribuicao';
 import PropostaFontesDeRecursos from './components/PropostaFontesDeRecursos';
 import PropostaLocalRealizacaoDeslocamento from './components/PropostaLocalRealizacaoDeslocamento';
 import PropostaCustosVinculados from './components/PropostaCustosVinculados';
-
+import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'Proposta',
     data() {
@@ -244,7 +244,9 @@ export default {
     },
     mounted() {
         if (typeof this.idpreprojeto !== 'undefined' && typeof this.proposta === 'undefined') {
-            this.buscar_dados();
+            this.buscarDadosProposta(this.idpreprojeto);
+            this.dados = this.dadosProposta;
+
         }
 
         if (typeof this.proposta !== 'undefined') {
@@ -254,17 +256,21 @@ export default {
 
         this.iniciarCollapsible();
     },
+    watch: {
+        dadosProposta(value) {
+            this.dados = value;
+            this.loading = false;
+        }
+    },
+    computed: {
+        ...mapGetters({
+            dadosProposta: 'proposta/proposta',
+        }),
+    },
     methods: {
-        buscar_dados() {
-            const self = this;
-            /* eslint-disable */
-            $3.ajax({
-                url: '/proposta/visualizar/obter-proposta-cultural-completa/idPreProjeto/' + self.idpreprojeto
-            }).done(function (response) {
-                self.dados = response.data;
-                self.loading = false;
-            });
-        },
+        ...mapActions({
+            buscarDadosProposta: 'proposta/buscarDadosProposta',
+        }),
         iniciarCollapsible() {
             // eslint-disable-next-line
             $3('.collapsible').each(function () {

@@ -82,5 +82,4 @@ export const mutations = {
     [types.LINK_REDIRECIONAMENTO_TIPO_AVALIACAO_RESULTADO] (state, redirectLink){
         state.redirectLink = redirectLink;
     }
-
 };

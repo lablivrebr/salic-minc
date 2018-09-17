@@ -124,5 +124,5 @@ export const redirectLinkAvaliacaoResultadoTipo = ({commit}, params) => {
     }else{
         commit(types.LINK_REDIRECIONAMENTO_TIPO_AVALIACAO_RESULTADO,'/prestacao-contas/prestacao-contas/amostragem/idPronac/'+params.idPronac+'/tipoAvaliacao/'+params.percentual)
     }
+};
 
-}

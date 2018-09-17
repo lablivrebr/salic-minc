@@ -215,20 +215,23 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
 
             $idSolicitacao = $this->getRequest()->getParam('id', null);
 
-            if (empty($idSolicitacao))
+            if (empty($idSolicitacao)) {
                 throw new Exception("Informe o id da solicita&ccedil;&atilde;o para visualizar!");
+            }
 
             $where['a.idSolicitacao = ?'] = $idSolicitacao;
 
             $tbSolicitacoes = new Solicitacao_Model_DbTable_TbSolicitacao();
             $dataForm = $tbSolicitacoes->obterSolicitacoes($where)->current()->toArray();
 
-            if (empty($dataForm))
+            if (empty($dataForm)) {
                 throw new Exception("Nenhuma solicita&ccedil;&atilde;o encontrada!");
+            }
             $permissao = parent::verificarPermissaoAcesso($dataForm['idProjeto'], $dataForm['idPronac'], false, true);
 
-            if ($permissao['status'] === false)
+            if ($permissao['status'] === false) {
                 throw new Exception("Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar esta solicita&ccedil;&atilde;o");
+            }
 
             # marcar como mensagem lida pelo proponente
             if ($dataForm['siEncaminhamento'] == Solicitacao_Model_TbSolicitacao::SITUACAO_ENCAMINHAMENTO_FINALIZADA_MINC) {

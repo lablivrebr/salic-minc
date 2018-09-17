@@ -1,30 +1,17 @@
-<!--<?= $this->partial('/mensagem/partials/menu.phtml', $this); ?>-->
-
 <div class="container-fluid">
-    <div class="row">
-        <div class="page-title">
-            <div class="row">
-                <div class="col s12 m9 l10">
-                    <h1>Responder solicita&ccedil;&atilde;o</h1>
+        <?= $this->pageTitle(
+            'Responder solicita&ccedil;&atilde;o',
+            [
+                ['Solicita&ccedil;&otilde;es' => 
+                    ['module' => 'solicitacao',
+                    'controller' => 'mensagem',
+                    'action', 'index'
+                    ]
+                ],
+                ['Responder solicita&ccedil;&atilde;o' => '']
+            ]
+        ); ?>
 
-                    <?php
-                    gerarNovoBreadCrumb(array(
-                        array('Solicita&ccedil;&otilde;es' => [
-                            'module' => 'solicitacao',
-                            'controller' => 'mensagem',
-                            'action', 'index']
-                        ),
-                        array('Visualizar' => '')
-                    ));
-                    ?>
-                </div>
-                <div class="col s12 m3 l2 right-align">
-                    <a href="javascript:voltar();" title="P&aacute;gina Anterior" title="P&aacute;gina Anterior"
-                       class="btn small grey lighten-3 grey-text z-depth-0 chat-toggle"><i class="material-icons">arrow_back</i>
-                    </a>
-                </div>
-            </div>
-        </div>
         <div class="content">
             <div class="card-panel">
                 <div class="row">
@@ -32,5 +19,4 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>

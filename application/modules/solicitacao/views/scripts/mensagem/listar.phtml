@@ -12,6 +12,9 @@
                 <th data-field="" class="mensagem-situacao left-align">Estado</th>
                 <th data-field="id" class="mensagem-data center-align">Dt. Solicita&ccedil;&atilde;o</th>
                 <th data-field="id" class="mensagem-data center-align">Dt. Resposta</th>
+                <?php if (!$this->isProponente)  : ?>
+                    <th data-field="id" class="mensagem-data center-align">Dt. Encaminhamento</th>
+                <?php endif; ?>
                 <th colspan="2" class="center-align">#</th>
             </tr>
             </thead>
@@ -80,11 +83,20 @@
                     <td class="center-align">
                         <?= (!$arrValue['dtResposta']) ?
                                 ($arrValue['diasSemResposta'] == 0) ?
-                                    "N&atilde;o respondida" :
-                                    "N&atilde;o respondida &agrave; {$arrValue['diasSemResposta']} dias":
+                                "N&atilde;o respondida" :
+                                "N&atilde;o respondida &agrave; {$arrValue['diasSemResposta']} dias":
                                 date('d/m/Y', strtotime($arrValue['dtSolicitacao']))
-                                 ?>
+                                ?>
                     </td>
+
+                    <?php if (!$this->isProponente) : ?>
+                        <td class="center-align">
+                            <?= (!$arrValue['dtEncaminhamento']) ?
+                                        "N&atilde;o informada" :
+                                        date('d/m/Y', strtotime($arrValue['dtEncaminhamento']))
+                                        ?>
+                        </td>
+                    <?php endif;?>
 
                     <td>
                         <a class="btn blue small white-text tooltipped"

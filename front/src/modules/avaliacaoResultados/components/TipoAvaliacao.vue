@@ -66,30 +66,30 @@
                                     <legend>SELECIONAR O TIPO DE AVALIACAO FINANCERIA</legend>
                                     <p>Avaliar comprovantes por nivel de confianca:</p>
                                     <v-flex xs12 sm6 md6>
-                                        <v-radio-group  column >
+                                        <v-radio-group  column v-model="percentual" :click="redirecionarEncaminhar()">
 
                                             <v-radio
                                                     label="Todos Comprovantes"
                                                     color="cyan darken-2"
-                                                    value="todos comprovantes"
+                                                    :value="0"
                                             ></v-radio>
                                             <v-radio
                                                     label="90%"
                                                     color="teal darken-1"
-                                                    value="90%"
+                                                    :value="90"
                                             ></v-radio>
                                             <v-radio
                                                     label="95%"
                                                     color="teal darken-1"
-                                                    value="95%"
+                                                    :value="95"
                                             ></v-radio>
                                             <v-radio
                                                     label="99%"
                                                     color="teal darken-1"
-                                                    value="99%"
+                                                    :value="99"
                                             ></v-radio>
                                         </v-radio-group>
-                                        <v-btn dark large color="teal darken-1" to="/planilha">AVALIAR</v-btn>
+                                        <v-btn dark large color="teal darken-1" :href="redirect">AVALIAR</v-btn>
                                     </v-flex>
                                 </fieldset>
                             </v-card-text>
@@ -115,6 +115,8 @@ export default {
     data() {
         return {
             idPronac: this.$route.params.id,
+            percentual: '',
+            encaminhar:'',
             aprovado:300,
             captado:200,
             comprovado:100,
@@ -133,6 +135,7 @@ export default {
             modalOpen: 'modal/modalOpen',
             modalClose: 'modal/modalClose',
             getTipo: 'avaliacaoResultados/getTipoAvaliacao',
+            redirectLink: 'avaliacaoResultados/redirectLinkAvaliacaoResultadoTipo'
         }),
 
         getTipoAvaliacaoResultado(id)
@@ -144,11 +147,16 @@ export default {
             $3('#modalTemplate').modal('close');
             this.modalClose();
         },
+        redirecionarEncaminhar(){
+            const data = {idPronac: this.idPronac , percentual: this.percentual};
+            this.redirectLink(data);
+        }
     },
     computed: {
         ...mapGetters({
             modalVisible: 'modal/default',
             tipoAvaliacao: 'avaliacaoResultados/tipoAvaliacao',
+            redirect: 'avaliacaoResultados/redirectLink'
         }),
     },
     mounted()

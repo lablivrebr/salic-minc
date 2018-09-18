@@ -110,19 +110,6 @@
             ...mapActions({
                 buscarHistoricoSolicitacoes: 'proposta/buscarHistoricoSolicitacoes',
             }),
-            // fetch(id) {
-            //     if (id) {
-            //         const self = this;
-            //         /* eslint-disable */
-            //         $3.ajax({
-            //             url: '/solicitacao/mensagem-rest/index/idPreProjeto/' + self.idpreprojeto
-            //         })
-            //             .done(function (response) {
-            //                 console.log(response.data);
-            //                 self.dados = response.data.items;
-            //             });
-            //     }
-            // },
         }
     };
 </script>

@@ -5,6 +5,7 @@ export const state = {
     fontesDeRecursos: {},
     documentos: {},
     proposta: {},
+    historicoSolicitacoes: {},
 };
 
 export const mutations = {
@@ -19,5 +20,8 @@ export const mutations = {
     },
     [types.SET_DADOS_PROPOSTA](state, proposta) {
         state.proposta = proposta;
+    },
+    [types.SET_HISTORICO_SOLICITACOES](state, historicoSolicitacoes) {
+        state.historicoSolicitacoes = historicoSolicitacoes;
     },
 };

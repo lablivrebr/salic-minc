@@ -140,4 +140,37 @@ describe('Proposta actions', () => {
         });
     });
 
+    describe('buscarHistoricoSolicitacoes', () => {
+        beforeEach(() => {
+            mockReponse = {
+                data: {
+                    data: {
+                        dadosSolicitacao: {
+                            idProjeto: '282177',
+                            idSolicitacao: '3267',
+                            idSolicitante: '285582',
+                        },
+                    },
+                },
+            };
+
+            axios.get.mockResolvedValue(mockReponse);
+
+            commit = jest.fn();
+            jest.spyOn(propostaHelperAPI, 'buscarHistoricoSolicitacoes');
+            const idProjeto = 273246;
+            actions.buscarHistoricoSolicitacoes({ commit }, idProjeto);
+        });
+
+        test('it calls propostaHelperAPI.buscarHistoricoSolicitacoes', () => {
+            expect(propostaHelperAPI.buscarHistoricoSolicitacoes).toHaveBeenCalled();
+        });
+
+        test('it is commit to buscarHistoricoSolicitacoes', (done) => {
+            const dadosSolicitacao = mockReponse.data;
+            done();
+            expect(commit).toHaveBeenCalledWith('SET_HISTORICO_SOLICITACOES', dadosSolicitacao.data);
+        });
+    });
+
 });

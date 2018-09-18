@@ -7,6 +7,7 @@ describe('Proposta Mutations', () => {
     let fontesDeRecursos;
     let documentos;
     let proposta;
+    let historicoSolicitacoes;
 
     beforeEach(() => {
         defaultState = {
@@ -28,6 +29,11 @@ describe('Proposta Mutations', () => {
                 idPreProjeto: '',
                 idAgente: '',
                 idUsuario: '',
+            },
+            historicoSolicitacoes: {
+                idProjeto: '',
+                idSolicitacao: '',
+                idSolicitante: '',
             },
         };
 
@@ -55,6 +61,12 @@ describe('Proposta Mutations', () => {
             idAgente: '59213',
             idUsuario: '59731',
         };
+
+        historicoSolicitacoes = {
+            idProjeto: '282177',
+            idSolicitacao: '3267',
+            idSolicitante: '285582',
+        };
     });
 
     test('SET_LOCAL_REALIZACAO_DESLOCAMENTO', () => {
@@ -75,5 +87,10 @@ describe('Proposta Mutations', () => {
     test('SET_DADOS_PROPOSTA', () => {
         mutations.SET_DADOS_PROPOSTA(state, proposta);
         expect(state.proposta).toEqual(proposta);
+    });
+
+    test('SET_HISTORICO_SOLICITACOES', () => {
+        mutations.SET_HISTORICO_SOLICITACOES(state, historicoSolicitacoes);
+        expect(state.historicoSolicitacoes).toEqual(historicoSolicitacoes);
     });
 });

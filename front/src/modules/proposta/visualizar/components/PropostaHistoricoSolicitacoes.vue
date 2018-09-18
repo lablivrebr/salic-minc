@@ -73,25 +73,31 @@
     </div>
 </template>
 <script>
+    import { mapActions, mapGetters } from 'vuex';
 
     export default {
         name: 'PropostaHistoricoSolicitacoes',
         data() {
             return {
-                dados: [],
+                // dados: [],
                 activeTab: -1,
             };
         },
         props: ['idpreprojeto'],
         mounted() {
             if (typeof this.idpreprojeto !== 'undefined') {
-                this.fetch(this.idpreprojeto);
+                this.buscarHistoricoSolicitacoes(this.idpreprojeto);
             }
         },
         watch: {
             idpreprojeto(value) {
-                this.fetch(value);
+                this.buscarHistoricoSolicitacoes(value);
             },
+        },
+        computed: {
+            ...mapGetters({
+                dados: 'proposta/historicoSolicitacoes',
+            }),
         },
         methods: {
             setActiveTab(index) {
@@ -101,19 +107,22 @@
                     this.activeTab = index;
                 }
             },
-            fetch(id) {
-                if (id) {
-                    const self = this;
-                    /* eslint-disable */
-                    $3.ajax({
-                        url: '/solicitacao/mensagem-rest/index/idPreProjeto/' + self.idpreprojeto
-                    })
-                        .done(function (response) {
-                            console.log(response.data);
-                            self.dados = response.data.items;
-                        });
-                }
-            },
+            ...mapActions({
+                buscarHistoricoSolicitacoes: 'proposta/buscarHistoricoSolicitacoes',
+            }),
+            // fetch(id) {
+            //     if (id) {
+            //         const self = this;
+            //         /* eslint-disable */
+            //         $3.ajax({
+            //             url: '/solicitacao/mensagem-rest/index/idPreProjeto/' + self.idpreprojeto
+            //         })
+            //             .done(function (response) {
+            //                 console.log(response.data);
+            //                 self.dados = response.data.items;
+            //             });
+            //     }
+            // },
         }
     };
 </script>

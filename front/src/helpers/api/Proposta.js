@@ -19,3 +19,8 @@ export const buscarDadosProposta = (idPreProjeto) => {
     const path = `/proposta/visualizar/obter-proposta-cultural-completa/idPreProjeto/${idPreProjeto}`;
     return api.getRequest(path);
 };
+
+export const buscarHistoricoSolicitacoes = (idPreProjeto) => {
+    const path = `/solicitacao/mensagem-rest/index/idPreProjeto/${idPreProjeto}`;
+    return api.getRequest(path);
+};

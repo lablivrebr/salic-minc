@@ -37,3 +37,14 @@ export const buscarDadosProposta = ({ commit }, idPreProjeto) => {
             commit(types.SET_DADOS_PROPOSTA, proposta);
         });
 };
+
+export const buscarHistoricoSolicitacoes = ({ commit }, idPreProjeto) => {
+    propostaHelperAPI.buscarHistoricoSolicitacoes(idPreProjeto)
+        .then((response) => {
+            console.log(response.data.data.items);
+            const data = response.data.data;
+            const historicoSolicitacoes = data.items;
+            commit(types.SET_HISTORICO_SOLICITACOES, historicoSolicitacoes);
+        });
+
+};

@@ -62,7 +62,8 @@
             "Application\\Modules\\AvaliacaoResultados\\Service\\Assinatura\\": "./application/modules/avaliacao-resultados/service/assinatura",
             "Application\\Modules\\AvaliacaoResultados\\Service\\Assinatura\\Parecer\\": "./application/modules/avaliacao-resultados/service/assinatura/parecer",
             "MinC\\Assinatura\\": "./library/MinC/Assinatura/",
-            "MinC\\Db\\Model\\": "./library/MinC/Db/Model/"
+            "MinC\\Db\\Model\\": "./library/MinC/Db/Model/",
+            "MinC\\Servico\\": "./library/MinC/Servico/"
         }
     },
     "archive": {

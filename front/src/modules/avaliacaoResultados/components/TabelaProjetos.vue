@@ -41,7 +41,7 @@
         </template>
         <template slot="no-data">
             <v-alert :value="true" color="error" icon="warning">
-                Nenhum dado encontrado ¯\_(?)_/¯
+                Nenhum dado encontrado Â¯\_(?)_/Â¯
             </v-alert>
         </template>
     </v-data-table>

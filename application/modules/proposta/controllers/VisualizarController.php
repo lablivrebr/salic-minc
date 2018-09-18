@@ -216,7 +216,7 @@ class Proposta_VisualizarController extends Proposta_GenericController
             $planilhaOrcamentaria = $spPlanilhaOrcamentaria->exec($idPreProjeto, 0);
             $planilha = $this->montarPlanilhaOrcamentaria($planilhaOrcamentaria, 0);
 
-            //@todo, falta converter para utf8
+            $planilha = TratarArray::utf8EncodeArray($planilha);
 
             $this->_helper->json(array('data' => $planilha, 'success' => 'true'));
         } catch (Exception $e) {
@@ -250,7 +250,7 @@ class Proposta_VisualizarController extends Proposta_GenericController
             $tbPlanoDistribuicao = new Proposta_Model_DbTable_PlanoDistribuicaoProduto();
             $dados['planodistribuicaoproduto'] = $tbPlanoDistribuicao->buscar(array('idProjeto = ?' => $idPreProjeto))->toArray();
             $dados['tbdetalhaplanodistribuicao'] = $tbPlanoDistribuicao->buscarPlanoDistribuicaoDetalhadoByIdProjeto($idPreProjeto);
-            $dados = TratarArray::prepararArrayMultiParaJson($dados);
+            $dados = TratarArray::utf8EncodeArray($dados);
 
             $this->_helper->json(array('data' => $dados, 'success' => 'true'));
         } catch (Exception $e) {

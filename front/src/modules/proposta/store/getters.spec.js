@@ -10,6 +10,7 @@ describe('Proposta getters', () => {
             documentos: {},
             proposta: {},
             historicoSolicitacoes: {},
+            historicoEnquadramento: {},
         };
     });
 
@@ -36,5 +37,10 @@ describe('Proposta getters', () => {
     test('historicoSolicitacoes', () => {
         const result = getters.historicoSolicitacoes(state);
         expect(result).toEqual(state.historicoSolicitacoes);
+    });
+
+    test('historicoEnquadramento', () => {
+        const result = getters.historicoEnquadramento(state);
+        expect(result).toEqual(state.historicoEnquadramento);
     });
 });

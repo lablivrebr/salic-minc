@@ -47,3 +47,13 @@ export const buscarHistoricoSolicitacoes = ({ commit }, idPreProjeto) => {
         });
 
 };
+
+export const buscarHistoricoEnquadramento = ({ commit }, idPreProjeto) => {
+    propostaHelperAPI.buscarHistoricoEnquadramento(idPreProjeto)
+        .then((response) => {
+            const data = response.data.data;
+            const historicoEnquadramento = data.items;
+            commit(types.SET_HISTORICO_ENQUADRAMENTO, historicoEnquadramento);
+        });
+
+};

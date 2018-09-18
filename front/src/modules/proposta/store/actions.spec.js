@@ -173,4 +173,38 @@ describe('Proposta actions', () => {
         });
     });
 
+    describe('buscarHistoricoEnquadramento', () => {
+        beforeEach(() => {
+            mockReponse = {
+                data: {
+                    data: {
+                        dadosEnquadramento: {
+                            lines:{
+                                org_sigla: 'CNIC',
+                                usu_nome: 'Maricene A Gregorut',
+                            },
+                        },
+                    },
+                },
+            };
+
+            axios.get.mockResolvedValue(mockReponse);
+
+            commit = jest.fn();
+            jest.spyOn(propostaHelperAPI, 'buscarHistoricoEnquadramento');
+            const idPreProjeto = 282177;
+            actions.buscarHistoricoEnquadramento({ commit }, idPreProjeto);
+        });
+
+        test('it calls propostaHelperAPI.buscarHistoricoEnquadramento', () => {
+            expect(propostaHelperAPI.buscarHistoricoEnquadramento).toHaveBeenCalled();
+        });
+
+        test('it is commit to buscarHistoricoEnquadramento', (done) => {
+            const dadosEnquadramento = mockReponse.data;
+            done();
+            expect(commit).toHaveBeenCalledWith('SET_HISTORICO_ENQUADRAMENTO', dadosEnquadramento.data);
+        });
+    });
+
 });

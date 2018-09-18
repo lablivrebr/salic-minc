@@ -6,6 +6,7 @@ export const state = {
     documentos: {},
     proposta: {},
     historicoSolicitacoes: {},
+    historicoEnquadramento: {},
 };
 
 export const mutations = {
@@ -23,5 +24,8 @@ export const mutations = {
     },
     [types.SET_HISTORICO_SOLICITACOES](state, historicoSolicitacoes) {
         state.historicoSolicitacoes = historicoSolicitacoes;
+    },
+    [types.SET_HISTORICO_ENQUADRAMENTO](state, historicoEnquadramento) {
+        state.historicoEnquadramento = historicoEnquadramento;
     },
 };

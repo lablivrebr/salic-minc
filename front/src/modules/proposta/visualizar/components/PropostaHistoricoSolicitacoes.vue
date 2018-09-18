@@ -79,7 +79,6 @@
         name: 'PropostaHistoricoSolicitacoes',
         data() {
             return {
-                // dados: [],
                 activeTab: -1,
             };
         },

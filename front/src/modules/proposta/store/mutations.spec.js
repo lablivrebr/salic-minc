@@ -8,6 +8,7 @@ describe('Proposta Mutations', () => {
     let documentos;
     let proposta;
     let historicoSolicitacoes;
+    let historicoEnquadramento;
 
     beforeEach(() => {
         defaultState = {
@@ -34,6 +35,10 @@ describe('Proposta Mutations', () => {
                 idProjeto: '',
                 idSolicitacao: '',
                 idSolicitante: '',
+            },
+            historicoEnquadramento: {
+                org_sigla: '',
+                usu_nome: '',
             },
         };
 
@@ -67,6 +72,13 @@ describe('Proposta Mutations', () => {
             idSolicitacao: '3267',
             idSolicitante: '285582',
         };
+
+        historicoEnquadramento = {
+            lines:{
+                org_sigla: 'CNIC',
+                usu_nome: 'Maricene A Gregorut',
+            },
+        };
     });
 
     test('SET_LOCAL_REALIZACAO_DESLOCAMENTO', () => {
@@ -92,5 +104,10 @@ describe('Proposta Mutations', () => {
     test('SET_HISTORICO_SOLICITACOES', () => {
         mutations.SET_HISTORICO_SOLICITACOES(state, historicoSolicitacoes);
         expect(state.historicoSolicitacoes).toEqual(historicoSolicitacoes);
+    });
+
+    test('SET_HISTORICO_ENQUADRAMENTO', () => {
+        mutations.SET_HISTORICO_ENQUADRAMENTO(state, historicoEnquadramento);
+        expect(state.historicoEnquadramento).toEqual(historicoEnquadramento);
     });
 });

@@ -145,10 +145,12 @@ describe('Proposta actions', () => {
             mockReponse = {
                 data: {
                     data: {
-                        dadosSolicitacao: {
-                            idProjeto: '282177',
-                            idSolicitacao: '3267',
-                            idSolicitante: '285582',
+                        items:{
+                            dadosSolicitacao: {
+                                idProjeto: '282177',
+                                idSolicitacao: '3267',
+                                idSolicitante: '285582',
+                            },
                         },
                     },
                 },
@@ -169,7 +171,7 @@ describe('Proposta actions', () => {
         test('it is commit to buscarHistoricoSolicitacoes', (done) => {
             const dadosSolicitacao = mockReponse.data;
             done();
-            expect(commit).toHaveBeenCalledWith('SET_HISTORICO_SOLICITACOES', dadosSolicitacao.data);
+            expect(commit).toHaveBeenCalledWith('SET_HISTORICO_SOLICITACOES', dadosSolicitacao.data.items);
         });
     });
 
@@ -178,10 +180,12 @@ describe('Proposta actions', () => {
             mockReponse = {
                 data: {
                     data: {
-                        dadosEnquadramento: {
-                            lines:{
-                                org_sigla: 'CNIC',
-                                usu_nome: 'Maricene A Gregorut',
+                        items:{
+                            dadosEnquadramento: {
+                                lines:{
+                                    org_sigla: 'CNIC',
+                                    usu_nome: 'Maricene A Gregorut',
+                                },
                             },
                         },
                     },
@@ -203,7 +207,7 @@ describe('Proposta actions', () => {
         test('it is commit to buscarHistoricoEnquadramento', (done) => {
             const dadosEnquadramento = mockReponse.data;
             done();
-            expect(commit).toHaveBeenCalledWith('SET_HISTORICO_ENQUADRAMENTO', dadosEnquadramento.data);
+            expect(commit).toHaveBeenCalledWith('SET_HISTORICO_ENQUADRAMENTO', dadosEnquadramento.data.items);
         });
     });
 

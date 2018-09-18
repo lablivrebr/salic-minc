@@ -16,5 +16,8 @@ describe('Proposta types', () => {
     test('SET_DADOS_PROPOSTA', () => {
         expect(types.SET_DADOS_PROPOSTA).toEqual('SET_DADOS_PROPOSTA');
     });
+    test('SET_HISTORICO_SOLICITACOES', () => {
+        expect(types.SET_HISTORICO_SOLICITACOES).toEqual('SET_HISTORICO_SOLICITACOES');
+    });
 
 });

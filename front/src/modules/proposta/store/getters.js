@@ -2,3 +2,4 @@ export const localRealizacaoDeslocamento = state => state.localRealizacaoDesloca
 export const fontesDeRecursos = state => state.fontesDeRecursos;
 export const documentos = state => state.documentos;
 export const proposta = state => state.proposta;
+export const historicoSolicitacoes = state => state.historicoSolicitacoes;

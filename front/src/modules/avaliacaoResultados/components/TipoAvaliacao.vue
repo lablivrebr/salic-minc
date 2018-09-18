@@ -16,8 +16,8 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td></td>
-                                        <td class="text-xs-left">Cumpriu objeto e objetivos</td>
+                                        <td>{{tipoAvaliacao.DtEnvioDaPrestacaoContas}}</td>
+                                        <td class="text-xs-left">{{tipoAvaliacao.ResultadoAvaliacaoObjeto}}</td>
                                     </tr>
                                 </table>
                             </v-card-text>
@@ -46,13 +46,13 @@
                                         <th>99%</th>
                                     </tr>
                                     <tr>
-                                        <td class="text-xs-center">{{aprovado}}</td>
-                                        <td class="text-xs-center">{{captado}}</td>
-                                        <td class="text-xs-center">{{comprovado}}</td>
-                                        <td class="text-xs-center">{{todos}}</td>
-                                        <td class="text-xs-center">{{valor1}}</td>
-                                        <td class="text-xs-center">{{valor2}}</td>
-                                        <td class="text-xs-center">{{valor3}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.vlAprovado}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.vlCaptado}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.vlComprovado}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.qtComprovacao}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.qtNC_90}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.qtNC_95}}</td>
+                                        <td class="text-xs-center">{{tipoAvaliacao.qtNC_99}}</td>
                                     </tr>
                                 </table>
                             </v-card-text>
@@ -66,30 +66,30 @@
                                     <legend>SELECIONAR O TIPO DE AVALIACAO FINANCERIA</legend>
                                     <p>Avaliar comprovantes por nivel de confianca:</p>
                                     <v-flex xs12 sm6 md6>
-                                        <v-radio-group  column v-model="tipoAvaliacao">
+                                        <v-radio-group  column v-model="percentual" :click="redirecionarEncaminhar()">
 
                                             <v-radio
                                                     label="Todos Comprovantes"
                                                     color="cyan darken-2"
-                                                    value="todos comprovantes"
+                                                    :value="0"
                                             ></v-radio>
                                             <v-radio
                                                     label="90%"
                                                     color="teal darken-1"
-                                                    value="90%"
+                                                    :value="90"
                                             ></v-radio>
                                             <v-radio
                                                     label="95%"
                                                     color="teal darken-1"
-                                                    value="95%"
+                                                    :value="95"
                                             ></v-radio>
                                             <v-radio
                                                     label="99%"
                                                     color="teal darken-1"
-                                                    value="99%"
+                                                    :value="99"
                                             ></v-radio>
                                         </v-radio-group>
-                                        <v-btn dark large color="teal darken-1" to="/planilha">AVALIAR</v-btn>
+                                        <v-btn dark large color="teal darken-1" :href="redirect">AVALIAR</v-btn>
                                     </v-flex>
                                 </fieldset>
                             </v-card-text>
@@ -114,6 +114,9 @@ export default {
     name: 'Painel',
     data() {
         return {
+            idPronac: this.$route.params.id,
+            percentual: '',
+            encaminhar:'',
             aprovado:300,
             captado:200,
             comprovado:100,
@@ -121,11 +124,6 @@ export default {
             valor1:80,
             valor2:10,
             valor3:20,
-            tipoAvaliacao:""
-
-
-
-
         };
     },
     components: {
@@ -136,16 +134,35 @@ export default {
             criarRegistro: 'foo/criarRegistro',
             modalOpen: 'modal/modalOpen',
             modalClose: 'modal/modalClose',
+            getTipo: 'avaliacaoResultados/getTipoAvaliacao',
+            redirectLink: 'avaliacaoResultados/redirectLinkAvaliacaoResultadoTipo'
         }),
+
+        getTipoAvaliacaoResultado(id)
+        {
+            this.getTipo(id);
+        },
         fecharModal() {
             // eslint-disable-next-line
             $3('#modalTemplate').modal('close');
             this.modalClose();
         },
+        redirecionarEncaminhar(){
+            const data = {idPronac: this.idPronac , percentual: this.percentual};
+            this.redirectLink(data);
+        }
     },
-    computed: mapGetters({
-        modalVisible: 'modal/default',
-    }),
+    computed: {
+        ...mapGetters({
+            modalVisible: 'modal/default',
+            tipoAvaliacao: 'avaliacaoResultados/tipoAvaliacao',
+            redirect: 'avaliacaoResultados/redirectLink'
+        }),
+    },
+    mounted()
+    {
+        this.getTipoAvaliacaoResultado(this.idPronac);
+    },
 };
 </script>
 

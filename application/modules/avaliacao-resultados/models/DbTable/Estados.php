@@ -23,8 +23,5 @@ class AvaliacaoResultados_Model_DbTable_Estados extends MinC_Db_Table_Abstract
         ->where('id = ? ', $id);
 
         return $db->fetchRow($select);
-
-        /* $select = $this->find($id); */
-        /* return $this->fetchAll($select); */
     }
 }

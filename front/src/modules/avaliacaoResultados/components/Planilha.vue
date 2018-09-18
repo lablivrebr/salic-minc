@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-container fluid>
         <v-card>
             <v-card-title primary-title>
                 <h3>TÍTULO A SER DEFINIDO</h3>
@@ -14,48 +14,59 @@
             </v-card-actions>
         </v-card>
 
-        <v-card class="mt-3">
+        <v-card class="mt-3" flat="true">
             <!-- PRODUTO -->
-            <v-expansion-panel>
+            <v-expansion-panel value="true">
                 <v-expansion-panel-content
-                v-for="(produto,i) in produtos"
-                :key="i"
+                    v-for="(produto,i) in produtos"
+                    :key="i"
                 >
-                    <div slot="header">{{ produto.produto }}</div>
-                    <v-card>
+                    <v-layout slot="header" class="green--text">
+                        <v-icon class="mr-3 green--text">perm_media</v-icon>
+                        {{ produto.produto }}
+                    </v-layout>
+                    
+                    <v-card flat="true">
                         <!-- ETAPA -->
-                        <v-expansion-panel>
+                        <v-expansion-panel class="pl-3 elevation-0" value="true">
                             <v-expansion-panel-content
-                            v-for="(etapa,i) in produto.etapa"
-                            :key="i"
+                                v-for="(etapa,i) in produto.etapa"
+                                :key="i"
                             >
-                            <div slot="header">{{ etapa.etapa }}</div>
-                            <v-card>
+                                <v-layout slot="header" class="orange--text">
+                                    <v-icon class="mr-3 orange--text">label</v-icon>
+                                    {{ etapa.etapa }}
+                                </v-layout>
+
                                 <!-- UF -->
-                                    <v-expansion-panel>
-                                        <v-expansion-panel-content
+                                <v-expansion-panel class="pl-3 elevation-0" value="true">
+                                    <v-expansion-panel-content
                                         v-for="(uf,i) in etapa.UF"
                                         :key="i"
-                                        >
-                                        <div slot="header">{{ uf.Uf }}</div>
-                                        <v-card>
-                                            <!-- CIDADE -->
-                                                <v-expansion-panel>
-                                                    <v-expansion-panel-content
-                                                    v-for="(cidade,i) in uf.cidade"
-                                                    :key="i"
-                                                    >
-                                                    <div slot="header">{{ cidade.cidade }}</div>
-                                                    <v-card>
-                                                        <!-- DADOS -->
-                                                        #INSERIR COMPONENTE DA TABELA DE DADOS
-                                                    </v-card>
-                                                    </v-expansion-panel-content>
-                                                </v-expansion-panel>
-                                        </v-card>
-                                        </v-expansion-panel-content>
-                                    </v-expansion-panel>
-                            </v-card>
+                                    >
+                                        <v-layout slot="header" class="blue--text">
+                                            <v-icon class="mr-3 blue--text">place</v-icon>
+                                            {{ uf.Uf }}
+                                        </v-layout>
+
+                                        <!-- CIDADE -->
+                                        <v-expansion-panel class="pl-3 elevation-0" value="true">
+                                            <v-expansion-panel-content
+                                                v-for="(cidade,i) in uf.cidade"
+                                                :key="i"
+                                            >
+                                                <v-layout slot="header" class="blue--text">
+                                                    <v-icon class="mr-3 blue--text">place</v-icon>
+                                                    {{ cidade.cidade }}
+                                                </v-layout>
+                                                <v-card flat="true">
+                                                    <!-- DADOS -->
+                                                    #INSERIR COMPONENTE DA TABELA DE DADOS
+                                                </v-card>
+                                            </v-expansion-panel-content>
+                                        </v-expansion-panel>
+                                    </v-expansion-panel-content>
+                                </v-expansion-panel>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                     </v-card>
@@ -63,23 +74,23 @@
             </v-expansion-panel>
         </v-card>
 
-        <v-card class="mt-3">
-            <table>
+        <v-card class="mt-3 pa-3" color="teal">
+            <table class="white--text font-weight-bold" width="100%">
                 <tr>
                     <td>Valor Aprovado</td>                    
-                    <td></td>                    
+                    <td>R$ 00,00</td>                    
                 </tr>
                 <tr>
                     <td>Valor Comprovado</td>
-                    <td></td>
+                    <td>R$ 00,00</td>
                 </tr>
                 <tr>
                     <td>Valor a Comprovar</td>
-                    <td></td>
+                    <td>R$ 00,00</td>
                 </tr>
             </table>
         </v-card>
-    </div>
+    </v-container>
 </template>
 
 <script>

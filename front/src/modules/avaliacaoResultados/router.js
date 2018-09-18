@@ -38,8 +38,8 @@ const routes = [
         },
     },
     {
-        path: '/tipo-avaliacao',
-        name: 'Tipo Avaliacao',
+        path: '/tipo-avaliacao/:id',
+        name: 'tipoAvaliacao',
         component: TipoAvaliacao,
         meta: {
             title: 'Tipo Avaliacao',

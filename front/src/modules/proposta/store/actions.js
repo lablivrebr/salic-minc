@@ -45,7 +45,6 @@ export const buscarHistoricoSolicitacoes = ({ commit }, idPreProjeto) => {
             const historicoSolicitacoes = data.items;
             commit(types.SET_HISTORICO_SOLICITACOES, historicoSolicitacoes);
         });
-
 };
 
 export const buscarHistoricoEnquadramento = ({ commit }, idPreProjeto) => {
@@ -55,5 +54,4 @@ export const buscarHistoricoEnquadramento = ({ commit }, idPreProjeto) => {
             const historicoEnquadramento = data.items;
             commit(types.SET_HISTORICO_ENQUADRAMENTO, historicoEnquadramento);
         });
-
 };

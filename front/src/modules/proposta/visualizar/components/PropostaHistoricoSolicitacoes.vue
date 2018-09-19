@@ -109,6 +109,6 @@
             ...mapActions({
                 buscarHistoricoSolicitacoes: 'proposta/buscarHistoricoSolicitacoes',
             }),
-        }
+        },
     };
 </script>

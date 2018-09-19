@@ -1,6 +1,6 @@
 <template>
     <div>
-        quero rodar voce {{id}}
+        {{id}}
     </div>
 </template>
 

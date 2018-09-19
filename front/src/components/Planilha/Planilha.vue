@@ -110,15 +110,15 @@
             PlanilhaItensPadrao,
         },
         mounted() {
-            this.$nextTick(function () {
+            this.$nextTick(() => {
                 this.iniciarCollapsible();
-            })
+            });
         },
         watch: {
             arrayPlanilha() {
-                this.$nextTick(function () {
+                this.$nextTick(() => {
                     this.iniciarCollapsible();
-                })
+                });
             },
         },
         methods: {

@@ -8,19 +8,29 @@
                         <v-btn icon dark :href="redirectLink">
                             <v-icon>close</v-icon>
                         </v-btn>
-
                         <v-toolbar-title>Avaliação Financeira - Emissão de Parecer</v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
-                            <v-btn dark flat @click.native="salvarParecer" :disabled="!valid">Salvar</v-btn>
-                            <!--dialog = false -->
+                            <v-btn dark flat 
+                                @click.native="salvarParecer()" 
+                                :disabled="!valid"
+                                :href="redirectLink"
+                            >
+                                Salvar
+                            </v-btn>
+                            <v-btn dark flat
+                                @click.native="finalizarParecer()"
+                                :disabled="!valid"
+                                :href="redirectLink"
+                            >
+                                Finalizar
+                            </v-btn>
                         </v-toolbar-items>
                     </v-toolbar>
-
                     <v-container grid-list-sm>
                         <v-layout row wrap>
                             <v-flex xs12 sm12 md12>
-                                <p><b>Projeto:</b> {{projeto.IdPRONAC}} -  {{projeto.NomeProjeto}}</p>
+                                <p><b>Projeto:</b> {{projeto.AnoProjeto}}{{projeto.Sequencial}} - {{projeto.NomeProjeto}}</p>
                             </v-flex>
                             <v-flex xs12 sm12 md12>
                                 <p><b>Proponente:</b> {{proponente.CgcCpf}} - {{proponente.Nome}}</p>
@@ -28,7 +38,6 @@
                         </v-layout>
                         <v-divider></v-divider>
                     </v-container>
-
                     <h4 class="text-sm-center">Quantidade de Comprovantes</h4>
                     <v-container grid-list-sm>
                         <v-layout row wrap>
@@ -59,7 +68,6 @@
                         </v-layout>
                         <v-divider></v-divider>
                     </v-container>
-
                     <h4 class="text-sm-center">Valores Comprovados</h4>
                     <v-container grid-list-sm>
                         <v-layout row wrap>
@@ -90,12 +98,12 @@
                         </v-layout>
                         <v-divider></v-divider>
                     </v-container>
-
                     <v-container grid-list>
                         <v-layout wrap align-center>
                             <v-flex>
                                 <v-select height="20px"
-                                          v-model="parecer.siManifestacao"
+                                          :value="getParecer.siManifestacao"
+                                          @input="inputManifestacao($event)"
                                           :rules="itemRules"
                                           :items="items"
                                           item-text="text"
@@ -108,7 +116,8 @@
                         </v-layout>
                         <v-flex>
                             <v-textarea
-                                v-model="parecer.dsParecer"
+                                :value="getParecer.dsParecer"
+                                @input="inputParecer($event)"
                                 :rules="parecerRules"
                                 color="deep-purple"
                                 label="Parecer *"
@@ -124,83 +133,118 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
-    import ModalTemplate from '@/components/modal';
+import { mapActions, mapGetters } from 'vuex';
+import ModalTemplate from '@/components/modal';
 
-    export default {
-        name: 'UpdateBar',
-        data()
-        {
-            return {
-                tipo: true,
-                idPronac: this.$route.params.id,
-                redirectLink: '/prestacao-contas/realizar-prestacao-contas/index/idPronac/',
-                valid: false,
-                dialog: true,
-                itemRules: [
-                    v => !!v || 'Tipo de manifestação e obrigatório!'
-                ],
-                parecerRules: [
-                    v => !!v || 'Parecer e obrigatório!',
-                    v => v.length >= 10 || 'Parecer deve conter mais que 10 characters'
-                ],
-                items: [
-                    {
-                        id: "R",
-                        text: "Reprovação"
-                    },
-                    {
-                        id: "A",
-                        text: "Aprovação"
-                    },
-                    {
-                        id : "P",
-                        text: "Aprovação com Ressalva"
-                    }
-                ],
+export default {
+    name: 'UpdateBar',
+    data() {
+        return {
+            tipo: true,
+            idPronac: this.$route.params.id,
+            redirectLink: '/prestacao-contas/realizar-prestacao-contas/index/idPronac/',
+            valid: false,
+            dialog: true,
+            itemRules: [
+                v => !!v || 'Tipo de manifestação e obrigatório!',
+            ],
+            parecerRules: [
+                v => !!v || 'Parecer e obrigatório!',
+                v => v.length >= 10 || 'Parecer deve conter mais que 10 characters',
+            ],
+            items: [
+                {
+                    id: 'R',
+                    text: 'Reprovação',
+                },
+                {
+                    id: 'A',
+                    text: 'Aprovação',
+                },
+                {
+                    id: 'P',
+                    text: 'Aprovação com Ressalva',
+                },
+            ],
+            parecerData: { },
+        };
+    },
+    components:
+    {
+        ModalTemplate,
+    },
+    methods:
+    {
+        ...mapActions({
+            modalOpen: 'modal/modalOpen',
+            modalClose: 'modal/modalClose',
+            requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
+            salvar: 'avaliacaoResultados/salvarParecer',
+            finalizar: 'avaliacaoResultados/finalizarParecer',
+            alterarParecer: 'avaliacaoResultados/alterarParecer',
+        }),
+        fecharModal() {
+            this.modalClose();
+        },
+        getConsolidacao(id) {
+            this.requestEmissaoParecer(id);
+        },
+        salvarParecer() {
+            const data = {
+                idPronac: this.idPronac,
+                tpAvaliacaoFinanceira: this.tipo,
+                siManifestacao: this.getParecer.siManifestacao,
+                dsParecer: this.getParecer.dsParecer,
             };
-        },
-        components:
-            {
-                ModalTemplate,
-            },
-        methods:
-            {
-                ...mapActions({
-                    modalOpen: 'modal/modalOpen',
-                    modalClose: 'modal/modalClose',
-                    requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
-                    salvar: 'avaliacaoResultados/salvarParecer',
 
-                }),
-                fecharModal()
-                {
-                    this.modalClose();
-                },
-                getConsolidacao(id)
-                {
-                    this.requestEmissaoParecer(id);
-                },
-                salvarParecer(){
-                   const data = {idPronac:this.idPronac, tpAvaliacaoFinanceira: this.tipo, siManifestacao:this.parecer.siManifestacao , dsParecer:this.parecer.dsParecer };
-                    this.salvar(data);
-                    this.dialog = false;
-                }
-            },
-        computed:
-            {
-                ...mapGetters({
-                    modalVisible: 'modal/default',
-                    consolidacaoComprovantes: 'avaliacaoResultados/consolidacaoComprovantes',
-                    proponente: 'avaliacaoResultados/proponente',
-                    parecer: 'avaliacaoResultados/parecer',
-                    projeto: 'avaliacaoResultados/projeto',
-                }),
-            },
-        mounted()
-        {
-            this.redirectLink = this.redirectLink + this.idPronac;
-            this.getConsolidacao(this.idPronac);
+            if (this.parecer.idAvaliacaoFinanceira) {
+                data.idAvaliacaoFinanceira = this.parecer.idAvaliacaoFinanceira;
+            }
+
+            if (this.parecerData.siManifestacao) {
+                data.siManifestacao = this.parecerData.siManifestacao;
+            }
+
+            if (this.parecerData.dsParecer) {
+                data.dsParecer = this.parecerData.dsParecer;
+            }
+
+            this.salvar(data);
+            /** Descomentar linha após migração da lista para o VUEJS */
+            // this.dialog = false;
         },
-    };
+        finalizarParecer() {
+            const data = {
+                idPronac: this.idPronac,
+                tpAvaliacaoFinanceira: this.tipo,
+                siManifestacao: this.parecer.siManifestacao,
+                dsParecer: this.parecer.dsParecer,
+                atual: 5,
+                proximo: 6,
+            };
+            this.finalizar(data);
+        },
+        inputParecer(e) {
+            this.parecerData.dsParecer = e;
+        },
+        inputManifestacao(e) {
+            this.parecerData.siManifestacao = e;
+        },
+    },
+    computed:
+    {
+        ...mapGetters({
+            modalVisible: 'modal/default',
+            consolidacaoComprovantes: 'avaliacaoResultados/consolidacaoComprovantes',
+            proponente: 'avaliacaoResultados/proponente',
+            parecer: 'avaliacaoResultados/parecer',
+            projeto: 'avaliacaoResultados/projeto',
+            getParecer: 'avaliacaoResultados/parecer',
+        }),
+    },
+    mounted() {
+        this.redirectLink = this.redirectLink + this.idPronac;
+        this.getConsolidacao(this.idPronac);
+    },
+};
 </script>

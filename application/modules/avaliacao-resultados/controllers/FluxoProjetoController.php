@@ -29,10 +29,7 @@ class AvaliacaoResultados_FluxoProjetoController extends MinC_Controller_Rest_Ab
         foreach($projetos as $projeto){
             $aux[] =  array_map('utf8_encode', $projeto->toArray());
         }
-        /* echo '<pre>'; */
-        /* var_dump($aux);die; */
         $this->renderJsonResponse($aux, 200);
-        /* $this->renderJsonResponse($projetos->toArray(), 200); */
     }
 
     public function getAction()

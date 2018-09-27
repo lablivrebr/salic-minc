@@ -347,10 +347,11 @@ class fnLiberarLinks extends MinC_Db_Table_Abstract
 
             $objTbAtoAdministrativo = new Assinatura_Model_DbTable_TbAtoAdministrativo();
             $existeReadequacaoEmAndamento = $Readequacao_Model_DbTable_TbReadequacao->existeReadequacaoEmAndamento($idPronac);
-            $existeReadequacaoEmEdicao = $Readequacao_Model_DbTable_TbReadequacao->existeReadequacaoEmEdicao($idPronac);
             
             if ($existeReadequacaoEmAndamento) {
                 $readequacaoAndamento = $Readequacao_Model_DbTable_TbReadequacao->obterReadequacaoOrcamentariaEmAndamento($idPronac);
+                $existeReadequacaoEmEdicao = $Readequacao_Model_DbTable_TbReadequacao->existeReadequacaoEmEdicao($idPronac, $readequacaoAndamento['idTipoReadequacao']);
+
                 
                 if ($existeReadequacaoEmEdicao) {
                     switch ($readequacaoAndamento['idTipoReadequacao']) {

@@ -974,6 +974,26 @@
                     </div>
                 </td>
             </tr>
+
+	    <?php if (count($this->readequacao) > 0): ?>
+	    <?php if ($this->readequacao[0]->stAtendimento == Readequacao_Model_DbTable_TbReadequacao::ST_ATENDIMENTO_DEVOLVIDA) : ?>
+	    <tr>
+		<td align="center">
+		    <table class="tabela">
+			<th>
+			    Avalia&ccedil;&atilde;o t&eacute;cnica:
+			</th>
+                        <tr>
+                            <td>
+				<?php echo $this->readequacao[0]->dsAvaliacao; ?>
+			    </td>
+			</tr>
+		    </table>
+		</td>
+	    </tr>
+	    <?php endif; ?>
+	    <?php endif; ?>    
+	    
             <tr>
                 <td>
                     <div id="planilhaOrcamentariaMontada"></div>

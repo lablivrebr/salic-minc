@@ -34,7 +34,11 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
     const ST_ESTADO_EM_ANDAMENTO = 0;
     const ST_ESTADO_FINALIZADO = 1;
 
-
+    const ST_ATENDIMENTO_INDEFERIDA = 'I';
+    const ST_ATENDIMENTO_DEFERIDA = 'D';
+    const ST_ATENDIMENTO_DEVOLVIDA = 'E';
+    const ST_ATENDIMENTO_SEM_AVALIACAO = 'N';
+    
     const TIPOS_READEQUACOES_ORCAMENTARIAS = [
         self::TIPO_READEQUACAO_REMANEJAMENTO_PARCIAL,
         self::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA,
@@ -63,6 +67,8 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
                     a.idReadequacao,
                     a.idPronac,
                     a.dtSolicitacao,
+                    a.stAtendimento,
+                    a.dsAvaliacao,
                     CAST(a.dsSolicitacao AS TEXT) AS dsSolicitacao,
                     CAST(a.dsJustificativa AS TEXT) AS dsJustificativa,
                     a.idTipoReadequacao"

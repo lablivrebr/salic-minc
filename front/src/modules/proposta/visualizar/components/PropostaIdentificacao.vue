@@ -106,9 +106,10 @@ export default {
         SalicTextoSimples,
     },
     methods: {
-        label_mecanismo(valor) {
+        labelMecanismo(valor) {
             switch (valor) {
             case '1':
+            case 1:
                 return 'Mecenato';
             default:
                 return 'Inv\xE1lido';
@@ -119,7 +120,7 @@ export default {
 
             return date;
         },
-        label_esfera(esfera) {
+        labelEsfera(esfera) {
             let string;
 
             switch (esfera) {
@@ -151,7 +152,7 @@ export default {
             return this.label_sim_ou_nao(this.proposta.tpProrrogacao);
         },
         mecanismo() {
-            return this.label_mecanismo(this.proposta.Mecanismo);
+            return this.labelMecanismo(this.proposta.Mecanismo);
         },
         dtInicioDeExecucao() {
             return this.formatar_data(this.proposta.DtInicioDeExecucao);
@@ -163,7 +164,7 @@ export default {
             return this.formatar_data(this.proposta.DtAtoTombamento);
         },
         esferaTombamento() {
-            return this.label_esfera(this.proposta.EsferaTombamento);
+            return this.labelEsfera(this.proposta.EsferaTombamento);
         },
     },
 };

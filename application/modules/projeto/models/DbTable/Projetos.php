@@ -81,6 +81,12 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
                       end "
                 ),
                 "ValorCaptado" => new Zend_Db_Expr("sac.dbo.fnCustoProjeto (projetos.AnoProjeto,projetos.Sequencial)"),
+                new Zend_Db_Expr("CONVERT(DECIMAL(18,2),
+                    ((sac.dbo.fnTotalCaptadoProjeto (projetos.AnoProjeto,projetos.Sequencial) 
+                    + sac.dbo.fnVlRecebido(projetos.idPronac) 
+                    - sac.dbo.fnVlTransferido(projetos.idPronac)) 
+                    / sac.dbo.fnTotalAprovadoProjeto(projetos.AnoProjeto,projetos.Sequencial)) * 100) as PercentualCaptado"
+                )
             )
         );
         $objQuery->where('projetos.IdPRONAC = ?', $idPronac);

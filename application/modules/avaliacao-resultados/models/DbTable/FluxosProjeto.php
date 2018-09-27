@@ -8,7 +8,6 @@ class AvaliacaoResultados_Model_DbTable_FluxosProjeto extends MinC_Db_Table_Abst
 
     public function projetos($estadoId)
     {
-        /* $db = Zend_Db_Table::getDefaultAdapter(); */
         $select = $this->select();
         $select->setIntegrityCheck(false);
         $select->from(
@@ -19,11 +18,25 @@ class AvaliacaoResultados_Model_DbTable_FluxosProjeto extends MinC_Db_Table_Abst
         ->join(
             ['p' => 'projetos'],
             'p.idpronac = e.idpronac',
-            '*',
+            ['*', new Zend_Db_Expr('anoprojeto+sequencial as PRONAC')],
             $this->_schema
         )
         ->where('estadoId = ? ', $estadoId);
 
         return $this->fetchAll($select);
+    }
+
+    public function estado($idPronac)
+    {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(
+            array('e' => $this->_name),
+            array('*'),
+            $this->_schema
+        )
+        ->where('idpronac = ? ', $idPronac);
+
+        return $this->fetchRow($select);
     }
 }

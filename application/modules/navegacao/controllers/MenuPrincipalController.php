@@ -69,12 +69,6 @@
                 'url' => ['module' => 'default','controller' => 'realizarprestacaodecontas', 'action' => 'painel'],
                 'grupo' =>[126]
             ];
-            /* $arrMenu['prestacao-contas']['menu'][] = [ */
-            /*     'grupo' => [125], */
-            /*     'url' => ['module' => 'default','controller' => 'realizarprestacaodecontas', 'action' => 'painel'], */
-            /*     'title' => 'Analisar Presta&ccedil;&atilde;o de Contas', */
-            /*     'label' => 'Analisar Presta&ccedil;&atilde;o de Contas' */
-            /* ]; */
             $arrMenu['prestacao-contas']['menu'][] = [
                 'grupo' => [125],
                 'url' => ['module' => 'avaliacao-resultados','controller' => 'index', 'action' => 'index'],
@@ -89,9 +83,15 @@
             ];
             $arrMenu['prestacao-contas']['menu'][] = [
                 'grupo' => [124],
-                'url' => ['module' => 'avaliacao-resultados','controller' => 'index', 'action' => 'index#/painel'],
+                'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'tecnicoprestacaocontas'],
                 'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
                 'label' => 'Analisar Presta&ccedil;&atilde;o de Contas'
+            ];
+            $arrMenu['prestacao-contas']['menu'][] = [
+                'grupo' => [124],
+                'url' => ['module' => 'avaliacao-resultados','controller' => 'index', 'action' => 'index#/painel'],
+                'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
+                'label' => 'Analisar NOVA'
             ];
             $arrMenu['prestacao-contas']['menu'][] = [
                 'grupo' => [12],

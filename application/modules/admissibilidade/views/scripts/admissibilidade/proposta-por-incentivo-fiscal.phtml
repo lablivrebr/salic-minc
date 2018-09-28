@@ -36,25 +36,6 @@
     </div>
 
     <div class="content">
-        <script type="text/javascript"
-        <script src="/public/scripts/plugins/numeral.min.js" type="text/javascript"></script>
-        <script type="text/javascript" src="/public/js/vue.js"></script>
-        <script>
-            function carregaDados (url, divRetorno) {
-                $('#conteudo').html('<br><br><center>Aguarde, carregando dados...<br><img src="<?php echo $this->baseUrl(); ?>/public/img/ajax.gif" /></center><br><br>')
-                $.ajax({
-                    url: url,
-                    success: function (data) {
-                        $('#' + divRetorno).html(data)
-                    },
-                    type: 'post'
-                })
-            }
-
-            //carregaDados('<?php //echo $this->url(['module' => 'proposta', 'controller' => 'visualizar-plano-distribuicao', 'action' => 'visualizar', 'idPreProjeto' => $this->idPreProjeto]); ?>//', 'plano-distribuicao')
-        //
-        </script>
-
         <div class="row">
             <?php
             //    if (!$this->menu) {
@@ -143,53 +124,6 @@
                     })
                 })
 
-                function abrirDinamico (elemento, obj) {
-                    if ($(elemento).css('display') == 'none') {
-                        $(elemento).fadeIn('fast', function () {
-                            $('img', $(obj)).attr('src', '<?php echo $this->baseUrl(); ?>/public/img/navigation-baixo.PNG')
-                        })
-                    } else {
-                        $(elemento).fadeOut('fast', function () {
-                            $('img', $(obj)).attr('src', '<?php echo $this->baseUrl(); ?>/public/img/navigation-right.png')
-                        })
-                    }
-                }
-
-                function toogleAjax (id, url) {
-                    if (!url) {
-                        $('#' + id).toggle('slow')
-                    } else {
-                        elemento = '#' + id
-                        if ($(elemento).css('display') == 'none') {
-                            $(elemento).html('<img src="<?php echo $this->baseUrl(); ?>/public/img/ajax.gif" /> ')
-                            $(elemento).fadeIn('fast')
-                            $.ajax({
-                                type: 'POST',
-                                data: {
-                                    teste: 'testando'
-                                },
-                                url: url,
-                                success: function (data) {
-                                    $(elemento).html(data)
-                                }
-                            })
-                        } else {
-                            $(elemento).fadeOut('fast')
-                        }
-                    }
-                }
-
-                function AbrirFecharPlanilha (elemento) {
-                    $('.' + elemento).toggle()
-
-                    if ($('#' + elemento).hasClass('icn_mais')) {
-                        $('#' + elemento).addClass('icn_menos')
-                        $('#' + elemento).removeClass('icn_mais')
-                    } else {
-                        $('#' + elemento).addClass('icn_mais')
-                        $('#' + elemento).removeClass('icn_menos')
-                    }
-                }
             </script>
 
             <?php if ($this->isUsuarioAgenteInvalido) : ?>
@@ -294,44 +228,44 @@
             <div id="container-vue">
                 <Proposta :idpreprojeto="<?= $this->idPreProjeto; ?>"></Proposta>
             <div>
-
-            <div id="dialogoEncaminharProposta" class="modal">
-                <form method="post"
-                      action="<?php echo $this->url(
-                                    [
-                                        'module' => 'admissibilidade',
-                                        'controller' => 'distribuicao-avaliacao-proposta',
-                                        'action' => 'encaminhar-proposta-ajax'
-                                    ]
-                                ); ?>" onsubmit="return false">
-                    <div class="modal-content">
-                        <h4>Proposta Nr. <span id="span_id_preprojeto"></span> - Encaminhar Avalia&ccedil;&atilde;o</h4>
-                        <div class="input-field col s12" style="margin-top: 35px">
-                            <select id="id_perfil" name="id_perfil">
-                                <?php foreach ($this->perfisEncaminhamentoAvaliacaoProposta as $perfil) { ?>
-                                    <option value="<?php echo $perfil['gru_codigo'] ?>"><?php echo $perfil['gru_nome'] ?></option>
-                                <?php
-                            } ?>
-                            </select>
-                            <label>Selecione o pr&oacute;ximo perfil avaliador</label>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-
-                        <input type="hidden" id="id_preprojeto" name="id_preprojeto"/>
-                        <a class="btn waves-effect waves-dark red-text white modal-close">
-                            Cancelar
-                        </a>
-                        <a href="#" class="btn waves-effect waves-light "
-                                id="botaoEnviarAvaliacaoProposta"
-                                type="button">
-                            Enviar
-                        </a>
-                    </div>
-                </form>
-            </div>
         </div>
+    </div>
+
+    <div id="dialogoEncaminharProposta" class="modal">
+        <form method="post"
+              action="<?php echo $this->url(
+                  [
+                      'module' => 'admissibilidade',
+                      'controller' => 'distribuicao-avaliacao-proposta',
+                      'action' => 'encaminhar-proposta-ajax'
+                  ]
+              ); ?>" onsubmit="return false">
+            <div class="modal-content">
+                <h4>Proposta Nr. <span id="span_id_preprojeto"></span> - Encaminhar Avalia&ccedil;&atilde;o</h4>
+                <div class="input-field col s12" style="margin-top: 35px">
+                    <select id="id_perfil" name="id_perfil">
+                        <?php foreach ($this->perfisEncaminhamentoAvaliacaoProposta as $perfil) { ?>
+                            <option value="<?php echo $perfil['gru_codigo'] ?>"><?php echo $perfil['gru_nome'] ?></option>
+                            <?php
+                        } ?>
+                    </select>
+                    <label>Selecione o pr&oacute;ximo perfil avaliador</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                <input type="hidden" id="id_preprojeto" name="id_preprojeto"/>
+                <a class="btn waves-effect waves-dark red-text white modal-close">
+                    Cancelar
+                </a>
+                <a href="#" class="btn waves-effect waves-light "
+                   id="botaoEnviarAvaliacaoProposta"
+                   type="button">
+                    Enviar
+                </a>
+            </div>
+        </form>
     </div>
     <?php echo $this->partial('admissibilidade/inc/modalTransformarEmProjeto.phtml') ?>
 

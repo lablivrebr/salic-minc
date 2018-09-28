@@ -76,7 +76,7 @@ export default {
     watch: {
         proposta(value) {
             if (value.documentos_proposta) {
-                this.documentos = value.documentos_proposta;
+                this.documentos = value;
             } else if (Object.keys(value).length > 2 && value.idAgente) {
                 this.buscaDocumentos(value);
             }

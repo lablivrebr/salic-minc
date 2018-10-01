@@ -166,8 +166,7 @@
                     <div class="collapsible-header"><i class="material-icons">place</i>Local de realiza&ccedil;&atilde;o/Deslocamento
                     </div>
                     <div class="collapsible-body padding20">
-                        <PropostaLocalRealizacaoDeslocamento
-                                :idpreprojeto="idpreprojeto"></PropostaLocalRealizacaoDeslocamento>
+                        <PropostaLocalRealizacaoDeslocamento :proposta="dados"></PropostaLocalRealizacaoDeslocamento>
                     </div>
                 </li>
                 <li>
@@ -191,93 +190,94 @@
             </ul>
         </div>
         <div v-else class="center-align">
-            <div class="padding10 green white-text">Opa! Proposta n&atilde;o informada...</div>
+            <div class="padding20 card-panel">Opa! Proposta n&atilde;o encontrada...</div>
         </div>
     </div>
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
-    import Planilha from '@/components/Planilha/Planilha';
-    import Carregando from '@/components/Carregando';
-    import SalicTextoSimples from '@/components/SalicTextoSimples';
-    import PropostaIdentificacao from './components/PropostaIdentificacao';
-    import PropostaHistoricoAvaliacoes from './components/PropostaHistoricoAvaliacoes';
-    import PropostaHistoricoSugestoesEnquadramento from './components/PropostaHistoricoSugestoesEnquadramento';
-    import PropostaHistoricoSolicitacoes from './components/PropostaHistoricoSolicitacoes';
-    import AgenteProponente from '../components/AgenteProponente';
-    import AgenteUsuario from '../components/AgenteUsuario';
-    import PropostaDocumentos from './components/PropostaDocumentos';
-    import PropostaPlanoDistribuicao from './components/PropostaPlanoDistribuicao';
-    import PropostaFontesDeRecursos from './components/PropostaFontesDeRecursos';
-    import PropostaLocalRealizacaoDeslocamento from './components/PropostaLocalRealizacaoDeslocamento';
-    import PropostaCustosVinculados from './components/PropostaCustosVinculados';
 
-    export default {
-        name: 'Proposta',
-        data() {
-            return {
-                dados: {
-                    type: Object,
-                    default() {
-                        return {};
-                    },
+import { mapActions, mapGetters } from 'vuex';
+import Planilha from '@/components/Planilha/Planilha';
+import Carregando from '@/components/Carregando';
+import SalicTextoSimples from '@/components/SalicTextoSimples';
+import PropostaIdentificacao from './components/PropostaIdentificacao';
+import PropostaHistoricoAvaliacoes from './components/PropostaHistoricoAvaliacoes';
+import PropostaHistoricoSugestoesEnquadramento from './components/PropostaHistoricoSugestoesEnquadramento';
+import PropostaHistoricoSolicitacoes from './components/PropostaHistoricoSolicitacoes';
+import AgenteProponente from '../components/AgenteProponente';
+import AgenteUsuario from '../components/AgenteUsuario';
+import PropostaDocumentos from './components/PropostaDocumentos';
+import PropostaPlanoDistribuicao from './components/PropostaPlanoDistribuicao';
+import PropostaFontesDeRecursos from './components/PropostaFontesDeRecursos';
+import PropostaLocalRealizacaoDeslocamento from './components/PropostaLocalRealizacaoDeslocamento';
+import PropostaCustosVinculados from './components/PropostaCustosVinculados';
+
+export default {
+    name: 'Proposta',
+    data() {
+        return {
+            dados: {
+                type: Object,
+                default() {
+                    return {};
                 },
-                loading: true,
-            };
-        },
-        props: ['idpreprojeto', 'proposta'],
-        components: {
-            PropostaIdentificacao,
-            PropostaHistoricoAvaliacoes,
-            PropostaHistoricoSugestoesEnquadramento,
-            PropostaHistoricoSolicitacoes,
-            AgenteProponente,
-            AgenteUsuario,
-            SalicTextoSimples,
-            Carregando,
-            PropostaDocumentos,
-            PropostaPlanoDistribuicao,
-            PropostaFontesDeRecursos,
-            PropostaLocalRealizacaoDeslocamento,
-            PropostaCustosVinculados,
-            Planilha,
-        },
-        mounted() {
-            if (typeof this.idpreprojeto !== 'undefined' && typeof this.proposta === 'undefined') {
-                this.buscarDadosProposta(this.idpreprojeto);
-                this.dados = this.dadosProposta;
-            }
-
-            if (typeof this.proposta !== 'undefined') {
-                this.dados = this.proposta;
-                this.loading = false;
-            }
-
-            this.iniciarCollapsible();
-        },
-        watch: {
-            dadosProposta(value) {
-                this.dados = value;
-                this.loading = false;
             },
+            loading: true,
+        };
+    },
+    props: ['idpreprojeto', 'proposta'],
+    components: {
+        PropostaIdentificacao,
+        PropostaHistoricoAvaliacoes,
+        PropostaHistoricoSugestoesEnquadramento,
+        PropostaHistoricoSolicitacoes,
+        AgenteProponente,
+        AgenteUsuario,
+        SalicTextoSimples,
+        Carregando,
+        PropostaDocumentos,
+        PropostaPlanoDistribuicao,
+        PropostaFontesDeRecursos,
+        PropostaLocalRealizacaoDeslocamento,
+        PropostaCustosVinculados,
+        Planilha,
+    },
+    mounted() {
+        if (typeof this.idpreprojeto !== 'undefined' && typeof this.proposta === 'undefined') {
+            this.buscarDadosProposta(this.idpreprojeto);
+            this.dados = this.dadosProposta;
+        }
+
+        if (typeof this.proposta !== 'undefined') {
+            this.dados = this.proposta;
+            this.loading = false;
+        }
+
+        this.iniciarCollapsible();
+    },
+    watch: {
+        dadosProposta(value) {
+            this.dados = value;
+            this.loading = false;
         },
-        computed: {
-            ...mapGetters({
-                dadosProposta: 'proposta/proposta',
-            }),
-        },
-        methods: {
-            ...mapActions({
-                buscarDadosProposta: 'proposta/buscarDadosProposta',
-            }),
-            iniciarCollapsible() {
+    },
+    computed: {
+        ...mapGetters({
+            dadosProposta: 'proposta/proposta',
+        }),
+    },
+    methods: {
+        ...mapActions({
+            buscarDadosProposta: 'proposta/buscarDadosProposta',
+        }),
+        iniciarCollapsible() {
+            // eslint-disable-next-line
+            $3('.collapsible').each(function () {
                 // eslint-disable-next-line
-                $3('.collapsible').each(function () {
-                    // eslint-disable-next-line
-                    $3(this).collapsible();
-                });
-            },
+                $3(this).collapsible();
+            });
         },
+    },
 };
 </script>

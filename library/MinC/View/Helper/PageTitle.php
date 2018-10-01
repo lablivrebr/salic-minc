@@ -2,14 +2,14 @@
 
 class MinC_View_Helper_PageTitle extends Zend_View_Helper_Abstract
 {
-    public function PageTitle($title, $breadCrumb)
+    public function PageTitle($title, $breadCrumb = [])
     {
            ?>
             <div class="page-title">
                 <div class="row">
                     <div class="col s12 m9 l10">
                         <h1><?= $title ?></h1>
-                        <?php gerarNovoBreadCrumb($breadCrumb); ?>
+                        <?= !empty($breadCrumb) ? gerarNovoBreadCrumb($breadCrumb) : ''; ?>
                     </div>
                     <div class="col s12 m3 l2 right-align">
                         <a href="javascript:voltar();" title="P&aacute;gina Anterior" title="P&aacute;gina Anterior"

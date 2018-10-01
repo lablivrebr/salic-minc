@@ -85,6 +85,9 @@ export default {
         local(value) {
             this.localizacoes = value;
         },
+        proposta(value) {
+            this.localizacoes = value;
+        }
     },
     computed: {
         ...mapGetters({

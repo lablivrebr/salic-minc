@@ -1,8 +1,8 @@
 <?php
 
-use \Application\Modules\Proposta\Service\Proposta\Visualizar as VisualizarService;
+use \Application\Modules\Proposta\Service\Proposta\Enquadramento as EnquadramentoService;
 
-class Proposta_VisualizarRestController extends MinC_Controller_Rest_Abstract
+class Proposta_EnquadramentoRestController extends MinC_Controller_Rest_Abstract
 {
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
@@ -24,8 +24,8 @@ class Proposta_VisualizarRestController extends MinC_Controller_Rest_Abstract
                 throw new Exception("N&uacute;mero da proposta &eacute; obrigat&oacute;ria");
             }
 
-            $visualizarService= new VisualizarService($this->getRequest(), $this->getResponse());
-            $data = $visualizarService->obterSugestaoEnquadramento();
+            $enquadramentoService= new EnquadramentoService($this->getRequest(), $this->getResponse());
+            $data = $enquadramentoService->obterSugestaoEnquadramento();
 
             $this->renderJsonResponse($data, 200);
         } catch (Exception $e) {

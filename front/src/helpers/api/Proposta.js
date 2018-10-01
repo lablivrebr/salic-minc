@@ -26,6 +26,6 @@ export const buscarHistoricoSolicitacoes = (idPreProjeto) => {
 };
 
 export const buscarHistoricoEnquadramento = (idPreProjeto) => {
-    const path = `/proposta/visualizar-rest/index/idPreProjeto/${idPreProjeto}`;
+    const path = `/proposta/enquadramento-rest/index/idPreProjeto/${idPreProjeto}`;
     return api.getRequest(path);
 };

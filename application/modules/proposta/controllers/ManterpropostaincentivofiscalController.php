@@ -18,6 +18,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             $this->view->addScriptPath(APPLICATION_PATH . '/modules/proposta/views/scripts/manterpropostaincentivofiscal');
 
             $this->verificarPermissaoAcesso(true, false, false);
+            $this->validarEdicaoProposta();
 
             //VERIFICA SE A PROPOSTA TEM DILIGENCIAS
             $PreProjeto = new Proposta_Model_DbTable_PreProjeto();
@@ -25,6 +26,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             $this->view->blnPossuiDiligencias = $rsDiligencias->count();
 
             $this->view->acao = $this->_urlPadrao . "/proposta/manterpropostaincentivofiscal/salvar";
+
         }
 
         // Busca na tabela apoio ExecucaoImediata
@@ -860,7 +862,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
                 $proposta->nomeproponente = utf8_encode($proposta->nomeproponente);
                 $proposta->nomeprojeto = utf8_encode($proposta->nomeprojeto);
                 $proposta->situacao = utf8_encode($proposta->situacao);
-                $rsStatusAtual = $Movimentacao->buscarStatusPropostaNome($proposta->idpreprojeto);
+                $rsStatusAtual = $Movimentacao->buscarMovimentacaoProposta($proposta->idpreprojeto);
                 $proposta->situacao = isset($rsStatusAtual['MovimentacaoNome']) ? utf8_encode($rsStatusAtual['MovimentacaoNome']) : '';
 
                 $aux[$key] = $proposta;

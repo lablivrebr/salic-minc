@@ -2,7 +2,7 @@
 
 namespace Application\Modules\Proposta\Service\Proposta;
 
-class Visualizar
+class Enquadramento
 {
     const OBJECT_KEYS = [
         'data_avaliacao' => 'Data',

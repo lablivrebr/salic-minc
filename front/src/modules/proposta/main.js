@@ -5,6 +5,7 @@
 import Vue from 'vue';
 import Proposta from './visualizar/Proposta';
 import PropostaDiff from './visualizar/PropostaDiff';
+import PropostaProponente from './visualizar/PropostaProponente';
 import { store } from './config';
 
 Vue.config.productionTip = false;
@@ -17,6 +18,7 @@ window.onload = () => {
         components: {
             Proposta,
             PropostaDiff,
+            PropostaProponente,
         },
     });
 };

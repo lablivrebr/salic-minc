@@ -48,25 +48,6 @@ class Proposta_PlanoDistribuicaoController extends Proposta_GenericController
 
     }
 
-    /**
-     * @deprecated action parece nao ser utilizada, atribuindo die
-     */
-    public function consultarComponenteAction()
-    {
-        die("este metodo nao é utilizado");
-        $get = Zend_Registry::get("get");
-        $idPreProjeto = $get->idPreProjeto;
-        $this->_helper->layout->disableLayout(); // desabilita o layout
-
-        if (!empty($idPreProjeto) || $idPreProjeto=='0') {
-            $tblPlanoDistribuicao = new PlanoDistribuicao();
-            $rsPlanoDistribuicao = $tblPlanoDistribuicao->buscar(array("idProjeto=?"=>$idPreProjeto, "stPlanoDistribuicaoProduto=?"=>1), array("idPlanoDistribuicao DESC"), 10);
-            $this->view->planosDistribuicao = $rsPlanoDistribuicao;
-        } else {
-            return false;
-        }
-    }
-
     public function frmPlanoDistribuicaoAction()
     {
         $this->_helper->viewRenderer->setNoRender(true);
@@ -263,11 +244,11 @@ class Proposta_PlanoDistribuicaoController extends Proposta_GenericController
         try {
 
             if (empty($this->idPreProjeto)) {
-                throw new Exception("Proposta é obrigatória");
+                throw new Exception("Proposta Ã© obrigatÃ³ria");
             }
 
             if (empty($dados['idPlanoDistribuicao'])) {
-                throw new Exception("Produto é obrigatório");
+                throw new Exception("Produto Ã© obrigatÃ³rio");
             }
 
             if (empty($dados['idDetalhaPlanoDistribuicao'])) {

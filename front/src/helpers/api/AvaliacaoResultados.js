@@ -48,8 +48,6 @@ export const finalizarParecer = (params) => {
     return api.postRequest('/avaliacao-resultados/estado', buildData(data));
 };
 
-
 export const obterDestinatarios = () => api.getRequest('/avaliacao-resultados/tecnicos-encaminhamento');
 
 export const encaminharParaTecnico = params => api.postRequest('/avaliacao-resultados/estado/', buildData(params));
-

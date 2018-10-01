@@ -28,7 +28,8 @@
                         {{ produto.produto }}
                     </v-layout>
                         <!-- ETAPA -->
-                        <v-expansion-panel class="pl-3 elevation-0"
+                        <v-expansion-panel
+                            class="pl-3 elevation-0"
                             expand
                         >
                             <v-expansion-panel-content
@@ -80,12 +81,20 @@
                                                                     <td>{{ props.item.item }}</td>
                                                                     <td>{{ moeda(props.item.varlorAprovado) }}</td>
                                                                     <td>{{ moeda(props.item.varlorComprovado) }}</td>
-                                                                    <td>R$ # valorAprovado - valorComprovado</td>
-                                                                    <td>
-                                                                        <v-btn color="red" small dark title="Comprovar Item">
-                                                                            <v-icon>gavel</v-icon>
+                                                                    <td>{{ moeda(props.item.varlorAprovado - props.item.varlorComprovado) }}</td>
+                                                                    <td v-if="props.item.varlorComprovado !== 0">
+                                                                        <v-btn
+                                                                            :href="'/prestacao-contas/analisar/comprovante/idPronac/' + idPronac + '/uf/' + uf.Uf + '/produto/' + produto.cdProduto + '/idmunicipio/' + cidade.cdCidade + '/idPlanilhaItem/' + props.item.idPlanilhaItens + '/etapa/' + etapa.cdEtapa"
+                                                                            replace
+                                                                            color="red"
+                                                                            small
+                                                                            dark
+                                                                            title="Comprovar Item"
+                                                                        >
+                                                                                <v-icon>gavel</v-icon>
                                                                         </v-btn>
                                                                     </td>
+                                                                    <td v-else>Sem comprovantes</td>
                                                                 </template>
                                                             </v-data-table>
                                                         </v-tab-item>

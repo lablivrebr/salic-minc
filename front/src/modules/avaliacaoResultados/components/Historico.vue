@@ -13,7 +13,7 @@
         </v-card-title>
         
         <v-card-text style="height: 500px;">
-            <v-subheader inset>Encaminhamentos</v-subheader>
+            <v-subheader >Encaminhamentos</v-subheader>
             <v-data-table
                 :headers="projetoHeaders"
                 :items="[]"

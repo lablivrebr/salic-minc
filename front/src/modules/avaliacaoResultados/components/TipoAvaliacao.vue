@@ -162,11 +162,6 @@ export default {
         getTipoAvaliacaoResultado(id) {
             this.getTipo(id);
         },
-        fecharModal() {
-            // eslint-disable-next-line
-            $3('#modalTemplate').modal('close');
-            this.modalClose();
-        },
         redirecionarEncaminhar() {
             const data = { idPronac: this.idPronac, percentual: this.percentual };
             this.redirectLink(data);

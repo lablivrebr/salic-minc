@@ -38,6 +38,15 @@ class Proposta_DiligenciarController extends Proposta_GenericController
         }
 
         $this->view->btnVoltar = $this->btnVoltar; // botao voltar dinamico
+
+        if ($this->idPronac) {
+            $this->view->urlMenu = [
+                'module' => 'projeto',
+                'controller' => 'menu',
+                'action' => 'obter-menu-ajax',
+                'idPronac' => $this->idPronac
+            ];
+        }
     }
 
     public function indexAction()

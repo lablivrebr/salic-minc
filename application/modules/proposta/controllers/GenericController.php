@@ -151,7 +151,11 @@ abstract class Proposta_GenericController extends MinC_Controller_Action_Abstrac
                 'titleShort' => 'Proposta',
                 'titleFull' => 'Proposta Cultural',
                 'projeto' => $this->idPreProjeto,
-                'listagem' => array('Lista de propostas' => array('controller' => 'manterpropostaincentivofiscal', 'action' => 'listarproposta')),
+                'listagem' => ['Lista de propostas' => [
+                    'module' => 'proposta',
+                    'controller' => 'manterpropostaincentivofiscal',
+                    'action' => 'listarproposta']
+                ],
             );
 
             // Alterar projeto
@@ -167,13 +171,19 @@ abstract class Proposta_GenericController extends MinC_Controller_Action_Abstrac
 
                     $this->view->projeto = $projeto;
 
-                    $layout = array(
+                    $layout = [
                         'titleShort' => 'Projeto',
                         'titleFull' => 'Alterar projeto',
                         'projeto' => $projeto['nrprojeto'],
-                        'listagem' => array('Lista de projetos' => array('module' => 'default', 'controller' => 'Listarprojetos', 'action' => 'listarprojetos')),
+                        'listagem' => [
+                            'Lista de projetos' => [
+                                'module' => 'default',
+                                'controller' => 'Listarprojetos',
+                                'action' => 'listarprojetos'
+                            ]
+                        ],
                         'prazoAlterarProjeto' => $this->contagemRegressivaSegundos($projeto['dtsituacao'], $this->_diasParaAlterarProjeto)
-                    );
+                    ];
 
                     if (!empty($this->view->isEditarProjeto)) {
                         $this->salvarDadosPropostaSerializada($this->idPreProjeto);

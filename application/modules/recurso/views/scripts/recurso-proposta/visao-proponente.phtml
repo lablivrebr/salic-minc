@@ -1,8 +1,3 @@
-<?php
-if (isset($this->proposta['idpreprojeto'])) {
-    echo $this->action('menu', 'menu', 'proposta', array('idPreProjeto' => $this->proposta['idpreprojeto']));  // menu
-}
-?>
 <div class="container-fluid">
     <div class="row">
         <div class="page-title">
@@ -13,13 +8,9 @@ if (isset($this->proposta['idpreprojeto'])) {
                     $links = [
                         $this->layout['listagem'],
                         [
-                            'An&aacute;lise de Proposta Cultural' => [
-                                'module' => 'admissibilidade',
-                                'controller' => 'admissibilidade',
-                                'action' => 'exibirpropostacultural',
-
-                            ]
+                            'Proposta' => "/proposta/manterpropostaincentivofiscal/identificacaodaproposta/idPreProjeto/{$this->idPreProjeto}"
                         ],
+                        ['Recurso Enquadramento Proposta' => ''],
                     ];
                     gerarBreadCrumb($links, 'migalhas');
                     ?>

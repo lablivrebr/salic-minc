@@ -57,12 +57,12 @@ if ($this->listarTudo == true) {
                 data-ajax-render='/solicitacao/mensagem/listar<?= $params; ?>'>
             </div>
             <?php if (!$this->isArquivado) : ?>
-                <?php if ((!empty($this->existeSolicitacaoEnviadaNaoRespondida) && $this->isProponente)) : ?>
+                <?php if ($this->existeSolicitacaoEnviadaNaoRespondida && $this->isProponente) : ?>
                     <div class="center-align padding20">
                         <a href="javascript:void(0)"
                         class="btn disabled">Nova Solicita&ccedil;&atilde;o</a>
                     </div>
-                    <div class="message"><span>Voc&ecirc; possui uma solicita&ccedil;&atild;o aguardando resposta.</span></div>
+                    <div class="message"><span>Voc&ecirc; possui uma solicita&ccedil;&atilde;o aguardando resposta.</span></div>
                 <?php elseif ($this->isProponente) : ?>
                     <div class="center-align padding20">
                         <a id="btn_enviar"

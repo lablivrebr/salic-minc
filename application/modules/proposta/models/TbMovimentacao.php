@@ -13,7 +13,7 @@ class Proposta_Model_TbMovimentacao extends MinC_Db_Model
 
     const PROPOSTA_COM_PROPONENTE = 95;
     const PROPOSTA_PARA_ANALISE_INICIAL = 96;
-    const PROPOSTA_ARQUIVADA = 128;
+    const PROPOSTA_PARA_ANALISE_FINAL = 128;
 
     /**
      * @return mixed

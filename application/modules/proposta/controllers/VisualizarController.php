@@ -36,7 +36,7 @@ class Proposta_VisualizarController extends Proposta_GenericController
 
             $preProjetoMapper = new Proposta_Model_PreProjetoMapper();
             $dados = $preProjetoMapper->obterArrayPropostaCompleta($idPreProjeto);
-            $dados['fase_proposta'] = $this->obterFaseProposta($idPreProjeto);
+            $dados['fase_proposta'] = $this->obterFaseProposta($idPreProjeto, $dados);
 
             $this->_helper->json(array('success' => 'true', 'msg' => '', 'data' => $dados));
         } catch (Exception $e) {
@@ -46,7 +46,7 @@ class Proposta_VisualizarController extends Proposta_GenericController
 
 
     /** @todo migrar para service ou modelo */
-    public function obterFaseProposta($idPreProjeto)
+    public function obterFaseProposta($idPreProjeto, $proposta)
     {
         $tbMovimentacao = new Proposta_Model_DbTable_TbMovimentacao();
         $movimentacao = $tbMovimentacao->buscarMovimentacaoProposta($idPreProjeto);
@@ -57,16 +57,20 @@ class Proposta_VisualizarController extends Proposta_GenericController
                 break;
             case Proposta_Model_TbMovimentacao::PROPOSTA_PARA_ANALISE_INICIAL:
                 $fase = 'proposta_analise_inicial';
+                break;
+            case Proposta_Model_TbMovimentacao::PROPOSTA_PARA_ANALISE_FINAL:
+                $fase = 'proposta_em_enquadramento';
                 if (count($this->view->recursoEnquadramentoVisaoProponente) > 0) {
                     $fase = 'recurso_enquadramento';
                 }
                 break;
-            case Proposta_Model_TbMovimentacao::PROPOSTA_ARQUIVADA:
-                $fase = 'proposta_arquivada';
-                break;
             default:
                 $fase = 'projeto_cultural';
                 break;
+        }
+
+        if ($proposta['stEstado'] == 0) {
+            $fase = 'proposta_arquivada';
         }
 
         return $fase;

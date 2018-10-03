@@ -1,9 +1,9 @@
 <template>
     <div class="content">
-        <div class="row">
+        <div class="row card-panel">
             <div class="col s12">
-                <div class="row" style="text-align: center;">
-                    <div v-for="(fase, key) of fases" :key="fase.id" style="display:inline-block">
+                <div class="" style="text-align: center; display: table; vertical-align: top; margin: 0 auto">
+                    <div v-for="(fase, key) of fases" :key="fase.id" style="display: table-cell;">
                         <i v-if="key > 0" class="tiny material-icons">forward</i>
                         <a
                             class="margin10 btn small btn-primary tooltipped"
@@ -14,6 +14,22 @@
                             <i class="tiny material-icons left">{{fase.icon}}</i>
                             <span v-html="fase.label"></span>
                         </a>
+                        <div
+                            v-if="dadosProposta && fase.childrens && dadosProposta.fase_proposta == children.id"
+                            v-for="(children, key) of fase.childrens"
+                            :key="children.id"
+                            style="display:block;"
+                        >
+                            <div><i class="tiny material-icons" style="transform: rotate(90deg);">forward</i></div>
+                            <a
+                                class="margin10 btn small btn-primary tooltipped"
+                                :data-tooltip="children.descricao"
+                                :href="(children.link) ? children.link : 'javascript:void(0)'"
+                                :style="(children.link) ? '' : 'cursor: default'">
+                                <i class="tiny material-icons left">{{children.icon}}</i>
+                                <span v-html="children.label"></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,20 +59,31 @@
                         label: 'Em Avalia&ccedil;&atilde;o',
                         descricao: 'A proposta está em avaliação pelo Ministério da Cultura, acompanhe na aba histórico de avaliações.',
                         icon: 'how_to_reg',
+                        childrens: [
+                            {
+                                id: 'proposta_arquivada',
+                                label: 'Arquivada',
+                                descricao: 'Proposta arquivada, acesse a aba histórico de avaliações para saber mais.',
+                                link: '/proposta/manterpropostaincentivofiscal/listar-propostas-arquivadas',
+                                icon: 'archive',
+                            },
+                        ],
                     },
                     {
-                        id: 'recurso_enquadramento',
-                        label: 'Recurso Enquadramento',
-                        descricao: 'Seu projeto foi enquadrado, caso discorde, você pode interpor recurso.',
+                        id: 'proposta_em_enquadramento',
+                        label: 'Enquadramento',
+                        descricao: 'Seu projeto está em enquadramento.',
                         link: `/recurso/recurso-proposta/visao-proponente/idPreProjeto/${this.idPreProjeto}`,
                         icon: 'build',
-                    },
-                    {
-                        id: 'proposta_arquivada',
-                        label: 'Arquivada',
-                        descricao: 'Proposta arquivada, acompanhe na aba histórico de avaliações para saber mais.',
-                        link: '/proposta/manterpropostaincentivofiscal/listar-propostas-arquivadas',
-                        icon: 'archive',
+                        childrens: [
+                            {
+                                id: 'recurso_enquadramento',
+                                label: 'Recurso',
+                                descricao: 'Seu projeto foi enquadrado, caso discorde, você pode interpor recurso.',
+                                link: `/recurso/recurso-proposta/visao-proponente/idPreProjeto/${this.idPreProjeto}`,
+                                icon: 'feedback',
+                            },
+                        ],
                     },
                     {
                         id: 'projeto_cultural',

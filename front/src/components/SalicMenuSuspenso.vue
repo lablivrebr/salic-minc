@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="fixed-action-btn vertical">
-            <a class="btn-floating btn-large red">
+            <a id="menu-suspenso" class="btn-floating btn-large red">
                 <i class="large material-icons">add</i>
             </a>
             <ul>

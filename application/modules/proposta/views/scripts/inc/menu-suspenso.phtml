@@ -8,13 +8,15 @@
                 <i class="material-icons">arrow_upward</i>
             </a>
         </li>
-        <li>
-            <a class="btn-floating blue tooltipped"
-               href="/proposta/visualizar/index/idPreProjeto/<?= $this->idPreProjeto; ?>"
-               target="_blank"
-               data-tooltip="Visualizar proposta"
-            ><i class="material-icons">visibility</i></a>
-        </li>
+        <?php if($this->isEditarProposta) : ?>
+            <li>
+                <a class="btn-floating blue tooltipped"
+                   href="/proposta/visualizar/index/idPreProjeto/<?= $this->idPreProjeto; ?>"
+                   target="_blank"
+                   data-tooltip="Visualizar proposta"
+                ><i class="material-icons">visibility</i></a>
+            </li>
+        <?php endif; ?>
         <li>
             <a class="btn-floating red tooltipped"
                href="/solicitacao/mensagem/index/idPreProjeto/<?= $this->idPreProjeto; ?>"

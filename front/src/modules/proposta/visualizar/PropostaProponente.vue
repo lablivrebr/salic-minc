@@ -3,13 +3,13 @@
         <PropostaFluxo :id-pre-projeto="idPreProjeto"></PropostaFluxo>
         <Proposta :idpreprojeto="idPreProjeto"></Proposta>
         <SalicMenuSuspenso v-if="Object.keys(dadosProposta).length > 0">
-            <li v-if="dadosProposta.idMovimentacao !== PROPOSTA_ARQUIVADA">
+            <li v-if="dadosProposta.fase_proposta !== 'proposta_arquivada'">
                 <a class="btn-floating red tooltipped"
                    :href="`/solicitacao/mensagem/index/idPreProjeto/${idPreProjeto}`"
                    data-tooltip="Solicitações"
                 ><i class="material-icons">message</i></a>
             </li>
-            <li v-if="dadosProposta.idMovimentacao === PROPOSTA_COM_PROPONENTE">
+            <li v-if="dadosProposta.fase_proposta === 'proposta_com_proponente'">
                 <a class="btn-floating green tooltipped"
                    :href="`/proposta/manterpropostaincentivofiscal/identificacaodaproposta/idPreProjeto/${idPreProjeto}`"
                    data-tooltip="Editar proposta"
@@ -20,8 +20,7 @@
         <div class="tap-target" data-activates="menu-suspenso">
             <div class="tap-target-content white-text">
                 <h5>Botão flutuante</h5>
-                <p>Passe o mouse para descobrir novas funcionalidades.</p>
-                <p>Por exemplo: Solicitações</p>
+                <p>Clique aqui para acessar a ferramenta Minhas Solicitações e enviar seu questionamento ao MinC</p>
             </div>
         </div>
     </div>
@@ -39,8 +38,6 @@ export default {
     props: ['idPreProjeto'],
     data() {
         return {
-            PROPOSTA_COM_PROPONENTE: 95,
-            PROPOSTA_ARQUIVADA: 128,
             dados: {
                 type: Object,
                 default() {

@@ -129,14 +129,14 @@
             <?php if ($this->isUsuarioAgenteInvalido) : ?>
                 <div class="row">
                     <div style="background-color: #ef7c50" class="darken-2 padding10 white-text">
-                        A T E N &Ccedil; &Atilde; O: O Proponente desta proposta não possui usuário válido.
+                        A T E N &Ccedil; &Atilde; O: O Proponente desta proposta n&atilde;o possui usu&aacute;rio v&aacute;lido.
                         <b><a href="<?= $this->url([
                             'module' => 'agente',
                             'controller' => 'agentes',
                             'action' => 'form-usuario-agente',
                             'id' => $this->itensGeral[0]->idAgente
                         ]); ?>" class="white-text" target="_blank">
-                            Clique aqui</a></b> para definir um usuário para o Proponente.
+                            Clique aqui</a></b> para definir um usu&aacute;rio para o Proponente.
                     </div>
                 </div>
             <?php endif; ?>

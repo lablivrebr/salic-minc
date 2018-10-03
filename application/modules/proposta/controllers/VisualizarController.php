@@ -63,9 +63,16 @@ class Proposta_VisualizarController extends Proposta_GenericController
                 if (count($this->view->recursoEnquadramentoVisaoProponente) > 0) {
                     $fase = 'recurso_enquadramento';
                 }
+
+                $tbProjetos = new Projeto_Model_DbTable_Projetos();
+                $projeto = $tbProjetos->findBy(['idProjeto' => $idPreProjeto] );
+                if (!empty($projeto)) {
+                    $fase = 'projeto_cultural';
+                }
+
                 break;
             default:
-                $fase = 'projeto_cultural';
+                $fase = 'invalido';
                 break;
         }
 

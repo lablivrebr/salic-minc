@@ -4,7 +4,7 @@
             <div class="col s12">
                 <div class="" style="text-align: center; display: table; vertical-align: top; margin: 0 auto">
                     <div v-for="(fase, key) of fases" :key="fase.id" style="display: table-cell;">
-                        <i v-if="key > 0" class="tiny material-icons">forward</i>
+                        <i v-if="key > 0" class="tiny material-icons grey-text">forward</i>
                         <a
                             class="margin10 btn small btn-primary tooltipped"
                             :class="{ disabled : dadosProposta.fase_proposta !== fase.id }"
@@ -15,15 +15,16 @@
                             <span v-html="fase.label"></span>
                         </a>
                         <div
-                            v-if="dadosProposta && fase.childrens && dadosProposta.fase_proposta == children.id"
+                            v-if="dadosProposta && fase.childrens"
                             v-for="(children, key) of fase.childrens"
                             :key="children.id"
                             style="display:block;"
                         >
-                            <div><i class="tiny material-icons" style="transform: rotate(90deg);">forward</i></div>
+                            <div><i class="tiny material-icons grey-text" style="transform: rotate(90deg);">forward</i></div>
                             <a
                                 class="margin10 btn small btn-primary tooltipped"
                                 :data-tooltip="children.descricao"
+                                :class="{ disabled : dadosProposta.fase_proposta !== children.id }"
                                 :href="(children.link) ? children.link : 'javascript:void(0)'"
                                 :style="(children.link) ? '' : 'cursor: default'">
                                 <i class="tiny material-icons left">{{children.icon}}</i>
@@ -72,14 +73,14 @@
                     {
                         id: 'proposta_em_enquadramento',
                         label: 'Enquadramento',
-                        descricao: 'Seu projeto está em enquadramento.',
+                        descricao: 'Sua proposta está em enquadramento.',
                         link: `/recurso/recurso-proposta/visao-proponente/idPreProjeto/${this.idPreProjeto}`,
                         icon: 'build',
                         childrens: [
                             {
                                 id: 'recurso_enquadramento',
                                 label: 'Recurso',
-                                descricao: 'Seu projeto foi enquadrado, caso discorde, você pode interpor recurso.',
+                                descricao: 'Sua proposta foi enquadrada, caso discorde, você pode interpor recurso.',
                                 link: `/recurso/recurso-proposta/visao-proponente/idPreProjeto/${this.idPreProjeto}`,
                                 icon: 'feedback',
                             },

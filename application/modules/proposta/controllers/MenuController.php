@@ -14,6 +14,11 @@ class Proposta_MenuController extends Proposta_GenericController
 
     public function menuAction()
     {
+        if (!$this->isEditavel) {
+            $this->_helper->viewRenderer->setNoRender(TRUE);
+            return;
+        }
+
         $this->view->arrMenuProponente = $this->gerarArrayMenu($this->idPreProjeto);
 
     }

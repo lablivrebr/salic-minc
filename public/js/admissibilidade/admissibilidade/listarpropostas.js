@@ -2,6 +2,27 @@
     $(document).ready(function () {
         var objetoDataTable = $('#tabelaAnaliseFinal').DataTable(
             {
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        title: 'Excel',
+                        text: '<i class="material-icons">cloud_download</i>',
+                        extend: 'excel',
+                        className: 'waves-effect waves-dark btn white black-text',
+                        exportOptions: {
+                            columns: [0,1,2,3,5,6,7,8]
+                        }
+                    },
+                    {
+                        title: '',
+                        text: '<i class="material-icons">print</i>',
+                        extend: 'print',
+                        className: 'waves-effect waves-dark btn white black-text',
+                        exportOptions: {
+                            columns: [0,1,2,3,5,6,7,8]
+                        }
+                    }
+                ],
                 'language': {
                     'url': 'https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json'
                 }

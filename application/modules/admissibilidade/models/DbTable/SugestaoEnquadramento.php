@@ -377,22 +377,20 @@ class Admissibilidade_Model_DbTable_SugestaoEnquadramento extends MinC_Db_Table_
     ) {
 
         $Segmento = new Segmento();
-        $segmentoProponente = $Segmento->combo(
+        $segmentoProponente = $Segmento->findBy(
             [
-                "s.codigo = ?" => $id_segmento_proponente,
+                "codigo = ?" => $id_segmento_proponente,
             ]
-            , ["s.segmento ASC"]
         );
 
-        $tpEnquadramentoProponente = $segmentoProponente[0]["tp_enquadramento"];
+        $tpEnquadramentoProponente = $segmentoProponente["tp_enquadramento"];
 
-        $segmentoSugestaoEnquadramento = $Segmento->combo(
+        $segmentoSugestaoEnquadramento = $Segmento->findBy(
             [
-                "s.codigo = ?" => $dadosSugestaoEnquadramento["id_segmento"],
+                "codigo = ?" => $dadosSugestaoEnquadramento["id_segmento"],
             ]
-            , ["s.segmento ASC"]
         );
-        $tpEnquadramentoSugestao = $segmentoSugestaoEnquadramento[0]["tp_enquadramento"];
+        $tpEnquadramentoSugestao = $segmentoSugestaoEnquadramento["tp_enquadramento"];
 
         return (
             $tpEnquadramentoProponente == $tpEnquadramentoSugestao

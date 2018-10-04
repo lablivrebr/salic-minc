@@ -6,6 +6,7 @@
                     'url': 'https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json'
                 }
                 , 'order': [0, 1]
+                , 'lengthMenu': [[10, 50, 100, -1], [10, 50, 100, "Tudo"]]
                 , 'searching': true
                 , 'lengthChange': true
                 , columnDefs: [

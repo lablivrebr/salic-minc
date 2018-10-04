@@ -287,7 +287,7 @@ class Admissibilidade_Model_DbTable_VwPainelAvaliarPropostas extends MinC_Db_Tab
             ['*'],
             $this->_schema);
 
-        if (!is_null($start) && $limit) {
+        if (!is_null($start) && $limit > 0) {
             $start = (int)$start;
             $limit = (int)$limit;
             $select->limitPage($start, $limit);

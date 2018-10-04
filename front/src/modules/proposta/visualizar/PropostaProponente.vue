@@ -55,7 +55,7 @@ export default {
     },
     watch: {
       dadosProposta() {
-          this.featureDiscovery();
+          this.mensagemBotaoFlutuante();
       }
     },
     computed: {
@@ -64,15 +64,18 @@ export default {
         }),
     },
     methods: {
-        featureDiscovery() {
+        mensagemBotaoFlutuante() {
             let self = this;
-            let funcionalidadeExibida = self.getCookie('feature-visualizar-botao');
+            let quantidadeExibida = self.getCookie('qtd_msg_visualizar_proposta');
+            quantidadeExibida = quantidadeExibida ? parseInt(quantidadeExibida): 0;
+
             /* eslint-disable */
             $3(document).ready(function() {
-                if (funcionalidadeExibida !== '1') {
+                if (quantidadeExibida < 5) {
+                    quantidadeExibida++;
                     /* eslint-disable */
                     $3('.tap-target').tapTarget('open');
-                    self.setCookie('feature-visualizar-botao', '1', 40)
+                    self.setCookie('qtd_msg_visualizar_proposta', quantidadeExibida, 40)
                 }
             });
         }

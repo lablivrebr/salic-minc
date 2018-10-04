@@ -9,6 +9,7 @@ class Proposta_ManterorcamentoController extends Proposta_GenericController
         parent::init();
 
         $this->verificarPermissaoAcesso(true, false, false);
+        $this->validarEdicaoProposta();
     }
 
     public function indexAction()

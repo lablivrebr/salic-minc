@@ -18,6 +18,7 @@ class Proposta_PlanoDistribuicaoController extends Proposta_GenericController
 
         /* ==== VERIFICA PERMISSAO DE ACESSO DO PROPONENTE A PROPOSTA OU AO PROJETO ====== */
         $this->verificarPermissaoAcesso(true, false, false);
+        $this->validarEdicaoProposta();
     }
 
     public function indexAction()

@@ -18,7 +18,6 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             $this->view->addScriptPath(APPLICATION_PATH . '/modules/proposta/views/scripts/manterpropostaincentivofiscal');
 
             $this->verificarPermissaoAcesso(true, false, false);
-            $this->validarEdicaoProposta();
 
             //VERIFICA SE A PROPOSTA TEM DILIGENCIAS
             $PreProjeto = new Proposta_Model_DbTable_PreProjeto();
@@ -171,6 +170,8 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
      */
     public function salvarAction()
     {
+        $this->validarEdicaoProposta();
+
         $post = array_change_key_case($this->getRequest()->getPost());
 
         if (empty($post['idagente'])) {
@@ -375,6 +376,8 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
 
     public function identificacaodapropostaAction()
     {
+        $this->validarEdicaoProposta();
+
         if (empty($this->_proposta["idpreprojeto"])) {
             $post = Zend_Registry::get('post');
 
@@ -434,14 +437,19 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
 
     public function responsabilidadesocialAction()
     {
+        $this->validarEdicaoProposta();
+
     }
 
     public function detalhestecnicosAction()
     {
+        $this->validarEdicaoProposta();
+
     }
 
     public function outrasinformacoesAction()
     {
+        $this->validarEdicaoProposta();
     }
 
     /**
@@ -462,6 +470,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
     public function encaminharprojetoaomincAction()
     {
         $this->verificarPermissaoAcesso(true, false, false);
+        $this->validarEdicaoProposta();
 
         $params = $this->getRequest()->getParams();
 
@@ -527,9 +536,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
      */
     public function excluirAction()
     {
-        if ($this->isEditarProjeto) {
-            parent::message("N&atilde;o foi possível realizar a opera&ccedil;&atilde;o!", "/proposta/manterpropostaincentivofiscal/listarproposta", "ERROR");
-        }
+        $this->validarEdicaoProposta();
 
         $idPreProjeto = $this->getRequest()->getParam('idPreProjeto');
 
@@ -554,6 +561,8 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
      */
     public function enviarPropostaAction()
     {
+        $this->validarEdicaoProposta();
+
         $params = $this->getRequest()->getParams();
         $idPreProjeto = $this->getRequest()->getParam('idPreProjeto');
 
@@ -600,7 +609,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
      * @access public
      * @return void
      */
-    public function validarEnvioPropostaComSp($idPreProjeto)
+    private function validarEnvioPropostaComSp($idPreProjeto)
     {
         try {
             $validacao = new stdClass();
@@ -693,7 +702,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
      * @access public
      * @return void
      */
-    public function validarEnvioPropostaSemSp($idPreProjeto)
+    private function validarEnvioPropostaSemSp($idPreProjeto)
     {
         try {
             $tbPreProjeto = new Proposta_Model_DbTable_PreProjeto();
@@ -1030,7 +1039,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
      * @param $idPreProjeto
      * @return ArrayObject|bool|mixed
      */
-    public function atualizarDadosPessoaJuridicaVerificandoCNAECultural($idPreProjeto)
+    private function atualizarDadosPessoaJuridicaVerificandoCNAECultural($idPreProjeto)
     {
         $TbPreProjeto = new Proposta_Model_DbTable_PreProjeto();
         $proponente = $TbPreProjeto->buscarProponenteProposta($idPreProjeto);

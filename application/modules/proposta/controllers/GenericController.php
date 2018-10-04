@@ -348,7 +348,25 @@ abstract class Proposta_GenericController extends MinC_Controller_Action_Abstrac
     public function validarEdicaoProposta()
     {
         if ($this->idPreProjeto && !$this->isEditavel) {
-            $this->redirect("/proposta/visualizar/index/idPreProjeto/" . $this->idPreProjeto);
+            $this->redirecionarParaVisualizacao();
+        }
+    }
+
+    public function redirecionarParaVisualizacao()
+    {
+        $this->repassarMensagem();
+        $this->redirect("/proposta/visualizar/index/idPreProjeto/" . $this->idPreProjeto);
+    }
+
+    public function repassarMensagem()
+    {
+        if ($this->_msg->hasMessages()) {
+            $this->_helper->viewRenderer->setNoRender(false);
+            $this->_helper->flashMessenger->addMessage(implode("<br />", $this->_msg->getMessages()));
+
+            if ($this->_type->hasMessages()) {
+                $this->_helper->flashMessengerType->addMessage(implode("<br />", $this->_type->getMessages()));
+            }
         }
     }
 }

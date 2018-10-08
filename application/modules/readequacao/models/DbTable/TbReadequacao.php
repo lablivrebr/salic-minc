@@ -1892,7 +1892,8 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 							AND k.idTipoDoAtoAdministrativo   = TbAtoAdministrativo.idTipoDoAto
 							AND l.idOrdemDaAssinatura         = TbAtoAdministrativo.idOrdemDaAssinatura
 							AND l.idOrgaoSuperiorDoAssinante  = Tabelas.dbo.fnCodigoOrgaoEstrutura(projetos.Orgao,1)
-							AND j.idPronac = projetos.IdPRONAC)"
+							AND j.idPronac = projetos.IdPRONAC
+							AND k.cdSituacao = " . Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA  . ")"
             )
         );
 

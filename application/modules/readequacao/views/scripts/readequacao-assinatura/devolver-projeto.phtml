@@ -15,7 +15,8 @@
                 'module' => 'readequacao',
                 'controller' => 'readequacao-assinatura',
                 'action' => 'devolver-projeto'
-            )) . "?IdPRONAC={$this->IdPRONAC}";
+            )) . "?IdPRONAC={$this->IdPRONAC}"
+	       . "&idDocumentoAssinatura={$this->idDocumentoAssinatura}";
         ?>"
         method="post">
             <input type="hidden" name="IdPRONAC" value="<?php echo $this->IdPRONAC ?>" />

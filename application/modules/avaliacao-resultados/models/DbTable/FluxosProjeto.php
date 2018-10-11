@@ -6,7 +6,7 @@ class AvaliacaoResultados_Model_DbTable_FluxosProjeto extends MinC_Db_Table_Abst
     protected $_schema = "SAC";
     protected $_primary = "id";
 
-    public function projetos($estadoId)
+    public function projetos($estadoId, $idAgente = null)
     {
         $select = $this->select();
         $select->setIntegrityCheck(false);
@@ -22,6 +22,10 @@ class AvaliacaoResultados_Model_DbTable_FluxosProjeto extends MinC_Db_Table_Abst
             $this->_schema
         )
         ->where('estadoId = ? ', $estadoId);
+
+        if($idAgente) {
+            $select->where('idAgente = ? ', $idAgente);
+        }
 
         return $this->fetchAll($select);
     }

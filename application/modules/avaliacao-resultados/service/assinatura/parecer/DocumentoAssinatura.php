@@ -117,4 +117,13 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
 
         return $view->render('documento-assinatura.phtml');
     }
+
+    public function consultarDocumento($idPronac, $idTipoDoAtoAdministrativo){
+
+        $estado = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
+        $documento = $estado->isDocumentoFinalizado($idPronac, $idTipoDoAtoAdministrativo);
+
+        return $documento;
+
+    }
 }

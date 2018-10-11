@@ -463,8 +463,9 @@ class Autenticacao_Model_DbTable_Usuario extends MinC_Db_Table_Abstract
         $sql->where('gru_codigo <> ?', 129);
         $sql->order('org_siglaautorizado ASC');
         $sql->order('gru_nome ASC');
+
         return $this->fetchAll($sql);
-    } // fecha metodo buscarUnidades()
+    }
 
 
     /**

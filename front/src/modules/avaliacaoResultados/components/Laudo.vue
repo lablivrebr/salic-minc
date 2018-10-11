@@ -30,19 +30,6 @@
                         </v-flex>
                     </td>
                     <td class="text-xs-center">{{ props.item.nomeProjeto }}</td>
-                    <td
-                            v-if="props.item.cnpj"
-                            class="text-xs-center"
-                    >
-                        {{ props.item.cnpj }}
-                    </td>
-                    <td
-                            v-else
-                            class="text-xs-center"
-                    >
-                        {{ props.item.cpf }}
-                    </td>
-                    <td class="text-xs-center">{{ props.item.proponente }}</td>
                     <td class="text-xs-center">
                         <v-chip
                                 v-if="props.item.manifestacao == 1"
@@ -81,7 +68,8 @@
                         </v-btn>
                     </td>
                     <td class="text-xs-center">
-                        <v-btn flat icon color="blue">
+                        <v-btn flat icon color="blue"
+                               :to="{ name: 'EmitirLaudoFinal', params:{ id:props.item.pronac }}">
                             <v-icon>create</v-icon>
                         </v-btn>
                     </td>
@@ -123,6 +111,7 @@
         },
         data() {
             return {
+                // LinkEmitirLaudo: 'localhost/avaliacao-resultado/#/emitir-laudo-final/',
                 pagination: {
                     rowsPerPage: 10,
                 },
@@ -174,16 +163,6 @@
                     },
                     {
                         align: 'center',
-                        text: 'CNPJ/CPF',
-                        value: 'cpf',
-                    },
-                    {
-                        align: 'center',
-                        text: 'Proponente',
-                        value: 'proponente',
-                    },
-                    {
-                        align: 'center',
                         text: 'Manifestação',
                         value: 'manifestacao',
                     },
@@ -210,7 +189,6 @@
         },
         watch: {
             dadosTabela() {
-                this.pagination.totalItems = this.dadosTabela.items.length;
             },
         },
         computed: {
@@ -220,7 +198,6 @@
                 if (this.pagination.rowsPerPage == null ||
                     this.pagination.totalItems == null
                 ) return 0;
-                console.log(this.pagination.totalItems);
                 return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
             },
         },

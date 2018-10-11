@@ -1,46 +1,122 @@
 <template>
     <v-container fluid>
-        <h1 class="display-2 font-weight-thin">Análise Técnica</h1>
         <v-card>
             <v-tabs
-                    centered
-                    color="green"
-                    dark
-                    icons-and-text
+                centered
+                color="green"
+                dark
+                icons-and-text
             >
                 <v-tabs-slider color="deep-orange accent-3"></v-tabs-slider>
-
-                <v-tab href="#tab-1">
-                    Analisar
-                    <v-icon>how_to_reg</v-icon>
+                <v-tab href="#tab-0"
+                    v-if="getUsuario.grupo_ativo == 125"
+                >
+                    <template v-if="Object.keys(getProjetosParaDistribuir).length == 0">
+                        <v-progress-circular
+                            indeterminate
+                            color="primary"
+                            dark
+                        ></v-progress-circular>
+                    </template>
+                    <template v-else>
+                        Encaminhar
+                        <v-icon>assignment_ind</v-icon>
+                    </template>
                 </v-tab>
-
+                <v-tab href="#tab-1">
+                    <template v-if="Object.keys(dadosTabelaTecnico).length == 0">
+                        <v-progress-circular
+                            indeterminate
+                            color="primary"
+                            dark
+                        ></v-progress-circular>
+                    </template>
+                    <template v-else>
+                        Em Analise
+                        <v-icon>how_to_reg</v-icon>
+                    </template>
+                </v-tab>
                 <v-tab href="#tab-2">
-                     Finalizados 
+                     Assinar
+                    <v-icon>done</v-icon>
+                </v-tab>
+                <v-tab href="#tab-3">
+                     Em assinatura
                     <v-icon>done_all</v-icon>
+                </v-tab>
+                <v-tab href="#tab-4">
+                     Historico
+                    <v-icon>history</v-icon>
                 </v-tab>
 
                 <v-tab-item
-                        :id="'tab-1'"
-                        :key="1"
+                    :id="'tab-0'"
+                    :key="0"
                 >
-                    <v-card flat>
+                    <TabelaProjetos
+                        v-if="getProjetosParaDistribuir"
+                        :dados="getProjetosParaDistribuir"
+                        :componentes="distribuirAcoes"
+                    ></TabelaProjetos>
+                </v-tab-item>
+                <v-tab-item
+                    :id="'tab-1'"
+                    :key="1"
+                >
+                    <v-card flat
+                        v-if="dadosTabelaTecnico"
+                    >
                         <v-card-text>
                             <TabelaProjetos
+                                v-if="getUsuario.grupo_ativo == 125"
                                 :analisar="true"
                                 :dados="dadosTabelaTecnico"
+                                :componentes="listaAcoesCoordenador"
+                            ></TabelaProjetos>
+                            <TabelaProjetos
+                                v-else
+                                :analisar="true"
+                                :dados="dadosTabelaTecnico"
+                                :componentes="listaAcoesTecnico"
                             ></TabelaProjetos>
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
                 <v-tab-item
-                        :id="'tab-2'"
-                        :key="2"
+                    :id="'tab-2'"
+                    :key="2"
                 >
                     <v-card flat>
                         <v-card-text>
                             <TabelaProjetos
-                                :dados="getProjetosFinalizados"
+                                :dados="getProjetosAssinar"
+                                :componentes="listaAcoesTecnico"
+                            ></TabelaProjetos>
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
+                <v-tab-item
+                    :id="'tab-3'"
+                    :key="3"
+                >
+                    <v-card flat>
+                        <v-card-text>
+                            <TabelaProjetos
+                                :dados="getProjetosEmAssinatura"
+                                :componentes="listaAcoesTecnico"
+                            ></TabelaProjetos>
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
+                <v-tab-item
+                    :id="'tab-4'"
+                    :key="4"
+                >
+                    <v-card flat>
+                        <v-card-text>
+                            <TabelaProjetos
+                                :dados="getProjetosHistorico"
+                                :componentes="listaAcoesTecnico"
                             ></TabelaProjetos>
                         </v-card-text>
                     </v-card>
@@ -51,17 +127,46 @@
 </template>
 
 <script>
+
 import { mapActions, mapGetters } from 'vuex';
 import TabelaProjetos from './TabelaProjetos';
+import Historico from './Historico';
+import Encaminhar from './ComponenteEncaminhar';
+import TipoAvaliacao from './TipoAvaliacao';
+import AnaliseButton from './analise/analisarButton';
 
 export default {
     name: 'Painel',
     created() {
         this.projetosFinalizados({ estadoid: 6 });
         this.obterDadosTabelaTecnico({ estadoid: 5 });
+        this.distribuir({ estadoid: 6 });
+
+        this.projetosAssinatura({ estado: 'assinar' });
+        this.projetosAssinatura({ estado: 'em_assinatura' });
+        this.projetosAssinatura({ estado: 'historico' });
+
+        this.usuarioLogado();
+    },
+    mounted() {
+    },
+    watch: {
+        getUsuario(val) {
+            if (Object.keys(val).length > 0 && val.usu_codigo != 0 ) {
+                this.projetosFinalizados({ estadoid: 6, idAgente: this.getUsuario.usu_codigo });
+                this.obterDadosTabelaTecnico({ estadoid: 5, idAgente: this.getUsuario.usu_codigo });
+                this.distribuir({ estadoid: 6 });
+            }
+        },
     },
     data() {
         return {
+            listaAcoesTecnico: [Historico, AnaliseButton],
+            listaAcoesCoordenador: [Historico],
+            //listaAcoesTecnico: [Historico, TipoAvaliacao],
+            listaAcoesCoordenador: [Historico],
+            //listaAcoesCoordenador: [Historico, TipoAvaliacao],
+            distribuirAcoes: [Encaminhar],
         };
     },
     components: {
@@ -71,12 +176,20 @@ export default {
         ...mapActions({
             obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
             projetosFinalizados: 'avaliacaoResultados/projetosFinalizados',
+            projetosAssinatura: 'avaliacaoResultados/projetosAssinatura',
+            distribuir: 'avaliacaoResultados/projetosParaDistribuir',
+            usuarioLogado: 'autenticacao/usuarioLogado',
         }),
     },
     computed: {
         ...mapGetters({
             dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
             getProjetosFinalizados: 'avaliacaoResultados/getProjetosFinalizados',
+            getProjetosAssinar: 'avaliacaoResultados/getProjetosAssinar',
+            getProjetosEmAssinatura: 'avaliacaoResultados/getProjetosEmAssinatura',
+            getProjetosHistorico: 'avaliacaoResultados/getProjetosHistorico',
+            getProjetosParaDistribuir: 'avaliacaoResultados/getProjetosParaDistribuir',
+            getUsuario: 'autenticacao/getUsuario',
         }),
     },
 };

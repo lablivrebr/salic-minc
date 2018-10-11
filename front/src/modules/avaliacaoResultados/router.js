@@ -9,8 +9,10 @@ import AnaliseComprovantes from './components/AnaliseComprovantes';
 import Diligenciar from './components/Diligenciar';
 import Historico from './components/Historico';
 import ConsolidacaoAnalise from './components/ConsolidacaoAnalise';
+import EmitirLaudoFinal from './components/EmitirLaudoFinal';
 import Laudo from './components/Laudo';
-import AnalisarAvaliacao from './components/AnalisarAvaliacao';
+import AnalisarItem from './components/AnalisarItem';
+import RevisaoParecer from './components/RevisaoParecer';
 
 Vue.use(Router);
 
@@ -40,6 +42,14 @@ const routes = [
         },
     },
     {
+        path: '/revisao',
+        name: 'Revisao',
+        component: RevisaoParecer,
+        meta: {
+            title: 'Revisão Parecer',
+        },
+    },
+    {
         path: '/tipo-avaliacao/:id',
         name: 'tipoAvaliacao',
         component: TipoAvaliacao,
@@ -49,7 +59,7 @@ const routes = [
     },
     {
         path: '/planilha/:id',
-        name: 'Analise Planilha',
+        name: 'AnalisePlanilha',
         component: Planilha,
         meta: {
             title: 'Analise da planilha',
@@ -64,7 +74,7 @@ const routes = [
         },
     },
     {
-        path: '/diligenciar',
+        path: '/diligenciar/:id',
         name: 'Diligenciar',
         component: Diligenciar,
         meta: {
@@ -88,11 +98,11 @@ const routes = [
         },
     },
     {
-        path: '*',
-        name: 'Painel',
-        component: Painel,
+        path: '/emitir-laudo-final/:id',
+        name: 'EmitirLaudoFinal',
+        component: EmitirLaudoFinal,
         meta: {
-            title: 'Painel',
+            title: 'Emitir Laudo Final',
         },
     },
     {
@@ -104,11 +114,19 @@ const routes = [
         },
     },
     {
-        path: '/analisar-avaliacao',
-        name: 'AnalisarAvaliacao',
-        component: AnalisarAvaliacao,
+        path: '/analisar-item/*',
+        name: 'AnalisarItem',
+        component: AnalisarItem,
         meta: {
-            title: 'Análise da avaliação de resultados',
+            title: 'Análise de itens',
+        },
+    },
+    {
+        path: '*',
+        name: 'Painel',
+        component: Painel,
+        meta: {
+            title: 'Painel',
         },
     },
 ];

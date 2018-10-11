@@ -371,7 +371,7 @@ class Assinatura_Model_DbTable_TbDocumentoAssinatura extends MinC_Db_Table_Abstr
         }
     }
 
-    public function isDocumentoFinalizado($idTipoDoAtoAdministrativo, $idPronac){
+    public function isDocumentoFinalizado($idPronac, $idTipoDoAtoAdministrativo){
 
         $query = $this->select();
         $query->setIntegrityCheck(false);

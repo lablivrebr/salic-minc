@@ -104,8 +104,17 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
             $where['a.idProjeto = ?'] = (int) $idPreProjeto;
         }
 
+        # Proponente
         if (empty($where)) {
-            throw new Exception("Identifica&ccedil;&atilde;o do projeto &eacute; obrigat&oacute;rio!");
+
+            if (isset($this->usuario['cpf'])) {
+
+                if (!empty($this->idAgente)) {
+                    $whereAgente = "OR a.idAgente = {$this->idAgente}";
+                }
+
+                $where["(a.idSolicitante = {$this->idUsuario} {$whereAgente})"] = '';
+            }
         }
 
         # funcionarios do minc

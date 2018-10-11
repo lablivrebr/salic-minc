@@ -6,7 +6,13 @@
                   transition="dialog-bottom-transition"
                   hide-overlay
         >
-            <v-btn slot="activator" color="red" dark>
+            <v-btn
+                    slot="activator"
+                    color="red"
+                    dark
+                    small
+                    title="Comprovar Item"
+            >
                 <v-icon>gavel</v-icon>
             </v-btn>
             <v-card>
@@ -25,39 +31,39 @@
                             :items="[]"
                             hide-actions
                     >
-                        <template slot="no-data">
+                        <template v-if="dadosItemComprovacao.dadosItem" slot="no-data">
                             <tr>
                                 <th colspan="6">Comprova&ccedil;&atilde;o de Pagamento do Item</th>
                             </tr>
                             <tr>
                                 <td left><b>Produto:</b></td>
-                                <td>asdasdasd</td>
+                                <td>{{dadosItemComprovacao.dadosItem.Produto}}</td>
                                 <td left><b>Etapa:</b></td>
-                                <td>asccccccccsd</td>
+                                <td>{{dadosItemComprovacao.dadosItem.Etapa}}</td>
                                 <td left><b>Item de Custo:</b></td>
-                                <td>abbbbbda</td>
+                                <td>{{dadosItemComprovacao.dadosItem.Item}}</td>
                             </tr>
                             <tr>
                                 <td left><b>Valor Aprovado:</b></td>
-                                <td>R$ 1212121212121212</td>
+                                <td>R$ {{dadosItemComprovacao.dadosItem.vlAprovado}}</td>
                                 <td left><b>Valor Comprovado:</b></td>
-                                <td>R$ 34343434343434343434</td>
+                                <td>R$ {{dadosItemComprovacao.dadosItem.vlComprovado}}</td>
                                 <td left><b>Comprovação Validada:</b></td>
-                                <td>R$ 454545</td>
+                                <td>R$ {{dadosItemComprovacao.dadosItem.ComprovacaoValidada}}</td>
                             </tr>
                         </template>
                     </v-data-table>
 
                     <v-subheader >Itens</v-subheader>
 
-                    <v-expansion-panel>
+                    <v-expansion-panel v-if="dadosItemComprovacao.comprovantes">
                         <v-expansion-panel-content
-                                v-for="(item,i) in 5"
+                                v-for="(comprovante, i) in dadosItemComprovacao.comprovantes"
                                 :key="i"
                         >
                             <v-layout slot="header" class="blue--text">
                                 <v-icon class="mr-3 blue--text" >local_shipping</v-icon>
-                                Fornecedor: Emerson Teste da Silva - R$ 7.500,00
+                                Fornecedor: {{comprovante.fornecedor.nome}} - R$ {{comprovante.vlComprovacao}}
                                 <v-spacer></v-spacer>
                                 <v-chip small color="green" text-color="white">
                                     <v-avatar>
@@ -75,19 +81,12 @@
                                 <v-flex >
 
                                     <v-toolbar dense>
-                                        <v-toolbar-title>Avaliar Comprovante - comprovante.pdf</v-toolbar-title>
+                                        <v-toolbar-title>Avaliar Comprovante - {{comprovante.arquivo.nome}}</v-toolbar-title>
 
 
-                                        <v-btn icon>
+                                        <v-btn  icon>
                                             <v-icon>get_app</v-icon>
                                         </v-btn>
-                                        <v-spacer></v-spacer>
-                                        <div>
-                                            <v-btn depressed small color="primary">
-                                                Salvar
-                                                <v-icon right small>save</v-icon>
-                                            </v-btn>
-                                        </div>
                                     </v-toolbar>
 
                                     <v-card-text>
@@ -105,33 +104,33 @@
                                                     <template slot="no-data">
                                                         <tr>
                                                             <td left><b>Fornecedor:</b></td>
-                                                            <td>Anbasadasd</td>
+                                                            <td>{{comprovante.fornecedor.nome}}</td>
                                                             <td left><b>CNPJ/CPF:</b></td>
-                                                            <td colspan="5">0475276912-12</td>
+                                                            <td colspan="5">{{comprovante.CNPJCPF}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td left><b>Comprovante:</b></td>
-                                                            <td >123123123</td>
+                                                            <td >{{comprovante.tpDocumento}}</td>
                                                             <td left><b>Número:</b></td>
-                                                            <td>1231231231</td>
+                                                            <td>{{comprovante.numero}}</td>
                                                             <td left><b>S&eacute;rie:</b></td>
-                                                            <td colspan="3">12123123123123</td>
+                                                            <td colspan="3">{{comprovante.serie}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td left><b>Dt. Emiss&atilde;o do comprovante de despesa:</b></td>
-                                                            <td>15/15/15</td>
+                                                            <td>{{comprovante.dataEmissao}}</td>
                                                             <td left><b>Forma de Pagamento:</b></td>
-                                                            <td>testetsete</td>
+                                                            <td>{{comprovante.tpFormaDePagamento}}</td>
                                                             <td left><b>Data do Pagamento:</b></td>
-                                                            <td>12/12/12</td>
+                                                            <td>{{comprovante.dtPagamento}}</td>
                                                             <td left style="width: 155px;"><b>N&ordm; Documento Pagamento:</b></td>
-                                                            <td>asdasdaaaaaasdasd</td>
+                                                            <td>{{comprovante.numeroDocumento}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td left><b>Valor:</b></td>
-                                                            <td>R$ 111111111111111111</td>
+                                                            <td>{{comprovante.valor}}</td>
                                                             <td left><b>Justificativa do Proponente:</b></td>
-                                                            <td colspan="5">sgsdfgdfgsdfgsdfgsdfg</td>
+                                                            <td colspan="5">{{comprovante.justificativa}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td left><b>Avaliação:</b></td>
@@ -153,6 +152,11 @@
                                                         hint="Digite o parecer da sua avaliação"
                                                         height="180px"
                                                 ></v-textarea>
+                                                <div>
+                                                    <v-btn depressed small color="primary">
+                                                        Salvar
+                                                    </v-btn>
+                                                </div>
                                             </v-card-text>
                                         </v-card>
                                     </v-card-text>
@@ -170,25 +174,28 @@
     import { mapActions, mapGetters } from 'vuex';
 
     export default {
-        name: 'AnalisarAvaliacao',
-        // props: [
-        //     'idPronac',
-        //     'pronac',
-        //     'nomeProjeto',
-        // ],
+        name: 'AnalisarItem',
+        props: [
+            'idPronac',
+            'uf',
+            'produto',
+            'idmunicipio',
+            'idPlanilhaItem',
+            'etapa',
+        ],
         watch: {
             dialog(val) {
                 if (val) {
+                    if (typeof this.getUrlParams() !== 'undefined') {
+                        this.obterDadosItemComprovacao(this.getUrlParams());
+                    } else {
+                        this.obterDadosItemComprovacao(`idPronac/${this.idPronac}/uf/${this.uf}/produto/${this.produto}/idmunicipio/${this.idmunicipio}/idPlanilhaItem/${this.idPlanilhaItem}/etapa/${this.etapa}`);
+                    }
                 }
             },
         },
         data() {
             return {
-                props: {
-                    idPronac: 123456,
-                    pronac: 12345,
-                    nomeProjeto: 'Teste',
-                },
                 projetoHeaders: [
                     {
                         text: 'PRONAC',
@@ -261,12 +268,28 @@
         },
         methods: {
             ...mapActions({
-                obterHistoricoEncaminhamento: 'avaliacaoResultados/obterHistoricoEncaminhamento',
+                obterDadosItemComprovacao: 'avaliacaoResultados/obterDadosItemComprovacao',
             }),
+            getUrlParamsToJson() {
+                let urlParams = this.$route.params[0];
+                urlParams = urlParams.split('/');
+
+                const dados = {};
+
+                urlParams.forEach((valor, index) => {
+                    if ((index % 2) !== 0) {
+                        dados[urlParams[index - 1]] = valor;
+                    }
+                });
+                return dados;
+            },
+            getUrlParams() {
+                return this.$route.params[0];
+            },
         },
         computed: {
             ...mapGetters({
-                dadosHistoricoEncaminhamento: 'avaliacaoResultados/dadosHistoricoEncaminhamento',
+                dadosItemComprovacao: 'avaliacaoResultados/dadosItemComprovacao',
             }),
         },
     };

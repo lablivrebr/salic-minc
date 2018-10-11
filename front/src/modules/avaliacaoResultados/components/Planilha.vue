@@ -1,23 +1,50 @@
 <template>
-    <v-container fluid>
+    <v-container fluid v-if="dadosProjeto">
         <v-card>
             <v-card-title primary-title>
-                <h3>TÍTULO A SER DEFINIDO</h3>
+                <h2>{{ dadosProjeto.items.pronac }} &#45; {{ dadosProjeto.items.nomeProjeto }}</h2>
             </v-card-title>
             <v-card-text>
-                <p v-if="existeDiligencia">Existe Diligência para esse projeto. Acesse <router-link to="#">aqui</router-link>.</p>
+                <p v-if="dadosProjeto.items.diligencia">Existe Diligência para esse projeto. Acesse <a :href="'/proposta/diligenciar/listardiligenciaanalista/idPronac/' + idPronac">aqui</a>.</p>
+                <p v-else-if="documento != 0">Existe Documento para assinar nesse projeto.</p>
+                <p v-else-if="estado.estadoId == 5">Projeto em analise.</p>
                 <p v-else>Sem Observações.</p>
+                <div class="mt-4 mb-3">
+                    <div class="d-inline-block">
+                        <h4>Valor Aprovado</h4>
+                        {{ moeda(dadosProjeto.items.vlAprovado) }}
+                    </div>
+                    <div class="d-inline-block ml-5">
+                        <h4>Valor Comprovado</h4>
+                        {{ moeda(dadosProjeto.items.vlComprovado) }}
+                    </div>
+                    <div class="d-inline-block ml-5">
+                        <h4>Valor a Comprovar</h4>
+                        {{ moeda(dadosProjeto.items.vlTotalComprovar) }}
+                    </div>
+                </div>
             </v-card-text>
             <v-card-actions>
-                <v-btn color="success" to="#">VER PROJETO</v-btn>
-                <v-btn color="success" to="#">CONSOLIDAÇÃO</v-btn>
+
+                <v-btn
+                    color="success"
+                    :href="'/consultardadosprojeto/index?idPronac=' + idPronac" target="_blank"
+                    class="mr-2"
+                >VER PROJETO</v-btn>
+
+                <consolidacao-analise
+                    :idPronac="idPronac"
+                    :nomeProjeto="dadosProjeto.items.nomeProjeto"
+                ></consolidacao-analise>
+
             </v-card-actions>
         </v-card>
         <v-card class="mt-3" flat>
             <!-- PRODUTO -->
             <v-expansion-panel
                 expand
-                v-if="this.getPlanilha != undefined && Object.keys(this.getPlanilha)"
+                :v-if="getPlanilha != undefined && Object.keys(getPlanilha)"
+                :value="expandir(getPlanilha)"
             >
                 <v-expansion-panel-content
                     v-for="(produto,i) in getPlanilha"
@@ -31,6 +58,7 @@
                         <v-expansion-panel
                             class="pl-3 elevation-0"
                             expand
+                            :value="expandir(produto)"
                         >
                             <v-expansion-panel-content
                                 v-for="(etapa,i) in produto.etapa"
@@ -44,6 +72,7 @@
                                 <v-expansion-panel
                                     class="pl-3 elevation-0"
                                     expand
+                                    :value="expandir(etapa)"
                                 >
                                     <v-expansion-panel-content
                                         v-for="(uf,i) in etapa.UF"
@@ -57,6 +86,7 @@
                                         <v-expansion-panel
                                             class="pl-3 elevation-0"
                                             expand
+                                            :value="expandir(uf)"
                                         >
                                             <v-expansion-panel-content
                                                 v-for="(cidade,i) in uf.cidade"
@@ -82,19 +112,31 @@
                                                                     <td>{{ moeda(props.item.varlorAprovado) }}</td>
                                                                     <td>{{ moeda(props.item.varlorComprovado) }}</td>
                                                                     <td>{{ moeda(props.item.varlorAprovado - props.item.varlorComprovado) }}</td>
-                                                                    <td v-if="props.item.varlorComprovado !== 0">
-                                                                        <v-btn
-                                                                            :href="'/prestacao-contas/analisar/comprovante/idPronac/' + idPronac + '/uf/' + uf.Uf + '/produto/' + produto.cdProduto + '/idmunicipio/' + cidade.cdCidade + '/idPlanilhaItem/' + props.item.idPlanilhaItens + '/etapa/' + etapa.cdEtapa"
-                                                                            replace
-                                                                            color="red"
-                                                                            small
-                                                                            dark
-                                                                            title="Comprovar Item"
+                                                                    <td >
+                                                                        <template
+                                                                            v-if="podeEditar(props.item.varlorComprovado)"
                                                                         >
-                                                                                <v-icon>gavel</v-icon>
-                                                                        </v-btn>
+                                                                            <!--<v-btn-->
+                                                                                <!--:href="'/avaliacao-resultados/#/analisar-item/idPronac/' + idPronac + '/uf/' + uf.Uf + '/produto/' + produto.cdProduto + '/idmunicipio/' + cidade.cdCidade + '/idPlanilhaItem/' + props.item.idPlanilhaItens + '/etapa/' + etapa.cdEtapa"-->
+                                                                                <!--replace-->
+                                                                                <!--color="red"-->
+                                                                                <!--small-->
+                                                                                <!--dark-->
+                                                                                <!--title="Comprovar Item"-->
+                                                                            <!--&gt;-->
+                                                                                <!--<v-icon>gavel</v-icon>-->
+                                                                            <!--</v-btn>-->
+                                                                            <analisar-item
+                                                                                :id-pronac="idPronac"
+                                                                                :uf="uf.Uf"
+                                                                                :produto="produto.cdProduto"
+                                                                                :idmunicipio="cidade.cdCidade"
+                                                                                :id-planilha-item="props.item.idPlanilhaItens"
+                                                                                :etapa="etapa.cdEtapa"
+                                                                            >
+                                                                            </analisar-item>
+                                                                        </template>
                                                                     </td>
-                                                                    <td v-else>Sem comprovantes</td>
                                                                 </template>
                                                             </v-data-table>
                                                         </v-tab-item>
@@ -108,23 +150,6 @@
                         </v-expansion-panel>
                 </v-expansion-panel-content>
             </v-expansion-panel>
-        </v-card>
-
-        <v-card class="mt-3 pa-3" color="teal">
-            <table class="white--text font-weight-bold" width="100%">
-                <tr>
-                    <td>Valor Aprovado</td>
-                    <td>R$ 00,00</td>
-                </tr>
-                <tr>
-                    <td>Valor Comprovado</td>
-                    <td>R$ 00,00</td>
-                </tr>
-                <tr>
-                    <td>Valor a Comprovar</td>
-                    <td>R$ 00,00</td>
-                </tr>
-            </table>
         </v-card>
 
         <v-speed-dial
@@ -146,53 +171,45 @@
                 <v-icon>menu</v-icon>
                 <v-icon>close</v-icon>
             </v-btn>
-            <v-tooltip left>
+            <v-tooltip left v-if="(documento != 0)">
+
                 <v-btn
                     fab
                     dark
                     small
                     color="green"
                     slot="activator"
+                    :href="'/assinatura/index/visualizar-projeto?idDocumentoAssinatura=' + documento.idDocumentoAssinatura"
+
                 >
-                    <v-icon>check</v-icon>
+                    <v-icon>edit</v-icon>
                 </v-btn>
-                <span>Finalizar Análise</span>
+                <span>Assinar</span>
             </v-tooltip>
-            <v-tooltip left>
+            <v-tooltip left v-if="(documento == 0)">
                 <v-btn
                     fab
                     dark
                     small
                     color="teal"
                     slot="activator"
+                    :to="'/emitir-parecer/' + idPronac"
                 >
                     <v-icon>gavel</v-icon>
                 </v-btn>
                 <span>Emitir Parecer</span>
             </v-tooltip>
-            <v-tooltip left>
+            <v-tooltip left v-if="(documento == 0)">
                 <v-btn
                     fab
                     dark
                     small
-                    color="white"
+                    color="red ligthen-4"
                     slot="activator"
                 >
                     <v-icon>warning</v-icon>
                 </v-btn>
                 <span>Diligenciar</span>
-            </v-tooltip>
-            <v-tooltip left>
-                <v-btn
-                    fab
-                    dark
-                    small
-                    color="yellow"
-                    slot="activator"
-                >
-                    <v-icon>arrow_upward</v-icon>
-                </v-btn>
-                <span>Ir para o topo</span>
             </v-tooltip>
         </v-speed-dial>
      </v-container>
@@ -201,13 +218,13 @@
 <script>
     import { mapActions, mapGetters } from 'vuex';
     import ModalTemplate from '@/components/modal';
+    import ConsolidacaoAnalise from './ConsolidacaoAnalise';
+    import AnalisarItem from './AnalisarItem';
 
     export default {
         name: 'Painel',
         data() {
             return {
-                existeDiligencia: true,
-                produtos: this.planilha,
                 headers: [
                     { text: 'Item de Custo', value: 'item', sortable: false },
                     { text: 'Valor Aprovado', value: 'varlorAprovado', sortable: false },
@@ -228,21 +245,56 @@
         computed: {
             ...mapGetters({
                 getPlanilha: 'avaliacaoResultados/planilha',
+                getProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
             }),
+            dadosProjeto() {
+                return this.getProjetoAnalise.data;
+            },
+            documento() {
+                let documento = this.getProjetoAnalise.data.items.documento;
+                documento = documento !== null ? this.getProjetoAnalise.data.items.documento : 0;
+                return documento;
+            },
+            estado() {
+                let estado = this.getProjetoAnalise.data.items.estado;
+                estado = (estado !== null) ? this.getProjetoAnalise.data.items.estado : 0;
+                return estado;
+            },
         },
         mounted() {
             this.setPlanilha(this.idPronac);
+            this.setProjetoAnalise(this.idPronac);
         },
         components: {
             ModalTemplate,
+            ConsolidacaoAnalise,
+            AnalisarItem,
         },
         methods: {
             ...mapActions({
                 setPlanilha: 'avaliacaoResultados/planilha',
+                setProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
             }),
             moeda: (moedaString) => {
                 const moeda = Number(moedaString);
                 return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+            },
+            podeEditar(varlorComprovado) {
+                if (varlorComprovado !== 0
+                    && !this.dadosProjeto.items.diligencia
+                    && this.documento == 0) {
+                    return true;
+                }
+
+                return false;
+            },
+            expandir(obj) {
+                const arr = [];
+                const items = Object.keys(obj).length;
+                for (let i = 0; i < items; i += 1) {
+                    arr.push(true);
+                }
+                return arr;
             },
         },
     };

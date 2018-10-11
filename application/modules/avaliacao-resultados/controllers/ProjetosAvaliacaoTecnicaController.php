@@ -1,5 +1,5 @@
 <?php
-
+// @todo apagar controller
 use Application\Modules\AvaliacaoResultados\Service\ParecerTecnico\AvaliacaoFinanceira as AvaliacaoFinanceiraService;
 
 class AvaliacaoResultados_ProjetosAvaliacaoTecnicaController extends MinC_Controller_Rest_Abstract

@@ -196,7 +196,6 @@
 </template>
 
 <script>
-
 import { mapActions, mapGetters } from 'vuex';
 import Planilha from '@/components/Planilha/Planilha';
 import Carregando from '@/components/Carregando';

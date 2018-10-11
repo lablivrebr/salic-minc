@@ -14,14 +14,14 @@
                             <v-btn dark flat 
                                 @click.native="salvarParecer()" 
                                 :disabled="!valid"
-                                :href="redirectLink"
+                                :to="redirectLink"
                             >
                                 Salvar
                             </v-btn>
                             <v-btn dark flat
                                 @click.native="finalizarParecer()"
                                 :disabled="!valid"
-                                :href="redirectLink"
+                                :to="redirectLink"
                             >
                                 Finalizar
                             </v-btn>
@@ -137,12 +137,12 @@ import { mapActions, mapGetters } from 'vuex';
 import ModalTemplate from '@/components/modal';
 
 export default {
-    name: 'UpdateBar',
+    name: 'EmitirParecer',
     data() {
         return {
             tipo: true,
             idPronac: this.$route.params.id,
-            redirectLink: '/prestacao-contas/realizar-prestacao-contas/index/idPronac/',
+            redirectLink: '/planilha/',
             valid: false,
             dialog: true,
             itemRules: [
@@ -176,8 +176,6 @@ export default {
     methods:
     {
         ...mapActions({
-            modalOpen: 'modal/modalOpen',
-            modalClose: 'modal/modalClose',
             requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
             salvar: 'avaliacaoResultados/salvarParecer',
             finalizar: 'avaliacaoResultados/finalizarParecer',
@@ -222,6 +220,7 @@ export default {
                 atual: 5,
                 proximo: 6,
             };
+
             this.finalizar(data);
         },
         inputParecer(e) {

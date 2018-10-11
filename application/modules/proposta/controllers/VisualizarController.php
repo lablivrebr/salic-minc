@@ -6,6 +6,8 @@ class Proposta_VisualizarController extends Proposta_GenericController
     {
         parent::init();
 
+        $this->verificarPermissaoAcesso(true, false, false);
+
     }
 
     public function indexAction()

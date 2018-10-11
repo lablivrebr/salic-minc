@@ -20,10 +20,11 @@ class AvaliacaoResultados_FluxoProjetoController extends MinC_Controller_Rest_Ab
 
     public function indexAction()
     {
-        $estadoId = $this->getRequest()->getParam('estadoid');
+        $estadoId = (int)$this->getRequest()->getParam('estadoid');
+        $idAgente = (int)$this->getRequest()->getParam('idAgente');
 
         $fluxo = new AvaliacaoResultados_Model_DbTable_FluxosProjeto();
-        $projetos = $fluxo->projetos($estadoId);
+        $projetos = $fluxo->projetos($estadoId, $idAgente);
         $aux = [];
 
         foreach($projetos as $projeto){

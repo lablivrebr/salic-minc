@@ -1,11 +1,10 @@
 <template>
     <div>
         <v-data-table
-                :headers="cabecalho"
-                :items="dados.items"
-                :pagination.sync="pagination"
-                hide-actions
-
+            :headers="cabecalho"
+            :items="dados.items"
+            :pagination.sync="pagination"
+            hide-actions
         >
             <template slot="items" slot-scope="props">
                 <td>{{ props.index+1 }}</td>
@@ -16,34 +15,33 @@
                         </div>
                     </v-flex>
                 </td>
-                <td class="text-xs-right">{{ props.item.NomeProjeto }}</td>
-                <td class="text-xs-right">{{ props.item.Situacao }}</td>
-                <td class="text-xs-right">{{ props.item.Area }}/{{ props.item.Segmento }}</td>
-                <td class="text-xs-right">{{ props.item.UfProjeto }}</td>
-                <td class="text-xs-right">{{ props.item.DtSituacao }}</td>
-                <td class="text-xs-right">
-                    <v-btn flat icon color="green" :to="{ name: 'tipoAvaliacao', params:{ id:props.item.idPronac }}">
-                        <v-icon class="material-icons">compare_arrows</v-icon>
+                <td class="text-xs-left">{{ props.item.NomeProjeto }}</td>
+                <td class="text-xs-center">{{ props.item.Situacao }}</td>
+                <td class="text-xs-center">{{ props.item.UfProjeto }}</td>
+                <!-- <td class="text-xs-right">
+                    <v-btn flat icon color="green" :to="{ name: 'AnalisePlanilha', params:{ id:props.item.idPronac }}">
+                        <v-icon class="material-icons">assignment_indcompare_arrows</v-icon>
                     </v-btn>
                 </td>
                 <td class="text-xs-right">
                     <v-btn flat icon color="indigo" :href="'/proposta/diligenciar/listardiligenciaanalista?idPronac='+ props.item.idPronac +'&situacao=E17&tpDiligencia=174'">
                         <v-icon>warning</v-icon>
                     </v-btn>
-                </td>
-                <td class="text-xs-right">
-                    <Historico
-                            :id-pronac="props.item.idPronac"
-                            :pronac="props.item.Pronac"
+                </td> -->
+                <td class="text-xs-center">
+                    <template v-for="c in componentes">
+                        <component 
+                            :is="c" 
+                            :id-pronac="props.item.IdPRONAC"
+                            :pronac="props.item.PRONAC"
                             :nome-projeto="props.item.NomeProjeto"
-                    ></Historico>
-
+                        ></component>
+                    </template>
                 </td>
             </template>
             <template slot="no-data">
                 <v-alert :value="true" color="error" icon="warning">
                     Nenhum dado encontrado ¯\_(ツ)_/¯
-
                 </v-alert>
             </template>
         </v-data-table>
@@ -58,17 +56,15 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import ModalTemplate from '@/components/modal';
 import Historico from './Historico';
 
 export default {
     name: 'TabelaProjetos',
-    props: ['dados'],
+    props: ['dados', 'componentes'],
     data() {
         return {
             pagination: {
@@ -83,43 +79,32 @@ export default {
                     value: 'numero',
                 },
                 { text: 'PRONAC', value: 'Pronac' },
-                { text: 'Nome Do Projeto', value: 'NomeProjeto' },
-                { text: 'Situacao', value: 'Situacao' },
-                { text: 'Area/Segmento', value: 'Area' },
-                { text: 'Estado', value: 'UfProjeto' },
-                { text: 'Dt.recebimento', value: 'DtSituacao' },
+                { text: 'Nome Do Projeto', 
+                    align: 'center',
+                    value: 'NomeProjeto' },
+                { 
+                    text: 'Situacao', 
+                    align: 'center',
+                    value: 'Situacao' },
+                { 
+                    text: 'Estado', 
+                    align: 'center',
+                    value: 'UfProjeto' },
                 {
-                    text: 'Analisar',
-                    value: 'analisar',
+                    text: 'Ações',
                     sortable: false,
-                },
-                {
-                    text: 'Diligencia',
-                    value: 'diligencia',
-                    sortable: false,
-
-                },
-                {
-                    text: 'Historico',
-                    value: 'historico',
-                    sortable: false,
+                    align: 'center',
                 },
             ],
         };
     },
     components: {
-        ModalTemplate,
         Historico,
     },
     methods: {
         ...mapActions({
             obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
         }),
-    },
-    watch: {
-        dadosTabelaTecnico() {
-            this.pagination.totalItems = this.dadosTabelaTecnico.items.length;
-        },
     },
     computed: {
         ...mapGetters({
@@ -130,6 +115,13 @@ export default {
                 this.pagination.totalItems == null
             ) return 0;
             return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
+        },
+    },
+    watch: {
+        dadosTabelaTecnico() {
+            if (this.dados.items !== undefined) {
+                this.pagination.totalItems = this.dados.items.length;
+            }
         },
     },
 };

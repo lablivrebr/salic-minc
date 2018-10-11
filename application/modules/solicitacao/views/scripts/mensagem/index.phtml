@@ -63,7 +63,7 @@ if ($this->listarTudo == true) {
                         class="btn disabled">Nova Solicita&ccedil;&atilde;o</a>
                     </div>
                     <div class="message"><span>Voc&ecirc; possui uma solicita&ccedil;&atilde;o aguardando resposta.</span></div>
-                <?php elseif ($this->isProponente) : ?>
+                <?php elseif ($this->isProponente && ($this->projeto->IdPRONAC || $this->proposta->idPreProjeto)) : ?>
                     <div class="center-align padding20">
                         <a id="btn_enviar"
                         href="<?= $this->url(array('module' => 'solicitacao', 'controller' => 'mensagem', 'action' => 'solicitar', 'idPronac' => $this->projeto->IdPRONAC, 'idPreProjeto' => $this->proposta->idPreProjeto)); ?>"

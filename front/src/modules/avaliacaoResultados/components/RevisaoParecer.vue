@@ -300,6 +300,9 @@
                                 </v-card>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
+
+
+
                     </v-card-text>
                 </v-container>
             </v-card>
@@ -309,10 +312,9 @@
 
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
-    import {grupoAtivo} from "../../../components/menu-superior/store/getters";
+    import {mapActions, mapGetters} from 'vuex';
 
-  export default {
+    export default {
       name: 'RevisaoParecer',
       data() {
           return {
@@ -364,9 +366,9 @@
               }),
               getConsolidacao(id) {
                   this.requestEmissaoParecer(id);
-                  this.configurarAcesso();
+                  this.setStatus();
               },
-              configurarAcesso() {
+              setStatus() {
                   this.items.forEach(i => {
                       if (i['id'] == this.getParecer.siManifestacao) {
                           this.item = i.text;

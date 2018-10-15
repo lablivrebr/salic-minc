@@ -28,18 +28,17 @@ class AvaliacaoResultados_LaudoController extends MinC_Controller_Rest_Abstract
         $service = new LaudoService();
         $projetos = $service->obterProjetos();
 
-        $data = [];
-
-        foreach($projetos as $projeto){
-            $data[] =  array_map('utf8_encode', $projeto);
-        }
-        $this->renderJsonResponse($data, 200);
+        $this->renderJsonResponse(
+            \TratarArray::utf8EncodeArray($projetos),
+            200
+        );
     }
 
     public function getAction()
     {
+        $idPronac = $this->getRequest()->getParam('idPronac');
         $service = new LaudoService();
-        $data = $service->obterLaudo();
+        $data = $service->obterLaudo($idPronac);
         $this->renderJsonResponse($data, 200);
 
     }
@@ -52,7 +51,7 @@ class AvaliacaoResultados_LaudoController extends MinC_Controller_Rest_Abstract
         $siManifestacao = $this->getRequest()->getParam('siManifestacao');
         $dsLaudoFinal = $this->getRequest()->getParam('dsLaudoFinal');
         $idUsuario = $this->getRequest()->getParam('idUsuario');
-        // var_dump($idLaudoFinal); die;
+
         $service = new LaudoService();
         $data = $service->salvarLaudo($idLaudoFinal, $idPronac, $dtLaudoFinal, $siManifestacao, $dsLaudoFinal, $idUsuario);
         $this->renderJsonResponse([$data], 200);

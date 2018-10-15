@@ -88,11 +88,9 @@ export const finalizarParecer = (params) => {
 };
 
 /** FIM DO PARECER TECNICO */
-//export const obterProjetosAssinatura = params => api.getRequest(`/avaliacao-resultados/projeto-assinatura/estado/${params.estado}`);
 
 export const obterProjetosLaudoFinal = () => api.getRequest('/avaliacao-resultados/laudo');
 
 export const alterarPerfil = (grupoAtivo, orgaoAtivo) => api.getRequest(`perfil/perfil-rest/index?codGrupo=${grupoAtivo}&codOrgao=${orgaoAtivo}`);
 
-export const obterProjetosParaAssinatura = () => api.getRequest('/avaliacao-resultados/projeto-assinatura');
-
+export const obterProjetosAssinatura = params => api.getRequest(`/avaliacao-resultados/projeto-assinatura/estado/${params.estado}`);

@@ -10,7 +10,7 @@
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
                             <v-btn dark flat @click.native="salvarLaudoFinal()">Salvar</v-btn>
-                            <v-btn dark flat @click.native="finalizarLaudoFinal()" :disabled="!parecerLaudoFinal.idLaudoFinal">Gerar Documento</v-btn>
+                            <v-btn dark flat @click.native="finalizarLaudoFinal()" :disabled="!parecerLaudoFinal.items.idLaudoFinal">Gerar Documento</v-btn>
                         </v-toolbar-items>
                 </v-toolbar>
                 <v-container grid-list-sm>
@@ -28,7 +28,7 @@
                     <v-layout wrap align-center>
                         <v-flex>
                             <label for="manifestacao">Manifestação *</label>
-                            <v-radio-group :value="parecerLaudoFinal.siManifestacao"
+                            <v-radio-group :value="parecerLaudoFinal.items.siManifestacao"
                                            @change="updateManifestacao"
                                            id="manifestacao"
                                            :rules="itemRules"
@@ -40,7 +40,7 @@
                         </v-flex>
                     </v-layout>
                     <v-flex>
-                        <v-textarea :value="parecerLaudoFinal.dsLaudoFinal"
+                        <v-textarea :value="parecerLaudoFinal.items.dsLaudoFinal"
                                     @input="updateParecer"
                                     :rules="parecerRules"
                                     color="deep-purple"
@@ -126,16 +126,16 @@
                 modalVisible: 'modal/default',
                 proponente: 'avaliacaoResultados/proponente',
                 projeto: 'avaliacaoResultados/projeto',
-                parecerLaudoFinal: 'avaliacaoResultados/parecerLaudoFinal',
+                parecerLaudoFinal: 'avaliacaoResultados/getParecerLaudoFinal',
                 characterManifestacao: 'avaliacaoResultados/characterManifestacao',
                 characterParecer: 'avaliacaoResultados/characterParecer',
             }),
         },
         created() {
             this.getConsolidacao(this.idPronac);
-            this.getLaudoFinal();
-            this.atualizarManifestacao(this.parecerLaudoFinal.siManifestacao);
-            this.atualizarParecer(this.parecerLaudoFinal.dsLaudoFinal);
+            this.getLaudoFinal(this.idPronac);
+            this.atualizarManifestacao(this.parecerLaudoFinal.items.siManifestacao);
+            this.atualizarParecer(this.parecerLaudoFinal.items.dsLaudoFinal);
         },
     };
 </script>

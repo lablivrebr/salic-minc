@@ -82,6 +82,7 @@ export const finalizarParecer = (params) => {
 
 /** FIM DO PARECER TECNICO */
 
+export const obterLaudoFinal = (idPronac) => api.getRequest(`/avaliacao-resultados/laudo/get?idPronac=${idPronac}`);
 /** REVISÃO PARECER TECNICO */
 
 export const getListaRevisoes = params => api.getRequest(`/avaliacao-resultados/revisao?idAvaliacaoFinanceira=${params}`);
@@ -95,9 +96,6 @@ export const postRevisao = params => {
 /** FIM REVISAO PARECER */
 
 //export const obterProjetosAssinatura = params => api.getRequest(`/avaliacao-resultados/projeto-assinatura/estado/${params.estado}`);
-
-
-export const obterLaudoFinal = () => api.getRequest('/avaliacao-resultados/laudo');
 
 export const obterProjetosLaudoFinal = () => api.getRequest('/avaliacao-resultados/laudo/index');
 

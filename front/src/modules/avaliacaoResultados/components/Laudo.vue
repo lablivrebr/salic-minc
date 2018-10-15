@@ -123,7 +123,6 @@
         },
         data() {
             return {
-                // LinkEmitirLaudo: 'localhost/avaliacao-resultado/#/emitir-laudo-final/',
                 pagination: {
                     rowsPerPage: 10,
                 },
@@ -187,9 +186,6 @@
                 ) return 0;
                 return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
             },
-        },
-        created() {
-            this.ProjetosLaudoFinal();
         },
     };
 </script>

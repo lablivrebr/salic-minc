@@ -155,11 +155,11 @@ export const obterDadosItemComprovacao = ({ commit }, params) => {
         });
 };
 
-export const getLaudoFinal = ({ commit }) => {
-    avaliacaoResultadosHelperAPI.obterLaudoFinal()
+export const getLaudoFinal = ({ commit }, param) => {
+    avaliacaoResultadosHelperAPI.obterLaudoFinal(param)
     .then((response) => {
         const dados = response.data.data;
-        commit(types.GET_LAUDO_FINAL, dados);
+        commit(types.GET_PARECER_LAUDO_FINAL, dados);
     });
     // const data = { siManifestacao: 'A', dsLaudoFinal: 'Tem mais de 10 caracteres!! 39 no total' };
     // commit(types.GET_LAUDO_FINAL, data);

@@ -15,8 +15,12 @@ class AvaliacaoResultados_Model_DbTable_LaudoFinal extends MinC_Db_Table_Abstrac
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select();
         $select->from(
-            array('a' => $this->_name),
-            array('*'),
+            ['a' => $this->_name],
+            [
+                'a.idLaudoFinal',
+                'a.siManifestacao',
+                'a.dsLaudoFinal'
+            ],
             $this->_schema
         )
         ->where('idPronac = ? ', $id);

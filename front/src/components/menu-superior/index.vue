@@ -2,10 +2,10 @@
     <div>
         <div v-if="dados">
             <v-toolbar
+                style="background-color: #1b5e20"
                 app
                 dense
                 dark
-                color="#1b5e20"
             >
                 <a href="/principal">
                     <img

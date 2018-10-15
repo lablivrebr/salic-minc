@@ -5,7 +5,7 @@
                 app
                 dense
                 dark
-                style="background-color: #1b5e20"
+                color="#1b5e20"
             >
                 <a href="/principal">
                     <img

@@ -10,9 +10,28 @@ class Assinatura_Model_TbAtoAdministrativo extends MinC_Db_Model
     protected $_idOrdemDaAssinatura;
     protected $_stEstado;
     protected $_idOrgaoSuperiorDoAssinante;
+    protected $_grupo;
 
     const ST_ESTADO_ATIVO = 1;
     const ST_ESTADO_INATIVO = 0;
+
+    /**
+     * @return mixed
+     */
+    public function getGrupo()
+    {
+        return $this->_grupo;
+    }
+
+    /**
+     * @param mixed $grupo
+     * @return Assinatura_Model_TbAtoAdministrativo
+     */
+    public function setGrupo($grupo)
+    {
+        $this->_grupo = $grupo;
+        return $this;
+    }
 
     /**
      * @return mixed

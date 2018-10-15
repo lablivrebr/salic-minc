@@ -115,15 +115,16 @@ class Assinatura implements IServico
             'dsManifestacao' => $modeloTbAssinatura->getDsManifestacao(),
             'idDocumentoAssinatura' => $modeloTbAssinatura->getIdDocumentoAssinatura()
         ];
+        //'grupo' => $modeloTbAtoAdministrativo->getGrupo(),
 
         $dbTableTbAssinatura->inserir($dadosInclusaoAssinatura);
-        
+
         $quantidadeAssinaturasRealizadas = $dbTableTbAssinatura->obterQuantidadeAssinaturasRealizadas();
         $quantidadeMinimaAssinaturas = $objTbAtoAdministrativo->obterQuantidadeMinimaAssinaturas(
             $modeloTbAtoAdministrativo->getIdTipoDoAto(),
             $modeloTbAtoAdministrativo->getIdOrgaoSuperiorDoAssinante()
         );
-        
+
         if ($quantidadeAssinaturasRealizadas < $quantidadeMinimaAssinaturas) {
             $this->encaminhar();
         } else if ($quantidadeAssinaturasRealizadas == $quantidadeMinimaAssinaturas) {

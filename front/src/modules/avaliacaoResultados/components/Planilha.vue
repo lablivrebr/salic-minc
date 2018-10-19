@@ -167,10 +167,10 @@
                 color="primary"
                 indeterminate
             >
-            Carregando...
             </v-progress-circular>
         </template>
         <v-speed-dial
+            v-if="(!dadosProjeto.items.diligencia)"
             v-model="fab"
             bottom
             right
@@ -203,7 +203,7 @@
                 </v-btn>
                 <span>Assinar</span>
             </v-tooltip>
-            <v-tooltip left v-if="(documento == 0)">
+            <v-tooltip left v-if="(documento == 0 && !dadosProjeto.items.diligencia)">
                 <v-btn
                     fab
                     dark
@@ -216,13 +216,14 @@
                 </v-btn>
                 <span>Emitir Parecer</span>
             </v-tooltip>
-            <v-tooltip left v-if="(documento == 0)">
+            <v-tooltip left v-if="(documento == 0) && !dadosProjeto.items.diligencia">
                 <v-btn
                     fab
                     dark
                     small
                     color="red ligthen-4"
                     slot="activator"
+                    :to="'/diligenciar/' + idPronac"
                 >
                     <v-icon>warning</v-icon>
                 </v-btn>

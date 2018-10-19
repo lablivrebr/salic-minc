@@ -50,7 +50,7 @@ export const mutations = {
     [types.HISTORICO_REVISAO](state, revisaoParecer) {
         state.revisaoParecer = revisaoParecer;
     },
-    [types.SET_REVISAO](state, revisao){
+    [types.SET_REVISAO](state, revisao) {
         state.revisaoParecer.push(revisao);
     },
     [types.GET_PROJETO](state, projeto) {

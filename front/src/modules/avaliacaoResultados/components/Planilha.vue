@@ -1,14 +1,13 @@
 <template>
     <v-container fluid v-if="dadosProjeto">
-        <v-btn 
-            slot="activator"
-            flat
-            :to="{ name: 'Painel'}"
-            color="#1b5e20"
-        >
-            
-            <span><v-icon small class="material-icons">keyboard_backspace</v-icon> Voltar</span>
-        </v-btn>
+        <v-toolbar>
+            <v-btn icon class="hidden-xs-only"
+                :to="{ name: 'Painel'}"
+            >
+                <v-icon>arrow_back</v-icon>
+              </v-btn>
+            <v-toolbar-title>Planilha</v-toolbar-title>
+        </v-toolbar>
         <v-card>
             <v-card-title primary-title>
                 <h2>{{ dadosProjeto.items.pronac }} &#45; {{ dadosProjeto.items.nomeProjeto }}</h2>
@@ -48,120 +47,129 @@
 
             </v-card-actions>
         </v-card>
-        <v-card class="mt-3" flat>
-            <!-- PRODUTO -->
-            <v-expansion-panel
-               expand
-                :v-if="getPlanilha != undefined && Object.keys(getPlanilha)"
-                :value="expandir(getPlanilha)"
-            >
-                <v-expansion-panel-content
-                    v-for="(produto,i) in getPlanilha"
-                    :key="i"
+        <template v-if="Object.keys(planilha).length">
+            <v-card class="mt-3" flat>
+                <!-- PRODUTO -->
+                <v-expansion-panel
+                   expand
+                    :v-if="getPlanilha != undefined && Object.keys(getPlanilha)"
+                    :value="expandir(getPlanilha)"
                 >
-                    <v-layout slot="header" class="green--text">
-                        <v-icon class="mr-3 green--text">perm_media</v-icon>
-                        {{ produto.produto }}
-                    </v-layout>
-                        <!-- ETAPA -->
-                        <v-expansion-panel
-                            class="pl-3 elevation-0"
-                            expand
-                            :value="expandir(produto)"
-                        >
-                            <v-expansion-panel-content
-                                v-for="(etapa,i) in produto.etapa"
-                                :key="i"
+                    <v-expansion-panel-content
+                        v-for="(produto,i) in getPlanilha"
+                        :key="i"
+                    >
+                        <v-layout slot="header" class="green--text">
+                            <v-icon class="mr-3 green--text">perm_media</v-icon>
+                            {{ produto.produto }}
+                        </v-layout>
+                            <!-- ETAPA -->
+                            <v-expansion-panel
+                                class="pl-3 elevation-0"
+                                expand
+                                :value="expandir(produto)"
                             >
-                                <v-layout slot="header" class="orange--text">
-                                    <v-icon class="mr-3 orange--text">label</v-icon>
-                                    {{ etapa.etapa }}
-                                </v-layout>
-                                <!-- UF -->
-                                <v-expansion-panel
-                                    class="pl-3 elevation-0"
-                                    expand
-                                    :value="expandir(etapa)"
+                                <v-expansion-panel-content
+                                    v-for="(etapa,i) in produto.etapa"
+                                    :key="i"
                                 >
-                                    <v-expansion-panel-content
-                                        v-for="(uf,i) in etapa.UF"
-                                        :key="i"
+                                    <v-layout slot="header" class="orange--text">
+                                        <v-icon class="mr-3 orange--text">label</v-icon>
+                                        {{ etapa.etapa }}
+                                    </v-layout>
+                                    <!-- UF -->
+                                    <v-expansion-panel
+                                        class="pl-3 elevation-0"
+                                        expand
+                                        :value="expandir(etapa)"
                                     >
-                                        <v-layout slot="header" class="blue--text">
-                                            <v-icon class="mr-3 blue--text">place</v-icon>
-                                            {{ uf.Uf }}
-                                        </v-layout>
-                                        <!-- CIDADE -->
-                                        <v-expansion-panel
-                                            class="pl-3 elevation-0"
-                                            expand
-                                            :value="expandir(uf)"
+                                        <v-expansion-panel-content
+                                            v-for="(uf,i) in etapa.UF"
+                                            :key="i"
                                         >
-                                            <v-expansion-panel-content
-                                                v-for="(cidade,i) in uf.cidade"
-                                                :key="i"
+                                            <v-layout slot="header" class="blue--text">
+                                                <v-icon class="mr-3 blue--text">place</v-icon>
+                                                {{ uf.Uf }}
+                                            </v-layout>
+                                            <!-- CIDADE -->
+                                            <v-expansion-panel
+                                                class="pl-3 elevation-0"
+                                                expand
+                                                :value="expandir(uf)"
                                             >
-                                                <v-layout slot="header" class="blue--text">
-                                                    <v-icon class="mr-3 blue--text">place</v-icon>
-                                                    {{ cidade.cidade }}
-                                                </v-layout>
-                                                <template v-if="typeof cidade.itens !== 'undefined'">
-                                                    <v-tabs
-                                                        slider-color="green"
-                                                    >
-                                                        <v-tab ripple v-for="tab in Object.keys(cidade.itens)" :key="tab">{{ tabs[tab] }}</v-tab>
-                                                        <v-tab-item v-for="item in cidade.itens" :key="item.stItemAvaliado">
-                                                            <v-data-table
-                                                                :headers="headers"
-                                                                :items="Object.values(item)"
-                                                                hide-actions
-                                                            >
-                                                                <template slot="items" slot-scope="props">
-                                                                    <td>{{ props.item.item }}</td>
-                                                                    <td>{{ moeda(props.item.varlorAprovado) }}</td>
-                                                                    <td>{{ moeda(props.item.varlorComprovado) }}</td>
-                                                                    <td>{{ moeda(props.item.varlorAprovado - props.item.varlorComprovado) }}</td>
-                                                                    <td >
-                                                                        <template
-                                                                            v-if="podeEditar(props.item.varlorComprovado)"
-                                                                        >
-                                                                        <!-- :href="'/avaliacao-resultados/#/analisar-item/idPronac/' + idPronac + '/uf/' + uf.Uf + '/produto/' + produto.cdProduto + '/idmunicipio/' + cidade.cdCidade + '/idPlanilhaItem/' + props.item.idPlanilhaItens + '/etapa/' + etapa.cdEtapa" -->
-                                                                            <v-btn
-                                                                                :href="'/prestacao-contas/analisar/comprovante/idPronac/' + idPronac + '/uf/' + uf.Uf + '/produto/' + produto.cdProduto + '/idmunicipio/' + cidade.cdCidade + '/idPlanilhaItem/' + props.item.idPlanilhaItens + '/etapa/' + etapa.cdEtapa"
-                                                                                replace
-                                                                                color="red"
-                                                                                small
-                                                                                dark
-                                                                                title="Comprovar Item"
+                                                <v-expansion-panel-content
+                                                    v-for="(cidade,i) in uf.cidade"
+                                                    :key="i"
+                                                >
+                                                    <v-layout slot="header" class="blue--text">
+                                                        <v-icon class="mr-3 blue--text">place</v-icon>
+                                                        {{ cidade.cidade }}
+                                                    </v-layout>
+                                                    <template v-if="typeof cidade.itens !== 'undefined'">
+                                                        <v-tabs
+                                                            slider-color="green"
+                                                        >
+                                                            <v-tab ripple v-for="tab in Object.keys(cidade.itens)" :key="tab">{{ tabs[tab] }}</v-tab>
+                                                            <v-tab-item v-for="item in cidade.itens" :key="item.stItemAvaliado">
+                                                                <v-data-table
+                                                                    :headers="headers"
+                                                                    :items="Object.values(item)"
+                                                                    hide-actions
+                                                                >
+                                                                    <template slot="items" slot-scope="props">
+                                                                        <td>{{ props.item.item }}</td>
+                                                                        <td>{{ moeda(props.item.varlorAprovado) }}</td>
+                                                                        <td>{{ moeda(props.item.varlorComprovado) }}</td>
+                                                                        <td>{{ moeda(props.item.varlorAprovado - props.item.varlorComprovado) }}</td>
+                                                                        <td >
+                                                                            <template
+                                                                                v-if="podeEditar(props.item.varlorComprovado)"
                                                                             >
-                                                                                <v-icon>gavel</v-icon>
-                                                                            </v-btn>
-                                                                            <!-- <analisar-item -->
-                                                                            <!--     :id-pronac="idPronac" -->
-                                                                            <!--     :uf="uf.Uf" -->
-                                                                            <!--     :produto="produto.cdProduto" -->
-                                                                            <!--     :idmunicipio="cidade.cdCidade" -->
-                                                                            <!--     :id-planilha-item="props.item.idPlanilhaItens" -->
-                                                                            <!--     :etapa="etapa.cdEtapa" -->
-                                                                            <!-- > -->
-                                                                            <!-- </analisar-item> -->
-                                                                        </template>
-                                                                    </td>
-                                                                </template>
-                                                            </v-data-table>
-                                                        </v-tab-item>
-                                                    </v-tabs>
-                                                </template>
-                                            </v-expansion-panel-content>
-                                        </v-expansion-panel>
-                                    </v-expansion-panel-content>
-                                </v-expansion-panel>
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-card>
-
+                                                                            <!-- :href="'/avaliacao-resultados/#/analisar-item/idPronac/' + idPronac + '/uf/' + uf.Uf + '/produto/' + produto.cdProduto + '/idmunicipio/' + cidade.cdCidade + '/idPlanilhaItem/' + props.item.idPlanilhaItens + '/etapa/' + etapa.cdEtapa" -->
+                                                                                <v-btn
+                                                                                    :href="'/prestacao-contas/analisar/comprovante/idPronac/' + idPronac + '/uf/' + uf.Uf + '/produto/' + produto.cdProduto + '/idmunicipio/' + cidade.cdCidade + '/idPlanilhaItem/' + props.item.idPlanilhaItens + '/etapa/' + etapa.cdEtapa"
+                                                                                    replace
+                                                                                    color="red"
+                                                                                    small
+                                                                                    dark
+                                                                                    title="Comprovar Item"
+                                                                                >
+                                                                                    <v-icon>gavel</v-icon>
+                                                                                </v-btn>
+                                                                                <!-- <analisar-item -->
+                                                                                <!--     :id-pronac="idPronac" -->
+                                                                                <!--     :uf="uf.Uf" -->
+                                                                                <!--     :produto="produto.cdProduto" -->
+                                                                                <!--     :idmunicipio="cidade.cdCidade" -->
+                                                                                <!--     :id-planilha-item="props.item.idPlanilhaItens" -->
+                                                                                <!--     :etapa="etapa.cdEtapa" -->
+                                                                                <!-- > -->
+                                                                                <!-- </analisar-item> -->
+                                                                            </template>
+                                                                        </td>
+                                                                    </template>
+                                                                </v-data-table>
+                                                            </v-tab-item>
+                                                        </v-tabs>
+                                                    </template>
+                                                </v-expansion-panel-content>
+                                            </v-expansion-panel>
+                                        </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                </v-expansion-panel-content>
+                            </v-expansion-panel>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-card>
+        </template>
+        <template v-else>
+            <v-progress-circular
+                color="primary"
+                indeterminate
+            >
+            Carregando...
+            </v-progress-circular>
+        </template>
         <v-speed-dial
             v-model="fab"
             bottom
@@ -190,7 +198,6 @@
                     color="green"
                     slot="activator"
                     :href="'/assinatura/index/visualizar-projeto?idDocumentoAssinatura=' + documento.idDocumentoAssinatura"
-
                 >
                     <v-icon>edit</v-icon>
                 </v-btn>
@@ -269,6 +276,11 @@
                 let estado = this.getProjetoAnalise.data.items.estado;
                 estado = (estado !== null) ? this.getProjetoAnalise.data.items.estado : 0;
                 return estado;
+            },
+            planilha() {
+                let planilha = this.getPlanilha;
+                planilha = (planilha !== null && Object.keys(planilha).length) ? this.getPlanilha : 0;
+                return planilha;
             },
         },
         mounted() {

@@ -33,7 +33,7 @@
                                 <p><b>Projeto:</b> {{projeto.AnoProjeto}}{{projeto.Sequencial}} - {{projeto.NomeProjeto}}</p>
                             </v-flex>
                             <v-flex xs12 sm12 md12>
-                                <p><b>Proponente:</b> {{proponente.CgcCpf}} - {{proponente.Nome}}</p>
+                                <p><b>Proponente:</b> {{proponente.CgcCpf | cnpjFilter}} - {{proponente.Nome}}</p>
                             </v-flex>
                         </v-layout>
                         <v-divider></v-divider>
@@ -56,7 +56,7 @@
                             <v-flex xs10 sm3 md3>
                                 <div>
                                     <h4 class="label text-sm-right">Recusados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.qtComprovantesRecusadosProjeto}}</p>
+                                    <p class="text-sm-right">{{consolidacaoComprovantes.qtComprovantesRecusadosProjeto }}</p>
                                 </div>
                             </v-flex>
                             <v-flex xs10 sm3 md3>
@@ -74,25 +74,19 @@
                             <v-flex xs10 sm3 md3 >
                                 <div>
                                     <h4 class="label text-sm-right">Total</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoProjeto}}</p>
+									<p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoProjeto | currency }}</p>
                                 </div>
                             </v-flex>
                             <v-flex xs10 sm3 md3>
                                 <div>
                                     <h4 class="label text-sm-right">Validados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoValidado}}</p>
+                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoValidado | currency}}</p>
                                 </div>
                             </v-flex>
                             <v-flex xs10 sm3 md3>
                                 <div>
                                     <h4 class="label text-sm-right">Recusados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoRecusado}}</p>
-                                </div>
-                            </v-flex>
-                            <v-flex xs10 sm3 md3>
-                                <div>
-                                    <h4 class="label text-sm-right">Não Avaliados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlNaoComprovado}}</p>
+                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoRecusado | currency}}</p>
                                 </div>
                             </v-flex>
                         </v-layout>
@@ -133,8 +127,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import ModalTemplate from '@/components/modal';
+import cnpjFilter from '@/filters/cnpj';
+import VueCurrencyFilter from 'vue-currency-filter';
+
+Vue.use(VueCurrencyFilter, { symbol: 'R$', thousandsSeparator: '.', fractionCount: 2});
 
 export default {
     name: 'EmitirParecer',
@@ -244,6 +243,9 @@ export default {
     mounted() {
         this.redirectLink = this.redirectLink + this.idPronac;
         this.getConsolidacao(this.idPronac);
+    },
+    filters: {
+        cnpjFilter,
     },
 };
 </script>

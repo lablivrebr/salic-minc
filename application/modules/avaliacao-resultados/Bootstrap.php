@@ -26,7 +26,8 @@ class AvaliacaoResultados_Bootstrap extends Zend_Application_Module_Bootstrap
                     'tecnicos',
                     'fluxo-projeto',
                     'projeto-assinatura',
-                    'laudo'
+                    'laudo',
+                    'projeto-inicio',
                 ]
             ]
         );

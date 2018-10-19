@@ -49,7 +49,7 @@ export const criarParecerLaudoFinal = params => api.postRequest('/avaliacao-resu
 
 export const finalizarParecerLaudoFinal = params => api.postRequest('/avaliacao-resultados/assinatura', buildData(params));
 
-export const obterProjetosParaDistribuir = () => api.getRequest('/prestacao-contas/prestacao-contas/obter-analise-financeira-virtual');
+export const obterProjetosParaDistribuir = () => api.getRequest('/avaliacao-resultados/projeto-inicio');
 
 export const criarDiligencia = params => api.postRequest('/diligencia/diligencia', buildData(params));
 

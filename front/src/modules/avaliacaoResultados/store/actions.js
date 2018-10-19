@@ -212,12 +212,28 @@ export const projetosAssinatura = ({ commit }, params) => {
         });
 };
 
-export const obterProjetosLaudoFinal = ({ commit }) => {
-    avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal()
+export const obterProjetosLaudoFinal = ({ commit }, param) => {
+    avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal(param)
         .then((response) => {
             const data = response.data;
             const dadosTabela = data.data;
             commit(types.SET_DADOS_PROJETOS_LAUDO_FINAL, dadosTabela);
+        });
+};
+
+export const obterProjetosLaudoAssinar = ({ commit }, param) => {
+    avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal(param)
+        .then((response) => {
+            const dadosTabela = response.data.data;
+            commit(types.SET_DADOS_PROJETOS_LAUDO_ASSINAR, dadosTabela);
+        });
+};
+
+export const obterProjetosLaudoEmAssinatura = ({ commit }, param) => {
+    avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal(param)
+        .then((response) => {
+            const dadosTabela = response.data.data;
+            commit(types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA, dadosTabela);
         });
 };
 

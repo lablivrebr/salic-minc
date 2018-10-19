@@ -48,11 +48,12 @@
                             </v-flex>
                         </v-layout>
                         <v-flex>
+                            <label for="parecer">Parecer *</label>
                             <v-textarea :value="parecerLaudoFinal.items.dsLaudoFinal"
                                         @input="updateParecer"
                                         :rules="parecerRules"
                                         color="deep-purple"
-                                        label="Parecer *"
+                                        id="parecer"
                                         height="200px"
                                         required="required">
                             </v-textarea>
@@ -124,7 +125,7 @@
                     siManifestacao: this.parecerLaudoFinal.items.siManifestacao,
                     dsLaudoFinal: this.parecerLaudoFinal.items.dsLaudoFinal,
                     atual: 10,
-                    proximo: 11,
+                    proximo: 14,
                 };
 
                 if (this.parecerLaudoFinal.items.idLaudoFinal) {

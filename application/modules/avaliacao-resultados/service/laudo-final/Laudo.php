@@ -4,10 +4,10 @@ namespace Application\Modules\AvaliacaoResultados\Service\LaudoFinal;
 
 class Laudo 
 {
-    public function obterProjetos(){
+    public function obterProjetos($estadoId){
         $model = new \AvaliacaoResultados_Model_DbTable_LaudoFinal();
         
-        return $model->projetosLaudoFinal()->toArray();
+        return $model->projetosLaudoFinal($estadoId)->toArray();
     }
 
     public function obterLaudo($idPronac){

@@ -7,7 +7,10 @@
         color="green"
         :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}"
     >
-        <v-icon>edit</v-icon>
+        <v-tooltip bottom>
+            <v-icon slot="activator">edit</v-icon>
+            <span>Assinar</span>
+        </v-tooltip>
     </v-btn>
 </template>
 

@@ -260,3 +260,12 @@ export const salvarRevisao = ({ commit }, params) => {
     return p;
 };
 
+export const projetosRevisao = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI
+        .projetosRevisao(params)
+        .then((response) => {
+            const projetosRevisao = response.data.data;
+            commit(types.SYNC_PROJETOS_REVISAO, projetosRevisao);
+        });
+};
+

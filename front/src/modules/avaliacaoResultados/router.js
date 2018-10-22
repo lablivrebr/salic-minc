@@ -42,7 +42,7 @@ const routes = [
         },
     },
     {
-        path: '/revisao',
+        path: '/revisao/:id',
         name: 'Revisao',
         component: RevisaoParecer,
         meta: {

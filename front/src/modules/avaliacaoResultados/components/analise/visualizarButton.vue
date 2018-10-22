@@ -3,9 +3,11 @@
         <v-tooltip bottom>
             <v-icon 
                 slot="activator" 
-                class="material-icons">compare_arrows
+                class="material-icons"
+            >
+                visibility
             </v-icon>
-            <span>Analisar Projeto</span>
+            <span>Visualizar Projeto</span>
         </v-tooltip>
     </v-btn>
 
@@ -13,18 +15,9 @@
 
 <script>
     export default {
-        name: 'AnalisarButton',
+        name: 'VisualizarButton',
         props: [
             'idPronac',
-            'tipo',
         ],
-        data() {
-            return {
-            };
-        },
-        methods: {
-        },
-        computed: {
-        },
     };
 </script>

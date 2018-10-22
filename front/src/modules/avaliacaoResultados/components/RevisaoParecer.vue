@@ -1,12 +1,11 @@
 <template>
-
     <v-layout row justify-center>
-
-        <v-dialog v-model="dialog"
-                  scrollable
-                  fullscreen
-                  transition="dialog-bottom-transition"
-                  hide-overlay
+        <v-dialog 
+            v-model="dialog"
+            full-width
+            scrollable
+            fullscreen
+            transition="dialog-bottom-transition"
         >
             <v-btn
                 slot="activator"
@@ -19,14 +18,13 @@
             </v-btn>
             <v-card>
                 <v-toolbar dark color="green darken-3">
-                    <v-btn icon dark @click.native="dialog = false">
+                    <v-btn icon dark href="#/painel">
                         <v-icon>close</v-icon>
                     </v-btn>
                     <v-toolbar-title>Analise de Resultados - Revisão do Parecer Técnico </v-toolbar-title>
                 </v-toolbar>
                 <v-container >
                     <v-card-text>
-
                         <v-card>
                             <v-card-title primary-title>
                                 <v-container pa-0 ma-0>
@@ -36,11 +34,8 @@
                                 </div>
                                 </v-container>
                             </v-card-title>
-
                             <v-card-text>
-
                                 <v-container grid-list-xs text-xs-center ma-0 pa-0>
-
                                     <v-layout row wrap>
                                         <v-flex xs12 md6 mb-2>
 
@@ -68,14 +63,8 @@
                                                     </tr>
                                                 </template>
                                             </v-data-table>
-
                                         </v-flex>
-
-
-
-
                                         <v-flex xs12 md6 mb-4>
-
                                             <v-data-table
                                                 :items="[]"
                                                 class="elevation-1"
@@ -146,10 +135,6 @@
                                 </v-card-title>
                                 <v-slide-y-transition>
                                     <v-card-text v-show="show">
-
-
-
-
                                         <v-expansion-panel mb-2 focusable v-for="revisado in historico" :key="revisado.idAvaliacaoFinanceiraRevisao">
                                             <v-expansion-panel-content>
                                                 <v-layout slot="header" class="blue--text">
@@ -227,21 +212,15 @@
                                                 </v-card>
                                             </v-expansion-panel-content>
                                         </v-expansion-panel>
-
-
-
                                     </v-card-text>
                                 </v-slide-y-transition>
                             </v-card>
                         </v-flex>
 
-
-
                         <v-expansion-panel mb-2 v-if="perfilAtivo.revisar">
                             <v-expansion-panel-content >
                                 <v-layout slot="header" class="blue--text">
-                                    <v-icon class="mr-3 blue--text" >insert_drive_file
-                                    </v-icon>
+                                    <v-icon class="mr-3 blue--text" >insert_drive_file</v-icon>
                                     <span v-if="grupo.codGrupo == 125">Revisão - Coordenador(a)</span>
                                     <span v-if="grupo.codGrupo == 126">Revisão - Coordenador(a) Geral</span>
                                     <v-spacer></v-spacer>
@@ -323,7 +302,6 @@
                                 </v-card>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
-
                     </v-card-text>
                 </v-container>
 
@@ -346,134 +324,132 @@
         </v-dialog>
     </v-layout>
 </template>
-
-
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
-    export default {
-        name: 'RevisaoParecer',
-        data() {
-            return {
-                snackbar: false,
-                show: false,
-                dialog: false,
-                perfilAtivo: {
-                    cordenador: false,
-                    geral: false,
-                    revisar: false,
+export default {
+    name: 'RevisaoParecer',
+    data() {
+        return {
+            snackbar: false,
+            show: false,
+            dialog: true,
+            perfilAtivo: {
+                cordenador: false,
+                geral: false,
+                revisar: false,
+            },
+            revisao: {
+                siStatus: 2,
+                dsRevisao: '',
+                idAvaliacaoFinanceira: 0,
+                idGrupoAtivo: 21,
+                idAgente: 333,
+            },
+            revisaoGeral: {
+                siStatus: 2,
+                dsRevisao: '',
+                idAvaliacaoFinanceira: 0,
+                idGrupoAtivo: 21,
+                idAgente: 333,
+            },
+            parecerData: { },
+            items: [
+                {
+                    id: 'R',
+                    text: 'Reprovação',
                 },
-                revisao: {
-                    siStatus: 2,
-                    dsRevisao: '',
-                    idAvaliacaoFinanceira: 0,
-                    idGrupoAtivo: 21,
-                    idAgente: 333,
+                {
+                    id: 'A',
+                    text: 'Aprovação',
                 },
-                revisaoGeral: {
-                    siStatus: 2,
-                    dsRevisao: '',
-                    idAvaliacaoFinanceira: 0,
-                    idGrupoAtivo: 21,
-                    idAgente: 333,
+                {
+                    id: 'P',
+                    text: 'Aprovação com Ressalva',
                 },
-                parecerData: { },
-                items: [
-                    {
-                        id: 'R',
-                        text: 'Reprovação',
-                    },
-                    {
-                        id: 'A',
-                        text: 'Aprovação',
-                    },
-                    {
-                        id: 'P',
-                        text: 'Aprovação com Ressalva',
-                    },
-                ],
-                item: '',
-            };
-        },
-        methods:
-          {
-              ...mapActions({
-                  requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
-                  listaRevisoes: 'avaliacaoResultados/obterHistoricoRevisao',
-                  salvarRev: 'avaliacaoResultados/salvarRevisao',
+            ],
+            item: '',
+        };
+    },
+    methods:
+      {
+          ...mapActions({
+              requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
+              listaRevisoes: 'avaliacaoResultados/obterHistoricoRevisao',
+              salvarRev: 'avaliacaoResultados/salvarRevisao',
 
-              }),
-              getConsolidacao(id) {
-                  this.requestEmissaoParecer(id);
-                  this.parecer.idAvaliacaoFinanceira;
-                  this.setStatus();
-              },
-              carregarHistorico() {
-                  this.listaRevisoes(this.parecer.idAvaliacaoFinanceira);
-              },
-              setStatus() {
-                  this.items.forEach((i) => {
-                      if (i.id === this.parecer.siManifestacao) {
-                          this.item = i.text;
-                      }
-                  });
-
-                  this.carregarHistorico();
-
-                  if (this.grupo.codGrupo == 125) {
-                      /** corrdenador habilitado */
-                      this.perfilAtivo.cordenador = false;
-                      this.perfilAtivo.geral = true;
-                      this.perfilAtivo.revisar = true;
-                  } else if (this.grupo.codGrupo == 126) {
-                      /**  cordenador Geral habilitado */
-                      this.perfilAtivo.cordenador = true;
-                      this.perfilAtivo.geral = false;
-                      this.perfilAtivo.revisar = true;
-                  } else { /** todos sem editar */
-                      this.perfilAtivo.cordenador = true;
-                      this.perfilAtivo.geral = true;
-                      this.perfilAtivo.revisar = false;
-                  }
-              },
-              inputRevisao(e) {
-                  this.revisao.dsRevisao = e;
-              },
-              salvar() {
-                  this.revisao.idAvaliacaoFinanceira = this.parecer.idAvaliacaoFinanceira;
-                  this.revisao.idGrupoAtivo = this.grupo.codGrupo;
-                  this.revisao.idAgente = this.agente[0].usu_codigo;
-                  this.salvarRev(this.revisao).then((response) => {
-                      if (response.code == 200) {
-                          this.snackbar = true;
-                      }
-                  });
-              },
-              background(e) {
-                  if (e === false) {
-                      return 'red lighten-4';
-                  } else if (e === true) {
-                      return 'green lighten-4';
-                  }
-                  return '';
-              },
+          }),
+          getConsolidacao(id) {
+              this.requestEmissaoParecer(id);
+              this.parecer.idAvaliacaoFinanceira;
+              this.setStatus();
           },
-      computed:
-          {
-              ...mapGetters({
-                  modalVisible: 'modal/default',
-                  consolidacaoComprovantes: 'avaliacaoResultados/consolidacaoComprovantes',
-                  proponente: 'avaliacaoResultados/proponente',
-                  parecer: 'avaliacaoResultados/parecer',
-                  projeto: 'avaliacaoResultados/projeto',
-                  grupo: 'menuSuperior/grupoAtivo',
-                  agente: 'menuSuperior/usuarioAtivo',
-                  historico: 'avaliacaoResultados/revisaoParecer',
-              }),
+          carregarHistorico() {
+              this.listaRevisoes(this.parecer.idAvaliacaoFinanceira);
           },
-        mounted() {
-            // this.getConsolidacao(this.$route.params.id);
-            this.getConsolidacao(195025);
-        },
+          setStatus() {
+              this.items.forEach((i) => {
+                  if (i.id === this.parecer.siManifestacao) {
+                      this.item = i.text;
+                  }
+              });
+
+              this.carregarHistorico();
+
+              if (this.grupo.codGrupo == 125) {
+                  /** corrdenador habilitado */
+                  this.perfilAtivo.cordenador = false;
+                  this.perfilAtivo.geral = true;
+                  this.perfilAtivo.revisar = true;
+              } else if (this.grupo.codGrupo == 126) {
+                  /**  cordenador Geral habilitado */
+                  this.perfilAtivo.cordenador = true;
+                  this.perfilAtivo.geral = false;
+                  this.perfilAtivo.revisar = true;
+              } else { /** todos sem editar */
+                  this.perfilAtivo.cordenador = true;
+                  this.perfilAtivo.geral = true;
+                  this.perfilAtivo.revisar = false;
+              }
+          },
+          inputRevisao(e) {
+              this.revisao.dsRevisao = e;
+          },
+          salvar() {
+              this.revisao.idAvaliacaoFinanceira = this.parecer.idAvaliacaoFinanceira;
+              this.revisao.idGrupoAtivo = this.grupo.codGrupo;
+              this.revisao.idAgente = this.agente[0].usu_codigo;
+              this.salvarRev(this.revisao).then((response) => {
+                  if (response.code == 200) {
+                      this.snackbar = true;
+                  }
+              });
+          },
+          background(e) {
+              if (e === false) {
+                  return 'red lighten-4';
+              } else if (e === true) {
+                  return 'green lighten-4';
+              }
+              return '';
+          },
+    },
+    computed: {
+        ...mapGetters({
+            modalVisible: 'modal/default',
+            consolidacaoComprovantes: 'avaliacaoResultados/consolidacaoComprovantes',
+            proponente: 'avaliacaoResultados/proponente',
+            parecer: 'avaliacaoResultados/parecer',
+            projeto: 'avaliacaoResultados/projeto',
+            grupo: 'menuSuperior/grupoAtivo',
+            agente: 'menuSuperior/usuarioAtivo',
+            historico: 'avaliacaoResultados/revisaoParecer',
+        }),
+    },
+    mounted() {
+        console.log(this.$route.params.id);
+        this.getConsolidacao(this.$route.params.id);
+        //this.getConsolidacao(195025);
+    },
 };
 </script>

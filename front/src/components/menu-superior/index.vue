@@ -189,7 +189,7 @@
                     return this.usuarioAtivo[0].usu_identificacao;
                 }
                 return '';
-            }
+            },
         },
         created() {
             this.buscarPerfisDisponiveis();

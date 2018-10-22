@@ -168,11 +168,10 @@ export default {
     },
     watch: {
         getUsuario(val) {
-            if (Object.keys(val).length > 0 && val.usu_codigo != 0 ) {
-
+            if (Object.keys(val).length > 0 && val.usu_codigo !== 0) {
                 let projetosTecnico = {};
                 let projetosFinalizados = {};
-                if (this.getUsuario.grupo_ativo == 125) {
+                if (this.getUsuario.grupo_ativo === 125) {
                     projetosTecnico = {
                         estadoid: 5,
                     };

@@ -27,6 +27,7 @@ class Assinatura_Model_DbTable_TbAssinatura extends MinC_Db_Table_Abstract
     const TIPO_ATO_PARECER_TECNICO_READEQUACAO_VINCULADAS = 653;
     const TIPO_ATO_PARECER_TECNICO_AJUSTE_DE_PROJETO = 654;
     const TIPO_ATO_PARECER_TECNICO_READEQUACAO_PROJETOS_MINC = 655;
+    const TIPO_ATO_LAUDO_FINAL_PRESTACAO_CONTAS = 623;
 
     public function preencherModeloAssinatura(array $dados)
     {

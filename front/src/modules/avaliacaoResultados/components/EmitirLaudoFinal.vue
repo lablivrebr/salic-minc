@@ -27,7 +27,7 @@
                                 <p><b>Projeto:</b> {{projeto.AnoProjeto}}{{projeto.Sequencial}} - {{projeto.NomeProjeto}}</p>
                             </v-flex>
                             <v-flex xs12 sm12 md12>
-                                <p><b>Proponente:</b> {{proponente.CgcCpf}} - {{proponente.Nome}}</p>
+                                <p><b>Proponente:</b> {{proponente.CgcCpf | cnpjFilter}} - {{proponente.Nome}}</p>
                             </v-flex>
                         </v-layout>
                         <v-divider></v-divider>
@@ -67,6 +67,7 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import cnpjFilter from '@/filters/cnpj';
 
     export default {
         data() {
@@ -160,6 +161,9 @@
         created() {
             this.getConsolidacao(this.idPronac);
             this.getLaudoFinal(this.idPronac);
+        },
+        filters: {
+            cnpjFilter,
         },
     };
 </script>

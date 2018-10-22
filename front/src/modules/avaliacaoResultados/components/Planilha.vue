@@ -305,7 +305,7 @@
             podeEditar(varlorComprovado) {
                 if (varlorComprovado !== 0
                     && !this.dadosProjeto.items.diligencia
-                    && this.documento == 0) {
+                    && this.documento === 0) {
                     return true;
                 }
 

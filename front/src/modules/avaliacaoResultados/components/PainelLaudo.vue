@@ -44,7 +44,7 @@
                 >
                     <v-card flat>
                         <Laudo :dados="getProjetosLaudoFinal"
-                               :componentes="analisar = true"
+                               :acao="true"
                         ></Laudo>
                     </v-card>
                 </v-tab-item>
@@ -54,7 +54,6 @@
                 >
                     <v-card flat>
                         <Laudo :dados="getProjetosLaudoAssinar"
-                               :componentes="assinar = true"
                         ></Laudo>
                     </v-card>
                 </v-tab-item>
@@ -64,8 +63,7 @@
                 >
                     <v-card flat>
                         <v-card>
-                            <Laudo
-                                :dados="getProjetosLaudoEmAssinatura"
+                            <Laudo :dados="getProjetosLaudoEmAssinatura"
                             ></Laudo>
                         </v-card>
                     </v-card>

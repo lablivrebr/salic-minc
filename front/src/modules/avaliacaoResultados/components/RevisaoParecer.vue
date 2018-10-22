@@ -135,7 +135,11 @@
                                 </v-card-title>
                                 <v-slide-y-transition>
                                     <v-card-text v-show="show">
-                                        <v-expansion-panel mb-2 focusable v-for="revisado in historico" :key="revisado.idAvaliacaoFinanceiraRevisao">
+
+
+
+
+                                            <v-expansion-panel mb-2 focusable v-for="revisado in historico" :key="revisado.idAvaliacaoFinanceiraRevisao">
                                             <v-expansion-panel-content>
                                                 <v-layout slot="header" class="blue--text">
                                                     <v-icon class="mr-3 blue--text" >insert_drive_file
@@ -325,39 +329,19 @@
     </v-layout>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
 
-export default {
-    name: 'RevisaoParecer',
-    data() {
-        return {
-            snackbar: false,
-            show: false,
-            dialog: true,
-            perfilAtivo: {
-                cordenador: false,
-                geral: false,
-                revisar: false,
-            },
-            revisao: {
-                siStatus: 2,
-                dsRevisao: '',
-                idAvaliacaoFinanceira: 0,
-                idGrupoAtivo: 21,
-                idAgente: 333,
-            },
-            revisaoGeral: {
-                siStatus: 2,
-                dsRevisao: '',
-                idAvaliacaoFinanceira: 0,
-                idGrupoAtivo: 21,
-                idAgente: 333,
-            },
-            parecerData: { },
-            items: [
-                {
-                    id: 'R',
-                    text: 'Reprovação',
+    export default {
+        name: 'RevisaoParecer',
+        data() {
+            return {
+                snackbar: false,
+                show: false,
+                dialog: false,
+                perfilAtivo: {
+                    cordenador: false,
+                    geral: false,
+                    revisar: false,
                 },
                 {
                     id: 'A',
@@ -367,71 +351,98 @@ export default {
                     id: 'P',
                     text: 'Aprovação com Ressalva',
                 },
-            ],
-            item: '',
-        };
-    },
-    methods:
-      {
-          ...mapActions({
-              requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
-              listaRevisoes: 'avaliacaoResultados/obterHistoricoRevisao',
-              salvarRev: 'avaliacaoResultados/salvarRevisao',
+                parecerData: { },
+                items: [
+                    {
+                        id: 'R',
+                        text: 'Reprovação',
+                    },
+                    {
+                        id: 'A',
+                        text: 'Aprovação',
+                    },
+                    {
+                        id: 'P',
+                        text: 'Aprovação com Ressalva',
+                    },
+                ],
+                item: '',
+            };
+        },
+        methods:
+          {
+              ...mapActions({
+                  requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
+                  listaRevisoes: 'avaliacaoResultados/obterHistoricoRevisao',
+                  salvarRev: 'avaliacaoResultados/salvarRevisao',
 
-          }),
-          getConsolidacao(id) {
-              this.requestEmissaoParecer(id);
-              this.parecer.idAvaliacaoFinanceira;
-              this.setStatus();
-          },
-          carregarHistorico() {
-              this.listaRevisoes(this.parecer.idAvaliacaoFinanceira);
-          },
-          setStatus() {
-              this.items.forEach((i) => {
-                  if (i.id === this.parecer.siManifestacao) {
-                      this.item = i.text;
+              }),
+              getConsolidacao(id) {
+                  this.requestEmissaoParecer(id);
+                  this.parecer.idAvaliacaoFinanceira;
+                  this.setStatus();
+              },
+              carregarHistorico() {
+                  this.listaRevisoes(this.parecer.idAvaliacaoFinanceira);
+              },
+              setStatus() {
+                  this.items.forEach((i) => {
+                      if (i.id === this.parecer.siManifestacao) {
+                          this.item = i.text;
+                      }
+                  });
+
+                  this.carregarHistorico();
+
+                  if (this.grupo.codGrupo === 125) {
+                      /** corrdenador habilitado */
+                      this.perfilAtivo.cordenador = false;
+                      this.perfilAtivo.geral = true;
+                      this.perfilAtivo.revisar = true;
+                  } else if (this.grupo.codGrupo === 126) {
+                      /**  cordenador Geral habilitado */
+                      this.perfilAtivo.cordenador = true;
+                      this.perfilAtivo.geral = false;
+                      this.perfilAtivo.revisar = true;
+                  } else { /** todos sem editar */
+                      this.perfilAtivo.cordenador = true;
+                      this.perfilAtivo.geral = true;
+                      this.perfilAtivo.revisar = false;
+                  }
+              },
+              inputRevisao(e) {
+                  this.revisao.dsRevisao = e;
+              },
+              salvar() {
+                  this.revisao.idAvaliacaoFinanceira = this.parecer.idAvaliacaoFinanceira;
+                  this.revisao.idGrupoAtivo = this.grupo.codGrupo;
+                  this.revisao.idAgente = this.agente[0].usu_codigo;
+                  this.salvarRev(this.revisao).then((response) => {
+                      if (response.code === 200) {
+                          this.snackbar = true;
+                      }
+                  });
+              },
+              background(e) {
+                  if (e === false) {
+                      return 'red lighten-4';
+                  } else if (e === true) {
+                      return 'green lighten-4';
                   }
               });
-
-              this.carregarHistorico();
-
-              if (this.grupo.codGrupo == 125) {
-                  /** corrdenador habilitado */
-                  this.perfilAtivo.cordenador = false;
-                  this.perfilAtivo.geral = true;
-                  this.perfilAtivo.revisar = true;
-              } else if (this.grupo.codGrupo == 126) {
-                  /**  cordenador Geral habilitado */
-                  this.perfilAtivo.cordenador = true;
-                  this.perfilAtivo.geral = false;
-                  this.perfilAtivo.revisar = true;
-              } else { /** todos sem editar */
-                  this.perfilAtivo.cordenador = true;
-                  this.perfilAtivo.geral = true;
-                  this.perfilAtivo.revisar = false;
-              }
           },
-          inputRevisao(e) {
-              this.revisao.dsRevisao = e;
-          },
-          salvar() {
-              this.revisao.idAvaliacaoFinanceira = this.parecer.idAvaliacaoFinanceira;
-              this.revisao.idGrupoAtivo = this.grupo.codGrupo;
-              this.revisao.idAgente = this.agente[0].usu_codigo;
-              this.salvarRev(this.revisao).then((response) => {
-                  if (response.code == 200) {
-                      this.snackbar = true;
-                  }
-              });
-          },
-          background(e) {
-              if (e === false) {
-                  return 'red lighten-4';
-              } else if (e === true) {
-                  return 'green lighten-4';
-              }
-              return '';
+        computed:
+          {
+              ...mapGetters({
+                  modalVisible: 'modal/default',
+                  consolidacaoComprovantes: 'avaliacaoResultados/consolidacaoComprovantes',
+                  proponente: 'avaliacaoResultados/proponente',
+                  parecer: 'avaliacaoResultados/parecer',
+                  projeto: 'avaliacaoResultados/projeto',
+                  grupo: 'menuSuperior/grupoAtivo',
+                  agente: 'menuSuperior/usuarioAtivo',
+                  historico: 'avaliacaoResultados/revisaoParecer',
+              }),
           },
     },
     computed: {

@@ -92,7 +92,7 @@
                         icon: 'beenhere',
                     },
                 ],
-            }
+            };
         },
         computed: {
             ...mapGetters({

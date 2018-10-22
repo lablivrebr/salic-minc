@@ -2,7 +2,7 @@ import * as types from './types';
 
 export const state = {
     perfisDisponiveis: [],
-    usuarioAtivo:{},
+    usuarioAtivo: {},
     grupoAtivo: {},
     grupoSelecionadoIndex: 0,
 };

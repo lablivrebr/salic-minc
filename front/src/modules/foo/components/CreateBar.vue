@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a class="btn btn-primary" @click="modalOpen('create-bar')">
+        <a class="btn btn-primary" @click="modalOpen('create-bar'); inputClear();">
             Criar
         </a>
         <ModalTemplate v-if="modalVisible === 'create-bar'" @close="fecharModal()">
@@ -31,7 +31,7 @@ export default {
     name: 'CreateBar',
     data() {
         return {
-            DadoNr: null,
+            DadoNr: '',
         };
     },
     components: {
@@ -47,6 +47,9 @@ export default {
             // eslint-disable-next-line
             $3('#modalTemplate').modal('close');
             this.modalClose();
+        },
+        inputClear() {
+            this.DadoNr = '';
         },
     },
     computed: mapGetters({

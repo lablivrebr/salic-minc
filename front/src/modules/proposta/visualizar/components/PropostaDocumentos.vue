@@ -3,7 +3,8 @@
         <div class="card">
             <div class="card-content">
                 <h5>Documentos da Proposta</h5>
-                <table v-if="documentos.documentos_proposta && documentos.documentos_proposta.length > 0" class="bordered responsive-table">
+                <table v-if="documentos.documentos_proposta && documentos.documentos_proposta.length > 0"
+                       class="bordered responsive-table">
                     <thead>
                     <tr>
                         <th>Documento</th>
@@ -28,7 +29,8 @@
         <div class="card">
             <div class="card-content">
                 <h5>Documentos do Proponente</h5>
-                <table v-if="documentos.documentos_proponente && documentos.documentos_proponente.length > 0" class="bordered responsive-table">
+                <table v-if="documentos.documentos_proponente && documentos.documentos_proponente.length > 0"
+                       class="bordered responsive-table">
                     <thead>
                     <tr>
                         <th>Documento</th>
@@ -41,7 +43,8 @@
                         <td>{{ documento.Descricao }}</td>
                         <td>{{ documento.Data | formatarData}}</td>
                         <td>
-                            <a :href="getUrl(documento.idDocumentosAgentes, documento.tpDoc)" title="Abrir arquivo">{{ documento.NoArquivo }}</a>
+                            <a :href="getUrl(documento.idDocumentosAgentes, documento.tpDoc)" title="Abrir arquivo">{{
+                                documento.NoArquivo }}</a>
                         </td>
                     </tr>
                     </tbody>
@@ -52,51 +55,51 @@
     </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { utils } from '@/mixins/utils';
+    import { mapActions, mapGetters } from 'vuex';
+    import { utils } from '@/mixins/utils';
 
-export default {
-    name: 'PropostaDocumentos',
-    props: {
-        'proposta': {},
-    },
-    data() {
-      return {
-          documentos: {},
-      }
-    },
-    mixins: [utils],
-    mounted() {
-        if (this.proposta.documentos_proposta) {
-            this.documentos = this.proposta;
-        } else if (Object.keys(this.proposta).length > 2 && this.proposta.idAgente) {
-            this.buscaDocumentos(this.proposta);
-        }
-    },
-    watch: {
-        proposta(value) {
-            if (value.documentos_proposta) {
-                this.documentos = value;
-            } else if (Object.keys(value).length > 2 && value.idAgente) {
-                this.buscaDocumentos(value);
+    export default {
+        name: 'PropostaDocumentos',
+        props: {
+            proposta: Object,
+        },
+        data() {
+            return {
+                documentos: {},
+            };
+        },
+        mixins: [utils],
+        mounted() {
+            if (this.proposta.documentos_proposta) {
+                this.documentos = this.proposta;
+            } else if (Object.keys(this.proposta).length > 2 && this.proposta.idAgente) {
+                this.buscaDocumentos(this.proposta);
             }
         },
-        docs(value) {
-            this.documentos = value;
+        watch: {
+            proposta(value) {
+                if (value.documentos_proposta) {
+                    this.documentos = value;
+                } else if (Object.keys(value).length > 2 && value.idAgente) {
+                    this.buscaDocumentos(value);
+                }
+            },
+            docs(value) {
+                this.documentos = value;
+            },
         },
-    },
-    computed: {
-        ...mapGetters({
-            docs: 'proposta/documentos',
-        }),
-    },
-    methods: {
-        ...mapActions({
-            buscaDocumentos: 'proposta/buscaDocumentos',
-        }),
-        getUrl(id, tipo) {
-            return `/admissibilidade/admissibilidade/abrir-documentos-anexados-admissibilidade/?id=${id}&tipo=${tipo}`;
+        computed: {
+            ...mapGetters({
+                docs: 'proposta/documentos',
+            }),
         },
-    },
-};
+        methods: {
+            ...mapActions({
+                buscaDocumentos: 'proposta/buscaDocumentos',
+            }),
+            getUrl(id, tipo) {
+                return `/admissibilidade/admissibilidade/abrir-documentos-anexados-admissibilidade/?id=${id}&tipo=${tipo}`;
+            },
+        },
+    };
 </script>

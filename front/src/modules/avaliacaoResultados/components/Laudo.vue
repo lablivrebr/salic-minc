@@ -77,10 +77,22 @@
                             </v-card>
                         </v-dialog>
                     </td>
-                    <td class="text-xs-center">
+                    <td v-if="acao" class="text-xs-center">
                         <v-btn flat icon color="blue"
                                :to="{ name: 'EmitirLaudoFinal', params:{ id:props.item.IdPronac }}">
-                            <v-icon>create</v-icon>
+                            <v-tooltip bottom>
+                                <v-icon slot="activator" class="material-icons">create</v-icon>
+                                <span>Emitir Laudo</span>
+                            </v-tooltip>
+                        </v-btn>
+                    </td>
+                    <td v-else class="text-xs-center">
+                        <v-btn flat icon color="blue"
+                               :href="'/assinatura/index/assinar-projeto?IdPRONAC='+props.item.IdPronac+'&idTipoDoAtoAdministrativo=623'">
+                            <v-tooltip bottom>
+                                <v-icon slot="activator" class="material-icons">assignment_turned_in</v-icon>
+                                <span>Assinar Laudo</span>
+                            </v-tooltip>
                         </v-btn>
                     </td>
                 </template>
@@ -116,7 +128,7 @@
 
     export default {
         name: 'Painel',
-        props: ['dados'],
+        props: ['dados', 'acao'],
         data() {
             return {
                 pagination: {
@@ -154,7 +166,7 @@
                     },
                     {
                         align: 'center',
-                        text: 'Emitir Laudo',
+                        text: 'Ação',
                         sortable: false,
                     },
                 ],

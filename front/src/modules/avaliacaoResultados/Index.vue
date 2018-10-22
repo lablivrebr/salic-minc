@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <v-app @enlarge-text="alert('te')">
+        <v-app>
             <SlNav></SlNav>
             <v-content>
                 <v-container fluid>
@@ -27,8 +27,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import SlNav from './components/SlNav';
 import Rodape from '@/components/rodape';
+import SlNav from './components/SlNav';
 
 export default {
     name: 'Index',

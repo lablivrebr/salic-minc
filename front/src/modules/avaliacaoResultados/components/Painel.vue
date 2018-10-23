@@ -76,6 +76,7 @@
                                 :analisar="true"
                                 :dados="dadosTabelaTecnico"
                                 :componentes="listaAcoesCoordenador"
+                                :mostrarTecnico="true"
                             ></TabelaProjetos>
                             <TabelaProjetos
                                 v-else
@@ -168,10 +169,11 @@ export default {
     },
     watch: {
         getUsuario(val) {
-            if (Object.keys(val).length > 0 && val.usu_codigo !== 0) {
+            if (Object.keys(val).length > 0 && parseInt(val.usu_codigo, 10) !== 0) {
                 let projetosTecnico = {};
                 let projetosFinalizados = {};
-                if (this.getUsuario.grupo_ativo === 125) {
+
+                if (parseInt(this.getUsuario.grupo_ativo, 10) === 125) {
                     projetosTecnico = {
                         estadoid: 5,
                     };
@@ -202,7 +204,7 @@ export default {
         return {
             listaAcoesTecnico: [Historico, AnaliseButton],
             listaAcoesAssinar: [Historico, AssinarButton],
-            listaAcoesCoordenador: [Historico],
+            listaAcoesCoordenador: [Encaminhar, Historico],
             distribuirAcoes: [Encaminhar],
             revisaoAcoes: [RevisaoButton, VisualizarButton],
         };

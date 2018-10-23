@@ -30,8 +30,9 @@
                     </v-btn>
                 </td> -->
                 <td class="text-xs-center">
-                    <template v-for="c in componentes">
+                    <template v-for="(c, index) in componentes">
                         <component
+                            v-bind:key="index"
                             :is="c"
                             :id-pronac="props.item.IdPRONAC"
                             :pronac="props.item.PRONAC"

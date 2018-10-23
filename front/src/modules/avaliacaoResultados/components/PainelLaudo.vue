@@ -48,7 +48,7 @@
                 >
                     <v-card flat>
                         <Laudo :dados="getProjetosLaudoFinal"
-                               :acao="acoesAnalisar"
+                               :acao="'analisar'"
                         ></Laudo>
                     </v-card>
                 </v-tab-item>
@@ -58,7 +58,7 @@
                 >
                     <v-card flat>
                         <Laudo :dados="getProjetosLaudoAssinar"
-                               :acao="acoesAssinar"
+                               :acao="'assinar'"
                         ></Laudo>
                     </v-card>
                 </v-tab-item>
@@ -69,7 +69,7 @@
                     <v-card flat>
                         <v-card>
                             <Laudo :dados="getProjetosLaudoEmAssinatura"
-                                   :acao="acoesVisualizar"
+                                   :acao="'visualizar'"
                             ></Laudo>
                         </v-card>
                     </v-card>
@@ -81,7 +81,7 @@
                     <v-card flat>
                         <v-card>
                             <Laudo :dados="getProjetosLaudoFinalizados"
-                                   :acao="acoesVisualizar"
+                                   :acao="'visualizar'"
                             ></Laudo>
                         </v-card>
                     </v-card>
@@ -104,13 +104,6 @@ export default {
         this.obterProjetosLaudoEmAssinatura({ estadoId: 11 });
         this.obterProjetosLaudoFinalizados({ estadoId: 12 });
     },
-    data() {
-        return { 
-            acoesAnalisar: { "analisar":true },
-            acoesAssinar: { "assinar":true },
-            acoesVisualizar: { "visualizar":true },
-        };
-    },
     components: {
         Laudo,
     },
@@ -120,7 +113,6 @@ export default {
             obterProjetosLaudoAssinar: 'avaliacaoResultados/obterProjetosLaudoAssinar',
             obterProjetosLaudoEmAssinatura: 'avaliacaoResultados/obterProjetosLaudoEmAssinatura',
             obterProjetosLaudoFinalizados: 'avaliacaoResultados/obterProjetosLaudoFinalizados',
-            usuarioLogado: 'autenticacao/usuarioLogado',
         }),
     },
     computed: {
@@ -129,7 +121,6 @@ export default {
             getProjetosLaudoAssinar: 'avaliacaoResultados/getProjetosLaudoAssinar',
             getProjetosLaudoEmAssinatura: 'avaliacaoResultados/getProjetosLaudoEmAssinatura',
             getProjetosLaudoFinalizados: 'avaliacaoResultados/getProjetosLaudoFinalizados',
-            getUsuario: 'autenticacao/getUsuario',
         }),
     },
 };

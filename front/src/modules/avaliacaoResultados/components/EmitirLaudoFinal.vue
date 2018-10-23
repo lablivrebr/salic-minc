@@ -7,7 +7,7 @@
                         <v-btn icon dark :to="{ name: 'Laudo' }">
                             <v-icon>close</v-icon>
                         </v-btn>
-                        <v-toolbar-title>Emissão de Laudo Final de Avaliação de Resultados</v-toolbar-title>
+                        <v-toolbar-title>Avaliação de Resultados - Emitir Laudo Final</v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
                             <v-btn dark flat

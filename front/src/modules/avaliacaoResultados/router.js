@@ -14,6 +14,7 @@ import Laudo from './components/PainelLaudo';
 import AnalisarItem from './components/AnalisarItem';
 import RevisaoParecer from './components/RevisaoParecer';
 import VisualizarParecer from './components/VisualizarParecer';
+import VisualizarLaudo from './components/VisualizarLaudo';
 
 Vue.use(Router);
 
@@ -128,6 +129,14 @@ const routes = [
         component: VisualizarParecer,
         meta: {
             title: 'Visualizar parecer',
+        },
+    },
+    {
+        path: '/visualizar-laudo/:id',
+        name: 'VisualizarLaudo',
+        component: VisualizarLaudo,
+        meta: {
+            title: 'Visualizar laudo',
         },
     },
     {

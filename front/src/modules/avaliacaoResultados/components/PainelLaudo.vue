@@ -48,7 +48,7 @@
                 >
                     <v-card flat>
                         <Laudo :dados="getProjetosLaudoFinal"
-                               :acao="true"
+                               :acao="acoesAnalisar"
                         ></Laudo>
                     </v-card>
                 </v-tab-item>
@@ -58,6 +58,7 @@
                 >
                     <v-card flat>
                         <Laudo :dados="getProjetosLaudoAssinar"
+                               :acao="acoesAssinar"
                         ></Laudo>
                     </v-card>
                 </v-tab-item>
@@ -68,6 +69,7 @@
                     <v-card flat>
                         <v-card>
                             <Laudo :dados="getProjetosLaudoEmAssinatura"
+                                   :acao="acoesVisualizar"
                             ></Laudo>
                         </v-card>
                     </v-card>
@@ -79,6 +81,7 @@
                     <v-card flat>
                         <v-card>
                             <Laudo :dados="getProjetosLaudoFinalizados"
+                                   :acao="acoesVisualizar"
                             ></Laudo>
                         </v-card>
                     </v-card>
@@ -102,7 +105,11 @@ export default {
         this.obterProjetosLaudoFinalizados({ estadoId: 12 });
     },
     data() {
-        return { };
+        return { 
+            acoesAnalisar: { "analisar":true },
+            acoesAssinar: { "assinar":true },
+            acoesVisualizar: { "visualizar":true },
+        };
     },
     components: {
         Laudo,

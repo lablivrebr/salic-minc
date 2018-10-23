@@ -22,7 +22,7 @@
                     </v-container>
                     <h2 class="text-sm-center">Parecer de avaliação do cumprimento do objeto</h2>
                     <v-container grid-list-sm>
-                        <v-layout row wrap>
+                        <v-layout wrap align-center>
                             <v-flex xs12 sm12 md12 >
                                 <div>
                                     <p><b>Manifestação: </b>{{parecerObjeto.dsManifestacaoObjeto}}</p>
@@ -39,7 +39,7 @@
                     </v-container>
                     <h2 class="text-sm-center">Parecer técnico de avaliação financeira</h2>
                     <v-container grid-list-sm>
-                        <v-layout row wrap>
+                        <v-layout wrap align-center>
                             <v-flex xs12 sm12 md12 >
                                 <div>
 									<p v-if="parecerTecnico.siManifestacao == 'A'"><b>Manifestação: </b> Aprovado</p>
@@ -57,7 +57,7 @@
                         <v-divider></v-divider>
                     </v-container>
                     <v-container grid-list-sm>
-                        <v-layout row wrap>
+                        <v-layout wrap align-center>
                             <v-flex xs1 offset-xs6>
                                 <v-btn dark color="green">IMPRIMIR</v-btn>
                             </v-flex>

@@ -12,6 +12,7 @@
                         height="35px"
                 ></v-text-field>
             </v-card-title>
+            {{acao.assinar}}
             <v-data-table
                     :headers="cabecalho"
                     :items="dados.items"
@@ -71,7 +72,7 @@
                             </v-card>
                         </v-dialog>
                     </td>
-                    <td v-if="acao" class="text-xs-center">
+                    <td v-if="acao.analisar" class="text-xs-center">
                         <v-btn flat icon color="blue"
                                :to="{ name: 'EmitirLaudoFinal', params:{ id:props.item.IdPronac }}">
                             <v-tooltip bottom>
@@ -80,12 +81,21 @@
                             </v-tooltip>
                         </v-btn>
                     </td>
-                    <td v-else class="text-xs-center">
+                    <td v-if="acao.assinar" class="text-xs-center">
                         <v-btn flat icon color="blue"
                                :href="'/assinatura/index/assinar-projeto?IdPRONAC='+props.item.IdPronac+'&idTipoDoAtoAdministrativo=623'">
                             <v-tooltip bottom>
                                 <v-icon slot="activator" class="material-icons">assignment_turned_in</v-icon>
                                 <span>Assinar Laudo</span>
+                            </v-tooltip>
+                        </v-btn>
+                    </td>
+                    <td v-if="acao.visualizar" class="text-xs-center">
+                        <v-btn flat icon color="blue"
+                               :to="{ name: 'VisualizarLaudo', params:{ id:props.item.IdPronac }}">
+                            <v-tooltip bottom>
+                                <v-icon slot="activator" class="material-icons">visibility</v-icon>
+                                <span>Visualizar Laudo</span>
                             </v-tooltip>
                         </v-btn>
                     </td>

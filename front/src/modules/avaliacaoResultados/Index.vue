@@ -36,6 +36,7 @@ export default {
     methods: {
         ...mapActions({
             setSnackbar: 'noticias/setDados',
+            setUsuario: 'autenticacao/usuarioLogado',
         }),
         fecharSnackbar() {
             this.setSnackbar({ ativo: false });
@@ -48,6 +49,7 @@ export default {
     },
     mounted() {
         this.setSnackbar({ ativo: false, color: 'success' });
+        this.setUsuario();
     },
     data() {
         return {

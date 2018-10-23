@@ -31,7 +31,7 @@ class Estado
         $estado = $estado->findBy($atual);
 
         $proximo = json_decode($estado['proximo']);
-        /* var_dump($proximo->proximo->{$params['proximo']}->path);die; */
+        /* var_dump($atual, $params['proximo'], $proximo->proximo->{$params['proximo']});die; */
         $proximo = $proximo->proximo->{$params['proximo']};
 
         $inc = APPLICATION_PATH . $proximo->path;

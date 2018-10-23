@@ -36,18 +36,12 @@
                         <v-icon>gavel</v-icon>
                     </template>
                 </v-tab>
-                <v-tab href="#tab-5">
-                    Revisão 
-                    <v-icon>rate_review</v-icon>
-                </v-tab>
+
                 <v-tab href="#tab-2">
                      Assinar
                     <v-icon>done</v-icon>
                 </v-tab>
-                <v-tab href="#tab-3">
-                     Em assinatura
-                    <v-icon>done_all</v-icon>
-                </v-tab>
+
                 <v-tab href="#tab-4">
                      Historico
                     <v-icon>history</v-icon>
@@ -100,19 +94,7 @@
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
-                <v-tab-item
-                    :id="'tab-3'"
-                    :key="3"
-                >
-                    <v-card flat>
-                        <v-card-text>
-                            <TabelaProjetos
-                                :dados="getProjetosEmAssinatura"
-                                :componentes="listaAcoesTecnico"
-                            ></TabelaProjetos>
-                        </v-card-text>
-                    </v-card>
-                </v-tab-item>
+
                 <v-tab-item
                     :id="'tab-4'"
                     :key="4"
@@ -126,34 +108,22 @@
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
-                <v-tab-item
-                    :id="'tab-5'"
-                    :key="5"
-                >
-                    <v-card flat>
-                        <v-card-text>
-                            <TabelaProjetos
-                                :dados="getProjetosRevisao"
-                                :componentes="revisaoAcoes"
-                            ></TabelaProjetos>
-                        </v-card-text>
-                    </v-card>
-                </v-tab-item>
+
             </v-tabs>
         </v-card>
     </v-container>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import TabelaProjetos from './TabelaProjetos';
-import Historico from './Historico';
-import Encaminhar from './ComponenteEncaminhar';
-import AnaliseButton from './analise/analisarButton';
-import AssinarButton from './analise/AssinarButton';
-import RevisaoButton from './revisao/revisaoButton';
-import VisualizarButton from './analise/visualizarButton';
+    import { mapActions, mapGetters } from 'vuex';
+    import TabelaProjetos from './TabelaProjetos';
+    import Historico from './Historico';
+    import Encaminhar from './ComponenteEncaminhar';
+    import AnaliseButton from './analise/analisarButton';
+    import AssinarButton from './analise/AssinarButton';
+    import RevisaoButton from './revisao/revisaoButton';
+    import VisualizarButton from './analise/visualizarButton';
 
-export default {
+    export default {
     name: 'Painel',
     created() {
         this.distribuir({ estadoid: 6 });
@@ -206,7 +176,7 @@ export default {
             listaAcoesAssinar: [Historico, AssinarButton],
             listaAcoesCoordenador: [Encaminhar, Historico],
             distribuirAcoes: [Encaminhar],
-            revisaoAcoes: [RevisaoButton, VisualizarButton],
+            revisaoAcoes: [RevisaoButton, VisualizarButton, Historico],
         };
     },
     components: {

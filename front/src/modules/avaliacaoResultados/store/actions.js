@@ -246,29 +246,6 @@ export const obterProjetosLaudoFinalizados = ({ commit }, param) => {
         });
 };
 
-export const obterHistoricoRevisao = ({ commit }, params) => {
-    const p = new Promise((resolve) => {
-        avaliacaoResultadosHelperAPI.getListaRevisoes(params)
-            .then((response) => {
-                const dados = response.data.data;
-                commit(types.HISTORICO_REVISAO, dados.items);
-                resolve();
-            });
-    });
-    return p;
-};
-
-export const salvarRevisao = ({ commit }, params) => {
-    const p = new Promise((resolve) => {
-        avaliacaoResultadosHelperAPI.postRevisao(params)
-            .then((response) => {
-                commit(types.SET_REVISAO, response.data.data.items.dados[0]);
-                resolve();
-            });
-    });
-    return p;
-};
-
 export const projetosRevisao = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI
         .projetosRevisao(params)

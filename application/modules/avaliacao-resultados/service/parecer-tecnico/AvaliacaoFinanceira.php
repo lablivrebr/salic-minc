@@ -46,9 +46,8 @@ class AvaliacaoFinanceira
         $dadosParecer = ($dadosParecer) ?: new \stdClass();
 
         $vwVisualizarparecer = new \AvaliacaoResultados_Model_DbTable_vwVisualizarParecerDeAvaliacaoDeResultado();
-
         $dadosObjetoParecer = $vwVisualizarparecer->buscarObjetoParecerAvaliacaoResultado($this->request->idPronac);
-        $dadosObjetoParecer = $dadosObjetoParecer->toArray();
+        $dadosObjetoParecer = $dadosObjetoParecer ? $dadosObjetoParecer->toArray() : null;
 
         return [
             'consolidacaoComprovantes' => $dadosAvaliacaoFinanceira,

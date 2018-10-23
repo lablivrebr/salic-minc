@@ -2,7 +2,9 @@
 
 namespace Application\Modules\Foo\Service\Foo;
 
-class Bar
+use MinC\Servico\IServicoRestZend;
+
+class Bar implements IServicoRestZend
 {
     /**
      * @var \Zend_Controller_Request_Abstract $request

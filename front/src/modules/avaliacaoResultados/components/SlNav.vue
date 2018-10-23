@@ -6,7 +6,7 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import MenuSuperior from '@/components/menu-superior';
+    import MenuSuperior from '@/components/layout/header';
 
     export default {
         name: 'SlNav',

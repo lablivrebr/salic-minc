@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\Navegacao\Service\Perfil;
+namespace Application\Modules\Navegacao\Service;
 
 class Perfil
 {
@@ -13,43 +13,16 @@ class Perfil
         $this->response = $response;
     }
 
-    public function buscarPerfisDisponoveis($grupoAtivo)
+    public function buscarPerfisDisponiveis()
     {
         $auth = \Zend_Auth::getInstance();
         $usuarioAtivo = $auth->getIdentity();
-        $arrAuth = array_change_key_case((array) $usuarioAtivo);
+        $arrAuth = array_change_key_case((array)$usuarioAtivo);
 
         $objModelUsuario = new \Navegacao_Model_PerfilMapper();
         $perfisDisponoveis = $objModelUsuario->buscarPerfisDisponiveis($arrAuth['usu_codigo'], 21);
-        $reposta = $this->montaPerfis($perfisDisponoveis);
-
-        return $this->montaResultado($reposta, (array) $usuarioAtivo, $grupoAtivo);
-    }
-
-    private function montaResultado($perfisDisponoveis, $usuarioAtivo, $grupoAtivo)
-    {
-        $resposta = [];
-        $resposta['perfisDisponoveis'] = $this->utf8Encode($perfisDisponoveis);
-        $resposta['usuarioAtivo'] = $this->utf8Encode([(array) $usuarioAtivo ]);
-        $resposta['grupoAtivo'] = [ 'codGrupo' => $grupoAtivo->codGrupo, 'codOrgao' => $grupoAtivo->codOrgao ];
-        $resposta['grupoSelecionadoIndex'] = $this->grupoSelecionadoIndex(
-            $resposta['perfisDisponoveis'],
-            $resposta['grupoAtivo']
-        );
-
-        return $resposta;
-    }
-
-
-    private function grupoSelecionadoIndex($perfisDisponoveis, $grupoAtivo)
-    {
-        foreach ($perfisDisponoveis as $key => $perfil) {
-            if ($perfil['gru_codigo'] == $grupoAtivo['codGrupo'] && $perfil['uog_orgao'] == $grupoAtivo['codOrgao']) {
-                return $key;
-            }
-        }
-
-        return 0;
+        $perfis = $this->montaPerfis($perfisDisponoveis);
+        return \TratarArray::utf8EncodeArray($perfis);
     }
 
     private function montaPerfis($perfis)
@@ -92,14 +65,5 @@ class Perfil
         $current_object['id_unico'] = '';
 
         return $current_object;
-    }
-
-    private function utf8Encode($perfis)
-    {
-        array_walk($perfis, function (&$value) {
-            $value = array_map('utf8_encode', $value);
-        });
-
-        return $perfis;
     }
 }

@@ -20,8 +20,7 @@ Vue.use(Vuetify, {
         info: '#2196f3',
         success: '#4caf50',
     },
-},
-);
+});
 Vue.config.productionTip = false;
 
 window.onload = () => {

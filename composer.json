@@ -49,8 +49,6 @@
             "Application\\Modules\\Foo\\Service\\Foo\\": "./application/modules/foo/service/foo/",
             "Application\\Modules\\Navegacao\\": "./application/modules/navegacao/",
             "Application\\Modules\\Navegacao\\Service\\": "./application/modules/navegacao/service/",
-            "Application\\Modules\\Navegacao\\Service\\Perfil\\": "./application/modules/navegacao/service/perfil",
-            "Application\\Modules\\Navegacao\\Service\\Footer\\": "./application/modules/navegacao/service/footer",
             "Application\\Modules\\Parecer\\": "./application/modules/parecer/",
             "Application\\Modules\\Parecer\\Service\\": "./application/modules/parecer/service/",
             "Application\\Modules\\Parecer\\Service\\Assinatura\\": "./application/modules/parecer/service/assinatura/",

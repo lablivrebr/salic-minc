@@ -1,8 +1,9 @@
 <?php
 
-use Application\Modules\Navegacao\Service\Footer\Footer as FooterService;
+use Application\Modules\Navegacao\Service\Footer as FooterService;
+use Application\Modules\Solicitacao\Service\Solicitacao\Solicitacao as SolicitacaoService;
 
-class Navegacao_FooterRestController extends MinC_Controller_Rest_Abstract
+class Navegacao_DadosRestController extends MinC_Controller_Rest_Abstract
 {
     public function __construct(
         Zend_Controller_Request_Abstract $request,
@@ -30,9 +31,14 @@ class Navegacao_FooterRestController extends MinC_Controller_Rest_Abstract
 
     public function indexAction()
     {
+        $dados = [];
         $footerService = new FooterService($this->getRequest(), $this->getResponse());
-        $versao = $footerService->buscarVersao();
-        $this->renderJsonResponse($versao, 200);
+        $dados['versao'] = $footerService->buscarVersao();
+
+        $solicitacaoService = new SolicitacaoService($this->getRequest(), $this->getResponse());
+        $dados['quantidadeSolicitacoes'] = $solicitacaoService->contarSolicitacoes();
+
+        $this->renderJsonResponse($dados, 200);
     }
 
     public function getAction()

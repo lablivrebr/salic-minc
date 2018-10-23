@@ -41,8 +41,6 @@ export const obterDestinatarios = () => api.getRequest('/avaliacao-resultados/te
 
 export const encaminharParaTecnico = params => api.postRequest('/avaliacao-resultados/estado/', buildData(params));
 
-export const buscarPerfisDisponiveis = () => api.getRequest('/navegacao/perfil-rest/index');
-
 export const obterDadosItemComprovacao = params => api.getRequest(`/avaliacao-resultados/avaliacao-comprovante/${params}`);
 
 export const criarParecerLaudoFinal = params => api.postRequest('/avaliacao-resultados/laudo', buildData(params));

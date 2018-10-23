@@ -26,8 +26,6 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
 
     public function indexAction()
     {
-//           ini_set('xdebug.var_display_max_depth', 5);
-//           var_dump($this->usuarioProponente());die;
         $menuProponente = [];
         $menu = [];
         $menuProponente += $this->administrativoProponente();

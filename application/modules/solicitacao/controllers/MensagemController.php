@@ -598,7 +598,7 @@ class Solicitacao_MensagemController extends Solicitacao_GenericController
             if ($this->usuario['usu_codigo']) {
                 $resultado = $tbSolicitacao->contarSolicitacoesNaoRespondidasTecnico($this->idUsuario, $this->grupoAtivo->codOrgao);
             } else {
-                $resultado = $tbSolicitacao->contarSolicitacoesNaoRespondidasTecnico($this->idUsuario, $this->idAgente);
+                $resultado = $tbSolicitacao->contarSolicitacoesNaoLidasUsuario($this->idUsuario, $this->idAgente);
             }
 
             $this->_helper->json(array('status' => true, 'msg' => $resultado));

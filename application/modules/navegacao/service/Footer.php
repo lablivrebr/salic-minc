@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\Navegacao\Service\Footer;
+namespace Application\Modules\Navegacao\Service;
 
 class Footer
 {

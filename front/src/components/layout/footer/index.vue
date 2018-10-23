@@ -11,7 +11,8 @@
                 wrap
             >
                 <v-flex xs3 text-xs-center>
-                    <a style="color: #f7cd6f" class="orange-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                    <a style="color: #f7cd6f" class="orange-text text-lighten-3 tooltipped" data-position="top"
+                       data-delay="50"
                        data-tooltip="Ir para o portal de notícias, tutoriais e legislações da Lei Rouanet"
                        target="_blank" href="http://rouanet.cultura.gov.br/"
                        data-tooltip-id="11c539d7-9913-16c0-3c16-ce4e6364817f">LEI ROUANET</a>
@@ -41,7 +42,8 @@
                     </a>
                 </v-flex>
                 <v-flex xs3 text-xs-center>
-                    <a style="color: #f7cd6f" class="orange-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                    <a style="color: #f7cd6f" class="orange-text text-lighten-3 tooltipped" data-position="top"
+                       data-delay="50"
                        data-tooltip="Ir para o Site: Desenvolvimento Salic MinC" target="_blank"
                        href="http://culturagovbr.github.io/salic-minc"
                        data-tooltip-id="14f518c8-eb5f-3b9a-c172-cf75020f54f5">Desenvolvimento</a>
@@ -52,7 +54,7 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: 'SlFoot',
@@ -63,15 +65,7 @@
         },
         computed: {
             ...mapGetters({
-                versao: 'rodape/versao',
-            }),
-        },
-        created() {
-            this.buscarVersao();
-        },
-        methods: {
-            ...mapActions({
-                buscarVersao: 'rodape/buscarVersao',
+                versao: 'layout/versao',
             }),
         },
     };

@@ -37,6 +37,10 @@
                      Em assinatura
                     <v-icon>done_all</v-icon>
                 </v-tab>
+                <v-tab href="#tab-3">
+                     Finalizados
+                    <v-icon>collections_bookmark</v-icon>
+                </v-tab>
 
                 <v-tab-item
                     :id="'tab-0'"
@@ -68,6 +72,17 @@
                         </v-card>
                     </v-card>
                 </v-tab-item>
+                <v-tab-item
+                    :id="'tab-3'"
+                    :key="3"
+                >
+                    <v-card flat>
+                        <v-card>
+                            <Laudo :dados="getProjetosLaudoFinalizados"
+                            ></Laudo>
+                        </v-card>
+                    </v-card>
+                </v-tab-item>
             </v-tabs>
         </v-card>
     </v-container>
@@ -84,6 +99,7 @@ export default {
         this.obterProjetosLaudoFinal({ estadoId: 10 });
         this.obterProjetosLaudoAssinar({ estadoId: 14 });
         this.obterProjetosLaudoEmAssinatura({ estadoId: 11 });
+        this.obterProjetosLaudoFinalizados({ estadoId: 12 });
     },
     data() {
         return { };
@@ -96,6 +112,7 @@ export default {
             obterProjetosLaudoFinal: 'avaliacaoResultados/obterProjetosLaudoFinal',
             obterProjetosLaudoAssinar: 'avaliacaoResultados/obterProjetosLaudoAssinar',
             obterProjetosLaudoEmAssinatura: 'avaliacaoResultados/obterProjetosLaudoEmAssinatura',
+            obterProjetosLaudoFinalizados: 'avaliacaoResultados/obterProjetosLaudoFinalizados',
             usuarioLogado: 'autenticacao/usuarioLogado',
         }),
     },
@@ -104,6 +121,7 @@ export default {
             getProjetosLaudoFinal: 'avaliacaoResultados/getProjetosLaudoFinal',
             getProjetosLaudoAssinar: 'avaliacaoResultados/getProjetosLaudoAssinar',
             getProjetosLaudoEmAssinatura: 'avaliacaoResultados/getProjetosLaudoEmAssinatura',
+            getProjetosLaudoFinalizados: 'avaliacaoResultados/getProjetosLaudoFinalizados',
             getUsuario: 'autenticacao/getUsuario',
         }),
     },

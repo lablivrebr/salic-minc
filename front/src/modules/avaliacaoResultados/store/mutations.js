@@ -30,6 +30,7 @@ export const state = {
     getProjetosLaudoFinal: [],
     getProjetosLaudoAssinar: {},
     getProjetosLaudoEmAssinatura: {},
+    getProjetosLaudoFinalizados: {},
     getProjetosAssinar: {},
     getProjetosEmAssinatura: {},
     getProjetosHistorico: {},
@@ -37,6 +38,7 @@ export const state = {
     revisaoParecer: {},
     revisao: {},
     projetosRevisao: {},
+    objetoParecer: {},
 };
 
 export const mutations = {
@@ -148,6 +150,9 @@ export const mutations = {
     [types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA](state, dados) {
         state.getProjetosLaudoEmAssinatura = dados;
     },
+    [types.SET_DADOS_PROJETOS_LAUDO_FINALIZADOS](state, dados) {
+        state.getProjetosLaudoFinalizados = dados;
+    },
     [types.SET_DADOS_PROJETOS_HISTORICO](state, dados) {
         state.getProjetosHistorico = dados;
     },
@@ -156,5 +161,8 @@ export const mutations = {
     },
     [types.SYNC_PROJETOS_REVISAO](state, dados) {
         state.projetosRevisao = dados;
+    },
+    [types.GET_OBJETO_PARECER](state, dados) {
+        state.objetoParecer = dados;
     },
 };

@@ -30,36 +30,30 @@
                     </td>
                     <td class="text-xs-center">{{ props.item.NomeProjeto }}</td>
                     <td class="text-xs-center">
-                        <v-chip
-                                v-if="props.item.siManifestacao == 'A'"
-                                color="green darken-4"
-                                text-color="white"
+                        <v-btn v-if="props.item.siManifestacao == 'A'"
+                               round
+                               color="green darken-4"
+                               dark
+                               :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
                         >
-                            <v-avatar>
-                                <v-icon dark>mood</v-icon>
-                            </v-avatar>
-                            Aprovado
-                        </v-chip>
-                        <v-chip
-                                v-if="props.item.siManifestacao == 'P'"
-                                color="green lighten-1"
-                                text-color="white"
+                            <v-icon>mood</v-icon>Aprovado
+                        </v-btn>
+                        <v-btn v-if="props.item.siManifestacao == 'P'"
+                               round
+                               color="green lighten-1"
+                               dark
+                               :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
                         >
-                            <v-avatar>
-                                <v-icon>mood</v-icon>
-                            </v-avatar>
-                            Aprovado com ressalva
-                        </v-chip>
-                        <v-chip
-                                v-if="props.item.siManifestacao == 'R'"
-                                color="red"
-                                text-color="white"
+                            <v-icon>sentiment_satisfied_alt</v-icon>Aprovado com ressalva
+                        </v-btn>
+                        <v-btn v-if="props.item.siManifestacao == 'R'"
+                               round
+                               color="red"
+                               dark
+                               :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
                         >
-                            <v-avatar>
-                                <v-icon>sentiment_very_dissatisfied</v-icon>
-                            </v-avatar>
-                            Reprovado
-                        </v-chip>
+                            <v-icon>sentiment_very_dissatisfied</v-icon>Reprovado
+                        </v-btn>
                     </td>
                     <td class="text-xs-center">
                         <v-dialog v-model="dialog" max-width="290">

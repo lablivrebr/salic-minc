@@ -1,3 +1,4 @@
+import { fnSetCookie, fnGetCookie } from '@/mixins/funcoes/cookie';
 import * as layoutHelperAPI from '@/helpers/api/Layout';
 import * as solicitacaoHelperAPI from '@/helpers/api/Solicitacao';
 import * as desencapsularResponse from '@/helpers/actions';
@@ -33,4 +34,14 @@ export const buscarDadosLayout = ({ commit }) => {
             commit(types.SET_VERSAO, data.versao[0]);
             commit(types.SET_QUANTIDADE_SOLICITACOES, data.quantidadeSolicitacoes);
         });
+};
+
+export const obterModoNoturno = ({ commit }) => {
+    const status = (fnGetCookie('layout-modo-noturno') === 'true');
+    commit(types.SET_MODO_NOTURNO, status);
+};
+
+export const atualizarModoNoturno = ({ commit }, status) => {
+    fnSetCookie('layout-modo-noturno', status, 365);
+    commit(types.SET_MODO_NOTURNO, status);
 };

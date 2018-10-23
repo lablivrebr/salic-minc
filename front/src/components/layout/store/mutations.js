@@ -4,6 +4,7 @@ export const state = {
     perfisDisponiveis: [],
     solicitacoes: {},
     quantidadeSolicitacoes: 0,
+    modoNoturno: false,
     versao: {},
 };
 
@@ -19,5 +20,8 @@ export const mutations = {
     },
     [types.SET_VERSAO](state, dados) {
         state.versao = dados;
+    },
+    [types.SET_MODO_NOTURNO](state, status) {
+        state.modoNoturno = status;
     },
 };

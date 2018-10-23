@@ -48,6 +48,18 @@
                         <v-list-tile-title>Alterar senha</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
+                <v-list-tile>
+                    <v-list-tile-action>
+                        <v-switch
+                            color="indigo"
+                            v-model="switchModoNoturno"
+                        ></v-switch>
+                    </v-list-tile-action>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>Modo noturno</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
                 <v-list-tile :href="'/autenticacao/index/logout'">
                     <v-list-tile-action>
                         <v-icon color="indigo">power_settings_new</v-icon>
@@ -63,7 +75,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
     import HeaderInformacoesDaContaPerfis from '@/components/layout/header/HeaderInformacoesDaContaPerfis';
 
     export default {
@@ -73,11 +85,13 @@
             return {
                 loadingUsuario: true,
                 isExibirPerfis: false,
+                switchModoNoturno: false,
             };
         },
         computed: {
             ...mapGetters({
                 usuario: 'autenticacao/getUsuario',
+                isModoNoturno: 'layout/modoNoturno',
             }),
             nomeUsuarioCompleto() {
                 if (Object.keys(this.usuario).length > 0) {
@@ -98,6 +112,19 @@
                 }
                 return '';
             },
+        },
+        watch: {
+            isModoNoturno(value) {
+                this.switchModoNoturno = value;
+            },
+            switchModoNoturno(value) {
+                this.atualizarModoNoturno(value);
+            },
+        },
+        methods: {
+            ...mapActions({
+                atualizarModoNoturno: 'layout/atualizarModoNoturno',
+            }),
         },
     };
 </script>

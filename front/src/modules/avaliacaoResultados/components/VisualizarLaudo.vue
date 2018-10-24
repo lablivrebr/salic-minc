@@ -51,15 +51,8 @@
     export default {
         data() {
             return {
-                idPronac: this.$route.params.id,
                 dialog: true,
             };
-        },
-        methods: {
-            ...mapActions({
-                requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
-                getLaudoFinal: 'avaliacaoResultados/getLaudoFinal',
-            }),
         },
         computed: {
             ...mapGetters({
@@ -69,8 +62,9 @@
             }),
         },
         created() {
-            this.requestEmissaoParecer(this.idPronac);
-            this.getLaudoFinal(this.idPronac);
+            this.proponente;
+            this.projeto;
+            this.parecerLaudoFinal;
         },
         filters: {
             cnpjFilter,

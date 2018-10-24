@@ -50,6 +50,7 @@
                         <v-flex>
                             <label for="parecer">Parecer *</label>
                             <v-textarea :value="parecerLaudoFinal.items.dsLaudoFinal"
+                                        v-if="parecerLaudoFinal.items.dsLaudoFinal? parecerLaudoFinal.items.dsLaudoFinal : ''"
                                         @input="updateParecer"
                                         :rules="parecerRules"
                                         color="deep-purple"
@@ -90,14 +91,9 @@
             ...mapActions({
                 modalOpen: 'modal/modalOpen',
                 modalClose: 'modal/modalClose',
-                requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
                 salvar: 'avaliacaoResultados/salvarLaudoFinal',
                 finalizar: 'avaliacaoResultados/finalizarLaudoFinal',
-                getLaudoFinal: 'avaliacaoResultados/getLaudoFinal',
             }),
-            getConsolidacao(id) {
-                this.requestEmissaoParecer(id);
-            },
             salvarLaudoFinal() {
                 const data = {
                     idPronac: this.idPronac,
@@ -159,8 +155,9 @@
             }),
         },
         created() {
-            this.getConsolidacao(this.idPronac);
-            this.getLaudoFinal(this.idPronac);
+            this.parecerLaudoFinal;
+            this.projeto;
+            this.proponente;
         },
         filters: {
             cnpjFilter,

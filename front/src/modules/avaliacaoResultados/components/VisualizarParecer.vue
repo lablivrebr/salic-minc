@@ -77,16 +77,15 @@ export default {
     name: 'VisualizarParecer',
     data() {
         return {
-            idPronac: this.$route.params.id,
             dialog: true,
         };
     },
-    methods:
-    {
-        ...mapActions({
-            requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
-        }),
-    },
+    // methods:
+    // {
+    //     ...mapActions({
+    //         requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
+    //     }),
+    // },
     computed:
     {
         ...mapGetters({
@@ -97,7 +96,11 @@ export default {
         }),
     },
     mounted() {
-        this.requestEmissaoParecer(this.idPronac);
+        // this.requestEmissaoParecer(this.idPronac);
+        this.parecerTecnico;
+        this.proponente;
+        this.parecerObjeto;
+        this.projeto;
     },
     filters: {
         cnpjFilter,

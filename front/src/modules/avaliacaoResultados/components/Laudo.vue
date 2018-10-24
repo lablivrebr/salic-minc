@@ -35,6 +35,7 @@
                                round
                                color="green darken-4"
                                dark
+                               @click.native="sincState(props.item.IdPronac)"
                                :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
                         >
                             <v-icon>mood</v-icon>Aprovado
@@ -43,6 +44,7 @@
                                round
                                color="green lighten-1"
                                dark
+                               @click.native="sincState(props.item.IdPronac)"
                                :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
                         >
                             <v-icon>sentiment_satisfied_alt</v-icon>Aprovado com ressalva
@@ -51,6 +53,7 @@
                                round
                                color="red"
                                dark
+                               @click.native="sincState(props.item.IdPronac)"
                                :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
                         >
                             <v-icon>sentiment_very_dissatisfied</v-icon>Reprovado
@@ -74,6 +77,7 @@
                     </td>
                     <td v-if="acao == 'analisar'" class="text-xs-center">
                         <v-btn flat icon color="blue"
+                               @click.native="sincState(props.item.IdPronac)"
                                :to="{ name: 'EmitirLaudoFinal', params:{ id:props.item.IdPronac }}">
                             <v-tooltip bottom>
                                 <v-icon slot="activator" class="material-icons">create</v-icon>
@@ -92,6 +96,7 @@
                     </td>
                     <td v-if="acao == 'visualizar'" class="text-xs-center">
                         <v-btn flat icon color="blue"
+                               @click.native="sincState(props.item.IdPronac)"
                                :to="{ name: 'VisualizarLaudo', params:{ id:props.item.IdPronac }}">
                             <v-tooltip bottom>
                                 <v-icon slot="activator" class="material-icons">visibility</v-icon>
@@ -128,6 +133,7 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
     import ModalTemplate from '@/components/modal';
 
     export default {
@@ -150,17 +156,17 @@
                     {
                         align: 'center',
                         text: 'PRONAC',
-                        value: 'pronac',
+                        value: 'PRONAC',
                     },
                     {
                         align: 'center',
                         text: 'Nome Do Projeto',
-                        value: 'nomeProjeto',
+                        value: 'NomeProjeto',
                     },
                     {
                         align: 'center',
                         text: 'Manifestação',
-                        value: 'manifestacao',
+                        value: 'dsResutaldoAvaliacaoObjeto',
                     },
                     {
                         align: 'center',
@@ -178,6 +184,16 @@
         },
         components: {
             ModalTemplate,
+        },
+        methods: {
+            ...mapActions({
+                requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
+                getLaudoFinal: 'avaliacaoResultados/getLaudoFinal',
+            }),
+            sincState(id) {
+                this.requestEmissaoParecer(id);
+                this.getLaudoFinal(id);
+            },
         },
         computed: {
             pages() {

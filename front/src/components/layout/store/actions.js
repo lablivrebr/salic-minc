@@ -45,3 +45,11 @@ export const atualizarModoNoturno = ({ commit }, status) => {
     fnSetCookie('layout-modo-noturno', status, 365);
     commit(types.SET_MODO_NOTURNO, status);
 };
+
+export const atualizarStatusSidebarEsquerda = ({ commit }, status) => {
+    commit(types.SET_STATUS_SIDEBAR_ESQUERDA, status);
+};
+
+export const atualizarStatusSidebarDireita = ({ commit }, status) => {
+    commit(types.SET_STATUS_SIDEBAR_DIREITA, status);
+};

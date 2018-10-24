@@ -9,7 +9,6 @@
                    class="caption"
             >
                 <span v-html="item.label"></span>
-                <!--<v-icon right dark class="ma-0">arrow_drop_down</v-icon>-->
             </v-btn>
             <v-list v-if="item.menu" class="pa-0">
                 <v-list-tile
@@ -31,7 +30,7 @@
 
 <script>
     export default {
-        name: 'MenuPrincipal',
+        name: 'HeaderMenuPrincipalToolbar',
         props: {
             dadosMenu: {},
         },

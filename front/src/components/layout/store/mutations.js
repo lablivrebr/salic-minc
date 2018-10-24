@@ -5,6 +5,8 @@ export const state = {
     solicitacoes: {},
     quantidadeSolicitacoes: 0,
     modoNoturno: false,
+    statusSidebarDireita: false,
+    statusSidebarEsquerda: false,
     versao: {},
 };
 
@@ -23,5 +25,11 @@ export const mutations = {
     },
     [types.SET_MODO_NOTURNO](state, status) {
         state.modoNoturno = status;
+    },
+    [types.SET_STATUS_SIDEBAR_DIREITA](state, status) {
+        state.statusSidebarDireita = status;
+    },
+    [types.SET_STATUS_SIDEBAR_ESQUERDA](state, status) {
+        state.statusSidebarEsquerda = status;
     },
 };

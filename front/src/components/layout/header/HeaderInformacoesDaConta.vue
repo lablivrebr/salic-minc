@@ -9,6 +9,7 @@
             slot="activator"
             class="pa-0"
             flat
+            :icon="$vuetify.breakpoint.smAndDown"
         >
             <v-avatar color="teal" size="30px" class="mr-1 left">
                 <span class="white--text headline">{{primeiraLetraNomeUsuario}}</span>

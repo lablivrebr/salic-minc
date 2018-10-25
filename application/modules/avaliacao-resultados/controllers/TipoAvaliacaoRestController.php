@@ -5,16 +5,9 @@ class AvaliacaoResultados_TipoAvaliacaoRestController extends MinC_Controller_Re
 {
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
-        $profiles = [
-            Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
-        ];
+        $permissionsPerMethod  = ['*'];
 
-        $permissionsPerMethod  = [
-//            'index' => $profiles,
-//            'post' => $profiles
-        ];
+        $this->setValidateUserIsLogged();
         $this->setProtectedMethodsProfilesPermission($permissionsPerMethod);
 
         parent::__construct($request, $response, $invokeArgs);
@@ -39,7 +32,6 @@ class AvaliacaoResultados_TipoAvaliacaoRestController extends MinC_Controller_Re
         $tipoAvaliacaoService = new TipoAvaliacao($this->getRequest(), $this->getResponse());
         $resposta = $tipoAvaliacaoService->tipoAvaliacao();
         $this->renderJsonResponse(\TratarArray::utf8EncodeArray($resposta), 200);
-
     }
 
     public function postAction()
@@ -51,10 +43,10 @@ class AvaliacaoResultados_TipoAvaliacaoRestController extends MinC_Controller_Re
     {
         // TODO: Implement putAction() method.
     }
+
     public function deleteAction()
     {
 //        403 Proibido
         $this->customRenderJsonResponse(["Método não permitido"], 405);
     }
-
 }

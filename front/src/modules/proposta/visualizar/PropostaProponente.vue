@@ -29,7 +29,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import CookieMixin from '@/mixins/cookie';
-import SalicMenuSuspenso from "@/components/SalicMenuSuspenso";
+import SalicMenuSuspenso from '@/components/SalicMenuSuspenso';
 import PropostaFluxo from './components/PropostaFluxo';
 import Proposta from './Proposta';
 
@@ -54,9 +54,9 @@ export default {
         Proposta,
     },
     watch: {
-      dadosProposta() {
-          this.mensagemBotaoFlutuante();
-      }
+        dadosProposta() {
+            this.mensagemBotaoFlutuante();
+        },
     },
     computed: {
         ...mapGetters({
@@ -65,9 +65,9 @@ export default {
     },
     methods: {
         mensagemBotaoFlutuante() {
-            let self = this;
+            const self = this;
             let quantidadeExibida = self.getCookie('qtd_msg_visualizar_proposta');
-            quantidadeExibida = quantidadeExibida ? parseInt(quantidadeExibida): 0;
+            quantidadeExibida = quantidadeExibida ? parseInt(quantidadeExibida, 10) : 0;
 
             /* eslint-disable */
             $3(document).ready(function() {

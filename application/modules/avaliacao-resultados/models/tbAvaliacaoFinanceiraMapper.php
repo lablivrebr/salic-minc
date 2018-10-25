@@ -50,4 +50,5 @@ class AvaliacaoResultados_Model_tbAvaliacaoFinanceiraMapper extends MinC_Db_Mapp
 
         return $booStatus;
     }
+
 }

@@ -46,7 +46,7 @@ class AvaliacaoResultados_EstadoController extends MinC_Controller_Rest_Abstract
         $params = $this->getRequest()->getParams();
 
         $estado = new EstadoService();
-        $estado->validar($atual, $proximoEstado);
+        /* $estado->validar($atual, $proximoEstado); */
         $estado->eventos($atual, $params);
 
         $this->renderJsonResponse(['post'], 200);

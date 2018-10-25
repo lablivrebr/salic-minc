@@ -19,14 +19,11 @@ class AvaliacaoResultados_Events_FinalizarParecer
     }
 
     public function attach() {
-        /* $this->events->attach('run', $this->alterarSituacaoProjeto()); */
         $this->events->attach('run', $this->iniciarAssinatura());
         $this->events->attach('run', $this->alterarEstado());
     }
 
     public function run($params) {
-        echo "Run || ";
-        /* die; */
         $this->events->trigger(__FUNCTION__, $this, $params);
     }
 
@@ -47,8 +44,6 @@ class AvaliacaoResultados_Events_FinalizarParecer
             $model->setEstadoId($params['proximo']);
 
             $mapper->save($model);
-
-            echo ' alterarEstado || ';
         };
     }
 
@@ -58,7 +53,6 @@ class AvaliacaoResultados_Events_FinalizarParecer
 
             $assinatura = new DocumentoAssinaturaService($params['idPronac'], 622);
             $idDocumentoAssinatura = $assinatura->iniciarFluxo();
-
         };
     }
 }

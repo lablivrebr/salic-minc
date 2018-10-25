@@ -6,11 +6,6 @@ class AvaliacaoResultados_Model_DbTable_vwInformacoesConsolidadasParaAvaliacaoFi
     protected $_schema = 'sac';
     protected $_primary = 'IdPRONAC';
 
-/* SELECT IdPRONAC,PRONAC,NomeProjeto,CNPJCPF,Proponente,Area,Segmento,Situacao,DtEnvioDaPrestacaoContas, */
-/* ResultadoAvaliacaoObjeto,qtEmpregosDiretos,qtEmpregosIndiretos,qtEmpregosGerados, */
-/*        qtComprovacao,qtNC_90,qtNC_95,qtNC_99,vlAprovado,vlCaptado,vlComprovado */
-/* FROM sac.dbo.vwInformacoesConsolidadasParaAvaliacaoFinanceira */
-/*   WHERE IdPRONAC = '132451' */
     public function informacoes($idPronac) 
     {
         $cols =["*", 

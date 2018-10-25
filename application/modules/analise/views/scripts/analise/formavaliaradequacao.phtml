@@ -49,6 +49,7 @@
 
         var editorRico = $("#observacao").editorRico({
             altura: 200,
+            maxchar: 8000,
             isLimitarCarateres: true
         });
 
@@ -81,7 +82,7 @@
             }
         });
         $.validator.addMethod("validarPreenchimentoMaximo", function (value, element) {
-            if (editorRico.contarCaracteres() <= 1000) {
+            if (editorRico.contarCaracteres() <= 8000) {
                 return true;
             }
         });

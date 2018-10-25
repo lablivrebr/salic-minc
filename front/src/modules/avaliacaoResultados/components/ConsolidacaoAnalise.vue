@@ -5,7 +5,7 @@
         hide-overlay
         scrollable
     >
-        <v-btn slot="activator" color="success">CONSOLIDAÇÃO</v-btn>
+        <v-btn slot="activator" color="success" dark>CONSOLIDAÇÃO</v-btn>
         <v-card>
             <v-card-text>
                 <h2>{{ nomeProjeto }}</h2>

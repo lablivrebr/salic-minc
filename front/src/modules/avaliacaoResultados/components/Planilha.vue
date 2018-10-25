@@ -38,6 +38,7 @@
                     color="success"
                     :href="'/consultardadosprojeto/index?idPronac=' + idPronac" target="_blank"
                     class="mr-2"
+                    dark
                 >VER PROJETO</v-btn>
 
                 <consolidacao-analise
@@ -136,15 +137,15 @@
                                                                                 >
                                                                                     <v-icon>gavel</v-icon>
                                                                                 </v-btn>
-                                                                                <!-- <analisar-item -->
-                                                                                <!--     :id-pronac="idPronac" -->
-                                                                                <!--     :uf="uf.Uf" -->
-                                                                                <!--     :produto="produto.cdProduto" -->
-                                                                                <!--     :idmunicipio="cidade.cdCidade" -->
-                                                                                <!--     :id-planilha-item="props.item.idPlanilhaItens" -->
-                                                                                <!--     :etapa="etapa.cdEtapa" -->
-                                                                                <!-- > -->
-                                                                                <!-- </analisar-item> -->
+                                                                                 <!--<analisar-item-->
+                                                                                     <!--:id-pronac="idPronac"-->
+                                                                                     <!--:uf="uf.Uf"-->
+                                                                                     <!--:produto="produto.cdProduto"-->
+                                                                                     <!--:idmunicipio="cidade.cdCidade"-->
+                                                                                     <!--:id-planilha-item="props.item.idPlanilhaItens"-->
+                                                                                     <!--:etapa="etapa.cdEtapa"-->
+                                                                                 <!--&gt;-->
+                                                                                 <!--</analisar-item>-->
                                                                             </template>
                                                                         </td>
                                                                     </template>
@@ -305,7 +306,8 @@
             podeEditar(varlorComprovado) {
                 if (varlorComprovado !== 0
                     && !this.dadosProjeto.items.diligencia
-                    && this.documento === 0) {
+                    && this.documento.length === 0
+                ) {
                     return true;
                 }
 

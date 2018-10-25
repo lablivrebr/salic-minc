@@ -6,7 +6,7 @@
     >
         <v-tooltip slot="activator" bottom>
             <v-btn slot="activator" flat icon color="grey">
-                    <v-icon class="material-icons">history</v-icon>
+                <v-icon class="material-icons">history</v-icon>
             </v-btn>
             <span>Histórico de Encaminhamentos</span>
         </v-tooltip>

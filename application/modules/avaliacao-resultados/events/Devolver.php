@@ -21,6 +21,7 @@ class AvaliacaoResultados_Events_Devolver
         /* $this->events->attach('run', $this->alterarSituacaoProjeto()); */
         /* $this->events->attach('run', $this->salvarEncaminhamento()); */
         $this->events->attach('run', $this->alterarEstado());
+        $this->events->attach('run', $this->invalidarDocumento());
     }
 
     public function run($params) {
@@ -61,6 +62,28 @@ class AvaliacaoResultados_Events_Devolver
             $model->setEstadoId(5);
 
             $mapper->save($model);
+        };
+    }
+
+    public function invalidarDocumento() {
+        return function($t) {
+            $params = $t->getParams();
+            
+            $objDbTableDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
+            $idDocumento = $objDbTableDocumentoAssinatura->getIdDocumentoAssinatura($params['idPronac'], $params['idTipoDoAtoAdministrativo']);            
+            $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
+            $codGrupo = $GrupoAtivo->codGrupo;
+            $dados = [
+                'Despacho' => 'devolvido para o técnico',
+                'idTipoDoAto' => $params['idTipoDoAtoAdministrativo'],
+                'idPronac' => $params['idPronac'],
+                'idPerfilDoAssinante' => $codGrupo,
+                'idDocumentoAssinatura' => $idDocumento
+            ];
+            
+            $assinaturaService = new \MinC\Assinatura\Servico\Assinatura($dados);
+
+            $assinaturaService->devolver();
         };
     }
 }

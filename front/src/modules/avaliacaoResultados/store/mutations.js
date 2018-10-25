@@ -36,7 +36,10 @@ export const state = {
     getProjetosHistorico: {},
     versao: {},
     projetosRevisao: {},
+    devolverProjeto: {},
     objetoParecer: {},
+    itensBuscaComprovantes: {},
+    comprovantes: {},
 };
 
 export const mutations = {
@@ -154,7 +157,16 @@ export const mutations = {
     [types.SYNC_PROJETOS_REVISAO](state, dados) {
         state.projetosRevisao = dados;
     },
+    [types.SET_DEVOLVER_PROJETO](state, devolverProjeto) {
+        state.devolverProjeto = devolverProjeto;
+    },
     [types.GET_OBJETO_PARECER](state, dados) {
         state.objetoParecer = dados;
+    },
+    [types.SET_ITENS_BUSCA_COMPROVANTES](state, dados) {
+        state.itensBuscaComprovantes = dados;
+    },
+    [types.SET_COMPROVANTES](state, dados) {
+        state.comprovantes = dados;
     },
 };

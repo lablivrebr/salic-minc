@@ -1,5 +1,7 @@
+import * as desencapsularResponse from '@/helpers/actions';
 import * as avaliacaoResultadosHelperAPI from '@/helpers/api/AvaliacaoResultados';
 import * as types from './types';
+import { state } from './mutations';
 
 export const dadosMenu = ({ commit }) => {
     avaliacaoResultadosHelperAPI.dadosMenu()
@@ -247,11 +249,36 @@ export const obterProjetosLaudoFinalizados = ({ commit }, param) => {
 };
 
 export const projetosRevisao = ({ commit }, params) => {
-    avaliacaoResultadosHelperAPI
-        .projetosRevisao(params)
+    avaliacaoResultadosHelperAPI.projetosRevisao(params)
         .then((response) => {
             const projetosRevisao = response.data.data;
             commit(types.SYNC_PROJETOS_REVISAO, projetosRevisao);
         });
 };
 
+export const buscarDetalhamentoItens = ({ commit }, idPronac) => {
+    avaliacaoResultadosHelperAPI.buscarDetalhamentoItens(idPronac)
+        .then((response) => {
+            const itens = desencapsularResponse.default(response);
+            commit(types.SET_ITENS_BUSCA_COMPROVANTES, itens);
+        });
+};
+
+
+export const buscarComprovantes = ({ commit }, comprovanteIndex) => {
+    const itemBuscaComprovantes = state.itensBuscaComprovantes[comprovanteIndex];
+    avaliacaoResultadosHelperAPI.buscarComprovantes(itemBuscaComprovantes)
+        .then((response) => {
+            const data = response.data;
+            const itens = data.data;
+            commit(types.SET_COMPROVANTES, itens);
+        });
+};
+
+export const devolverProjeto = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.devolverProjeto(params)
+        .then((response) => {
+            const devolverProjeto = response.data;
+            commit(types.SET_DEVOLVER_PROJETO, devolverProjeto);
+        });
+};

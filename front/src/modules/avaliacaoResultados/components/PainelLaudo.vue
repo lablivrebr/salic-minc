@@ -1,14 +1,7 @@
 <template>
     <v-container fluid>
+        <h1 class="font-weight-regular">Laudo final</h1>
         <v-card>
-            <v-toolbar
-                color="green darken-1"
-                dark
-                tabs
-                height="40px"
-            >
-                <v-toolbar-title>Laudo final</v-toolbar-title>
-            </v-toolbar>
             <v-tabs
                 centered
                 color="green darken-1"
@@ -43,48 +36,36 @@
                 </v-tab>
 
                 <v-tab-item
-                    :id="'tab-0'"
+                    :value="'tab-0'"
                     :key="0"
                 >
-                    <v-card flat>
-                        <Laudo :dados="getProjetosLaudoFinal"
-                               :acao="'analisar'"
-                        ></Laudo>
-                    </v-card>
+                    <Laudo :dados="getProjetosLaudoFinal"
+                            :acao="'analisar'"
+                    ></Laudo>
                 </v-tab-item>
                 <v-tab-item
-                    :id="'tab-1'"
+                    :value="'tab-1'"
                     :key="1"
                 >
-                    <v-card flat>
-                        <Laudo :dados="getProjetosLaudoAssinar"
-                               :acao="'assinar'"
-                        ></Laudo>
-                    </v-card>
+                    <Laudo :dados="getProjetosLaudoAssinar"
+                            :acao="'assinar'"
+                    ></Laudo>
                 </v-tab-item>
                 <v-tab-item
-                    :id="'tab-2'"
+                    :value="'tab-2'"
                     :key="2"
                 >
-                    <v-card flat>
-                        <v-card>
-                            <Laudo :dados="getProjetosLaudoEmAssinatura"
-                                   :acao="'visualizar'"
-                            ></Laudo>
-                        </v-card>
-                    </v-card>
+                    <Laudo :dados="getProjetosLaudoEmAssinatura"
+                            :acao="'visualizar'"
+                    ></Laudo>
                 </v-tab-item>
                 <v-tab-item
-                    :id="'tab-3'"
+                    :value="'tab-3'"
                     :key="3"
                 >
-                    <v-card flat>
-                        <v-card>
-                            <Laudo :dados="getProjetosLaudoFinalizados"
-                                   :acao="'visualizar'"
-                            ></Laudo>
-                        </v-card>
-                    </v-card>
+                    <Laudo :dados="getProjetosLaudoFinalizados"
+                            :acao="'visualizar'"
+                    ></Laudo>
                 </v-tab-item>
             </v-tabs>
         </v-card>

@@ -53,3 +53,12 @@ export const atualizarStatusSidebarEsquerda = ({ commit }, status) => {
 export const atualizarStatusSidebarDireita = ({ commit }, status) => {
     commit(types.SET_STATUS_SIDEBAR_DIREITA, status);
 };
+
+export const buscarDadosMenu = ({ commit }) => {
+    layoutHelperAPI.buscarDadosMenu()
+        .then((response) => {
+            const data = response.data;
+            const dadosTabela = data.data;
+            commit(types.SET_MENU_PRINCIPAL, dadosTabela);
+        });
+};

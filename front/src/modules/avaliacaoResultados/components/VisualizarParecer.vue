@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import cnpjFilter from '@/filters/cnpj';
 
 export default {
@@ -80,12 +80,6 @@ export default {
             dialog: true,
         };
     },
-    // methods:
-    // {
-    //     ...mapActions({
-    //         requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
-    //     }),
-    // },
     computed:
     {
         ...mapGetters({
@@ -95,8 +89,7 @@ export default {
             projeto: 'avaliacaoResultados/projeto',
         }),
     },
-    mounted() {
-        // this.requestEmissaoParecer(this.idPronac);
+    created() {
         this.parecerTecnico;
         this.proponente;
         this.parecerObjeto;

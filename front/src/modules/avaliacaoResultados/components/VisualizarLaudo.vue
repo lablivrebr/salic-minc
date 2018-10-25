@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+    import { mapGetters } from 'vuex';
     import cnpjFilter from '@/filters/cnpj';
 
     export default {

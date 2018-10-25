@@ -8,6 +8,7 @@ export const state = {
     statusSidebarDireita: false,
     statusSidebarEsquerda: false,
     versao: {},
+    menuPrincipal: [],
 };
 
 export const mutations = {
@@ -31,5 +32,8 @@ export const mutations = {
     },
     [types.SET_STATUS_SIDEBAR_ESQUERDA](state, status) {
         state.statusSidebarEsquerda = status;
+    },
+    [types.SET_MENU_PRINCIPAL](state, dados) {
+        state.menuPrincipal = dados;
     },
 };

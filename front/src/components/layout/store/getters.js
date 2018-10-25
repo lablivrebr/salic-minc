@@ -5,3 +5,4 @@ export const versao = state => state.versao;
 export const modoNoturno = state => state.modoNoturno;
 export const getStatusSidebarDireita = state => state.statusSidebarDireita;
 export const getStatusSidebarEsquerda = state => state.statusSidebarEsquerda;
+export const getDadosMenu = state => state.menuPrincipal;

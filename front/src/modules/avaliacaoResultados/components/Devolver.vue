@@ -42,7 +42,6 @@
 
 <script>
     import { mapActions } from 'vuex';
-    import Modal from '@/components/modal';
 
     export default {
         name: 'Devolver',
@@ -58,9 +57,6 @@
             nomeProjeto: String,
             pronac: String,
         },
-        components: {
-            Modal,
-        },
         methods: {
             ...mapActions({
                 setDevolverProjeto: 'avaliacaoResultados/devolverProjeto',
@@ -74,7 +70,6 @@
                         proximo: this.proximo,
                         idTipoDoAtoAdministrativo: 622,
                     });
-                location.reload();
             },
         },
     };

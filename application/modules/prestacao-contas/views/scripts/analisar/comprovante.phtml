@@ -82,7 +82,7 @@
                                 <td><formatValue :value="projeto.vlAprovado"></formatValue></td>
                                 <th>Valor Comprovado:</th>
                                 <td><formatValue :value="projeto.vlComprovado"></formatValue></td>
-                                <th>Comprovação Validada:</th>
+                                <th>Comprova&ccedil;&atilde;o Validada:</th>
                                 <td><formatValue :value="projeto.ComprovacaoValidada"></formatValue></td>
                             </tr>
                         </tbody>
@@ -163,7 +163,7 @@
                                      <div class="input-field col s12">
                                         <label class="label label-primary">
                                             <h4>
-                                                Ocorrência do Técnico
+                                                Ocorr&ecirc;ncia do T&eacute;cnico
                                             </h4>
                                         </label>
                                         <textarea v-model="avaliacao.observacao"
@@ -205,7 +205,7 @@
 
                 /* console.log('t', !this.avaliacao.observacao && this.avaliacao.situacao); */
                 if(!this.avaliacao.observacao && this.avaliacao.situacao == 3) {
-                    alert('faltou preencher "Ocorrência"!');
+                    alert('faltou preencher "Ocorr&ecirc;ncia"!');
                 } else {
 
                     $3.ajax({
@@ -243,7 +243,7 @@
                         <tr>
                             <th>Comprovante</th>
                             <td>{{dados.tpDocumento}}</td>
-                            <th>Número</th>
+                            <th>N&uacute;mero</th>
                             <td>{{dados.numero}}</td>
                             <th>S&eacute;rie</th>
                             <td colspan="3">{{dados.serie}}</td>

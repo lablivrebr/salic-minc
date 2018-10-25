@@ -275,10 +275,12 @@ export const buscarComprovantes = ({ commit }, comprovanteIndex) => {
         });
 };
 
-export const devolverProjeto = ({ commit }, params) => {
+export const devolverProjeto = ({ commit, dispatch }, params) => {
     avaliacaoResultadosHelperAPI.devolverProjeto(params)
         .then((response) => {
             const devolverProjeto = response.data;
+            commit(types.SET_DADOS_PROJETOS_FINALIZADOS, {});
             commit(types.SET_DEVOLVER_PROJETO, devolverProjeto);
+            dispatch('projetosFinalizados', { estadoid: 6 });
         });
 };

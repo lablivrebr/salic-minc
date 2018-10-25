@@ -8,7 +8,8 @@
                 icons-and-text
             >
                 <v-tabs-slider color="deep-orange accent-3"></v-tabs-slider>
-                <v-tab href="#tab-0"
+                <v-tab 
+                    href="#tab-0"
                     v-if="getUsuario.grupo_ativo == 125"
                 >
                     <template v-if="Object.keys(getProjetosParaDistribuir).length == 0">
@@ -38,13 +39,31 @@
                 </v-tab>
 
                 <v-tab href="#tab-2">
-                     Assinar
-                    <v-icon>done</v-icon>
+                    <template v-if="Object.keys(getProjetosFinalizados).length == 0">
+                        <v-progress-circular
+                            indeterminate
+                            color="primary"
+                            dark
+                        ></v-progress-circular>
+                    </template>
+                    <template v-else>
+                         Assinar
+                        <v-icon>done</v-icon>
+                    </template>
                 </v-tab>
 
                 <v-tab href="#tab-4">
-                     Historico
-                    <v-icon>history</v-icon>
+                    <template v-if="Object.keys(getProjetosHistorico).length == 0">
+                        <v-progress-circular
+                            indeterminate
+                            color="primary"
+                            dark
+                        ></v-progress-circular>
+                    </template>
+                    <template v-else>
+                        Historico
+                        <v-icon>history</v-icon>
+                    </template>
                 </v-tab>
 
                 <v-tab-item
@@ -125,13 +144,12 @@ import Devolver from './Devolver';
 export default {
     name: 'Painel',
     created() {
-        this.distribuir({ estadoid: 6 });
+        this.distribuir();
 
         this.projetosAssinatura({ estado: 'assinar' });
         this.projetosAssinatura({ estado: 'em_assinatura' });
         this.projetosAssinatura({ estado: 'historico' });
 
-        this.syncRevisao({ estadoid: 13 });
         this.usuarioLogado();
     },
     mounted() {
@@ -164,8 +182,7 @@ export default {
 
                 this.obterDadosTabelaTecnico(projetosTecnico);
                 this.projetosFinalizados(projetosFinalizados);
-                this.distribuir({ estadoid: 6 });
-                this.syncRevisao({ estadoid: 13 });
+                this.distribuir();
             }
         },
     },
@@ -186,7 +203,6 @@ export default {
             projetosFinalizados: 'avaliacaoResultados/projetosFinalizados',
             projetosAssinatura: 'avaliacaoResultados/projetosAssinatura',
             distribuir: 'avaliacaoResultados/projetosParaDistribuir',
-            syncRevisao: 'avaliacaoResultados/projetosRevisao',
             usuarioLogado: 'autenticacao/usuarioLogado',
         }),
     },

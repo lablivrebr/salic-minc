@@ -1,7 +1,4 @@
-import number from 'number'
-
 export default (value) => {
-    console.log(number);
     const date = new Date(value);
 
     return date.toLocaleString(['pt-BR'], { month: '2-digit',

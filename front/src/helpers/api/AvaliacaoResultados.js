@@ -25,8 +25,16 @@ export const getTeste = params => api.postRequest('/realizarprestacaodecontas/ca
 export const getTipoAvaliacao = params => api.getRequest(`/avaliacao-resultados/tipo-avaliacao-rest/idPronac/${params}`);
 
 export const obterDadosTabelaTecnico = (params) => {
-    const data = params;
-    return api.getRequest(`/avaliacao-resultados/fluxo-projeto?estadoid=${data.estadoid}&idAgente=${data.idAgente}`);
+    let data = '?';
+
+    if (params.estadoid) {
+        data += `estadoid=${params.estadoid}`;
+    }
+
+    if (params.idAgente) {
+        data += `&idAgente=${params.idAgente}`;
+    }
+    return api.getRequest(`/avaliacao-resultados/fluxo-projeto${data}`);
 };
 
 export const obterHistoricoEncaminhamento = params => api.getRequest(`/avaliacao-resultados/historico/idPronac/${params}`);
@@ -107,6 +115,17 @@ export const buscarComprovantes = (itemBuscaComprovantes) => {
     return api.getRequest(url + params);
 };
 
-export const devolverProjeto = (params) => {
-    api.postRequest('/avaliacao-resultados/estado', buildData(params));
+export const devolverProjeto = params => api.postRequest('/avaliacao-resultados/estado', buildData(params));
+
+export const projetoPorEstado = (params) => {
+    let data = '?';
+
+    if (params.estadoid) {
+        data += `estadoid=${params.estadoid}`;
+    }
+
+    if (params.idAgente) {
+        data += `&idAgente=${params.idAgente}`;
+    }
+    return api.getRequest(`/avaliacao-resultados/fluxo-projeto${data}`);
 };

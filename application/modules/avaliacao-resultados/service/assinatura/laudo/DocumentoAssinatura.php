@@ -33,7 +33,6 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
     {
         $auth = \Zend_Auth::getInstance();
         $objDbTableDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
-
         $objModelDocumentoAssinatura = new \Assinatura_Model_TbDocumentoAssinatura([
             'IdPRONAC' => $this->idPronac,
             'idTipoDoAtoAdministrativo' => $this->idTipoDoAtoAdministrativo,
@@ -68,7 +67,7 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
         );
         /** ============== Titulo do Documento ========================================== ===*/
 
-        $view->titulo = 'Parecer T&eacute;cnico de Avalia&ccedil;&atilde;o de Resultado';
+        $view->titulo = 'Laudo Final da Avalia&ccedil;&atilde;o de Resultado';
 
         /** =============== Consulta DB para aquisição das informações do parecer Tecnico ================= */
 
@@ -86,16 +85,22 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
         $dadosProponente = $proponente->buscarDadosProponente($this->idPronac);
         $dadosProponente = (array)$dadosProponente[0];
 
-        $tbAvaliacaoFinanceira = new \AvaliacaoResultados_Model_DbTable_tbAvaliacaoFinanceira();
+        $laudo = new \AvaliacaoResultados_Model_DbTable_LaudoFinal();
         $where = [
             'idPronac' => $this->idPronac
         ];
-        $dadosParecer = $tbAvaliacaoFinanceira->findBy($where);
+        $dadosParecer = $laudo->findBy($where);
         $dadosParecer = ($dadosParecer) ?: new \stdClass();
+
+        $objAgentes = new \Agente_Model_DbTable_Agentes();
+        $dadosAgente = $objAgentes->buscarFornecedor(array('a.CNPJCPF = ?' => $dadosProjeto['CgcCpf']));
+        $arrayDadosAgente = $dadosAgente->current();
+
 
         /** ============= Fim da consulta ================ */
 
         /** Carga na view */
+        $view->nomeAgente = (count($arrayDadosAgente) > 0) ? $arrayDadosAgente['nome'] : ' - ';
         $view->parecer = $dadosParecer;
         $view->projeto = $dadosProjeto;
         $view->consolidacao = $dadosAvaliacaoFinanceira;
@@ -105,13 +110,13 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
 
         switch ((string)$dadosParecer['siManifestacao']) {
             case 'R':
-                $view->posicionamentoTecnico = 'Reprova&ccedil;&atilde;o';
+                $view->posicionamento = 'Reprova&ccedil;&atilde;o';
                 break;
             case 'A':
-                $view->posicionamentoTecnico = 'Aprova&ccedil;&atilde;o';
+                $view->posicionamento = 'Aprova&ccedil;&atilde;o';
                 break;
             case 'P':
-                $view->posicionamentoTecnico = 'Aprova&ccedil;&atilde;o com Ressalva';
+                $view->posicionamento = 'Aprova&ccedil;&atilde;o com Ressalva';
                 break;
         };
 

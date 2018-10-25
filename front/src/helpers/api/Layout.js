@@ -9,3 +9,5 @@ export const buscarDadosLayout = () => {
 };
 
 export const buscarPerfisDisponiveis = () => api.getRequest('/navegacao/perfil-rest/index');
+
+export const buscarDadosMenu = () => api.getRequest('/navegacao/menu-principal');

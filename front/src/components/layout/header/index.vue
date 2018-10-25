@@ -1,5 +1,5 @@
 <template>
-    <div v-if="dados">
+    <div>
         <HeaderMenuPrincipalSidebar :dadosMenu="dadosMenu"></HeaderMenuPrincipalSidebar>
         <v-toolbar
             app
@@ -42,16 +42,13 @@
             HeaderSolicitacoes,
             HeaderLogo,
         },
-        props: {
-            dadosMenu: {},
-        },
         data() {
             return {
-                dados: this.dadosMenu,
                 drawerRight: false,
             };
         },
         created() {
+            this.buscarDadosMenu();
             this.buscarDadosLayout();
         },
         watch: {
@@ -64,11 +61,13 @@
         },
         computed: {
             ...mapGetters({
+                dadosMenu: 'layout/getDadosMenu',
                 statusSidebarDireita: 'layout/getStatusSidebarDireita',
             }),
         },
         methods: {
             ...mapActions({
+                buscarDadosMenu: 'layout/buscarDadosMenu',
                 buscarDadosLayout: 'layout/buscarDadosLayout',
                 atualizarStatusSidebar: 'layout/atualizarStatusSidebarDireita',
             }),

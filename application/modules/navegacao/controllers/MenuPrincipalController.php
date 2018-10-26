@@ -58,90 +58,26 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
     {
         $arrMenu['prestacao-contas'] = [
             'id' => 'prestacao-contas',
-            'label' => 'Presta&ccedil;&atilde;o de Contas',
+            'label' => 'Avaliação de Resultados',
             'title' => 'Ir para Presta&ccedil;&atilde;o de Contas',
             'menu' => [],
             'grupo' => [100, 124, 125, 126, 132, 148, 151],
         ];
+
         $arrMenu['prestacao-contas']['menu'][] = [
-            'label' => 'Analisar Presta&ccedil;&atilde;o de Contas',
+            'label' => 'Analisar Parecer',
             'title' => 'Ir para Analisar Presta&ccedil;&atilde;o de Contas',
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'painel'],
-            'grupo' => [126]
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [125],
             'url' => ['module' => 'avaliacao-resultados', 'controller' => 'index', 'action' => 'index'],
-            'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
-            'label' => 'Analisar Presta&ccedil;&atilde;o de Contas'
+            'grupo' => [126,125,124]
         ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [125],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'manter-assinantes'],
-            'title' => 'Ir para Assinantes',
-            'label' => 'Assinantes'
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [124],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'tecnicoprestacaocontas'],
-            'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
-            'label' => 'Analisar Presta&ccedil;&atilde;o de Contas'
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [124],
-            'url' => ['module' => 'avaliacao-resultados', 'controller' => 'index', 'action' => 'index#/painel'],
-            'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
-            'label' => 'Analisar NOVA'
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [12],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'conjurprestacaocontas'],
-            'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
-            'label' => 'Ir para Presta&ccedil;&atilde;o de Contas'
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [177],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'aeciprestacaocontas'],
-            'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
-            'label' => 'Analisar Presta&ccedil;&atilde;o de Contas'
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [132],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'chefedivisaoprestacaocontas'],
-            'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
-            'label' => 'Analisar Presta&ccedil;&atilde;o de Contas'
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [93],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'coordenadorpareceristaprestacaocontas'],
-            'title' => 'Analisar Presta&ccedil;&atilde;o de Contas',
-            'label' => 'Analisar Presta&ccedil;&atilde;o de Contas'
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [94, 93],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'pareceristaprestacaocontas'],
-            'title' => 'Ir para Presta&ccedil;&atilde;o de Contas',
-            'label' => 'Analisar Presta&ccedil;&atilde;o de Contas'
-        ];
+
         $arrMenu['prestacao-contas']['menu'][] = [
             'grupo' => [126, 148, 151],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'analisar-laudo-final'],
-            'title' => 'Ir para Analisar Laudo Final',
-            'label' => 'Analisar Laudo Final'
-        ];
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [124, 125, 132],
-            'url' => ['module' => 'default', 'controller' => 'realizarprestacaodecontas', 'action' => 'consultar-laudo-final'],
+            'url' => ['module' => 'avaliacao-resultados', 'controller' => 'index', 'action' => 'index/#/laudo'],
             'title' => 'Ir para Analisar Laudo Final',
             'label' => 'Analisar Laudo Final'
         ];
 
-        $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [147, 148, 149, 150, 151, 152],
-            'url' => ['module' => 'admissibilidade', 'controller' => 'enquadramento-assinatura', 'action' => 'gerenciar-assinaturas'],
-            'title' => 'Assinatura',
-            'label' => 'Assinatura'
-        ];
         return $arrMenu;
     }
 
@@ -571,7 +507,6 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
             'label' => 'Assinatura',
             'title' => 'Ir para Assinatura',
             'menu' => [],
-//    'grupo' => array(90,91,92,93,96,97,Autenticacao_Model_Grupos::COORDENADOR_ANALISE,104,110,114,115,Autenticacao_Model_Grupos::PRESIDENTE_CNIC,Autenticacao_Model_Grupos::COORDENADOR_CNIC,121,122,123,124,125,126,Autenticacao_Model_Grupos::COORDENADOR_ATENDIMENTO,Autenticacao_Model_Grupos::TECNICO_PORTARIA,131,132,135,138,139,148,151),
         ];
         $arrMenu['assinatura']['menu'][] = [
 //    'grupo' => array(114,130),
@@ -600,18 +535,6 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
             'url' => ['module' => 'readequacao', 'controller' => 'readequacao-assinatura', 'action' => 'gerenciar-assinaturas'],
             'title' => 'Ir para Readequa&ccedil;&atilde;o - Gerenciar Assinaturas',
             'label' => 'Gerenciar Assinaturas - Readequa&ccedil;&atilde;o'
-        ];
-
-
-        $arrMenu['assinatura']['menu'][] = [
-            'grupo' => [
-                Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-                Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
-                Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
-            ],
-            'url' => ['module' => 'assinatura', 'controller' => 'index', 'action' => 'gerenciar-assinaturas'] . "?idTipoDoAtoAdministrativo=" . \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_LAUDO_PRESTACAO_CONTAS,
-            'title' => 'Ir para Readequa&ccedil;&atilde;o - Gerenciar Assinaturas',
-            'label' => 'Gerenciar Assinaturas - Laudo Presta&ccedil;&atilde;o de Contas'
         ];
 
         $arrMenu['assinatura']['menu'][] = [

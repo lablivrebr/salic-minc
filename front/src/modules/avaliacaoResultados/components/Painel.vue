@@ -112,6 +112,11 @@
                                 :componentes="listaAcoesAssinar"
                             ></TabelaProjetos>
                             <TabelaProjetos
+                                v-else-if="getUsuario.grupo_ativo == 126"
+                                :dados="getProjetosAssinarCoordenadorGeral"
+                                :componentes="listaAcoesAssinar"
+                            ></TabelaProjetos>
+                            <TabelaProjetos
                                 v-else
                                 :dados="getProjetosFinalizados"
                                 :componentes="listaAcoesAssinar"
@@ -191,6 +196,7 @@ export default {
                 this.projetosFinalizados(projetosFinalizados);
                 this.distribuir();
                 this.projetosAssinarCoordenador();
+                this.projetosAssinarCoordenadorGeral();
             }
         },
     },
@@ -213,6 +219,7 @@ export default {
             distribuir: 'avaliacaoResultados/projetosParaDistribuir',
             usuarioLogado: 'autenticacao/usuarioLogado',
             projetosAssinarCoordenador: 'avaliacaoResultados/projetosAssinarCoordenador',
+            projetosAssinarCoordenadorGeral: 'avaliacaoResultados/projetosAssinarCoordenadorGeral',
         }),
     },
     computed: {
@@ -226,6 +233,7 @@ export default {
             getUsuario: 'autenticacao/getUsuario',
             getProjetosRevisao: 'avaliacaoResultados/getProjetosRevisao',
             getProjetosAssinarCoordenador: 'avaliacaoResultados/getProjetosAssinarCoordenador',
+            getProjetosAssinarCoordenadorGeral: 'avaliacaoResultados/getProjetosAssinarCoordenadorGeral',
         }),
     },
 };

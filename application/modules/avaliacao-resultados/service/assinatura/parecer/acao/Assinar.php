@@ -13,10 +13,15 @@ class Assinar implements IAcaoAssinar
         $numeroDeAssinaturas = $assinatura->dbTableTbAssinatura->obterQuantidadeAssinaturasRealizadas();
         $idPronac = $assinatura->modeloTbAssinatura->getIdPronac();
 
-
         if ( $numeroDeAssinaturas == 1) {
             $proximoEstado = 9;
-        } elseif ( $numeroDeAssinaturas == 3) {
+        }
+
+        if ( $numeroDeAssinaturas == 2) {
+            $proximoEstado = 15;
+        }
+
+        if ( $numeroDeAssinaturas == 3) {
             $proximoEstado = 10;
         }
 

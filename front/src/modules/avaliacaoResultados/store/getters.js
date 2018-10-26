@@ -31,3 +31,4 @@ export const devolverProjeto = state => state.devolverProjeto;
 export const objetoParecer = state => state.objetoParecer;
 export const comprovantes = state => state.comprovantes;
 export const getProjetosAssinarCoordenador = state => state.projetosAssinarCoordenador;
+export const getProjetosAssinarCoordenadorGeral = state => state.projetosAssinarCoordenadorGeral;

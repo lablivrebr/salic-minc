@@ -292,3 +292,11 @@ export const projetosAssinarCoordenador = ({ commit }) => {
             commit(types.SYNC_PROJETOS_ASSINAR_COORDENADOR, dados.data);
         });
 };
+
+export const projetosAssinarCoordenadorGeral = ({ commit }) => {
+    avaliacaoResultadosHelperAPI.projetosPorEstado({ estadoid: 15 })
+        .then((response) => {
+            const dados = response.data;
+            commit(types.SYNC_PROJETOS_ASSINAR_COORDENADOR_GERAL, dados.data);
+        });
+};

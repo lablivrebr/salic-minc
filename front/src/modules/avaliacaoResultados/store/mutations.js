@@ -41,6 +41,7 @@ export const state = {
     itensBuscaComprovantes: {},
     comprovantes: {},
     projetosAssinarCoordenador: {},
+    projetosAssinarCoordenadorGeral: {},
 };
 
 export const mutations = {
@@ -172,5 +173,8 @@ export const mutations = {
     },
     [types.SYNC_PROJETOS_ASSINAR_COORDENADOR](state, dados) {
         state.projetosAssinarCoordenador = dados;
+    },
+    [types.SYNC_PROJETOS_ASSINAR_COORDENADOR_GERAL](state, dados) {
+        state.projetosAssinarCoordenadorGeral = dados;
     },
 };

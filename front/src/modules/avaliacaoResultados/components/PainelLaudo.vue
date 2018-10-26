@@ -9,7 +9,9 @@
                 icons-and-text
             >
                 <v-tabs-slider color="deep-orange accent-3"></v-tabs-slider>
-                <v-tab href="#tab-0">
+                <v-tab href="#tab-0"
+                       v-if="getUsuario.grupo_ativo == 126"
+                >
                     <template v-if="Object.keys(getProjetosLaudoFinal).length == 0">
                         <v-progress-circular
                             indeterminate
@@ -22,7 +24,9 @@
                         <v-icon>how_to_reg</v-icon>
                     </template>
                 </v-tab>
-                <v-tab href="#tab-1">
+                <v-tab href="#tab-1"
+                       v-if="getUsuario.grupo_ativo == 126"
+                >
                      Assinar
                     <v-icon>done</v-icon>
                 </v-tab>
@@ -30,7 +34,9 @@
                      Em assinatura
                     <v-icon>done_all</v-icon>
                 </v-tab>
-                <v-tab href="#tab-3">
+                <v-tab href="#tab-3"
+                       v-if="getUsuario.grupo_ativo == 126"
+                >
                      Finalizados
                     <v-icon>collections_bookmark</v-icon>
                 </v-tab>
@@ -102,6 +108,7 @@ export default {
             getProjetosLaudoAssinar: 'avaliacaoResultados/getProjetosLaudoAssinar',
             getProjetosLaudoEmAssinatura: 'avaliacaoResultados/getProjetosLaudoEmAssinatura',
             getProjetosLaudoFinalizados: 'avaliacaoResultados/getProjetosLaudoFinalizados',
+            getUsuario: 'autenticacao/getUsuario',
         }),
     },
 };

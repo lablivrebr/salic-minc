@@ -6,7 +6,9 @@ class AvaliacaoResultados_IndexController extends MinC_Controller_Action_Abstrac
         $PermissoesGrupo = [
             Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
             Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS
+            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::SECRETARIO,
+            Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO
         ];
 
         $auth = Zend_Auth::getInstance();

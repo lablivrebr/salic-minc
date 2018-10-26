@@ -5,7 +5,7 @@ $arrMenu['prestacao-contas'] = array(
     'label' => 'Avalia&ccedil;&atilde;o de Resultados',
     'title' => 'Ir para Presta&ccedil;&atilde;o de Contas',
     'menu' => array(),
-    'grupo' => array(100,124,125,126,132,148,151),
+    'grupo' => array(100,124,125,126,132,148,151,149),
 );
 $arrMenu['prestacao-contas']['menu'][] = array(
     'label' => 'Analisar Presta&ccedil;&atilde;o de Contas',
@@ -81,7 +81,7 @@ $arrMenu['prestacao-contas']['menu'][] = array(
     'label' => 'Analisar Laudo Final'
 );
 $arrMenu['prestacao-contas']['menu'][] = array(
-    'grupo' => array(126,148,151),
+    'grupo' => array(126,148,151,149),
     'url' => '/avaliacao-resultados/#/laudo',
     'title' => 'Ir para Analisar Laudo Final',
     'label' => 'Analisar Laudo Final (Novo)'
@@ -92,21 +92,3 @@ $arrMenu['prestacao-contas']['menu'][] = array(
 //    'title' => 'Ir para Analisar Laudo Final',
 //    'label' => 'Analisar Laudo Final'
 //);
-
-$arrMenu['prestacao-contas']['menu'][] = array(
-    'grupo' => array(
-     147
-    ,148
-    ,149
-    ,150
-    ,151
-    ,152
-    ),
-    'url' => $this->url(array(
-        'module' => 'admissibilidade',
-        'controller' => 'enquadramento-assinatura',
-        'action' => 'gerenciar-assinaturas'
-    ), '', true),
-    'title' => 'Assinatura',
-    'label' => 'Assinatura'
-);

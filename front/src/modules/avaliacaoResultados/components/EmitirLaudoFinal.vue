@@ -26,13 +26,13 @@
                             <v-flex xs12 sm12 md12>
                                 <p><b>Projeto:</b> {{projeto.AnoProjeto}}{{projeto.Sequencial}} - {{projeto.NomeProjeto}}</p>
                             </v-flex>
-                            <v-flex xs12 sm12 md12>
+                            <v-flex xs12 sm12 md12 v-if="proponente.CgcCpf || proponente.Nome">
                                 <p><b>Proponente:</b> {{proponente.CgcCpf | cnpjFilter}} - {{proponente.Nome}}</p>
                             </v-flex>
                         </v-layout>
                         <v-divider></v-divider>
                     </v-container>
-                    <v-container grid-list>
+                    <v-container grid-list v-if="parecerLaudoFinal.items">
                         <v-layout wrap align-center>
                             <v-flex>
                                 <label for="manifestacao">Manifestação *</label>
@@ -153,11 +153,6 @@
                 projeto: 'avaliacaoResultados/projeto',
                 parecerLaudoFinal: 'avaliacaoResultados/getParecerLaudoFinal',
             }),
-        },
-        created() {
-            this.parecerLaudoFinal;
-            this.projeto;
-            this.proponente;
         },
         filters: {
             cnpjFilter,

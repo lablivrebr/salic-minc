@@ -146,6 +146,7 @@ import Encaminhar from './ComponenteEncaminhar';
 import AnaliseButton from './analise/analisarButton';
 import AssinarButton from './analise/AssinarButton';
 import Devolver from './Devolver';
+import VisualizarPlanilhaButtton from './analise/VisualizarPlanilhaButtton';
 
 export default {
     name: 'Painel',
@@ -196,8 +197,8 @@ export default {
     data() {
         return {
             listaAcoesTecnico: { atual: '', proximo: '', acoes: [Historico, AnaliseButton] },
-            listaAcoesAssinar: { atual: '6', proximo: '5', acoes: [Historico, AssinarButton, Devolver] },
-            listaAcoesCoordenador: { atual: '', proximo: '', acoes: [Encaminhar, Historico] },
+            listaAcoesAssinar: { atual: '6', proximo: '5', acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton] },
+            listaAcoesCoordenador: { atual: '', proximo: '', acoes: [Encaminhar, Historico, VisualizarPlanilhaButtton] },
             distribuirAcoes: { atual: '', proximo: '', acoes: [Encaminhar] },
         };
     },

@@ -50,13 +50,13 @@
                 dialog: false,
             };
         },
-        props: {
-            idPronac: String,
-            atual: String,
-            proximo: String,
-            nomeProjeto: String,
-            pronac: String,
-        },
+        props:[
+            'idPronac',
+            'atual',
+            'proximo',
+            'nomeProjeto',
+            'pronac',
+        ],
         methods: {
             ...mapActions({
                 setDevolverProjeto: 'avaliacaoResultados/devolverProjeto',

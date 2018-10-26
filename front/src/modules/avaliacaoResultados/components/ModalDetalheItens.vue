@@ -89,6 +89,7 @@
     import numeral from 'numeral';
 
     export default {
+        name: 'ModalDetalheItens',
         props: {
             comprovanteIndex: Number,
             item: String,

@@ -284,3 +284,11 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
             dispatch('projetosFinalizados', { estadoid: 6 });
         });
 };
+
+export const projetosAssinarCoordenador = ({ commit }) => {
+    avaliacaoResultadosHelperAPI.projetosPorEstado({ estadoid: 9 })
+        .then((response) => {
+            const dados = response.data;
+            commit(types.SYNC_PROJETOS_ASSINAR_COORDENADOR, dados.data);
+        });
+};

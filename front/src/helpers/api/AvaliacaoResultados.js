@@ -117,7 +117,7 @@ export const buscarComprovantes = (itemBuscaComprovantes) => {
 
 export const devolverProjeto = params => api.postRequest('/avaliacao-resultados/estado', buildData(params));
 
-export const projetoPorEstado = (params) => {
+export const projetosPorEstado = (params) => {
     let data = '?';
 
     if (params.estadoid) {

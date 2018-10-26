@@ -40,6 +40,7 @@ export const state = {
     objetoParecer: {},
     itensBuscaComprovantes: {},
     comprovantes: {},
+    projetosAssinarCoordenador: {},
 };
 
 export const mutations = {
@@ -168,5 +169,8 @@ export const mutations = {
     },
     [types.SET_COMPROVANTES](state, dados) {
         state.comprovantes = dados;
+    },
+    [types.SYNC_PROJETOS_ASSINAR_COORDENADOR](state, dados) {
+        state.projetosAssinarCoordenador = dados;
     },
 };

@@ -12,7 +12,7 @@
                 icon
                 light
             >
-                <v-icon class="material-icons">replay</v-icon>
+                <v-icon color="error" class="material-icons">undo</v-icon>
             </v-btn>
             <span>Devolver Projeto</span>
         </v-tooltip>

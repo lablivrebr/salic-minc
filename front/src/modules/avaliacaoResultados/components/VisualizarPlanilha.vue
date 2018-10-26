@@ -129,7 +129,7 @@
                                                                         props.item.varlorComprovado) }}
                                                                     </td>
                                                                     <td>
-                                                                        <ModalDetalheItens :comprovanteIndex="parseIndexInt(index)" :idPronac="getPronac"></ModalDetalheItens>
+                                                                        <ModalDetalheItens :item="props.item.item" :comprovanteIndex="parseIndexInt(index)" :idPronac="getPronac"></ModalDetalheItens>
                                                                     </td>
                                                                 </template>
                                                             </v-data-table>

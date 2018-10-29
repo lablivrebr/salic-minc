@@ -85,7 +85,7 @@
                     >
                         <v-card-text>
                             <TabelaProjetos
-                                v-if="getUsuario.grupo_ativo == 125"
+                                v-if="(getUsuario.grupo_ativo == 125 || getUsuario.grupo_ativo == 126)"
                                 :analisar="true"
                                 :dados="dadosTabelaTecnico"
                                 :componentes="listaAcoesCoordenador"
@@ -172,7 +172,10 @@ export default {
                 let projetosTecnico = {};
                 let projetosFinalizados = {};
 
-                if (parseInt(this.getUsuario.grupo_ativo, 10) === 125) {
+                if (
+                    parseInt(this.getUsuario.grupo_ativo, 10) === 125
+                    || parseInt(this.getUsuario.grupo_ativo, 10) === 126
+                ) {
                     projetosTecnico = {
                         estadoid: 5,
                     };

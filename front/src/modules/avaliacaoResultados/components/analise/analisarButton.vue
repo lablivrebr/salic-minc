@@ -3,7 +3,7 @@
         <v-tooltip bottom>
             <v-icon 
                 slot="activator" 
-                class="material-icons">compare_arrows
+                class="material-icons">gavel
             </v-icon>
             <span>Analisar Projeto</span>
         </v-tooltip>

@@ -184,8 +184,8 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
         $menu['outrasinformacoes']['submenu'][] = [
             'label' => 'Tramita&ccedil;&atilde;o',
             'title' => 'Ir para Tramita&ccedil;&atilde;o',
-            'link' => '/default/consultardadosprojeto/tramitacao/?idPronac=' . $idPronacHash,
-            'ajax' => true,
+            'link' => "/projeto/#/{$idPronacHash}/tramitacao",
+            'ajax' => false,
             'grupo' => []
         ];
 

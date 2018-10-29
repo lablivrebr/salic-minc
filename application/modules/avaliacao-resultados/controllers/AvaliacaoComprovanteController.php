@@ -24,7 +24,6 @@ class AvaliacaoResultados_AvaliacaoComprovanteController extends MinC_Controller
 
     public function getAction()
     {
-
         if (
             !$this->getRequest()->getParam('idPronac') ||
             !isset($this->getRequest()->idPronac))
@@ -43,11 +42,50 @@ class AvaliacaoResultados_AvaliacaoComprovanteController extends MinC_Controller
         ], 200);
     }
 
+    public function postAction(){
+        $idPronac = $this->getRequest()->getParam('idPronac');
+        $dsJustificativa = utf8_decode($this->getRequest()->getParam('dsJustificativa'));
+        $stItemAvaliado = $this->getRequest()->getParam('stItemAvaliado');
+        $idComprovantePagamento = $this->getRequest()->getParam('idComprovantePagamento');
+
+        if (!$idPronac) {
+            throw new Exception('Falta idPronac');
+        }
+
+        if (!$idComprovantePagamento) {
+            throw new Exception('Falta idComprovantePagamento');
+        }
+
+        if (!$dsJustificativa) {
+            throw new Exception('Falta dsJustificativa');
+        }
+
+        if (!$stItemAvaliado) {
+            throw new Exception('Falta stItemAvaliado');
+        }
+
+        $tblComprovantePag = new ComprovantePagamentoxPlanilhaAprovacao();
+        $rsComprovantePag = $tblComprovantePag
+            ->buscar( [ 'idComprovantePagamento = ?' => $idComprovantePagamento] )
+            ->current();
+
+        $rsComprovantePag->dtValidacao = date('Y/m/d H:i:s');
+        $rsComprovantePag->dsJustificativa = $dsJustificativa;
+        $rsComprovantePag->stItemAvaliado = $stItemAvaliado;
+
+        try {
+            $rsComprovantePag->save();
+            $this->renderJsonResponse(['mensagem' => 'ok'], 200);
+        } catch (Exception $e) {
+            $tblComprovantePag->getAdapter()->rollBack();
+            $this->renderJsonResponse(['mensagem'=> 'erro'], 500);
+
+        }
+    }
+
     public function indexAction(){}
 
     public function headAction(){}
-
-    public function postAction(){}
 
     public function putAction(){}
 

@@ -91,8 +91,14 @@
     export default {
         name: 'ModalDetalheItens',
         props: {
-            comprovanteIndex: Number,
             item: String,
+            idPronac: String,
+            uf: String,
+            codigoCidade: Number,
+            codigoProduto: Number,
+            stItemAvaliado: String,
+            codigoEtapa: Number,
+            idPlanilhaItens: Number,
         },
         data() {
             return {
@@ -109,7 +115,17 @@
                 buscarComprovantes: 'avaliacaoResultados/buscarComprovantes',
             }),
             buscar() {
-                this.buscarComprovantes(this.comprovanteIndex);
+                const params = {
+                    uf: this.uf,
+                    idPronac: this.idPronac,
+                    codigoCidade: this.codigoCidade,
+                    codigoProduto: this.codigoProduto,
+                    stItemAvaliado: this.stItemAvaliado,
+                    codigoEtapa: this.codigoEtapa,
+                    idPlanilhaItens: this.idPlanilhaItens,
+                };
+
+                this.buscarComprovantes(params);
             },
             badgeCSS(id) {
                 const currentId = parseInt(id, 10);

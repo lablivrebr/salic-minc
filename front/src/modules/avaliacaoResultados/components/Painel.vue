@@ -133,7 +133,7 @@
                         <v-card-text>
                             <TabelaProjetos
                                 :dados="getProjetosHistorico"
-                                :componentes="listaAcoesTecnico"
+                                :componentes="historicoAcoes"
                             ></TabelaProjetos>
                         </v-card-text>
                     </v-card>
@@ -206,6 +206,7 @@ export default {
             listaAcoesAssinar: { atual: '6', proximo: '5', acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton] },
             listaAcoesCoordenador: { atual: '', proximo: '', acoes: [Encaminhar, Historico, VisualizarPlanilhaButtton] },
             distribuirAcoes: { atual: '', proximo: '', acoes: [Encaminhar] },
+            historicoAcoes: { atual: '', proximo: '', acoes: [Historico, VisualizarPlanilhaButtton] },
         };
     },
     components: {

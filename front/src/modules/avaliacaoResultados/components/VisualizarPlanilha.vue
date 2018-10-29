@@ -129,7 +129,17 @@
                                                                         props.item.varlorComprovado) }}
                                                                     </td>
                                                                     <td>
-                                                                        <ModalDetalheItens :item="props.item.item" :comprovanteIndex="parseIndexInt(index)" :idPronac="getPronac"></ModalDetalheItens>
+                                                                        <ModalDetalheItens
+                                                                            :idPronac="idPronac"
+                                                                            :uf="uf.Uf"
+                                                                            :codigoCidade="cidade.cdCidade"
+                                                                            :codigoProduto="produto.cdProduto"
+                                                                            :stItemAvaliado="codigoStItemAvaliado(tabs[index])"
+                                                                            :codigoEtapa="etapa.cdEtapa"
+                                                                            :idPlanilhaItens="props.item.idPlanilhaItens"
+                                                                            :item="props.item.item "
+                                                                        >
+                                                                        </ModalDetalheItens>
                                                                     </td>
                                                                 </template>
                                                             </v-data-table>
@@ -206,7 +216,7 @@
         mounted() {
             this.setPlanilha(this.idPronac);
             this.setProjetoAnalise(this.idPronac);
-            this.buscarDetalhamentoItens(this.idPronac);
+            // this.buscarDetalhamentoItens(this.idPronac);
         },
         components: {
             ModalDetalheItens,
@@ -219,7 +229,7 @@
                 setProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
                 modalOpen: 'modal/modalOpen',
                 modalClose: 'modal/modalClose',
-                buscarDetalhamentoItens: 'avaliacaoResultados/buscarDetalhamentoItens',
+                // buscarDetalhamentoItens: 'avaliacaoResultados/buscarDetalhamentoItens',
             }),
             moeda: (moedaString) => {
                 const moeda = Number(moedaString);
@@ -242,17 +252,25 @@
                 }
                 return arr;
             },
-            parseIndexInt(value) {
-                const number = parseInt(value, 10);
-                let result = 0;
+            codigoStItemAvaliado(stItemAvaliado) {
+                let response = null;
 
-                if (number === parseInt(number, 10)) {
-                    result = number;
+                switch (stItemAvaliado) {
+                case 'AVALIADO':
+                    response = '1';
+                    break;
+                case 'IMPUGNADOS':
+                    response = '3';
+                    break;
+                case 'AGUARDANDO ANÁLISE':
+                    response = '4';
+                    break;
+                default:
+                    response = '';
                 }
 
-                return result;
+                return response;
             },
         },
     };
 </script>
-

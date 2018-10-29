@@ -5,7 +5,7 @@
                 slot="activator" 
                 class="material-icons">visibility
             </v-icon>
-            <span>Analisar Projeto</span>
+            <span>Visualizar Projeto</span>
         </v-tooltip>
     </v-btn>
 </template>

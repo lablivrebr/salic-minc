@@ -97,22 +97,22 @@ export const projetosRevisao = (params) => {
 
 export const buscarDetalhamentoItens = idPronac => api.getRequest(`/avaliacao-resultados/detalhamento-itens-rest?idPronac=${idPronac}`);
 
-export const buscarComprovantes = (itemBuscaComprovantes) => {
+export const buscarComprovantes = (params) => {
     const modulo = '/prestacao-contas';
     const controller = '/comprovante-pagamento';
 
-    const idPronac = `idPronac=${itemBuscaComprovantes.IdPRONAC}`;
-    const idPlanilhaItem = `idPlanilhaItem=${itemBuscaComprovantes.idPlanilhaItens}`;
-    const produto = `produto=${itemBuscaComprovantes.cdProduto}`;
-    const uf = `uf=${itemBuscaComprovantes.Uf}`;
-    const idMunicipio = `idmunicipio=${itemBuscaComprovantes.cdCidade}`;
-    const etapa = `etapa=${itemBuscaComprovantes.cdEtapa}`;
-    const stItemAvaliado = `stItemAvaliado=${itemBuscaComprovantes.stItemAvaliado}`;
+    const uf = `uf=${params.uf}`;
+    const idPronac = `idPronac=${params.idPronac}`;
+    const idPlanilhaItem = `idPlanilhaItem=${params.idPlanilhaItens}`;
+    const produto = `produto=${params.codigoProduto}`;
+    const idMunicipio = `idmunicipio=${params.codigoCidade}`;
+    const etapa = `etapa=${params.codigoEtapa}`;
+    const stItemAvaliado = `stItemAvaliado=${params.stItemAvaliado}`;
 
     const url = `${modulo}${controller}`;
-    const params = `?${idPronac}&${idPlanilhaItem}&${produto}&${uf}&${idMunicipio}&${stItemAvaliado}&${etapa}`;
+    const queryParams = `?${idPronac}&${idPlanilhaItem}&${produto}&${uf}&${idMunicipio}&${stItemAvaliado}&${etapa}`;
 
-    return api.getRequest(url + params);
+    return api.getRequest(url + queryParams);
 };
 
 export const devolverProjeto = params => api.postRequest('/avaliacao-resultados/estado', buildData(params));

@@ -141,8 +141,16 @@ export const finalizarParecer = (_, params) => {
         });
 };
 
-export const encaminharParaTecnico = (_, params) => {
-    avaliacaoResultadosHelperAPI.encaminharParaTecnico(params);
+export const encaminharParaTecnico = ({ commit, dispatch }, params) => {
+    commit(types.SET_DADOS_PROJETOS_PARA_DISTRIBUIR, {});
+    commit(types.PROJETOS_AVALIACAO_TECNICA, {});
+    avaliacaoResultadosHelperAPI
+        .encaminharParaTecnico(params)
+        .then(() => {
+            dispatch('projetosParaDistribuir');
+            dispatch('obterDadosTabelaTecnico', { estadoid: 5 });
+        })
+    ;
 };
 
 export const alterarParecer = ({ commit }, param) => {
@@ -265,9 +273,8 @@ export const buscarDetalhamentoItens = ({ commit }, idPronac) => {
 };
 
 
-export const buscarComprovantes = ({ commit }, comprovanteIndex) => {
-    const itemBuscaComprovantes = state.itensBuscaComprovantes[comprovanteIndex];
-    avaliacaoResultadosHelperAPI.buscarComprovantes(itemBuscaComprovantes)
+export const buscarComprovantes = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.buscarComprovantes(params)
         .then((response) => {
             const data = response.data;
             const itens = data.data;

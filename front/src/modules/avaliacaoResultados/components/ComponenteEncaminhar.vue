@@ -99,72 +99,69 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
-    import Modal from '@/components/modal';
+import { mapActions, mapGetters } from 'vuex';
 
-    export default {
-        name: 'ComponenteEncaminhar',
-        props: [
-            'idPronac',
-            'nomeProjeto',
-            'pronac',
-        ],
-        data() {
-            return {
-                dialog: false,
-                rules: {
-                    required: v => !!v,
-                },
-                destinatarioEncaminhamento: null,
-                justificativa: null,
-                form: null,
-            };
-        },
-        watch: {
-            dialog(val) {
-                if (!val) {
-                    this.$refs.form.reset();
-                } else {
-                    this.obterDestinatarios();
-                }
+export default {
+    name: 'Encaminhar',
+    props: [
+        'idPronac',
+        'nomeProjeto',
+        'pronac',
+    ],
+    data() {
+        return {
+            dialog: false,
+            rules: {
+                required: v => !!v,
             },
-        },
-        components: {
-            Modal,
-        },
-        computed: {
-            ...mapGetters({
-                dadosDestinatarios: 'avaliacaoResultados/dadosDestinatarios',
-            }),
-        },
-        methods: {
-            ...mapActions({
-                obterDestinatarios: 'avaliacaoResultados/obterDestinatarios',
-                encaminharParaTecnico: 'avaliacaoResultados/encaminharParaTecnico',
-                obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
-                projetosFinalizados: 'avaliacaoResultados/projetosFinalizados',
-                distribuir: 'avaliacaoResultados/projetosParaDistribuir',
-            }),
-            enviarEncaminhamento() {
-                this.encaminharParaTecnico({
-                    atual: 4,
-                    proximo: 5,
-                    idPronac: this.idPronac || 123456,
-                    idOrgaoDestino: 1,
-                    idAgenteDestino: this.destinatarioEncaminhamento,
-                    cdGruposDestino: 1,
-                    dtFimEncaminhamento: '2015-09-25 10:38:41',
-                    idSituacaoEncPrestContas: 1,
-                    idSituacao: 1,
-                    dsJustificativa: this.justificativa,
-                });
-                this.dialog = false;
+            destinatarioEncaminhamento: null,
+            justificativa: null,
+            form: null,
+        };
+    },
+    watch: {
+        dialog(val) {
+            if (!val) {
                 this.$refs.form.reset();
-
-                this.projetosFinalizados({ estadoid: 6 });
-                this.obterDadosTabelaTecnico({ estadoid: 5 });
-                this.distribuir({ estadoid: 6 });
-            },
+            } else {
+                this.obterDestinatarios();
+            }
         },
-    };
+    },
+    computed: {
+        ...mapGetters({
+            dadosDestinatarios: 'avaliacaoResultados/dadosDestinatarios',
+        }),
+    },
+    methods: {
+        ...mapActions({
+            obterDestinatarios: 'avaliacaoResultados/obterDestinatarios',
+            encaminharParaTecnico: 'avaliacaoResultados/encaminharParaTecnico',
+            obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
+            projetosFinalizados: 'avaliacaoResultados/projetosFinalizados',
+            distribuir: 'avaliacaoResultados/projetosParaDistribuir',
+        }),
+        enviarEncaminhamento() {
+            this.encaminharParaTecnico({
+                atual: 4,
+                proximo: 5,
+                idPronac: this.idPronac,
+                idOrgaoDestino: 1,
+                idAgenteDestino: this.destinatarioEncaminhamento,
+                cdGruposDestino: 1,
+                dtFimEncaminhamento: '2015-09-25 10:38:41',
+                idSituacaoEncPrestContas: 1,
+                idSituacao: 1,
+                dsJustificativa: this.justificativa,
+            });
+
+            this.dialog = false;
+            this.$refs.form.reset();
+
+            this.projetosFinalizados({ estadoid: 6 });
+            this.obterDadosTabelaTecnico({ estadoid: 5 });
+            //this.distribuir();
+        },
+    },
+};
 </script>

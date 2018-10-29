@@ -1,8 +1,8 @@
 <template>
     <v-container row justify-center>
         <v-form v-model="valid">
-            <v-dialog 
-                v-model="dialog" 
+            <v-dialog
+                v-model="dialog"
                 full-width
                 scrollable
                 fullscreen
@@ -16,10 +16,10 @@
                         <v-toolbar-title>Avaliação Financeira - Emissão de Parecer</v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
-                            <v-btn dark flat 
-                                @click.native="salvarParecer(), confirmarSalvar = true" 
+                            <v-btn dark flat
+                                @click.native="salvarParecer(), confirmarSalvar = true"
                                 :disabled="!valid"
-                                
+
                             >
                                 Salvar
                             </v-btn>
@@ -93,15 +93,15 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td left><b>Total:</b></td>
-                                                                    <td >{{consolidacaoComprovantes.qtTotalComprovante | currency}}</td>
+                                                                    <td >{{consolidacaoComprovantes.qtTotalComprovante}}</td>
                                                                     <td left><b>Validados:</b></td>
-                                                                    <td><font color="#006400">{{consolidacaoComprovantes.qtComprovantesValidadosProjeto | currency}} </font></td>
+                                                                    <td><font color="#006400">{{consolidacaoComprovantes.qtComprovantesValidadosProjeto}} </font></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td left><b>Não Avaliados:</b></td>
-                                                                    <td left>{{consolidacaoComprovantes.qtComprovantesNaoAvaliados | currency}}</td>
+                                                                    <td left>{{consolidacaoComprovantes.qtComprovantesNaoAvaliados}}</td>
                                                                     <td left><b>Recusados:</b></td>
-                                                                    <td left><font color="red">{{consolidacaoComprovantes.qtComprovantesRecusadosProjeto | currency}} </font></td>
+                                                                    <td left><font color="red">{{consolidacaoComprovantes.qtComprovantesRecusadosProjeto}} </font></td>
                                                                 </tr>
                                                             </template>
                                                         </v-data-table>
@@ -133,7 +133,7 @@
                                                 </v-flex>
 
                                                 <v-flex xs4 d-flex>
-                                                        <v-select 
+                                                        <v-select
                                                             height="20px"
                                                             :value="getParecer.siManifestacao"
                                                             @input="inputManifestacao($event)"
@@ -147,7 +147,7 @@
                                                             append-icon="keyboard_arrow_down"
                                                             full-width
                                                         ></v-select>
-                                                </v-flex> 
+                                                </v-flex>
 
                                                 <v-flex md12 xs12 mb-4>
                                                     <v-card>
@@ -162,7 +162,7 @@
                                                             outline
                                                         ></v-textarea>
                                                     </v-card>
-                                                </v-flex>  
+                                                </v-flex>
 
                                             </v-layout>
                                         </v-container>
@@ -178,13 +178,13 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import { mapActions, mapGetters } from 'vuex';
-import ModalTemplate from '@/components/modal';
-import cnpjFilter from '@/filters/cnpj';
-import VueCurrencyFilter from 'vue-currency-filter';
+    import Vue from 'vue';
+    import { mapActions, mapGetters } from 'vuex';
+    import ModalTemplate from '@/components/modal';
+    import cnpjFilter from '@/filters/cnpj';
+    import VueCurrencyFilter from 'vue-currency-filter';
 
-Vue.use(VueCurrencyFilter, {
+    Vue.use(VueCurrencyFilter, {
     symbol: 'R$',
     thousandsSeparator: '.',
     fractionCount: 2,

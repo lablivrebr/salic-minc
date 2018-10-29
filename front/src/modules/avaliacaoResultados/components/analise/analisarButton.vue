@@ -1,7 +1,14 @@
 <template>
     <v-btn flat icon color="green" :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}">
-        <v-icon class="material-icons">compare_arrows</v-icon>
+        <v-tooltip bottom>
+            <v-icon 
+                slot="activator" 
+                class="material-icons">gavel
+            </v-icon>
+            <span>Analisar Projeto</span>
+        </v-tooltip>
     </v-btn>
+
 </template>
 
 <script>
@@ -9,6 +16,7 @@
         name: 'AnalisarButton',
         props: [
             'idPronac',
+            'tipo',
         ],
         data() {
             return {

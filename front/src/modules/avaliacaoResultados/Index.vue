@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <v-app>
+        <v-app :dark="isModoNoturno">
             <SlNav></SlNav>
             <v-content>
                 <v-container fluid>
@@ -9,17 +9,61 @@
                   </v-layout>
                 </v-container>
             </v-content>
-            <SlFoot></SlFoot>
+
+            <v-snackbar
+                v-model="snackbar"
+                :color="getSnackbar.color"
+                :top="true"
+                :left="true"
+                :timeout="2000"
+                @input="fecharSnackbar"
+            >
+                {{ this.getSnackbar.text }}
+            </v-snackbar>
+            <Rodape></Rodape>
       </v-app>
     </div>
 </template>
 
 <script>
-    import SlNav from './components/SlNav';
-    import SlFoot from './components/SlFoot';
+import { mapActions, mapGetters } from 'vuex';
+import Rodape from '@/components/layout/footer';
+import SlNav from './components/SlNav';
 
-    export default {
-        name: 'Index',
-        components: { SlNav, SlFoot },
-    };
+export default {
+    name: 'Index',
+    components: { SlNav, Rodape },
+    methods: {
+        ...mapActions({
+            setSnackbar: 'noticias/setDados',
+            setUsuario: 'autenticacao/usuarioLogado',
+            obterModoNoturno: 'layout/obterModoNoturno',
+        }),
+        fecharSnackbar() {
+            this.setSnackbar({ ativo: false });
+        },
+    },
+    computed: {
+        ...mapGetters({
+            getSnackbar: 'noticias/getDados',
+            isModoNoturno: 'layout/modoNoturno',
+        }),
+    },
+    mounted() {
+        this.setSnackbar({ ativo: false, color: 'success' });
+        this.setUsuario();
+        this.obterModoNoturno();
+    },
+    data() {
+        return {
+            dark: false,
+            snackbar: false,
+        };
+    },
+    watch: {
+        getSnackbar(val) {
+            this.snackbar = val.ativo;
+        },
+    },
+};
 </script>

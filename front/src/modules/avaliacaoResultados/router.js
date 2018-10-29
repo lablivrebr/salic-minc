@@ -5,14 +5,15 @@ import EmitirParecer from './components/EmitirParecer';
 import Painel from './components/Painel';
 import TipoAvaliacao from './components/TipoAvaliacao';
 import Planilha from './components/Planilha';
+import VisualizarPlanilha from './components/VisualizarPlanilha';
 import AnaliseComprovantes from './components/AnaliseComprovantes';
 import Diligenciar from './components/Diligenciar';
 import Historico from './components/Historico';
-import ConsolidacaoAnalise from './components/ConsolidacaoAnalise';
 import EmitirLaudoFinal from './components/EmitirLaudoFinal';
-import Laudo from './components/Laudo';
+import Laudo from './components/PainelLaudo';
 import AnalisarItem from './components/AnalisarItem';
-import RevisaoParecer from './components/RevisaoParecer';
+import VisualizarParecer from './components/VisualizarParecer';
+import VisualizarLaudo from './components/VisualizarLaudo';
 
 Vue.use(Router);
 
@@ -42,14 +43,6 @@ const routes = [
         },
     },
     {
-        path: '/revisao',
-        name: 'Revisao',
-        component: RevisaoParecer,
-        meta: {
-            title: 'Revisão Parecer',
-        },
-    },
-    {
         path: '/tipo-avaliacao/:id',
         name: 'tipoAvaliacao',
         component: TipoAvaliacao,
@@ -63,6 +56,14 @@ const routes = [
         component: Planilha,
         meta: {
             title: 'Analise da planilha',
+        },
+    },
+    {
+        path: '/visualizar-planilha/:id',
+        name: 'VisualizarPlanilha',
+        component: VisualizarPlanilha,
+        meta: {
+            title: 'Visualizar Planilha',
         },
     },
     {
@@ -90,14 +91,6 @@ const routes = [
         },
     },
     {
-        path: '/consolidacao-analise',
-        name: 'ConsolidacaoAnalise',
-        component: ConsolidacaoAnalise,
-        meta: {
-            title: 'Consolidacao da Analise',
-        },
-    },
-    {
         path: '/emitir-laudo-final/:id',
         name: 'EmitirLaudoFinal',
         component: EmitirLaudoFinal,
@@ -119,6 +112,22 @@ const routes = [
         component: AnalisarItem,
         meta: {
             title: 'Análise de itens',
+        },
+    },
+    {
+        path: '/visualizar-parecer/:id',
+        name: 'VisualizarParecer',
+        component: VisualizarParecer,
+        meta: {
+            title: 'Visualizar parecer',
+        },
+    },
+    {
+        path: '/visualizar-laudo/:id',
+        name: 'VisualizarLaudo',
+        component: VisualizarLaudo,
+        meta: {
+            title: 'Visualizar laudo',
         },
     },
     {

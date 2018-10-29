@@ -57,47 +57,47 @@
     </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
 
-export default {
-    name: 'PropostaLocalRealizacaoDeslocamento',
-    props: ['idpreprojeto', 'proposta'],
-    data() {
-      return {
-          localizacoes: {},
-      }
-    },
-    mounted() {
-        if (this.proposta && this.proposta.abrangencia) {
-            this.localizacoes = this.proposta;
-        }
-        if (typeof this.idpreprojeto !== 'undefined') {
-            this.buscaLocalRealizacaoDeslocamento(this.idpreprojeto);
-        }
-    },
-    watch: {
-        idpreprojeto(value) {
-            if(value.abrangencia) {
-                this.localizacoes = value.abrangencia;
+    export default {
+        name: 'PropostaLocalRealizacaoDeslocamento',
+        props: ['idpreprojeto', 'proposta'],
+        data() {
+            return {
+                localizacoes: {},
+            };
+        },
+        mounted() {
+            if (this.proposta && this.proposta.abrangencia) {
+                this.localizacoes = this.proposta;
             }
-            this.buscaLocalRealizacaoDeslocamento(value);
+            if (typeof this.idpreprojeto !== 'undefined') {
+                this.buscaLocalRealizacaoDeslocamento(this.idpreprojeto);
+            }
         },
-        local(value) {
-            this.localizacoes = value;
+        watch: {
+            idpreprojeto(value) {
+                if (value.abrangencia) {
+                    this.localizacoes = value.abrangencia;
+                }
+                this.buscaLocalRealizacaoDeslocamento(value);
+            },
+            local(value) {
+                this.localizacoes = value;
+            },
+            proposta(value) {
+                this.localizacoes = value;
+            },
         },
-        proposta(value) {
-            this.localizacoes = value;
-        }
-    },
-    computed: {
-        ...mapGetters({
-            local: 'proposta/localRealizacaoDeslocamento',
-        }),
-    },
-    methods: {
-        ...mapActions({
-            buscaLocalRealizacaoDeslocamento: 'proposta/buscaLocalRealizacaoDeslocamento',
-        }),
-    },
-};
+        computed: {
+            ...mapGetters({
+                local: 'proposta/localRealizacaoDeslocamento',
+            }),
+        },
+        methods: {
+            ...mapActions({
+                buscaLocalRealizacaoDeslocamento: 'proposta/buscaLocalRealizacaoDeslocamento',
+            }),
+        },
+    };
 </script>

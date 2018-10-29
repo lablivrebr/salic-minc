@@ -150,23 +150,6 @@ $arrMenu['assinatura']['menu'][] = array(
     'label' => 'Gerenciar Assinaturas - Readequa&ccedil;&atilde;o'
 );
 
-
-$arrMenu['assinatura']['menu'][] = array(
-    'grupo' => [
-        Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-        Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
-        Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
-    ],
-    'url' => $this->url(
-        array(
-            'module' => 'assinatura',
-            'controller' => 'index',
-            'action' => 'gerenciar-assinaturas'
-        ), '', true) . "?idTipoDoAtoAdministrativo=" . \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_LAUDO_PRESTACAO_CONTAS,
-    'title' => 'Ir para Readequa&ccedil;&atilde;o - Gerenciar Assinaturas',
-    'label' => 'Gerenciar Assinaturas - Laudo Presta&ccedil;&atilde;o de Contas'
-);
-
 $arrMenu['assinatura']['menu'][] = array(
     'grupo' => array(97),
     'url' => $this->url(

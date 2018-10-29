@@ -21,6 +21,13 @@ class AvaliacaoResultados_Model_DbTable_FluxosProjeto extends MinC_Db_Table_Abst
             ['*', new Zend_Db_Expr('anoprojeto+sequencial as PRONAC')],
             $this->_schema
         )
+        //inner join Tabelas.dbo.Usuarios as a ON a.usu_codigo = fp.idAgente
+        ->joinLeft(
+            ['u' => 'Usuarios'],
+            'u.usu_codigo = e.idAgente',
+            ['u.usu_nome'],
+            'Tabelas.dbo'
+        )
         ->where('estadoId = ? ', $estadoId);
 
         if($idAgente) {

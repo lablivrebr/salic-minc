@@ -1,7 +1,12 @@
 <template>
-    <v-container grid-list-xl>
+    <v-container row justify-center>
         <v-form v-model="valid">
-            <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-dialog 
+                v-model="dialog" 
+                full-width
+                scrollable
+                fullscreen
+                transition="dialog-bottom-transition">
                 <v-btn slot="activator" color="green" dark>Emitir Parecer</v-btn>
                 <v-card>
                     <v-toolbar dark color="green">
@@ -12,120 +17,160 @@
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
                             <v-btn dark flat 
-                                @click.native="salvarParecer()" 
+                                @click.native="salvarParecer(), confirmarSalvar = true" 
                                 :disabled="!valid"
-                                :to="redirectLink"
+                                
                             >
                                 Salvar
                             </v-btn>
+                            <v-dialog
+                                v-model="confirmarSalvar"
+                                max-width="290"
+                                width="200"
+                                height="200"
+                                >
+                                <v-card>
+                                    <v-container fluid>
+                                        <v-layout align-center justify-center column>
+                                            <v-flex xs12>
+                                                    <v-card-text
+                                                    class="subheading"
+                                                    primary-title
+                                                    >
+                                                        <span class="black--text">Parecer salvo!</span>
+                                                    </v-card-text>
+                                            </v-flex>
+                                            <v-divider></v-divider>
+                                            <v-flex xs12>
+                                                <v-btn
+                                                    class="white--text"
+                                                    color="green lighten-2"
+                                                    @click="confirmarSalvar = false"
+                                                    :href="redirectLink"
+                                                >
+                                                    OK
+                                                </v-btn>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>
+                            </v-dialog>
                             <v-btn dark flat
                                 @click.native="finalizarParecer()"
                                 :disabled="!valid"
-                                :to="redirectLink"
+                                :href="redirectLink"
                             >
                                 Finalizar
                             </v-btn>
                         </v-toolbar-items>
                     </v-toolbar>
-                    <v-container grid-list-sm>
-                        <v-layout row wrap>
-                            <v-flex xs12 sm12 md12>
-                                <p><b>Projeto:</b> {{projeto.AnoProjeto}}{{projeto.Sequencial}} - {{projeto.NomeProjeto}}</p>
-                            </v-flex>
-                            <v-flex xs12 sm12 md12>
-                                <p><b>Proponente:</b> {{proponente.CgcCpf}} - {{proponente.Nome}}</p>
-                            </v-flex>
-                        </v-layout>
-                        <v-divider></v-divider>
-                    </v-container>
-                    <h4 class="text-sm-center">Quantidade de Comprovantes</h4>
-                    <v-container grid-list-sm>
-                        <v-layout row wrap>
-                            <v-flex xs10 sm3 md3 >
-                                <div>
-                                    <h4 class="label text-sm-right">Total</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.qtTotalComprovante}}</p>
-                                </div>
-                            </v-flex>
-                            <v-flex xs10 sm3 md3>
-                                <div>
-                                    <h4 class="label text-sm-right">Validados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.qtComprovantesValidadosProjeto}}</p>
-                                </div>
-                            </v-flex>
-                            <v-flex xs10 sm3 md3>
-                                <div>
-                                    <h4 class="label text-sm-right">Recusados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.qtComprovantesRecusadosProjeto}}</p>
-                                </div>
-                            </v-flex>
-                            <v-flex xs10 sm3 md3>
-                                <div>
-                                    <h4 class="label text-sm-right">Não Avaliados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.qtComprovantesNaoAvaliados}}</p>
-                                </div>
-                            </v-flex>
-                        </v-layout>
-                        <v-divider></v-divider>
-                    </v-container>
-                    <h4 class="text-sm-center">Valores Comprovados</h4>
-                    <v-container grid-list-sm>
-                        <v-layout row wrap>
-                            <v-flex xs10 sm3 md3 >
-                                <div>
-                                    <h4 class="label text-sm-right">Total</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoProjeto}}</p>
-                                </div>
-                            </v-flex>
-                            <v-flex xs10 sm3 md3>
-                                <div>
-                                    <h4 class="label text-sm-right">Validados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoValidado}}</p>
-                                </div>
-                            </v-flex>
-                            <v-flex xs10 sm3 md3>
-                                <div>
-                                    <h4 class="label text-sm-right">Recusados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlComprovadoRecusado}}</p>
-                                </div>
-                            </v-flex>
-                            <v-flex xs10 sm3 md3>
-                                <div>
-                                    <h4 class="label text-sm-right">Não Avaliados</h4>
-                                    <p class="text-sm-right">{{consolidacaoComprovantes.vlNaoComprovado}}</p>
-                                </div>
-                            </v-flex>
-                        </v-layout>
-                        <v-divider></v-divider>
-                    </v-container>
-                    <v-container grid-list>
-                        <v-layout wrap align-center>
-                            <v-flex>
-                                <v-select height="20px"
-                                          :value="getParecer.siManifestacao"
-                                          @input="inputManifestacao($event)"
-                                          :rules="itemRules"
-                                          :items="items"
-                                          item-text="text"
-                                          item-value="id"
-                                          box
-                                          label="Manifestação *"
-                                          required="required"
-                                ></v-select>
-                            </v-flex>
-                        </v-layout>
-                        <v-flex>
-                            <v-textarea
-                                :value="getParecer.dsParecer"
-                                @input="inputParecer($event)"
-                                :rules="parecerRules"
-                                color="deep-purple"
-                                label="Parecer *"
-                                height="200px"
-                                required="required"
-                            ></v-textarea>
-                        </v-flex>
-                    </v-container>
+
+                    <v-card-text>
+                        <v-container>
+                            <v-card-text>
+                                <v-card>
+                                    <v-card-title primary-title>
+                                        <v-container pa-0 ma-0>
+                                        <div>
+                                            <div class="headline"><b>Projeto:</b> {{projeto.AnoProjeto}}{{projeto.Sequencial}} - {{projeto.NomeProjeto}}</div>
+                                            <span class="black--text"><b>Proponente:</b> {{proponente.CgcCpf | cnpjFilter}} - {{proponente.Nome}}</span>
+                                        </div>
+                                        </v-container>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-container grid-list-xs text-xs-center ma-0 pa-0>
+                                                <v-layout row wrap>
+                                                <v-flex xs12 md6 mb-2>
+                                                        <v-data-table
+                                                            :items="[]"
+                                                            class="elevation-2"
+                                                            hide-headers
+                                                            hide-actions
+                                                        >
+                                                            <template slot="no-data">
+                                                                <tr>
+                                                                    <th colspan="6">Quantidade de Comprovantes</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td left><b>Total:</b></td>
+                                                                    <td >{{consolidacaoComprovantes.qtTotalComprovante | currency}}</td>
+                                                                    <td left><b>Validados:</b></td>
+                                                                    <td><font color="#006400">{{consolidacaoComprovantes.qtComprovantesValidadosProjeto | currency}} </font></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td left><b>Não Avaliados:</b></td>
+                                                                    <td left>{{consolidacaoComprovantes.qtComprovantesNaoAvaliados | currency}}</td>
+                                                                    <td left><b>Recusados:</b></td>
+                                                                    <td left><font color="red">{{consolidacaoComprovantes.qtComprovantesRecusadosProjeto | currency}} </font></td>
+                                                                </tr>
+                                                            </template>
+                                                        </v-data-table>
+                                                </v-flex>
+
+                                                <v-flex xs12 md6 mb-4>
+                                                    <v-data-table
+                                                        :items="[]"
+                                                        class="elevation-1"
+                                                        hide-headers
+                                                        hide-actions
+                                                    >
+                                                        <template slot="no-data">
+                                                            <tr>
+                                                                <th colspan="6">Valores Comprovados</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td left><b>Total:</b></td>
+                                                                <td >{{consolidacaoComprovantes.vlComprovadoProjeto | currency}}</td>
+                                                                <td left><b>Recusados:</b></td>
+                                                                <td left><font color="red">{{consolidacaoComprovantes.vlComprovadoRecusado | currency}}</font></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td left><b>Validados:</b></td>
+                                                                <td><font color="#006400">{{consolidacaoComprovantes.vlComprovadoValidado | currency}}</font></td>
+                                                            </tr>
+                                                        </template>
+                                                    </v-data-table>
+                                                </v-flex>
+
+                                                <v-flex xs4 d-flex>
+                                                        <v-select 
+                                                            height="20px"
+                                                            :value="getParecer.siManifestacao"
+                                                            @input="inputManifestacao($event)"
+                                                            :rules="itemRules"
+                                                            :items="items"
+                                                            item-text="text"
+                                                            item-value="id"
+                                                            label="Manifestação *"
+                                                            required="required"
+                                                            solo
+                                                            append-icon="keyboard_arrow_down"
+                                                            full-width
+                                                        ></v-select>
+                                                </v-flex> 
+
+                                                <v-flex md12 xs12 mb-4>
+                                                    <v-card>
+                                                        <v-textarea
+                                                            :value="getParecer.dsParecer"
+                                                            @input="inputParecer($event)"
+                                                            :rules="parecerRules"
+                                                            color="deep-purple"
+                                                            label="Texto do Parecer *"
+                                                            height="200px"
+                                                            required="required"
+                                                            outline
+                                                        ></v-textarea>
+                                                    </v-card>
+                                                </v-flex>  
+
+                                            </v-layout>
+                                        </v-container>
+                                    </v-card-text>
+                                </v-card>
+                            </v-card-text>
+                        </v-container>
+                    </v-card-text>
                 </v-card>
             </v-dialog>
         </v-form>
@@ -133,8 +178,17 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import ModalTemplate from '@/components/modal';
+import cnpjFilter from '@/filters/cnpj';
+import VueCurrencyFilter from 'vue-currency-filter';
+
+Vue.use(VueCurrencyFilter, {
+    symbol: 'R$',
+    thousandsSeparator: '.',
+    fractionCount: 2,
+});
 
 export default {
     name: 'EmitirParecer',
@@ -142,15 +196,14 @@ export default {
         return {
             tipo: true,
             idPronac: this.$route.params.id,
-            redirectLink: '/planilha/',
+            redirectLink: '#/planilha/',
+            confirmarSalvar: false,
             valid: false,
             dialog: true,
-            itemRules: [
-                v => !!v || 'Tipo de manifestação e obrigatório!',
-            ],
+            itemRules: [v => !!v || 'Tipo de manifestação e obrigatório!'],
             parecerRules: [
                 v => !!v || 'Parecer e obrigatório!',
-                v => v.length >= 10 || 'Parecer deve conter mais que 10 characters',
+                v => v.length >= 10 || 'Parecer deve conter mais que 10 characteres',
             ],
             items: [
                 {
@@ -166,15 +219,13 @@ export default {
                     text: 'Aprovação com Ressalva',
                 },
             ],
-            parecerData: { },
+            parecerData: {},
         };
     },
-    components:
-    {
+    components: {
         ModalTemplate,
     },
-    methods:
-    {
+    methods: {
         ...mapActions({
             requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
             salvar: 'avaliacaoResultados/salvarParecer',
@@ -230,8 +281,7 @@ export default {
             this.parecerData.siManifestacao = e;
         },
     },
-    computed:
-    {
+    computed: {
         ...mapGetters({
             modalVisible: 'modal/default',
             consolidacaoComprovantes: 'avaliacaoResultados/consolidacaoComprovantes',
@@ -244,6 +294,9 @@ export default {
     mounted() {
         this.redirectLink = this.redirectLink + this.idPronac;
         this.getConsolidacao(this.idPronac);
+    },
+    filters: {
+        cnpjFilter,
     },
 };
 </script>

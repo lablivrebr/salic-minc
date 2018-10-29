@@ -113,6 +113,27 @@ class Solicitacao_Model_DbTable_TbSolicitacao extends MinC_Db_Table_Abstract
         return $this->fetchAll($select);
     }
 
+    public function contarSolicitacoes($where=array())
+    {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(
+            array('a' => $this->_name),
+            array(
+                new Zend_Db_Expr('count(idSolicitacao)')
+            ),
+            $this->_schema
+        );
+
+        foreach ($where as $coluna=>$valor)
+        {
+            $select->where($coluna, $valor);
+        }
+
+        $db = Zend_Db_Table::getDefaultAdapter();
+        return $db->fetchOne($select);
+    }
+
     public function contarSolicitacoesNaoLidasUsuario($idUsuario, $idAgente)
     {
         $select = $this->select();

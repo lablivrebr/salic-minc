@@ -1,6 +1,6 @@
 <?php
 
-use Application\Modules\Navegacao\Service\Perfil\Perfil as PerfilService;
+use Application\Modules\Navegacao\Service\Perfil as PerfilService;
 
 class Navegacao_PerfilRestController extends MinC_Controller_Rest_Abstract
 {
@@ -31,10 +31,9 @@ class Navegacao_PerfilRestController extends MinC_Controller_Rest_Abstract
     public function indexAction()
     {
         $perfilService = new PerfilService($this->getRequest(), $this->getResponse());
-        $perfisDisponoveis = $perfilService->buscarPerfisDisponoveis(new Zend_Session_Namespace(('GrupoAtivo')));
+        $perfisDisponiveis = $perfilService->buscarPerfisDisponiveis();
 
-
-        $this->renderJsonResponse($perfisDisponoveis, 200);
+        $this->renderJsonResponse($perfisDisponiveis, 200);
     }
 
     public function getAction()

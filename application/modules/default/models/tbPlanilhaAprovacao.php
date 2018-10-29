@@ -844,7 +844,7 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
         $select->joinInner(
             ['d' => 'Projetos'],
             'a.IdPRONAC = d.IdPRONAC',
-            [''],
+            ['a.IdPRONAC as idPronac'],
             'SAC.dbo'
         );
         $select->joinInner(

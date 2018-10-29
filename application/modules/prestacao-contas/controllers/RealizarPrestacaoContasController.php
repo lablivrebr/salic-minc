@@ -1,14 +1,14 @@
 <?php
-
-use Application\Modules\AvaliacaoResultados\Service\Fluxo\FluxoProjeto as FluxoProjetoService;
-
 class PrestacaoContas_RealizarPrestacaoContasController extends MinC_Controller_Action_Abstract
 {
     public function init()
     {
         $PermissoesGrupo = [
             Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS
+            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO,
+            Autenticacao_Model_Grupos::SECRETARIO
         ];
 
         $auth = Zend_Auth::getInstance();
@@ -41,6 +41,11 @@ class PrestacaoContas_RealizarPrestacaoContasController extends MinC_Controller_
         $vlComprovado = 0;
         $vlAprovado = 0;
         foreach ($resposta as $item) {
+
+            if ($item->vlAprovado == 0) {
+                continue;
+            }
+            
             $vlComprovar = $item->vlAprovado - $item->vlComprovado;
             $vlTotalComprovar += $vlComprovar;
 
@@ -57,17 +62,10 @@ class PrestacaoContas_RealizarPrestacaoContasController extends MinC_Controller_
         $this->view->pronac = $pronac;
         $this->view->nomeProjeto = $nomeProjeto;
 
+
+
         $diligencia = new Diligencia();
         $this->view->existeDiligenciaAberta = $diligencia->existeDiligenciaAberta($idpronac);
-
-        $fluxo = new FluxoProjetoService();
-        $estado = $fluxo->estado($idpronac);
-        $this->view->estado = $estado ? $estado->toArray() : null;
-
-        $documento = new Assinatura_Model_DbTable_TbDocumentoAssinatura();
-        $documento = $documento->obterDocumentoAssinatura($idpronac, 622);
-
-        $this->view->idDocumento = $documento['idDocumentoAssinatura'];
     }
 
     public function planilhaAnaliseAction()

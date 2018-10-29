@@ -45,11 +45,11 @@ class Projeto_Model_DbTable_SpRenderizarPlanilhas extends MinC_Db_Table_Abstract
 
         $count = 0;
         $i = 1;
-        $valorTotal = 0;
         $planilha = [];
 
         foreach ($planilhaOrcamentaria as $item) {
 
+            $valorTotal = 0;
             $item = array_map('TratarString::converterParaUTF8', $item);
 
             $item["Seq"] = $i;
@@ -58,31 +58,36 @@ class Projeto_Model_DbTable_SpRenderizarPlanilhas extends MinC_Db_Table_Abstract
             $etapa = $item['Etapa'];
             $regiao = $item['UF'] . ' - ' . $item['Municipio'];
 
-            if ($item['vlSolicitado']) {
+            $isItemExcluido = isset($item["tpAcao"]) && $item["tpAcao"] == 'E';
+
+            if ($item['vlSolicitado'] && !$isItemExcluido) {
                 $valorTotal = $item['vlSolicitado'];
                 $planilha[$fonte]['vlSolicitadoTotal'] += $item['vlSolicitado'];
             }
 
-            if ($item['vlSugerido']) {
+            if ($item['vlSugerido'] && !$isItemExcluido) {
                 $planilha[$fonte]['vlSugeridoTotal'] += $item['vlSugerido'];
             }
 
-            if ($item['vlAprovado']) {
+            if ($item['vlAprovado'] && !$isItemExcluido) {
                 $planilha[$fonte]['vlAprovadoTotal'] += $item['vlAprovado'];
             }
 
-            if ($item['VlComprovado']) {
+            if ($item['VlComprovado'] && !$isItemExcluido) {
                 $planilha[$fonte]['vlComprovadoTotal'] += $item['VlComprovado'];
             }
 
-            if ($tipo == $this::TIPO_PLANILHA_HOMOLOGADA) {
+            if ($tipo == $this::TIPO_PLANILHA_HOMOLOGADA && !$isItemExcluido) {
                 $valorTotal = $item['vlAprovado'];
             }
 
             if ($tipo == self::TIPO_PLANILHA_READEQUADA) {
-                $valorTotal = $item['vlAprovado'];
                 $item['DescAcao'] = $this->obterNomeAcao($item["tpAcao"]);
                 $item['JustProponente'] = $item["dsJustificativa"]; # @todo padronizar o nome
+
+                if (!$isItemExcluido) {
+                    $valorTotal = $item['vlAprovado'];
+                }
             }
 
             $planilha[$fonte]['total'] += $valorTotal;

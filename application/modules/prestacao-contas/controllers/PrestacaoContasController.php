@@ -7,7 +7,9 @@ class PrestacaoContas_PrestacaoContasController extends MinC_Controller_Action_A
         $PermissoesGrupo = [
             Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
             Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS
+            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO,
+            Autenticacao_Model_Grupos::SECRETARIO
         ];
 
         $auth = Zend_Auth::getInstance();
@@ -334,66 +336,5 @@ class PrestacaoContas_PrestacaoContasController extends MinC_Controller_Action_A
         $this->_helper->json([
             'data' => $rsPrioridades
         ]);
-    }
-
-    public function obterAnaliseFinanceiraVirtualAction(){
-        $situacaoEncaminhamentoPrestacao = $this->getRequest()->getParam('situacaoEncaminhamentoPrestacao');
-        $situacaoEncaminhamentoPrestacao = 1;
-        $start = $this->getRequest()->getParam('start');
-        $length = $this->getRequest()->getParam('length');
-        $draw = (int)$this->getRequest()->getParam('draw');
-        $search = $this->getRequest()->getParam('search');
-        $order = $this->getRequest()->getParam('order');
-
-        $column = $order[0]['column']+1;
-        $orderType = $order[0]['dir'];
-        $order = $column.' '.$orderType;
-
-        $tbPlanilhaAplicacao = new tbPlanilhaAprovacao();
-        $projetos = $tbPlanilhaAplicacao->obterAnaliseFinanceiraVirtual(
-            $this->codOrgao,
-            $situacaoEncaminhamentoPrestacao
-            /* $order, */
-            /* $start, */
-            /* $length, */
-            /* $search */
-        );
-        if (count($projetos) > 0) {
-            foreach($projetos->toArray() as $coluna => $item){
-                $projetosAnaliseFinanceiraVirtual[] = array_map('utf8_encode', $item);
-                /* foreach($item as $key => $value){ */
-                /*     $projetosAnaliseFinanceiraVirtual[$coluna][] = utf8_encode($value); */
-                /* } */
-            }
-
-            $recordsTotal = $tbPlanilhaAplicacao->obterProjetosAnaliseFinanceiraVirtual(
-                $this->codOrgao,
-                $situacaoEncaminhamentoPrestacao,
-                null,
-                null,
-                null,
-                null
-            );
-            $recordsTotal = count($recordsTotal);
-
-            $recordsFiltered = $tbPlanilhaAplicacao->obterProjetosAnaliseFinanceiraVirtual(
-                $this->codOrgao,
-                $situacaoEncaminhamentoPrestacao,
-                null,
-                null,
-                null,
-                $search);
-            $recordsFiltered = count($recordsFiltered);
-        }
-
-        $this->_helper->json(
-            [
-                'code'=> 200,
-                "items" => !empty($projetosAnaliseFinanceiraVirtual) ? $projetosAnaliseFinanceiraVirtual : 0,
-                'recordsTotal' => $recordsTotal ? $recordsTotal : 0,
-                'draw' => $draw,
-                'recordsFiltered' => $recordsFiltered ? $recordsFiltered : 0,
-            ]
-        );
     }
 }

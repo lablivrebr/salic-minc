@@ -50,6 +50,7 @@ class Assinatura_Model_DbTable_TbAssinatura extends MinC_Db_Table_Abstract
     const TIPO_ATO_READEQUACAO_FICHA_TECNICA = 676;
     const TIPO_ATO_READEQUACAO_SALDO_APLICACAO = 677;
     const TIPO_ATO_READEQUACAO_TRANSFERENCIA_RECURSOS = 678;
+    const TIPO_ATO_LAUDO_FINAL_PRESTACAO_CONTAS = 623;
 
     public function preencherModeloAssinatura(array $dados)
     {

@@ -103,7 +103,10 @@ class Assinatura_IndexController extends Assinatura_GenericController
         ]);
     }
 
-
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service > application/modules/projeto/service/documentos-assinados/DocumentosAssinados.php
+     *
+     */
     public function visualizarAssinaturasAction()
     {
         $this->view->idUsuarioLogado = $this->cod_usuario;

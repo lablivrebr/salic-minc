@@ -7,6 +7,10 @@ class Proposta_VisualizarPlanoDistribuicaoController extends Proposta_GenericCon
         parent::init();
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/projeto/service/plano-distribuicao/PlanoDistribuicao.php
+     */
     public function visualizarAction()
     {
         $this->_helper->layout->disableLayout();

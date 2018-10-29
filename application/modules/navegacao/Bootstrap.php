@@ -11,7 +11,8 @@ class Navegacao_Bootstrap extends Zend_Application_Module_Bootstrap
             [
                 "navegacao" => [
                     'menu-principal',
-                    'perfil-rest'
+                    'perfil-rest',
+                    'dados-rest'
                 ]
             ]
         );

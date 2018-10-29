@@ -2,37 +2,43 @@
 
 namespace Application\Modules\AvaliacaoResultados\Service\LaudoFinal;
 
-class Laudo 
+class Laudo
 {
-    public function obterProjetos(){
+    public function obterProjetos($estadoId)
+    {
         $model = new \AvaliacaoResultados_Model_DbTable_LaudoFinal();
-        
-        return $model->projetosLaudoFinal()->toArray();
+
+        return $model->projetosLaudoFinal($estadoId)->toArray();
     }
 
-    public function obterLaudo($idPronac){
+    public function obterLaudo($idPronac)
+    {
         $model = new \AvaliacaoResultados_Model_DbTable_LaudoFinal();
-        
         return $model->laudoFinal($idPronac);
     }
 
-    public function salvarLaudo($idLaudoFinal, $idPronac, $dtLaudoFinal, $siManifestacao, $dsLaudoFinal, $idUsuario){
+    /** @todo se a regra for apenas um laudo por idPronac o idLaudoFinal nao é necessario */
+    public function salvarLaudo($idLaudoFinal, $idPronac, $siManifestacao, $dsLaudoFinal)
+    {
         $auth = \Zend_Auth::getInstance();
-        $tbTable = new \AvaliacaoResultados_Model_DbTable_LaudoFinal;
-        $tbTable->insert(['idPronac'=>$idPronac, 
-                          'idUsuario'=>$auth->getIdentity()->usu_codigo, 
-                          'dtLaudoFinal'=>(new \DateTime())->format('Y-m-d'), 
-                          'siManifestacao'=>$siManifestacao, 
-                          'dsLaudoFinal'=>$dsLaudoFinal]);
+        $avaliacaoResultadosDbTable = new \AvaliacaoResultados_Model_DbTable_LaudoFinal;
 
-        $model = new \AvaliacaoResultados_Model_LaudoFinal;
-        $model->setIdPronac($idPronac);
-        $model->setDtLaudoFinal($dtLaudoFinal);
-        $model->setSiManifestacao($siManifestacao);
-        $model->setDsLaudoFinal($dsLaudoFinal);
-        $model->setIdUsuario($idUsuario);
-        
-        $mapper = new \AvaliacaoResultados_Model_LaudoFinalMapper;
-        return $mapper->save($model);
+        $laudoFinal = [
+            'idPronac' => $idPronac,
+            'idUsuario' => $auth->getIdentity()->usu_codigo,
+            'dtLaudoFinal' => (new \DateTime())->format('Y-m-d'),
+            'siManifestacao' => $siManifestacao,
+            'dsLaudoFinal' => utf8_decode($dsLaudoFinal)
+        ];
+
+        $laudoSalvo = $avaliacaoResultadosDbTable->findBy(['idPronac = ?' => $idPronac]);
+
+        $idLaudoFinal = !empty($laudoSalvo) ? $laudoSalvo['idLaudoFinal'] : '';
+
+        if (empty($idLaudoFinal)) {
+            return $avaliacaoResultadosDbTable->insert($laudoFinal);
+        }
+
+        return $avaliacaoResultadosDbTable->alterar($laudoFinal, ['idLaudoFinal = ?' => $idLaudoFinal]);
     }
 }

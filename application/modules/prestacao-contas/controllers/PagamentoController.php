@@ -32,28 +32,14 @@ class PrestacaoContas_PagamentoController extends MinC_Controller_Action_Abstrac
 
         $this->view->idpronac = $idpronac;
 
-        $planilhaAprovacaoModel = new PlanilhaAprovacao();
-        $resposta = $planilhaAprovacaoModel->obterItensAprovados($idpronac);
+        $tbProjetos = new Projeto_Model_DbTable_Projetos();
+        $projeto = $tbProjetos->obterValoresProjeto($idpronac);
 
-        $vlTotalComprovar = 0;
-        $vlComprovado = 0;
-        $vlAprovado = 0;
-        foreach ($resposta as $item) {
-            $vlComprovar = $item->vlAprovado - $item->vlComprovado;
-            $vlTotalComprovar += $vlComprovar;
-
-            $vlAprovado += $item->vlAprovado;
-            $vlComprovado += $item->vlComprovado;
-
-            $nomeProjeto = $item->NomeProjeto;
-            $pronac = $item->Pronac;
-        }
-
-        $this->view->vlTotalComprovar = $vlTotalComprovar;
-        $this->view->vlAprovado = $vlAprovado;
-        $this->view->vlComprovado = $vlComprovado;
-        $this->view->pronac = $pronac;
-        $this->view->nomeProjeto = $nomeProjeto;
+        $this->view->vlTotalComprovar = $projeto['ValorAComprovar'];
+        $this->view->vlAprovado = $projeto['ValorAprovado'];
+        $this->view->vlComprovado = $projeto['ValorComprovado'];
+        $this->view->pronac = $projeto['Pronac'];
+        $this->view->nomeProjeto = $projeto['NomeProjeto'];
 
     }
 
@@ -66,6 +52,10 @@ class PrestacaoContas_PagamentoController extends MinC_Controller_Action_Abstrac
         $planilhaJSON = null;
 
         foreach($resposta as $item) {
+
+            if ($item->vlAprovado == 0) {
+                continue;
+            }
 
             $produtoSlug = TratarString::criarSlug($item->Produto);
             $etapaSlug = TratarString::criarSlug($item->Etapa);

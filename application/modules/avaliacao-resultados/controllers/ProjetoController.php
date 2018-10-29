@@ -31,6 +31,11 @@ class AvaliacaoResultados_ProjetoController extends MinC_Controller_Rest_Abstrac
         $vlComprovado = 0;
         $vlAprovado = 0;
         foreach ($resposta as $item) {
+
+            if ($item->vlAprovado == 0) {
+                continue;
+            }
+            
             $vlComprovar = $item->vlAprovado - $item->vlComprovado;
             $vlTotalComprovar += $vlComprovar;
 
@@ -55,8 +60,8 @@ class AvaliacaoResultados_ProjetoController extends MinC_Controller_Rest_Abstrac
         $data['estado'] = $estado ? $estado->toArray() : null;
 
         $documento = new Assinatura_Model_DbTable_TbDocumentoAssinatura();
-        $data['documento'] = $documento->obterDocumentoAssinatura($idPronac, 622);
-
+        $data['documento'] = $documento->findBy(['idPronac = ?' => $idPronac, 'idTipoDoAtoAdministrativo = ?' => 622, 'cdSituacao = ?' => 1, 'stEstado = ?' => 1]);
+        
         $data = \TratarArray::utf8EncodeArray($data);
 
         $this->renderJsonResponse($data, 200);

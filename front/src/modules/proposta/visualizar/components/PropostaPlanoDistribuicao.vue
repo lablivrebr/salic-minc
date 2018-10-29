@@ -122,9 +122,6 @@
         };
     },
     props: [
-        'idplanodistribuicao',
-        'idmunicipioibge',
-        'iduf',
         'arrayProdutos',
         'arrayDetalhamentos',
     ],
@@ -152,6 +149,7 @@
     },
     methods: {
         detalhamentosByID(lista, id) {
+<<<<<<< HEAD
             const novaLista = [];
 
             if (typeof lista !== 'undefined') {
@@ -161,7 +159,19 @@
                             novaLista.push(lista[key]);
                         }
                     });
+=======
 
+            if (typeof lista !== 'undefined') {
+                /* eslint-disable */
+                let novaLista = [];
+>>>>>>> 7fb604d7f37338890b85df4ec4e0d17e1cb16fc0
+
+                Object.keys(lista).map((key) => {
+                    if (lista[key].idPlanoDistribuicao === id) {
+                        novaLista.push(lista[key]);
+                    }
+                    return novaLista;
+                });
                 return novaLista;
             }
             return lista;

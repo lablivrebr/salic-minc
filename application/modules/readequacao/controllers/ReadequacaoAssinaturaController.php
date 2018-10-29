@@ -162,28 +162,29 @@ class Readequacao_ReadequacaoAssinaturaController extends Readequacao_GenericCon
         try {
             $this->validarPerfis();
             $get = Zend_Registry::get('get');
-            if (!filter_input(INPUT_GET, 'IdPRONAC')) {
-                throw new Exception("Identificador do projeto é necessário para acessar essa funcionalidade.");
+            if (!filter_input(INPUT_GET, 'idPronac')) {
+                throw new Exception("Identificador do projeto necess&aacute;rio para acessar essa funcionalidade.");
             }
-            $idPronac = $get->IdPRONAC;
+            $idPronac = $get->idPronac;
 
-            if (!filter_input(INPUT_POST, 'idTipoDoAtoAdministrativo')) {
-                throw new Exception("Identificador do Tipo do Ato Administrativo n&atilde;o informado");
+            $get = Zend_Registry::get('get');
+            if (!filter_input(INPUT_GET, 'idReadequacao')) {
+                throw new Exception("Identificador da readequa&ccedil;&atilde;o necess&aacute;rio para acessar essa funcionalidade.");
             }
-            $post = $this->getRequest()->getPost();
-            $idTipoDoAtoAdministrativo = $post['idTipoDoAtoAdministrativo'];
-
-            $servicoDocumentoAssinatura = new \MinC\Assinatura\Servico\Assinatura(
-                [
-                    'idTipoDoAto' => $idTipoDoAtoAdministrativo,
-                    'idPronac' => $idPronac
-                ]
+            $idReadequacao = $get->idReadequacao;            
+            
+            $servicoReadequacaoAssinatura = new \Application\Modules\Readequacao\Service\Assinatura\ReadequacaoAssinatura(
+                $this->grupoAtivo,
+                $this->auth
             );
-            $servicoDocumentoAssinatura->finalizarFluxo();
+            
+            $servicoReadequacaoAssinatura->encaminharOuFinalizarReadequacaoChecklist(
+                $idReadequacao
+            );
 
-            parent::message('Projeto finalizado com sucesso!', "/{$this->moduleName}/readequacao-assinatura/gerenciar-assinaturas", 'CONFIRM');
+            parent::message('Projeto finalizado com sucesso!', "/{$this->moduleName}/readequacoes/painel?tipoFiltro=analisados", 'CONFIRM');
         } catch (Exception $objException) {
-            parent::message($objException->getMessage(), "/{$this->moduleName}/readequacao-assinatura/finalizar-assinatura?IdPRONAC={$idPronac}");
+            parent::message($objException->getMessage(), "/{$this->moduleName}/readequacoes/painel?tipoFiltro=analisados");
         }
     }
 

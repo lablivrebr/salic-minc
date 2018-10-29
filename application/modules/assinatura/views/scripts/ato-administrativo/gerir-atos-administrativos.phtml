@@ -24,8 +24,10 @@
                 <table class="bordered margin0" id="enquadramento" style="width: 100%;">
                     <thead>
 			<tr class="">
-                            <th class="center-align">Id Ato</th>
+
+                            <th class="center-align">Id Tipo do Ato</th>
                             <th class="center-align">Ato Administrativo</th>
+                            <th class="center-align">Grupo</th>
                             <th class="center-align">Ordem</th>
                             <th class="center-align">Orgao Superior</th>
                             <th class="center-align">Orgao</th>
@@ -39,8 +41,13 @@
                     <?php foreach ($this->atosAdministrativos as $dado): ?>
                         <tr>
 			    <td class="center-align" align="center"><?php echo $dado['idTipoDoAto']; ?></td>
+<<<<<<< HEAD
                             <td class="center-align" align="center">
                                 <?php echo $dado['dsAtoAdministrativo']; ?></td>
+=======
+                            <td class="center-align" align="center"><?php echo $dado['dsAtoAdministrativo']; ?></td>
+                            <td class="center-align" align="center"><?php echo $dado['grupo']; ?></td>
+>>>>>>> f/grupos-assinaturas
                             <td class="center-align" align="center"><?php echo $dado['idOrdemDaAssinatura']; ?></td>
                             <td class="center-align" align="center"><?php echo $dado['dsOrgaoSuperiorDoAssinante']; ?></td>
                             <td class="center-align" align="center"><?php echo $dado['dsOrgaoDoAssinante']; ?></td>

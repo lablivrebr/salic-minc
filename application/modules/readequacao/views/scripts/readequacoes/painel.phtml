@@ -1,152 +1,175 @@
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#btn_pesquisar").click(function () {
-            $('#formPesquisa').submit();
-        });
+ $(document).ready(function () {
+     $("#btn_pesquisar").click(function () {
+         $('#formPesquisa').submit();
+     });
 
-        $('.btn_imprimir, .btn-imprimir').click(function () {
-            $('#formImpressao').submit();
-        });
+     $('.btn_imprimir, .btn-imprimir').click(function () {
+         $('#formImpressao').submit();
+     });
 
-        $('.btn_ver, .btn-ver').click(function () {
-            var id = $(this).attr('idReadequacao');
-            window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'visualizar-readequacao')); ?>?id=" + id;
-        });
+     $('.btn_ver, .btn-ver').click(function () {
+         var id = $(this).attr('idReadequacao');
+         window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'visualizar-readequacao')); ?>?id=" + id;
+     });
 
-        $('.finalizarAnaliseReadequacao').click(function () {
-            var id = $(this).attr('idReadequacao'),
-                pronacSelecionado = $('#pronacSelecionado').val();
+     $('.finalizarAnaliseReadequacao').click(function () {
+         var id = $(this).attr('idReadequacao'),
+             pronacSelecionado = $('#pronacSelecionado').val();
 
-            $("#alerta").dialog("destroy");
-            $("#alerta").html('Deseja realmente finalizar a análise da readequação?');
-            $("#alerta").dialog({
-                resizable: false,
-                title: 'Alerta!',
-                width: 380,
-                modal: true,
-                buttons: {
-                    'Não': function () {
-                        $(this).dialog('close');
-                    },
-                    'Sim': function () {
-                        var urlComplemento = (pronacSelecionado != '') ? '&pronac=' + pronacSelecionado : '';
-                        window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'encaminhar-readequacao-checklist')); ?>?id=" + id + urlComplemento;
-                    }
-                }
-            });
-            $('.ui-dialog-titlebar-close').remove();
-        });
+         $("#alerta").dialog("destroy");
+         $("#alerta").html('Deseja realmente finalizar a análise da readequação?');
+         $("#alerta").dialog({
+             resizable: false,
+             title: 'Alerta!',
+             width: 380,
+             modal: true,
+             buttons: {
+                 'Não': function () {
+                     $(this).dialog('close');
+                 },
+                 'Sim': function () {
+                     var urlComplemento = (pronacSelecionado != '') ? '&pronac=' + pronacSelecionado : '';
+                     window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'encaminhar-readequacao-checklist')); ?>?id=" + id + urlComplemento;
+                 }
+             }
+         });
+         $('.ui-dialog-titlebar-close').remove();
+     });
 
-        $('.devolverReadequacao').click(function () {
-            var id = $(this).attr('idReadequacao');
+     $('#finalizarFluxoReadequacao').click(function() {
+	 let url = $('#finalizarFluxoReadequacao').attr('data-href');
+	 
+	 $("#alerta").dialog("destroy");
+         $("#alerta").html('Deseja realmente finalizar a readequação?');
+         $("#alerta").dialog({
+             resizable: false,
+             title: 'Alerta!',
+             width: 340,
+             height: 180,
+             modal: true,
+             buttons: {
+                 'Não': function () {
+                     $(this).dialog('close');
+                 },
+                 'Sim': function () {
+                     window.location = url;
+                 }
+             }
+         });
+         $('.ui-dialog-titlebar-close').remove();
+     });
+     
+     $('.devolverReadequacao').click(function () {
+         var id = $(this).attr('idReadequacao');
 
-            $("#alerta").dialog("destroy");
-            $("#alerta").html('Deseja realmente devolver a readequação para uma nova análise?');
-            $("#alerta").dialog({
-                resizable: false,
-                title: 'Alerta!',
-                width: 340,
-                height: 180,
-                modal: true,
-                buttons: {
-                    'Não': function () {
-                        $(this).dialog('close');
-                    },
-                    'Sim': function () {
-                        window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'devolver-readequacao')); ?>?id=" + id;
-                    }
-                }
-            });
-            $('.ui-dialog-titlebar-close').remove();
-        });
+         $("#alerta").dialog("destroy");
+         $("#alerta").html('Deseja realmente devolver a readequação para uma nova análise?');
+         $("#alerta").dialog({
+             resizable: false,
+             title: 'Alerta!',
+             width: 340,
+             height: 180,
+             modal: true,
+             buttons: {
+                 'Não': function () {
+                     $(this).dialog('close');
+                 },
+                 'Sim': function () {
+                     window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'devolver-readequacao')); ?>?id=" + id;
+                 }
+             }
+         });
+         $('.ui-dialog-titlebar-close').remove();
+     });
 
-        $('.btn_encaminhar, .btn-encaminhar').click(function () {
-            var id = $(this).attr('readequacao');
-            window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'encaminhar-analise-tecnica')); ?>?id=" + id + "&filtro=<?php echo $this->filtro; ?>";
-        });
+     $('.btn_encaminhar, .btn-encaminhar').click(function () {
+         var id = $(this).attr('readequacao');
+         window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'encaminhar-analise-tecnica')); ?>?id=" + id + "&filtro=<?php echo $this->filtro; ?>";
+     });
 
-        $('.btn_avaliar, .btn-avaliar').click(function () {
-            var id = $(this).attr('readequacao');
-            window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'avaliar-readequacao')); ?>?id=" + id + "&filtro=<?php echo $this->filtro; ?>";
-        });
+     $('.btn_avaliar, .btn-avaliar').click(function () {
+         var id = $(this).attr('readequacao');
+         window.location = "<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'avaliar-readequacao')); ?>?id=" + id + "&filtro=<?php echo $this->filtro; ?>";
+     });
 
-        $('.imgRegularidade').click(function () {
-            var cpfcnpj = $(this).attr('cgccpf'),
-                pronac = $(this).attr('pronac');
-            $('#cpfCnpj').val(cpfcnpj);
-            $('#pronacEnviado').val(pronac);
-            $('#formRegularidade').submit();
-        });
+     $('.imgRegularidade').click(function () {
+         var cpfcnpj = $(this).attr('cgccpf'),
+             pronac = $(this).attr('pronac');
+         $('#cpfCnpj').val(cpfcnpj);
+         $('#pronacEnviado').val(pronac);
+         $('#formRegularidade').submit();
+     });
 
-        $('.finalizarReadequacao').click(function () {
-            var componente = $(this).parent().parent().find('select.comboComponente').val(),
-                idReadequacao = $(this).attr('idReadequacao');
+     $('.finalizarReadequacao').click(function () {
+         var componente = $(this).parent().parent().find('select.comboComponente').val(),
+             idReadequacao = $(this).attr('idReadequacao');
 
-            if (componente == '') {
-                $("#alerta").dialog("destroy");
-                $("#alerta").html('Favor selecionar o componente da comissão!');
-                $("#alerta").dialog({
-                    resizable: false,
-                    title: 'Alerta!',
-                    width: 340,
-                    modal: true,
-                    buttons: {
-                        'OK': function () {
-                            $(this).dialog('close');
-                        }
-                    }
-                });
-                $('.ui-dialog-titlebar-close').remove();
+         if (componente == '') {
+             $("#alerta").dialog("destroy");
+             $("#alerta").html('Favor selecionar o componente da comissão!');
+             $("#alerta").dialog({
+                 resizable: false,
+                 title: 'Alerta!',
+                 width: 340,
+                 modal: true,
+                 buttons: {
+                     'OK': function () {
+                         $(this).dialog('close');
+                     }
+                 }
+             });
+             $('.ui-dialog-titlebar-close').remove();
 
-            } else {
-                $("#alerta").dialog("destroy");
-                $("#alerta").html('Deseja realmente enviar a readequação para a análise da CNIC?<br /><br />Ao enviar a readequação será removida do seu painel.');
-                $("#alerta").dialog({
-                    resizable: false,
-                    title: 'Alerta!',
-                    width: 430,
-                    modal: true,
-                    buttons: {
-                        'Não': function () {
-                            $(this).dialog('close');
-                        },
-                        'Sim': function () {
-                            $.ajax({
-                                type: 'POST',
-                                url: '<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'coord-analise-finalizar-readequacao'), '', true); ?>',
-                                data: {
-                                    componente: componente,
-                                    idReadequacao: idReadequacao
-                                },
-                                success: function (data) {
-                                    if (data.resposta) {
-                                        $("#alerta").dialog("destroy");
-                                        $("#alerta").html('<br /><div align="center"><img src="<?php echo $this->baseUrl() . '/public/img/ajax.gif'; ?>"><br />Aguarde..</div>');
-                                        $("#alerta").dialog({
-                                            resizable: false,
-                                            width: 320,
-                                            modal: true,
-                                            title: 'Carregando..'
-                                        });
-                                        $('.ui-dialog-titlebar-close').remove();
-                                        window.setTimeout('location.reload()', 1000);
-                                    } else {
-                                        alertaModal("N\u00E3o foi poss\u00EDvel finalizar a readequa\u00E7\u00E3o.");
-                                    }
-                                },
-                                dataType: 'json'
-                            });
-                        }
-                    }
-                });
-                $('.ui-dialog-titlebar-close').remove();
-            }
-        });
+         } else {
+             $("#alerta").dialog("destroy");
+             $("#alerta").html('Deseja realmente enviar a readequação para a análise da CNIC?<br /><br />Ao enviar a readequação será removida do seu painel.');
+             $("#alerta").dialog({
+                 resizable: false,
+                 title: 'Alerta!',
+                 width: 430,
+                 modal: true,
+                 buttons: {
+                     'Não': function () {
+                         $(this).dialog('close');
+                     },
+                     'Sim': function () {
+                         $.ajax({
+                             type: 'POST',
+                             url: '<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'coord-analise-finalizar-readequacao'), '', true); ?>',
+                             data: {
+                                 componente: componente,
+                                 idReadequacao: idReadequacao
+                             },
+                             success: function (data) {
+                                 if (data.resposta) {
+                                     $("#alerta").dialog("destroy");
+                                     $("#alerta").html('<br /><div align="center"><img src="<?php echo $this->baseUrl() . '/public/img/ajax.gif'; ?>"><br />Aguarde..</div>');
+                                     $("#alerta").dialog({
+                                         resizable: false,
+                                         width: 320,
+                                         modal: true,
+                                         title: 'Carregando..'
+                                     });
+                                     $('.ui-dialog-titlebar-close').remove();
+                                     window.setTimeout('location.reload()', 1000);
+                                 } else {
+                                     alertaModal("N\u00E3o foi poss\u00EDvel finalizar a readequa\u00E7\u00E3o.");
+                                 }
+                             },
+                             dataType: 'json'
+                         });
+                     }
+                 }
+             });
+             $('.ui-dialog-titlebar-close').remove();
+         }
+     });
 
-        $('.comboFiltro').change(function () {
-            $('#formPesquisa').submit();
-        });
-    });
+     $('.comboFiltro').change(function () {
+         $('#formPesquisa').submit();
+     });
+ });
 </script>
 
 <?php
@@ -286,13 +309,44 @@ $situacoes = array(
                 <?php if ($this->qtdRegistros > 0): ?>
                     <table class="tabela tablesorter">
                         <?php if ($this->filtro == 'aguardando_publicacao'): ?>
-                            <?php echo $this->partial('readequacoes/partial/aguardandoPublicacao.phtml', array('dados' => $this->dados, 'filtro' => $this->filtro, 'conselheiros' => $this->conselheiros, 'paginacao' => $this->paginacao, 'pronac' => $this->pronac)); ?>
+                            <?php echo $this->partial(
+                                'readequacoes/partial/aguardandoPublicacao.phtml',
+                                [
+                                    'dados' => $this->dados,
+                                    'filtro' => $this->filtro,
+                                    'conselheiros' => $this->conselheiros,
+                                    'paginacao' => $this->paginacao,
+                                    'pronac' => $this->pronac
+                                ]); ?>
                         <?php elseif ($this->filtro == 'analisados'): ?>
-                            <?php echo $this->partial('readequacoes/partial/analisados.phtml', array('dados' => $this->dados, 'filtro' => $this->filtro, 'conselheiros' => $this->conselheiros, 'paginacao' => $this->paginacao, 'pronac' => $this->pronac)); ?>
+                            <?php echo $this->partial(
+                                'readequacoes/partial/analisados.phtml',
+                                [
+                                    'dados' => $this->dados,
+                                    'filtro' => $this->filtro,
+                                    'conselheiros' => $this->conselheiros,
+                                    'paginacao' => $this->paginacao,
+                                    'pronac' => $this->pronac,
+                                    'idPerfil' => $this->idPerfil
+                                ]); ?>
                         <?php elseif ($this->filtro == 'em_analise'): ?>
-                            <?php echo $this->partial('readequacoes/partial/emAnalise.phtml', array('dados' => $this->dados, 'filtro' => $this->filtro, 'paginacao' => $this->paginacao, 'pronac' => $this->pronac)); ?>
+                            <?php echo $this->partial(
+                                'readequacoes/partial/emAnalise.phtml',
+                                [
+                                    'dados' => $this->dados,
+                                    'filtro' => $this->filtro,
+                                    'paginacao' => $this->paginacao,
+                                    'pronac' => $this->pronac
+                                ]); ?>
                         <?php else: ?>
-                            <?php echo $this->partial('readequacoes/partial/aguardandoDistribuicao.phtml', array('dados' => $this->dados, 'filtro' => $this->filtro, 'paginacao' => $this->paginacao, 'pronac' => $this->pronac)); ?>
+                            <?php echo $this->partial(
+                                'readequacoes/partial/aguardandoDistribuicao.phtml',
+                                [
+                                    'dados' => $this->dados,
+                                    'filtro' => $this->filtro,
+                                    'paginacao' => $this->paginacao,
+                                    'pronac' => $this->pronac
+                                ]); ?>
                         <?php endif; ?>
                     </table>
 

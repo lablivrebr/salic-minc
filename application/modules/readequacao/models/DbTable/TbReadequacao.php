@@ -184,22 +184,25 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 	     WHEN tbReadequacao.siEncaminhamento = 19
 		   THEN '<b><font color=red>Assinatura do Diretor</font></b>'
 	     WHEN tbReadequacao.siEncaminhamento = 20
-		   THEN '<b><font color=red>Assinatura do Secretário</font></b>'
+		   THEN '<b><font color=red>Assinatura do Secret&atilde;rio</font></b>'
 	     WHEN tbReadequacao.siEncaminhamento = 21
 		   THEN '<b><font color=red>Devolvida pelo Coordenador-Geral</font></b>'
 	     WHEN tbReadequacao.siEncaminhamento = 22
 		   THEN '<b><font color=red>Devolvida pelo Diretor</font></b>'
 	     WHEN tbReadequacao.siEncaminhamento = 23
-		   THEN '<b><font color=red>Devolvida pelo Secretário</font></b>'
-		   ELSE usuarios.usu_nome 
+		   THEN '<b><font color=red>Devolvida pelo Secret&atilde;rio</font></b>'
+         WHEN tbReadequacao.siEncaminhamento = 26
+		   THEN '<b><font color=red>Solicita&ccedil;&atilde;o devolvida ao Coordenador ap&otilde;s completar o ciclo de assinaturas</font></b>'
+		   ELSE usuarios.usu_nome
+
 	   END"),
              'idOrgao' => 'tbDistribuirReadequacao.idUnidade',
              'idOrgaoOrigem' => new Zend_Db_Expr("
        CASE 
-	     WHEN projetos.Orgao in (160,179,682)
-		   THEN 166
-	     WHEN projetos.Orgao in (251,341)
-		   THEN 272
+	     WHEN projetos.Orgao in (" . Orgaos::ORGAO_SUPERIOR_SAV . "," . Orgaos::ORGAO_SAV_SAL . "," . Orgaos::SAV_DPAV . ")
+		   THEN " . Orgaos::ORGAO_SAV_CAP . "
+	     WHEN projetos.Orgao in (" . Orgaos::ORGAO_SUPERIOR_SEFIC . "," . Orgaos::SEFIC_DEIPC .")
+		   THEN " . Orgaos::ORGAO_GEAR_SACAV . "
 		   ELSE projetos.Orgao
 	   END"),            
              'siEncaminhamento' => 'tbReadequacao.siEncaminhamento'
@@ -247,14 +250,17 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
             [],
             $this->_schema
         );
+
+        $servicoReadequacaoAssinatura = new \Application\Modules\Readequacao\Service\Assinatura\ReadequacaoAssinatura(
+            $this->grupoAtivo,
+            $this->auth
+        );
         
         $select->joinLeft(
             ['tbDocumentoAssinatura' => 'tbDocumentoAssinatura'],
             'tbReadequacaoXParecer.idParecer = tbDocumentoAssinatura.idAtoDeGestao AND
              tbDocumentoAssinatura.idTipoDoAtoAdministrativo IN ('.
-            Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_PARECER_TECNICO_READEQUACAO_VINCULADAS . ',' .
-            Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_PARECER_TECNICO_READEQUACAO_PROJETOS_MINC . ') AND
-            tbDocumentoAssinatura.cdSituacao =' . Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA . ' AND
+            implode(',', $servicoReadequacaoAssinatura->obterAtosAdministativos()) .') AND
             tbDocumentoAssinatura.stEstado = ' . Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_ATIVO,
             [
                 'tbDocumentoAssinatura.idDocumentoAssinatura',
@@ -1669,7 +1675,7 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
         $idTipoReadequacao
     )
     {
-        $auth = Zend_Auth::getInstance();
+        $auth = \Zend_Auth::getInstance();
         $tblAgente = new Agente_Model_DbTable_Agentes();
         $rsAgente = $tblAgente->buscar(array('CNPJCPF=?'=>$auth->getIdentity()->Cpf))->current();
 
@@ -1808,6 +1814,10 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 
     public function obterPainelDeDocumentosDeReadequacaoAguardandoAssinatura($idOrgaoDoAssinante, $idPerfilDoAssinante)
     {
+        // ref: sac.dbo.vwPainelDeDocumentosDeReadequacaoAguardandoAssinatura
+        $this->auth = Zend_Auth::getInstance();
+        $this->grupoAtivo = new Zend_Session_Namespace('GrupoAtivo');
+        
         $query = $this->select();
         $query->setIntegrityCheck(false);
         $query->from(
@@ -1848,8 +1858,8 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 
         $query->joinInner(
             ['TbAtoAdministrativo' => 'TbAtoAdministrativo'],
-            "TbAtoAdministrativo.idTipoDoAto = tbDocumentoAssinatura.idTipoDoAtoAdministrativo",
-            ['idOrgaoSuperiorDoAssinante'],
+            "TbAtoAdministrativo.idTipoDoAto = tbDocumentoAssinatura.idTipoDoAtoAdministrativo",            
+            ['idOrgaoSuperiorDoAssinante', 'grupo'],
             $this->_schema
         );
 
@@ -1862,7 +1872,8 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 
         $query->joinInner(
             ['tbReadequacao' => 'tbReadequacao'],
-            "tbReadequacao.idReadequacao = tbReadequacaoXParecer.idReadequacao",
+            "tbReadequacao.idReadequacao = tbReadequacaoXParecer.idReadequacao AND
+            tbReadequacao.stEstado = " . SELF::ST_ESTADO_EM_ANDAMENTO,
             [],
             $this->_schema
         );
@@ -1874,11 +1885,10 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
             $this->_schema
         );
         
-
         $query->where('tbDocumentoAssinatura.cdSituacao = ?', Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA);
         $query->where('tbDocumentoAssinatura.stEstado = ?', Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_ATIVO);
-        $query->where('TbAtoAdministrativo.idOrgaoSuperiorDoAssinante = ?', new Zend_Db_Expr('Tabelas.dbo.fnCodigoOrgaoEstrutura(projetos.Orgao,1)'));
-
+        
+        
         $query->where(
             new Zend_Db_Expr("NOT EXISTS(SELECT TOP 1 * 
                        FROM     sac.dbo.TbAssinatura          j
@@ -1896,7 +1906,13 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 							AND k.cdSituacao = " . Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA  . ")"
             )
         );
-
+        
+        $query->where("TbAtoAdministrativo.grupo = (?)", new Zend_Db_Expr("
+select grupo from sac..tbAtoAdministrativo where idAtoAdministrativo = (
+   select top 1 idAtoAdministrativo from sac..tbAssinatura where iddocumentoAssinatura = tbDocumentoAssinatura.idDocumentoAssinatura
+)
+        "));
+        
         $query->where(new Zend_Db_Expr('sac.dbo.fnQtdeDePessoasQueAssinaramDocumento (projetos.IdPRONAC,tbDocumentoAssinatura.idDocumentoAssinatura) = (TbAtoAdministrativo.idOrdemDaAssinatura - 1)'));
 
         $query->where('TbAtoAdministrativo.idOrgaoDoAssinante = ?', $idOrgaoDoAssinante);

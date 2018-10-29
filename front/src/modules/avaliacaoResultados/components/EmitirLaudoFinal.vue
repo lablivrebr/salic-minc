@@ -50,7 +50,6 @@
                         <v-flex>
                             <label for="parecer">Parecer *</label>
                             <v-textarea :value="parecerLaudoFinal.items.dsLaudoFinal"
-                                        v-if="parecerLaudoFinal.items.dsLaudoFinal? parecerLaudoFinal.items.dsLaudoFinal : ''"
                                         @input="updateParecer"
                                         :rules="parecerRules"
                                         color="deep-purple"

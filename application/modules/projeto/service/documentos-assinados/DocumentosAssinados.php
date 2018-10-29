@@ -41,7 +41,7 @@ class DocumentosAssinados implements \MinC\Servico\IServicoRestZend
 
             $itemArray[] = [
                 'pronac' => $dado['pronac'],
-                'nomeProjeto' => $dado['nomeProjeto'],
+                'nomeProjeto' => utf8_encode($dado['nomeProjeto']),
                 'dsAtoAdministrativo' => utf8_encode($dado['dsAtoAdministrativo']),
                 'dt_criacao' => $dtCriacao->format('d/m/Y H:i:s'),
                 'idDocumentoAssinatura' => $dado['idDocumentoAssinatura'],

@@ -196,10 +196,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-=======
 
->>>>>>> 7fb604d7f37338890b85df4ec4e0d17e1cb16fc0
 import { mapActions, mapGetters } from 'vuex';
 import Planilha from '@/components/Planilha/Planilha';
 import Carregando from '@/components/Carregando';

@@ -3,7 +3,7 @@
         <h1>Componente Bar</h1>
         <div>
             <h3>Exemplo Requisição Ajax</h3>
-            <div v-for="(linha, index) in tabela" v-bind:key="index">
+            <div v-for="linha in tabela">
                 <div>{{ linha }}</div>
             </div>
         </div>
@@ -19,36 +19,33 @@
 <script>
     export default {
         name: 'Bar',
-        data: function () {
+        data() {
             return {
                 tabela: {},
                 nome: 'Nome',
-                sobrenome: 'Sobrenome'
-            }
+                sobrenome: 'Sobrenome',
+            };
         },
-        created: function () {
-            this.obterDadosTabela();
+        created() {
+            this.obterDados();
         },
         computed: {
-            nomeCompleto : function () {
-                return this.nome + ' ' + this.sobrenome
-            }
+            nomeCompleto() {
+                return `${this.nome} ${this.sobrenome}`;
+            },
         },
         methods: {
-            obterDadosTabela: function () {
-                let self = this;
+            obterDados() {
+                const self = this;
+                /* eslint-disable-next-line */
                 $3.ajax({
                     url: '/foo/foo-rest',
-                    data: {
-                        // id: self.$router.params.id
-                        // id: 2
+                    data: {},
+                }).done(
+                    (response) => {
+                        self.tabela = response.data;
                     },
-                })
-                .done((response) => {
-                    self.tabela = response.data;
-                    console.log(response);
-                });
-
+                );
             },
         },
     };

@@ -4,6 +4,9 @@ front/test/unit/coverage
 front/test/e2e/reports
 coverage
 
+# arquivo que o webpack injeta os scripts
+application/layouts/scripts/vue.phtml
+
 # configs do salic
 application/configs/bancos_*.ini
 application/configs/config.ini

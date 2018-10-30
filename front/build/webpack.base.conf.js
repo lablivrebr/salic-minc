@@ -3,7 +3,6 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-// var EncodingPlugin = require('webpack-encoding-plugin')
 
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
@@ -20,19 +19,22 @@ const createLintingRule = () => ({
     }
 })
 
-
 module.exports = {
     context: path.resolve(__dirname, '../'),
     entry: {
-        projeto: './src/modules/projeto/main.js',
+        main: './src/main.js',
         foo: './src/modules/foo/main.js',
         avaliacao_resultados: './src/modules/avaliacaoResultados/main.js',
         proposta: './src/modules/proposta/main.js',
+        projeto: './src/modules/projeto/main.js',
     },
     output: {
         path: config.build.assetsRoot,
         filename: utils.assetsPath('js/[name].js'),
-        chunkFilename: utils.assetsPath('js/[id].[name].js')
+        publicPath: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'watch'
+            ? config.build.assetsPublicPath
+            : config.dev.assetsPublicPath,
+        chunkFilename: utils.assetsPath('js/[id].[name].js'),
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
@@ -43,7 +45,7 @@ module.exports = {
     },
     module: {
         rules: [
-            ...(config.dev.useEslint ? [createLintingRule()] : []),
+            ...(process.env.NODE_ENV !== 'production' && config.dev.useEslint ? [createLintingRule()] : []),
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
@@ -80,9 +82,6 @@ module.exports = {
             }
         ]
     },
-    // plugins: [new EncodingPlugin({
-    //     encoding: 'iso-8859-1'
-    // })],
     node    : {
         // prevent webpack from injecting useless setImmediate polyfill because Vue
         // source contains it (although only uses it if it's native).

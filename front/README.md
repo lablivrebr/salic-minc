@@ -94,7 +94,7 @@ app
 │   │   │   │   │   ├── mutations.js 
 │   │   │   │   │   └── types.js
 │   │   │   │   ├── config.js (sync da rota com a store vuex)
-│   │   │   │   ├── main.js
+│   │   │   │   ├── index.js
 │   │   │   │   ├── router.js
 │   │   │   │   └── Index.vue (para inicializacao do modulo. obs: futuramente nao sera necessario)
 │   │   │   └── agente
@@ -102,7 +102,7 @@ app
 │   │   │       │   ├── Cadastrar.vue
 │   │   │       │   ├── Listar.vue
 │   │   │       │   └── Editar.vue
-│   │   │       ├── main.js
+│   │   │       ├── index.js
 │   │   │       ├── router.js
 │   │   │       └── Index.vue
 │   │   ├── plugins
@@ -127,8 +127,8 @@ Ao criar um novo módulo você deve:
 2 - atualizar o arquivo `webpack.base.conf.js` no diretório `build` com informações do novo módulo, conforme exemplo abaixo;
 ```
  entry: {
-        projeto: './src/modules/projeto/main.js',
-        agente: './src/modules/agente/main.js'
+        projeto: './src/modules/projeto/index.js',
+        agente: './src/modules/agente/index.js'
     }
  ```
 3 - criar um método para carregar os scripts na controller desejada. Recomendamos utilizar a `indexController` do seu módulo com o exemplo abaixo.

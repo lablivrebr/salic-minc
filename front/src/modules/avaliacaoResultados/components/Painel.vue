@@ -11,7 +11,7 @@
                 icons-and-text
             >
                 <v-tabs-slider color="deep-orange accent-3"></v-tabs-slider>
-                <v-tab 
+                <v-tab
                     href="#tab-0"
                     v-if="getUsuario.grupo_ativo == 125"
                 >
@@ -50,7 +50,7 @@
                         ></v-progress-circular>
                     </template>
                     <template v-else>
-                         Assinar
+                        Assinar
                         <v-icon>done</v-icon>
                     </template>
                 </v-tab>
@@ -110,14 +110,14 @@
                     <v-card flat>
                         <v-card-text>
                             <TabelaProjetos
-                                v-if="getUsuario.grupo_ativo == 125"
+                                v-if="(getUsuario.grupo_ativo == CONST.PERFIL_COORDENADOR)"
                                 :dados="getProjetosAssinarCoordenador"
                                 :componentes="listaAcoesAssinar"
                             ></TabelaProjetos>
                             <TabelaProjetos
-                                v-else-if="getUsuario.grupo_ativo == 126"
+                                v-else-if="(getUsuario.grupo_ativo == CONST.PERFIL_COORDENADOR_GERAL)"
                                 :dados="getProjetosAssinarCoordenadorGeral"
-                                :componentes="listaAcoesAssinar"
+                                :componentes="listaAcoesAssinarCoordenadorGeral"
                             ></TabelaProjetos>
                             <TabelaProjetos
                                 v-else
@@ -147,6 +147,7 @@
     </v-container>
 </template>
 <script>
+
 import { mapActions, mapGetters } from 'vuex';
 import TabelaProjetos from './TabelaProjetos';
 import Historico from './Historico';
@@ -155,6 +156,7 @@ import AnaliseButton from './analise/analisarButton';
 import AssinarButton from './analise/AssinarButton';
 import Devolver from './Devolver';
 import VisualizarPlanilhaButtton from './analise/VisualizarPlanilhaButtton';
+import CONST from '../const';
 
 export default {
     name: 'Painel',
@@ -166,6 +168,7 @@ export default {
         this.projetosAssinatura({ estado: 'historico' });
 
         this.usuarioLogado();
+        this.CONST = CONST;
     },
     mounted() {
     },
@@ -208,11 +211,26 @@ export default {
     },
     data() {
         return {
-            listaAcoesTecnico: { atual: '', proximo: '', acoes: [Historico, AnaliseButton] },
-            listaAcoesAssinar: { atual: '6', proximo: '5', acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton] },
+            listaAcoesTecnico: {
+                atual: '',
+                proximo: '',
+                acoes: [Historico, AnaliseButton],
+            },
+            listaAcoesAssinar: {
+                atual: CONST.ESTADO_PARECER_FINALIZADO,
+                proximo: CONST.ESTADO_ANALISE_PARECER,
+                acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
+            },
             listaAcoesCoordenador: { atual: '', proximo: '', acoes: [Encaminhar, Historico, VisualizarPlanilhaButtton] },
+            listaAcoesAssinarCoordenadorGeral: {
+                atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
+                proximo: CONST.ESTADO_ANALISE_PARECER,
+                idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
+                acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
+            },
             distribuirAcoes: { atual: '', proximo: '', acoes: [Encaminhar] },
             historicoAcoes: { atual: '', proximo: '', acoes: [Historico, VisualizarPlanilhaButtton] },
+            CONST: '',
         };
     },
     components: {

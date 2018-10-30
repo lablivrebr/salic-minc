@@ -37,8 +37,9 @@
                             :id-pronac="props.item.IdPRONAC"
                             :pronac="props.item.PRONAC"
                             :nome-projeto="props.item.NomeProjeto"
-                            :atual = componentes.atual
-                            :proximo = componentes.proximo
+                            :atual="componentes.atual"
+                            :proximo="componentes.proximo"
+                            :idTipoDoAtoAdministrativo="componentes.idTipoDoAtoAdministrativo"
                         ></component>
                     </template>
                 </td>

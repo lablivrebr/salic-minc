@@ -18,14 +18,11 @@ class AvaliacaoResultados_Events_Devolver
     }
 
     public function attach() {
-        /* $this->events->attach('run', $this->alterarSituacaoProjeto()); */
-        /* $this->events->attach('run', $this->salvarEncaminhamento()); */
         $this->events->attach('run', $this->alterarEstado());
         $this->events->attach('run', $this->invalidarDocumento());
     }
 
     public function run($params) {
-        /* var_dump($params);die; */
         $this->events->trigger(__FUNCTION__, $this, $params);
     }
 
@@ -59,7 +56,7 @@ class AvaliacaoResultados_Events_Devolver
             }
 
             $model->setIdPronac($params['idPronac']);
-            $model->setEstadoId(5);
+            $model->setEstadoId($params['proximo']);
 
             $mapper->save($model);
         };
@@ -68,9 +65,9 @@ class AvaliacaoResultados_Events_Devolver
     public function invalidarDocumento() {
         return function($t) {
             $params = $t->getParams();
-            
+
             $objDbTableDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
-            $idDocumento = $objDbTableDocumentoAssinatura->getIdDocumentoAssinatura($params['idPronac'], $params['idTipoDoAtoAdministrativo']);            
+            $idDocumento = $objDbTableDocumentoAssinatura->getIdDocumentoAssinatura($params['idPronac'], $params['idTipoDoAtoAdministrativo']);
             $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
             $codGrupo = $GrupoAtivo->codGrupo;
             $dados = [
@@ -80,7 +77,7 @@ class AvaliacaoResultados_Events_Devolver
                 'idPerfilDoAssinante' => $codGrupo,
                 'idDocumentoAssinatura' => $idDocumento
             ];
-            
+
             $assinaturaService = new \MinC\Assinatura\Servico\Assinatura($dados);
 
             $assinaturaService->devolver();

@@ -50,7 +50,7 @@
                 dialog: false,
             };
         },
-        props:[
+        props: [
             'idPronac',
             'atual',
             'proximo',

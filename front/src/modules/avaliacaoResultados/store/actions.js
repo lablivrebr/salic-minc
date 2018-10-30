@@ -1,7 +1,6 @@
 import * as desencapsularResponse from '@/helpers/actions';
 import * as avaliacaoResultadosHelperAPI from '@/helpers/api/AvaliacaoResultados';
 import * as types from './types';
-import { state } from './mutations';
 
 export const dadosMenu = ({ commit }) => {
     avaliacaoResultadosHelperAPI.dadosMenu()
@@ -136,7 +135,7 @@ export const consolidacaoAnalise = ({ commit }, params) => {
 };
 
 export const finalizarParecer = (_, params) => {
-    avaliacaoResultadosHelperAPI.finalizarParecer(params)
+    avaliacaoResultadosHelperAPI.alterarEstado(params)
         .then(() => {
         });
 };
@@ -145,7 +144,7 @@ export const encaminharParaTecnico = ({ commit, dispatch }, params) => {
     commit(types.SET_DADOS_PROJETOS_PARA_DISTRIBUIR, {});
     commit(types.PROJETOS_AVALIACAO_TECNICA, {});
     avaliacaoResultadosHelperAPI
-        .encaminharParaTecnico(params)
+        .alterarEstado(params)
         .then(() => {
             dispatch('projetosParaDistribuir');
             dispatch('obterDadosTabelaTecnico', { estadoid: 5 });
@@ -181,7 +180,7 @@ export const salvarLaudoFinal = ({ commit }, data) => {
 };
 
 export const finalizarLaudoFinal = ({ commit }, data) => {
-    avaliacaoResultadosHelperAPI.finalizarParecerLaudoFinal(data)
+    avaliacaoResultadosHelperAPI.alterarEstado(data)
         .then(() => {
             commit('noticias/SET_DADOS', { ativo: true, color: 'success', text: 'Finalizado com sucesso!' }, { root: true });
         });
@@ -283,7 +282,7 @@ export const buscarComprovantes = ({ commit }, params) => {
 };
 
 export const devolverProjeto = ({ commit, dispatch }, params) => {
-    avaliacaoResultadosHelperAPI.devolverProjeto(params)
+    avaliacaoResultadosHelperAPI.alterarEstado(params)
         .then((response) => {
             const devolverProjeto = response.data;
             commit(types.SET_DADOS_PROJETOS_FINALIZADOS, {});
@@ -307,3 +306,6 @@ export const projetosAssinarCoordenadorGeral = ({ commit }) => {
             commit(types.SYNC_PROJETOS_ASSINAR_COORDENADOR_GERAL, dados.data);
         });
 };
+
+export const salvarAvaliacaoComprovante = (_, params) =>
+    avaliacaoResultadosHelperAPI.salvarAvaliacaoComprovante(params);

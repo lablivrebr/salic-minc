@@ -22,9 +22,9 @@
                 </v-card-title>
                 <v-subheader>Item de custo: {{item}}</v-subheader>
 
-                <v-card-text v-if="Object.keys(comprovantes).length > 0">
+                <v-card-text v-if="Object.keys(currentComprovantes).length > 0">
                     <v-expansion-panel>
-                        <v-expansion-panel-content v-for="(comprovante, index) in comprovantes" :key="index">
+                        <v-expansion-panel-content v-for="(comprovante, index) in currentComprovantes" :key="index">
                             <div slot="header">
                                 <div style="display:inline-block;">
                                     Fornecedor: {{comprovante.nmFornecedor}}
@@ -103,6 +103,7 @@
         data() {
             return {
                 dialog: false,
+                currentComprovantes: {},
             };
         },
         computed: {
@@ -110,11 +111,18 @@
                 comprovantes: 'avaliacaoResultados/comprovantes',
             }),
         },
+        watch: {
+            comprovantes(value) {
+                this.currentComprovantes = value;
+            },
+        },
         methods: {
             ...mapActions({
                 buscarComprovantes: 'avaliacaoResultados/buscarComprovantes',
             }),
             buscar() {
+                this.currentComprovantes = {};
+
                 const params = {
                     uf: this.uf,
                     idPronac: this.idPronac,

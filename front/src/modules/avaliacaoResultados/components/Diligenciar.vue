@@ -29,8 +29,8 @@
                     <v-layout wrap align-center>
                         <v-flex>
                             <v-radio-group v-model="tpDiligencia">
-                                <v-radio color="success" label="Somente itens recusados" value="174"></v-radio>
-                                <v-radio color="success" label="Todos os itens orçamentários" value="645"></v-radio>
+                                <v-radio color="success" label="Somente itens recusados" value="645"></v-radio>
+                                <v-radio color="success" label="Todos os itens orçamentários" value="174"></v-radio>
                             </v-radio-group>
                         </v-flex>
                     </v-layout>
@@ -80,8 +80,7 @@
                 };
 
                 this.salvar(data);
-                /** Descomentar linha após migração da lista para o VUEJS */
-                // this.dialog = false;
+                this.dialog = false;
             },
         },
         computed:

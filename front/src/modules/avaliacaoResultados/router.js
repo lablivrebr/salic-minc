@@ -103,7 +103,7 @@ const routes = [
         name: 'Laudo',
         component: Laudo,
         meta: {
-            title: 'Laudo Final de Avaliação de Resultados',
+            title: 'Avaliação de Resultados: Laudo Final',
         },
     },
     {
@@ -135,7 +135,7 @@ const routes = [
         name: 'Painel',
         component: Painel,
         meta: {
-            title: 'Painel',
+            title: 'Avaliação de Resultados: Parecer Técnico',
         },
     },
 ];

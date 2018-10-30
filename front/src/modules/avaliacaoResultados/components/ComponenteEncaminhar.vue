@@ -160,7 +160,6 @@ export default {
 
             this.projetosFinalizados({ estadoid: 6 });
             this.obterDadosTabelaTecnico({ estadoid: 5 });
-            //this.distribuir();
         },
     },
 };

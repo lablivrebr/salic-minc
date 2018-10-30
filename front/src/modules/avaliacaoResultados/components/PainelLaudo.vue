@@ -1,6 +1,8 @@
 <template>
     <v-container fluid>
-        <h1 class="font-weight-regular">Laudo final</h1>
+        <v-subheader>
+            <h2>{{route.meta.title}}</h2>
+        </v-subheader>
         <v-card>
             <v-tabs
                 centered
@@ -115,6 +117,7 @@ export default {
             getProjetosLaudoEmAssinatura: 'avaliacaoResultados/getProjetosLaudoEmAssinatura',
             getProjetosLaudoFinalizados: 'avaliacaoResultados/getProjetosLaudoFinalizados',
             getUsuario: 'autenticacao/getUsuario',
+            route: 'route',
         }),
     },
 };

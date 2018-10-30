@@ -1,5 +1,8 @@
 <template>
     <v-container fluid>
+        <v-subheader>
+            <h2>{{route.meta.title}}</h2>
+        </v-subheader>
         <v-card>
             <v-tabs
                 centered
@@ -238,6 +241,7 @@ export default {
             getProjetosRevisao: 'avaliacaoResultados/getProjetosRevisao',
             getProjetosAssinarCoordenador: 'avaliacaoResultados/getProjetosAssinarCoordenador',
             getProjetosAssinarCoordenadorGeral: 'avaliacaoResultados/getProjetosAssinarCoordenadorGeral',
+            route: 'route',
         }),
     },
 };

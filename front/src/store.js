@@ -27,5 +27,8 @@ export default new Vuex.Store({
         autenticacao,
         noticias,
     },
+    getters: {
+        route: state => state.route,
+    },
     strict: debug,
 });

@@ -192,7 +192,7 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 	     WHEN tbReadequacao.siEncaminhamento = 23
 		   THEN '<b><font color=red>Devolvida pelo Secret&atilde;rio</font></b>'
          WHEN tbReadequacao.siEncaminhamento = 26
-		   THEN '<b><font color=red>Solicita&ccedil;&atilde;o devolvida ao Coordenador ap&otilde;s completar o ciclo de assinaturas</font></b>'
+		   THEN '<b><font color=red>Solicita&ccedil;&atilde;o devolvida ao Coordenador ap&oacute;s completar o ciclo de assinaturas</font></b>'
 		   ELSE usuarios.usu_nome
 
 	   END"),

@@ -29,7 +29,8 @@
     </th>
     <th>Visualizar</th>
     <th>Devolver</th>
-    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO): ?>
+    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO ||
+              $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
     <th>Assinar</th>
     <?php endif; ?>
     <?php if (
@@ -93,10 +94,12 @@ foreach ($this->dados as $d): ?>
             </a>
 	    <?php endif; ?>
         </td>
-	<?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO): ?>
+	<?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO ||
+              $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
         <td align="center">
-	    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO): ?>
-	    <?php if ($this->disponivelParaAssinatura($d->siEncaminhamento, $d->idDocumentoAssinatura)): ?>
+	    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO ||
+              $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
+<?php if ($this->disponivelParaAssinatura($d->siEncaminhamento, $d->idDocumentoAssinatura, $this->idPerfil)): ?>
             <a data-ajax-modal="<?= $this->url([
 				'module' => 'assinatura',
 				'controller' => 'index',

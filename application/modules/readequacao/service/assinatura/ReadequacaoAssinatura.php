@@ -235,7 +235,7 @@ class ReadequacaoAssinatura implements IServico
             //Atualiza a tabela Readequacao_Model_DbTable_TbReadequacao
             $dados = [];
             $dados['siEncaminhamento'] = \Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_FINALIZADA_SEM_PORTARIA;
-            $dados['stEstado'] = 1;
+            $dados['stEstado'] = \Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_FINALIZADO;
 
             $tiposParaChecklist = [
                 \Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA,
@@ -244,11 +244,11 @@ class ReadequacaoAssinatura implements IServico
                 \Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_NOME_PROJETO,
                 \Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_RESUMO_PROJETO
             ];
-
+            
             if (in_array($read->idTipoReadequacao, $tiposParaChecklist)) {
                 if ($read->idTipoReadequacao != \Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA && $TipoDeReadequacao[0]['TipoDeReadequacao'] != 'RM') {
                     if ($parecerTecnico->ParecerFavoravel !== '1') { // desfavoravel
-                        $dados['stEstado'] = 0;
+                        $dados['stEstado'] = \Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_EM_ANDAMENTO;
                         $dados['siEncaminhamento'] = \Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_CHECKLIST_PUBLICACAO;
                     }
                 }
@@ -744,7 +744,7 @@ class ReadequacaoAssinatura implements IServico
             $statusProjetoRecebedorRecurso = $tbProjetoRecebedorRecursoMapper->finalizarSolicitacaoReadequacao($arrData);
 
             $arrData = [];
-            $arrData['stEstado'] = 1;
+            $arrData['stEstado'] = \Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_FINALIZADO;
             $arrData['idSolicitacaoTransferenciaRecursos'] = $projetoRecebedor['idSolicitacao'];
             // TODO: dando pau aqui
             $statusSolicitacaoTransferenciaRecursos = $tbSolicitacaoTransferenciaRecursosMapper->save($arrData);

@@ -6,7 +6,9 @@
                         <v-toolbar-title>Diligenciar</v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
-                            <v-btn v-if="tpDiligencia && solicitacao" dark flat @click.native="enviarDiligencia()">Enviar</v-btn>
+                            <v-btn v-if="tpDiligencia && solicitacao"
+                                   dark flat @click.native="enviarDiligencia()"
+                                   :to="{ name: 'AnalisePlanilha', params:{ id:this.$route.params.id }}">Enviar</v-btn>
                             <v-btn v-else dark flat disabled>Enviar</v-btn>
                             <v-btn dark flat :to="{ name: 'AnalisePlanilha', params:{ id:this.$route.params.id }}">Cancelar</v-btn>
                         </v-toolbar-items>
@@ -80,7 +82,6 @@
                 };
 
                 this.salvar(data);
-                this.dialog = false;
             },
         },
         computed:

@@ -1557,6 +1557,11 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
 
                     $tbDistribuirReadequacao->update($dados, $where);
                 }
+            } else if ($this->_request->getParam('stAtendimento') == 'DP') {
+                $tbDistribuirReadequacao = new Readequacao_Model_tbDistribuirReadequacao();
+                $excluiDistribuicao = $tbDistribuirReadequacao->delete([
+                    'idReadequacao = ?' => $r->idReadequacao
+                ]);                
             }
             if ($this->idPerfil == Autenticacao_Model_Grupos::TECNICO_ACOMPANHAMENTO) {
                 parent::message('Dados salvos com sucesso!', "readequacao/readequacoes/painel-readequacoes?tipoFiltro=$filtro", "CONFIRM");

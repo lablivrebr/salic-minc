@@ -538,7 +538,7 @@ class ReadequacaoAssinatura implements IServico
 
     protected function finalizarReadequacaoPeriodoExecucao($read)
     {             
-        $dtFimExecucao = Data::dataAmericana($read->dsSolicitacao);
+        $dtFimExecucao = \Data::dataAmericana($read->dsSolicitacao);
         $Projetos = new \Projetos();
         $dadosPrj = $Projetos->find([
             'IdPRONAC=?' => $read->idPronac

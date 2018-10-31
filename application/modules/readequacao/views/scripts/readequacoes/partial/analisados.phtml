@@ -124,7 +124,6 @@ foreach ($this->dados as $d): ?>
 	<td style="text-align: center">
 	    <?php if ($this->disponivelParaFinalizar($d->siEncaminhamento, $d->idPronac)): ?>
             <a href="javascript:void(0)"
-	       id="finalizarFluxoReadequacao"
 	       data-href="<?= $this->url([
 		     'module' => 'readequacao',
 		     'controller' => 'readequacao-assinatura',
@@ -133,7 +132,7 @@ foreach ($this->dados as $d): ?>
                data-position="top"
                data-delay="50"
                data-tooltip="Finalizar"
-               class="btn small waves-effect waves-light white-text tooltipped btn-primary">
+               class="btn small waves-effect waves-light white-text tooltipped btn-primary finalizarFluxoReadequacao">
                 <i class="material-icons">check</i>
             </a>    
 	    <?php endif; ?>

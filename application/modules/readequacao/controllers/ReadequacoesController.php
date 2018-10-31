@@ -88,7 +88,12 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
 
     public function gerenciarAssinaturasAction()
     {
-        $this->redirect("/readequacao/readequacoes/painel?tipoFiltro=analisados");
+        $origin = $this->_request->getParam('origin');
+        if ($origin != '') {
+            $this->redirect($origin);
+        } else {
+            $this->redirect("/readequacao/readequacoes/painel?tipoFiltro=analisados");
+        }
     }
     
     /**
@@ -1986,7 +1991,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 );
                 $idDocumentoAssinatura = $servicoDocumentoAssinatura->iniciarFluxo();
                 
-                $origin = "readequacao/readequacao-assinatura";
+                $origin = "readequacao/readequacoes/painel-readequacoes";
 
                 parent::message(
                     "A avalia&ccedil;&atilde;o da readequa&ccedil;&atilde;o foi finalizada com sucesso! ",

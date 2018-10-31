@@ -6,7 +6,7 @@
         <v-card>
             <v-tabs
                 centered
-                color="green"
+                color="primary"
                 dark
                 icons-and-text
             >
@@ -51,7 +51,7 @@
                     </template>
                     <template v-else>
                         Assinar
-                        <v-icon>done</v-icon>
+                        <v-icon>edit</v-icon>
                     </template>
                 </v-tab>
 

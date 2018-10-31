@@ -272,6 +272,18 @@ export default {
                 proximo: 6,
             };
 
+            if (this.parecer.idAvaliacaoFinanceira) {
+                data.idAvaliacaoFinanceira = this.parecer.idAvaliacaoFinanceira;
+            }
+
+            if (this.parecerData.siManifestacao) {
+                data.siManifestacao = this.parecerData.siManifestacao;
+            }
+
+            if (this.parecerData.dsParecer) {
+                data.dsParecer = this.parecerData.dsParecer;
+            }
+
             this.finalizar(data);
         },
         inputParecer(e) {

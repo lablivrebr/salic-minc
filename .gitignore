@@ -3,6 +3,8 @@ front/test/unit/coverage/*
 front/test/unit/coverage
 front/test/e2e/reports
 coverage
+cypress/screenshots/
+cypress/videos/
 
 # arquivo que o webpack injeta os scripts
 application/layouts/scripts/vue.phtml

@@ -42,7 +42,7 @@
         watch: {
             dadosIn2017() {
                 this.loading = false;
-            }
+            },
         },
         computed: {
             ...mapGetters({

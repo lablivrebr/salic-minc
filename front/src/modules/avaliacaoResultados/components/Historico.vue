@@ -1,30 +1,30 @@
 <template>
-    <v-dialog 
+    <v-dialog
       v-model="dialog"
       scrollable
       max-width="750px"
     >
         <v-tooltip slot="activator" bottom>
-            <v-btn slot="activator" flat icon color="grey">
+            <v-btn slot="activator" flat icon>
                 <v-icon class="material-icons">history</v-icon>
             </v-btn>
             <span>Histórico de Encaminhamentos</span>
         </v-tooltip>
 
         <v-card>
-            <v-card-title class="headline green" primary-title>
+            <v-card-title class="headline primary" primary-title>
                 <span class="white--text">
                     Histórico de encaminhamentos
                 </span>
             </v-card-title>
-            
+
             <v-card-text style="height: 500px;">
                 <v-subheader>
                     <h4 class="headline mb-0 grey--text text--darken-3">
                         {{pronac}} - {{nomeProjeto}}
-                    </h4>    
+                    </h4>
                 </v-subheader>
-                
+
                 <v-divider dark></v-divider>
 
                 <v-data-table

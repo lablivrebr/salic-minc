@@ -18,7 +18,7 @@
                     <template v-if="Object.keys(getProjetosParaDistribuir).length == 0">
                         <v-progress-circular
                             indeterminate
-                            color="primary"
+                            color="secondary"
                             dark
                         ></v-progress-circular>
                     </template>
@@ -31,7 +31,7 @@
                     <template v-if="Object.keys(dadosTabelaTecnico).length == 0">
                         <v-progress-circular
                             indeterminate
-                            color="primary"
+                            color="secondary"
                             dark
                         ></v-progress-circular>
                     </template>
@@ -45,7 +45,7 @@
                     <template v-if="Object.keys(getProjetosFinalizados).length == 0">
                         <v-progress-circular
                             indeterminate
-                            color="primary"
+                            color="secondary"
                             dark
                         ></v-progress-circular>
                     </template>
@@ -59,7 +59,7 @@
                     <template v-if="Object.keys(getProjetosHistorico).length == 0">
                         <v-progress-circular
                             indeterminate
-                            color="primary"
+                            color="secondary"
                             dark
                         ></v-progress-circular>
                     </template>

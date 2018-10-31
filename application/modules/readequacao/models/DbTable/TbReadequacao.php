@@ -1099,19 +1099,19 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 
             $select->joinInner(
                 array('dtDistribuicao' => 'tbDistribuirReadequacao'),
-                'a.idReadequacao = dtDistribuicao.idReadequacao',
+                'tbReadequacao.idReadequacao = dtDistribuicao.idReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
                 array('projetos' => 'Projetos'),
-                'a.idPronac = projetos.idPronac',
+                'tbReadequacao.idPronac = projetos.idPronac',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
                 array('tbTipoReadequacao' => 'tbTipoReadequacao'),
-                'c.idTipoReadequacao = tbReadequacao.idTipoReadequacao',
+                'tbTipoReadequacao.idTipoReadequacao = tbReadequacao.idTipoReadequacao',
                 array(''),
                 $this->_schema
             );

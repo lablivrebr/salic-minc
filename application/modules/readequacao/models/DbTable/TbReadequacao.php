@@ -1080,50 +1080,50 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
             $select = $this->select();
             $select->setIntegrityCheck(false);
             $select->from(
-                array('a' => $this->_name),
+                array('tbReadequacao' => $this->_name),
                 new Zend_Db_Expr(
                     "
-                        b.idPronac,
-                        a.idReadequacao,
-                        b.AnoProjeto+b.Sequencial as PRONAC,
-                        b.NomeProjeto,
-                        c.dsReadequacao as tpReadequacao,
-                        d.dtEnvioAvaliador as dtDistribuicao,
+                        projetos.idPronac,
+                        tbReadequacao.idReadequacao,
+                        projetos.AnoProjeto+projetos.Sequencial as PRONAC,
+                        projetos.NomeProjeto,
+                        tbTipoReadequacao.dsReadequacao as tpReadequacao,
+                        dtDistribuicao.dtEnvioAvaliador as dtDistribuicao,
                         DATEDIFF(DAY,
-                        d.dtEnvioAvaliador,
+                        dtDistribuicao.dtEnvioAvaliador,
                         GETDATE()) as qtDiasAvaliacao,
-                        d.idAvaliador AS idTecnicoParecerista,
-                        d.idUnidade as idOrgao"
+                        dtDistribuicao.idAvaliador AS idTecnicoParecerista,
+                        dtDistribuicao.idUnidade as idOrgao"
                 )
             );
 
             $select->joinInner(
-                array('d' => 'tbDistribuirReadequacao'),
-                'a.idReadequacao = d.idReadequacao',
+                array('dtDistribuicao' => 'tbDistribuirReadequacao'),
+                'a.idReadequacao = dtDistribuicao.idReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('b' => 'Projetos'),
-                'a.idPronac = b.idPronac',
+                array('projetos' => 'Projetos'),
+                'a.idPronac = projetos.idPronac',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('c' => 'tbTipoReadequacao'),
-                'c.idTipoReadequacao = a.idTipoReadequacao',
+                array('tbTipoReadequacao' => 'tbTipoReadequacao'),
+                'c.idTipoReadequacao = tbReadequacao.idTipoReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('e' => 'tbTipoEncaminhamento'),
-                'a.siEncaminhamento = e.idTipoEncaminhamento',
+                array('tbTipoEncaminhamentoe' => 'tbTipoEncaminhamento'),
+                'tbReadequacao.siEncaminhamento = tbTipoEncaminhamentoe.idTipoEncaminhamento',
                 array(''),
                 $this->_schema
             );
 
-            $select->where('a.stEstado = ? ', 0);
-            $select->where('a.siEncaminhamento = ? ', 4);
+            $select->where('tbReadequacao.stEstado = ? ', 0);
+            $select->where('tbReadequacao.siEncaminhamento = ? ', 4);
 
 
             foreach ($where as $coluna => $valor) {
@@ -1185,59 +1185,59 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
             $select = $this->select();
             $select->setIntegrityCheck(false);
             $select->from(
-                array('a' => $this->_name),
+                array('tbReadequacao' => $this->_name),
                 new Zend_Db_Expr(
                     "
-                 b.idPronac,
-                 a.idReadequacao,
-                 b.AnoProjeto+b.Sequencial as PRONAC,
-                 b.NomeProjeto,
-                 b.Area,
-                 b.Segmento,
-                 c.dsReadequacao as tpReadequacao,
-                 d.dtEnvioAvaliador as dtDistribuicao,
+                 projetos.idPronac,
+                 tbReadequacao.idReadequacao,
+                 projetos.AnoProjeto+projetos.Sequencial as PRONAC,
+                 projetos.NomeProjeto,
+                 projetos.Area,
+                 projetos.Segmento,
+                 tbTipoReadequacao.dsReadequacao as tpReadequacao,
+                 tbdistribuirReadequacao.dtEnvioAvaliador as dtDistribuicao,
                  DATEDIFF(DAY,    
-                 d.dtEnvioAvaliador,
+                 tbdistribuirReadequacao.dtEnvioAvaliador,
                  GETDATE()) as qtDiasEmAnalise,
-                 d.idAvaliador,
-                 f.usu_nome as nmParecerista,
-                 d.idUnidade as idOrgao"
+                 tbdistribuirReadequacao.idAvaliador,
+                 usuarios.usu_nome as nmParecerista,
+                 tbdistribuirReadequacao.idUnidade as idOrgao"
                 )
             );
 
             $select->joinInner(
-                array('d' => 'tbDistribuirReadequacao'),
-                'a.idReadequacao = d.idReadequacao',
+                array('tbdistribuirReadequacao' => 'tbDistribuirReadequacao'),
+                'tbReadequacao.idReadequacao = tbdistribuirReadequacao.idReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('b' => 'Projetos'),
-                'a.idPronac = b.idPronac',
+                array('projetos' => 'Projetos'),
+                'tbReadequacao.idPronac = projetos.idPronac',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('c' => 'tbTipoReadequacao'),
-                'a.idReadequacao = d.idReadequacao',
+                array('tbTipoReadequacao' => 'tbTipoReadequacao'),
+                'tbReadequacao.idReadequacao = tbdistribuirReadequacao.idReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('e' => 'tbTipoEncaminhamento'),
-                'a.siEncaminhamento = e.idTipoEncaminhamento',
+                array('tbTipoEncaminhamento' => 'tbTipoEncaminhamento'),
+                'tbReadequacao.siEncaminhamento = tbTipoEncaminhamento.idTipoEncaminhamento',
                 array(''),
                 $this->_schema
             );
             $select->joinLeft(
-                array('f' => 'Usuarios'),
-                'd.idAvaliador = f.usu_codigo',
+                array('usuarios' => 'Usuarios'),
+                'tbdistribuirReadequacao.idAvaliador = usuarios.usu_codigo',
                 array(''),
                 $this->getSchema('tabelas')
             );
 
-            $select->where('a.stEstado = ? ', 0);
-            $select->where('a.siEncaminhamento = ? ', 4);
+            $select->where('tbReadequacao.stEstado = ? ', 0);
+            $select->where('tbReadequacao.siEncaminhamento = ? ', 4);
 
             foreach ($where as $coluna => $valor) {
                 $select->where($coluna, $valor);

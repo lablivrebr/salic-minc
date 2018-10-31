@@ -86,6 +86,11 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         }
     }
 
+    public function gerenciarAssinaturasAction()
+    {
+        $this->redirect("/readequacao/readequacoes/painel?tipoFiltro=analisados");
+    }
+    
     /**
      * Método privado para carregar lista de cidades
      *
@@ -1213,9 +1218,21 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         /* ================== PAGINACAO ======================*/
         $where = array();
 
+        $filtrosAceitos = [
+            'aguardando_distribuicao',
+            'em_analise',
+            'analisados',
+            'aguardando_publicacao'
+        ];
+
         $filtro = null;
+        
         if ($this->_request->getParam('tipoFiltro')) {
             $filtro = $this->_request->getParam('tipoFiltro');
+            $filtro = preg_replace('/\/gerenciar\-assinaturas/', '', $filtro);
+            if (!in_array($filtro, $filtrosAceitos)) {
+                $filtro = 'aguardando_distribuicao';
+            }
         } else {
             $filtro = 'aguardando_distribuicao';
         }
@@ -1601,7 +1618,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $this->view->filtro = $filtro;
 
         if ($this->_request->getParam('pronac')) {
-            $where['c.AnoProjeto+c.Sequencial = ?'] = $this->_request->getParam('pronac');
+            $where['projetos.AnoProjeto+projetos.Sequencial = ?'] = $this->_request->getParam('pronac');
             $this->view->pronac = $this->_request->getParam('pronac');
         }
 
@@ -1628,7 +1645,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             }
         } elseif ($this->idPerfil == Autenticacao_Model_Grupos::TECNICO_ACOMPANHAMENTO || $this->idPerfil == Autenticacao_Model_Grupos::PARECERISTA) {
             $auth = Zend_Auth::getInstance(); // pega a autenticação
-            $where['d.idAvaliador = ?'] = $auth->getIdentity()->usu_codigo;
+            $where['dtDistribuicao.idAvaliador = ?'] = $auth->getIdentity()->usu_codigo;
 
             $total = count($tbReadequacao->painelReadequacoesTecnicoAcompanhamento($where));
 

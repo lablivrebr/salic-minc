@@ -331,7 +331,7 @@ Vue.component('sl-comprovante-internacional-form',
                     contentType: 'multipart/form-data',
                     processData: false,
                     contentType: false,
-               }).done(function(data){
+               }).done(function(data) {
                     Materialize.toast('Salvo com sucesso!', 4000, 'green');
                     $3('#modal1').modal('close');
 

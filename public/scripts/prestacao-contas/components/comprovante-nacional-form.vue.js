@@ -257,7 +257,7 @@ Vue.component('sl-comprovante-nacional-form',
                 type="button" class="btn white black-text"
                 @click="cancelar()">cancelar</button>
         </form>
-    `,
+        `,
         mounted: function () {
             this.comprovante.item = this.item;
             // this.comprovante.idPlanilhaAprovacao = this.idPlanilhaAprovacao;
@@ -299,8 +299,7 @@ Vue.component('sl-comprovante-nacional-form',
                 .trigger('autoresize');
         },
         updated() {
-            $3('textarea')
-                .trigger('autoresize');
+            $3('textarea').trigger('autoresize');
         },
         props: {
             dados: null,
@@ -439,10 +438,13 @@ Vue.component('sl-comprovante-nacional-form',
                         processData: false,
                         contentType: false,
                     })
-                        .done(function (data) {
-                            Materialize.toast('Salvo com sucesso!', 4000, 'green');
-                            $3('#modal1')
-                                .modal('close');
+                    .done(function (data) {
+
+                        let color = 'red';
+                        if (data.success) {
+                            color = 'green';
+
+                            $3('#modal1').modal('close');
 
                             if (vue.tipoform == 'cadastro') {
 
@@ -524,7 +526,10 @@ Vue.component('sl-comprovante-nacional-form',
 
                                 vue.$root.$emit('atualizado-comprovante-nacional', vue.comprovante);
                             }
-                        });
+                        }
+
+                        Materialize.toast(data.message, 4000, color);
+                    });
                 }
             },
             validar: function () {
@@ -644,7 +649,6 @@ Vue.component('sl-comprovante-nacional-form',
             pesquisarFornecedor: function () {
                 var vue = this;
                 var url = '/agente/agentes/agentecadastrado';
-// console.log(this.comprovante.fornecedor.CNPJCPF.length == 14);
                 if (
                     (this.comprovante.fornecedor.tipoPessoa == 1
                         && this.comprovante.fornecedor.CNPJCPF.length == 11)

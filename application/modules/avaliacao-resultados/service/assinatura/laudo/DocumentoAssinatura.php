@@ -90,7 +90,7 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
             'idPronac' => $this->idPronac
         ];
         $dadosParecer = $laudo->findBy($where);
-        $dadosParecer = ($dadosParecer) ?: new \stdClass();
+        $dadosParecer = ($dadosParecer) ?: [];
 
         $objAgentes = new \Agente_Model_DbTable_Agentes();
         $dadosAgente = $objAgentes->buscarFornecedor(array('a.CNPJCPF = ?' => $dadosProjeto['CgcCpf']));

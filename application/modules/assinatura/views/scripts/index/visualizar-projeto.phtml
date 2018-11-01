@@ -35,8 +35,13 @@
             <?= $this->partial("/index/partials/template-documento-assinado.phtml", $this); ?>
         </div>
         <div class="row center-align">
+	    <?php
+	    if ($this->origin != '') {
+		$origin = '?origin=' . $this->origin;
+	    }
+	    ?>    
             <a class="btn waves-effect waves-dark"
-               href="<?php echo "/{$this->moduleOrigin}/{$this->controllerOrigin}/gerenciar-assinaturas"; ?>">Voltar</a>
+	       href="<?php echo "/{$this->moduleOrigin}/{$this->controllerOrigin}/gerenciar-assinaturas{$origin}"; ?>">Voltar</a>
             <?php
             if ($this->isPermitidoAssinar === true):
                 ?>

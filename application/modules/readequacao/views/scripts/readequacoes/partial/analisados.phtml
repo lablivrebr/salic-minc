@@ -29,7 +29,8 @@
     </th>
     <th>Visualizar</th>
     <th>Devolver</th>
-    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO): ?>
+    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO ||
+              $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
     <th>Assinar</th>
     <?php endif; ?>
     <?php if (
@@ -93,15 +94,17 @@ foreach ($this->dados as $d): ?>
             </a>
 	    <?php endif; ?>
         </td>
-	<?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO): ?>
+	<?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO ||
+              $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
         <td align="center">
-	    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO): ?>
-	    <?php if ($this->disponivelParaAssinatura($d->siEncaminhamento, $d->idDocumentoAssinatura)): ?>
+	    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO ||
+              $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
+<?php if ($this->disponivelParaAssinatura($d->siEncaminhamento, $d->idDocumentoAssinatura, $this->idPerfil)): ?>
             <a data-ajax-modal="<?= $this->url([
 				'module' => 'assinatura',
 				'controller' => 'index',
 				'action' => 'visualizar-projeto'
-				], '', true); ?>?idDocumentoAssinatura=<?php echo $d->idDocumentoAssinatura; ?>&modal=1"
+				], '', true); ?>?idDocumentoAssinatura=<?php echo $d->idDocumentoAssinatura; ?>&modal=1&origin=readequacao/readequacoes/painel?tipoFiltro=analisados"
                href="javascript:void(0);"
                data-position="top"
                data-delay="50"
@@ -121,7 +124,6 @@ foreach ($this->dados as $d): ?>
 	<td style="text-align: center">
 	    <?php if ($this->disponivelParaFinalizar($d->siEncaminhamento, $d->idPronac)): ?>
             <a href="javascript:void(0)"
-	       id="finalizarFluxoReadequacao"
 	       data-href="<?= $this->url([
 		     'module' => 'readequacao',
 		     'controller' => 'readequacao-assinatura',
@@ -130,7 +132,7 @@ foreach ($this->dados as $d): ?>
                data-position="top"
                data-delay="50"
                data-tooltip="Finalizar"
-               class="btn small waves-effect waves-light white-text tooltipped btn-primary">
+               class="btn small waves-effect waves-light white-text tooltipped btn-primary finalizarFluxoReadequacao">
                 <i class="material-icons">check</i>
             </a>    
 	    <?php endif; ?>

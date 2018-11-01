@@ -18,7 +18,7 @@ Vue.component('readequacao-plano-distribuicao', {
                 <li>
                     <div class="collapsible-header active"><i class="material-icons">edit</i>
                         <span v-if="!disabled">Readequar Plano de Distribui&ccedil;&atilde;o</span>
-                        <span v-else>Readequação do Plano de Distribui&ccedil;&atilde;o</span>
+                        <span v-else>Readequa&ccedil;&atilde;o do Plano de Distribui&ccedil;&atilde;o</span>
                     </div>
                     <div class="collapsible-body padding10">
                         <plano-distribuicao-listagem
@@ -72,7 +72,7 @@ Vue.component('readequacao-plano-distribuicao', {
                         <div class="col s1 right-align"><i class="medium green-text material-icons">check_circle</i></div>
                         <div class="col s11">
                             <p><b>Solicita&ccedil;&atilde;o enviada com sucesso!</b></p>
-                            <p>Sua solicitação agora está para análise técnica do MinC.</p>
+                            <p>Sua solicita&ccedil;&atilde;o agora est&atilde; para an&atilde;lise t&etilde;cnica do MinC.</p>
                             <p>Para acompanhar, acesse o menu lateral "Execu&ccedil;&atilde;o -> Dados das readequa&ccedil;&otilde;es" 
                             em <a :href="'/default/consultardadosprojeto/index?idPronac=' + idPronacHash">consultar dados do projeto</a>.</p>
                         </div>

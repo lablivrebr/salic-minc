@@ -36,7 +36,7 @@
                     <v-toolbar-title>Avaliar itens</v-toolbar-title>
                 </v-toolbar>
 
-                <v-card-text>
+                <v-card-text v-if="dadosItemComprovacao.comprovantes && !comprovantesIsLoading">
                     <v-subheader >Dados da Comprovação</v-subheader>
                     <v-data-table
                             class="elevation-2"
@@ -44,7 +44,7 @@
                             :items="[]"
                             hide-actions
                     >
-                        <template v-if="dadosItemComprovacao.dadosItem" slot="no-data">
+                        <template slot="no-data">
                             <tr>
                                 <th colspan="6">Comprova&ccedil;&atilde;o de Pagamento do Item</th>
                             </tr>
@@ -69,28 +69,32 @@
 
                     <v-subheader >Itens</v-subheader>
 
-                    <v-expansion-panel v-if="dadosItemComprovacao.comprovantes" expand>
+                    <v-expansion-panel
+                            v-model="painelComprovantes"
+                            v-if="dadosItemComprovacao.comprovantes"
+                            expand>
                         <v-expansion-panel-content
                                 v-for="(comprovante, i) in dadosItemComprovacao.comprovantes"
-                                :key="i"
+                                :key="comprovante.idComprovantePagamento"
+                                @input="carregarDadosComprovante($event, i)"
                         >
                             <v-layout slot="header" class="blue--text">
                                 <v-icon class="mr-3 blue--text" >local_shipping</v-icon>
-                                Fornecedor: {{comprovante.fornecedor.nome}} - R$ {{comprovante.vlComprovacao}}
+                                Fornecedor: {{comprovante.fornecedor.nome}} - R$ {{moeda(comprovante.vlComprovacao)}}
                                 <v-spacer></v-spacer>
-                                <v-chip v-show="comprovante.stItemAvaliado == 1" small color="green" text-color="white">
+                                <v-chip v-if="comprovante.stItemAvaliado == 1" small color="green" text-color="white">
                                     <v-avatar>
                                         <v-icon>thumb_up</v-icon>
                                     </v-avatar>
                                     Aprovado
                                 </v-chip>
-                                <v-chip v-show="comprovante.stItemAvaliado == 3" small color="red" text-color="white">
+                                <v-chip v-if="comprovante.stItemAvaliado == 3" small color="red" text-color="white">
                                     <v-avatar>
                                         <v-icon>thumb_down</v-icon>
                                     </v-avatar>
                                     Reprovado
                                 </v-chip>
-                                <v-chip v-show="comprovante.stItemAvaliado == 4" small color="grey " text-color="white">
+                                <v-chip v-if="comprovante.stItemAvaliado == 4" small color="grey" text-color="white">
                                     <v-avatar>
                                         <v-icon>thumbs_up_down</v-icon>
                                     </v-avatar>
@@ -121,13 +125,13 @@
                                         <v-card>
                                             <v-card-text class="elevation-2">
                                                 <v-form
+                                                        v-if="renderDadosComprovante[i]"
                                                         v-model="form[comprovante.idComprovantePagamento]"
                                                         ref="form"
                                                 >
                                                     <v-data-table
                                                             class="elevation-2"
                                                             hide-headers
-
                                                             :items="[]"
                                                             hide-actions
                                                     >
@@ -148,11 +152,11 @@
                                                             </tr>
                                                             <tr>
                                                                 <td left><b>Dt. Emiss&atilde;o do comprovante de despesa:</b></td>
-                                                                <td>{{comprovante.dataEmissao}}</td>
+                                                                <td>{{comprovante.dataEmissao | formatarData}}</td>
                                                                 <td left><b>Forma de Pagamento:</b></td>
                                                                 <td>{{comprovante.tpFormaDePagamento}}</td>
                                                                 <td left><b>Data do Pagamento:</b></td>
-                                                                <td>{{comprovante.dtPagamento}}</td>
+                                                                <td>{{comprovante.dtPagamento | formatarData}}</td>
                                                                 <td left style="width: 155px;"><b>N&ordm; Documento Pagamento:</b></td>
                                                                 <td>{{comprovante.numeroDocumento}}</td>
                                                             </tr>
@@ -166,12 +170,12 @@
                                                                 <td left><b>Avaliação:</b></td>
                                                                 <td colspan="7">
                                                                     <v-radio-group
-                                                                            v-model="stItemAvaliado[comprovante.idComprovantePagamento]"
+                                                                            v-model="stItemAvaliadoModel[comprovante.idComprovantePagamento]"
                                                                             :rules="[rules.required]"
                                                                             row
                                                                     >
-                                                                        <v-radio label="Aprovado" value="1" name="stItemAvaliado" color="green"></v-radio>
-                                                                        <v-radio label="Reprovado" value="3" name="stItemAvaliado" color="red"></v-radio>
+                                                                        <v-radio label="Aprovado" value="1" name="stItemAvaliadoModel" color="green"></v-radio>
+                                                                        <v-radio label="Reprovado" value="3" name="stItemAvaliadoModel" color="red"></v-radio>
                                                                     </v-radio-group>
                                                                 </td>
                                                             </tr>
@@ -196,8 +200,9 @@
                                                                 :disabled="!form[comprovante.idComprovantePagamento] && !loading"
                                                                 :loading="loading"
                                                                 @click.native="salvarAvaliacao({
+                                                                index: i,
                                                                 idComprovantePagamento: comprovante.idComprovantePagamento,
-                                                                stItemAvaliado: stItemAvaliado[comprovante.idComprovantePagamento] || '',
+                                                                stItemAvaliado: stItemAvaliadoModel[comprovante.idComprovantePagamento] || '',
                                                                 dsJustificativa: dsJustificativa[comprovante.idComprovantePagamento] || '',
                                                             }); loader = 'loading'"
                                                         >
@@ -213,12 +218,27 @@
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-card-text>
+                <v-card-text v-else>
+                    <v-container fill-height>
+                        <v-layout row wrap align-center>
+                            <v-flex class="text-xs-center">
+                                <v-progress-circular
+                                        :size="70"
+                                        :width="7"
+                                        color="green"
+                                        indeterminate
+                                ></v-progress-circular>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
             </v-card>
         </v-dialog>
     </v-layout>
 </template>
 
 <script>
+    import moment from 'moment';
     import { mapActions, mapGetters } from 'vuex';
 
     export default {
@@ -230,35 +250,49 @@
             'idmunicipio',
             'idPlanilhaItem',
             'etapa',
+            'stItemAvaliado',
+            'cdProduto',
+            'cdUf',
         ],
-        watch: {
-            dialog() {
-                this.atualizarComprovantes();
+        filters: {
+            formatarData(date) {
+                if (date.length === 0) {
+                    return '---';
+                }
+                return moment(date).format('DD/MM/YYYY');
             },
-            stItemAvaliado: {
+        },
+        watch: {
+            dialog(val) {
+                if (val) this.atualizarComprovantes(true);
+            },
+            stItemAvaliadoModel: {
                 handler(novoValor) {
-                    this.stItemAvaliado = novoValor;
+                    this.stItemAvaliadoModel = novoValor;
                 },
                 deep: true,
             },
             dadosItemComprovacao() {
-                this.copia = this.dadosItemComprovacao;
-                this.copia.comprovantes.forEach((comp) => {
-                    this.stItemAvaliado[comp.idComprovantePagamento] = comp.stItemAvaliado;
+                this.dadosItemComprovacaoCopia = this.dadosItemComprovacao;
+                this.dadosItemComprovacaoCopia.comprovantes.forEach((comp) => {
+                    this.stItemAvaliadoModel[comp.idComprovantePagamento] = comp.stItemAvaliado;
                     this.dsJustificativa[comp.idComprovantePagamento] = comp.dsOcorrenciaDoTecnico;
                 });
             },
         },
         data() {
             return {
-                copia: this.dadosItemComprovacao,
+                renderDadosComprovante: [],
+                comprovantesIsLoading: null,
+                painelComprovantes: [],
+                dadosItemComprovacaoCopia: this.dadosItemComprovacao,
                 loader: null,
                 loading: false,
                 form: {},
                 snackbarAlerta: false,
                 snackbarTexto: '',
                 dsJustificativa: {},
-                stItemAvaliado: {},
+                stItemAvaliadoModel: {},
                 rules: {
                     required: v => !!v || 'É necessário preencher este campo',
                 },
@@ -334,7 +368,8 @@
         },
         methods: {
             ...mapActions({
-                setPlanilha: 'avaliacaoResultados/planilha',
+                alterarAvaliacaoComprovante: 'avaliacaoResultados/alterarAvaliacaoComprovante',
+                alterarPlanilha: 'avaliacaoResultados/alterarPlanilha',
                 salvarAvaliacaoComprovante: 'avaliacaoResultados/salvarAvaliacaoComprovante',
                 obterDadosItemComprovacao: 'avaliacaoResultados/obterDadosItemComprovacao',
             }),
@@ -362,6 +397,7 @@
                 if (params.stItemAvaliado.length > 0 && params.dsJustificativa.length > 0) {
                     this.loading = true;
                     this.salvarAvaliacaoComprovante({
+                        index: params.index,
                         idPronac: this.idPronac,
                         dsJustificativa: params.dsJustificativa,
                         stItemAvaliado: params.stItemAvaliado,
@@ -369,8 +405,20 @@
                     }).then(() => {
                         this.snackbarTexto = 'Salvo com sucesso!';
                         this.snackbarAlerta = true;
-                        this.atualizarComprovantes();
-                    }).catch(() => {
+                        this.alterarAvaliacaoComprovante(params);
+
+                        this.alterarPlanilha({
+                            idComprovantePagamento: params.idComprovantePagamento,
+                            cdProduto: this.cdProduto,
+                            etapa: this.etapa,
+                            cdUf: this.cdUf,
+                            idmunicipio: this.idmunicipio,
+                            stItemAvaliado: this.stItemAvaliado,
+                            idPlanilhaItem: this.idPlanilhaItem,
+                            stItemAvaliadoAlterado:
+                                this.stItemAvaliadoModel[params.idComprovantePagamento],
+                        });
+                    }).catch((a) => {
                         this.snackbarTexto = 'Houve algum problema ao salvar!';
                         this.snackbarAlerta = true;
                     }).then(() => {
@@ -378,16 +426,30 @@
                     });
                 }
             },
-            atualizarComprovantes() {
+            atualizarComprovantes(loading) {
+                let params = '';
                 if (typeof this.getUrlParams() !== 'undefined') {
-                    this.obterDadosItemComprovacao(this.getUrlParams());
+                    params = this.getUrlParams();
                 } else {
-                    this.obterDadosItemComprovacao(`idPronac/${this.idPronac}/uf/${this.uf}/produto/${this.produto}/idmunicipio/${this.idmunicipio}/idPlanilhaItem/${this.idPlanilhaItem}/etapa/${this.etapa}`);
+                    params = `idPronac/${this.idPronac}/uf/${this.uf}/produto/${this.produto}/idmunicipio/${this.idmunicipio}/idPlanilhaItem/${this.idPlanilhaItem}/etapa/${this.etapa}`;
                 }
+
+                if (loading) {
+                    this.comprovantesIsLoading = true;
+                    this.obterDadosItemComprovacao(params).catch().then(() => {
+                        this.comprovantesIsLoading = false;
+                    });
+                    return;
+                }
+                this.comprovantesIsLoading = false;
+                this.obterDadosItemComprovacao(params);
             },
             fecharModal() {
                 this.dialog = false;
-                this.setPlanilha(this.idPronac);
+                this.painelComprovantes = [];
+            },
+            carregarDadosComprovante(event, index) {
+                this.renderDadosComprovante[index] = true;
             },
         },
         computed: {

@@ -157,13 +157,12 @@ export const alterarParecer = ({ commit }, param) => {
     commit(types.SET_PARECER, param);
 };
 
-export const obterDadosItemComprovacao = ({ commit }, params) => {
-    avaliacaoResultadosHelperAPI.obterDadosItemComprovacao(params)
-        .then((response) => {
-            const itemComprovacao = response.data.data;
-            commit(types.GET_DADOS_ITEM_COMPROVACAO, itemComprovacao.items);
-        });
-};
+export const obterDadosItemComprovacao = ({ commit }, params) => avaliacaoResultadosHelperAPI
+    .obterDadosItemComprovacao(params)
+    .then((response) => {
+        const itemComprovacao = response.data.data;
+        commit(types.GET_DADOS_ITEM_COMPROVACAO, itemComprovacao.items);
+    });
 
 export const getLaudoFinal = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI.obterLaudoFinal(params)
@@ -310,3 +309,9 @@ export const projetosAssinarCoordenadorGeral = ({ commit }) => {
 
 export const salvarAvaliacaoComprovante = (_, params) =>
     avaliacaoResultadosHelperAPI.salvarAvaliacaoComprovante(params);
+
+export const alterarAvaliacaoComprovante = ({ commit }, params) =>
+    commit(types.ALTERAR_DADOS_ITEM_COMPROVACAO, params);
+
+export const alterarPlanilha = ({ commit }, params) =>
+    commit(types.ALTERAR_PLANILHA, params);

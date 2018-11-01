@@ -85,7 +85,7 @@ class AvaliacaoResultados_Model_DbTable_Item extends MinC_Db_Table_Abstract
             'a.idproduto = d.Codigo',
             [
                 new Zend_Db_Expr('ISNULL(d.Codigo,0) AS cdProduto'),
-                new Zend_Db_Expr('ISNULL(d.Descricao,\'Administração do Projeto\') AS Produto'),
+                new Zend_Db_Expr(utf8_decode('ISNULL(d.Descricao,\'Administração do Projeto\') AS Produto')),
             ],
             $this->_schema
         );

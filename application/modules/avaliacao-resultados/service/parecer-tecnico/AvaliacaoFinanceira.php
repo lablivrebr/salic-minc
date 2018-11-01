@@ -16,7 +16,7 @@ class AvaliacaoFinanceira
     private $response;
 
 
-    function __construct(\Zend_Controller_Request_Abstract $request, \Zend_Controller_Response_Abstract $response)
+    function __construct(\Zend_Controller_Request_Abstract $request = null, \Zend_Controller_Response_Abstract $response = null )
     {
         $this->request = $request;
         $this->response = $response;
@@ -108,6 +108,28 @@ class AvaliacaoFinanceira
         $projetos = $tbProjetos->buscarPainelTecPrestacaoDeContas($where)->toArray();
 
         return $projetos;
+    }
+
+    public function salvarParecer(Array $parametros){
+
+        $authInstance = \Zend_Auth::getInstance();
+        $arrAuth = array_change_key_case((array)$authInstance->getIdentity());
+
+        $tbAvaliacaoFinanceira = new \AvaliacaoResultados_Model_tbAvaliacaoFinanceira($parametros);
+        $tbAvaliacaoFinanceira->setDtAvaliacaoFinanceira(date('Y-m-d h:i:s'));
+        $tbAvaliacaoFinanceira->setIdUsuario($arrAuth['usu_codigo']);
+
+        $mapper = new \AvaliacaoResultados_Model_tbAvaliacaoFinanceiraMapper();
+        $codigo = $mapper->save($tbAvaliacaoFinanceira);
+
+        if (!$codigo) {
+            return $mapper->getMessages();
+        }
+
+        return (new \AvaliacaoResultados_Model_DbTable_tbAvaliacaoFinanceira())
+            ->findBy([
+                'idAvaliacaoFinanceira' => $codigo
+            ]);
     }
 }
 

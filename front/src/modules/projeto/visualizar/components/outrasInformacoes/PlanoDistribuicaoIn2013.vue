@@ -215,7 +215,7 @@
             },
             dadosIn2013() {
                 this.loading = false;
-            }
+            },
         },
         computed: {
             ...mapGetters({

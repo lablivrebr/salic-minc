@@ -1,4 +1,5 @@
 <?php
+
 abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
 {
     protected $_msg;
@@ -608,6 +609,22 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
         $arrAuth = array_change_key_case((array)$auth);
         if (!isset($arrAuth['usu_codigo'])) {
             $idUsuarioLogado = $arrAuth['idusuario'];
+            $fnVerificarPermissao = new Autenticacao_Model_FnVerificarPermissao();
+
+            # Verifica Permissao de Proposta
+            if ($idPreProjeto) {
+
+                $msgERRO = 'Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa Proposta!';
+                $idPreProjeto = !empty($this->_request->getParam('idPreProjeto')) ? $this->_request->getParam('idPreProjeto') : $idPreProjeto;
+
+                $permissao = $fnVerificarPermissao->verificarPermissaoProposta($idPreProjeto, $idUsuarioLogado);
+
+                if (!$permissao) {
+                    $tbProjetos = new Projeto_Model_DbTable_Projetos();
+                    $projeto = $tbProjetos->findBy(['idProjeto = ?' => $idPreProjeto]);
+                    $idProjeto = $projeto['IdPRONAC'];
+                }
+            }
 
             #Verifica Permissao de Projeto
             if ($idProjeto) {
@@ -620,20 +637,8 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                     $idPronac = Seguranca::dencrypt($idPronac);
                 }
 
-                $fnVerificarPermissao = new Autenticacao_Model_FnVerificarPermissao();
                 $consulta = $fnVerificarPermissao->verificarPermissaoProjeto($idPronac, $idUsuarioLogado);
-                //print $idPronac . '/' . $idUsuarioLogado;
-                //print_r($consulta);
                 $permissao = $consulta->Permissao;
-            }
-            # Verifica Permissao de Proposta
-            if ($idPreProjeto) {
-
-                $msgERRO = 'Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa Proposta!';
-                $idPreProjeto = !empty($this->_request->getParam('idPreProjeto')) ? $this->_request->getParam('idPreProjeto') : $idPreProjeto;
-
-                $fnVerificarPermissao = new Autenticacao_Model_FnVerificarPermissao();
-                $permissao = $fnVerificarPermissao->verificarPermissaoProposta($idPreProjeto, $idUsuarioLogado);
             }
 
             if ($administrativo) {

@@ -11,7 +11,7 @@
                 <td class="text-xs-right">
                     <v-flex xs12 sm4 text-xs-center>
                         <div>
-                            <v-btn :href="'/projeto/#/incentivo/'+ props.item.idPronac">{{ props.item.PRONAC }}</v-btn>
+                            <v-btn flat :href="'/projeto/#/'+ props.item.idPronac">{{ props.item.PRONAC }}</v-btn>
                         </div>
                     </v-flex>
                 </td>
@@ -37,8 +37,9 @@
                             :id-pronac="props.item.IdPRONAC"
                             :pronac="props.item.PRONAC"
                             :nome-projeto="props.item.NomeProjeto"
-                            :atual = componentes.atual
-                            :proximo = componentes.proximo
+                            :atual="componentes.atual"
+                            :proximo="componentes.proximo"
+                            :idTipoDoAtoAdministrativo="componentes.idTipoDoAtoAdministrativo"
                         ></component>
                     </template>
                 </td>
@@ -55,7 +56,7 @@
                     v-model="pagination.page"
                     :length="pages"
                     :total-visible="4"
-                    color="green lighten-2"
+                    color="primary "
                 ></v-pagination>
             </div>
         </div>
@@ -81,7 +82,11 @@ export default {
                     sortable: false,
                     value: 'numero',
                 },
-                { text: 'PRONAC', value: 'Pronac' },
+                {
+                    text: 'PRONAC',
+                    value: 'Pronac',
+                    align: 'center',
+                },
                 { text: 'Nome Do Projeto',
                     align: 'center',
                     value: 'NomeProjeto' },

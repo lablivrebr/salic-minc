@@ -58,11 +58,14 @@
                     </v-btn>
                 </td>
                 <td class="text-xs-center">
-                    <Devolver :idPronac="props.item.IdPronac"
-                              :atual="estado"
-                              :proximo="proximoEstado()"
-                              :nomeProjeto="props.item.NomeProjeto"
-                              :pronac="props.item.PRONAC"
+                    <Devolver
+                        v-if="usuario"
+                        :idPronac="props.item.IdPronac"
+                        :atual="estado"
+                        :proximo="proximoEstado()"
+                        :nomeProjeto="props.item.NomeProjeto"
+                        :pronac="props.item.PRONAC"
+                        :idTipoDoAtoAdministrativo="atoAdministrativo"
                     >
                     </Devolver>
                 </td>
@@ -124,7 +127,7 @@
 
 <script>
     import ModalTemplate from '@/components/modal';
-    import { mapActions } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
     import Const from '../const';
     import Devolver from './Devolver';
 
@@ -211,11 +214,32 @@
             },
         },
         computed: {
+            ...mapGetters({
+                getUsuario: 'autenticacao/getUsuario',
+            }),
             pages() {
                 if (this.pagination.rowsPerPage == null ||
                     this.pagination.totalItems == null
                 ) return 0;
                 return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
+            },
+            atoAdministrativo() {
+                let ato = Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
+
+                if (
+                    this.usuario &&
+                    (
+                        Const.PERFIL_DIRETOR === this.getUsuario.grupo_ativo
+                        || Const.PERFIL_SECRETARIO === this.getUsuario.grupo_ativo
+                    )
+                ) {
+                    ato = Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
+                }
+
+                return ato;
+            },
+            usuario() {
+                return (this.getUsuario !== undefined && Object.keys(this.getUsuario).length > 0);
             },
         },
         watch: {

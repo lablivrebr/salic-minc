@@ -1,21 +1,24 @@
 <template>
     <v-container fluid>
+        <v-subheader>
+            <h2>{{route.meta.title}}</h2>
+        </v-subheader>
         <v-card>
             <v-tabs
                 centered
-                color="green"
+                color="primary"
                 dark
                 icons-and-text
             >
                 <v-tabs-slider color="deep-orange accent-3"></v-tabs-slider>
-                <v-tab 
+                <v-tab
                     href="#tab-0"
                     v-if="getUsuario.grupo_ativo == 125"
                 >
                     <template v-if="Object.keys(getProjetosParaDistribuir).length == 0">
                         <v-progress-circular
                             indeterminate
-                            color="primary"
+                            color="secondary"
                             dark
                         ></v-progress-circular>
                     </template>
@@ -28,7 +31,7 @@
                     <template v-if="Object.keys(dadosTabelaTecnico).length == 0">
                         <v-progress-circular
                             indeterminate
-                            color="primary"
+                            color="secondary"
                             dark
                         ></v-progress-circular>
                     </template>
@@ -42,13 +45,13 @@
                     <template v-if="Object.keys(getProjetosFinalizados).length == 0">
                         <v-progress-circular
                             indeterminate
-                            color="primary"
+                            color="secondary"
                             dark
                         ></v-progress-circular>
                     </template>
                     <template v-else>
-                         Assinar
-                        <v-icon>done</v-icon>
+                        Assinar
+                        <v-icon>edit</v-icon>
                     </template>
                 </v-tab>
 
@@ -56,7 +59,7 @@
                     <template v-if="Object.keys(getProjetosHistorico).length == 0">
                         <v-progress-circular
                             indeterminate
-                            color="primary"
+                            color="secondary"
                             dark
                         ></v-progress-circular>
                     </template>
@@ -107,14 +110,14 @@
                     <v-card flat>
                         <v-card-text>
                             <TabelaProjetos
-                                v-if="getUsuario.grupo_ativo == 125"
+                                v-if="(getUsuario.grupo_ativo == CONST.PERFIL_COORDENADOR)"
                                 :dados="getProjetosAssinarCoordenador"
                                 :componentes="listaAcoesAssinar"
                             ></TabelaProjetos>
                             <TabelaProjetos
-                                v-else-if="getUsuario.grupo_ativo == 126"
+                                v-else-if="(getUsuario.grupo_ativo == CONST.PERFIL_COORDENADOR_GERAL)"
                                 :dados="getProjetosAssinarCoordenadorGeral"
-                                :componentes="listaAcoesAssinar"
+                                :componentes="listaAcoesAssinarCoordenadorGeral"
                             ></TabelaProjetos>
                             <TabelaProjetos
                                 v-else
@@ -144,6 +147,7 @@
     </v-container>
 </template>
 <script>
+
 import { mapActions, mapGetters } from 'vuex';
 import TabelaProjetos from './TabelaProjetos';
 import Historico from './Historico';
@@ -152,6 +156,7 @@ import AnaliseButton from './analise/analisarButton';
 import AssinarButton from './analise/AssinarButton';
 import Devolver from './Devolver';
 import VisualizarPlanilhaButtton from './analise/VisualizarPlanilhaButtton';
+import CONST from '../const';
 
 export default {
     name: 'Painel',
@@ -163,6 +168,7 @@ export default {
         this.projetosAssinatura({ estado: 'historico' });
 
         this.usuarioLogado();
+        this.CONST = CONST;
     },
     mounted() {
     },
@@ -205,11 +211,26 @@ export default {
     },
     data() {
         return {
-            listaAcoesTecnico: { atual: '', proximo: '', acoes: [Historico, AnaliseButton] },
-            listaAcoesAssinar: { atual: '6', proximo: '5', acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton] },
+            listaAcoesTecnico: {
+                atual: '',
+                proximo: '',
+                acoes: [Historico, AnaliseButton],
+            },
+            listaAcoesAssinar: {
+                atual: CONST.ESTADO_PARECER_FINALIZADO,
+                proximo: CONST.ESTADO_ANALISE_PARECER,
+                acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
+            },
             listaAcoesCoordenador: { atual: '', proximo: '', acoes: [Encaminhar, Historico, VisualizarPlanilhaButtton] },
+            listaAcoesAssinarCoordenadorGeral: {
+                atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
+                proximo: CONST.ESTADO_ANALISE_PARECER,
+                idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
+                acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
+            },
             distribuirAcoes: { atual: '', proximo: '', acoes: [Encaminhar] },
             historicoAcoes: { atual: '', proximo: '', acoes: [Historico, VisualizarPlanilhaButtton] },
+            CONST: '',
         };
     },
     components: {
@@ -238,6 +259,7 @@ export default {
             getProjetosRevisao: 'avaliacaoResultados/getProjetosRevisao',
             getProjetosAssinarCoordenador: 'avaliacaoResultados/getProjetosAssinarCoordenador',
             getProjetosAssinarCoordenadorGeral: 'avaliacaoResultados/getProjetosAssinarCoordenadorGeral',
+            route: 'route',
         }),
     },
 };

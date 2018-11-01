@@ -61,7 +61,7 @@
         watch: {
             dados() {
                 this.loading = false;
-            }
+            },
         },
         computed: {
             ...mapGetters({

@@ -1,18 +1,15 @@
 <template>
     <v-dialog
         v-model="dialog"
-        width="650"
+        width="750"
     >
         <v-tooltip slot="activator" bottom>
-            <v-btn 
+            <v-btn
                 slot="activator"
-                color="green lighten-2"
-                text="white"
                 flat
                 icon
-                light
             >
-                <v-icon class="material-icons">assignment_ind</v-icon>
+                <v-icon >assignment_ind</v-icon>
             </v-btn>
             <span>Encaminhar Projeto</span>
         </v-tooltip>
@@ -22,7 +19,7 @@
                 ref="form"
             >
                 <v-card-title
-                    class="headline green"
+                    class="headline primary"
                     primary-title
                 >
                     <span class="white--text">
@@ -34,7 +31,7 @@
                         <v-subheader>
                             <h4 class="headline mb-0 grey--text text--darken-3">
                                 {{pronac}} - {{nomeProjeto}}
-                            </h4>    
+                            </h4>
                         </v-subheader>
                         <v-divider></v-divider>
                         <v-subheader>
@@ -46,22 +43,18 @@
                             </v-list-tile-action>
                             SEFIC/DEIPC/CGARE
                         </v-list-tile>
-                        <v-list-tile>
-                            <v-list-tile-action>
-                                <v-icon color="green">perm_identity</v-icon>
-                            </v-list-tile-action>
-                            <v-select
-                                v-model="destinatarioEncaminhamento"
-                                height="10px"
-                                solo
-                                single-line
-                                :items="dadosDestinatarios"
-                                label="-- Escolha um técnico  --"
-                                item-text="usu_nome"
-                                item-value="usu_codigo"
-                                :rules="[rules.required]"
-                            ></v-select>
-                        </v-list-tile>
+                        <v-select
+                            v-model="destinatarioEncaminhamento"
+                            height="10px"
+                            solo
+                            single-line
+                            :items="dadosDestinatarios"
+                            label="-- Escolha um técnico  --"
+                            item-text="usu_nome"
+                            item-value="usu_codigo"
+                            :rules="[rules.required]"
+                            prepend-icon="perm_identity"
+                        ></v-select>
                         <v-textarea
                             v-model="justificativa"
                             ref="justificativa"
@@ -160,7 +153,6 @@ export default {
 
             this.projetosFinalizados({ estadoid: 6 });
             this.obterDadosTabelaTecnico({ estadoid: 5 });
-            //this.distribuir();
         },
     },
 };

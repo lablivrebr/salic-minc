@@ -36,12 +36,12 @@
             Planilha,
         },
         mounted() {
-            this.buscaPlanilhaAdequada(this.dadosProjeto.idPreProjeto);
+            this.buscaPlanilhaAdequada(this.dadosProjeto.idPronac);
         },
         watch: {
             dadosProjeto(value) {
                 if (typeof value !== 'undefined') {
-                    this.buscaPlanilhaAdequada(value.idPreProjeto);
+                    this.buscaPlanilhaAdequada(value.idPronac);
                 }
             },
             planilha() {

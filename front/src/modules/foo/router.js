@@ -1,12 +1,8 @@
-import Vue from 'vue';
-import Router from 'vue-router';
 import ListBar from './components/ListBar';
 
-Vue.use(Router);
-
-const routes = [
+export default [
     {
-        path: '/',
+        path: '/foo',
         name: 'ListBar',
         component: ListBar,
         meta: {
@@ -14,5 +10,3 @@ const routes = [
         },
     },
 ];
-
-export default new Router({ routes });

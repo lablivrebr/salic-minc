@@ -1,5 +1,5 @@
 <template>
-    <v-btn flat icon color="green" :to="{ name: 'VisualizarPlanilha', params:{ id: idPronac }}">
+    <v-btn flat icon :to="{ name: 'VisualizarPlanilha', params:{ id: idPronac }}">
         <v-tooltip bottom>
             <v-icon 
                 slot="activator" 

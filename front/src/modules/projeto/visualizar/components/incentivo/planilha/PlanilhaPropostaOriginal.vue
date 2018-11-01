@@ -27,11 +27,11 @@
             Planilha,
         },
         mounted() {
-            this.buscaPlanilhaOriginal(this.dadosProjeto.idPreProjeto);
+            this.buscaPlanilhaOriginal(this.dadosProjeto.idPronac);
         },
         watch: {
             dadosProjeto(value) {
-                this.buscaPlanilhaOriginal(value.idPreProjeto);
+                this.buscaPlanilhaOriginal(value.idPronac);
             },
             planilha() {
                 this.loading = false;

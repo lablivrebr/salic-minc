@@ -31,12 +31,12 @@
             PlanilhaItensAutorizados,
         },
         mounted() {
-            this.buscaPlanilhaAutorizada(this.dadosProjeto.idPreProjeto);
+            this.buscaPlanilhaAutorizada(this.dadosProjeto.idPronac);
         },
         watch: {
             dadosProjeto(value) {
                 if (typeof value !== 'undefined') {
-                    this.buscaPlanilhaAutorizada(value.idPreProjeto);
+                    this.buscaPlanilhaAutorizada(value.idPronac);
                 }
             },
             planilha() {

@@ -389,12 +389,7 @@ class Proposta_VisualizarController extends Proposta_GenericController
             }
 
             $preProjetoMapper = new Proposta_Model_PreProjetoMapper();
-            $planilha = $preProjetoMapper->obterPlanilhaPropostaCongelada($idPreProjeto);
-
-            if (empty($planilha)) {
-                $preProjetoMapper = new Proposta_Model_PreProjetoMapper();
-                $planilha = $preProjetoMapper->obterPlanilhaPropostaAtual($idPreProjeto);
-            }
+            $planilha = $preProjetoMapper->obterPlanilhaOriginal($idPreProjeto);
 
             if (empty($planilha)) {
                 throw new Exception("Nenhuma planilha encontrada... ;(");
@@ -421,19 +416,8 @@ class Proposta_VisualizarController extends Proposta_GenericController
                 throw new Exception("N&uacute;mero da proposta &eacute; obrigat&oacute;rio");
             }
 
-            $dbTableProjetos = new Projeto_Model_DbTable_Projetos();
-            $projeto = $dbTableProjetos->findBy(array(
-                'idProjeto' => $idPreProjeto
-            ));
-
-            $tbAvaliacao = new Analise_Model_DbTable_TbAvaliarAdequacaoProjeto();
-            $avaliacao = $tbAvaliacao->buscarUltimaAvaliacao($projeto->IdPRONAC);
-
-            $planilha = [];
-            if (!empty($avaliacao)) {
-                $preProjetoMapper = new Proposta_Model_PreProjetoMapper();
-                $planilha = $preProjetoMapper->obterPlanilhaPropostaAtual($idPreProjeto);
-            }
+            $preProjetoMapper = new Proposta_Model_PreProjetoMapper();
+            $planilha = $preProjetoMapper->obterPlanilhaAdequacao($idPreProjeto);
 
             if (empty($planilha)) {
                 throw new Exception("Nenhuma planilha encontrada... ;(");
@@ -444,7 +428,6 @@ class Proposta_VisualizarController extends Proposta_GenericController
             $this->getResponse()
                 ->setHttpResponseCode(412);
             $this->_helper->json(array('data' => [], 'success' => 'false', 'msg' => $e->getMessage()));
-
         }
     }
 }

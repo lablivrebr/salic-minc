@@ -199,7 +199,7 @@ class Proposta_Model_PreProjetoMapper extends MinC_Db_Mapper
             $row['JustProponente'] = $item['dsJustificativa'];
             $row['stCustoPraticado'] = $item['stCustoPraticado'];
 
-            $planilha[$fonte]['total'] +=  $row["vlSolicitado"];
+            $planilha[$fonte]['total'] += $row["vlSolicitado"];
             $planilha[$fonte][$produto]['total'] += $row["vlSolicitado"];
             $planilha[$fonte][$produto][$etapa]['total'] += $row["vlSolicitado"];
             $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $row["vlSolicitado"];
@@ -274,11 +274,12 @@ class Proposta_Model_PreProjetoMapper extends MinC_Db_Mapper
             }
         }
         $arrSoma['vlTotalPropostaOriginal'] = $arrSoma['vlSolicitadoOriginal'] + $arrSoma['vlOutrasFontesPropostaOriginal'];
-        
+
         return $arrSoma;
     }
 
-    public function obterPlanilhaPropostaAtual($idPreProjeto) {
+    public function obterPlanilhaPropostaAtual($idPreProjeto)
+    {
 
         if (empty($idPreProjeto)) {
             return false;
@@ -297,4 +298,49 @@ class Proposta_Model_PreProjetoMapper extends MinC_Db_Mapper
         return $planilha;
     }
 
+    public function obterPlanilhaAdequacao($idPreProjeto, $idPronac = null)
+    {
+
+        if (empty($idPreProjeto)) {
+            return false;
+        }
+
+        if (empty($idPronac)) {
+            $dbTableProjetos = new Projeto_Model_DbTable_Projetos();
+            $projeto = $dbTableProjetos->findBy(array(
+                'idProjeto' => $idPreProjeto
+            ));
+
+            $idPronac = $projeto->IdPRONAC;
+        }
+
+
+        $tbAvaliacao = new Analise_Model_DbTable_TbAvaliarAdequacaoProjeto();
+        $avaliacao = $tbAvaliacao->buscarUltimaAvaliacao($idPronac);
+
+        $planilha = [];
+        if (!empty($avaliacao)) {
+            $preProjetoMapper = new Proposta_Model_PreProjetoMapper();
+            $planilha = $preProjetoMapper->obterPlanilhaPropostaAtual($idPreProjeto);
+        }
+
+        return $planilha;
+    }
+
+    public function obterPlanilhaOriginal($idPreProjeto)
+    {
+        if (empty($idPreProjeto)) {
+            return false;
+        }
+
+        $preProjetoMapper = new Proposta_Model_PreProjetoMapper();
+        $planilha = $preProjetoMapper->obterPlanilhaPropostaCongelada($idPreProjeto);
+
+        if (empty($planilha)) {
+            $preProjetoMapper = new Proposta_Model_PreProjetoMapper();
+            $planilha = $preProjetoMapper->obterPlanilhaPropostaAtual($idPreProjeto);
+        }
+
+        return $planilha;
+    }
 }

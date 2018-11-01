@@ -75,7 +75,7 @@
             },
             documentosAnexados() {
                 this.loading = false;
-            }
+            },
         },
         computed: {
             ...mapGetters({

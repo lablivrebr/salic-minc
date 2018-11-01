@@ -151,7 +151,6 @@
         },
         methods: {
             detalhamentosByID(lista, id) {
-
                 if (typeof lista !== 'undefined') {
                     /* eslint-disable */
                     let novaLista = [];

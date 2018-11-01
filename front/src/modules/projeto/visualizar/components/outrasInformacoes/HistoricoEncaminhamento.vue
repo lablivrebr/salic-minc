@@ -71,7 +71,7 @@
         watch: {
             dados() {
                 this.loading = false;
-            }
+            },
         },
         methods: {
             ...mapActions({

@@ -41,36 +41,40 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
 
-    export default {
-        name: 'Devolver',
-        data() {
-            return {
-                dialog: false,
+import { mapActions } from 'vuex';
+
+export default {
+    name: 'Devolver',
+    data() {
+        return {
+            dialog: false,
+        };
+    },
+    props: [
+        'idPronac',
+        'atual',
+        'proximo',
+        'nomeProjeto',
+        'pronac',
+        'idTipoDoAtoAdministrativo',
+    ],
+    methods: {
+        ...mapActions({
+            setDevolverProjeto: 'avaliacaoResultados/devolverProjeto',
+        }),
+        devolver() {
+            this.dialog = false;
+
+            const dados = {
+                idPronac: this.idPronac,
+                atual: this.atual,
+                proximo: this.proximo,
+                idTipoDoAtoAdministrativo: this.idTipoDoAtoAdministrativo,
             };
+
+            this.setDevolverProjeto(dados);
         },
-        props:[
-            'idPronac',
-            'atual',
-            'proximo',
-            'nomeProjeto',
-            'pronac',
-        ],
-        methods: {
-            ...mapActions({
-                setDevolverProjeto: 'avaliacaoResultados/devolverProjeto',
-            }),
-            devolver() {
-                this.dialog = false;
-                this.setDevolverProjeto(
-                    {
-                        idPronac: this.idPronac,
-                        atual: this.atual,
-                        proximo: this.proximo,
-                        idTipoDoAtoAdministrativo: 622,
-                    });
-            },
-        },
-    };
+    },
+};
 </script>

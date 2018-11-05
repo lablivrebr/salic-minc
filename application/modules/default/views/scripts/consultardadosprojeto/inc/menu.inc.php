@@ -351,13 +351,13 @@
                         <div class="sanfonaDiv" style="width: 90%; margin-left: 20px;">
                             <?php if ($this->fnLiberarLinks['RelatorioTrimestral']) {
                     ?>
-                            <a style="margin-left: 10px;" href="<?php echo $this->url(array('module' => 'default', 'controller' => 'comprovarexecucaofisica', 'action' => 'relatoriotrimestral', 'idpronac' => Seguranca::encrypt($this->idPronac)), '', true); ?>">Relat&oacute;rio Trimestral</a>
+                            <a style="margin-left: 10px;" href="<?php echo $this->url(array('module' => 'execucao-fisica', 'controller' => 'comprovarexecucaofisica', 'action' => 'relatoriotrimestral', 'idpronac' => Seguranca::encrypt($this->idPronac)), '', true); ?>">Relat&oacute;rio Trimestral</a>
                             <?php
                 } ?>
 
                             <?php if ($this->fnLiberarLinks['RelatorioFinal']) {
                     ?>
-                            <a style="margin-left: 10px;" href="<?php echo $this->url(array('module' => 'default', 'controller' => 'comprovarexecucaofisica', 'action' => 'etapas-de-trabalho-final', 'idpronac' => Seguranca::encrypt($this->idPronac)), '', true); ?>">Comprovar Realiza&ccedil;&atilde;o do Objeto</a>
+                            <a style="margin-left: 10px;" href="<?php echo $this->url(array('module' => 'execucao-fisica', 'controller' => 'comprovarexecucaofisica', 'action' => 'etapas-de-trabalho-final', 'idpronac' => Seguranca::encrypt($this->idPronac)), '', true); ?>">Comprovar Realiza&ccedil;&atilde;o do Objeto</a>
                             <?php
                 } ?>
                         </div>

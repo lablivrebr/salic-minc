@@ -641,13 +641,13 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
             'title' => 'Ir para Analisar Projeto Parecer',
             'label' => 'Analisar Comprova&ccedil;&atilde;o do Objeto',
             'grupo' => [138],
-            'url' => ['module' => 'default', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index'],
+            'url' => ['module' => 'execucao-fisica', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index'],
         ];
         $arrMenu['acompanhamento']['menu'][] = [
             'title' => 'Ir para Analisar Projeto Parecer',
             'label' => 'Analisar Comprova&ccedil;&atilde;o do Objeto',
             'grupo' => [139, 148, 151],
-            'url' => ['module' => 'default', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index-tecnico'],
+            'url' => ['module' => 'execucao-fisica', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index-tecnico'],
         ];
         $arrMenu['acompanhamento']['menu'][] = [
             'title' => 'Ir para Pagamento de parecerista',

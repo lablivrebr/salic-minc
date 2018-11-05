@@ -169,7 +169,7 @@ class AnalisarexecucaofisicatecnicoController extends MinC_Controller_Action_Abs
         $DadosProjeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idpronac))->current();
         $this->view->DadosProjeto = $DadosProjeto;
 
-        $tbComprovante = new tbComprovanteTrimestral();
+        $tbComprovante = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
         $dadosParecer = $tbComprovante->buscarComprovantes(array('IdPRONAC=?'=>$idpronac,'nrComprovanteTrimestral=?'=>$idrelatorio,'idTecnicoAvaliador=?'=>$idusuario));
         $this->view->DadosParecer = $dadosParecer;
     }
@@ -203,7 +203,7 @@ class AnalisarexecucaofisicatecnicoController extends MinC_Controller_Action_Abs
             parent::message('Relat&oacute;rio n&atilde;o encontrado!', "analisarexecucaofisicatecnico", "ALERT");
         }
 
-        $tbComprovanteTrimestral = new tbComprovanteTrimestral();
+        $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
         $DadosRel = $tbComprovanteTrimestral->buscarComprovantes(array('idPronac=?'=>$idpronac,'nrComprovanteTrimestral=?'=>$idrelatorio,'siComprovanteTrimestral in (?)'=>array(3,4)));
         $this->view->DadosRelatorio = $DadosRel;
         $this->view->idPronac = $idpronac;
@@ -495,7 +495,7 @@ class AnalisarexecucaofisicatecnicoController extends MinC_Controller_Action_Abs
             parent::message('Relat&oacute;rio n&atilde;o encontrado!', "analisarexecucaofisicatecnico", "ALERT");
         }
 
-        $tbComprovante = new tbComprovanteTrimestral();
+        $tbComprovante = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
         $dadosRel = $tbComprovante->buscarComprovantes(array('IdPRONAC=?'=>$idpronac,'nrComprovanteTrimestral=?'=>$DadosRelatorio[0]->nrComprovanteTrimestral,'idTecnicoAvaliador=?'=>$idusuario));
         
         $siComprovante = 4;
@@ -540,7 +540,7 @@ class AnalisarexecucaofisicatecnicoController extends MinC_Controller_Action_Abs
         $dados['siComprovanteTrimestral'] = 2;
         $where = "IdPRONAC = $idPronac AND nrComprovanteTrimestral = $nrRelatorio AND idTecnicoAvaliador = $idusuario";
 
-        $tbComprovanteTrimestral = new tbComprovanteTrimestral();
+        $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
         $return = $tbComprovanteTrimestral->update($dados, $where);
 
         if ($return) {

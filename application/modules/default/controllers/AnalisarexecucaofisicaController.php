@@ -259,7 +259,7 @@ class AnalisarexecucaofisicaController extends MinC_Controller_Action_Abstract
         $dados['siComprovanteTrimestral'] = 3;
         $where = "IdPRONAC = $idPronac AND nrComprovanteTrimestral = $nrRelatorio";
 
-        $tbComprovanteTrimestral = new tbComprovanteTrimestral();
+        $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
         $return = $tbComprovanteTrimestral->update($dados, $where);
 
         if ($return) {
@@ -283,7 +283,7 @@ class AnalisarexecucaofisicaController extends MinC_Controller_Action_Abstract
         $DadosProjeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idpronac))->current();
         $this->view->DadosProjeto = $DadosProjeto;
 
-        $tbComprovanteTrimestral = new tbComprovanteTrimestral();
+        $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
         $DadosRelatorio = $tbComprovanteTrimestral->buscarComprovantes(array('IdPRONAC = ?' => $idpronac, 'nrComprovanteTrimestral=?'=>$nrrelatorio, 'siComprovanteTrimestral in (?)'=>array(2,5)));
         $this->view->DadosRelatorio = $DadosRelatorio;
         if (count($DadosRelatorio)==0) {
@@ -327,7 +327,7 @@ class AnalisarexecucaofisicaController extends MinC_Controller_Action_Abstract
         $dados['siComprovanteTrimestral'] = 6;
         $where = "IdPRONAC = $idPronac AND nrComprovanteTrimestral = $nrRelatorio";
 
-        $tbComprovanteTrimestral = new tbComprovanteTrimestral();
+        $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
         $return = $tbComprovanteTrimestral->update($dados, $where);
 
         if ($return) {
@@ -351,7 +351,7 @@ class AnalisarexecucaofisicaController extends MinC_Controller_Action_Abstract
         $DadosProjeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idpronac))->current();
         $this->view->DadosProjeto = $DadosProjeto;
 
-        $tbComprovanteTrimestral = new tbComprovanteTrimestral();
+        $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
         $DadosRelatorio = $tbComprovanteTrimestral->buscarComprovantes(array('IdPRONAC = ?' => $idpronac, 'nrComprovanteTrimestral=?'=>$nrrelatorio, 'siComprovanteTrimestral in (?)'=>array(2,5)));
         $this->view->DadosRelatorio = $DadosRelatorio;
         if (count($DadosRelatorio)==0) {

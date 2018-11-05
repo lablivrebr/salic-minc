@@ -69,7 +69,7 @@ class Readequacao_RemanejamentoMenorControllerTest extends MinC_Test_ControllerA
         $result = $projetos->fetchAll($select);
         
         $Readequacao_Model_DbTable_TbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
-        $tbCumprimentoObjeto = new tbCumprimentoObjeto();
+        $tbCumprimentoObjeto = new ExecucaoFisica_Model_DbTable_TbCumprimentoObjeto();
         foreach ($result as $item) {
             
             $existeReadequacaoEmAndamento = $Readequacao_Model_DbTable_TbReadequacao->existeReadequacaoEmAndamento($item->idPronac);

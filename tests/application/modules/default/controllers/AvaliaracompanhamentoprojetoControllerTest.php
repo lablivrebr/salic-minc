@@ -26,7 +26,7 @@ class AvaliaracompanhamentoprojetoControllerTest extends MinC_Test_ControllerAct
     }
     public function testindexAction()
     {
-        $this->dispatch('/avaliaracompanhamentoprojeto?idPronac=' . $this->idPronac);
-        $this->assertUrl('default', 'avaliaracompanhamentoprojeto', 'index');
+        $this->dispatch('/execucao-fisica/avaliaracompanhamentoprojeto?idPronac=' . $this->idPronac);
+        $this->assertUrl('execucao-fisica', 'avaliaracompanhamentoprojeto', 'index');
     }
 }

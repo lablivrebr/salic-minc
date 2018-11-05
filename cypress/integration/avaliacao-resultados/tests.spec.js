@@ -15,7 +15,7 @@ describe('Testes da Análise de Resultados', function() {
       // cy.route('/avaliacao-resultados/fluxo-projeto?estadoid=5&idAgente=236', 'fixtures:avaliacao-resultados/projetos.json');
 
       cy.get('ul li a.dropdown-button').contains('Avaliação de Resultados').click()
-        .get('#prestacao-contas li a').contains('Analisar Prestação de Contas (Nova)').click();
+        .get('#prestacao-contas li a').contains('Analisar Parecer (Nova)').click();
     
       cy.wait(4000);
   

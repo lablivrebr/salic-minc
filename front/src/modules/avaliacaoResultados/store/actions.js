@@ -11,17 +11,6 @@ export const dadosMenu = ({ commit }) => {
         });
 };
 
-export const setRegistroAtivo = ({ commit }, registro) => {
-    commit(types.SET_REGISTRO_ATIVO, registro);
-};
-
-export const removerRegistro = ({ commit }, registro) => {
-    avaliacaoResultadosHelperAPI.removerRegistro(registro)
-        .then(() => {
-            commit(types.REMOVER_REGISTRO, registro);
-        });
-};
-
 export const getDadosEmissaoParecer = ({ commit }, param) => {
     const p = new Promise((resolve) => {
         avaliacaoResultadosHelperAPI.parecerConsolidacao(param)
@@ -111,6 +100,7 @@ export const redirectLinkAvaliacaoResultadoTipo = ({ commit }, params) => {
 };
 
 export const planilha = ({ commit }, params) => {
+    commit(types.GET_PLANILHA, {});
     avaliacaoResultadosHelperAPI.planilha(params)
         .then((response) => {
             const planilha = response.data;

@@ -141,7 +141,6 @@
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
-
             </v-tabs>
         </v-card>
     </v-container>
@@ -149,14 +148,14 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex';
-import TabelaProjetos from './TabelaProjetos';
-import Historico from './Historico';
-import Encaminhar from './ComponenteEncaminhar';
-import AnaliseButton from './analise/analisarButton';
-import AssinarButton from './analise/AssinarButton';
-import Devolver from './Devolver';
-import VisualizarPlanilhaButtton from './analise/VisualizarPlanilhaButtton';
-import CONST from '../const';
+import CONST from '../../const';
+import TabelaProjetos from '../TabelaProjetos';
+import Historico from '../components/Historico';
+import Encaminhar from '../ComponenteEncaminhar';
+import AnaliseButton from '../analise/analisarButton';
+import AssinarButton from '../analise/AssinarButton';
+import Devolver from '../components/Devolver';
+import VisualizarPlanilhaButtton from '../analise/VisualizarPlanilhaButtton';
 
 export default {
     name: 'Painel',
@@ -169,8 +168,6 @@ export default {
 
         this.usuarioLogado();
         this.CONST = CONST;
-    },
-    mounted() {
     },
     watch: {
         getUsuario(val) {

@@ -162,7 +162,7 @@
     import { mapActions, mapGetters } from 'vuex';
     import ModalDetalheItens from './ModalDetalheItens';
     import ConsolidacaoAnalise from './ConsolidacaoAnalise';
-    import AnalisarItem from './AnalisarItem';
+    import AnalisarItem from '../ParecerTecnico/AnalisarItem';
 
     export default {
         name: 'Painel',

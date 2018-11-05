@@ -1,17 +1,15 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import ComponenteEncaminhar from './components/ComponenteEncaminhar';
-import EmitirParecer from './components/EmitirParecer';
-import Painel from './components/Painel';
+import EmitirParecer from './components/ParecerTecnico/EmitirParecer';
+import Painel from './components/ParecerTecnico/Painel';
 import TipoAvaliacao from './components/TipoAvaliacao';
-import Planilha from './components/Planilha';
-import VisualizarPlanilha from './components/VisualizarPlanilha';
-import AnaliseComprovantes from './components/AnaliseComprovantes';
-import Diligenciar from './components/Diligenciar';
-import Historico from './components/Historico';
+import Planilha from './components/ParecerTecnico/Planilha';
+import VisualizarPlanilha from './components/components/VisualizarPlanilha';
+import AnaliseComprovantes from './components/ParecerTecnico/AnaliseComprovantes';
+import Diligenciar from './components/ParecerTecnico/Diligenciar';
 import EmitirLaudoFinal from './components/EmitirLaudoFinal';
-import Laudo from './components/PainelLaudo';
-import AnalisarItem from './components/AnalisarItem';
+import Laudo from './components/LaudoFinal/PainelLaudo';
+import AnalisarItem from './components/ParecerTecnico/AnalisarItem';
 import VisualizarParecer from './components/VisualizarParecer';
 import VisualizarLaudo from './components/VisualizarLaudo';
 
@@ -19,24 +17,8 @@ Vue.use(Router);
 
 const routes = [
     {
-        path: '/componente-encaminhar',
-        name: 'ListBar',
-        component: ComponenteEncaminhar,
-        meta: {
-            title: 'Principal',
-        },
-    },
-    {
         path: '/emitir-parecer/:id',
         name: 'EmitirEditar',
-        component: EmitirParecer,
-        meta: {
-            title: 'Principal',
-        },
-    },
-    {
-        path: '/emitir-parecer',
-        name: 'Emitir',
         component: EmitirParecer,
         meta: {
             title: 'Principal',
@@ -80,14 +62,6 @@ const routes = [
         component: Diligenciar,
         meta: {
             title: 'Dilengiar o proponente',
-        },
-    },
-    {
-        path: '/historico',
-        name: 'historico',
-        component: Historico,
-        meta: {
-            title: 'Historico dos encaminhamentos',
         },
     },
     {

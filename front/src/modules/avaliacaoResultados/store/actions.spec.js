@@ -7,10 +7,41 @@ jest.mock('axios');
 describe('Testes Actions - Avaliação de Resultados', () => {
     let commit;
     let mockReponse;
-    let projeto;
     let params;
     let tecnico;
-    let historicoProjeto;
+
+    describe('dadosMenu', () => {
+        beforeEach(() => {
+            mockReponse = {
+                data: [
+                    {
+                        "analise": {
+                            "id": "analise",
+                            "label": "Análise",
+                            "title": "Ir para Análise"
+                        }
+                    }
+                ],
+            };
+
+            axios.get.mockResolvedValue(mockReponse);
+
+            commit = jest.fn();
+
+            jest.spyOn(API, 'dadosMenu');
+            actions.dadosMenu({ commit });
+
+        });
+
+        test('it is commit to projetosParaDistribuir', (done) => {
+            done();
+            expect(commit).toHaveBeenCalledWith('SET_REGISTROS_TABELA', mockReponse.data.data);
+        });
+
+        test('it calls API.projetosRevisao', () => {
+            expect(API.dadosMenu).toHaveBeenCalled();
+        });
+    });
 
     describe('projetosParaDistribuir - Aba "Encaminhar" ', () => {
         beforeEach(() => {
@@ -37,22 +68,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             jest.spyOn(API, 'obterProjetosParaDistribuir');
             actions.projetosParaDistribuir({ commit });
 
-            projeto = [{
-                "Pronac": "1410398",
-                "PRONAC": "1410398",
-                "NomeProjeto": "Porto Verão Alegre 2015",
-                "cdSituacao": "E68",
-                "Situacao": "E68",
-                "UfProjeto": "RS",
-                "IdPRONAC": "185373",
-                "Prioridade": "0",
-                "idPronac": "185373"
-            }];
         });
 
         test('it is commit to projetosParaDistribuir', (done) => {
             done();
-            expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_PARA_DISTRIBUIR', projeto);
+            expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_PARA_DISTRIBUIR', mockReponse.data);
         });
 
         test('it calls API.projetosRevisao', () => {
@@ -89,19 +109,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             jest.spyOn(API, 'obterDadosTabelaTecnico');
             actions.obterDadosTabelaTecnico({ commit }, params);
 
-            projeto = [{
-                NomeProjeto: 'Manutenção das atividades da Orquestra Sinfônica Jovem de Nova Mutum',
-                Situacao: 'E27',
-                UfProjeto: 'MT',
-                PRONAC: '456789',
-                idPronac: '168213',
-                usu_nome: 'Rômulo Menhô Barbosa'
-            }];
         });
 
         test('it is commit to obterDadosTabelaTecnico', (done) => {
             done();
-            expect(commit).toHaveBeenCalledWith('PROJETOS_AVALIACAO_TECNICA', projeto);
+            expect(commit).toHaveBeenCalledWith('PROJETOS_AVALIACAO_TECNICA', mockReponse.data.data);
         });
 
         test('it calls API.obterDadosTabelaTecnico', () => {
@@ -138,19 +150,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             jest.spyOn(API, 'projetosRevisao');
             actions.projetosFinalizados({ commit }, params);
 
-            projeto = [{
-                NomeProjeto: 'Manutenção das atividades da Orquestra Sinfônica Jovem de Nova Mutum',
-                Situacao: 'E27',
-                UfProjeto: 'MT',
-                PRONAC: '456789',
-                idPronac: '168213',
-                usu_nome: 'Rômulo Menhô Barbosa'
-            }];
         });
 
         test('it is commit to projetosFinalizados', (done) => {
             done();
-            expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_FINALIZADOS', projeto);
+            expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_FINALIZADOS', mockReponse.data.data);
         });
 
         test('it calls API.projetosRevisao', () => {
@@ -184,19 +188,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             jest.spyOn(API, 'obterProjetosAssinatura');
             actions.projetosAssinatura({ commit }, params);
 
-            projeto = [{
-                NomeProjeto: 'Manutenção das atividades da Orquestra Sinfônica Jovem de Nova Mutum',
-                Situacao: 'E27',
-                UfProjeto: 'MT',
-                PRONAC: '456789',
-                idPronac: '168213',
-                usu_nome: 'Rômulo Menhô Barbosa'
-            }];
         });
 
         test('it is commit to projetosFinalizados', (done) => {
             done();
-            expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_HISTORICO', projeto);
+            expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_HISTORICO', mockReponse.data.data);
         });
 
         test('it calls API.projetosRevisao', () => {
@@ -260,19 +256,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             jest.spyOn(API, 'obterHistoricoEncaminhamento');
             actions.obterHistoricoEncaminhamento({ commit }, params);
 
-            historicoProjeto = [{
-                "PRONAC": "138419",
-                "NomeProjeto": "Manutenção das atividades da Orquestra Sinfônica Jovem de Nova Mutum",
-                "dtInicioEncaminhamento": "10/15/2018",
-                "dsJustificativa": "Justificando",
-                "NomeOrigem": "Rômulo Menhô Barbosa",
-                "NomeDestino": "Rômulo Menhô Barbosa"
-            }];
         });
 
         test('it is commit to projetosFinalizados', (done) => {
             done();
-            expect(commit).toHaveBeenCalledWith('HISTORICO_ENCAMINHAMENTO', historicoProjeto.items);
+            expect(commit).toHaveBeenCalledWith('HISTORICO_ENCAMINHAMENTO', mockReponse.items);
         });
 
         test('it calls API.obterDestinatarios', () => {

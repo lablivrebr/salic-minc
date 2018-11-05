@@ -242,94 +242,91 @@
         </v-speed-dial>
      </v-container>
 </template>
-
 <script>
-    import { mapActions, mapGetters } from 'vuex';
-    import ModalTemplate from '@/components/modal';
-    import ConsolidacaoAnalise from './ConsolidacaoAnalise';
-    import AnalisarItem from './AnalisarItem';
+import { mapActions, mapGetters } from 'vuex';
+import ConsolidacaoAnalise from '../components/ConsolidacaoAnalise';
+import AnalisarItem from './AnalisarItem';
 
-    export default {
-        name: 'Painel',
-        data() {
-            return {
-                headers: [
-                    { text: 'Item de Custo', value: 'item', sortable: false },
-                    { text: 'Valor Aprovado', value: 'varlorAprovado', sortable: false },
-                    { text: 'Valor Comprovado', value: 'varlorComprovado', sortable: false },
-                    { text: 'Valor a Comprovar', value: 'valorAComprovar', sortable: false },
-                    { text: '', value: 'comprovarItem', sortable: false },
-                ],
-                tabs: {
-                    1: 'AVALIADO',
-                    3: 'IMPUGNADOS',
-                    4: 'AGUARDANDO ANÁLISE',
-                    todos: 'TODOS',
-                },
-                fab: false,
-                idPronac: this.$route.params.id,
-            };
+export default {
+    name: 'Planilha',
+    data() {
+        return {
+            headers: [
+                { text: 'Item de Custo', value: 'item', sortable: false },
+                { text: 'Valor Aprovado', value: 'varlorAprovado', sortable: false },
+                { text: 'Valor Comprovado', value: 'varlorComprovado', sortable: false },
+                { text: 'Valor a Comprovar', value: 'valorAComprovar', sortable: false },
+                { text: '', value: 'comprovarItem', sortable: false },
+            ],
+            tabs: {
+                1: 'AVALIADO',
+                3: 'IMPUGNADOS',
+                4: 'AGUARDANDO ANÁLISE',
+                todos: 'TODOS',
+            },
+            fab: false,
+            idPronac: this.$route.params.id,
+        };
+    },
+    computed: {
+        ...mapGetters({
+            getPlanilha: 'avaliacaoResultados/planilha',
+            getProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
+        }),
+        dadosProjeto() {
+            return this.getProjetoAnalise.data;
         },
-        computed: {
-            ...mapGetters({
-                getPlanilha: 'avaliacaoResultados/planilha',
-                getProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
-            }),
-            dadosProjeto() {
-                return this.getProjetoAnalise.data;
-            },
-            documento() {
-                let documento = this.getProjetoAnalise.data.items.documento;
-                documento = documento !== null ? this.getProjetoAnalise.data.items.documento : 0;
-                return documento;
-            },
-            estado() {
-                let estado = this.getProjetoAnalise.data.items.estado;
-                estado = (estado !== null) ? this.getProjetoAnalise.data.items.estado : 0;
-                return estado;
-            },
-            planilha() {
-                let planilha = this.getPlanilha;
-                planilha = (planilha !== null && Object.keys(planilha).length) ? this.getPlanilha : 0;
-                return planilha;
-            },
+        documento() {
+            let documento = this.getProjetoAnalise.data.items.documento;
+            documento = documento !== null ? this.getProjetoAnalise.data.items.documento : 0;
+            return documento;
         },
-        mounted() {
-            this.setPlanilha(this.idPronac);
-            this.setProjetoAnalise(this.idPronac);
+        estado() {
+            let estado = this.getProjetoAnalise.data.items.estado;
+            estado = (estado !== null) ? this.getProjetoAnalise.data.items.estado : 0;
+            return estado;
         },
-        components: {
-            ModalTemplate,
-            ConsolidacaoAnalise,
-            AnalisarItem,
+        planilha() {
+            let planilha = this.getPlanilha;
+            planilha = (planilha !== null && Object.keys(planilha).length) ? this.getPlanilha : 0;
+            return planilha;
         },
-        methods: {
-            ...mapActions({
-                setPlanilha: 'avaliacaoResultados/planilha',
-                setProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
-            }),
-            moeda: (moedaString) => {
-                const moeda = Number(moedaString);
-                return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-            },
-            podeEditar(varlorComprovado) {
-                if (varlorComprovado !== 0
-                    && !this.dadosProjeto.items.diligencia
-                    && this.documento.length === 0
-                ) {
-                    return true;
-                }
+    },
+    mounted() {
+        this.setPlanilha(this.idPronac);
+        this.setProjetoAnalise(this.idPronac);
+    },
+    components: {
+        ConsolidacaoAnalise,
+        AnalisarItem,
+    },
+    methods: {
+        ...mapActions({
+            setPlanilha: 'avaliacaoResultados/planilha',
+            setProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
+        }),
+        moeda: (moedaString) => {
+            const moeda = Number(moedaString);
+            return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        },
+        podeEditar(varlorComprovado) {
+            if (varlorComprovado !== 0
+                && !this.dadosProjeto.items.diligencia
+                && this.documento.length === 0
+            ) {
+                return true;
+            }
 
-                return false;
-            },
-            expandir(obj) {
-                const arr = [];
-                const items = Object.keys(obj).length;
-                for (let i = 0; i < items; i += 1) {
-                    arr.push(true);
-                }
-                return arr;
-            },
+            return false;
         },
-    };
+        expandir(obj) {
+            const arr = [];
+            const items = Object.keys(obj).length;
+            for (let i = 0; i < items; i += 1) {
+                arr.push(true);
+            }
+            return arr;
+        },
+    },
+};
 </script>

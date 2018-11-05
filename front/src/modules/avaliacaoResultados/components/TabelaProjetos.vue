@@ -1,10 +1,21 @@
 <template>
     <div>
+        <v-card-title>
+            <v-spacer></v-spacer>
+            <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Pesquisar"
+                single-line
+                hide-details
+                ></v-text-field>
+        </v-card-title>
         <v-data-table
             :headers="cab()"
             :items="dados.items"
             :pagination.sync="pagination"
             hide-actions
+            :search="search"
         >
             <template slot="items" slot-scope="props">
                 <td>{{ props.index+1 }}</td>
@@ -19,16 +30,6 @@
                 <td class="text-xs-center">{{ props.item.Situacao }}</td>
                 <td class="text-xs-center">{{ props.item.UfProjeto }}</td>
                 <td class="text-xs-center" v-if="mostrarTecnico">{{ props.item.usu_nome }}</td>
-                <!-- <td class="text-xs-right">
-                    <v-btn flat icon color="green" :to="{ name: 'AnalisePlanilha', params:{ id:props.item.idPronac }}">
-                        <v-icon class="material-icons">assignment_indcompare_arrows</v-icon>
-                    </v-btn>
-                </td>
-                <td class="text-xs-right">
-                    <v-btn flat icon color="indigo" :href="'/proposta/diligenciar/listardiligenciaanalista?idPronac='+ props.item.idPronac +'&situacao=E17&tpDiligencia=174'">
-                        <v-icon>warning</v-icon>
-                    </v-btn>
-                </td> -->
                 <td class="text-xs-center">
                     <template v-for="(c, index) in componentes.acoes" d-inline-block>
                         <component
@@ -75,6 +76,7 @@ export default {
                 rowsPerPage: 10,
             },
             selected: [],
+            search: '',
             cabecalho: [
                 {
                     text: '#',

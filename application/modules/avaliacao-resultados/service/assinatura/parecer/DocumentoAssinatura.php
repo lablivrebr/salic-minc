@@ -88,10 +88,10 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
 
         $tbAvaliacaoFinanceira = new \AvaliacaoResultados_Model_DbTable_tbAvaliacaoFinanceira();
         $where = [
-            'idPronac' => $this->idPronac
+            'idPronac = ?' => $this->idPronac
         ];
         $dadosParecer = $tbAvaliacaoFinanceira->findBy($where);
-        $dadosParecer = ($dadosParecer) ?: new \stdClass();
+        $dadosParecer = ($dadosParecer) ?: [];
 
         /** ============= Fim da consulta ================ */
 

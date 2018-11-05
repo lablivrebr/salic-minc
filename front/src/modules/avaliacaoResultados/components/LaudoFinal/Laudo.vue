@@ -128,8 +128,8 @@
 <script>
     import ModalTemplate from '@/components/modal';
     import { mapActions, mapGetters } from 'vuex';
-    import Const from '../const';
-    import Devolver from './components/Devolver';
+    import Const from '../../const';
+    import Devolver from '../components/Devolver';
 
     export default {
         name: 'Painel',

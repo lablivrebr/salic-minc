@@ -216,9 +216,13 @@ export default {
             listaAcoesAssinar: {
                 atual: CONST.ESTADO_PARECER_FINALIZADO,
                 proximo: CONST.ESTADO_ANALISE_PARECER,
+                idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
                 acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
             },
-            listaAcoesCoordenador: { atual: '', proximo: '', acoes: [Encaminhar, Historico, VisualizarPlanilhaButtton] },
+            listaAcoesCoordenador: {
+                atual: '',
+                proximo: '',
+                acoes: [Encaminhar, Historico, VisualizarPlanilhaButtton] },
             listaAcoesAssinarCoordenadorGeral: {
                 atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
                 proximo: CONST.ESTADO_ANALISE_PARECER,

@@ -23,7 +23,7 @@
                     primary-title
                 >
                     <span class="white--text">
-                        Encaminhamento do projeto
+                        Encaminhamento1 do projeto
                     </span>
                 </v-card-title>
                 <v-card-text>
@@ -90,17 +90,22 @@
         </v-card>
     </v-dialog>
 </template>
-
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'Encaminhar',
-    props: [
-        'idPronac',
-        'nomeProjeto',
-        'pronac',
-    ],
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+            validator(value) {
+                return value !== '';
+            },
+        },
+        nomeProjeto: String,
+        pronac: String,
+    },
     data() {
         return {
             dialog: false,

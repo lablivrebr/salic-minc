@@ -1,17 +1,14 @@
-// ***********************************************************
-// This example support/index.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
+before( () => {
+    cy.visit('localhost');
+        
+    var login = cy.get('#Login').type('239.691.561-49'); // Login
+    var senha = cy.get('#Senha').type('123456'); // Senha
+    cy.get('form').submit();
+
+    cy.visit('http://localhost/principal');
+
+    cy.wait(1000)
+});
 
 // Import commands.js using ES2015 syntax:
 import './commands'

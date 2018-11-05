@@ -7,11 +7,11 @@ import Planilha from './components/ParecerTecnico/Planilha';
 import VisualizarPlanilha from './components/components/VisualizarPlanilha';
 import AnaliseComprovantes from './components/ParecerTecnico/AnaliseComprovantes';
 import Diligenciar from './components/ParecerTecnico/Diligenciar';
-import EmitirLaudoFinal from './components/EmitirLaudoFinal';
+import EmitirLaudoFinal from './components/LaudoFinal/EmitirLaudoFinal';
 import Laudo from './components/LaudoFinal/PainelLaudo';
 import AnalisarItem from './components/ParecerTecnico/AnalisarItem';
-import VisualizarParecer from './components/VisualizarParecer';
-import VisualizarLaudo from './components/VisualizarLaudo';
+import VisualizarParecer from './components/LaudoFinal/VisualizarParecer';
+import VisualizarLaudo from './components/LaudoFinal/VisualizarLaudo';
 
 Vue.use(Router);
 

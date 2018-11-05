@@ -1,6 +1,7 @@
 <?php
 
 use Application\Modules\AvaliacaoResultados\Service\Encaminhar\AvaliacaoFinanceira as EncaminharAvaliacaoService;
+use Application\Modules\AvaliacaoResultados\Service\Fluxo\Estado as EstadoService;
 
 class AvaliacaoResultados_Events_Encaminhar
 {
@@ -18,13 +19,12 @@ class AvaliacaoResultados_Events_Encaminhar
     }
 
     public function attach() {
-        $this->events->attach('run', $this->alterarSituacaoProjeto());
+        /* $this->events->attach('run', $this->alterarSituacaoProjeto()); */
         $this->events->attach('run', $this->salvarEncaminhamento());
         $this->events->attach('run', $this->alterarEstado());
     }
 
     public function run($params) {
-        /* var_dump($params);die; */
         $this->events->trigger(__FUNCTION__, $this, $params);
     }
 
@@ -48,22 +48,8 @@ class AvaliacaoResultados_Events_Encaminhar
         return function($t) {
             $params = $t->getParams();
 
-            $model = new AvaliacaoResultados_Model_FluxosProjeto();
-            $mapper = new AvaliacaoResultados_Model_FluxosProjetoMapper();
-
-            $row = $mapper->find(['idPronac = ?' => $params['idPronac']]);
-
-            if (!empty($row)) {
-                $model->setId($row['id']);
-            }
-
-            $model->setIdPronac($params['idPronac']);
-            $model->setEstadoId($params['proximo']);
-            $model->setOrgao($params['idOrgaoDestino']);
-            $model->setGrupo($params['cdGruposDestino']);
-            $model->setIdAgente($params['idAgenteDestino']);
-
-            $mapper->save($model);
+            $estadoService = new EstadoService();
+            $estadoService->alterarEstado($params);
         };
     }
 }

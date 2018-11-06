@@ -266,7 +266,7 @@ class fnLiberarLinks extends MinC_Db_Table_Abstract
                 }
             }
 
-            $tbCumprimentoObjeto = new ExecucaoFisica_Model_DbTable_TbCumprimentoObjeto();
+            $tbCumprimentoObjeto = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
             $possuiRelatorioDeCumprimento = $tbCumprimentoObjeto->possuiRelatorioDeCumprimento($idPronac);
 
             if ($possuiRelatorioDeCumprimento) {
@@ -310,7 +310,7 @@ class fnLiberarLinks extends MinC_Db_Table_Abstract
                 $Readequacao = 1;
             }
 
-            $tbCumprimentoObjeto = new ExecucaoFisica_Model_DbTable_TbCumprimentoObjeto();
+            $tbCumprimentoObjeto = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
             $possuiRelatorioDeCumprimento = $tbCumprimentoObjeto->possuiRelatorioDeCumprimento($idPronac);
 
             if ($possuiRelatorioDeCumprimento) {

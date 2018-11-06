@@ -747,7 +747,7 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
                 $menu['comprovacaofisica']['submenu'][] = [
                     'label' => 'Relat&oacute;rio Trimestral',
                     'title' => 'Ir para Relat&oacute;rio Trimestral',
-                    'link' => '/execucao-fisica/comprovarexecucaofisica/relatoriotrimestral/idpronac/' . $idPronacHash,
+                    'link' => '/comprovacao-objeto/comprovarexecucaofisica/relatoriotrimestral/idpronac/' . $idPronacHash,
                     'ajax' => false,
                     'grupo' => []
                 ];
@@ -759,7 +759,7 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
                 $menu['comprovacaofisica']['submenu'][] = [
                     'label' => 'Comprovar Realiza&ccedil;&atilde;o do Objeto',
                     'title' => 'Ir para Comprovar Realiza&ccedil;&atilde;o do Objeto',
-                    'link' => '/execucao-fisica/comprovarexecucaofisica/etapas-de-trabalho-final/idpronac/' . $idPronacHash,
+                    'link' => '/comprovacao-objeto/comprovarexecucaofisica/etapas-de-trabalho-final/idpronac/' . $idPronacHash,
                     'ajax' => false,
                     'grupo' => []
                 ];

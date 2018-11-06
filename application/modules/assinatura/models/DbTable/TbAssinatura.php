@@ -19,6 +19,7 @@ class Assinatura_Model_DbTable_TbAssinatura extends MinC_Db_Table_Abstract
     protected $_name = 'tbAssinatura';
     protected $_primary = 'idAssinatura';
 
+    const TIPO_ATO_PARECER_AVALIACAO_OBJETO = 621;
     const TIPO_ATO_LAUDO_PRESTACAO_CONTAS = 622;
     const TIPO_ATO_ENQUADRAMENTO = 626;
     const TIPO_ATO_ANALISE_INICIAL = 630;

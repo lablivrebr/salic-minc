@@ -140,7 +140,7 @@
                     </div>
                     <div class="sanfonaDiv" style="display:none;"></div>
                     
-                    <!--<a class="no_seta" href="<?php echo $this->url(array('module' => 'execucao-fisica', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'relatoriofinal')).'?idPronac='.$id; ?>" title="Ir para Relatorio de Execução do Objeto">Relatório de Comprovação do Objeto</a>-->
+                    <!--<a class="no_seta" href="<?php echo $this->url(array('module' => 'comprovacao-objeto', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'relatoriofinal')).'?idPronac='.$id; ?>" title="Ir para Relatorio de Execução do Objeto">Relatório de Comprovação do Objeto</a>-->
                     <!--<a class="no_seta" href="<?php echo $this->url(array('controller' => 'realizarprestacaodecontas', 'action' => 'relatorio-final')).'?idPronac='.$id; ?>" title="Ir para Relatorio de Execução do Objeto">Relatório de Comprovação do Objeto</a>-->
                     <a class="no_seta" href="<?php echo $this->url(array('controller' => 'realizarprestacaodecontas', 'action' => 'planilhaorcamentaria')).'?idPronac='.$id; ?>" title="Ir para Relatorio de Execução do Objeto">Execução Financeira Comprovada</a>
                     <!-- verifica se o projeto esta com encaminhamento atual para o coordenador -->
@@ -170,7 +170,7 @@
                             <a href='#' onclick="carregaDados('<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'relatorio-final')); ?><?php echo $codPronac; ?>','pagina'); return false"  title="Ir para Relat&oacute;rio de cumprimento do objeto">Relat&oacute;rio de cumprimento do objeto</a-->
                         </div-->
                         <div class="sanfonaDiv" style="display:none;"></div>
-                        <!--<a class="no_seta" href="<?php echo $this->url(array('module' => 'execucao-fisica', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'relatoriofinal')).'?idPronac='.$id.'&status=1'; ?>" title="Ir para Relatorio de Execução do Objeto">Relatório de Comprovação do Objeto</a>-->
+                        <!--<a class="no_seta" href="<?php echo $this->url(array('module' => 'comprovacao-objeto', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'relatoriofinal')).'?idPronac='.$id.'&status=1'; ?>" title="Ir para Relatorio de Execução do Objeto">Relatório de Comprovação do Objeto</a>-->
                         <!--<a class="no_seta" href="<?php echo $this->url(array('controller' => 'realizarprestacaodecontas', 'action' => 'relatorio-final')).'?idPronac='.$id; ?>" title="Ir para Relatorio de Execução do Objeto">Relatório de Comprovação do Objeto</a>-->
                         <a class="no_seta" href="<?php echo $this->url(array('controller' => 'realizarprestacaodecontas', 'action' => 'planilhaorcamentaria')).'?idPronac='.$id; ?>" title="Ir para Execução Financeira Comprovada">Execução Financeira Comprovada</a>
                         <!-- a class="no_seta" href="<?php echo $this->url(array('controller' => 'realizarprestacaodecontas', 'action' => 'emitirparecertecnico')).'?idPronac=' . $id; ?>" title="Ir para Emitir Parecer">Emitir Parecer</a-->

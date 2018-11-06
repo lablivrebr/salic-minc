@@ -662,7 +662,7 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
             'SAC.dbo'
         );
         $select->joinInner(
-            ['e' => 'ExecucaoFisica_Model_DbTable_TbCumprimentoObjeto'],
+            ['e' => 'TbCumprimentoObjeto'],
             'd.IdPRONAC = e.idPronac',
             [''],
             'SAC.dbo'
@@ -848,7 +848,7 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
             'SAC.dbo'
         );
         $select->joinInner(
-            ['e' => 'ExecucaoFisica_Model_DbTable_TbCumprimentoObjeto'],
+            ['e' => 'TbCumprimentoObjeto'],
             'd.IdPRONAC = e.idPronac',
             [''],
             'SAC.dbo'

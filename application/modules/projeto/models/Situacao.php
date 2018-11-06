@@ -60,6 +60,10 @@ class Projeto_Model_Situacao extends MinC_Db_Table_Abstract
     const BOLSA_VIRTUOSE_ARQUIVADO_ANALISE_DO_MERITO = 'K05';
     const PROJETO_HOMOLOGADO = 'D51';
 
+    const AGUARDA_ANALISE_FINANCEIRA = 'E68';
+    const APRESENTOU_PRESTACAO_DE_CONTAS = 'E24';
+    const AGUARDANDO_LAUDO_FINAL = 'E77';
+
     public static function obterSituacoesProjetoArquivado()
     {
         return [

@@ -1851,7 +1851,7 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
             $qtdRelatorioEsperado = ceil($intervalo/90);
             $this->view->qtdRelatorioEsperado = $qtdRelatorioEsperado;
 
-            $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
+            $tbComprovanteTrimestral = new ComprovacaoObjeto_Model_DbTable_TbComprovanteTrimestral();
             $qtdRelatorioCadastrados = $tbComprovanteTrimestral->buscarComprovantes(array('idPronac=?'=>$idpronac), true, array('nrComprovanteTrimestral')); //busca todos os relatorios
             $qtdRelCadastrados = !empty($qtdRelatorioCadastrados) ? $qtdRelatorioCadastrados->count() : 0;
             $this->view->qtdRelatorioCadastrados = $qtdRelCadastrados;
@@ -1877,7 +1877,7 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $DadosProjeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idpronac))->current();
         $this->view->DadosProjeto = $DadosProjeto;
 
-        $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
+        $tbComprovanteTrimestral = new ComprovacaoObjeto_Model_DbTable_TbComprovanteTrimestral();
         $DadosRelatorio = $tbComprovanteTrimestral->buscarComprovantes(array('IdPRONAC = ?' => $idpronac, 'nrComprovanteTrimestral=?'=>$nrrelatorio));
         $this->view->DadosRelatorio = $DadosRelatorio;
 
@@ -1920,7 +1920,7 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $DadosProjeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idpronac))->current();
         $this->view->DadosProjeto = $DadosProjeto;
 
-        $tbComprovanteTrimestral = new ExecucaoFisica_Model_DbTable_TbComprovanteTrimestral();
+        $tbComprovanteTrimestral = new ComprovacaoObjeto_Model_DbTable_TbComprovanteTrimestral();
         $DadosRelatorio = $tbComprovanteTrimestral->buscarComprovantes(array('IdPRONAC = ?' => $idpronac, 'nrComprovanteTrimestral=?'=>$nrrelatorio));
         $this->view->DadosRelatorio = $DadosRelatorio;
 
@@ -1962,7 +1962,7 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $DadosProjeto = $projetos->dadosProjeto(array('idPronac = ?' => $idpronac))->current();
         $this->view->DadosProjeto = $DadosProjeto;
         $this->view->idPronac = $idpronac;
-        $tbCumprimentoObjeto = new ExecucaoFisica_Model_DbTable_TbCumprimentoObjeto();
+        $tbCumprimentoObjeto = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
         $DadosRelatorio = $tbCumprimentoObjeto->buscarCumprimentoObjeto(array('idPronac = ?' => $idpronac));
 
         if (!empty($DadosRelatorio)) {
@@ -1990,11 +1990,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
             $dadosComprovantes = $Arquivo->buscarComprovantesExecucao($idpronac);
             $this->view->DadosComprovantes = $dadosComprovantes;
 
-            $tbTermoAceiteObra = new ExecucaoFisica_Model_DbTable_TbTermoAceiteObra();
+            $tbTermoAceiteObra = new ComprovacaoObjeto_Model_DbTable_TbTermoAceiteObra();
             $AceiteObras = $tbTermoAceiteObra->buscarTermoAceiteObraArquivos(array('idPronac=?'=>$idpronac));
             $this->view->AceiteObras = $AceiteObras;
 
-            $tbBensDoados = new ExecucaoFisica_Model_DbTable_TbBensDoados();
+            $tbBensDoados = new ComprovacaoObjeto_Model_DbTable_TbBensDoados();
             $BensCadastrados = $tbBensDoados->buscarBensCadastrados(array('a.idPronac=?'=>$idpronac), array('b.Descricao'));
             $this->view->BensCadastrados = $BensCadastrados;
 
@@ -2022,7 +2022,7 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $DadosProjeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idpronac))->current();
         $this->view->DadosProjeto = $DadosProjeto;
 
-        $tbCumprimentoObjeto = new ExecucaoFisica_Model_DbTable_TbCumprimentoObjeto();
+        $tbCumprimentoObjeto = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
         $DadosRelatorio = $tbCumprimentoObjeto->buscarCumprimentoObjeto(array('idPronac = ?' => $idpronac));
         $this->view->DadosRelatorio = $DadosRelatorio;
 
@@ -2051,11 +2051,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $dadosComprovantes = $Arquivo->buscarComprovantesExecucao($idpronac);
         $this->view->DadosComprovantes = $dadosComprovantes;
 
-        $tbTermoAceiteObra = new ExecucaoFisica_Model_DbTable_TbTermoAceiteObra();
+        $tbTermoAceiteObra = new ComprovacaoObjeto_Model_DbTable_TbTermoAceiteObra();
         $AceiteObras = $tbTermoAceiteObra->buscarTermoAceiteObraArquivos(array('idPronac=?'=>$idpronac));
         $this->view->AceiteObras = $AceiteObras;
 
-        $tbBensDoados = new ExecucaoFisica_Model_DbTable_TbBensDoados();
+        $tbBensDoados = new ComprovacaoObjeto_Model_DbTable_TbBensDoados();
         $BensCadastrados = $tbBensDoados->buscarBensCadastrados(array('a.idPronac=?'=>$idpronac), array('b.Descricao'));
         $this->view->BensCadastrados = $BensCadastrados;
 

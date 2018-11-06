@@ -1,5 +1,6 @@
 <template>
     <v-dialog
+        v-if=" typeof usuario !== 'undefined' && Object.keys(usuario).length > 0"
         v-model="dialog"
         width="650"
     >
@@ -62,6 +63,7 @@ export default {
     },
     props: {
         idPronac: String,
+        usuario: Object,
         atual: String,
         proximo: String,
         nomeProjeto: String,
@@ -87,6 +89,7 @@ export default {
                 proximo: this.proximo,
                 idTipoDoAtoAdministrativo: this.idTipoDoAtoAdministrativo,
                 justificativa: this.justificativa,
+                usuario: this.usuario,
             };
 
             this.setDevolverProjeto(dados);

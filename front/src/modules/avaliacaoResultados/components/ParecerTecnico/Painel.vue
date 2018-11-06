@@ -147,6 +147,7 @@
 </template>
 <script>
 
+import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import CONST from '../../const';
 import TabelaProjetos from '../TabelaProjetos';
@@ -160,51 +161,44 @@ import VisualizarPlanilhaButtton from '../analise/VisualizarPlanilhaButtton';
 export default {
     name: 'Painel',
     created() {
-        this.distribuir();
-
-        this.projetosAssinatura({ estado: 'assinar' });
-        this.projetosAssinatura({ estado: 'em_assinatura' });
         this.projetosAssinatura({ estado: 'historico' });
 
-        this.usuarioLogado();
         this.CONST = CONST;
+
+        let projetosTecnico = {};
+        let projetosFinalizados = {};
+
+        if (
+            parseInt(this.getUsuario.grupo_ativo, 10) === 125
+            || parseInt(this.getUsuario.grupo_ativo, 10) === 126
+        ) {
+            projetosTecnico = {
+                estadoid: 5,
+            };
+
+            projetosFinalizados = {
+                estadoid: 6,
+            };
+        } else {
+            projetosTecnico = {
+                estadoid: 5,
+                idAgente: this.getUsuario.usu_codigo,
+            };
+
+            projetosFinalizados = {
+                estadoid: 6,
+                idAgente: this.getUsuario.usu_codigo,
+            };
+        }
+
+        this.distribuir();
+        this.obterDadosTabelaTecnico(projetosTecnico);
+        this.projetosFinalizados(projetosFinalizados);
+        this.projetosAssinarCoordenador();
+        this.projetosAssinarCoordenadorGeral();
+        Vue.set(this.listaAcoesAssinar, 'usuario', this.getUsuario);
     },
     watch: {
-        getUsuario(val) {
-            if (Object.keys(val).length > 0 && parseInt(val.usu_codigo, 10) !== 0) {
-                let projetosTecnico = {};
-                let projetosFinalizados = {};
-
-                if (
-                    parseInt(this.getUsuario.grupo_ativo, 10) === 125
-                    || parseInt(this.getUsuario.grupo_ativo, 10) === 126
-                ) {
-                    projetosTecnico = {
-                        estadoid: 5,
-                    };
-
-                    projetosFinalizados = {
-                        estadoid: 6,
-                    };
-                } else {
-                    projetosTecnico = {
-                        estadoid: 5,
-                        idAgente: this.getUsuario.usu_codigo,
-                    };
-
-                    projetosFinalizados = {
-                        estadoid: 6,
-                        idAgente: this.getUsuario.usu_codigo,
-                    };
-                }
-
-                this.obterDadosTabelaTecnico(projetosTecnico);
-                this.projetosFinalizados(projetosFinalizados);
-                this.distribuir();
-                this.projetosAssinarCoordenador();
-                this.projetosAssinarCoordenadorGeral();
-            }
-        },
     },
     data() {
         return {
@@ -214,16 +208,19 @@ export default {
                 acoes: [Historico, AnaliseButton],
             },
             listaAcoesAssinar: {
+                usuario: this.getUsuario,
                 atual: CONST.ESTADO_PARECER_FINALIZADO,
                 proximo: CONST.ESTADO_ANALISE_PARECER,
                 idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
                 acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
             },
             listaAcoesCoordenador: {
+                usuario: this.getUsuario,
                 atual: '',
                 proximo: '',
                 acoes: [Encaminhar, Historico, VisualizarPlanilhaButtton] },
             listaAcoesAssinarCoordenadorGeral: {
+                usuario: this.getUsuario,
                 atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
                 proximo: CONST.ESTADO_ANALISE_PARECER,
                 idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
@@ -243,7 +240,6 @@ export default {
             projetosFinalizados: 'avaliacaoResultados/projetosFinalizados',
             projetosAssinatura: 'avaliacaoResultados/projetosAssinatura',
             distribuir: 'avaliacaoResultados/projetosParaDistribuir',
-            usuarioLogado: 'autenticacao/usuarioLogado',
             projetosAssinarCoordenador: 'avaliacaoResultados/projetosAssinarCoordenador',
             projetosAssinarCoordenadorGeral: 'avaliacaoResultados/projetosAssinarCoordenadorGeral',
         }),

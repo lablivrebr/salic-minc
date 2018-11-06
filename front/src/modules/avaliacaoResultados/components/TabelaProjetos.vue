@@ -41,6 +41,7 @@
                             :atual="componentes.atual"
                             :proximo="componentes.proximo"
                             :idTipoDoAtoAdministrativo="componentes.idTipoDoAtoAdministrativo"
+                            :usuario="componentes.usuario"
                         ></component>
                     </template>
                 </td>

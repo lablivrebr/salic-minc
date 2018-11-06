@@ -271,12 +271,44 @@ export const buscarComprovantes = ({ commit }, params) => {
 };
 
 export const devolverProjeto = ({ commit, dispatch }, params) => {
+    commit(types.SET_DADOS_PROJETOS_FINALIZADOS, {});
+    commit(types.SYNC_PROJETOS_ASSINAR_COORDENADOR, {});
+    commit(types.PROJETOS_AVALIACAO_TECNICA, {});
+
+    let projetosTecnico = {};
+    let projetosFinalizados = {};
+
+    if (
+        parseInt(params.usuario.grupo_ativo, 10) === 125
+        || parseInt(params.usuario.grupo_ativo, 10) === 126
+    ) {
+        projetosTecnico = {
+            estadoid: 5,
+        };
+
+        projetosFinalizados = {
+            estadoid: 6,
+        };
+    } else {
+        projetosTecnico = {
+            estadoid: 5,
+            idAgente: params.usuario.usu_codigo,
+        };
+
+        projetosFinalizados = {
+            estadoid: 6,
+            idAgente: params.usuario.usu_codigo,
+        };
+    }
+
     avaliacaoResultadosHelperAPI.alterarEstado(params)
         .then((response) => {
             const devolverProjeto = response.data;
-            commit(types.SET_DADOS_PROJETOS_FINALIZADOS, {});
             commit(types.SET_DEVOLVER_PROJETO, devolverProjeto);
-            dispatch('projetosFinalizados', { estadoid: 6 });
+
+            dispatch('projetosFinalizados', projetosFinalizados);
+            dispatch('projetosAssinarCoordenador', { estadoid: 9 });
+            dispatch('obterDadosTabelaTecnico', projetosTecnico);
         });
 };
 

@@ -1,6 +1,7 @@
 <?php
 
 use Application\Modules\AvaliacaoResultados\Service\Encaminhar\AvaliacaoFinanceira as EncaminharAvaliacaoService;
+use Application\Modules\AvaliacaoResultados\Service\Fluxo\Estado as EstadoService;
 
 class AvaliacaoResultados_Events_Devolver
 {

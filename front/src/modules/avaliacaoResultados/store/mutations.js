@@ -216,7 +216,7 @@ export const mutations = {
             }
         });
 
-        state.dadosItemComprovacao.comprovantes.forEach((valor, chave) => {
+        state.dadosItemComprovacao.comprovantes.forEach((valor) => {
             copiaItem.stItemAvaliado = valor.stItemAvaliado;
             if (typeof state
                 .planilha[params.cdProduto]
@@ -247,7 +247,6 @@ export const mutations = {
                 .UF[params.cdUf]
                 .cidade[params.idmunicipio]
                 .itens[tipoAvaliacao]).length === 0) {
-
                 Vue.delete(state
                     .planilha[params.cdProduto]
                     .etapa[params.etapa]
@@ -257,6 +256,4 @@ export const mutations = {
             }
         });
     },
-
-
 };

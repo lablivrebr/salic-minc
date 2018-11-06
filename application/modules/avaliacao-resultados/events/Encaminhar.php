@@ -19,7 +19,7 @@ class AvaliacaoResultados_Events_Encaminhar
     }
 
     public function attach() {
-        /* $this->events->attach('run', $this->alterarSituacaoProjeto()); */
+        $this->events->attach('run', $this->alterarSituacaoProjeto());
         $this->events->attach('run', $this->salvarEncaminhamento());
         $this->events->attach('run', $this->alterarEstado());
     }

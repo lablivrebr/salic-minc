@@ -418,7 +418,7 @@
                             stItemAvaliadoAlterado:
                                 this.stItemAvaliadoModel[params.idComprovantePagamento],
                         });
-                    }).catch((a) => {
+                    }).catch(() => {
                         this.snackbarTexto = 'Houve algum problema ao salvar!';
                         this.snackbarAlerta = true;
                     }).then(() => {

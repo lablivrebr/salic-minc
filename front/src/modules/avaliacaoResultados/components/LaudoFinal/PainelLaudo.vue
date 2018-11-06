@@ -28,16 +28,19 @@
                     </template>
                 </v-tab>
                 <v-tab href="#tab-1"
+                       id="assinar"
                        v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL"
                 >
                      Assinar
                     <v-icon>done</v-icon>
                 </v-tab>
-                <v-tab href="#tab-2">
+                <v-tab href="#tab-2"
+                       id="emAssinatura">
                      Em assinatura
                     <v-icon>done_all</v-icon>
                 </v-tab>
                 <v-tab href="#tab-3"
+                       id="finalizados"
                        v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL"
                 >
                      Finalizados

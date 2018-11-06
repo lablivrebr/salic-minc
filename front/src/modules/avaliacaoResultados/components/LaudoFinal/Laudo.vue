@@ -71,8 +71,9 @@
                 </td>
                 <td v-if="estado == Const.ESTADO_ANALISE_LAUDO" class="text-xs-center">
                     <v-btn flat icon color="blue"
-                            @click.native="sincState(props.item.IdPronac)"
-                            :to="{ name: 'EmitirLaudoFinal', params:{ id:props.item.IdPronac }}">
+                           id="emitirLaudo"
+                           @click.native="sincState(props.item.IdPronac)"
+                           :to="{ name: 'EmitirLaudoFinal', params:{ id:props.item.IdPronac }}">
                         <v-tooltip bottom>
                             <v-icon slot="activator" class="material-icons">create</v-icon>
                             <span>Emitir Laudo</span>
@@ -81,7 +82,8 @@
                 </td>
                 <td v-if="estado == Const.ESTADO_LAUDO_FINALIZADO" class="text-xs-center">
                     <v-btn flat icon color="blue"
-                            :href="'/assinatura/index/assinar-projeto?IdPRONAC='+props.item.IdPronac+'&idTipoDoAtoAdministrativo=623'">
+                           id="assinarLaudo"
+                           :href="'/assinatura/index/assinar-projeto?IdPRONAC='+props.item.IdPronac+'&idTipoDoAtoAdministrativo=623'">
                         <v-tooltip bottom>
                             <v-icon slot="activator" class="material-icons">assignment_turned_in</v-icon>
                             <span>Assinar Laudo</span>
@@ -93,8 +95,9 @@
                     class="text-xs-center"
                 >
                     <v-btn flat icon color="blue"
-                            @click.native="sincState(props.item.IdPronac)"
-                            :to="{ name: 'VisualizarLaudo', params:{ id:props.item.IdPronac }}">
+                           id="visualizarLaudo"
+                           @click.native="sincState(props.item.IdPronac)"
+                           :to="{ name: 'VisualizarLaudo', params:{ id:props.item.IdPronac }}">
                         <v-tooltip bottom>
                             <v-icon slot="activator" class="material-icons">visibility</v-icon>
                             <span>Visualizar Laudo</span>

@@ -107,16 +107,12 @@
                                 $vlUnitario = 0;
                                 $vlAprovado = 0;
                                 foreach ($this->planilha[$fonte][$produto][$etapa][$cidade] as $planilha) {
-                                    $podeEditarItem =
-                                                    (
-                                                        $this->link &&
-                                                        $planilha['vlComprovado'] < $planilha['vlAprovado'] &&
-                                                        $disponivelParaEdicaoReadequacaoPlanilha &&
-                                                        (
-                                                            $planilha['tpAcao'] != 'E' &&
-                                                            $nrfonte == '0'
-                                                        )
-                                                    );
+                                    $podeEditarItem = $this->itemDisponivelParaEdicaoReadequacao(
+                                        $planilha,
+                                        $nrfonte,
+                                        $this->link,
+                                        $disponivelParaEdicaoReadequacaoPlanilha
+                                    );
                                     
                                     $vlAprovado += $planilha['vlAprovado'];
                                     // soma somente quando não tiver excluído o item

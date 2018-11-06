@@ -667,6 +667,7 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
                 new Zend_Db_Expr("( a.AnoProjeto+a.Sequencial ) as PRONAC"),
                 "a.NomeProjeto",
                 "a.idPronac",
+                "a.idProjeto",
                 "d.Descricao as Etapa",
                 "d.tpGrupo",
                 "e.Descricao as Unidade",
@@ -687,6 +688,7 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
                 "k.nrOcorrencia as Ocorrencia",
                 "k.tpAcao",
                 "k.vlUnitario",
+                "k.idPlanilhaItem",
                 "x.Descricao as FonteRecurso",
             );
             $sql = $db->select()->from(array('a' => 'Projetos'), $a, $this->_schema)
@@ -734,6 +736,7 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
                 new Zend_Db_Expr("(a.AnoProjeto+a.Sequencial) as PRONAC"),
                 "a.NomeProjeto",
                 "a.idPronac",
+                "a.idProjeto",
                 "d.Descricao as Etapa",
                 "d.tpGrupo",
                 "e.Descricao as Unidade",
@@ -754,6 +757,7 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
                 "k.nrOcorrencia as Ocorrencia",
                 "k.tpAcao",
                 "k.vlUnitario",
+                "k.idPlanilhaItem",
                 "x.Descricao as FonteRecurso",
             );
 

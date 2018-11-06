@@ -913,4 +913,32 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
 
         return $this->fetchAll($select);
     }
+    
+    public function projetoContemEtapasCustosDivulgacao($idPronac)
+    {
+        $objQuery = $this->select();
+        $objQuery->setIntegrityCheck(false);
+        
+        $objQuery->from(
+            array(
+                'tbPlanilhaAprovacao' => $this->_name
+            ),
+            'idPronac',
+            $this->_schema
+        );
+
+        $objQuery->where('tbPlanilhaAprovacao.tpPlanilha = ?', 'CO');
+        $objQuery->where('tbPlanilhaAprovacao.idEtapa IN(?)', [
+            PlanilhaEtapa::ETAPA_CUSTOS_ADMINISTRATIVOS,
+            PlanilhaEtapa::ETAPA_DIVULGACAO_COMERCIALIZACAO
+        ]);
+        $objQuery->where('tbPlanilhaAprovacao.IdPRONAC = ?', $idPronac);
+        
+        $result = $this->fetchAll($objQuery);
+        
+        if (count($result > 0)) {
+            return true;
+        }
+        return false;
+    }
 }

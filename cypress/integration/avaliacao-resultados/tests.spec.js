@@ -1,18 +1,8 @@
 describe('Testes da Análise de Resultados', function() {
     before(function () { // Inicia todos os testes na Tela de Análise de Resultados - Perfil Técnico
-      cy.visit('localhost');
-    
-      var login = cy.get('form div div').find('input').eq(0).type('239.691.561-49'); // Login
-      var senha = cy.get('form div div').find('input').eq(1).type('123456'); // Senha
-      cy.get('form').submit();
-    
-      cy.visit('http://localhost/principal');
-    
       cy.get('#combousuario div input').click()
       .get('ul li span').eq(59).click();
  
-      // cy.server()
-      // cy.route('/avaliacao-resultados/fluxo-projeto?estadoid=5&idAgente=236', 'fixtures:avaliacao-resultados/projetos.json');
 
       cy.get('ul li a.dropdown-button').contains('Avaliação de Resultados').click()
         .get('#prestacao-contas li a').contains('Analisar Parecer (Nova)').click();
@@ -20,13 +10,14 @@ describe('Testes da Análise de Resultados', function() {
       cy.wait(4000);
   
     });
-  
+    
+    it('Verifica se há pelo menos um item na tabela - Aba "Em análise" ', function() {
+      cy.get('div.v-tabs__div a').contains('Em Analise').click();
+      cy.get('tbody > :nth-child(1) > .text-xs-right').should('not.be.empty');
+    });
+      
     it('Renderização da tabela de análise de resultados - Perfil Técnico', function() {
       cy.get('div.v-card .theme--light');
-    });
-
-    it('Verifica se há pelo menos um item na tabela - Aba "Em análise" ', function() {
-      cy.get('tbody > :nth-child(1) > .text-xs-right').should('not.be.empty');
     });
 
     it('Verifica se há pelo menos um item na tabela - Aba "Assinar" ', function() {
@@ -38,4 +29,27 @@ describe('Testes da Análise de Resultados', function() {
       cy.get('div.v-tabs__div a').contains('Historico').click();
       cy.get('tbody > :nth-child(1) .text-xs-right').should('not.be.empty');
     });
+
+    it('Click para abrir modal Histórico de Encaminhamentos ', function() {
+      let a = cy.get(':nth-child(4) > .v-card > .v-card__text > :nth-child(1) > :nth-child(2) > .v-table__overflow > .v-datatable > tbody > :nth-child(1) > :nth-child(6) > .v-dialog__container > .v-dialog__activator > .v-tooltip > span > .v-btn > .v-btn__content > .v-icon')
+      a.click();
+    });
+
+    it('Click para fechar modal Histórico de Encaminhamentos ', function() {
+      cy.get('.v-dialog__content--active > .v-dialog > .v-card > .v-card__actions > .v-btn > .v-btn__content').click();
+    });
+
+    it('Click para Analisar/Visualizar Projeto', function() {
+      let a = cy.get(':nth-child(4) > .v-card > .v-card__text > :nth-child(1) > :nth-child(2) > .v-table__overflow > .v-datatable > tbody > :nth-child(1) > :nth-child(6) > .v-btn--router > .v-btn__content > .v-tooltip > span > .v-icon')
+      a.click();
+    });
+
+    // it('Click para voltar da Analisar projeto -> Tabela de Análise Resultados', function() {
+    //   let a = cy.get('i.v-icon .material-icons .theme--light').contains('arrow_back');
+    //   a.click();
+    // });
+    
+
+
+    
   });

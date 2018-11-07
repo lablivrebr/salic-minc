@@ -1,4 +1,3 @@
-import * as desencapsularResponse from '@/helpers/actions';
 import * as avaliacaoResultadosHelperAPI from '@/helpers/api/AvaliacaoResultados';
 import * as types from './types';
 
@@ -8,6 +7,17 @@ export const dadosMenu = ({ commit }) => {
             const data = response.data;
             const dadosTabela = data.data;
             commit(types.SET_REGISTROS_TABELA, dadosTabela);
+        });
+};
+
+export const setRegistroAtivo = ({ commit }, registro) => {
+    commit(types.SET_REGISTRO_ATIVO, registro);
+};
+
+export const removerRegistro = ({ commit }, registro) => {
+    avaliacaoResultadosHelperAPI.removerRegistro(registro)
+        .then(() => {
+            commit(types.REMOVER_REGISTRO, registro);
         });
 };
 
@@ -100,7 +110,6 @@ export const redirectLinkAvaliacaoResultadoTipo = ({ commit }, params) => {
 };
 
 export const planilha = ({ commit }, params) => {
-    commit(types.GET_PLANILHA, {});
     avaliacaoResultadosHelperAPI.planilha(params)
         .then((response) => {
             const planilha = response.data;
@@ -251,15 +260,6 @@ export const projetosRevisao = ({ commit }, params) => {
             commit(types.SYNC_PROJETOS_REVISAO, projetosRevisao);
         });
 };
-
-export const buscarDetalhamentoItens = ({ commit }, idPronac) => {
-    avaliacaoResultadosHelperAPI.buscarDetalhamentoItens(idPronac)
-        .then((response) => {
-            const itens = desencapsularResponse.default(response);
-            commit(types.SET_ITENS_BUSCA_COMPROVANTES, itens);
-        });
-};
-
 
 export const buscarComprovantes = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI.buscarComprovantes(params)

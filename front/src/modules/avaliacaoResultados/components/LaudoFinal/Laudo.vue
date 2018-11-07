@@ -60,12 +60,13 @@
                 <td class="text-xs-center">
                     <Devolver
                         v-if="usuario"
-                        :idPronac="props.item.IdPronac"
+                        :idPronac="String(props.item.IdPronac)"
                         :atual="estado"
                         :proximo="proximoEstado()"
                         :nomeProjeto="props.item.NomeProjeto"
                         :pronac="props.item.PRONAC"
                         :idTipoDoAtoAdministrativo="atoAdministrativo"
+                        :usuario="getUsuario"
                     >
                     </Devolver>
                 </td>

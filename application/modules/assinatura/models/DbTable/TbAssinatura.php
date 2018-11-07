@@ -53,6 +53,7 @@ class Assinatura_Model_DbTable_TbAssinatura extends MinC_Db_Table_Abstract
     const TIPO_ATO_READEQUACAO_TRANSFERENCIA_RECURSOS = 678;
     const TIPO_ATO_LAUDO_FINAL_PRESTACAO_CONTAS = 623;
 
+
     public function preencherModeloAssinatura(array $dados)
     {
         $this->modeloTbAssinatura = new Assinatura_Model_TbAssinatura($dados);

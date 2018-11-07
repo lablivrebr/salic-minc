@@ -132,7 +132,6 @@ class Assinatura implements IServico
         $quantidadeAssinaturasRealizadas = $dbTableTbAssinatura->obterQuantidadeAssinaturasRealizadas();
         $quantidadeMinimaAssinaturas = $objTbAtoAdministrativo->obterQuantidadeMinimaAssinaturas(
             $modeloTbAtoAdministrativo->getIdTipoDoAto(),
-            $modeloTbAtoAdministrativo->getIdOrdemDaAssinatura(),
             $modeloTbAtoAdministrativo->getIdOrgaoSuperiorDoAssinante(),
             $grupoAtoAdministrativo
         );

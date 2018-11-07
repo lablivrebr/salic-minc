@@ -19,6 +19,18 @@ describe('Teste getters - Avaliação de Resultados', () => {
             planilha: [],
             consolidacaoAnalise: [],
             projetoAnalise: [],
+            dadosMenu: [],
+            registro: [],
+            consolidacaoComprovantes: [],
+            dadosDestinatarios: [],
+            proponente: [],
+            parecer: [],
+            projeto: [],
+            tipoAvaliacao: [],
+            getParecerLaudoFinal: [],
+            projetosFinalizados: [],
+            dadosItemComprovacao: [],
+            
         };
     });
 
@@ -86,6 +98,62 @@ describe('Teste getters - Avaliação de Resultados', () => {
         const result = getters.projetoAnalise(state);
         expect(result).toEqual(state.projetoAnalise);
     });
+
+    test('dadosMenu', () => {
+        const result = getters.dadosMenu(state);
+        expect(result).toEqual(state.dadosTabela);
+    });
+
+    test('registro', () => {
+        const result = getters.registro(state);
+        expect(result).toEqual(state.registroAtivo);
+    });
+
+    test('consolidacaoComprovantes', () => {
+        const result = getters.consolidacaoComprovantes(state);
+        expect(result).toEqual(state.consolidacaoComprovantes);
+    });
+
+    test('dadosDestinatarios', () => {
+        const result = getters.dadosDestinatarios(state);
+        expect(result).toEqual(state.dadosDestinatarios);
+    });
+
+    test('proponente', () => {
+        const result = getters.proponente(state);
+        expect(result).toEqual(state.proponente);
+    });
+
+    test('parecer', () => {
+        const result = getters.parecer(state);
+        expect(result).toEqual(state.parecer);
+    });
+
+    test('projeto', () => {
+        const result = getters.projeto(state);
+        expect(result).toEqual(state.projeto);
+    });
+
+    test('tipoAvaliacao', () => {
+        const result = getters.tipoAvaliacao(state);
+        expect(result).toEqual(state.tipoAvaliacao);
+    });
+
+    test('getParecerLaudoFinal', () => {
+        const result = getters.getParecerLaudoFinal(state);
+        expect(result).toEqual(state.getParecerLaudoFinal);
+    });
+
+    test('getProjetosFinalizados', () => {
+        const result = getters.getProjetosFinalizados(state);
+        expect(result).toEqual(state.projetosFinalizados);
+    });
+
+    test('dadosItemComprovacao', () => {
+        const result = getters.dadosItemComprovacao(state);
+        expect(result).toEqual(state.dadosItemComprovacao);
+    });
+    
     
     
 });

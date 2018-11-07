@@ -113,7 +113,7 @@ class ReadequacaoAssinatura implements IServico
         $tbAtoAdministrativoDbTable = new \Assinatura_Model_DbTable_TbAtoAdministrativo();
         $qtAssinaturas = $tbAtoAdministrativoDbTable->obterQuantidadeMinimaAssinaturas(
             array_values($this->idTiposAtoAdministrativos),
-            $idTipoDoAto, $this->grupoAtivo->codOrgao
+            $this->grupoAtivo->codOrgao
         );
         $qtAssinaturas = (is_null($qtAssinaturas)) ? 0 : $qtAssinaturas;
 

@@ -146,13 +146,12 @@
     </v-container>
 </template>
 <script>
-
 import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import CONST from '../../const';
-import TabelaProjetos from '../TabelaProjetos';
+import TabelaProjetos from './components/TabelaProjetos';
 import Historico from '../components/Historico';
-import Encaminhar from '../ComponenteEncaminhar';
+import Encaminhar from './components/ComponenteEncaminhar';
 import AnaliseButton from '../analise/analisarButton';
 import AssinarButton from '../analise/AssinarButton';
 import Devolver from '../components/Devolver';
@@ -196,9 +195,10 @@ export default {
         this.projetosFinalizados(projetosFinalizados);
         this.projetosAssinarCoordenador();
         this.projetosAssinarCoordenadorGeral();
+
         Vue.set(this.listaAcoesAssinar, 'usuario', this.getUsuario);
-    },
-    watch: {
+        Vue.set(this.listaAcoesCoordenador, 'usuario', this.getUsuario);
+        Vue.set(this.listaAcoesAssinarCoordenadorGeral, 'usuario', this.getUsuario);
     },
     data() {
         return {
@@ -253,7 +253,6 @@ export default {
             getProjetosHistorico: 'avaliacaoResultados/getProjetosHistorico',
             getProjetosParaDistribuir: 'avaliacaoResultados/getProjetosParaDistribuir',
             getUsuario: 'autenticacao/getUsuario',
-            getProjetosRevisao: 'avaliacaoResultados/getProjetosRevisao',
             getProjetosAssinarCoordenador: 'avaliacaoResultados/getProjetosAssinarCoordenador',
             getProjetosAssinarCoordenadorGeral: 'avaliacaoResultados/getProjetosAssinarCoordenadorGeral',
             route: 'route',

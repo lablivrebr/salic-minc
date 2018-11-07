@@ -61,7 +61,6 @@ class Assinatura_Model_DbTable_TbAtoAdministrativo extends MinC_Db_Table_Abstrac
     public function obterQuantidadeMinimaAssinaturas(
         $idTipoDoAto,
         $idOrgaoSuperiorDoAssinante,
-        $idOrgaoDoAssinante = null,
         $grupo = null
     ) {
         $objQuery = $this->select();
@@ -81,9 +80,6 @@ class Assinatura_Model_DbTable_TbAtoAdministrativo extends MinC_Db_Table_Abstrac
         if ($grupo) {
             $objQuery->where('grupo = ?', $grupo);
         } else {
-            if ($idOrgaoDoAssinante) {
-                $objQuery->where('idOrgaoDoAssinante = ?', $idOrgaoDoAssinante);
-            }
             $objQuery->where('idOrgaoSuperiorDoAssinante = ?', $idOrgaoSuperiorDoAssinante);
         }
         

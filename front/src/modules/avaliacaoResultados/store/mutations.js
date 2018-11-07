@@ -118,9 +118,6 @@ export const mutations = {
     [types.GET_PARECER_LAUDO_FINAL](state, data) {
         state.getParecerLaudoFinal = data;
     },
-    [types.GET_PROJETO_ANALISE](state, projetoAnalise) {
-        state.projetoAnalise = projetoAnalise;
-    },
     [types.SET_PARECER](state, parecer) {
         state.parecer = parecer;
     },

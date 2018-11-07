@@ -10,7 +10,7 @@ class Finalizar implements IAcaoFinalizar
     {
         $modeloTbAssinatura = $assinatura->modeloTbAssinatura;
 
-        $objProjetos = new \Projetos();
+       /* $objProjetos = new \Projetos();
         $objProjetos->alterarSituacao(
             $modeloTbAssinatura->getIdPronac(),
             null,
@@ -70,7 +70,7 @@ class Finalizar implements IAcaoFinalizar
         $dadosVP['stAnaliseProjeto'] = 1;
         $dadosVP['dtRecebido'] = $tblVerificaProjeto->getExpressionDate();
         $dadosVP['stAtivo'] = 1;
-        $tblVerificaProjeto->inserir($dadosVP);
+        $tblVerificaProjeto->inserir($dadosVP);*/
     }
 
 }

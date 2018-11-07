@@ -38,7 +38,7 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
         $this->idAtoDeGestao = $idAtoDeGestao;
     }
 
-    public function iniciarFluxo() :int
+    public function iniciarFluxo(): int
     {
         $objDbTableDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
         $isProjetoDisponivelParaAssinatura = $objDbTableDocumentoAssinatura->isProjetoDisponivelParaAssinatura(
@@ -129,5 +129,14 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
         $view->orgaoSuperior = $dadosOrgaoSuperior['Codigo'];
 
         return $view->render('documento-assinatura.phtml');
+    }
+
+    public function obterProjetoDisponivelParaAssinatura()
+    {
+        $objDbTableDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
+        return $objDbTableDocumentoAssinatura->obterProjetoDisponivelParaAssinatura(
+            $this->idPronac,
+            $this->idTipoDoAtoAdministrativo
+        );
     }
 }

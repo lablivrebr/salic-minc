@@ -1,29 +1,9 @@
-<!-- ========== IN�CIO MENU ========== -->
-<script language="javascript" type="text/javascript" src="<?php echo $this->baseUrl(); ?>/public/scripts/quickmenu.js"></script>
 <div id="menu">
 
-    <!-- in�cio: conte�do principal #container -->
     <div id="container">
 
-        <!-- in�cio: navega��o local #qm0 -->
+
         <script type="text/javascript">
-            function layout_fluido()
-            {
-                var janela = $(window).width();
-
-                var fluidNavGlobal = janela - 245;
-                var fluidConteudo = janela - 253;
-                var fluidTitulo = janela - 252;
-                var fluidRodape = janela - 19;
-
-//                $("#navglobal").css("width",fluidNavGlobal);
-//                $("#conteudo").css("width",fluidConteudo);
-//                $("#titulo").css("width",100%);
-//                $("#rodapeConteudo").css("width",fluidConteudo);
-//                $("#rodape").css("width",fluidRodape);
-
-                $("div#rodapeConteudo").attr("id", "rodapeConteudo_com_menu");
-            }
 
             $(document).ready(function(){
 

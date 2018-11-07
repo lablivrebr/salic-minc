@@ -45,8 +45,9 @@
               'module' => 'comprovacao-objeto',
               'controller' => 'avaliaracompanhamentoprojeto',
               'action' => 'salvar-avaliacao'),
-              '', true); ?>?idPronac=<?php echo $this->idPronac; ?>"
+              '', true); ?>?idPronac=<?= $this->idPronac; ?>"
           method="post">
+        <input type="hidden" name="idPronac" value="<?= $this->idPronac; ?>" />
         <table class="tabela">
             <tr align="center">
                 <td class="destacar bold">PARECER DE AVALIA&Ccedil;&Atilde;O T&Eacute;CNICA<font color="red"> *</td>
@@ -115,25 +116,6 @@
                     <label for="cumpriuParcialmenteObjetivos">Cumpriu parcialmente o objeto e objetivos</label>
                 </td>
             </tr>
-            <tr>
-                <td class="destacar bold" rowspan="2" align="right">Avaliadores <span style="color: red;">*</span></td>
-                <td>
-                    <select class="select_simples w200" disabled="disabled">
-                        <option value="<?php echo $this->nmusuario; ?>"><?php echo $this->nmusuario; ?></option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <select class="select_simples obrigatorio" name="chefiaImediata">
-                        <option value=""> - Selecione -</option>
-                        <?php foreach ($this->Usuarios as $usuarios) { ?>
-                            <option
-                                value="<?php echo $usuarios->idUsuario; ?>" <?php echo ($this->DadosParecer->idChefiaImediata == $usuarios->idUsuario) ? 'selected="selected"' : ''; ?>><?php echo $usuarios->Nome; ?></option>
-                        <?php } ?>
-                    </select>
-                </td>
-            </tr>
         </table>
     </form>
 
@@ -188,6 +170,7 @@
             height: 500,
             toolbar: "bold,italic,underline,color,forecolor backcolor,fontsizeselect",
             menubar: "",
+            content_style: ".mce-content-body {font-size:14px;}",
             setup: function (ed) {
                 ed.on('init', function (e) {
                     ExecucaoDaFuncaoLimiterPag('informacaoAdicional');
@@ -205,6 +188,7 @@
             height: 500,
             toolbar: "bold,italic,underline,color,forecolor backcolor,fontsizeselect",
             menubar: "",
+            content_style: ".mce-content-body {font-size:14px;}",
             setup: function (ed) {
                 ed.on('init', function (e) {
                     ExecucaoDaFuncaoLimiterPag('orientacao', 0);
@@ -222,6 +206,7 @@
             height: 500,
             toolbar: "bold,italic,underline,color,forecolor backcolor,fontsizeselect",
             menubar: "",
+            content_style: ".mce-content-body {font-size:14px;}",
             setup: function (ed) {
                 ed.on('init', function (e) {
                     ExecucaoDaFuncaoLimiterPag('conclusao');

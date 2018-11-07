@@ -17,6 +17,7 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
     protected $_banco = "SAC";
     protected $_schema = "SAC";
     protected $_name = "tbCumprimentoObjeto";
+    protected $_primary = "idCumprimentoObjeto";
 
     private $idCumprimentoObjeto;
     private $idPronac;
@@ -47,20 +48,21 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
      * @param type $empregosGerados
      */
     public function __construct(
-            $idPronac = null,
-            $idUsuario = null,
-            $situacao = null,
-            $etapasConcluidas = null,
-            $medidasAcessibilidade = null,
-            $medidasFruicao = null,
-            $medidasPreventivas = null,
-            $totalEmpregosDiretos = null,
-            $totalEmpregosIndiretos = null,
-            $empregosGerados = null,
-            $medidasAcessibilidadeImagens = null,
-            $medidasFruicaoImagens = null,
-            $medidasPreventivasImagens = null
-            ) {
+        $idPronac = null,
+        $idUsuario = null,
+        $situacao = null,
+        $etapasConcluidas = null,
+        $medidasAcessibilidade = null,
+        $medidasFruicao = null,
+        $medidasPreventivas = null,
+        $totalEmpregosDiretos = null,
+        $totalEmpregosIndiretos = null,
+        $empregosGerados = null,
+        $medidasAcessibilidadeImagens = null,
+        $medidasFruicaoImagens = null,
+        $medidasPreventivasImagens = null
+    )
+    {
         parent::__construct();
         $this->idPronac = $idPronac;
         $this->idUsuario = $idUsuario;
@@ -119,7 +121,7 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
 
     public function getTotalEmpregosDiretos()
     {
-        return $this->totalEmpregosDiretos ? $this->totalEmpregosDiretos  : 0;
+        return $this->totalEmpregosDiretos ? $this->totalEmpregosDiretos : 0;
     }
 
     public function getTotalEmpregosIndiretos()
@@ -142,8 +144,8 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
             $cumprimentoObjetoArquivoModel = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo();
             $cumprimentoObjetoArquivoModel->setIdCumprimentoObjeto($this->getIdCumprimentoObjeto());
             $cumprimentoObjetoArquivoModel->setPosicao(
-                    ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo::ACESSIBILIDADE_FISICA
-                    );
+                ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo::ACESSIBILIDADE_FISICA
+            );
             $this->setMedidasAcessibilidadeImagens($cumprimentoObjetoArquivoModel->buscar());
         }
         return $this->medidasAcessibilidadeImagens;
@@ -159,8 +161,8 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
             $cumprimentoObjetoArquivoModel = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo();
             $cumprimentoObjetoArquivoModel->setIdCumprimentoObjeto($this->getIdCumprimentoObjeto());
             $cumprimentoObjetoArquivoModel->setPosicao(
-                    ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo::FRUICAO_DE_DEMOCRATIZACAO_AO_ACESSO_PUBLICO
-                    );
+                ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo::FRUICAO_DE_DEMOCRATIZACAO_AO_ACESSO_PUBLICO
+            );
             $this->setMedidasFruicaoImagens($cumprimentoObjetoArquivoModel->buscar());
         }
         return $this->medidasFruicaoImagens;
@@ -176,8 +178,8 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
             $cumprimentoObjetoArquivoModel = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo();
             $cumprimentoObjetoArquivoModel->setIdCumprimentoObjeto($this->getIdCumprimentoObjeto());
             $cumprimentoObjetoArquivoModel->setPosicao(
-                    ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo::IMPACTOS_AMBIENTAIS
-                    );
+                ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjetoXArquivo::IMPACTOS_AMBIENTAIS
+            );
             $this->setMedidasPreventivasImagens($cumprimentoObjetoArquivoModel->buscar());
         }
         return $this->medidasPreventivasImagens;
@@ -301,10 +303,10 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
         $this->validarCadastrar();
         $cumprimentoObjetoClone = clone($this);
         $cumprimentoObjetoRow = $this->buscarCumprimentoObjeto(
-                array(
-                    'idPronac=?' => $this->idPronac,
-                    'siCumprimentoObjeto=?' => self::SITUACAO_PROPONENTE)
-                );
+            array(
+                'idPronac=?' => $this->idPronac,
+                'siCumprimentoObjeto=?' => self::SITUACAO_PROPONENTE)
+        );
 
         if (empty($cumprimentoObjetoRow)) {
             $cumprimentoObjetoRow = $this->createRow();
@@ -333,30 +335,30 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
     {
         // criando objeto do tipo select
         $select = $this
-                ->select()
-                ->from(
-                        $this->_name,
-                        array(
-                            'idCumprimentoObjeto',
-                            'idPronac',
-                            'dtCadastro',
-                            'dsEtapasConcluidas' => new Zend_Db_Expr('CAST(dsEtapasConcluidas AS TEXT)'),
-                            'dsMedidasAcessibilidade' => new Zend_Db_Expr('CAST(dsMedidasAcessibilidade AS TEXT)'),
-                            'dsMedidasFruicao' => new Zend_Db_Expr('CAST(dsMedidasFruicao AS TEXT)'),
-                            'dsMedidasPreventivas' => new Zend_Db_Expr('CAST(dsMedidasPreventivas AS TEXT)'),
-                            'dsInformacaoAdicional' => new Zend_Db_Expr('CAST(dsInformacaoAdicional AS TEXT)'),
-                            'dsOrientacao' => new Zend_Db_Expr('CAST(dsOrientacao AS TEXT)'),
-                            'dsConclusao' => new Zend_Db_Expr('CAST(dsConclusao AS TEXT)'),
-                            'stResultadoAvaliacao',
-                            'idUsuarioCadastrador',
-                            'idTecnicoAvaliador',
-                            'siCumprimentoObjeto',
-                            'idChefiaImediata',
-                            'qtEmpregosDiretos',
-                            'qtEmpregosIndiretos',
-                            'dsGeracaoEmpregos' => new Zend_Db_Expr('CAST(dsGeracaoEmpregos AS TEXT)'),
-                        )
-                );
+            ->select()
+            ->from(
+                $this->_name,
+                array(
+                    'idCumprimentoObjeto',
+                    'idPronac',
+                    'dtCadastro',
+                    'dsEtapasConcluidas' => new Zend_Db_Expr('CAST(dsEtapasConcluidas AS TEXT)'),
+                    'dsMedidasAcessibilidade' => new Zend_Db_Expr('CAST(dsMedidasAcessibilidade AS TEXT)'),
+                    'dsMedidasFruicao' => new Zend_Db_Expr('CAST(dsMedidasFruicao AS TEXT)'),
+                    'dsMedidasPreventivas' => new Zend_Db_Expr('CAST(dsMedidasPreventivas AS TEXT)'),
+                    'dsInformacaoAdicional' => new Zend_Db_Expr('CAST(dsInformacaoAdicional AS TEXT)'),
+                    'dsOrientacao' => new Zend_Db_Expr('CAST(dsOrientacao AS TEXT)'),
+                    'dsConclusao' => new Zend_Db_Expr('CAST(dsConclusao AS TEXT)'),
+                    'stResultadoAvaliacao',
+                    'idUsuarioCadastrador',
+                    'idTecnicoAvaliador',
+                    'siCumprimentoObjeto',
+                    'idChefiaImediata',
+                    'qtEmpregosDiretos',
+                    'qtEmpregosIndiretos',
+                    'dsGeracaoEmpregos' => new Zend_Db_Expr('CAST(dsGeracaoEmpregos AS TEXT)'),
+                )
+            );
 
         // adicionando clausulas where
         foreach ($where as $coluna => $valor) {
@@ -373,51 +375,77 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
             $cumprimentoObjetoRow = $this->fetchRow($select);
             if ($cumprimentoObjetoRow) {
                 $this->setIdCumprimentoObjeto($cumprimentoObjetoRow->idCumprimentoObjeto)
-                        ->setIdPronac($cumprimentoObjetoRow->idPronac)
-                        ->setDataCadastro($cumprimentoObjetoRow->dtCadastro)
-                        ->setEtapasConcluidas($cumprimentoObjetoRow->dsEtapasConcluidas)
-                        ->setMedidasAcessibilidade($cumprimentoObjetoRow->dsMedidasAcessibilidade)
-                        ->setMedidasFruicao($cumprimentoObjetoRow->dsMedidasFruicao)
-                        ->setMedidasPreventivas($cumprimentoObjetoRow->dsMedidasPreventivas)
-                        ->setIdUsuario($cumprimentoObjetoRow->idUsuarioCadastrador)
-                        ->setSituacao($cumprimentoObjetoRow->siCumprimentoObjeto)
-                        ->setTotalEmpregosDiretos($cumprimentoObjetoRow->qtEmpregosDiretos)
-                        ->setTotalEmpregosIndiretos($cumprimentoObjetoRow->qtEmpregosIndiretos)
-                        ->setEmpregosGerados($cumprimentoObjetoRow->dsGeracaoEmpregos);
+                    ->setIdPronac($cumprimentoObjetoRow->idPronac)
+                    ->setDataCadastro($cumprimentoObjetoRow->dtCadastro)
+                    ->setEtapasConcluidas($cumprimentoObjetoRow->dsEtapasConcluidas)
+                    ->setMedidasAcessibilidade($cumprimentoObjetoRow->dsMedidasAcessibilidade)
+                    ->setMedidasFruicao($cumprimentoObjetoRow->dsMedidasFruicao)
+                    ->setMedidasPreventivas($cumprimentoObjetoRow->dsMedidasPreventivas)
+                    ->setIdUsuario($cumprimentoObjetoRow->idUsuarioCadastrador)
+                    ->setSituacao($cumprimentoObjetoRow->siCumprimentoObjeto)
+                    ->setTotalEmpregosDiretos($cumprimentoObjetoRow->qtEmpregosDiretos)
+                    ->setTotalEmpregosIndiretos($cumprimentoObjetoRow->qtEmpregosIndiretos)
+                    ->setEmpregosGerados($cumprimentoObjetoRow->dsGeracaoEmpregos);
             }
             return $cumprimentoObjetoRow;
         }
     }
 
-    public function listaRelatorios($where=array(), $order=array(), $tamanho=-1, $inicio=-1, $qtdeTotal=false)
+    public function listaRelatorios($where = array(), $order = array(), $tamanho = -1, $inicio = -1, $qtdeTotal = false, $analisados = false)
     {
         $select = $this->select();
         $select->setIntegrityCheck(false);
         $select->from(
-                array('a' => $this->_name),
-                array(
-                    new Zend_Db_Expr('b.IdPRONAC,b.AnoProjeto+b.Sequencial as Pronac,b.NomeProjeto,b.UfProjeto,b.Mecanismo,b.Situacao,a.dtCadastro,a.idTecnicoAvaliador,a.stResultadoAvaliacao,c.Descricao as dsSituacao, co.DtEnvioDaPrestacaoContas')
-                )
+            array('a' => $this->_name),
+            array(
+                'a.dtCadastro',
+                'a.idTecnicoAvaliador',
+                'a.stResultadoAvaliacao',
+                'a.DtEnvioDaPrestacaoContas'
+            ),
+            $this->_schema
         );
         $select->joinInner(
-                array('b' => 'Projetos'),
-                'a.idPronac = b.IdPRONAC',
-                array(),
-            'SAC.dbo'
-        );
-        $select->joinInner(
-                array('c' => 'Situacao'),
-                'b.Situacao = c.Codigo',
-                array(),
-            'SAC.dbo'
+            array('b' => 'Projetos'),
+            'a.idPronac = b.IdPRONAC',
+            array(
+                new Zend_Db_Expr('b.IdPRONAC,b.AnoProjeto+b.Sequencial as Pronac'),
+                'b.NomeProjeto',
+                'b.UfProjeto',
+                'b.Mecanismo',
+                'b.Situacao'
+            ),
+            $this->_schema
         );
 
         $select->joinInner(
-                 array('co' => 'tbCumprimentoObjeto'),
-                 ' b.IdPRONAC = co.idPronac',
-                 array(),
-            'SAC.dbo'
+            array('c' => 'Situacao'),
+            'b.Situacao = c.Codigo',
+            array(
+                'c.Descricao as dsSituacao'
+            ),
+            $this->_schema
         );
+
+        if ($analisados) {
+            $idAtoAdministrativo = Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_PARECER_AVALIACAO_OBJETO;
+            $select->joinLeft(
+                array('d' => 'tbDocumentoAssinatura'),
+                "a.IdPRONAC = d.idPronac 
+                    AND d.cdSituacao = 1 
+                    AND d.stEstado = 1
+                    AND d.idTipoDoAtoAdministrativo = {$idAtoAdministrativo}
+                    ",
+                array(
+                    'd.idDocumentoAssinatura',
+                    new Zend_Db_Expr("(select count(*)
+                                        from sac.dbo.TbAssinatura as  tbAssinatura
+                                       where tbAssinatura.idPronac = d.idPronac
+                                         and tbAssinatura.idDocumentoAssinatura = d.idDocumentoAssinatura) as quantidadeAssinaturas")
+                ),
+                $this->_schema
+            );
+        }
 
         //adiciona quantos filtros foram enviados
         foreach ($where as $coluna => $valor) {
@@ -463,7 +491,7 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
         $select->where('siCumprimentoObjeto <> ?', 1);
         $select->where('idPronac = ?', $idPronac);
         $select->limit(1);
-        
+
         $result = $this->fetchAll($select);
 
         if (count($result) > 0) {

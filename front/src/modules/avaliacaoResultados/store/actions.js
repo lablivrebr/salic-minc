@@ -114,6 +114,9 @@ export const planilha = ({ commit }, params) => {
         .then((response) => {
             const planilha = response.data;
             commit(types.GET_PLANILHA, planilha);
+        }).catch((error) => {
+            const data = error.response;
+            commit(types.GET_PLANILHA, { error: data.data.data.erro });
         });
 };
 

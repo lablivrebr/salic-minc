@@ -39,7 +39,7 @@ export const obterDadosTabelaTecnico = (params) => {
 
 export const obterHistoricoEncaminhamento = params => api.getRequest(`/avaliacao-resultados/historico/idPronac/${params}`);
 
-export const planilha = params => api.getRequest(`/prestacao-contas/realizar-prestacao-contas/planilha-analise-filtros/idPronac/${params}`);
+export const planilha = params => api.getRequest(`/avaliacao-resultados/planilha-aprovada/idPronac/${params}`);
 
 export const projetoAnalise = params => api.getRequest(`/avaliacao-resultados/projeto/idPronac/${params}`);
 

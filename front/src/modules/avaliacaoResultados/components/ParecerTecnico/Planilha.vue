@@ -64,7 +64,15 @@
 
             </v-card-actions>
         </v-card>
-        <template v-if="Object.keys(planilha).length">
+        <template v-if="Object.keys(planilha).length > 0 && planilha.error">
+                <v-alert
+                    :value="true"
+                    color="error"
+                >
+                    {{planilha.error.message}}
+                </v-alert>
+        </template>
+        <template v-else-if="Object.keys(planilha).length">
             <v-card class="mt-3" flat>
                 <!-- PRODUTO -->
                 <v-expansion-panel

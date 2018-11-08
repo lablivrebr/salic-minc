@@ -1,3 +1,6 @@
+// Import commands.js using ES2015 syntax:
+import './commands'
+
 before( () => {
     cy.visit('localhost');
         
@@ -7,11 +10,9 @@ before( () => {
 
     cy.visit('http://localhost/principal');
 
-    cy.wait(1000)
+    cy.wait(1000);
 });
 
-// Import commands.js using ES2015 syntax:
-import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

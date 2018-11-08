@@ -149,7 +149,7 @@
 
             <?php if (count($this->dados) > 0) : ?>
 
-                <?php if ($this->qtdRelatorios > 10) : //echo $this->dados; ?>
+                <?php if ($this->qtdRelatorios > 10) : ?>
                     <center>
                         <?php
                         echo $this->paginacao['inicio'] . " a ";
@@ -190,9 +190,8 @@
                                                         class="input_simples">
                                         <?php for ($i = 1; $i <= $this->paginacao['totalPag']; $i++): ?>
                                             <option
-                                                value="<?php echo $i; ?>" <?php if ($this->paginacao['pag'] == $i) echo "selected"; ?>><?php echo $i; ?>
-                                                &nbsp;
-                                            </option>
+                                                value="<?php echo $i; ?>" <?php if ($this->paginacao['pag'] == $i) echo "selected"; ?>
+                                            ><?php echo $i; ?></option>
                                         <?php endfor; ?>
                                     </select>
                                     &nbsp;Registros por p&aacute;gina:<input type="text" size="1" name="qtde" id="qtde"

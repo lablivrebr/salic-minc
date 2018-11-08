@@ -68,7 +68,7 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
         }
 
         $dados = [
-            'siCumprimentoObjeto' => \ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto::SI_PARA_AVALIACAO_COORDENADOR
+            'siCumprimentoObjeto' => \ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto::SI_EM_AVALIACAO_TECNICO
         ];
 
         $whereObjeto = 'idCumprimentoObjeto = ' . $this->idAtoDeGestao;

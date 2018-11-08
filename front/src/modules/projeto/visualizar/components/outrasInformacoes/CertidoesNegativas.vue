@@ -20,13 +20,11 @@
                     </thead>
                     <tbody v-for="(dado, index) in dados.certidoes" :key="index">
                     <tr>
-                        <td class="center">{{ dado.dsCertidao }}</td>
+                        <td class="center" v-html="dado.dsCertidao"></td>
                         <td class="center">{{ dado.DtEmissao }}</td>
                         <td class="center">{{ dado.DtValidade }}</td>
                         <td class="center">{{ dado.Pronac }}</td>
-                        <td class="center" v-if="dado.Situacao">
-                            {{ dado.Situacao }}
-                        </td>
+                        <td class="center" v-if="dado.Situacao" v-html="dado.Situacao"></td>
                         <td class="center" v-else>
                             Vencida
                         </td>

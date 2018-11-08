@@ -44,6 +44,8 @@ class HistoricoEncaminhamento implements \MinC\Servico\IServicoRestZend
 
         $resultArray['Encaminhamentos'] = $Encaminhamentos;
 
+        $resultArray = \TratarArray::utf8EncodeArray($resultArray);
+
         return $resultArray;
     }
 
@@ -51,18 +53,27 @@ class HistoricoEncaminhamento implements \MinC\Servico\IServicoRestZend
         $result = [];
 
         foreach ($historicoEncaminhamento as $item) {
-            $produto = html_entity_decode(utf8_encode($item['Produto']));
-            $unidade = html_entity_decode(utf8_encode($item['Unidade']));
-            $observacao = html_entity_decode(utf8_encode($item['Observacao']));
-            $objDateTimeDtEnvio = new \DateTime($item['DtEnvio']);
-            $objDateTimeDtRetorno = new \DateTime($item['DtRetorno']);
+            $produto = $item['Produto'];
+            $unidade = $item['Unidade'];
+            $observacao = $item['Observacao'];
+            $objDateTimeDtEnvio = ' ';
+            $objDateTimeDtRetorno = ' ';
+
+            if (!empty($item['DtEnvio'])) {
+                $objDateTimeDtEnvio = new \DateTime($item['DtEnvio']);
+                $objDateTimeDtEnvio = $objDateTimeDtEnvio->format('d/m/Y H:i:s');
+            }
+            if (!empty($item['DtRetorno'])) {
+                $objDateTimeDtRetorno = new \DateTime($item['DtRetorno']);
+                $objDateTimeDtRetorno = $objDateTimeDtRetorno->format('d/m/Y H:i:s');
+            }
 
             $result[] = [
                 'Produto' => $produto,
                 'Unidade' => $unidade,
                 'Observacao' => $observacao,
-                'DtEnvio' => $objDateTimeDtEnvio->format('d/m/Y H:i:s'),
-                'DtRetorno' => $objDateTimeDtRetorno->format('d/m/Y H:i:s'),
+                'DtEnvio' => $objDateTimeDtEnvio,
+                'DtRetorno' => $objDateTimeDtRetorno,
                 'qtDias' => $item['qtDias']
             ];
 

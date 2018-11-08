@@ -52,12 +52,14 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
         $resultArray['CustosVinculados'] = $CustosVinculadosArray;
         $resultArray['Proposta'] = $PropostaArray;
 
+        $resultArray = \TratarArray::utf8EncodeArray($resultArray);
+
         return $resultArray;
     }
 
     private function montaArrayCustosVinculados($itensCustosVinculados) {
         foreach ($itensCustosVinculados as $item) {
-            $descricao = html_entity_decode(utf8_encode($item['Descricao']));
+            $descricao = $item['Descricao'];
 
             $CustosVinculadosArray[] = [
                 'Descricao' => $descricao,
@@ -70,16 +72,16 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
 
     private function montaArrayProposta($rsProposta) {
         $PropostaArray = [];
-        $Objetivos = html_entity_decode(utf8_encode($rsProposta['Objetivos']));
-        $Justificativa = html_entity_decode(utf8_encode($rsProposta['Justificativa']));
-        $Acessibilidade = html_entity_decode(utf8_encode($rsProposta['Acessibilidade']));
-        $DemocratizacaoDeAcesso = html_entity_decode(utf8_encode($rsProposta['DemocratizacaoDeAcesso']));
-        $EtapaDeTrabalho = html_entity_decode(utf8_encode($rsProposta['EtapaDeTrabalho']));
-        $FichaTecnica = html_entity_decode(utf8_encode($rsProposta['FichaTecnica']));
-        $ImpactoAmbiental = html_entity_decode(utf8_encode($rsProposta['ImpactoAmbiental']));
-        $EspecificacaoTecnica = html_entity_decode(utf8_encode($rsProposta['EspecificacaoTecnica']));
-        $OutrasInformacoes = html_entity_decode(utf8_encode($rsProposta['EstrategiadeExecucao']));
-        $Sinopse = html_entity_decode(utf8_encode($rsProposta['Sinopse']));
+        $Objetivos = $rsProposta['Objetivos'];
+        $Justificativa = $rsProposta['Justificativa'];
+        $Acessibilidade = $rsProposta['Acessibilidade'];
+        $DemocratizacaoDeAcesso = $rsProposta['DemocratizacaoDeAcesso'];
+        $EtapaDeTrabalho = $rsProposta['EtapaDeTrabalho'];
+        $FichaTecnica = $rsProposta['FichaTecnica'];
+        $ImpactoAmbiental = $rsProposta['ImpactoAmbiental'];
+        $EspecificacaoTecnica = $rsProposta['EspecificacaoTecnica'];
+        $OutrasInformacoes = $rsProposta['EstrategiadeExecucao'];
+        $Sinopse = $rsProposta['Sinopse'];
 
         $PropostaArray = [
             'Objetivos' => $Objetivos,

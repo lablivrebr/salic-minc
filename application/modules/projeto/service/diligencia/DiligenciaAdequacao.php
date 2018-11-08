@@ -46,12 +46,14 @@ class DiligenciaAdequacao implements \MinC\Servico\IServicoRestZend
 
         $adequacao = $this->obterDiligenciaAdequacaoProjeto($diligenciasAdequacao);
 
+        $adequacao = \TratarArray::utf8EncodeArray($adequacao);
+
         return $adequacao;
     }
 
     private function obterDiligenciaAdequacaoProjeto($diligencia)
     {
-            $dsAvaliacao = html_entity_decode(utf8_encode($diligencia['dsAvaliacao']));
+            $dsAvaliacao = $diligencia['dsAvaliacao'];
             $objDateTimeDtAvaliacao = new \DateTime($diligencia['dtAvaliacao']);
 
             $resultArray = [

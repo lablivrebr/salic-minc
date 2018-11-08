@@ -47,10 +47,10 @@ class PlanoDistribuicaoIn2013 implements \MinC\Servico\IServicoRestZend
                 'QtdePatrocinador' => $item->QtdePatrocinador,
                 'QtdeOutros' => $item->QtdeOutros,
                 'QtdeVendaPromocional' => $item->QtdeVendaPromocional,
-                'Produto' => utf8_encode($item->Produto),
-                'Area' => utf8_encode($item->Area),
-                'Segmento' => utf8_encode($item->Segmento),
-                'PosicaoDaLogo' => utf8_encode($item->PosicaoDaLogo),
+                'Produto' => $item->Produto,
+                'Area' => $item->Area,
+                'Segmento' => $item->Segmento,
+                'PosicaoDaLogo' => $item->PosicaoDaLogo,
                 'PrecoUnitarioNormal' => $item->PrecoUnitarioNormal,
                 'PrecoUnitarioPromocional' => $item->PrecoUnitarioPromocional,
                 'ReceitaNormal' => $item->ReceitaNormal,
@@ -58,6 +58,8 @@ class PlanoDistribuicaoIn2013 implements \MinC\Servico\IServicoRestZend
                 'ReceitaPrevista' => $item->ReceitaPrevista,
             ];
         }
+
+        $resultArray = \TratarArray::utf8EncodeArray($resultArray);
 
         return $resultArray;
     }

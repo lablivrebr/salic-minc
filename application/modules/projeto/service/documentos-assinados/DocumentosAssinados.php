@@ -37,17 +37,24 @@ class DocumentosAssinados implements \MinC\Servico\IServicoRestZend
 
         $itemArray = [];
         foreach ($dados as $dado) {
-            $dtCriacao = new \DateTime($dado['dt_criacao']);
+            $dtCriacao = ' ';
+
+            if (!empty($dado['dt_criacao'])) {
+                $dtCriacao = new \DateTime($dado['dt_criacao']);
+                $dtCriacao = $dtCriacao->format('d/m/Y H:i:s');
+            }
 
             $itemArray[] = [
                 'pronac' => $dado['pronac'],
-                'nomeProjeto' => utf8_encode($dado['nomeProjeto']),
-                'dsAtoAdministrativo' => utf8_encode($dado['dsAtoAdministrativo']),
-                'dt_criacao' => $dtCriacao->format('d/m/Y H:i:s'),
+                'nomeProjeto' => $dado['nomeProjeto'],
+                'dsAtoAdministrativo' => $dado['dsAtoAdministrativo'],
+                'dt_criacao' => $dtCriacao,
                 'idDocumentoAssinatura' => $dado['idDocumentoAssinatura'],
                 'IdPRONAC' => $dado['IdPRONAC'],
             ];
         }
+
+        $itemArray = \TratarArray::utf8EncodeArray($itemArray);
 
         return $itemArray;
     }

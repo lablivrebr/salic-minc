@@ -35,6 +35,8 @@ class UltimaTramitacao implements \MinC\Servico\IServicoRestZend
 
         $tramitacoes = $this->obterUltimaTramitacao($rst);
 
+        $tramitacoes = \TratarArray::utf8EncodeArray($tramitacoes);
+
         return $tramitacoes;
     }
 
@@ -42,17 +44,26 @@ class UltimaTramitacao implements \MinC\Servico\IServicoRestZend
     {
         $resultArray = [];
         foreach ($tramitacoes as $tramitacao) {
-            $Emissor = html_entity_decode(utf8_encode($tramitacao['Emissor']));
-            $Receptor = html_entity_decode(utf8_encode($tramitacao['Receptor']));
-            $meDespacho = html_entity_decode(utf8_encode($tramitacao['meDespacho']));
-            $objDateTimeDtTramitacaoEnvio = new \DateTime($tramitacao['DtTramitacaoEnvio']);
-            $objDateTimedtTramitacaoRecebida = new \DateTime($tramitacao['dtTramitacaoRecebida']);
+            $Emissor = $tramitacao['Emissor'];
+            $Receptor = $tramitacao['Receptor'];
+            $meDespacho = $tramitacao['meDespacho'];
+            $objDateTimeDtTramitacaoEnvio = ' ';
+            $objDateTimedtTramitacaoRecebida = ' ';
+
+            if (!empty($tramitacao['DtTramitacaoEnvio'])) {
+                $objDateTimeDtTramitacaoEnvio = new \DateTime($tramitacao['DtTramitacaoEnvio']);
+                $objDateTimeDtTramitacaoEnvio = $objDateTimeDtTramitacaoEnvio->format('d/m/Y H:i:s');
+            }
+            if (!empty($tramitacao['dtTramitacaoRecebida'])) {
+                $objDateTimedtTramitacaoRecebida = new \DateTime($tramitacao['dtTramitacaoRecebida']);
+                $objDateTimedtTramitacaoRecebida = $objDateTimedtTramitacaoRecebida->format('d/m/Y H:i:s');
+            }
 
             $resultArray[] = [
                 'Emissor' => $Emissor,
-                'dtTramitacaoEnvio' => $objDateTimeDtTramitacaoEnvio->format('d/m/Y H:i:s'),
+                'dtTramitacaoEnvio' => $objDateTimeDtTramitacaoEnvio,
                 'Receptor' => $Receptor,
-                'dtTramitacaoRecebida' => $objDateTimedtTramitacaoRecebida->format('d/m/Y H:i:s'),
+                'dtTramitacaoRecebida' => $objDateTimedtTramitacaoRecebida,
                 'Estado' => $tramitacao['Estado'],
                 'Destino' => $tramitacao['Destino'],
                 'meDespacho' => $meDespacho,

@@ -37,6 +37,8 @@ class ProvidenciaTomada implements \MinC\Servico\IServicoRestZend
         $providenciaTomada = $this->montaArrayProvidenciaTomada($result);
         $resultArray['providenciaTomada'] = $providenciaTomada;
 
+        $resultArray = \TratarArray::utf8EncodeArray($resultArray);
+
         return $resultArray;
     }
 
@@ -45,11 +47,16 @@ class ProvidenciaTomada implements \MinC\Servico\IServicoRestZend
         $resultArray = [];
 
         foreach ($providenciaTomada as $providencia) {
-            $ProvidenciaTomada = html_entity_decode(utf8_encode($providencia['ProvidenciaTomada']));
-            $usuario = html_entity_decode(utf8_encode($providencia['usuario']));
-            $objDateTimeDtSituacao = new \DateTime($providencia['DtSituacao']);
+            $ProvidenciaTomada = $providencia['ProvidenciaTomada'];
+            $usuario = $providencia['usuario'];
+            $objDateTimeDtSituacao = ' ';
+
+            if (!empty($providencia['DtSituacao'])) {
+                $objDateTimeDtSituacao = new \DateTime($providencia['DtSituacao']);
+                $objDateTimeDtSituacao = $objDateTimeDtSituacao->format('d/m/Y H:i:s');
+            }
             $resultArray[] = [
-                'DtSituacao' => $objDateTimeDtSituacao->format('d/m/Y H:i:s'),
+                'DtSituacao' => $objDateTimeDtSituacao,
                 'Situacao' => $providencia['Situacao'],
                 'ProvidenciaTomada' => $ProvidenciaTomada,
                 'cnpjcpf' => $providencia['cnpjcpf'],

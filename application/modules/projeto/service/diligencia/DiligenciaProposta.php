@@ -43,14 +43,18 @@ class DiligenciaProposta implements \MinC\Servico\IServicoRestZend
             ]
         )->current();
 
-        return $this->obterDiligenciaProposta($diligenciasProposta);
+        $proposta = $this->obterDiligenciaProposta($diligenciasProposta);
+
+        $proposta = \TratarArray::utf8EncodeArray($proposta);
+
+        return $proposta;
     }
 
     private function obterDiligenciaProposta($diligencia)
     {
-        $Solicitacao = html_entity_decode(utf8_encode($diligencia['Solicitacao']));
-        $Resposta = html_entity_decode(utf8_encode($diligencia['Resposta']));
-        $nomeProjeto = html_entity_decode(utf8_encode($diligencia['nomeProjeto']));
+        $Solicitacao = $diligencia['Solicitacao'];
+        $Resposta = $diligencia['Resposta'];
+        $nomeProjeto = $diligencia['nomeProjeto'];
 
         $objDateTimedataSolicitacao = new \DateTime($diligencia['dataSolicitacao']);
         $objDateTimedataResposta = new \DateTime($diligencia['dataResposta']);

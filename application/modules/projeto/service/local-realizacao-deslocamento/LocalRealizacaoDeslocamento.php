@@ -46,6 +46,8 @@ class LocalRealizacaoDeslocamento implements \MinC\Servico\IServicoRestZend
         $resultArray['localRealizacoes'] = $localRealizacoes;
         $resultArray['Deslocamento'] = $deslocamento;
 
+        $resultArray = \TratarArray::utf8EncodeArray($resultArray);
+
         return $resultArray;
     }
 
@@ -53,9 +55,9 @@ class LocalRealizacaoDeslocamento implements \MinC\Servico\IServicoRestZend
         $localRealizacoes = [];
 
         foreach ($local as $item) {
-            $descricao = html_entity_decode(utf8_encode($item->Descricao));
-            $uf = html_entity_decode(utf8_encode($item->UF));
-            $cidade = html_entity_decode(utf8_encode($item->Cidade));
+            $descricao = $item->Descricao;
+            $uf = $item->UF;
+            $cidade = $item->Cidade;
 
             $localRealizacoes[] = [
                 'Descricao' => $descricao,
@@ -71,12 +73,12 @@ class LocalRealizacaoDeslocamento implements \MinC\Servico\IServicoRestZend
         $deslocamentoResult = [];
 
         foreach ($deslocamento as $item) {
-            $PaisOrigem = html_entity_decode(utf8_encode($item->PaisOrigem));
-            $UFOrigem = html_entity_decode(utf8_encode($item->UFOrigem));
-            $MunicipioOrigem = html_entity_decode(utf8_encode($item->MunicipioOrigem));
-            $PaisDestino = html_entity_decode(utf8_encode($item->PaisDestino));
-            $UFDestino = html_entity_decode(utf8_encode($item->UFDestino));
-            $MunicipioDestino = html_entity_decode(utf8_encode($item->MunicipioDestino));
+            $PaisOrigem = $item->PaisOrigem;
+            $UFOrigem = $item->UFOrigem;
+            $MunicipioOrigem = $item->MunicipioOrigem;
+            $PaisDestino = $item->PaisDestino;
+            $UFDestino = $item->UFDestino;
+            $MunicipioDestino = $item->MunicipioDestino;
 
             $deslocamentoResult[] = [
                 'Qtde' => $item->Qtde,

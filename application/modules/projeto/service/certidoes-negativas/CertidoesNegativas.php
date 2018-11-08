@@ -40,16 +40,30 @@ class CertidoesNegativas implements \MinC\Servico\IServicoRestZend
         $resultArray = [];
 
         foreach ($resultado as $item) {
-            $dsCertidao = html_entity_decode($item['dsCertidao']);
-            $situacao = html_entity_decode($item['Situacao']);
-            $objDateTimeDtEmissao = new \DateTime($item['DtEmissao']);
-            $objDateTimeDtValidade = new \DateTime($item['DtValidade']);
+            $dsCertidao = $item['dsCertidao'];
+            $situacao = $item['Situacao'];
+            $objDateTimeDtEmissao = ' ';
+            $objDateTimeDtValidade = ' ';
+
+            if (!empty($item['DtEmissao'])) {
+                $objDateTimeDtEmissao = new \DateTime($item['DtEmissao']);
+                $objDateTimeDtEmissao = $objDateTimeDtEmissao->format('d/m/Y H:i:s');
+            }
+
+            if (!empty($item['DtValidade'])) {
+                $objDateTimeDtValidade = new \DateTime($item['DtValidade']);
+                $objDateTimeDtValidade = $objDateTimeDtValidade->format('d/m/Y H:i:s');
+            }
+
+            if ($item['DtValidade'] == '1900-01-01 00:00:00') {
+                $objDateTimeDtValidade = ' - ';
+            }
 
             $itemArray = [
                 'dsCertidao' => $dsCertidao,
                 'CodigoCertidao' => $item['CodigoCertidao'],
-                'DtEmissao' => $objDateTimeDtEmissao->format('d/m/Y H:i:s'),
-                'DtValidade' => $objDateTimeDtValidade->format('d/m/Y H:i:s'),
+                'DtEmissao' => $objDateTimeDtEmissao,
+                'DtValidade' => $objDateTimeDtValidade,
                 'Pronac' => $item['Pronac'],
                 'Situacao' => $situacao,
             ];
@@ -59,6 +73,8 @@ class CertidoesNegativas implements \MinC\Servico\IServicoRestZend
 
 
         $resultArray['certidoes'] = $certidoes;
+
+        $resultArray = \TratarArray::utf8EncodeArray($resultArray);
 
         return $resultArray;
     }

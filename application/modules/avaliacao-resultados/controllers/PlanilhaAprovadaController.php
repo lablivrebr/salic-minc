@@ -31,29 +31,34 @@ class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Res
 
         $planilhaJSON = null;
 
-        if(!empty($resposta->toArray())){
+        if(!empty($resposta->toArray())) {
 
             foreach($resposta as $item) {
-                $planilhaJSON
-                [$item->cdProduto]
-                ['etapa']
-                [$item->cdEtapa]
-                ['UF']
-                [$item->cdUF]
-                ['cidade']
-                [$item->cdCidade]
-                ['itens']
-                [$item->stItemAvaliado]
-                [$item->idPlanilhaItens] = [
-                    'item' => utf8_encode($item->Item),
-                    'varlorAprovado' => $item->vlAprovado,
-                    'varlorComprovado' => $item->vlComprovado,
-                    'comprovacaoValidada' => $item->ComprovacaoValidada,
-                    'idPlanilhaAprovacao' => $item->idPlanilhaAprovacao,
-                    'idPlanilhaItens' => $item->idPlanilhaItens,
-                    'ComprovacaoValidada' => $item->ComprovacaoValidada,
-                    'stItemAvaliado' => $item->stItemAvaliado,
-                ];
+                if($item->stItemAvaliado){
+                    $planilhaJSON
+                        [$item->cdProduto]
+                        ['etapa']
+                        [$item->cdEtapa]
+                        ['UF']
+                        [$item->cdUF]
+                        ['cidade']
+                        [$item->cdCidade]
+                        ['itens']
+                        [$item->stItemAvaliado]
+                        [$item->idPlanilhaItens] = [
+                            'item' => utf8_encode($item->Item),
+                            'valor' => utf8_encode($item->valor),
+                            'quantidade' => ($item->quantidade),
+                            'numeroOcorrencias' => ($item->numeroOcorrencias),
+                            'varlorAprovado' => $item->vlAprovado,
+                            'varlorComprovado' => $item->vlComprovado,
+                            'comprovacaoValidada' => $item->ComprovacaoValidada,
+                            'idPlanilhaAprovacao' => $item->idPlanilhaAprovacao,
+                            'idPlanilhaItens' => $item->idPlanilhaItens,
+                            'ComprovacaoValidada' => $item->ComprovacaoValidada,
+                            'stItemAvaliado' => $item->stItemAvaliado,
+                        ];
+                }
 
                 $planilhaJSON
                 [$item->cdProduto]
@@ -67,6 +72,9 @@ class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Res
                 ['todos']
                 [$item->idPlanilhaItens] = [
                     'item' => utf8_encode($item->Item),
+                    'valor' => utf8_encode($item->valor),
+                    'quantidade' => ($item->quantidade),
+                    'numeroOcorrencias' => ($item->numeroOcorrencias),
                     'varlorAprovado' => $item->vlAprovado,
                     'varlorComprovado' => $item->vlComprovado,
                     'comprovacaoValidada' => $item->ComprovacaoValidada,

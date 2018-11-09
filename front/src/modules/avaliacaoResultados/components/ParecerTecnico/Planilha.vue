@@ -76,7 +76,7 @@
             <v-card class="mt-3" flat>
                 <!-- PRODUTO -->
                 <v-expansion-panel
-                   expand
+                    expand
                     :v-if="getPlanilha != undefined && Object.keys(getPlanilha)"
                     :value="expandir(getPlanilha)"
                 >
@@ -134,8 +134,17 @@
                                                         <v-tabs
                                                             slider-color="green"
                                                         >
-                                                            <v-tab ripple v-for="(tab, index) in Object.keys(cidade.itens)" :key="index">{{ tabs[tab] }}</v-tab>
-                                                            <v-tab-item v-for="item in cidade.itens" :key="item.stItemAvaliado">
+                                                            <v-tab
+                                                                ripple
+                                                                v-for="(tab, index) in Object.keys(cidade.itens)"
+                                                                :key="index"
+                                                            >
+                                                                {{ tabs[tab] }}
+                                                            </v-tab>
+                                                            <v-tab-item
+                                                                v-for="item in cidade.itens"
+                                                                :key="item.stItemAvaliado"
+                                                            >
                                                                 <v-data-table
                                                                     :headers="headers"
                                                                     :items="Object.values(item)"
@@ -143,15 +152,17 @@
                                                                 >
                                                                     <template slot="items" slot-scope="props">
                                                                         <td>{{ props.item.item }}</td>
+                                                                        <td>{{ (props.item.quantidade) }}</td>
+                                                                        <td>{{ (props.item.numeroOcorrencias) }}</td>
+                                                                        <td>{{ moeda(parseFloat(props.item.valor)) }}</td>
                                                                         <td>{{ moeda(props.item.varlorAprovado) }}</td>
                                                                         <td>{{ moeda(props.item.varlorComprovado) }}</td>
                                                                         <td>{{ moeda(props.item.varlorAprovado - props.item.varlorComprovado) }}</td>
                                                                         <td >
-
                                                                             <template
                                                                                 v-if="podeEditar(props.item.varlorComprovado)"
                                                                             >
-                                                                                 <analisar-item
+                                                                                <analisar-item
                                                                                      :id-pronac="idPronac"
                                                                                      :uf="uf.Uf"
                                                                                      :produto="produto.cdProduto"
@@ -161,8 +172,8 @@
                                                                                      :cd-produto="produto.cdProduto"
                                                                                      :cd-uf="uf.cdUF"
                                                                                      :st-item-avaliado="props.item.stItemAvaliado"
-                                                                                 >
-                                                                                 </analisar-item>
+                                                                                >
+                                                                                </analisar-item>
                                                                             </template>
                                                                         </td>
                                                                     </template>
@@ -261,6 +272,9 @@ export default {
         return {
             headers: [
                 { text: 'Item de Custo', value: 'item', sortable: false },
+                { text: 'Quantidade', value: 'quantidade', sortable: false },
+                { text: 'Número Ocorrências', value: 'numeroOcorrencias', sortable: false },
+                { text: 'Valor', value: 'valor', sortable: false },
                 { text: 'Valor Aprovado', value: 'varlorAprovado', sortable: false },
                 { text: 'Valor Comprovado', value: 'varlorComprovado', sortable: false },
                 { text: 'Valor a Comprovar', value: 'valorAComprovar', sortable: false },

@@ -2719,15 +2719,18 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
             e.Sigla AS uf,
             a.idMunicipioDespesa as cdCidade,
             f.Descricao AS Cidade,
-            f.Descricao AS cidade,               
+            f.Descricao AS cidade,
             c.idPlanilhaItens,
             c.Descricao AS Item,
             c.Descricao AS descItem,
             d.Descricao ,
             g.stItemAvaliado,
-            CONVERT(DECIMAL(38,2), sac.dbo.fnVlAprovado_Fonte_Produto_Etapa_Local_Item
-                   (a.idPronac,a.nrFonteRecurso,a.idProduto,a.idEtapa,a.idUFDespesa,
-                    a.idMunicipioDespesa,a.idPlanilhaItem)) as vlAprovado,
+
+            -- CONVERT(DECIMAL(38,2), sac.dbo.fnVlAprovado_Fonte_Produto_Etapa_Local_Item
+                   -- (a.idPronac,a.nrFonteRecurso,a.idProduto,a.idEtapa,a.idUFDespesa,
+                    -- a.idMunicipioDespesa,a.idPlanilhaItem)) as vlAprovado,
+
+            CONVERT(DECIMAL(38,2), ISNULL((qtItem * nrOcorrencia * vlUnitario),0) ) as vlAprovado,
             CONVERT(DECIMAL(38,2), sac.dbo.fnVlComprovado_Fonte_Produto_Etapa_Local_Item
                    (a.idPronac,a.nrFonteRecurso,a.idProduto,a.idEtapa,a.idUFDespesa,
                     a.idMunicipioDespesa,a.idPlanilhaItem)) as vlComprovado,
@@ -2736,7 +2739,10 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
                     a.idMunicipioDespesa,a.idPlanilhaItem))  as ComprovacaoValidada,
             CONVERT(DECIMAL(38,2), sac.dbo.fnVlComprovado_Fonte_Produto_Etapa_Local_Item_Validado
                    (a.idPronac,a.nrFonteRecurso,a.idProduto,a.idEtapa,a.idUFDespesa,
-                    a.idMunicipioDespesa,a.idPlanilhaItem)) as Total
+                    a.idMunicipioDespesa,a.idPlanilhaItem)) as Total,
+            a.QtItem as quantidade,
+            a.nrOcorrencia as numeroOcorrencias,
+            a.VlUnitario as valor
         ");
 
         $select = $this->select()->distinct();
@@ -2805,11 +2811,11 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
         );
 
         /* $select->where('a.tpplanilha = ?', 'SR'); */
-        $select->where(new Zend_Db_Expr('
-            sac.dbo.fnVlAprovado_Fonte_Produto_Etapa_Local_Item
-                (a.idPronac,a.nrFonteRecurso,a.idProduto,a.idEtapa,a.idUFDespesa,
-                a.idMunicipioDespesa,a.idPlanilhaItem) > 0
-            '));
+        /* $select->where(new Zend_Db_Expr(' */
+        /*     sac.dbo.fnVlAprovado_Fonte_Produto_Etapa_Local_Item */
+        /*         (a.idPronac,a.nrFonteRecurso,a.idProduto,a.idEtapa,a.idUFDespesa, */
+        /*         a.idMunicipioDespesa,a.idPlanilhaItem) > 0 */
+        /*     ')); */
         $select->where("a.tpacao <> 'E' OR a.tpacao is null");
         $select->where('a.IdPRONAC = ?', $idpronac);
         $select->where('a.nrFonteRecurso = 109');

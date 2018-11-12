@@ -5,6 +5,7 @@
         </v-subheader>
         <v-card>
             <v-tabs
+                value="tab-0"
                 centered
                 color="green darken-3"
                 dark

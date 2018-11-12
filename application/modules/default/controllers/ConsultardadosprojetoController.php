@@ -1959,8 +1959,8 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
         //****** Dados do Projeto - Cabecalho *****//
         $projetos = new Projetos();
-        $DadosProjeto = $projetos->dadosProjeto(array('idPronac = ?' => $idpronac))->current();
-        $this->view->DadosProjeto = $DadosProjeto;
+        $dadosProjeto = $projetos->dadosProjeto(array('idPronac = ?' => $idpronac))->current();
+        $this->view->DadosProjeto = $dadosProjeto;
         $this->view->idPronac = $idpronac;
         $tbCumprimentoObjeto = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
         $DadosRelatorio = $tbCumprimentoObjeto->buscarCumprimentoObjeto(array('idPronac = ?' => $idpronac));
@@ -2001,10 +2001,22 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
             if ($DadosRelatorio->siCumprimentoObjeto == 6) {
                 $Usuario = new UsuarioDAO();
                 $nmUsuarioCadastrador = $Usuario->buscarUsuario($DadosRelatorio->idTecnicoAvaliador);
-                $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
                 $this->view->TecnicoAvaliador = $nmUsuarioCadastrador;
-                $this->view->ChefiaImediata = $nmChefiaImediata;
+
+                if ($DadosRelatorio->idChefiaImediata) {
+                    $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
+                    $this->view->ChefiaImediata = $nmChefiaImediata;
+                }
             }
+
+            $isPermitidoVisualizarRelatorio = in_array(
+                $dadosProjeto->situacao,
+                Projeto_Model_Situacao::obterSituacoesPermitidoVisualizarPrestacaoContas()
+            );
+
+            $auth = Zend_Auth::getInstance();
+            $this->view->visualizarRelatorio =  isset($auth->getIdentity()->usu_codigo) ? true : $isPermitidoVisualizarRelatorio;
+
         }
 
         $this->_helper->layout->disableLayout(); // Desabilita o Zend Layout
@@ -2019,8 +2031,8 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
 
         //****** Dados do Projeto - Cabecalho *****//
         $projetos = new Projetos();
-        $DadosProjeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idpronac))->current();
-        $this->view->DadosProjeto = $DadosProjeto;
+        $dadosProjeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idpronac))->current();
+        $this->view->DadosProjeto = $dadosProjeto;
 
         $tbCumprimentoObjeto = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
         $DadosRelatorio = $tbCumprimentoObjeto->buscarCumprimentoObjeto(array('idPronac = ?' => $idpronac));
@@ -2062,10 +2074,22 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         if ($DadosRelatorio->siCumprimentoObjeto == 6) {
             $Usuario = new UsuarioDAO();
             $nmUsuarioCadastrador = $Usuario->buscarUsuario($DadosRelatorio->idTecnicoAvaliador);
-            $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
             $this->view->TecnicoAvaliador = $nmUsuarioCadastrador;
-            $this->view->ChefiaImediata = $nmChefiaImediata;
+
+            if ($DadosRelatorio->idChefiaImediata) {
+                $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
+                $this->view->ChefiaImediata = $nmChefiaImediata;
+            }
         }
+
+        $isPermitidoVisualizarRelatorio = in_array(
+            $dadosProjeto->situacao,
+            Projeto_Model_Situacao::obterSituacoesPermitidoVisualizarPrestacaoContas()
+        );
+
+        $auth = Zend_Auth::getInstance();
+        $this->view->visualizarRelatorio =  isset($auth->getIdentity()->usu_codigo) ? true : $isPermitidoVisualizarRelatorio;
+
         $this->_helper->layout->disableLayout(); // Desabilita o Zend Layout
     }
 

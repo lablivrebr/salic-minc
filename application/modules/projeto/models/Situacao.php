@@ -65,6 +65,18 @@ class Projeto_Model_Situacao extends MinC_Db_Table_Abstract
     const AGUARDANDO_LAUDO_FINAL = 'E77';
     const AGUARDANDO_REVISAO_DE_RESULTADOS = 'E92';
 
+    const PC_APROVADA_COM_CERTIFICACAO_DE_QUALIDADE_GESTAO = "L01";
+    const PC_APROVADA_SEM_CERTIFICACAO_DE_QUALIDADE_GESTAO = "L02";
+    const PC_APROVADA_COM_RESSALVA_FORMAL_E_SEM_PREJUIZO = "L03";
+    const PC_APROVADA_COM_RESSALVA_MATERIAL_OU_PREJUIZO = "L04";
+    const PC_DESAPROVADA_COM_NOTIFICACAO_DE_COBRANCA = "L05";
+    const PC_DESAPROVADA_COM_INDICATIVO_PARA_TCE = "L06";
+    const RECOLHIMENTO_INTEGRAL_DOS_RECURSOS = "L07";
+    const PC_APROVADA_APOS_RESSARCIMENTO_AO_ERARIO = "L08";
+    const DEBITO_PARCELADO = "L09";
+    const PC_REPROVADA_INABILITACAO_PRESCRITA = "L10";
+    const PC_REPROVADA_INABILITACAO_SUSPENSA = "L11";
+
     public static function obterSituacoesProjetoArquivado()
     {
         return [
@@ -79,6 +91,23 @@ class Projeto_Model_Situacao extends MinC_Db_Table_Abstract
             self::SOLICITACAO_DE_ARQUIVAMENTO_FEITO_PELO_PROPONENTE,
             self::PROJETO_ARQUIVADO,
             self::ARQUIVADO_POR_EXCESSO_DE_PROJETOS_APRESENTADOS
+        ];
+    }
+
+    public static function obterSituacoesPermitidoVisualizarPrestacaoContas()
+    {
+        return [
+            self::PC_APROVADA_COM_CERTIFICACAO_DE_QUALIDADE_GESTAO,
+            self::PC_APROVADA_SEM_CERTIFICACAO_DE_QUALIDADE_GESTAO,
+            self::PC_APROVADA_COM_RESSALVA_FORMAL_E_SEM_PREJUIZO,
+            self::PC_APROVADA_COM_RESSALVA_MATERIAL_OU_PREJUIZO,
+            self::PC_DESAPROVADA_COM_NOTIFICACAO_DE_COBRANCA,
+            self::PC_DESAPROVADA_COM_INDICATIVO_PARA_TCE,
+            self::RECOLHIMENTO_INTEGRAL_DOS_RECURSOS,
+            self::PC_APROVADA_APOS_RESSARCIMENTO_AO_ERARIO,
+            self::PC_REPROVADA_INABILITACAO_PRESCRITA,
+            'E27',
+            self::PC_REPROVADA_INABILITACAO_SUSPENSA
         ];
     }
 }

@@ -28,7 +28,7 @@
 <div id="breadcrumb">
     <ul>
         <li class="first"><a href="#" title="In&iacute;cio">In&iacute;cio</a></li>
-        <li class="second"><a href="<?php echo $this->baseUrl(); ?>/comprovacao-objeto/avaliaracompanhamentoprojeto/index-tecnico" title="Lista de Relatórios">Lista de Relatórios</a></li>
+        <li class="second"><a href="<?php echo $this->baseUrl(); ?>/comprovacao-objeto/avaliaracompanhamentoprojeto/index-tecnico" title="Lista de Relatórios">Lista de Relat&oacute;rios</a></li>
         <li class="last">Bens Doados</li>
     </ul>
 </div>
@@ -42,7 +42,7 @@
 <div id="conteudo">
     <table class="tabela">
         <tr>
-            <th align="center" width="30%">Nº PRONAC:</th>
+            <th align="center" width="30%">N&ordm; PRONAC:</th>
             <th align="center">Nome do Projeto:</th>
         </tr>
         <tr class="linha">
@@ -63,18 +63,18 @@
 
     <table class="tabela">
         <tr align="center">
-            <th colspan="8">Bens Móveis / Imóveis Doados</th>
+            <th colspan="8">Bens M&oacute;veis / Im&oacute;veis Doados</th>
         </tr>
         <?php if(count($this->BensCadastrados)>0) { ?>
         <tr align="center">
             <td class="destacar bold">Tipo do Bem</td>
-            <td class="destacar bold">Item Orçamentário</td>
+            <td class="destacar bold">Item Orçament&aacute;rio</td>
             <td class="destacar bold">CNPJ/CPF</td>
             <td class="destacar bold">Nome</td>
-            <td class="destacar bold">Arquivo Doação</td>
+            <td class="destacar bold">Arquivo Doa&ccedil;&atilde;o</td>
             <td class="destacar bold">Arquivo Aceite</td>
             <td class="destacar bold">Quantidade</td>
-            <td class="destacar bold">Observação</td>
+            <td class="destacar bold">Observa&ccedil;&atilde;o</td>
         </tr>
         <?php foreach ($this->BensCadastrados as $bens) { ?>
         <tr>

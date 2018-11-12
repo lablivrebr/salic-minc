@@ -267,9 +267,10 @@ x - Menu lateral (legado)
 /* sub-menu */
 #sidenav .collapsible-body li a,
 #sidenav.fixed .collapsible-body li a {
-    /*font-size: 13px;*/
-    line-height: 22px;
-    padding: 14px 5px 7px 40px;
+    /*line-height: 22px;*/
+    /*padding: 14px 5px 7px 40px;*/
+    line-height: 16px;
+    padding: 9px 5px 4px 40px;
 }
 
 #sidenav li a.active:before,

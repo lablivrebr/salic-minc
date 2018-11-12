@@ -360,11 +360,11 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
         $this->view->DadosProjeto = $DadosProjeto;
 
         $tbCumprimentoObjeto = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
-        $DadosRelatorio = $tbCumprimentoObjeto->buscarCumprimentoObjeto(array('idPronac = ?' => $idPronac, 'siCumprimentoObjeto in (?)' => array(2, 5)));
+        $DadosRelatorio = $tbCumprimentoObjeto->buscarCumprimentoObjeto(array('idPronac = ?' => $idPronac, 'siCumprimentoObjeto in (?)' => array(2, 3, 4, 5)));
         $this->view->DadosRelatorio = $DadosRelatorio;
         $this->view->cumprimentoDoObjeto = $tbCumprimentoObjeto;
         if (count($DadosRelatorio) == 0) {
-            parent::message("Relat&oacute;rio n&atilde;o encontrado!", "comprovacao-objeto/avaliaracompanhamentoprojeto/index", "ALERT");
+            parent::message("Projeto ainda não possui relat&oacute;rio!", "comprovacao-objeto/avaliaracompanhamentoprojeto/index", "ALERT");
         }
 
         $LocaisDeRealizacao = $projetos->buscarLocaisDeRealizacao($idPronac);
@@ -507,7 +507,7 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
             && $codPerfil != Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS
             && $codPerfil != Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO
             && $codPerfil != Autenticacao_Model_Grupos::PRESIDENTE_VINCULADA_SUBSTITUTO) {
-            parent::message("Voc&ecirc; n&atilde;o tem permissao para acessar essa funcionalidade!", "principal", "ALERT");
+            parent::message("Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa funcionalidade!", "principal", "ALERT");
         }
 
         //DEFINE PARAMETROS DE ORDENACAO / QTDE. REG POR PAG. / PAGINACAO
@@ -622,7 +622,7 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
 
         if ($codPerfil != Autenticacao_Model_Grupos::TECNICO_AVALIACAO
             && $codPerfil != Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS) {
-            parent::message("Voc&ecirc; n&atilde;o tem permissao para acessar essa funcionalidade!", "principal", "ALERT");
+            parent::message("Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa funcionalidade!", "principal", "ALERT");
         }
 
         $idPronac = $this->_request->getParam("idPronac");

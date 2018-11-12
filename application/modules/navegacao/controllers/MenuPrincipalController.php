@@ -65,6 +65,27 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
         ];
 
         $arrMenu['prestacao-contas']['menu'][] = [
+            'title' => 'Ir para Analisar Projeto Parecer',
+            'label' => 'Analisar Comprova&ccedil;&atilde;o do Objeto',
+            'grupo' => [
+                Autenticacao_Model_Grupos::COORDENADOR_AVALIACAO,
+                Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS
+            ],
+            'url' => ['module' => 'comprovacao-objeto', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index'],
+        ];
+        $arrMenu['prestacao-contas']['menu'][] = [
+            'title' => 'Ir para Analisar Projeto Parecer',
+            'label' => 'Analisar Comprova&ccedil;&atilde;o do Objeto',
+            'grupo' => [
+                Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
+                Autenticacao_Model_Grupos::TECNICO_AVALIACAO,
+                Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO,
+                Autenticacao_Model_Grupos::PRESIDENTE_VINCULADA_SUBSTITUTO
+            ],
+            'url' => ['module' => 'comprovacao-objeto', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index-tecnico'],
+        ];
+
+        $arrMenu['prestacao-contas']['menu'][] = [
             'label' => 'Analisar Parecer',
             'title' => 'Ir para Analisar Presta&ccedil;&atilde;o de Contas',
             'url' => ['module' => 'avaliacao-resultados', 'controller' => 'index', 'action' => 'index'],
@@ -635,27 +656,6 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
             'label' => 'Fiscalizar Projeto',
             'grupo' => [134, 135],
             'url' => ['module' => 'default', 'controller' => 'pesquisarprojetofiscalizacao', 'action' => 'grid'],
-        ];
-
-        $arrMenu['acompanhamento']['menu'][] = [
-            'title' => 'Ir para Analisar Projeto Parecer',
-            'label' => 'Analisar Comprova&ccedil;&atilde;o do Objeto',
-            'grupo' => [
-                Autenticacao_Model_Grupos::COORDENADOR_AVALIACAO,
-                Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS
-            ],
-            'url' => ['module' => 'comprovacao-objeto', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index'],
-        ];
-        $arrMenu['acompanhamento']['menu'][] = [
-            'title' => 'Ir para Analisar Projeto Parecer',
-            'label' => 'Analisar Comprova&ccedil;&atilde;o do Objeto',
-            'grupo' => [
-                Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-                Autenticacao_Model_Grupos::TECNICO_AVALIACAO,
-                Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO,
-                Autenticacao_Model_Grupos::PRESIDENTE_VINCULADA_SUBSTITUTO
-            ],
-            'url' => ['module' => 'comprovacao-objeto', 'controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index-tecnico'],
         ];
         $arrMenu['acompanhamento']['menu'][] = [
             'title' => 'Ir para Pagamento de parecerista',

@@ -95,14 +95,14 @@
     }
 </style>
 
-<!-- ========== INÍCIO CONTEÚDO ========== -->
+<!-- ========== INï¿½CIO CONTEï¿½DO ========== -->
 <div class="paginaA4">
 
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
-        <br clear="all" /><span class="TituloDoDocumento">Analisar Comprovação do Objeto - <?php echo $this->filtro; ?></span>
-        <br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php echo date('d/m/Y - H:i:s'); ?></span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministï¿½rio da Cultura"/>
+        <br clear="all" /><span class="TituloMinC">Ministï¿½rio da Cultura</span>
+        <br clear="all" /><span class="TituloDoDocumento">Analisar Comprovaï¿½ï¿½o do Objeto - <?php echo $this->filtro; ?></span>
+        <br clear="all" /><span class="DataDoDocumento">Data da impressï¿½o: <?php echo date('d/m/Y - H:i:s'); ?></span>
         <br clear="all" /><br clear="all" /><span class="QntdRegistros"><?php echo count($this->dados).' projetos listados'; ?></span>
     </div>
 
@@ -115,10 +115,10 @@
                 <th>Nome do Projeto</th>
                 <th>UF</th>
                 <th>Mecanismo</th>
-                <th>Situação</th>
-                <th>Dt.&nbsp;Relatório</th>
+                <th>Situa&ccedil;&atilde;o</th>
+                <th>Dt.&nbsp;Relat&oacute;rio</th>
                 <?php if(isset($this->tipoFiltro) && $this->tipoFiltro != 'aguardando'){ ?>
-                <th>Técnico</th>
+                <th>T&eacute;cnico</th>
                 <?php } ?>
             </tr>
         </thead>
@@ -141,7 +141,7 @@
             </td>
             <td nowrap><?php echo $dp->Situacao.' - '.$dp->dsSituacao; ?></td>
             <td align="center"><?php echo Data::tratarDataZend($dp->dtCadastro, 'Brasileiro'); ?></td>
-            
+
             <?php if(isset($this->tipoFiltro) && $this->tipoFiltro != 'aguardando'){ ?>
                 <td>
                     <?php foreach ($this->Usuarios as $user) {
@@ -164,4 +164,3 @@
     </table>
     <?php } ?>
 </div>
-    

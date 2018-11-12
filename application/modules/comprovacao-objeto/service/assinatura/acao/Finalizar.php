@@ -20,7 +20,7 @@ class Finalizar implements IAcaoFinalizar
 
         if ($objeto['stResultadoAvaliacao'] == \ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto::OBJETO_REPROVADO) {
             $situacao = \Projeto_Model_Situacao::AGUARDANDO_REVISAO_DE_RESULTADOS;
-            $providenciaTomada = 'Projeto encaminhado para revisão da avaliação de  resultados';
+            $providenciaTomada = 'Projeto encaminhado para revis&atilde;o da avalia&ccedil;&atilde;o de  resultados';
         }
 
         $tbProjetos = new \Projetos();

@@ -206,10 +206,9 @@
                                 </div>
                             <?php endif; ?>
 
-                            <?php if (!empty($dp->stResultadoAvaliacao)
-                                && !empty($dp->idTecnicoAvaliador)
-                                && !empty($_GET['tipoFiltro'])
-                                && $_GET['tipoFiltro'] == 'analisados') : ?>
+                            <?php if (!empty($dp->idTecnicoAvaliador)
+                                && !empty($dp->stResultadoAvaliacao)
+                                && !empty($_GET['tipoFiltro'])) : ?>
                                 <a
                                     style="margin-bottom:5px;"
                                     class="btn waves-effect waves-light tooltipped small white-text btn-info"
@@ -221,6 +220,12 @@
                                     data-tooltip="Visualizar relat&oacute;rio">
                                     <i class="material-icons">visibility</i>
                                 </a>
+                            <?php endif; ?>
+
+                            <?php if (!empty($dp->stResultadoAvaliacao)
+                                && !empty($dp->idTecnicoAvaliador)
+                                && !empty($_GET['tipoFiltro'])
+                                && $_GET['tipoFiltro'] == 'analisados') : ?>
 
                                 <?php if (!empty($dp->idDocumentoAssinatura)) : ?>
                                     <?php if ($dp->quantidadeAssinaturas == 1) :

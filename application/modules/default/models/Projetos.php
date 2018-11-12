@@ -3900,6 +3900,7 @@ class Projetos extends MinC_Db_Table_Abstract
             array('pro' => $this->_name),
             array(
                 'nomeProjeto' => 'pro.NomeProjeto',
+                'situacao' => 'pro.Situacao',
                 'pronac' => new Zend_Db_Expr('pro.AnoProjeto+pro.Sequencial')
             )
         );

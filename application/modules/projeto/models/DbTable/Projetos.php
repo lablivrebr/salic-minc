@@ -545,7 +545,7 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
                 new Zend_Db_Expr("sac.dbo.fnVlSolicitadoProposta(a.idPronac) AS vlTotalPropostaOriginal"),
                 new Zend_Db_Expr("sac.dbo.fnVlAutorizadoACaptarIncentivo(a.idPronac) AS vlAutorizado"),
                 new Zend_Db_Expr("sac.dbo.fnVlAutorizadoACaptarOutrasFontes(a.idPronac) AS vlAutorizadoOutrasFontes"),
-                new Zend_Db_Expr("sac.dbo.fnVlAutorizadoACaptarIncentivo(a.idPronac) - sac.dbo.fnVlAutorizadoACaptarOutrasFontes(a.idPronac) AS vlTotalAutorizado"),
+                new Zend_Db_Expr("sac.dbo.fnVlAutorizadoACaptar(a.idPronac) as vlTotalAutorizado"),
                 new Zend_Db_Expr("sac.dbo.fnVlAdequadoIncentivo(a.idPronac) AS vlAdequadoIncentivo"),
                 new Zend_Db_Expr("sac.dbo.fnVlAdequadoOutrasFontes(a.idPronac) AS vlAdequadoOutrasFontes"),
                 new Zend_Db_Expr("sac.dbo.fnVlTotalAdequado(a.idPronac) AS vlTotalAdequado"),

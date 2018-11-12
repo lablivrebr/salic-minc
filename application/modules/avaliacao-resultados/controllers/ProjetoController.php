@@ -20,37 +20,22 @@ class AvaliacaoResultados_ProjetoController extends MinC_Controller_Rest_Abstrac
         parent::__construct($request, $response, $invokeArgs);
     }
 
-    public function getAction(){
+    public function getAction() {
         $idPronac = $this->getRequest()->getParam('idPronac');
         $data = [];
 
         $planilhaAprovacaoModel = new PlanilhaAprovacao();
         $resposta = $planilhaAprovacaoModel->obterItensAprovados($idPronac);
+        $consolidacao = $planilhaAprovacaoModel->consolidacaoValoresProjeto($idPronac);
 
-        $vlTotalComprovar = 0;
-        $vlComprovado = 0;
-        $vlAprovado = 0;
-        foreach ($resposta as $item) {
+        $projeto = new Projetos();
+        $projeto = $projeto->buscarDadosCompletos($idPronac);
 
-            if ($item->vlAprovado == 0) {
-                continue;
-            }
-            
-            $vlComprovar = $item->vlAprovado - $item->vlComprovado;
-            $vlTotalComprovar += $vlComprovar;
-
-            $vlAprovado += $item->vlAprovado;
-            $vlComprovado += $item->vlComprovado;
-
-            $nomeProjeto = $item->NomeProjeto;
-            $pronac = $item->Pronac;
-        }
-
-        $data['nomeProjeto'] = $nomeProjeto;
-        $data['vlTotalComprovar'] = $vlTotalComprovar;
-        $data['vlAprovado'] = $vlAprovado;
-        $data['vlComprovado'] = $vlComprovado;
-        $data['pronac'] = $pronac;
+        $data['nomeProjeto'] = $projeto->current()['NomeProjeto'];
+        $data['vlTotalComprovar'] = $consolidacao->valorAprovadoProjeto - $consolidacao->valorComprovado;
+        $data['vlAprovado'] = $consolidacao->valorAprovadoProjeto;
+        $data['vlComprovado'] = $consolidacao->valorComprovado;
+        $data['pronac'] = $projeto->current()['AnoProjeto'] . $projeto->current()['Sequencial'];
 
         $diligencia = new Diligencia();
         $data['diligencia'] = $diligencia->existeDiligenciaAberta($idPronac);
@@ -61,7 +46,7 @@ class AvaliacaoResultados_ProjetoController extends MinC_Controller_Rest_Abstrac
 
         $documento = new Assinatura_Model_DbTable_TbDocumentoAssinatura();
         $data['documento'] = $documento->findBy(['idPronac = ?' => $idPronac, 'idTipoDoAtoAdministrativo = ?' => 622, 'cdSituacao = ?' => 1, 'stEstado = ?' => 1]);
-        
+
         $data = \TratarArray::utf8EncodeArray($data);
 
         $this->renderJsonResponse($data, 200);

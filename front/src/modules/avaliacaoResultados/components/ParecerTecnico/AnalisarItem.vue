@@ -1,13 +1,14 @@
 <template>
     <v-layout row justify-center>
-        <v-dialog v-model="dialog"
-                  scrollable
-                  fullscreen
-                  transition="dialog-bottom-transition"
-                  hide-overlay
+        <v-dialog
+            v-model="dialog"
+            scrollable
+            fullscreen
+            transition="dialog-bottom-transition"
+            hide-overlay
         >
             <v-snackbar
-                    v-model="snackbarAlerta"
+                v-model="snackbarAlerta"
             >
                 {{ snackbarTexto }}
                 <v-btn
@@ -20,11 +21,11 @@
             </v-snackbar>
 
             <v-btn
-                    slot="activator"
-                    color="red"
-                    dark
-                    small
-                    title="Comprovar Item"
+                slot="activator"
+                color="red"
+                dark
+                small
+                title="Comprovar Item"
             >
                 <v-icon>gavel</v-icon>
             </v-btn>
@@ -39,10 +40,10 @@
                 <v-card-text v-if="dadosItemComprovacao.comprovantes && !comprovantesIsLoading">
                     <v-subheader >Dados da Comprovação</v-subheader>
                     <v-data-table
-                            class="elevation-2"
-                            hide-headers
-                            :items="[]"
-                            hide-actions
+                        class="elevation-2"
+                        hide-headers
+                        :items="[]"
+                        hide-actions
                     >
                         <template slot="no-data">
                             <tr>
@@ -103,19 +104,18 @@
                             </v-layout>
 
                             <v-card
-                                    color="green lighten-4"
-                                    flat
-                                    tile
+                                color="green lighten-4"
+                                flat
+                                tile
                             >
                                 <v-flex >
 
                                     <v-toolbar dense>
                                         <v-toolbar-title>Avaliar Comprovante - {{comprovante.arquivo.nome}}</v-toolbar-title>
 
-
                                         <v-btn
-                                                icon
-                                                :href="'/upload/abrir/id/'+ comprovante.arquivo.id"
+                                            icon
+                                            :href="'/upload/abrir/id/'+ comprovante.arquivo.id"
                                         >
                                             <v-icon>get_app</v-icon>
                                         </v-btn>
@@ -125,15 +125,15 @@
                                         <v-card>
                                             <v-card-text class="elevation-2">
                                                 <v-form
-                                                        v-if="renderDadosComprovante[i]"
-                                                        v-model="form[comprovante.idComprovantePagamento]"
-                                                        ref="form"
+                                                    v-if="renderDadosComprovante[i]"
+                                                    v-model="form[comprovante.idComprovantePagamento]"
+                                                    ref="form"
                                                 >
                                                     <v-data-table
-                                                            class="elevation-2"
-                                                            hide-headers
-                                                            :items="[]"
-                                                            hide-actions
+                                                        class="elevation-2"
+                                                        hide-headers
+                                                        :items="[]"
+                                                        hide-actions
                                                     >
                                                         <template slot="no-data">
                                                             <tr>
@@ -170,9 +170,9 @@
                                                                 <td left><b>Avaliação:</b></td>
                                                                 <td colspan="7">
                                                                     <v-radio-group
-                                                                            v-model="stItemAvaliadoModel[comprovante.idComprovantePagamento]"
-                                                                            :rules="[rules.required]"
-                                                                            row
+                                                                        v-model="stItemAvaliadoModel[comprovante.idComprovantePagamento]"
+                                                                        :rules="[rules.required]"
+                                                                        row
                                                                     >
                                                                         <v-radio label="Aprovado" value="1" name="stItemAvaliadoModel" color="green"></v-radio>
                                                                         <v-radio label="Reprovado" value="3" name="stItemAvaliadoModel" color="red"></v-radio>
@@ -183,27 +183,27 @@
                                                     </v-data-table>
 
                                                     <v-textarea
-                                                            solo
-                                                            no-resize
-                                                            label="Parecer da avaliação"
-                                                            value=""
-                                                            hint="Digite o parecer da sua avaliação"
-                                                            height="180px"
-                                                            v-model="dsJustificativa[comprovante.idComprovantePagamento]"
-                                                            :rules="[rules.required]"
-                                                            autofocus
+                                                        solo
+                                                        no-resize
+                                                        label="Parecer da avaliação"
+                                                        value=""
+                                                        hint="Digite o parecer da sua avaliação"
+                                                        height="180px"
+                                                        v-model="dsJustificativa[comprovante.idComprovantePagamento]"
+                                                        :rules="validarJustificativa(comprovante.idComprovantePagamento)"
+                                                        autofocus
                                                     ></v-textarea>
                                                     <div>
                                                         <v-btn
-                                                                color="primary"
-                                                                flat
-                                                                :disabled="!form[comprovante.idComprovantePagamento] && !loading"
-                                                                :loading="loading"
-                                                                @click.native="salvarAvaliacao({
-                                                                index: i,
-                                                                idComprovantePagamento: comprovante.idComprovantePagamento,
-                                                                stItemAvaliado: stItemAvaliadoModel[comprovante.idComprovantePagamento] || '',
-                                                                dsJustificativa: dsJustificativa[comprovante.idComprovantePagamento] || '',
+                                                            color="primary"
+                                                            flat
+                                                            :disabled="!form[comprovante.idComprovantePagamento] && !loading"
+                                                            :loading="loading"
+                                                            @click.native="salvarAvaliacao({
+                                                            index: i,
+                                                            idComprovantePagamento: comprovante.idComprovantePagamento,
+                                                            stItemAvaliado: stItemAvaliadoModel[comprovante.idComprovantePagamento] || '',
+                                                            dsJustificativa: dsJustificativa[comprovante.idComprovantePagamento] || '',
                                                             }); loader = 'loading'"
                                                         >
                                                             Salvar
@@ -223,10 +223,10 @@
                         <v-layout row wrap align-center>
                             <v-flex class="text-xs-center">
                                 <v-progress-circular
-                                        :size="70"
-                                        :width="7"
-                                        color="green"
-                                        indeterminate
+                                    :size="70"
+                                    :width="7"
+                                    color="green"
+                                    indeterminate
                                 ></v-progress-circular>
                             </v-flex>
                         </v-layout>
@@ -364,8 +364,6 @@
                 dialog: false,
             };
         },
-        components: {
-        },
         methods: {
             ...mapActions({
                 alterarAvaliacaoComprovante: 'avaliacaoResultados/alterarAvaliacaoComprovante',
@@ -450,6 +448,18 @@
             },
             carregarDadosComprovante(event, index) {
                 this.renderDadosComprovante[index] = true;
+            },
+            validarJustificativa(id) {
+                this.dsJustificativa[id];
+                this.stItemAvaliadoModel[id];
+                //console.log(this.stItemAvaliadoModel[id], this.dsJustificativa[id]);
+                let valid = [true];
+
+                if (this.stItemAvaliadoModel[id] !== '3' && this.dsJustificativa[id] === '') {
+                    console.log('if');
+                    return ['teste'];
+                }
+                return valid;
             },
         },
         computed: {

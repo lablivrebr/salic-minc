@@ -9229,4 +9229,13 @@ class Projetos extends MinC_Db_Table_Abstract
             "IdPRONAC = ?" => $idPronac
         ]);
     }
+
+    public function buscarDadosCompletos($idPronac)
+    {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from($this->_name, "*");
+        $select->where("idPronac = ?", $idPronac);
+        return $this->fetchAll($select);
+    }
 }

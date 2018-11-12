@@ -3097,4 +3097,47 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
 
         return $this->fetchAll($select);
     }
+
+    public function consolidacaoValoresProjeto($idPronac){
+        $select = $this->select()->distinct();
+        $select->setIntegrityCheck(false);
+
+        $cols = new Zend_Db_Expr(
+                'a.IdPRONAC
+                , SUM(convert(DECIMAL(38, 2), (a.QtItem * a.nrOcorrencia * a.VlUnitario))) as valorAprovadoProjeto
+                , g.valorComprovado'
+        );
+
+        $select->from(
+            ['a' => 'tbplanilhaaprovacao'],
+            $cols,
+            'SAC.dbo'
+        );
+
+        $subQuery = new Zend_Db_Expr('
+            (SELECT tbpa.IdPRONAC , sum(vlComprovado) as valorComprovado
+            FROM BDCORPORATIVO.scSAC.tbComprovantePagamentoxPlanilhaAprovacao cXp
+            inner join BDCORPORATIVO.scSAC.tbComprovantePagamento as c ON
+            c.idComprovantePagamento = cXp.idComprovantePagamento
+            left JOIN SAC.DBO.tbPlanilhaAprovacao as tbpa on
+            (cXp.idPlanilhaAprovacao = tbpa.idPlanilhaAprovacao)
+            group by tbpa.IdPRONAC)
+            '
+        );
+
+        $select->joinLeft(
+            ['g' => $subQuery],
+            "(a.idpronac = g.idpronac)",
+            [],
+           null
+        );
+
+        $select->where('a.nrFonteRecurso = 109');
+        $select->where('a.stAtivo = ? ', 'S');
+        $select->where("(a.tpacao <> 'E' OR a.tpacao is null)");
+        $select->where('a.IdPRONAC = ?', $idPronac);
+        $select->group(['a.IdPRONAC', 'g.valorComprovado']);
+
+        return $this->fetchRow($select);
+    }
 }

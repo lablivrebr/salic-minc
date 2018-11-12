@@ -71,7 +71,7 @@
                     </Devolver>
                 </td>
                 <td v-if="estado == Const.ESTADO_ANALISE_LAUDO" class="text-xs-center">
-                    <v-btn flat icon color="blue"
+                    <v-btn flat icon color="teal darken-1"
                            id="emitirLaudo"
                            @click.native="sincState(props.item.IdPronac)"
                            :to="{ name: 'EmitirLaudoFinal', params:{ id:props.item.IdPronac }}">
@@ -82,7 +82,7 @@
                     </v-btn>
                 </td>
                 <td v-if="estado == Const.ESTADO_LAUDO_FINALIZADO" class="text-xs-center">
-                    <v-btn flat icon color="blue"
+                    <v-btn flat icon color="teal darken-1"
                            id="assinarLaudo"
                            :href="'/assinatura/index/assinar-projeto?IdPRONAC='+props.item.IdPronac+'&idTipoDoAtoAdministrativo=623'">
                         <v-tooltip bottom>
@@ -95,7 +95,7 @@
                           estado == Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA"
                     class="text-xs-center"
                 >
-                    <v-btn flat icon color="blue"
+                    <v-btn flat icon color="teal darken-1"
                            id="visualizarLaudo"
                            @click.native="sincState(props.item.IdPronac)"
                            :to="{ name: 'VisualizarLaudo', params:{ id:props.item.IdPronac }}">

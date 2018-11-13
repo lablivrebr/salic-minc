@@ -62,78 +62,78 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
     import ModalTemplate from '@/components/modal';
 
     export default {
-        name: 'Painel',
-        props: [
-            'idPronac',
-            'pronac',
-            'nomeProjeto',
-        ],
-        watch: {
-            dialog(val) {
-                if (val) {
-                    this.obterHistoricoEncaminhamento(this.idPronac);
-                }
-            },
+    name: 'Painel',
+    props: [
+        'idPronac',
+        'pronac',
+        'nomeProjeto',
+    ],
+    watch: {
+        dialog(val) {
+            if (val) {
+                this.obterHistoricoEncaminhamento(this.idPronac);
+            }
         },
-        data() {
-            return {
-                projetoHeaders: [
-                    {
-                        text: 'PRONAC',
-                        align: 'left',
-                        sortable: false,
-                        value: 'pronac',
-                    },
-                    {
-                        text: 'Nome do Projeto',
-                        align: 'left',
-                        sortable: false,
-                        value: 'nomeProjeto',
-                    },
-                ],
-                historicoHeaders: [
-                    {
-                        text: 'Data de Envio',
-                        align: 'left',
-                        sortable: false,
-                        value: 'dataEnvio',
-                    },
-                    {
-                        text: 'Nome do Remetente',
-                        align: 'left',
-                        sortable: false,
-                        value: 'nomeRemetente',
-                    },
-                    {
-                        text: 'Nome do Destinatário',
-                        align: 'left',
-                        sortable: false,
-                        value: 'nomeDestinatario',
-                    },
-                    {
-                        text: 'Justificativa',
-                        align: 'left',
-                        sortable: false,
-                        value: 'justificativa',
-                    },
-                ],
-                dialog: false,
-            };
-        },
-        components: {
-            ModalTemplate,
-        },
-        methods: {
-            ...mapActions({
-                obterHistoricoEncaminhamento: 'avaliacaoResultados/obterHistoricoEncaminhamento',
-            }),
-        },
-        computed: mapGetters({
-            dadosHistoricoEncaminhamento: 'avaliacaoResultados/dadosHistoricoEncaminhamento',
+    },
+    data() {
+        return {
+            projetoHeaders: [
+                {
+                    text: 'PRONAC',
+                    align: 'left',
+                    sortable: false,
+                    value: 'pronac',
+                },
+                {
+                    text: 'Nome do Projeto',
+                    align: 'left',
+                    sortable: false,
+                    value: 'nomeProjeto',
+                },
+            ],
+            historicoHeaders: [
+                {
+                    text: 'Data de Envio',
+                    align: 'left',
+                    sortable: false,
+                    value: 'dataEnvio',
+                },
+                {
+                    text: 'Nome do Remetente',
+                    align: 'left',
+                    sortable: false,
+                    value: 'nomeRemetente',
+                },
+                {
+                    text: 'Nome do Destinatário',
+                    align: 'left',
+                    sortable: false,
+                    value: 'nomeDestinatario',
+                },
+                {
+                    text: 'Justificativa',
+                    align: 'left',
+                    sortable: false,
+                    value: 'justificativa',
+                },
+            ],
+            dialog: false,
+        };
+    },
+    components: {
+        ModalTemplate,
+    },
+    methods: {
+        ...mapActions({
+            obterHistoricoEncaminhamento: 'avaliacaoResultados/obterHistoricoEncaminhamento',
         }),
-    };
+    },
+    computed: mapGetters({
+        dadosHistoricoEncaminhamento: 'avaliacaoResultados/dadosHistoricoEncaminhamento',
+    }),
+};
 </script>

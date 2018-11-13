@@ -2,8 +2,6 @@
 
 namespace Application\Modules\Projeto\Service\CertidoesNegativas;
 
-use Seguranca;
-
 class CertidoesNegativas implements \MinC\Servico\IServicoRestZend
 {
     /**

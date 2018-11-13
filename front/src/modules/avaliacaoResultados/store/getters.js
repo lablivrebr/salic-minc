@@ -8,6 +8,7 @@ export const projeto = state => state.projeto;
 export const mocks = state => state.mocks;
 export const tipoAvaliacao = state => state.tipoAvaliacao;
 export const dadosTabelaTecnico = state => state.dadosTabelaTecnico;
+export const diligenciasHistorico = state => state.diligenciasHistorico;
 export const dadosHistoricoEncaminhamento = state => state.dadosHistoricoEncaminhamento;
 export const redirectLink = state => state.redirectLink;
 export const planilha = state => state.planilha;

@@ -28,6 +28,11 @@ class AvaliacaoResultados_Model_DbTable_FluxosProjeto extends MinC_Db_Table_Abst
             ['u.usu_nome'],
             'Tabelas.dbo'
         )
+        ->joinLeft(
+            ['dil' => new Zend_Db_Expr('(SELECT TOP 1 * FROM "sac"."dbo"."tbDiligencia" ORDER BY "DtSolicitacao" DESC)')],
+            'dil.idPronac = p.IdPRONAC',
+            ['*']
+            )
         ->where('estadoId = ? ', $estadoId);
 
         if($idAgente) {

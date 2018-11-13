@@ -2,8 +2,6 @@
 
 namespace Application\Modules\Projeto\Service\LocalRealizacaoDeslocamento;
 
-use Seguranca;
-
 class LocalRealizacaoDeslocamento implements \MinC\Servico\IServicoRestZend
 {
     /**

@@ -2,8 +2,6 @@
 
 namespace Application\Modules\Projeto\Service\DocumentosAssinados;
 
-use Seguranca;
-
 class DocumentosAssinados implements \MinC\Servico\IServicoRestZend
 {
     /**

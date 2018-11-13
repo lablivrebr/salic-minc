@@ -1,7 +1,5 @@
 <?php
 
-use Application\Modules\AvaliacaoResultados\Service\Fluxo\FluxoProjeto as FluxoProjetoService;
-
 class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Rest_Abstract
 {
 

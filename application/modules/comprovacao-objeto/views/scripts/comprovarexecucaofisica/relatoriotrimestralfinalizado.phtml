@@ -1,25 +1,25 @@
 <script src='<?php echo $this->baseUrl(); ?>/public/js/jquery.MultiFileTabela.js' type="text/javascript" language="javascript"></script>
 
 <?php //require_once "scripts/consultardadosprojeto/inc/menu.inc.php" // menu ?>
-<!-- início: navegação local #qm0 -->
+<!-- inï¿½cio: navegaï¿½ï¿½o local #qm0 -->
 
-<!-- início: #breadcrumb -->
+<!-- inï¿½cio: #breadcrumb -->
 <div id="breadcrumb">
     <ul>
-        <li class="first"><a href="#" title="Início">In&iacute;cio</a></li>
+        <li class="first"><a href="#" title="Inï¿½cio">In&iacute;cio</a></li>
         <li class="second"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->DadosProjetos[0]['IdPRONAC']); ?>" title="Dados do Projeto">Dados do Projeto</a></li>
         <li class="last">Relat&oacute;rio Trimestral</li>
     </ul>
 </div> <!-- final: #breadcrumb -->
 
-<!-- início: #titulo -->
+<!-- inï¿½cio: #titulo -->
 <div id="titulo">
     <div>Relat&oacute;rio Trimestral<span class="voltar"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->DadosProjetos[0]['IdPRONAC']); ?>" title="Dados do Projeto">Voltar</a></span></div>
 </div>
 <!-- final: #titulo -->
 
 
-<!-- início: área principal #conteudo -->
+<!-- inï¿½cio: ï¿½rea principal #conteudo -->
 <div id="conteudo">
     <table class="tabela">
         <tr>
@@ -43,7 +43,7 @@
                     $PeriodoData = mktime(24*$dias, 0, 0, $mes, $dia, $ano);
                     $dataFormatada = date('d/m/Y',$PeriodoData);
                     $PeriodoData = $dataFormatada;
-                    echo " até ".$PeriodoData;
+                    echo " atï¿½ ".$PeriodoData;
                 ?>
             </td>
             <td align="center"><?php echo Data::tratarDataZend($DadosAnteriores->dtCadastro, 'Brasileira'); ?></td>
@@ -190,7 +190,7 @@
                                             <tr>
                                                 <td><?php echo utf8_decode(htmlentities($dadosComprovantes['dsTipoDocumento'])); ?></td>
                                                 <td><?php echo utf8_decode(htmlentities($dadosComprovantes['nmTitulo'])); ?></td>
-                                                <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $dadosComprovantes['idArquivo']; ?>"><?php echo utf8_decode(htmlentities($dadosComprovantes['nmArquivo'])); ?></a></td>
+                                                <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $dadosComprovantes['idArquivo']; ?>"><?php echo utf8_decode(htmlentities($dadosComprovantes['nmArquivo'])); ?></a></td>
                                                 <td><?php echo round($dadosComprovantes['nrTamanho'] / 1024) . " kb"; ?></td>
                                                 <td><?php echo data::tratarDataZend($dadosComprovantes['dtEnvio'], 'brasileiro'); ?></td>
                                             </tr>
@@ -290,7 +290,7 @@
                                         <tr>
                                             <td><?php echo utf8_decode(htmlentities($dadosComprovantes2['dsTipoDocumento'])); ?></td>
                                             <td><?php echo utf8_decode(htmlentities($dadosComprovantes2['nmTitulo'])); ?></td>
-                                            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $dadosComprovantes2['idArquivo']; ?>"><?php echo utf8_decode(htmlentities($dadosComprovantes2['nmArquivo'])); ?></a></td>
+                                            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $dadosComprovantes2['idArquivo']; ?>"><?php echo utf8_decode(htmlentities($dadosComprovantes2['nmArquivo'])); ?></a></td>
                                             <td><?php echo round($dadosComprovantes2['nrTamanho'] / 1024) . " kb"; ?></td>
                                             <td><?php echo data::tratarDataZend($dadosComprovantes2['dtEnvio'], 'brasileiro'); ?></td>
                                         </tr>
@@ -333,9 +333,9 @@
 <div id="mostra"></div>
 <div id="erro"></div>
 
-</div><!-- final: conteúdo principal #conteudo -->
+</div><!-- final: conteï¿½do principal #conteudo -->
 
-<!-- início: detalhe final da div conteudo #rodapeConteudo -->
+<!-- inï¿½cio: detalhe final da div conteudo #rodapeConteudo -->
 <div id="rodapeConteudo"><span></span></div>
 <!-- final: detalhe final da div conteudo #rodapeConteudo -->
 

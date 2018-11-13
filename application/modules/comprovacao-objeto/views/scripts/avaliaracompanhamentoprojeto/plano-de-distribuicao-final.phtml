@@ -67,7 +67,7 @@
             <td align="center"><?php echo (strlen($PlanosCadastrados->CNPJCPF)==11) ? Mascara::addMaskCPF($PlanosCadastrados->CNPJCPF) : Mascara::addMaskCNPJ($PlanosCadastrados->CNPJCPF); ?></td>
             <td><?php echo $PlanosCadastrados->Beneficiario; ?></td>
             <td align="right"><?php echo $PlanosCadastrados->qtRecebida; ?><input type="hidden" class="<?php echo $classNomeCampo; ?>" value="<?php echo $PlanosCadastrados->qtRecebida; ?>"></td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanosCadastrados->idArquivo; ?>"><?php echo $PlanosCadastrados->nmArquivo; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanosCadastrados->idArquivo; ?>"><?php echo $PlanosCadastrados->nmArquivo; ?></a></td>
         </tr>
         <?php } ?>
     </table>

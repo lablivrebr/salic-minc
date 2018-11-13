@@ -63,7 +63,7 @@
             <td nowrap>
                 <?php
                     if($PlanoDeDivulgacao->siPlanoDeDivulgacao == 0) {
-                        echo 'Sem Informação';
+                        echo 'Sem Informa&ccedil;&atilde;o';
                     } else if($PlanoDeDivulgacao->siPlanoDeDivulgacao == 1) {
                         echo 'N&atilde;o Realizado';
                     } else if($PlanoDeDivulgacao->siPlanoDeDivulgacao == 2) {
@@ -79,7 +79,7 @@
                 </span>
                 <input type="file" class="sumir" id="arquivo<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" name="arquivo<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" />
             </td>
-            <td nowrap><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanoDeDivulgacao->idArquivo; ?>"><?php echo $PlanoDeDivulgacao->nmArquivo; ?></a></td>
+            <td nowrap><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanoDeDivulgacao->idArquivo; ?>"><?php echo $PlanoDeDivulgacao->nmArquivo; ?></a></td>
             <td><?php echo !empty($PlanoDeDivulgacao->dtEnvio) ? Data::tratarDataZend($PlanoDeDivulgacao->dtEnvio, 'Brasileira', true) : ''; ?></td>
         </tr>
         <?php } ?>
@@ -99,7 +99,7 @@
     <?php foreach ($this->marcas as $marca) : ?>
         <tr>
             <td><?php echo $marca->dsDocumento; ?></td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $marca->idArquivo; ?>"><?php echo $marca->nmArquivo ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $marca->idArquivo; ?>"><?php echo $marca->nmArquivo ?></a></td>
             <td><?php echo Data::tratarDataZend($marca->dtEnvio, 'Brasileira'); ?></td>
             <td>
                 <?php

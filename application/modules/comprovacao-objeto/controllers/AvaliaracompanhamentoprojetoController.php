@@ -120,7 +120,8 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
                 case 'emanalise':
                     $tipoFiltro = 'emanalise';
                     $filtro = 'Em an&aacute;lise';
-                    $where['a.siCumprimentoObjeto = ?'] = 3;
+                    $where['a.siCumprimentoObjeto in (?)'] = [3, 4];
+                    $order = ['3 DESC'];
                     break;
                 case 'analisados':
                     $tipoFiltro = 'analisados';
@@ -399,17 +400,18 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
         $BensCadastrados = $tbBensDoados->buscarBensCadastrados(array('a.idPronac=?' => $idPronac), array('b.Descricao'));
         $this->view->BensCadastrados = $BensCadastrados;
 
-        if ($DadosRelatorio->siCumprimentoObjeto >= 5) {
+//        if ($DadosRelatorio->siCumprimentoObjeto >= 5) {
             $Usuario = new UsuarioDAO();
             $nmUsuarioCadastrador = $Usuario->buscarUsuario($DadosRelatorio->idTecnicoAvaliador);
 
             $this->view->TecnicoAvaliador = $nmUsuarioCadastrador;
-        }
 
-        if (!empty($DadosRelatorio->idChefiaImediata)) {
-            $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
-            $this->view->ChefiaImediata = $nmChefiaImediata;
-        }
+            if (!empty($DadosRelatorio->idChefiaImediata)) {
+                $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
+                $this->view->ChefiaImediata = $nmChefiaImediata;
+            }
+//        }
+
     }
 
     public function imprimirAction()
@@ -910,6 +912,13 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
 
                 if (!empty($post['finalizar'])) {
 
+                    $tbProjetos = new Projeto_Model_DbTable_Projetos();
+                    $projeto = $tbProjetos->findBy(['idPronac = ?' => $idPronac]);
+
+                    if ($projeto['Situacao'] == Projeto_Model_Situacao::DILIGENCIADO_NA_AVALIACAO_CUMPRIMENTO_DE_OBJETO) {
+                        throw new Exception("N&atilde;o &eacute; poss&iacute;vel finalizar a avalia&ccedil;&atilde;o. O projeto est&aacute; em dilig&ecirc;ncia!");
+                    }
+
                     $msg = 'Relat&oacute;rio finalizado com sucesso, agora voc&ecirc; deve assinar o documento para continuar!';
                     $callback = 'comprovacao-objeto/avaliaracompanhamentoprojeto/index-tecnico';
 
@@ -1055,5 +1064,22 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
             $this->redirect($origin);
         }
         $this->redirect("/comprovacao-objeto/avaliaracompanhamentoprojeto/index-tecnico");
+    }
+
+    public function visualizarDespachosAjaxAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $idPronac = $this->_request->getParam('idPronac');
+
+        $tbDespacho = new Proposta_Model_DbTable_TbDespacho();
+
+        $projetos = new Projetos();
+        $projeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idPronac))->current();
+        $this->view->projeto = $projeto;
+
+        $this->view->despachos = $tbDespacho->obterDespachos([
+            "Projetos.idPronac = ?" => $idPronac],
+            ['idDespacho DESC']
+        );
     }
 }

@@ -223,7 +223,7 @@
                             "targets": 7,
                             "data": null,
                             render: (data) => {
-                                let botaoVisualizar = '<a class="btn-floating waves-effect waves-light btn-primary tooltipped" ' +
+                                let botaoVisualizar = '<a class="btn-floating waves-effect waves-light btn-secondary tooltipped" ' +
                                     ' href="/assinatura/index/visualizar-projeto?idDocumentoAssinatura=' + data.idDocumentoAssinatura + '"' +
                                     ' data-position="top"' +
                                     ' data-delay="50"' +
@@ -238,6 +238,14 @@
                                     ' data-tooltip="Assinar"> ' +
                                     ' <i class="material-icons">create</i> ' +
                                     ' </a>';
+                                let botaoDevolver = '<a class="btn-floating waves-effect waves-light btn-primary tooltipped btn-danger" ' +
+                                    ' href="/assinatura/index/devolver-projeto?IdPRONAC=' + data.IdPRONAC +
+                                    '&idTipoDoAtoAdministrativo=' + data.idTipoDoAtoAdministrativo + '"' +
+                                    ' data-position="top" ' +
+                                    ' data-delay="50" ' +
+                                    ' data-tooltip="Assinar"> ' +
+                                    ' <i class="material-icons">undo</i> ' +
+                                    ' </a>';
 
                                 return '<div style="position: relative; height: 60px;">'
                                     + '<div class="fixed-action-btn horizontal" style="position: absolute; top: 0px; right: 0; z-index: 996; padding: 15px 0 0 15px;">'
@@ -247,6 +255,7 @@
                                     + '<li>'
                                     + botaoVisualizar
                                     + botaoAssinar
+                                    + botaoDevolver
                                     + '</li>'
                                     + '</ul>'
                                     + '</div>';

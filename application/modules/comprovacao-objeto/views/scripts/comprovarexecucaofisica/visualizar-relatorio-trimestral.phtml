@@ -24,11 +24,11 @@
         $('.btn_imprimir').click(function(){
             $('#formImprimir').submit();
         });
-        
+
         $('.div_expandir_itens_orcamentarios').click(function(){
             var id = $(this).attr('id'),
                 expandido = $(this).attr('expandido');
-                
+
             if(expandido == '0'){
                 $.ajax({
                     type: 'POST',
@@ -41,7 +41,7 @@
                         var recebe = $('#tabela_'+id);
                         if(data.resposta){
                             for ( i in data.conteudo){
-                               recebe.append('<tr><td>'+data.conteudo[i].Fornecedor+'</td><td align="center">'+data.conteudo[i].DtPagamento+'</td><td>'+data.conteudo[i].tpDocumento+'</td><td>'+data.conteudo[i].nrComprovante+'</td><td>'+data.conteudo[i].tpFormaDePagamento+'</td><td align="center">'+data.conteudo[i].dtEmissao+'</td><td align="right">'+data.conteudo[i].vlComprovacao+'</td><td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id='+data.conteudo[i].idArquivo+'">'+data.conteudo[i].nmArquivo+'</a></td></tr>');
+                               recebe.append('<tr><td>'+data.conteudo[i].Fornecedor+'</td><td align="center">'+data.conteudo[i].DtPagamento+'</td><td>'+data.conteudo[i].tpDocumento+'</td><td>'+data.conteudo[i].nrComprovante+'</td><td>'+data.conteudo[i].tpFormaDePagamento+'</td><td align="center">'+data.conteudo[i].dtEmissao+'</td><td align="right">'+data.conteudo[i].vlComprovacao+'</td><td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id='+data.conteudo[i].idArquivo+'">'+data.conteudo[i].nmArquivo+'</a></td></tr>');
                             }
                         }
                     },
@@ -211,12 +211,12 @@
             </td>
             <td align="center">
                 <span id="spanArquivo<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" class="<?php echo($PlanoDeDivulgacao->siPlanoDeDivulgacao < 2)?'sumir':''; ?>">
-                    <!--<a href="<?php //echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php //echo $PlanoDeDivulgacao->idArquivo; ?>"><?php //echo $PlanoDeDivulgacao->nmArquivo; ?></a>-->
+                    <!--<a href="<?php //echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php //echo $PlanoDeDivulgacao->idArquivo; ?>"><?php //echo $PlanoDeDivulgacao->nmArquivo; ?></a>-->
                     <img src="<?php  echo $this->baseUrl().'/public/img/passed.gif'; ?>" />
                 </span>
                 <input type="file" class="sumir" id="arquivo<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" name="arquivo<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" />
             </td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanoDeDivulgacao->idArquivo; ?>"><?php echo $PlanoDeDivulgacao->nmArquivo; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanoDeDivulgacao->idArquivo; ?>"><?php echo $PlanoDeDivulgacao->nmArquivo; ?></a></td>
             <td><?php echo !empty($PlanoDeDivulgacao->dtEnvio) ? Data::tratarDataZend($PlanoDeDivulgacao->dtEnvio, 'Brasileira', true) : ''; ?></td>
         </tr>
         <?php } ?>
@@ -299,7 +299,7 @@
             <td align="center"><?php echo (strlen($PlanosCadastrados->CNPJCPF)==11) ? Mascara::addMaskCPF($PlanosCadastrados->CNPJCPF) : Mascara::addMaskCNPJ($PlanosCadastrados->CNPJCPF); ?></td>
             <td><?php echo $PlanosCadastrados->Beneficiario; ?></td>
             <td align="right"><?php echo $PlanosCadastrados->qtRecebida; ?><input type="hidden" class="<?php echo $classNomeCampo; ?>" value="<?php echo $PlanosCadastrados->qtRecebida; ?>"></td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanosCadastrados->idArquivo; ?>"><?php echo $PlanosCadastrados->nmArquivo; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanosCadastrados->idArquivo; ?>"><?php echo $PlanosCadastrados->nmArquivo; ?></a></td>
         </tr>
         <?php } ?>
         <?php } else { ?>
@@ -439,7 +439,7 @@
                     }
                 ?>
             </td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $DadosComprovantes->idArquivo; ?>"><?php echo $DadosComprovantes->nmArquivo; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $DadosComprovantes->idArquivo; ?>"><?php echo $DadosComprovantes->nmArquivo; ?></a></td>
             <td><?php echo Data::tratarDataZend($DadosComprovantes->dtEnvio, 'Brasileira', true); ?></td>
             <td><?php echo $DadosComprovantes->dsDocumento; ?></td>
         </tr>
@@ -480,7 +480,7 @@
         <input type="button" class="btn_imprimir" id="btn_imprimir" />
     </div>
     <br clear="all" />
-    
+
 </div>
 
 

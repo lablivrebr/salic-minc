@@ -61,7 +61,7 @@
         </tr>
         <?php if(!empty($this->DadosRelatorio)){ ?>
         <tr>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $this->DadosRelatorio->idArquivo; ?>"><?php echo $this->DadosRelatorio->nmArquivo; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $this->DadosRelatorio->idArquivo; ?>"><?php echo $this->DadosRelatorio->nmArquivo; ?></a></td>
             <td>Aceite de Obra</td>
             <td><?php echo $this->DadosRelatorio->sgExtensao; ?></td>
             <td><?php echo Data::tratarDataZend($this->DadosRelatorio->dtEnvio, 'Brasileira', true); ?></td>

@@ -82,8 +82,8 @@
             <td><?php echo $bens->ItemOrcamentario; ?></td>
             <td align="center"><?php echo (strlen($bens->CNPJCPF) == 11) ? Mascara::addMaskCPF($bens->CNPJCPF) : Mascara::addMaskCNPJ($bens->CNPJCPF); ?></td>
             <td><?php echo $bens->NomeAgente; ?></td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $bens->idArquivoDoacao; ?>"><?php echo $bens->nmArquivoDoacao; ?></a></td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $bens->idArquivoAceite; ?>"><?php echo $bens->nmArquivoAceite; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $bens->idArquivoDoacao; ?>"><?php echo $bens->nmArquivoDoacao; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $bens->idArquivoAceite; ?>"><?php echo $bens->nmArquivoAceite; ?></a></td>
             <td><?php echo $bens->qtBensDoados; ?></td>
             <td align="center">
                 <a href="#" class="visualizarObs"><img src="<?php echo $this->baseUrl(); ?>/public/img/table_multiple.png" dsObservacao="<?php echo $bens->dsObservacao; ?>" /></a>

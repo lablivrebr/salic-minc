@@ -67,7 +67,7 @@
             var id = $(this).attr('idPln'),
                 arquivo = $(this).attr('idArquivo');
             $("#modalPerguntas").dialog("destroy");
-            $("#modalPerguntas").html("Deseja realmente desfazer a comprovação desse Plano de Divulgação?");
+            $("#modalPerguntas").html("Deseja realmente desfazer a comprovaï¿½ï¿½o desse Plano de Divulgaï¿½ï¿½o?");
             $("#modalPerguntas").dialog({
                 resizable: false,
                 title: 'Alerta!',
@@ -75,7 +75,7 @@
                 height:180,
                 modal: true,
                 buttons : {
-                    'Não' : function(){
+                    'Nï¿½o' : function(){
                         $(this).dialog('close');
                     },
                     'Sim' : function(){
@@ -101,7 +101,7 @@
                                     $('.ui-dialog-titlebar-close').remove();
                                     window.setTimeout('location.reload()', 1000);
                                 } else {
-                                    alertaModal("Não foi possível excluir o Plano de Divulgação.");
+                                    alertaModal("Nï¿½o foi possï¿½vel excluir o Plano de Divulgaï¿½ï¿½o.");
                                 }
                             },
                             dataType : 'json'
@@ -143,21 +143,21 @@
     <ul>
         <li class="first"><a href="#" title="In&iacute;cio">In&iacute;cio</a></li>
         <li class="second"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" title="Consultar dados do Projeto">Consultar dados do Projeto</a></li>
-        <li class="second">Comprovar Realização do Objeto</li>
-        <li class="last">Plano de Divulgação</li>
+        <li class="second">Comprovar Realizaï¿½ï¿½o do Objeto</li>
+        <li class="last">Plano de Divulgaï¿½ï¿½o</li>
     </ul>
 </div>
 
 
 <div id="titulo">
-    <div>Plano de Divulgação <span class="voltar"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" title="Voltar">Voltar</a></span></div>
+    <div>Plano de Divulgaï¿½ï¿½o <span class="voltar"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" title="Voltar">Voltar</a></span></div>
 </div>
 
 
 <div id="conteudo">
     <table class="tabela">
         <tr>
-            <th align="center" width="30%">Nº PRONAC:</th>
+            <th align="center" width="30%">Nï¿½ PRONAC:</th>
             <th align="center">Nome do Projeto:</th>
         </tr>
         <tr class="linha">
@@ -179,11 +179,11 @@
     <form id="formCadastro" action="<?php echo $this->url(array('module' => 'comprovacao-objeto', 'controller' => 'comprovarexecucaofisica', 'action' => 'cadastrar-plano-divulgacao'), '', true); ?>?idpronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" method="post" enctype="multipart/form-data">
         <table class="tabela">
             <tr align="center">
-                <th colspan="4">Plano de Divulgação</th>
+                <th colspan="4">Plano de Divulgaï¿½ï¿½o</th>
             </tr>
             <tr align="center">
-                <td class="destacar bold">Peça</td>
-                <td class="destacar bold">Veículo</td>
+                <td class="destacar bold">Peï¿½a</td>
+                <td class="destacar bold">Veï¿½culo</td>
                 <td class="destacar bold" width="1%">Realizado</td>
                 <td class="destacar bold" width="1%">Comprovar</td>
             </tr>
@@ -196,15 +196,15 @@
                     <div style="height: 24px; padding: 6px 0px 0px 4px;">Realizado com outras fontes</div>
                     <?php } else { ?>
                     <select name="siPlanoDeDivulgacao[]" class="select_simples obrigatorio w200 <?php echo($PlanoDeDivulgacao->siPlanoDeDivulgacao < 2)?'selectPlnDiv':''; ?>" <?php echo($PlanoDeDivulgacao->siPlanoDeDivulgacao < 2)?'':'disabled="disabled"'; ?>>
-                        <option value="0:<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>">Sem Informação</option>
-                        <option value="1:<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" <?php echo($PlanoDeDivulgacao->siPlanoDeDivulgacao == 1)?'selected="selected"':''; ?>>Não Realizado</option>
+                        <option value="0:<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>">Sem Informaï¿½ï¿½o</option>
+                        <option value="1:<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" <?php echo($PlanoDeDivulgacao->siPlanoDeDivulgacao == 1)?'selected="selected"':''; ?>>Nï¿½o Realizado</option>
                         <option value="2:<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" <?php echo($PlanoDeDivulgacao->siPlanoDeDivulgacao == 2)?'selected="selected"':''; ?>>Realizado</option>
                     </select>
                     <?php } ?>
                 </td>
                 <td align="center">
                     <span id="spanArquivo<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" class="<?php echo($PlanoDeDivulgacao->siPlanoDeDivulgacao < 2)?'sumir':''; ?>">
-                        <!--<a href="<?php //echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php //echo $PlanoDeDivulgacao->idArquivo; ?>"><?php //echo $PlanoDeDivulgacao->nmArquivo; ?></a>-->
+                        <!--<a href="<?php //echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php //echo $PlanoDeDivulgacao->idArquivo; ?>"><?php //echo $PlanoDeDivulgacao->nmArquivo; ?></a>-->
                         <img src="<?php  echo $this->baseUrl().'/public/img/passed.gif'; ?>" />
                     </span>
                     <input type="file" class="sumir" id="arquivo<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" name="arquivo<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" />
@@ -246,26 +246,26 @@
     <p align="center">
         <input type="button" class="btn_salvar" id="btn_salvar">
     </p>
-    
+
     <br clear="all" />
 
     <table class="tabela">
         <tr align="center">
-            <th colspan="5">Arquivos da Comprovação</th>
+            <th colspan="5">Arquivos da Comprovaï¿½ï¿½o</th>
         </tr>
         <tr align="center">
-            <td class="destacar bold">Peça</td>
-            <td class="destacar bold">Veículo</td>
+            <td class="destacar bold">Peï¿½a</td>
+            <td class="destacar bold">Veï¿½culo</td>
             <td class="destacar bold">Arquivo</td>
-            <td class="destacar bold">Data da Anexação</td>
-            <td class="destacar bold" width="1">Ação</td>
+            <td class="destacar bold">Data da Anexaï¿½ï¿½o</td>
+            <td class="destacar bold" width="1">Aï¿½ï¿½o</td>
         </tr>
         <?php $i=0; foreach ($this->PlanoDeDivulgacao as $PlanoDeDivulgacao) { ?>
         <?php if(!empty($PlanoDeDivulgacao->idDocumento)){ ?>
         <tr>
             <td><?php echo $PlanoDeDivulgacao->Peca; ?></td>
             <td><?php echo $PlanoDeDivulgacao->Veiculo; ?></td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanoDeDivulgacao->idArquivo; ?>"><?php echo $PlanoDeDivulgacao->nmArquivo; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $PlanoDeDivulgacao->idArquivo; ?>"><?php echo $PlanoDeDivulgacao->nmArquivo; ?></a></td>
             <td><?php echo Data::tratarDataZend($PlanoDeDivulgacao->dtEnvio, 'Brasileira', true); ?></td>
             <td><input type="button" value=" " class="btn_excluir" idPln="<?php echo $PlanoDeDivulgacao->idPlanoDivulgacao; ?>" idArquivo="<?php echo $PlanoDeDivulgacao->idArquivo; ?>" /></td>
         </tr>

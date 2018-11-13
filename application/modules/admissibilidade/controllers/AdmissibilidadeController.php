@@ -382,6 +382,11 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
                 'idProjeto = ?' => $this->idPreProjeto
             ]
         );
+
+        if (empty($planoDistribuicao[0])) {
+            return false;
+        }
+
         $id_area_proponente = $planoDistribuicao[0]['Area'];
         $id_segmento_proponente = $planoDistribuicao[0]['Segmento'];
         $sugestaoEnquadramentoDbTable = new Admissibilidade_Model_DbTable_SugestaoEnquadramento();

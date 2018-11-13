@@ -497,4 +497,146 @@ class Assinatura_IndexController extends Assinatura_GenericController
             );
         }
     }
+
+    public function devolverProjetoAction()
+    {
+        $get = Zend_Registry::get('get');
+        $idPronac = $get->IdPRONAC;
+        $this->view->IdPRONAC = $get->IdPRONAC;
+        $idTipoDoAtoAdministrativo = $get->idTipoDoAtoAdministrativo;
+
+        try {
+            if (!filter_input(INPUT_GET, 'IdPRONAC')) {
+                throw new Exception("Identificador do projeto &eacute; necess&aacute;rio para acessar essa funcionalidade.");
+            }
+
+            if (!filter_input(INPUT_GET, 'idTipoDoAtoAdministrativo')) {
+                throw new Exception("Identificador do tipo do ato administrativo &eacute; necess&aacute;rio para acessar essa funcionalidade.");
+            }
+        } catch (Exception $objException) {
+            parent::message($objException->getMessage(), "/{$this->view->origin}/gerenciar-assinaturas");
+        }
+
+        try {
+            $objTbAtoAdministrativo = new Assinatura_Model_DbTable_TbAtoAdministrativo();
+
+            $this->view->perfilAssinante = $objTbAtoAdministrativo->obterPerfilAssinante(
+                $this->grupoAtivo->codOrgao,
+                $this->grupoAtivo->codGrupo,
+                $idTipoDoAtoAdministrativo
+            );
+
+            if (!$this->view->perfilAssinante) {
+                throw new Exception("Usu&aacute;rio sem autoriza&ccedil;&atilde;o para devolver o documento.");
+            }
+
+            $objModelDocumentoAssinatura = new Assinatura_Model_DbTable_TbDocumentoAssinatura();
+            $this->view->documentoAssinatura = $objModelDocumentoAssinatura->findBy(
+                array(
+                    'IdPRONAC' => $idPronac,
+                    'idTipoDoAtoAdministrativo' => $idTipoDoAtoAdministrativo,
+                    'cdSituacao' => Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA,
+                    'stEstado' => Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_ATIVO
+                )
+            );
+
+            $idDocumentoAssinatura = $this->view->documentoAssinatura['idDocumentoAssinatura'];
+
+            $objTbAtoAdministrativo = new Assinatura_Model_DbTable_TbAtoAdministrativo();
+
+            $grupoAtoAdministrativo = '';
+            if ($idDocumentoAssinatura != '') {
+                $grupoAtoAdministrativo = $objTbAtoAdministrativo->obterGrupoPorIdDocumentoAssinatura($idDocumentoAssinatura);
+            }
+            $dadosAtoAdministrativoAtual = $objTbAtoAdministrativo->obterAtoAdministrativoAtual(
+                $idTipoDoAtoAdministrativo,
+                $this->grupoAtivo->codGrupo,
+                $this->grupoAtivo->codOrgao,
+                $grupoAtoAdministrativo
+            );
+
+            $post = $this->getRequest()->getPost();
+            if ($post) {
+                try {
+                    $this->view->despac = $post['dsManifestacao'];
+                    $documentoAssinatura = $objModelDocumentoAssinatura->findBy(
+                        array(
+                            'IdPRONAC' => $idPronac,
+                            'idTipoDoAtoAdministrativo' => $idTipoDoAtoAdministrativo,
+                            'cdSituacao' => Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA,
+                            'stEstado' => Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_ATIVO
+                        )
+                    );
+
+                    $servicoAssinatura = new \MinC\Assinatura\Servico\Assinatura(
+                        [
+                            'idPronac' => $idPronac,
+                            'Despacho' => $post['despacho'],
+                            'idAssinante' => $this->auth->getIdentity()->usu_codigo,
+                            'idDocumentoAssinatura' => $documentoAssinatura['idDocumentoAssinatura'],
+                            'idTipoDoAto' => $idTipoDoAtoAdministrativo,
+                            'idPerfilDoAssinante' => $this->grupoAtivo->codGrupo
+                        ]
+                    );
+
+                    $servicoAssinatura->viewModelAssinatura->request = $this->getRequest();
+                    $servicoAssinatura->viewModelAssinatura->response = $this->getResponse();
+
+                    $servicoAssinatura->devolver();
+
+                    parent::message(
+                        "Projeto devolvido com sucesso!",
+                        "/{$this->view->origin}/gerenciar-assinaturas",
+                        'CONFIRM'
+                    );
+                    die;
+                } catch (Exception $objException) {
+                    parent::message(
+                        $objException->getMessage(),
+                        "/{$this->moduleName}/index/devolver-projeto?IdPRONAC={$idPronac}&idTipoDoAtoAdministrativo={$idTipoDoAtoAdministrativo}&origin={$this->view->origin}",
+                        'ERROR'
+                    );
+                }
+            }
+
+            $objTbAssinatura = new Assinatura_Model_DbTable_TbAssinatura();
+            $assinaturaExistente = $objTbAssinatura->buscar(array(
+                'idPronac = ?' => $idPronac,
+                'idAtoAdministrativo = ?' => $dadosAtoAdministrativoAtual['idAtoAdministrativo'],
+                'idAssinante = ?' => $this->auth->getIdentity()->usu_codigo,
+                'idDocumentoAssinatura = ?' => $idDocumentoAssinatura
+            ));
+
+            if (count($assinaturaExistente) > 0) {
+                throw new Exception("O documento j&aacute; foi assinado pelo usu&aacute;rio logado nesta fase atual.");
+            }
+
+            $objProjeto = new Projeto_Model_DbTable_Projetos();
+            $this->view->projeto = $objProjeto->findBy(array(
+                'IdPRONAC' => $idPronac
+            ));
+
+            $objVerificacao = new Verificacao();
+            $this->view->tipoDocumento = $objVerificacao->findBy(array(
+                'idVerificacao = ?' => $idTipoDoAtoAdministrativo
+            ));
+
+            $servicoAutenticacao = new \MinC\Assinatura\Servico\Autenticacao(
+                $post,
+                $this->auth->getIdentity()
+            );
+
+            $this->view->templateAutenticacao = $servicoAutenticacao->obterMetodoAutenticacao()->obterTemplateAutenticacao();
+            $this->view->idTipoDoAtoAdministrativo = $get->idTipoDoAtoAdministrativo;
+
+            $moduleAndControllerArray = explode('/', $this->view->origin);
+            $this->view->moduleOrigin = $moduleAndControllerArray[0];
+            $this->view->controllerOrigin = $moduleAndControllerArray[1];
+        } catch (Exception $objException) {
+            parent::message(
+                $objException->getMessage(),
+                "/{$this->view->origin}/gerenciar-assinaturas"
+            );
+        }
+    }
 }

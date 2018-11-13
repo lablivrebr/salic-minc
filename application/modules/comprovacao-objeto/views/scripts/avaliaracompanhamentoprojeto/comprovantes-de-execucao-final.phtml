@@ -58,7 +58,7 @@
                     }
                 ?>
             </td>
-            <td><a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $DadosComprovantes->idArquivo; ?>"><?php echo $DadosComprovantes->nmArquivo; ?></a></td>
+            <td><a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $DadosComprovantes->idArquivo; ?>"><?php echo $DadosComprovantes->nmArquivo; ?></a></td>
             <td><?php echo Data::tratarDataZend($DadosComprovantes->dtEnvio, 'Brasileira', true); ?></td>
             <td><?php echo $DadosComprovantes->dsDocumento; ?></td>
         </tr>

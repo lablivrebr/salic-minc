@@ -12,9 +12,9 @@
             >
                 {{ snackbarTexto }}
                 <v-btn
-                        color="pink"
-                        flat
-                        @click="snackbarAlerta = false"
+                    color="pink"
+                    flat
+                    @click="snackbarAlerta = false"
                 >
                     Fechar
                 </v-btn>
@@ -71,13 +71,14 @@
                     <v-subheader >Itens</v-subheader>
 
                     <v-expansion-panel
-                            v-model="painelComprovantes"
-                            v-if="dadosItemComprovacao.comprovantes"
-                            expand>
+                        v-model="painelComprovantes"
+                        v-if="dadosItemComprovacao.comprovantes"
+                        expand
+                    >
                         <v-expansion-panel-content
-                                v-for="(comprovante, i) in dadosItemComprovacao.comprovantes"
-                                :key="comprovante.idComprovantePagamento"
-                                @input="carregarDadosComprovante($event, i)"
+                            v-for="(comprovante, i) in dadosItemComprovacao.comprovantes"
+                            :key="comprovante.idComprovantePagamento"
+                            @input="carregarDadosComprovante($event, i)"
                         >
                             <v-layout slot="header" class="blue--text">
                                 <v-icon class="mr-3 blue--text" >local_shipping</v-icon>
@@ -186,24 +187,27 @@
                                                         solo
                                                         no-resize
                                                         label="Parecer da avaliação"
-                                                        value=""
-                                                        hint="Digite o parecer da sua avaliação"
                                                         height="180px"
                                                         v-model="dsJustificativa[comprovante.idComprovantePagamento]"
-                                                        :rules="validarJustificativa(comprovante.idComprovantePagamento)"
                                                         autofocus
+                                                        @input="justificativaInput(comprovante.idComprovantePagamento, $event)"
                                                     ></v-textarea>
+                                                    <template
+                                                        v-if="(stItemAvaliadoModel[comprovante.idComprovantePagamento] === '3'
+                                                            && dsJustificativa[comprovante.idComprovantePagamento] == '')">
+                                                        <p color="red--text">Por favor preencher o campo acima!</p>
+                                                    </template>
                                                     <div>
                                                         <v-btn
                                                             color="primary"
                                                             flat
                                                             :disabled="!form[comprovante.idComprovantePagamento] && !loading"
                                                             :loading="loading"
-                                                            @click.native="salvarAvaliacao({
-                                                            index: i,
-                                                            idComprovantePagamento: comprovante.idComprovantePagamento,
-                                                            stItemAvaliado: stItemAvaliadoModel[comprovante.idComprovantePagamento] || '',
-                                                            dsJustificativa: dsJustificativa[comprovante.idComprovantePagamento] || '',
+                                                            @click="salvarAvaliacao({
+                                                                index: i,
+                                                                idComprovantePagamento: comprovante.idComprovantePagamento,
+                                                                stItemAvaliado: stItemAvaliadoModel[comprovante.idComprovantePagamento] || '',
+                                                                dsJustificativa: dsJustificativa[comprovante.idComprovantePagamento] || '',
                                                             }); loader = 'loading'"
                                                         >
                                                             Salvar
@@ -392,6 +396,13 @@
                 return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
             },
             salvarAvaliacao(params) {
+                if (
+                    this.stItemAvaliadoModel[params.idComprovantePagamento] === '3'
+                    && this.dsJustificativa[params.idComprovantePagamento] === ''
+                ) {
+                    return false;
+                }
+
                 if (params.stItemAvaliado.length > 0 && params.dsJustificativa.length > 0) {
                     this.loading = true;
                     this.salvarAvaliacaoComprovante({
@@ -449,17 +460,11 @@
             carregarDadosComprovante(event, index) {
                 this.renderDadosComprovante[index] = true;
             },
-            validarJustificativa(id) {
-                this.dsJustificativa[id];
-                this.stItemAvaliadoModel[id];
-                //console.log(this.stItemAvaliadoModel[id], this.dsJustificativa[id]);
-                let valid = [true];
+            justificativaInput(id, value) {
+                const dados = {};
+                dados[id] = value;
 
-                if (this.stItemAvaliadoModel[id] !== '3' && this.dsJustificativa[id] === '') {
-                    console.log('if');
-                    return ['teste'];
-                }
-                return valid;
+                this.dsJustificativa = Object.assign({}, this.dsJustificativa, dados);
             },
         },
         computed: {

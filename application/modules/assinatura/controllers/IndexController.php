@@ -54,6 +54,10 @@ class Assinatura_IndexController extends Assinatura_GenericController
 //
 //        $order = ($order[0]['dir'] != 1) ? array($columns[$order[0]['column']]['name'] . ' ' . $order[0]['dir']) : ["Pronac desc"];
 
+        if ($search['value'] != '') {
+            $search['value'] = urldecode($search['value']);
+            $search['value'] = str_replace('\\', '', $search['value']);
+        }
         $get = Zend_Registry::get('get');
         $idTipoDoAtoAdministrativo = $get->idTipoDoAtoAdministrativo;
         $idTipoDoAtoAdministrativos = [];

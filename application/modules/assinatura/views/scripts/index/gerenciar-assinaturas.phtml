@@ -163,6 +163,27 @@
                              }
                          });
                      });
+                     this.api().columns(6).every(function () {
+                         var column = this;
+                         var select = $('<select class=""><option value="">Filtrar por Tipo de Assinatura</option></select>')
+                             .appendTo( $(column.header()).empty() )
+                             .on( 'change', function () {
+                                 var val = $.fn.dataTable.util.escapeRegex(
+                                     $(this).val()
+                                 );
+                                 column
+                                     .search( val ? '^'+ val+'$': '', true, false )
+                                     .draw();
+
+                                 val = val.replace(/\\/, '');
+                                 
+                                 $("#assinaturaProjetos_filter input").val(val);
+                                 $("#assinaturaProjetos_filter input").keyup();
+                             });
+                         column.data().unique().sort().each( function( d, j ) {
+                             select.append('<option value="'+ d + '">' + d + '</option>');
+                         });
+                     });
                  },
                  "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
                  "language": {
@@ -247,6 +268,7 @@
                          "targets": 6,
                          "data": 'tipoDoAtoAdministrativo',
                          "name": 'tipoDoAtoAdministrativo',
+                         "orderable": false,
                      },
                      {
                          "targets": 7,
@@ -345,6 +367,10 @@
                         '</div>' +
                         '</div>';
              }
+             $('#assinaturaProjetos').on('preXhr.dt', function(e, settings, data) {
+                 let searchValue = data.search.value;
+                 data.search.value = escape(searchValue.replace(/\//g, ''));
+             });
 
              $('#assinaturaProjetos tbody').on('click', '.expand', function () {
                  var tr = $(this).closest('tr');

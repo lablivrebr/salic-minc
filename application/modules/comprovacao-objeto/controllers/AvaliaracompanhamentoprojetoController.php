@@ -341,7 +341,6 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
             $this->view->filtro = $filtro;
             $this->view->tipoFiltro = $tipoFiltro;
 
-//            $pa = new paUsuariosDoPerfil();
             $vw = new vwUsuariosOrgaosGrupos();
             $usuarios = $vw->buscarUsuarios($codPerfil, $codOrgao);
             $this->view->Usuarios = $usuarios;
@@ -400,17 +399,15 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
         $BensCadastrados = $tbBensDoados->buscarBensCadastrados(array('a.idPronac=?' => $idPronac), array('b.Descricao'));
         $this->view->BensCadastrados = $BensCadastrados;
 
-//        if ($DadosRelatorio->siCumprimentoObjeto >= 5) {
-            $Usuario = new UsuarioDAO();
-            $nmUsuarioCadastrador = $Usuario->buscarUsuario($DadosRelatorio->idTecnicoAvaliador);
+        $Usuario = new UsuarioDAO();
+        $nmUsuarioCadastrador = $Usuario->buscarUsuario($DadosRelatorio->idTecnicoAvaliador);
 
-            $this->view->TecnicoAvaliador = $nmUsuarioCadastrador;
+        $this->view->TecnicoAvaliador = $nmUsuarioCadastrador;
 
-            if (!empty($DadosRelatorio->idChefiaImediata)) {
-                $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
-                $this->view->ChefiaImediata = $nmChefiaImediata;
-            }
-//        }
+        if (!empty($DadosRelatorio->idChefiaImediata)) {
+            $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
+            $this->view->ChefiaImediata = $nmChefiaImediata;
+        }
 
     }
 
@@ -464,15 +461,16 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
         $bensCadastrados = $tbBensDoados->buscarBensCadastrados(array('a.idPronac=?' => $idPronac), array('b.Descricao'));
         $this->view->BensCadastrados = $bensCadastrados;
 
-        if ($DadosRelatorio->siCumprimentoObjeto >= 5) {
-            $Usuario = new UsuarioDAO();
-            $nmUsuarioCadastrador = $Usuario->buscarUsuario($DadosRelatorio->idTecnicoAvaliador);
-            $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
-            $this->view->TecnicoAvaliador = $nmUsuarioCadastrador;
-            $this->view->ChefiaImediata = $nmChefiaImediata;
-        }
+        $Usuario = new UsuarioDAO();
+        $nmUsuarioCadastrador = $Usuario->buscarUsuario($DadosRelatorio->idTecnicoAvaliador);
+        $this->view->TecnicoAvaliador = $nmUsuarioCadastrador;
 
-        $this->_helper->layout->disableLayout();// Desabilita o Zend Layout
+        if (!empty($DadosRelatorio->idChefiaImediata)) {
+            $nmChefiaImediata = $Usuario->buscarUsuario($DadosRelatorio->idChefiaImediata);
+            $this->view->ChefiaImediata = $nmChefiaImediata;
+
+            $this->_helper->layout->disableLayout();// Desabilita o Zend Layout
+        }
     }
 
     public function encaminharRelatorioAction()
@@ -512,7 +510,6 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
             parent::message("Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa funcionalidade!", "principal", "ALERT");
         }
 
-        //DEFINE PARAMETROS DE ORDENACAO / QTDE. REG POR PAG. / PAGINACAO
         if ($this->_request->getParam("qtde")) {
             $this->intTamPag = $this->_request->getParam("qtde");
         }
@@ -594,7 +591,6 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
     {
         $this->_helper->layout->disableLayout();
 
-        $auth = Zend_Auth::getInstance(); // pega a autenticacao
         $post = Zend_Registry::get('post');
         $idPronac = (int)$post->pronac;
 
@@ -884,8 +880,6 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
 
             $auth = Zend_Auth::getInstance();
             $idusuario = $auth->getIdentity()->usu_codigo;
-            $GrupoAtivo = new Zend_Session_Namespace('GrupoAtivo');
-            $codOrgao = $GrupoAtivo->codOrgao;
 
             $idPronac = $this->_request->getParam("idPronac");
             if (strlen($idPronac) > 7) {
@@ -1077,8 +1071,11 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
         $projeto = $projetos->buscarProjetoXProponente(array('idPronac = ?' => $idPronac))->current();
         $this->view->projeto = $projeto;
 
-        $this->view->despachos = $tbDespacho->obterDespachos([
-            "Projetos.idPronac = ?" => $idPronac],
+        $this->view->despachos = $tbDespacho->obterDespachos(
+            [
+                "Projetos.idPronac = ?" => $idPronac,
+                "Tipo = ?" => Verificacao::DESPACHO_ADMISSIBILIDADE,
+            ],
             ['idDespacho DESC']
         );
     }

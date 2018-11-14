@@ -39,6 +39,9 @@ class AvaliacaoResultados_Model_DbTable_FluxosProjeto extends MinC_Db_Table_Abst
             $select->where('idAgente = ? ', $idAgente);
         }
 
+        echo $select;
+        die;
+
         return $this->fetchAll($select);
     }
 

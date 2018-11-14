@@ -35,6 +35,7 @@
                             <input type="checkbox"
                                    name="marcarDesmarcarCheckbox"
                                    id="marcarDesmarcarCheckbox"
+                                   disabled
                                    class="filled-in"/>
                             <label id="marcarDesmarcarCheckboxLabel"
                                    for="marcarDesmarcarCheckbox"></label>
@@ -165,10 +166,11 @@
                      });
                      this.api().columns(6).every(function () {
                          var column = this;
-                         var select = $('<select class=""><option value="">Filtrar por Tipo de Assinatura</option></select>')
+                         var select = $('<select class="btn grey lighten-3 black-text"><option value="">filtrar por Tipo de Assinatura</option></select>')
                              .appendTo( $(column.header()).empty() )
                              .on( 'change', function () {
-                                 var val = $.fn.dataTable.util.escapeRegex(
+                                 let val = '';
+                                 val = $.fn.dataTable.util.escapeRegex(
                                      $(this).val()
                                  );
                                  column
@@ -177,12 +179,19 @@
 
                                  val = val.replace(/\\/, '');
                                  
-                                 $("#assinaturaProjetos_filter input").val(val);
-                                 $("#assinaturaProjetos_filter input").keyup();
+                                 $('#assinaturaProjetos_filter input').val(val);
+                                 $('#assinaturaProjetos_filter input').keyup();
+                                 
+                                 if (val !== '') {
+                                     $('#marcarDesmarcarCheckbox').removeProp('disabled');
+                                 } else {
+                                     $('#marcarDesmarcarCheckbox').prop('disabled', true);
+                                 }
+                                 $('#marcarDesmarcarCheckbox').prop('checked', false);
                              });
                          column.data().unique().sort().each( function( d, j ) {
                              select.append('<option value="'+ d + '">' + d + '</option>');
-                         });
+                         });                         
                      });
                  },
                  "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],

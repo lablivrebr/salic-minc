@@ -203,3 +203,5 @@ export const buscarDiligencia = (idPronac) => {
     const queryParams = `?idPronac=${idPronac}`;
     return api.getRequest(path, queryParams);
 };
+
+export const obterMenuProjeto = idPronac => api.getRequest(`/projeto/menu/obter-menu-ajax/idPronac/${idPronac}`);

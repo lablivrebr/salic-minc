@@ -9,6 +9,7 @@ export const state = {
     statusSidebarEsquerda: false,
     versao: {},
     menuPrincipal: [],
+    menuSidebar: [],
 };
 
 export const mutations = {
@@ -35,5 +36,8 @@ export const mutations = {
     },
     [types.SET_MENU_PRINCIPAL](state, dados) {
         state.menuPrincipal = dados;
+    },
+    [types.SET_MENU_SIDEBAR](state, dados) {
+        state.menuSidebar = dados;
     },
 };

@@ -1,20 +1,21 @@
 <template>
     <div>
-        <HeaderMenuPrincipalSidebar :dadosMenu="dadosMenu"></HeaderMenuPrincipalSidebar>
+        <salic-header-menu-principal-sidebar :dadosMenu="dadosMenu"></salic-header-menu-principal-sidebar>
         <v-toolbar
             app
-            dense
             dark
             fixed
             clipped-left
             color="primary"
         >
-            <HeaderLogo></HeaderLogo>
+            <v-toolbar-side-icon v-if="Object.keys(dadosSidebar).length > 0"
+                                 @click.native="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
+            <salic-header-logo></salic-header-logo>
             <v-toolbar-title class="ma-0 hidden-sm-and-down">Salic</v-toolbar-title>
             <v-spacer></v-spacer>
-            <HeaderMenuPrincipalToolbar :dadosMenu="dadosMenu"></HeaderMenuPrincipalToolbar>
-            <HeaderSolicitacoes></HeaderSolicitacoes>
-            <HeaderInformacoesDaConta></HeaderInformacoesDaConta>
+            <salic-header-menu-principal-toolbar :dadosMenu="dadosMenu"></salic-header-menu-principal-toolbar>
+            <salic-header-solicitacoes></salic-header-solicitacoes>
+            <salic-header-informacoes-da-conta></salic-header-informacoes-da-conta>
             <v-divider vertical class="hidden-md-and-up"></v-divider>
             <v-toolbar-side-icon
                 class="hidden-md-and-up"
@@ -27,24 +28,25 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import HeaderMenuPrincipalToolbar from './HeaderMenuPrincipalToolbar';
-    import HeaderMenuPrincipalSidebar from './HeaderMenuPrincipalSidebar';
-    import HeaderInformacoesDaConta from './HeaderInformacoesDaConta';
-    import HeaderSolicitacoes from './HeaderSolicitacoes';
-    import HeaderLogo from './HeaderLogo';
+    import SalicHeaderMenuPrincipalToolbar from './HeaderMenuPrincipalToolbar';
+    import SalicHeaderMenuPrincipalSidebar from './HeaderMenuPrincipalSidebar';
+    import SalicHeaderInformacoesDaConta from './HeaderInformacoesDaConta';
+    import SalicHeaderSolicitacoes from './HeaderSolicitacoes';
+    import SalicHeaderLogo from './HeaderLogo';
 
     export default {
         name: 'Header',
         components: {
-            HeaderInformacoesDaConta,
-            HeaderMenuPrincipalToolbar,
-            HeaderMenuPrincipalSidebar,
-            HeaderSolicitacoes,
-            HeaderLogo,
+            SalicHeaderInformacoesDaConta,
+            SalicHeaderMenuPrincipalToolbar,
+            SalicHeaderMenuPrincipalSidebar,
+            SalicHeaderSolicitacoes,
+            SalicHeaderLogo,
         },
         data() {
             return {
                 drawerRight: false,
+                drawerLeft: false,
             };
         },
         created() {
@@ -55,21 +57,30 @@
             statusSidebarDireita(value) {
                 this.drawerRight = value;
             },
+            statusSidebarEsquerda(value) {
+                this.drawerLeft = value;
+            },
             drawerRight(value) {
-                this.atualizarStatusSidebar(value);
+                this.atualizarStatusSidebarDireita(value);
+            },
+            drawerLeft(value) {
+                this.atualizarStatusSidebarEsquerda(value);
             },
         },
         computed: {
             ...mapGetters({
                 dadosMenu: 'layout/getDadosMenu',
+                dadosSidebar: 'layout/getDadosSidebar',
                 statusSidebarDireita: 'layout/getStatusSidebarDireita',
+                statusSidebarEsquerda: 'layout/getStatusSidebarEsquerda',
             }),
         },
         methods: {
             ...mapActions({
                 buscarDadosMenu: 'layout/buscarDadosMenu',
                 buscarDadosLayout: 'layout/buscarDadosLayout',
-                atualizarStatusSidebar: 'layout/atualizarStatusSidebarDireita',
+                atualizarStatusSidebarDireita: 'layout/atualizarStatusSidebarDireita',
+                atualizarStatusSidebarEsquerda: 'layout/atualizarStatusSidebarEsquerda',
             }),
         },
     };

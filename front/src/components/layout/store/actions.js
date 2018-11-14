@@ -1,5 +1,6 @@
 import { fnSetCookie, fnGetCookie } from '@/mixins/funcoes/cookie';
 import * as layoutHelperAPI from '@/helpers/api/Layout';
+import { obterMenuProjeto } from '@/helpers/api/Projeto';
 import * as solicitacaoHelperAPI from '@/helpers/api/Solicitacao';
 import * as desencapsularResponse from '@/helpers/actions';
 import * as types from './types';
@@ -62,3 +63,16 @@ export const buscarDadosMenu = ({ commit }) => {
             commit(types.SET_MENU_PRINCIPAL, dadosTabela);
         });
 };
+
+export const obterDadosMenuProjeto = ({ commit }, idPronac) => {
+    obterMenuProjeto(idPronac)
+        .then((response) => {
+            const data = response.data.data;
+            commit(types.SET_MENU_SIDEBAR, data);
+        });
+};
+
+export const setItemsMenuSidebar = ({ commit }, items) => {
+    commit(types.SET_MENU_SIDEBAR, items);
+};
+

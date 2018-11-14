@@ -6,3 +6,4 @@ export const modoNoturno = state => state.modoNoturno;
 export const getStatusSidebarDireita = state => state.statusSidebarDireita;
 export const getStatusSidebarEsquerda = state => state.statusSidebarEsquerda;
 export const getDadosMenu = state => state.menuPrincipal;
+export const getDadosSidebar = state => state.menuSidebar;

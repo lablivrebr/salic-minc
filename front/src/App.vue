@@ -1,7 +1,8 @@
 <template>
     <div id="app">
         <v-app :dark="isModoNoturno">
-            <Cabecalho></Cabecalho>
+            <salic-sidebar></salic-sidebar>
+            <salic-header></salic-header>
             <v-content>
                 <router-view></router-view>
             </v-content>
@@ -16,19 +17,20 @@
             >
                 {{ this.getSnackbar.text }}
             </v-snackbar>
-            <Rodape></Rodape>
+            <salic-footer></salic-footer>
         </v-app>
     </div>
 </template>
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import Cabecalho from '@/components/layout/header';
-    import Rodape from '@/components/layout/footer';
+    import SalicSidebar from '@/components/layout/sidebar';
+    import SalicHeader from '@/components/layout/header';
+    import SalicFooter from '@/components/layout/footer';
 
     export default {
         name: 'Index',
-        components: { Cabecalho, Rodape },
+        components: { SalicSidebar, SalicHeader, SalicFooter },
         methods: {
             ...mapActions({
                 setSnackbar: 'noticias/setDados',

@@ -68,15 +68,15 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import { mapActions, mapGetters } from 'vuex';
-    import Data from '../../../../filters/date';
+import Vue from 'vue';
+import { mapActions, mapGetters } from 'vuex';
+import Data from '../../../../filters/date';
 
-    Vue.filter( 'date' , Data);
+Vue.filter('date', Data);
 
 export default {
     name: 'HistoricoDiligencias',
-    props: { idPronac: String , status: Object},
+    props: { idPronac: String, status: Object },
     data() {
         return {
             dialog: false,
@@ -111,8 +111,8 @@ export default {
         ...mapGetters({
             diligencias: 'avaliacaoResultados/diligenciasHistorico',
         }),
-        setInfo(){
-            if(Object.keys(this.diligencias).length > 0 ){
+        setInfo() {
+            if (Object.keys(this.diligencias).length > 0) {
                 this.info.nomeProjeto = this.diligencias.items[0].nomeProjeto;
                 this.info.pronac = this.diligencias.items[0].pronac;
                 return this.diligencias;
@@ -120,9 +120,9 @@ export default {
             return 0;
         },
     },
-    updated(){
-      this.setInfo;
-    }
+    updated() {
+        this.setInfo();
+    },
 };
 </script>
 

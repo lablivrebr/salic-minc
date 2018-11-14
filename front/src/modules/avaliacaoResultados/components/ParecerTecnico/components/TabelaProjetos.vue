@@ -76,8 +76,8 @@
     data() {
         return {
             status: {
-                color:'orange',
-                desc: 'teste'
+                color:'grey',
+                desc: 'Histórico Diligências'
             },
             pagination: {
                 rowsPerPage: 10,
@@ -175,7 +175,56 @@
             return dados;
         },
         statusDiligencia(obj){
-            console.info('oi')
+            //prazoPadrão = 40 (dias)
+
+            /**
+              If (notempty dtSolicitação){
+             Calculo do Prazo
+
+             prazo = date.now() - datainicial(dtSolicitacao);
+
+              converter.dias(prazo)
+
+             -> Para casos de de ser contagem regressiva.
+             if (key boolean (bln_descrescente) ){
+              prazo = prazoPadrao - prazo(do calculo acima);
+             }
+
+             if(prazo > 0) { prazo positivo
+              return prazo
+             } else if( prazo <= 0) { prazo negativo
+                return 0
+             } else {        para prazo de resposta igual ao padrão
+              return -1
+             }
+             }else {
+             return 0
+             }
+
+             */
+           // //diligenciado
+           //  if (obj.dtSolicitacao && obj.dtResposta == null && prazoResposta <= prazoPadrao && stEnviado == 'S') {
+           //      return this.status = { color: 'green', desc: "Diligenciado" };
+           //  }
+           // //diligencia não respondida
+           //    }else if( dtSolicitacao && dtResposta == null && prazoResposta > PrazoPadrao ){
+           //                  return this.status.desc="Diligência não respondida";
+           // //diligencia respondida com ressalvas
+           //       }else if( dtSolicitacao && dtResposta != null ) {
+           //          if( stEnviado == 'N' && prazoResposta > prazoPadrao ){
+           //              return this.status.desc="Diligência não respondida";
+           //          }else if(stEnviado =='N' && prazoResposta < prazoPadrao){
+           //              return this.status.desc="Diligenciado";
+           //          }else{
+           //              return this.status.desc="Diligencia respondida";
+           //          }
+           //       }else{
+           //              return this.status.desc="A Diligenciar";
+           //       }
+           //  if(obj.idPronac === '1410398') {
+           //      console.info(obj);
+           //  }
+           //  this.status.desc= 'OLAAA';
             return this.status;
         }
     },
@@ -197,5 +246,8 @@
             }
         },
     },
+    mounted(){
+        this.dadosTabelaTecnico;
+    }
 };
 </script>

@@ -63,12 +63,29 @@ export const obterDestinatarios = ({ commit }) => {
 };
 
 export const obterDadosTabelaTecnico = ({ commit }, params) => {
+    commit(types.PROJETOS_AVALIACAO_TECNICA, {});
     avaliacaoResultadosHelperAPI.obterDadosTabelaTecnico(params)
         .then((response) => {
-            const data = response.data;
-            const dadosTabela = data.data;
-            commit(types.PROJETOS_AVALIACAO_TECNICA, dadosTabela);
+            const data = response.data.data;
+            data.items.forEach((a, index) => {
+                avaliacaoResultadosHelperAPI.listarDiligencias(a.idPronac).then(
+                    (response) => {
+                        const obj = response.data.data;
+                        data.items[index].diligencias = obj.items;
+                    },
+                );
+            });
+            commit(types.PROJETOS_AVALIACAO_TECNICA, data);
         });
+};
+
+export const obetDadosDiligencias = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.listarDiligencias(params).then(
+        (response) => {
+            const obj = response.data.data;
+            commit(types.HISTORICO_DILIGENCIAS, obj);
+        },
+    );
 };
 
 export const projetosFinalizados = ({ commit }, params) => {

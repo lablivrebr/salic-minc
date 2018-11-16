@@ -5,6 +5,7 @@
         </v-subheader>
         <v-card>
             <v-tabs
+                value="tab-0"
                 centered
                 color="green darken-3"
                 dark
@@ -86,11 +87,11 @@
 
 <script>
 
-import { mapActions, mapGetters } from 'vuex';
-import Const from '../../const';
-import Laudo from './Laudo';
+    import { mapActions, mapGetters } from 'vuex';
+    import Const from '../../const';
+    import Laudo from './Laudo';
 
-export default {
+    export default {
     name: 'PainelLaudo',
     data() {
         return {

@@ -118,11 +118,11 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
             );
 
             if ($custoVinculadoProponente) {
-                $item['percentualProponente'] = $custoVinculadoProponente['pcCalculo'];
+                $item['percentualProponente'] = (float) $custoVinculadoProponente['pcCalculo'];
                 $item['idCustosVinculados'] = $custoVinculadoProponente['idCustosVinculados'];
             }
 
-            if (empty($item['percentualProponente']) || $item['percentualPadrao'] < $item['percentualProponente']) {
+            if (!isset($item['percentualProponente']) || $item['percentualProponente'] > $item['percentualPadrao']) {
                 $item['percentualProponente'] = $item['percentualPadrao'];
             }
 
@@ -150,7 +150,6 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                 if (isset($item['limitePadrao']) && $item['valorUnitario'] > $item['limitePadrao']) {
                     $item['valorUnitario'] = $item['limitePadrao'];
                 }
-
 
                 if ($item['idPlanilhaItens'] == Proposta_Model_TbCustosVinculados::ID_CUSTO_ADMINISTRATIVO
                     || ($item['idPlanilhaItens'] == Proposta_Model_TbCustosVinculados::ID_DIVULGACAO)

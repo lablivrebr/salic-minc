@@ -10,6 +10,7 @@ export const state = {
     dadosTabelaTecnico: [],
     dadosHistoricoEncaminhamento: [],
     dadosDestinatarios: [],
+    diligenciasHistorico: [],
     mocks:
     {
         parecer: Parecer,
@@ -93,6 +94,9 @@ export const mutations = {
     },
     [types.PROJETOS_AVALIACAO_TECNICA](state, dados) {
         state.dadosTabelaTecnico = dados;
+    },
+    [types.HISTORICO_DILIGENCIAS](state, diligencias) {
+        state.diligenciasHistorico = diligencias;
     },
     [types.HISTORICO_ENCAMINHAMENTO](state, dados) {
         state.dadosHistoricoEncaminhamento = [];

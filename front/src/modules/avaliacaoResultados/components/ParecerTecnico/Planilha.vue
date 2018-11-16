@@ -251,11 +251,11 @@
      </v-container>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import ConsolidacaoAnalise from '../components/ConsolidacaoAnalise';
-import AnalisarItem from './AnalisarItem';
+    import { mapActions, mapGetters } from 'vuex';
+    import ConsolidacaoAnalise from '../components/ConsolidacaoAnalise';
+    import AnalisarItem from './AnalisarItem';
 
-export default {
+    export default {
     name: 'Planilha',
     data() {
         return {

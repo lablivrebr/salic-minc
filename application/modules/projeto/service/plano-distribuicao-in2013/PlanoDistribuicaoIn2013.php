@@ -2,8 +2,6 @@
 
 namespace Application\Modules\Projeto\Service\PlanoDistribuicaoIn2013;
 
-use Seguranca;
-
 class PlanoDistribuicaoIn2013 implements \MinC\Servico\IServicoRestZend
 {
     /**

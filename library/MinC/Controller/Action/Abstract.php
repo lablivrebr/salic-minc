@@ -805,6 +805,13 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $seq++;
             }
         } else if ($tipoPlanilha == 6 || $tipoPlanilha == 7) {
+
+            $valorTotalProjeto = 0;
+            $valorTotalProjeto = array_reduce($planilhaOrcamentaria, function($valorTotalProjeto, $item) {
+                $valorTotalProjeto += $item->vlAprovado;
+                return $valorTotalProjeto;
+            });
+            
             foreach ($planilhaOrcamentaria as $resuplanilha) {
                 $produto = $resuplanilha->Produto == null ? 'Administra&ccedil;&atilde;o do Projeto' : $resuplanilha->Produto;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Seq'] = $seq;
@@ -817,9 +824,28 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Unidade'] = $resuplanilha->Unidade;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Quantidade'] = $resuplanilha->Quantidade;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Ocorrencia'] = $resuplanilha->Ocorrencia;
-                $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['vlUnitario'] = $resuplanilha->vlUnitario;
-                $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['vlAprovado'] = $resuplanilha->vlAprovado;
-                $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['vlComprovado'] = $resuplanilha->vlComprovado;
+                
+                if ($resuplanilha->idEtapa == PlanilhaEtapa::ETAPA_CUSTOS_VINCULADOS) {
+                    if (!$custosVinculados) {
+                        $propostaTbCustosVinculados = new Proposta_Model_TbCustosVinculadosMapper();
+                        $custosVinculados = $propostaTbCustosVinculados->obterCustosVinculados(
+                            $resuplanilha->idProjeto,
+                            $valorTotalProjeto
+                        );
+                    }
+                    
+                    $valorItemCustoVinculado = 0;
+                    $valorItemCustoVinculado = $custosVinculados[$resuplanilha->idPlanilhaItem]['valorUnitario'];
+                    
+                    $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['vlUnitario'] = $valorItemCustoVinculado;
+                    $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['vlAprovado'] = $valorItemCustoVinculado;
+                    
+                } else {
+                    $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['vlUnitario'] = $resuplanilha->vlUnitario;
+                    $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['vlAprovado'] = $resuplanilha->vlAprovado;
+                }
+                
+                $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['vlComprovado'] = $valorItemCustoVinculadovalorCalculado;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['QtdeDias'] = $resuplanilha->QtdeDias;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['dsJustificativa'] = $resuplanilha->dsJustificativa;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['idAgente'] = $resuplanilha->idAgente;
@@ -827,6 +853,7 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['idUF'] = $resuplanilha->idUF;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['idMunicipio'] = $resuplanilha->idMunicipio;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['idProduto'] = $resuplanilha->idProduto;
+                $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['idPlanilhaItem'] = $resuplanilha->idPlanilhaItem;
 
                 $count++;
                 $seq++;

@@ -136,11 +136,7 @@ class Readequacao_RemanejamentoMenorController extends MinC_Controller_Action_Ab
         }
         $idReadequacao = $this->_request->getParam("idReadequacao");
 
-        $tiposEtapa = [];
-        $tiposEtapa['A'] = [1,2];
-        $tiposEtapa['B'] = [3];
-        $tiposEtapa['C'] = [4, 8, 9, 10];
-        $tiposEtapa['D'] = [5];
+        $tiposEtapa = $this->obterGruposEtapas($idPronac);
         
         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
         
@@ -219,11 +215,27 @@ class Readequacao_RemanejamentoMenorController extends MinC_Controller_Action_Ab
         } else {
             $erros ++;
         }
-
+        
+        $projetoContemEtapasCustosDivulgacao = $this->projetoContemEtapasCustosDivulgacao($idPronac);
+        if ($projetoContemEtapasCustosDivulgacao) {
+            if ($valorTotalGrupoB < 0 ||
+                $valorTotalGrupoC < 0
+            ) {
+                $erros ++;
+            }                    
+        }            
+        
         $id = Seguranca::encrypt($idPronac);
         if ($erros > 0) {
-            parent::message("<b>A T E N &Ccedil; &Atilde; O !!!</b> Para finalizar a opera&ccedil;&atilde;o de remanejamento os valores da coluna 'Valor da Planilha Remanejada' devem ser iguais a R$0,00 (zero real).", "readequacao/remanejamento-menor?idPronac=$id", "ERROR");
+            if ($projetoContemEtapasCustosDivulgacao) {
+                $mensagemErro = "<b>A T E N &Ccedil; &Atilde; O !!!</b> Para finalizar a opera&ccedil;&atilde;o de remanejamento os valores da coluna 'Valor da Planilha Remanejada' devem ser iguais a R$0,00 (zero real). <br/>Para projetos que cont&eacute;m as etapas de Custos Administrativos e Divulga&ccedil;&atilde;o &eacute; n&atilde;o &eacute; poss&iacute;vel finalizar caso as colunas B e/ou C sejam negativas.";
+            } else {
+                $mensagemErro = "<b>A T E N &Ccedil; &Atilde; O !!!</b> Para finalizar a opera&ccedil;&atilde;o de remanejamento os valores da coluna 'Valor da Planilha Remanejada' devem ser iguais a R$0,00 (zero real).";
+            }            
+            
+            parent::message($mensagemErro, "readequacao/remanejamento-menor?idPronac=$id", "ERROR");
         } else {
+            
             $auth = Zend_Auth::getInstance(); // pega a autentica��o
             $tblAgente = new Agente_Model_DbTable_Agentes();
             $rsAgente = $tblAgente->buscar(array('CNPJCPF=?'=>$auth->getIdentity()->Cpf))->current();
@@ -278,12 +290,8 @@ class Readequacao_RemanejamentoMenorController extends MinC_Controller_Action_Ab
             $idPronac = Seguranca::dencrypt($idPronac);
         }
         $idReadequacao = $this->_request->getParam("idReadequacao");
-
-        $tiposEtapa = [];
-        $tiposEtapa['A'] = [1,2];
-        $tiposEtapa['B'] = [3];
-        $tiposEtapa['C'] = [4, 8, 9, 10];
-        $tiposEtapa['D'] = [5];
+        
+        $tiposEtapa = $this->obterGruposEtapas($idPronac);
         
         try {
             $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
@@ -409,6 +417,33 @@ class Readequacao_RemanejamentoMenorController extends MinC_Controller_Action_Ab
         $this->_helper->viewRenderer->setNoRender(true);
     }
 
+    private function obterGruposEtapas($idPronac) {
+        $tiposEtapa = [];
+        $tiposEtapa['A'] = [
+            PlanilhaEtapa::ETAPA_PRE_PRODUCAO_PREPARACAO,
+            PlanilhaEtapa::ETAPA_PRODUCAO_EXECUCAO
+        ];
+
+        if ($this->projetoContemEtapasCustosDivulgacao($idPronac)) {
+            $tiposEtapa['A'][] = PlanilhaEtapa::ETAPA_POS_PRODUCAO;
+        }
+        
+        $tiposEtapa['B'] = [
+            PlanilhaEtapa::ETAPA_DIVULGACAO_COMERCIALIZACAO
+        ];
+        $tiposEtapa['C'] = [
+            PlanilhaEtapa::ETAPA_CUSTOS_ADMINISTRATIVOS,
+            PlanilhaEtapa::ETAPA_CUSTOS_VINCULADOS,
+            PlanilhaEtapa::ETAPA_ASSESORIA_CONTABIL_JURIDICA,
+            PlanilhaEtapa::ETAPA_CAPTACAO_RECURSOS
+        ];
+        $tiposEtapa['D'] = [
+            PlanilhaEtapa::ETAPA_RECOLHIMENTOS
+        ];
+        
+        return $tiposEtapa;
+    }
+    
     public function carregarValorEntrePlanilhasAction()
     {
         $auth = Zend_Auth::getInstance(); // pega a autenticacao
@@ -418,15 +453,16 @@ class Readequacao_RemanejamentoMenorController extends MinC_Controller_Action_Ab
         if (strlen($idPronac) > 7) {
             $idPronac = Seguranca::dencrypt($idPronac);
         }
-
+        
         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
 
         //BUSCAR VALOR TOTAL DA PLANILHA ATIVA
         $where = array();
         $where['a.IdPRONAC = ?'] = $idPronac;
         $where['a.stAtivo = ?'] = 'S';
+        
         $PlanilhaAtiva = $tbPlanilhaAprovacao->valorTotalPlanilha($where)->current();
-        //x($PlanilhaAtiva->Total);
+        
 
         //BUSCAR VALOR TOTAL DA PLANILHA DE REMANEJADA
         $Readequacao_Model_DbTable_TbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
@@ -923,5 +959,11 @@ class Readequacao_RemanejamentoMenorController extends MinC_Controller_Action_Ab
         } catch (Zend_Exception $e) {
             $this->_helper->json(array('msg' => 'Houve um erro na c&oacute;pia das planilhas!'));
         }
+    }
+
+    private function projetoContemEtapasCustosDivulgacao($idPronac)
+    {
+        $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+        return $tbPlanilhaAprovacao->projetoContemEtapasCustosDivulgacao($idPronac);        
     }
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import EmitirParecer from './components/ParecerTecnico/EmitirParecer';
+import HistoricoDiligencias from './components/components/HistoricoDiligencias';
 import Painel from './components/ParecerTecnico/Painel';
 import Planilha from './components/ParecerTecnico/Planilha';
 import VisualizarPlanilha from './components/components/VisualizarPlanilha';
@@ -93,6 +94,14 @@ const routes = [
         component: VisualizarLaudo,
         meta: {
             title: 'Visualizar laudo',
+        },
+    },
+    {
+        path: '/diligencias',
+        name: 'HistoricoDiligencias',
+        component: HistoricoDiligencias,
+        meta: {
+            title: 'Avaliação de Resultados: Diligencias do Projeto',
         },
     },
     {

@@ -156,12 +156,11 @@ import AnaliseButton from '../analise/analisarButton';
 import AssinarButton from '../analise/AssinarButton';
 import Devolver from '../components/Devolver';
 import VisualizarPlanilhaButtton from '../analise/VisualizarPlanilhaButtton';
+import Diligencias from '../components/HistoricoDiligencias';
 
 export default {
     name: 'Painel',
     created() {
-        this.projetosAssinatura({ estado: 'historico' });
-
         this.CONST = CONST;
 
         let projetosTecnico = {};
@@ -195,6 +194,8 @@ export default {
         this.projetosFinalizados(projetosFinalizados);
         this.projetosAssinarCoordenador();
         this.projetosAssinarCoordenadorGeral();
+        this.projetosAssinatura({ estado: 'historico' });
+
 
         Vue.set(this.listaAcoesAssinar, 'usuario', this.getUsuario);
         Vue.set(this.listaAcoesCoordenador, 'usuario', this.getUsuario);
@@ -202,29 +203,30 @@ export default {
     },
     data() {
         return {
+            projetoAnaliseDados: { code: 300, items: [] },
             listaAcoesTecnico: {
                 atual: '',
                 proximo: '',
-                acoes: [Historico, AnaliseButton],
+                acoes: [Diligencias, Historico, AnaliseButton],
             },
             listaAcoesAssinar: {
                 usuario: this.getUsuario,
                 atual: CONST.ESTADO_PARECER_FINALIZADO,
                 proximo: CONST.ESTADO_ANALISE_PARECER,
                 idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
-                acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
+                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
             },
             listaAcoesCoordenador: {
                 usuario: this.getUsuario,
                 atual: '',
                 proximo: '',
-                acoes: [Encaminhar, Historico, VisualizarPlanilhaButtton] },
+                acoes: [Diligencias, Encaminhar, Historico, VisualizarPlanilhaButtton] },
             listaAcoesAssinarCoordenadorGeral: {
                 usuario: this.getUsuario,
                 atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
                 proximo: CONST.ESTADO_ANALISE_PARECER,
                 idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
-                acoes: [Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
+                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
             },
             distribuirAcoes: { atual: '', proximo: '', acoes: [Encaminhar] },
             historicoAcoes: { atual: '', proximo: '', acoes: [Historico, VisualizarPlanilhaButtton] },

@@ -91,12 +91,12 @@
              });
              
              $('#enviarAssinaturaEmMassa').on('click', function(e) {
-                 const idTipoDoAtoAdministrativo = $('#idTipoDoAtoAdministrativo').val();
                  let arrIdPronac = [];
                  $('.checkbox_legal').filter(':checked').each(function(index, item) {
+                     $('#idTipoDoAtoAdministrativo').val($(item).data('idtipoatoadministrativo'));
                      arrIdPronac[index] = item.value;
                  });
-
+                 const idTipoDoAtoAdministrativo = $('#idTipoDoAtoAdministrativo').val();
                  window.location.replace('/assinatura/index/assinar-projeto?IdPRONAC=' + arrIdPronac.join(',') + '&idTipoDoAtoAdministrativo=' + idTipoDoAtoAdministrativo);
              });
 

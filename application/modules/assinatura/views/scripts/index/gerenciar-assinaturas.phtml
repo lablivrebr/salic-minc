@@ -83,10 +83,13 @@
              });
 
              $(document).on('click', "#marcarDesmarcarCheckboxLabel", function () {
-                 $3('.checkbox_legal').prop("checked", !$3($("#marcarDesmarcarCheckbox")).prop("checked"));
-                 tratarExibicaoCheckboxChecados('.checkbox_legal', '#divAssinaturaEmMassa');
+                 if (!$('#marcarDesmarcarCheckbox').prop('disabled')) {
+                     let checkedValue = $3('.checkbox_legal').prop('checked');
+                     $3('.checkbox_legal').prop("checked", !checkedValue);
+                     tratarExibicaoCheckboxChecados('.checkbox_legal', '#divAssinaturaEmMassa');
+                 }
              });
-
+             
              $('#enviarAssinaturaEmMassa').on('click', function(e) {
                  const idTipoDoAtoAdministrativo = $('#idTipoDoAtoAdministrativo').val();
                  let arrIdPronac = [];
@@ -212,13 +215,14 @@
                      // { "width": "10%", "targets": 3 },
                      // { "width": "5%", "targets": [5,6,7,9] },
                      {"className": "dt-center", "targets": [0, 1, 2, 5, 7]},
-                     {'bSortable': true, 'aTargets': [0, 1, 7]},
+                     {'bSortable': true, 'aTargets': [1, 7]},
                  ],
                  "columns": [
                      {
                          "targets": 0,
                          "data": null,
                          "name": "IdPRONAC",
+                         "orderable": false,
                          render: (data) => {
                              let assinarEmMassa = '<input type="checkbox" ' +
                                                   'name="IdPRONAC[]" ' +

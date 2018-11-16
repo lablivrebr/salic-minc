@@ -637,6 +637,10 @@ class AnalisarprojetoparecerController extends MinC_Controller_Action_Abstract
         $stPrincipal = $this->_request->getParam("stPrincipal");
         $idD = $this->_request->getParam("idD");
 
+        if ($idPronac == '') {
+            parent::message("N&uacute;mero de PRONAC n&atilde;o fornecido!", "parecer/analise-inicial", "ERROR");
+        }
+        
         $projetos = new Projetos();
         $IN2017 = $projetos->verificarIN2017($idPronac);
         

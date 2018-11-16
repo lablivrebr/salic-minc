@@ -5,7 +5,7 @@
         width="650"
     >
         <v-tooltip slot="activator" bottom>
-            <v-btn 
+            <v-btn
                 slot="activator"
                 color="green lighten-2"
                 text="white"
@@ -20,7 +20,7 @@
         <v-card>
             <v-container grid-list-md>
                 <v-card-text>
-                    Você deseja devolver o projeto '{{ pronac }} - {{ nomeProjeto }}' para análise?
+                    Você deseja devolver o projeto '{{ pronac }} - {{ nomeProjeto }}' para análise do Tecnico: {{tecnico.nome}}?
                     <v-textarea
                         v-model="justificativa"
                         outline
@@ -75,6 +75,7 @@ export default {
                 return ['622', '623'].includes(value);
             },
         },
+        tecnico: Object,
     },
     methods: {
         ...mapActions({
@@ -90,6 +91,15 @@ export default {
                 idTipoDoAtoAdministrativo: this.idTipoDoAtoAdministrativo,
                 justificativa: this.justificativa,
                 usuario: this.usuario,
+                /* encaminhamento */
+                dsJustificativa: this.justificativa,
+                idOrgaoDestino: 1,
+                /* agente */
+                idAgenteDestino: this.tecnico.idAgente,
+                cdGruposDestino: 1,
+                dtFimEncaminhamento: '2015-09-25 10:38:41',
+                idSituacaoEncPrestContas: 1,
+                idSituacao: 1,
             };
 
             this.setDevolverProjeto(dados);

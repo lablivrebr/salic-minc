@@ -2,49 +2,41 @@
     <v-hover
         open-delay="250"
     >
-        <!--<v-navigation-drawer app clipped hide-overlay :temporary="hover && mini" slot-scope="{ hover }" :mini-variant="mini && !hover">-->
-        <!--<v-btn icon @click="mini = !mini">-->
-        <!--<v-icon>chevron_left</v-icon>-->
-        <!--</v-btn>-->
-        <!--</v-navigation-drawer>-->
-
-
         <v-navigation-drawer
             app
             clipped
-            absolute
+            fixed
+            hide-overlay
             v-model="drawerLeft"
             left
             :mini-variant="mini && !hover"
             slot-scope="{ hover }"
         >
-            <v-toolbar flat class="transparent" v-if="infos">
-                <v-list class="">
-                    <v-list-tile avatar>
-                        <v-list-tile-avatar>
-                            <v-icon class="green lighten-1 white--text">{{ infos.icone_ativo }}</v-icon>
-                        </v-list-tile-avatar>
+            <v-list class="" dense two-line color="primary">
+                <v-list-tile avatar>
+                    <v-list-tile-avatar>
+                        <v-icon class="green lighten-1 white--text">{{ infos.icone_ativo }}</v-icon>
+                    </v-list-tile-avatar>
 
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{ infos.titulo }}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{ infos.descricao }}</v-list-tile-sub-title>
-                        </v-list-tile-content>
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ infos.titulo }}</v-list-tile-title>
+                        <v-list-tile-sub-title>{{ infos.descricao }}</v-list-tile-sub-title>
+                    </v-list-tile-content>
 
-                        <v-list-tile-action>
-                            <v-btn
-                                icon
-                                ripple
-                                @click.stop="mini = !mini"
-                            >
-                                <v-icon color="grey lighten-1" v-if="mini">lock_open</v-icon>
-                                <v-icon color="grey lighten-1" v-else>lock</v-icon>
-                            </v-btn>
-                        </v-list-tile-action>
-                    </v-list-tile>
-                </v-list>
-            </v-toolbar>
+                    <v-list-tile-action>
+                        <v-btn
+                            icon
+                            ripple
+                            @click.stop="mini = !mini"
+                        >
+                            <v-icon color="grey lighten-1" v-if="mini">lock_open</v-icon>
+                            <v-icon color="grey lighten-1" v-else>lock</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
+                </v-list-tile>
+            </v-list>
 
-            <v-list class="my-1">
+            <v-list class="my-0" dense >
                 <template v-if="items" v-for="(item) in items">
                     <v-list-group
                         v-if="item.submenu"
@@ -106,9 +98,6 @@
                 infos: {},
             };
         },
-        mounted() {
-            this.obterDadosSidebar('102');
-        },
         computed: {
             ...mapGetters({
                 statusSidebarEsquerda: 'layout/getStatusSidebarEsquerda',
@@ -127,13 +116,19 @@
                 if (val.informacoes) {
                     this.infos = val.informacoes;
                 }
+                this.drawerLeft = true;
             },
         },
         methods: {
             ...mapActions({
                 atualizarStatusSidebar: 'layout/atualizarStatusSidebarEsquerda',
-                obterDadosSidebar: 'layout/obterDadosMenuProjeto',
             }),
         },
     };
 </script>
+
+<style>
+    .v-navigation-drawer--mini-variant .v-list__group__items {
+        display: none !important;
+    }
+</style>

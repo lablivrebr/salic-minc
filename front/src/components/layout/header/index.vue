@@ -11,7 +11,7 @@
             <v-toolbar-side-icon v-if="Object.keys(dadosSidebar).length > 0"
                                  @click.native="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
             <salic-header-logo></salic-header-logo>
-            <v-toolbar-title class="ma-0 hidden-sm-and-down">Salic</v-toolbar-title>
+            <v-toolbar-title class="ml-1">{{tituloHeader}}</v-toolbar-title>
             <v-spacer></v-spacer>
             <salic-header-menu-principal-toolbar :dadosMenu="dadosMenu"></salic-header-menu-principal-toolbar>
             <salic-header-solicitacoes></salic-header-solicitacoes>
@@ -74,6 +74,12 @@
                 statusSidebarDireita: 'layout/getStatusSidebarDireita',
                 statusSidebarEsquerda: 'layout/getStatusSidebarEsquerda',
             }),
+            tituloHeader() {
+                if (this.$route.meta.title) {
+                    return this.$route.meta.title;
+                }
+                return 'Salic';
+            },
         },
         methods: {
             ...mapActions({

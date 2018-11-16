@@ -97,6 +97,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "echarts": "^4.2.0-rc.2",
     "lodash": "^4.17.5",
     "moment": "^2.22.1",
     "numeral": "^2.0.6",

@@ -308,7 +308,10 @@ class Assinatura_IndexController extends Assinatura_GenericController
             if (count($arrayIdPronacs) < 1) {
                 throw new Exception("Identificador do projeto &eacute; necess&aacute;rio para acessar essa funcionalidade.");
             }
-
+            if ($arrayIdPronacs > 1) {
+                $idPronac = current($arrayIdPronacs);
+            }
+            
             $post = $this->getRequest()->getPost();
 
 

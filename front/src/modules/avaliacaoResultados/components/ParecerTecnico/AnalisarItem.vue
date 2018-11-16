@@ -403,7 +403,10 @@
                     return false;
                 }
 
-                if (params.stItemAvaliado.length > 0 && params.dsJustificativa.length > 0) {
+                if (
+                    params.stItemAvaliado.length > 0
+                    /* && params.dsJustificativa.length > 0 */
+                ) {
                     this.loading = true;
                     this.salvarAvaliacaoComprovante({
                         index: params.index,
@@ -434,6 +437,7 @@
                         this.loading = false;
                     });
                 }
+                return true;
             },
             atualizarComprovantes(loading) {
                 let params = '';

@@ -8,9 +8,8 @@ class AvaliacaoResultados_ProjetoInicioController extends MinC_Controller_Rest_A
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
         $profiles = [
-            // Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-            // Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
-            // Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
         ];
 
         $permissionsPerMethod  = [
@@ -35,7 +34,6 @@ class AvaliacaoResultados_ProjetoInicioController extends MinC_Controller_Rest_A
         $this->codOrgao = $GrupoAtivo->codOrgao;
         $this->codOrgaoSuperior = (!empty($auth->getIdentity()->usu_org_max_superior)) ? $auth->getIdentity()->usu_org_max_superior : null;
 
-        $situacaoEncaminhamentoPrestacao = $this->getRequest()->getParam('situacaoEncaminhamentoPrestacao');
         $situacaoEncaminhamentoPrestacao = 1;
         $start = $this->getRequest()->getParam('start');
         $length = $this->getRequest()->getParam('length');
@@ -47,7 +45,7 @@ class AvaliacaoResultados_ProjetoInicioController extends MinC_Controller_Rest_A
         $orderType = $order[0]['dir'];
         $order = $column.' '.$orderType;
 
-        $tbPlanilhaAplicacao = new tbPlanilhaAprovacao();
+        $tbPlanilhaAplicacao = new \AvaliacaoResultados_Model_DbTable_tbPlanilhaAprovacao();
         $projetos = $tbPlanilhaAplicacao->obterAnaliseFinanceiraVirtual(
             $this->codOrgao,
             $situacaoEncaminhamentoPrestacao
@@ -88,12 +86,6 @@ class AvaliacaoResultados_ProjetoInicioController extends MinC_Controller_Rest_A
                 'recordsFiltered' => $recordsFiltered ? $recordsFiltered : 0,
             ]
         );
-
-
-
-        /* $data = [1, 2]; */
-        /* $data = \TratarArray::utf8EncodeArray($data); */
-        /* $this->renderJsonResponse($data, 200); */
     }
 
     public function headAction(){}

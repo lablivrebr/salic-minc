@@ -126,6 +126,7 @@ export const redirectLinkAvaliacaoResultadoTipo = ({ commit }, params) => {
     }
 };
 
+// deprecated
 export const planilha = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI.planilha(params)
         .then((response) => {
@@ -137,7 +138,28 @@ export const planilha = ({ commit }, params) => {
         });
 };
 
+export const syncPlanilhaAction = ({ commit }, params) => {
+    commit(types.GET_PLANILHA, {});
+    avaliacaoResultadosHelperAPI.planilha(params)
+        .then((response) => {
+            const planilha = response.data;
+            commit(types.GET_PLANILHA, planilha);
+        }).catch((error) => {
+            const data = error.response;
+            commit(types.GET_PLANILHA, { error: data.data.data.erro });
+        });
+};
+// deprecated use syncProjetoAction
 export const projetoAnalise = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.projetoAnalise(params)
+        .then((response) => {
+            const projetoAnalise = response.data;
+            commit(types.GET_PROJETO_ANALISE, projetoAnalise);
+        });
+};
+
+export const syncProjetoAction = ({ commit }, params) => {
+    commit(types.GET_PROJETO_ANALISE, {});
     avaliacaoResultadosHelperAPI.projetoAnalise(params)
         .then((response) => {
             const projetoAnalise = response.data;

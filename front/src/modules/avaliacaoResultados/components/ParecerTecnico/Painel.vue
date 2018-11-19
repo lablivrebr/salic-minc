@@ -23,7 +23,7 @@
                         ></v-progress-circular>
                     </template>
                     <template v-else>
-                        Encaminhar
+                        Distribuir 
                         <v-icon>assignment_ind</v-icon>
                     </template>
                 </v-tab>

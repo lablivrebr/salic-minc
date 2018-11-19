@@ -324,8 +324,8 @@ export default {
     },
     methods: {
         ...mapActions({
-            setPlanilha: 'avaliacaoResultados/planilha',
-            setProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
+            setPlanilha: 'avaliacaoResultados/syncPlanilhaAction',
+            setProjetoAnalise: 'avaliacaoResultados/syncProjetoAction',
         }),
         moeda: (moedaString) => {
             const moeda = Number(moedaString);

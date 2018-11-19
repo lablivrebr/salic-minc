@@ -123,73 +123,84 @@
     </div>
     <div class="col s1"></div>
 </div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s10">
-        <p>
-            <label class="margin-bottom20" style="color: black">Parecer de Avalia&ccedil;&atilde;o T&eacute;cnica:</label>
-        </p>
-        <div class="padding10 bordered" style="text-align: justify">
-            <?= $this->dadosParecer->dsInformacaoAdicional; ?>
+<div id="parecer-tecnico">
+
+
+    <div class="row">
+        <div class="col s1"></div>
+        <div class="col s10">
+            <p>
+                <label class="margin-bottom20" style="color: black">Parecer de Avalia&ccedil;&atilde;o
+                    T&eacute;cnica:</label>
+            </p>
+            <div class="padding10 bordered" style="text-align: justify">
+                <?= $this->dadosParecer->dsInformacaoAdicional; ?>
+            </div>
         </div>
+        <div class="col s1"></div>
     </div>
-    <div class="col s1"></div>
+
+    <?php if (trim($this->dadosParecer->dsOrientacao)) : ?>
+        <div class="row margin-bottom30"></div>
+        <div class="row">
+            <div class="col s1"></div>
+            <div class="col s10">
+                <p>
+                    <label class="margin-bottom20" style="color: black">Recomenda&ccedil;&otilde;es:</label>
+                </p>
+                <div class="padding10 bordered" style="text-align: justify">
+                    <?= $this->dadosParecer->dsOrientacao; ?>
+                </div>
+            </div>
+            <div class="col s1"></div>
+        </div>
+    <?php endif; ?>
+
+    <div class="row margin-bottom30"></div>
+    <div class="row">
+        <div class="col s1"></div>
+        <div class="col s10">
+            <p>
+                <label class="margin-bottom20" style="color: black">Conclus&atilde;o:</label>
+            </p>
+            <div class="padding10 bordered" style="text-align: justify">
+                <?= $this->dadosParecer->dsConclusao; ?>
+            </div>
+        </div>
+        <div class="col s1"></div>
+    </div>
+
+    <div class="row margin-bottom30"></div>
+    <div class="row">
+        <div class="col s1"></div>
+        <div class="col s10">
+            <p>
+                <label class="margin-bottom20" style="color: black">Resultado da avalia&ccedil;&atilde;o:</label>
+            </p>
+            <div class="padding10 bordered" style="text-align: justify">
+                <?php
+                switch ($this->dadosParecer->stResultadoAvaliacao) {
+                    case 'A':
+                        echo 'Cumpriu o objeto e objetivos';
+                        break;
+                    case 'R':
+                        echo 'N&atilde;o cumprimento do objeto e objetivos';
+                        break;
+                    case 'P':
+                        echo 'Cumpriu parcialmente o objeto e objetivos';
+                        break;
+                    default:
+                        break;
+                }
+                ?>
+            </div>
+        </div>
+        <div class="col s1"></div>
+    </div>
 </div>
 
-<?php if (trim($this->dadosParecer->dsOrientacao)) : ?>
-<div class="row margin-bottom30"></div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s10">
-        <p>
-            <label class="margin-bottom20" style="color: black">Recomenda&ccedil;&otilde;es:</label>
-        </p>
-        <div class="padding10 bordered" style="text-align: justify">
-            <?= $this->dadosParecer->dsOrientacao; ?>
-        </div>
-    </div>
-    <div class="col s1"></div>
-</div>
-<?php endif; ?>
-
-<div class="row margin-bottom30"></div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s10">
-        <p>
-            <label class="margin-bottom20" style="color: black">Conclus&atilde;o:</label>
-        </p>
-        <div class="padding10 bordered" style="text-align: justify">
-            <?= $this->dadosParecer->dsConclusao; ?>
-        </div>
-    </div>
-    <div class="col s1"></div>
-</div>
-
-<div class="row margin-bottom30"></div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s10">
-        <p>
-            <label class="margin-bottom20" style="color: black">Resultado da avalia&ccedil;&atilde;o:</label>
-        </p>
-        <div class="padding10 bordered" style="text-align: justify">
-            <?php
-            switch ($this->dadosParecer->stResultadoAvaliacao) {
-                case 'A':
-                    echo 'Cumpriu o objeto e objetivos';
-                    break;
-                case 'R':
-                    echo 'N&atilde;o cumprimento do objeto e objetivos';
-                    break;
-                case 'P':
-                    echo 'Cumpriu parcialmente o objeto e objetivos';
-                    break;
-                default:
-                    break;
-            }
-            ?>
-        </div>
-    </div>
-    <div class="col s1"></div>
-</div>
+<style>
+    .assinatura table td {
+        border: 1px solid #aaaaaa;
+    }
+</style>

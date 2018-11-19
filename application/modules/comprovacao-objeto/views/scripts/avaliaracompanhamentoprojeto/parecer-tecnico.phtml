@@ -47,7 +47,7 @@
               'action' => 'salvar-avaliacao'),
               '', true); ?>?idPronac=<?= $this->idPronac; ?>"
           method="post">
-        <input type="hidden" name="idPronac" value="<?= $this->idPronac; ?>" />
+        <input type="hidden" name="idPronac" value="<?= $this->idPronac; ?>"/>
         <table class="tabela">
             <tr align="center">
                 <td class="destacar bold">PARECER DE AVALIA&Ccedil;&Atilde;O T&Eacute;CNICA<font color="red"> *</td>
@@ -171,6 +171,14 @@
             toolbar: "bold,italic,underline,color,forecolor backcolor,fontsizeselect,table",
             menubar: "",
             content_style: ".mce-content-body {font-size:14px;}",
+            table_default_attributes: {
+                'border': '2'
+            },
+            table_default_styles: {
+                'border-collapsed': 'collapse',
+                'border-color': 'black',
+                'width': '100%'
+            },
             setup: function (ed) {
                 ed.on('init', function (e) {
                     ExecucaoDaFuncaoLimiterPag('informacaoAdicional');
@@ -183,12 +191,19 @@
         tinymce.init({
             plugins: "paste,textcolor,table",
             language: "pt_BR",
-            // paste_as_text: true,
             selector: '#orientacao',
             height: 500,
             toolbar: "bold,italic,underline,color,forecolor backcolor,fontsizeselect,table",
             menubar: "",
             content_style: ".mce-content-body {font-size:14px;}",
+            table_default_attributes: {
+                'border': '2'
+            },
+            table_default_styles: {
+                'border-collapsed': 'collapse',
+                'border-color': 'black',
+                'width': '100%'
+            },
             setup: function (ed) {
                 ed.on('init', function (e) {
                     ExecucaoDaFuncaoLimiterPag('orientacao', 0);
@@ -201,12 +216,20 @@
         tinymce.init({
             plugins: "paste,textcolor,table",
             language: "pt_BR",
-            // paste_as_text: true,
             selector: '#conclusao',
             height: 500,
             toolbar: "bold,italic,underline,color,forecolor backcolor,fontsizeselect,table",
             menubar: "",
             content_style: ".mce-content-body {font-size:14px;}",
+            table_default_attributes: {
+                'border': '2'
+            },
+            table_appearance_options: true,
+            table_default_styles: {
+                'border-collapsed': 'collapse',
+                'border-color': 'black',
+                'width': '100%'
+            },
             setup: function (ed) {
                 ed.on('init', function (e) {
                     ExecucaoDaFuncaoLimiterPag('conclusao');

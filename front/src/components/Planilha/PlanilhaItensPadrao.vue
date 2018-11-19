@@ -5,6 +5,7 @@
             <tr>
                 <th class="center-align">#</th>
                 <th class="left-align">Item</th>
+                <th class="left-align">Unidade</th>
                 <th class="center-align">Dias</th>
                 <th class="center-align">Qtde</th>
                 <th class="center-align">Ocor.</th>
@@ -18,19 +19,20 @@
                 :key="row.idPlanilhaProposta"
                 v-if="isObject(row)"
                 :class="definirClasseItem(row)">
-                <td class="center-align">{{row.Seq}}</td>
-                <td class="left-align">{{row.Item}}</td>
-                <td class="center-align">{{row.QtdeDias}}</td>
-                <td class="center-align">{{row.Quantidade}}</td>
-                <td class="center-align">{{row.Ocorrencia}}</td>
-                <td class="right-align">{{ row.vlUnitario | formatarParaReal }}</td>
-                <td class="right-align">{{ row.vlSolicitado | formatarParaReal }}</td>
+                <td class="center-align">{{ row.Seq }}</td>
+                <td class="left-align">{{ row.Item }}</td>
+                <td class="center-align">{{ row.Unidade }}</td>
+                <td class="center-align">{{ row.QtdeDias }}</td>
+                <td class="center-align">{{ row.Quantidade }}</td>
+                <td class="center-align">{{ row.Ocorrencia }}</td>
+                <td class="right-align">{{ row.vlUnitario | filtroFormatarParaReal }}</td>
+                <td class="right-align">{{ row.vlSolicitado | filtroFormatarParaReal }}</td>
                 <td class="justify" width="30%" v-html="row.JustProponente"></td>
             </tr>
             </tbody>
             <tfoot v-if="table && Object.keys(table).length > 0" style="opacity: 0.5">
             <tr>
-                <td colspan="6"><b>Totais</b></td>
+                <td colspan="7"><b>Totais</b></td>
                 <td class="right-align">
                     <b>{{ obterValorSolicitadoTotal(table) }}</b>
                 </td>

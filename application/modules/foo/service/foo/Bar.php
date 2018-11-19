@@ -2,7 +2,9 @@
 
 namespace Application\Modules\Foo\Service\Foo;
 
-class Bar
+use MinC\Servico\IServicoRestZend;
+
+class Bar implements IServicoRestZend
 {
     /**
      * @var \Zend_Controller_Request_Abstract $request
@@ -60,8 +62,7 @@ class Bar
 
     public function remover()
     {
-        $parametros = $this->request->getParams();
-        $tabela = $this->buscar($this->getParam('id'));
+        $tabela = $this->buscar($this->request->getParam('id'));
         $mapper = new \Foo_Model_TabelaMapper();
         $id = (int) $tabela['Codigo'];
         $mapper->delete($id);

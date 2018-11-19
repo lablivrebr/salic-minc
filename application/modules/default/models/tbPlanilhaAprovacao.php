@@ -662,7 +662,7 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
             'SAC.dbo'
         );
         $select->joinInner(
-            ['e' => 'tbCumprimentoObjeto'],
+            ['e' => 'TbCumprimentoObjeto'],
             'd.IdPRONAC = e.idPronac',
             [''],
             'SAC.dbo'
@@ -776,5 +776,169 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
             }
         }
         return true;
+    }
+
+    public function obterAnaliseFinanceiraVirtual(
+        $codGrupo,
+        $situacaoEncaminhamentoPrestacao,
+        $order = null,
+        $start = 0,
+        $limit = 20,
+        $search = null)
+    {
+
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->distinct();
+
+        switch ($situacaoEncaminhamentoPrestacao) {
+            case tbPlanilhaAprovacao::FILTRO_ANALISE_FINANCEIRA_VIRTUAL_AGUARDANDO_ANALISE :
+                $colunasOrdenadas = [
+                    'd.AnoProjeto+d.Sequencial AS Pronac',
+                    'd.AnoProjeto+d.Sequencial AS PRONAC',
+                    'd.NomeProjeto',
+                    'd.Situacao as cdSituacao',
+                    'd.Situacao as Situacao',
+                    'd.UfProjeto',
+                    'a.IdPRONAC',
+                ];
+                $select->where("d.Situacao = ?", 'E68');
+                $select->where(
+                    "CASE
+                        WHEN J.idSituacaoEncPrestContas IS NULL THEN 1
+                        ELSE J.idSituacaoEncPrestContas 
+                    END = ?",
+                    tbPlanilhaAprovacao::FILTRO_ANALISE_FINANCEIRA_VIRTUAL_AGUARDANDO_ANALISE
+                );
+                break;
+        }
+        $colunasOrdenadas[] = '
+            (select
+                count(Contador)
+            from
+                sac.dbo.parecercontrole
+            where
+                AnoProjeto+Sequencial = d.AnoProjeto+d.Sequencial) as Prioridade';
+
+
+        $colunasOrdenadas = implode(", ", $colunasOrdenadas);
+        $colunasOrdenadas = new Zend_Db_Expr($colunasOrdenadas);
+
+        $select->from(
+            ['a' => $this->_name],
+            [$colunasOrdenadas],
+            'SAC.dbo'
+        );
+        $select->joinInner(
+            ['b' => 'tbComprovantePagamentoxPlanilhaAprovacao'],
+            'a.idPlanilhaAprovacao    = b.idPlanilhaAprovacao',
+            [''],
+            'BDCORPORATIVO.scSAC'
+        );
+        $select->joinInner(
+            ['c' => 'tbComprovantePagamento'],
+            'b.idComprovantePagamento = c.idComprovantePagamento',
+            [''],
+            'BDCORPORATIVO.scSAC'
+        );
+        $select->joinInner(
+            ['d' => 'Projetos'],
+            'a.IdPRONAC = d.IdPRONAC',
+            ['a.IdPRONAC as idPronac'],
+            'SAC.dbo'
+        );
+        $select->joinInner(
+            ['e' => 'TbCumprimentoObjeto'],
+            'd.IdPRONAC = e.idPronac',
+            [''],
+            'SAC.dbo'
+        );
+        $select->joinInner(
+            ['f' => 'Area'],
+            'd.Area = f.Codigo',
+            [''],
+            'SAC.dbo'
+        );
+
+        $select->joinInner(
+            ['g' => 'Segmento'],
+            'd.Segmento = g.Codigo',
+            [''],
+            'SAC.dbo'
+        );
+        $select->joinInner(
+            ['i' => 'Situacao'],
+            'd.Situacao = i.Codigo',
+            [''],
+            'SAC.dbo'
+        );
+
+        $select->joinLeft(
+            ['j' => 'tbEncaminhamentoPrestacaoContas'],
+            'd.IdPRONAC = J.idPronac AND J.stAtivo = 1',
+            [''],
+            'BDCORPORATIVO.scSAC'
+        );
+        $select->joinLeft(
+            ['k' => 'Usuarios'],
+            'j.idAgenteDestino = k.usu_codigo',
+            [''],
+            'Tabelas.dbo'
+        );
+        $select->joinLeft(
+            ['l' => 'tbSituacaoEncaminhamentoPrestacaoContas'],
+            'j.idSituacaoEncPrestContas = l.idSituacaoEncPrestContas',
+            [''],
+            'BDCORPORATIVO.scSAC'
+        );
+
+        $select->where('a.nrFonteRecurso = 109');
+        $select->where("d.Mecanismo = '1'");
+        $select->where("d.Orgao = ?", $codGrupo);
+
+        if (!empty($search['value'])) {
+            $select->where('d.AnoProjeto+d.Sequencial like ? OR d.NomeProjeto like ?', '%' . $search['value'] . '%');
+        }
+
+        /* if (!empty($order)) { */
+        /*     $select->order($order); */
+        /* } */
+
+        /* if (!is_null($start) && $limit) { */
+        /*     $start = (int) $start; */
+        /*     $limit = (int) $limit; */
+        /*     $select->limit($limit, $start); */
+        /* } */
+        /* echo $select;die; */
+
+        return $this->fetchAll($select);
+    }
+    
+    public function projetoContemEtapasCustosDivulgacao($idPronac)
+    {
+        $objQuery = $this->select();
+        $objQuery->setIntegrityCheck(false);
+        
+        $objQuery->from(
+            array(
+                'tbPlanilhaAprovacao' => $this->_name
+            ),
+            'idPronac',
+            $this->_schema
+        );
+
+        $objQuery->where('tbPlanilhaAprovacao.tpPlanilha = ?', 'CO');
+        $objQuery->where('tbPlanilhaAprovacao.idEtapa IN(?)', [
+            PlanilhaEtapa::ETAPA_CUSTOS_ADMINISTRATIVOS,
+            PlanilhaEtapa::ETAPA_DIVULGACAO_COMERCIALIZACAO
+        ]);
+        $objQuery->where('tbPlanilhaAprovacao.IdPRONAC = ?', $idPronac);
+        
+        $result = $this->fetchAll($objQuery);
+        
+        if (count($result > 0)) {
+            return true;
+        }
+        return false;
     }
 }

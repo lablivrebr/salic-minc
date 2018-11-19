@@ -6,24 +6,7 @@ class Foo_FooRestController extends MinC_Controller_Rest_Abstract
 {
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
-        $perfisComAcesso = [
-            Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
-        ];
-
-        $perfilProponente = [
-            parent::COD_ORGAO_PROPONENTE
-        ];
-
-        $permissionsPerMethod  = [
-            'get' => $perfisComAcesso,
-            'index' => $perfisComAcesso,
-            'post' => $perfisComAcesso,
-            'head' => $perfisComAcesso,
-            'put' => $perfisComAcesso,
-            'delete' => $perfilProponente,
-        ];
+        $permissionsPerMethod  = ['*'];
 
         $this->setValidateUserIsLogged();
         $this->setProtectedMethodsProfilesPermission($permissionsPerMethod);

@@ -1,9 +1,10 @@
 <template>
-    <div class="documentos-anexados">
+    <div class="documentos-anexados" v-if="documentos">
         <div class="card">
             <div class="card-content">
                 <h5>Documentos da Proposta</h5>
-                <table v-if="documentos.proposta && documentos.proposta.length > 0" class="bordered responsive-table">
+                <table v-if="documentos.documentos_proposta && documentos.documentos_proposta.length > 0"
+                       class="bordered responsive-table">
                     <thead>
                     <tr>
                         <th>Documento</th>
@@ -12,11 +13,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="documento in documentos.proposta">
+                    <tr v-for="(documento, index) in documentos.documentos_proposta" :key="index">
                         <td>{{ documento.Descricao }}</td>
-                        <td>{{ formatar_data(documento.Data) }}</td>
+                        <td>{{ documento.Data | formatarData }}</td>
                         <td>
-                            <a :href="get_url(documento.idDocumentosPreProjetos, documento.tpDoc)" title="Abrir arquivo">{{documento.NoArquivo}}</a>
+                            <a :href="getUrl(documento.idDocumentosPreProjetos, documento.tpDoc)" title="Abrir arquivo">{{documento.NoArquivo}}</a>
                         </td>
                     </tr>
                     </tbody>
@@ -28,7 +29,8 @@
         <div class="card">
             <div class="card-content">
                 <h5>Documentos do Proponente</h5>
-                <table v-if="documentos.proponente && documentos.proponente.length > 0" class="bordered responsive-table">
+                <table v-if="documentos.documentos_proponente && documentos.documentos_proponente.length > 0"
+                       class="bordered responsive-table">
                     <thead>
                     <tr>
                         <th>Documento</th>
@@ -37,11 +39,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="documento in documentos.proponente">
+                    <tr v-for="(documento, index) in documentos.documentos_proponente" :key="index">
                         <td>{{ documento.Descricao }}</td>
-                        <td>{{ formatar_data(documento.Data) }}</td>
+                        <td>{{ documento.Data | formatarData}}</td>
                         <td>
-                            <a :href="get_url(documento.idDocumentosAgentes, documento.tpDoc)" title="Abrir arquivo">{{ documento.NoArquivo }}</a>
+                            <a :href="getUrl(documento.idDocumentosAgentes, documento.tpDoc)" title="Abrir arquivo">{{
+                                documento.NoArquivo }}</a>
                         </td>
                     </tr>
                     </tbody>
@@ -52,55 +55,51 @@
     </div>
 </template>
 <script>
-import moment from 'moment';
+    import { mapActions, mapGetters } from 'vuex';
+    import { utils } from '@/mixins/utils';
 
-export default {
-    name: 'PropostaDocumentos',
-    data() {
-        return {
-            documentos: [],
-        };
-    },
-    props: ['proposta', 'arrayDocumentos'],
-    mounted() {
-        if (typeof this.proposta !== 'undefined') {
-            this.fetch(this.proposta);
-        }
-
-        if (typeof this.arrayDocumentos !== 'undefined') {
-            this.$set(this.documentos, 'proposta', this.arrayDocumentos.documentos_proposta);
-            this.$set(this.documentos, 'proponente', this.arrayDocumentos.documentos_proponente);
-        }
-    },
-    watch: {
-        proposta(value) {
-            this.fetch(value);
+    export default {
+        name: 'PropostaDocumentos',
+        props: {
+            proposta: Object,
         },
-        arrayDocumentos(value) {
-            this.$set(this.documentos, 'proposta', value.documentos_proposta);
-            this.$set(this.documentos, 'proponente', value.documentos_proponente);
+        data() {
+            return {
+                documentos: {},
+            };
         },
-    },
-    methods: {
-        fetch(dados) {
-            if (typeof dados.default === 'undefined') {
-                const self = this;
-                /* eslint-disable */
-                $3.ajax({
-                    url: '/proposta/visualizar/obter-documentos-anexados/idPreProjeto/' + dados.idPreProjeto + '/idAgente/' + dados.idAgente
-                }).done(function (response) {
-                    self.documentos = response.data;
-                });
+        mixins: [utils],
+        mounted() {
+            if (this.proposta.documentos_proposta) {
+                this.documentos = this.proposta;
+            } else if (Object.keys(this.proposta).length > 2 && this.proposta.idAgente) {
+                this.buscaDocumentos(this.proposta);
             }
         },
-        formatar_data(date) {
-            date = moment(date).format('DD/MM/YYYY');
-
-            return date;
+        watch: {
+            proposta(value) {
+                if (value.documentos_proposta) {
+                    this.documentos = value;
+                } else if (Object.keys(value).length > 2 && value.idAgente) {
+                    this.buscaDocumentos(value);
+                }
+            },
+            docs(value) {
+                this.documentos = value;
+            },
         },
-        get_url(id, tipo) {
-            return `/admissibilidade/admissibilidade/abrir-documentos-anexados-admissibilidade/?id=${id}&tipo=${tipo}`;
+        computed: {
+            ...mapGetters({
+                docs: 'proposta/documentos',
+            }),
         },
-    },
-};
+        methods: {
+            ...mapActions({
+                buscaDocumentos: 'proposta/buscaDocumentos',
+            }),
+            getUrl(id, tipo) {
+                return `/admissibilidade/admissibilidade/abrir-documentos-anexados-admissibilidade/?id=${id}&tipo=${tipo}`;
+            },
+        },
+    };
 </script>

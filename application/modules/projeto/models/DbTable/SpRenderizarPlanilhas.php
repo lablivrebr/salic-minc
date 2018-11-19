@@ -19,7 +19,7 @@ class Projeto_Model_DbTable_SpRenderizarPlanilhas extends MinC_Db_Table_Abstract
     {
 
         if (empty($idPronac) || empty($tipoPlanilha)) {
-            throw new Exception("Pronac e tipo são obrigatórios");
+            throw new Exception("Pronac e tipo sÃ£o obrigatÃ³rios");
         }
 
         $planilha = $this->exec($idPronac, $tipoPlanilha);
@@ -29,69 +29,74 @@ class Projeto_Model_DbTable_SpRenderizarPlanilhas extends MinC_Db_Table_Abstract
         }
 
         $planilha = $this->montarPlanilha($planilha, $tipoPlanilha);
-        $planilha = TratarArray::utf8EncodeArrayTemp($planilha);
 
         return $planilha;
     }
 
-    /**
-     * @todo: melhorar esse codigo quando tiver tempo...
-     */
-    public function montarPlanilha($planilhaOrcamentaria, $tipo)
-    {
 
+    /**
+     * @todo padronizar o nome da coluna VlComprovado
+     */
+    public function montarPlanilha($planilhaOrcamentaria, $tipo = null)
+    {
         if (!is_array($planilhaOrcamentaria)) {
             return [];
         }
 
         $count = 0;
         $i = 1;
-
         $planilha = [];
 
         foreach ($planilhaOrcamentaria as $item) {
-            $row = [];
 
-            $row["Seq"] = $i;
-            $row['FonteRecurso'] = $item["FonteRecurso"];
+            $valorTotal = 0;
+            $item = array_map('TratarString::converterParaUTF8', $item);
+
+            $item["Seq"] = $i;
             $produto = !empty($item['Produto']) ? $item['Produto'] : html_entity_decode('Administra&ccedil;&atilde;o do Projeto');
-            $row['Etapa'] = $item["Etapa"];
-            $row['UF'] = $item["UF"];
-            $row['Municipio'] = $item["Municipio"];
-            $row['Item'] = $item["Item"];
-            $row['JustProponente'] = $item["JustProponente"];
-            $row['QtdeDias'] = $item["QtdeDias"];
-            $row['Unidade'] = $item["Unidade"];
-            $row['Quantidade'] = $item["Quantidade"];
-            $row['Ocorrencia'] = $item["Ocorrencia"];
-            $row['vlUnitario'] = $item["vlUnitario"];
-            $row['idPlanilhaAprovacao'] = $item["idPlanilhaAprovacao"];
-            $row['idPlanilhaAprovacaoPai'] = $item["idPlanilhaAprovacaoPai"];
-            $row['vlAprovado'] = $item["vlAprovado"];
-            $row['VlComprovado'] = $item["VlComprovado"];   # @todo padronizar o nome
-            $row['tpPlanilha'] = $item["tpPlanilha"];
-            $row['stCustoPraticado'] = $item["stCustoPraticado"];
+            $fonte = $item['FonteRecurso'];
+            $etapa = $item['Etapa'];
+            $regiao = $item['UF'] . ' - ' . $item['Municipio'];
 
-            if ($tipo == $this::TIPO_PLANILHA_HOMOLOGADA) {
-                $row['vlSolicitado'] = $item["vlSolicitado"];
-                $row['vlSugerido'] = $item["vlSugerido"];
-                $row['JustParecerista'] = $item["JustParecerista"];
-                $row['JustComponente'] = $item["JustComponente"];
-                $row['idPlanilhaAprovacao'] = $item["idPlanilhaAprovacao"];
-                $row['idPlanilhaAprovacaoPai'] = $item["idPlanilhaAprovacaoPai"];
+            $isItemExcluido = isset($item["tpAcao"]) && $item["tpAcao"] == 'E';
+
+            if ($item['vlSolicitado'] && !$isItemExcluido) {
+                $valorTotal = $item['vlSolicitado'];
+                $planilha[$fonte]['vlSolicitadoTotal'] += $item['vlSolicitado'];
             }
 
-            if ($tipo == $this::TIPO_PLANILHA_READEQUADA) {
-                $row['tpAcao'] = $item["tpAcao"];
-                $row['DescAcao'] = $this->obterNomeAcao($item["tpAcao"]);
-                $row['JustProponente'] = $item["dsJustificativa"]; # @todo padronizar o nome
-                $row['vlSolicitado'] = $item["vlAprovado"]; # o componente monta o valor total com vlSolicitado
+            if ($item['vlSugerido'] && !$isItemExcluido) {
+                $planilha[$fonte]['vlSugeridoTotal'] += $item['vlSugerido'];
             }
 
-            foreach ($row as $cel => $val) {
-                $planilha[$row['FonteRecurso']][$produto][$row['Etapa']][$row['UF'] . ' - '
-                . $row['Municipio']][$count][$cel] = $val;
+            if ($item['vlAprovado'] && !$isItemExcluido) {
+                $planilha[$fonte]['vlAprovadoTotal'] += $item['vlAprovado'];
             }
+
+            if ($item['VlComprovado'] && !$isItemExcluido) {
+                $planilha[$fonte]['vlComprovadoTotal'] += $item['VlComprovado'];
+            }
+
+            if ($tipo == $this::TIPO_PLANILHA_HOMOLOGADA && !$isItemExcluido) {
+                $valorTotal = $item['vlAprovado'];
+            }
+
+            if ($tipo == self::TIPO_PLANILHA_READEQUADA) {
+                $item['DescAcao'] = $this->obterNomeAcao($item["tpAcao"]);
+                $item['JustProponente'] = $item["dsJustificativa"]; # @todo padronizar o nome
+
+                if (!$isItemExcluido) {
+                    $valorTotal = $item['vlAprovado'];
+                }
+            }
+
+            $planilha[$fonte]['total'] += $valorTotal;
+            $planilha[$fonte][$produto]['total'] += $valorTotal;
+            $planilha[$fonte][$produto][$etapa]['total'] += $valorTotal;
+            $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $valorTotal;
+            $planilha[$fonte][$produto][$etapa][$regiao]['itens'][] = $item;
+
+            $planilha['total'] += $valorTotal;
             $count++;
             $i++;
         }

@@ -18,4 +18,4 @@ export const criarRegistro = params => api.postRequest(path, buildData(params));
 
 export const atualizarRegistro = params => api.putRequest(path, buildData(params), params.Codigo);
 
-export const removerRegistro = params => api.deleteRequest(path, params.Codigo);
+export const removerRegistro = params => api.deleteRequest(path, `?id=${params.Codigo}`);

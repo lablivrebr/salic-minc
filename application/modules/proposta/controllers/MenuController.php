@@ -14,6 +14,11 @@ class Proposta_MenuController extends Proposta_GenericController
 
     public function menuAction()
     {
+        if (!$this->isEditavel) {
+            $this->_helper->viewRenderer->setNoRender(TRUE);
+            return;
+        }
+
         $this->view->arrMenuProponente = $this->gerarArrayMenu($this->idPreProjeto);
 
     }
@@ -207,11 +212,14 @@ class Proposta_MenuController extends Proposta_GenericController
             'menu_nivel_1' => array(),
             'grupo' => array()
         );
+        $tbAvaliacaoProposta = new Proposta_Model_DbTable_TbAvaliacaoProposta();
+        $quantidadeDiligencias = $tbAvaliacaoProposta->contarDiligenciasAbertas($idPreProjeto);
 
         $arrMenuProponente['mensagensenviadas'] = array(
             'id' => 'mensagensenviadas',
             'label' => 'Dilig&ecirc;ncias',
             'title' => '',
+            'badge' => $quantidadeDiligencias,
             'link' => array(
                 'module' => 'proposta',
                 'controller' => 'diligenciar',

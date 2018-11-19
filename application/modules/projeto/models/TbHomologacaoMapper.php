@@ -75,14 +75,11 @@ class Projeto_Model_TbHomologacaoMapper extends MinC_Db_Mapper
         return $booStatus;
     }
 
-    /**
-     * Assina o projeto apos ser homologado.
-     */
     public function encaminhar($arrData)
     {
         try {
 
-            $retorno = ['data' => [],'status' => false];
+            $retorno = ['data' => [], 'status' => false];
 
             $idPronac = $arrData['idPronac'];
 
@@ -106,20 +103,16 @@ class Projeto_Model_TbHomologacaoMapper extends MinC_Db_Mapper
 
             $situacao = $this->obterNovaSituacao($idPronac);
 
-            $auth = Zend_Auth::getInstance();
-            $arrAuth = array_change_key_case((array)$auth->getIdentity());
-            $arrProjeto = [
-                'idPRONAC' => $idPronac,
-                'situacao' => $situacao['codigo'],
-                'dtSituacao' => $this->_dbTable->getExpressionDate(),
-                'providenciaTomada' => $situacao['mensagem'],
-                'logon' => $arrAuth['usu_codigo']
-            ];
-            $tbProjetosMapper = new Projeto_Model_TbProjetosMapper();
-            $modelTbProjetos = new Projeto_Model_TbProjetos($arrProjeto);
-            if ($tbProjetosMapper->save($modelTbProjetos)) {
-                $this->setMessage('Projeto encaminhado com sucesso!');
-                if($situacao['codigo'] == Projeto_Model_Situacao::PROJETO_ENCAMINHADO_PARA_HOMOLOGACAO) {
+            $objProjetos = new \Projetos();
+            $updated = $objProjetos->alterarSituacao(
+                $idPronac,
+                null,
+                $situacao['codigo'],
+                $situacao['mensagem']
+            );
+
+            if ($updated) {
+                if ($situacao['codigo'] == Projeto_Model_Situacao::PROJETO_ENCAMINHADO_PARA_HOMOLOGACAO) {
                     $idDocumentoAssinatura = $this->iniciarFluxoAssinatura($idPronac);
                     $retorno['data'] = ['idDocumentoAssinatura' => $idDocumentoAssinatura];
                 }
@@ -128,7 +121,6 @@ class Projeto_Model_TbHomologacaoMapper extends MinC_Db_Mapper
                 $retorno['status'] = true;
             } else {
                 $this->setMessage('N&atilde;o foi poss&iacute;vel alterar a situa&ccedil;&atilde;o do projeto.', 'IdPRONAC');
-                $this->setMessage($tbProjetosMapper->getMessages());
             }
         } catch (Exception $e) {
             $this->setMessage($e->getMessage());
@@ -139,29 +131,29 @@ class Projeto_Model_TbHomologacaoMapper extends MinC_Db_Mapper
 
     final public function obterNovaSituacao($idPronac)
     {
-
-        $dbTableEnquadramento = new Projeto_Model_DbTable_Enquadramento();
-        $enquadramentoProjeto = $dbTableEnquadramento->obterProjetoAreaSegmento(
-            [
-                'a.IdPRONAC = ?' => $idPronac,
-                'a.Situacao = ?' => Projeto_Model_Situacao::PROJETO_APRECIADO_PELA_CNIC
-            ]
-        )->current();
-
         $situacao = [
             'codigo' => Projeto_Model_Situacao::PROJETO_ENCAMINHADO_PARA_HOMOLOGACAO,
             'mensagem' => "Projeto encaminhado para homologa&ccedil;&atilde;o."
         ];
 
-        if ($enquadramentoProjeto['VlHomologadoIncentivo'] != $enquadramentoProjeto['VlAdequadoIncentivo']) {
+        $tbRecursoMapper = new Recurso_Model_TbRecursoMapper();
+        if ($this->isValorHomologadoDiferenteDoValorAdequado($idPronac)
+            && $tbRecursoMapper->isProjetoComDireitoARecursoPorFase($idPronac, 2)) {
             $situacao['codigo'] = Projeto_Model_Situacao::PROJETO_HOMOLOGADO;
             $situacao['mensagem'] = "Aguardando a supera&ccedil;&atilde;o do prazo recursal.";
-
-            # @todo verificar se o proponente tem direito a recurso
-
         }
 
         return $situacao;
+    }
+
+    final public function isValorHomologadoDiferenteDoValorAdequado($idPronac)
+    {
+        $dbTableEnquadramento = new Projeto_Model_DbTable_Enquadramento();
+        $enquadramentoProjeto = $dbTableEnquadramento->obterProjetoAreaSegmento(
+            ['a.IdPRONAC = ?' => $idPronac]
+        )->current();
+
+        return ($enquadramentoProjeto['VlHomologadoIncentivo'] != $enquadramentoProjeto['VlAdequadoIncentivo']);
     }
 
     final private function iniciarFluxoAssinatura($idPronac)
@@ -201,7 +193,6 @@ class Projeto_Model_TbHomologacaoMapper extends MinC_Db_Mapper
         } else {
             $idDocumentoAssinatura = $documentoAssinatura['idDocumentoAssinatura'];
         }
-
 
         return $idDocumentoAssinatura;
     }

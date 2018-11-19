@@ -3,6 +3,11 @@ front/test/unit/coverage/*
 front/test/unit/coverage
 front/test/e2e/reports
 coverage
+cypress/screenshots/
+cypress/videos/
+
+# arquivo que o webpack injeta os scripts
+application/layouts/scripts/vue.phtml
 
 # configs do salic
 application/configs/bancos_*.ini
@@ -42,6 +47,7 @@ package-lock.json
 *.swp
 *.save
 .idea
+salic-minc.iml
 
 # dependencias
 node_modules/
@@ -50,3 +56,6 @@ node_modules/
 .DS_Store
 Thumbs.db
 log/
+
+#YARN
+yarn.lock

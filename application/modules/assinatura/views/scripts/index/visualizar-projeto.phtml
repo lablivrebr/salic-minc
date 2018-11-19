@@ -35,12 +35,17 @@
             <?= $this->partial("/index/partials/template-documento-assinado.phtml", $this); ?>
         </div>
         <div class="row center-align">
+            <?php
+            if ($this->origin != '') {
+                $origin = '?origin=' . $this->origin;
+            }
+            ?>
             <a class="btn waves-effect waves-dark"
-               href="<?php echo "/{$this->moduleOrigin}/{$this->controllerOrigin}/gerenciar-assinaturas"; ?>">Voltar</a>
+               href="<?php echo "/{$this->moduleOrigin}/{$this->controllerOrigin}/gerenciar-assinaturas{$origin}"; ?>">Voltar</a>
             <?php
             if ($this->isPermitidoAssinar === true):
                 ?>
-                <a class="btn waves-effect waves-dark"
+                <a class="btn waves-effect waves-dark btn-primary"
                    href="<?php
                    echo $this->url(array(
                            'module' => 'assinatura',
@@ -49,7 +54,16 @@
                        ))
                        . "?IdPRONAC={$this->IdPRONAC}&idTipoDoAtoAdministrativo={$this->idTipoDoAtoAdministrativo}&origin={$this->origin}";
                    ?>">Assinar</a>
-                <?php
+                <a class="btn waves-effect waves-dark btn-danger"
+                   href="<?php
+                   echo $this->url(array(
+                           'module' => 'assinatura',
+                           'controller' => 'index',
+                           'action' => 'devolver-projeto'
+                       ))
+                       . "?IdPRONAC={$this->IdPRONAC}&idTipoDoAtoAdministrativo={$this->idTipoDoAtoAdministrativo}&origin={$this->origin}";
+                   ?>">Devolver</a>
+            <?php
             endif;
             ?>
             <a id="acao_imprimir"

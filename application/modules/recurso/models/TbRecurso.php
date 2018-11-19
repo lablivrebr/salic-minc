@@ -77,7 +77,8 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
      * @var $_siRecurso
      * 1 => Recurso enviado
      * 12 => Recurso cadastrado
-     * 9 => Finalizado
+     * 8 => Enviado a plenaria
+     * 9 => Finalizado enviado para portaria
      * 15 => Arquivado
      */
     protected $_siRecurso;
@@ -108,8 +109,7 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
     const FASE_ADMISSIBILIDADE = 1;
     const FASE_HOMOLOGACAO = 2;
 
-    const PRAZO_RECURSAL_INDEFERIDO = 10;
-    const PRAZO_RECURSAL_ORCAMENTO = 10;
+    const PRAZO_RECURSAL = 10;
 
     /**
      * liberar o recurso após alterar a situação
@@ -294,7 +294,7 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
         $this->_stEstado = $stEstado;
     }
 
-    public static function obterSituacoesPassiveisDeRecurso()
+    public static function obterSituacoesPassiveisDeRecursoFase2()
     {
         return array_merge(
             self::SITUACOES_RECURSO_PROJETO_INDEFERIDO,
@@ -302,74 +302,8 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
         );
     }
 
-//    public function isRecursoExpirouPrazoRecursal(array $recursoEnquadramento)
-//    {
-//        return (
-//            (is_null($recursoEnquadramento['stRascunho'])
-//                || empty($recursoEnquadramento['stRascunho'])
-//                || $recursoEnquadramento['stRascunho'] == Recurso_Model_TbRecursoProposta::SITUACAO_RASCUNHO_SALVO
-//            )
-//            && is_null($recursoEnquadramento['dsRecursoProponente'])
-//            && empty(trim($recursoEnquadramento['dsRecursoProponente']))
-//            && is_null($recursoEnquadramento['dsAvaliacaoTecnica'])
-//            && empty(trim($recursoEnquadramento['dsAvaliacaoTecnica']))
-//            && $recursoEnquadramento['diasDesdeAberturaRecurso'] > self::PRAZO_RECURSAL_PADRAO
-//            && $recursoEnquadramento['tpSolicitacao'] == Recurso_Model_TbRecursoProposta::TIPO_SOLICITACAO_DESISTENCIA_DO_PRAZO_RECURSAL);
-//    }
-
-
-//    public function isRecursoDesistidoDePrazoRecursal(array $recurso, $fase = 1)
-//    {
-//        return ((int) $recurso['stEstado'] == 1
-//            &&  $recurso['tpSolicitacao'] == 'DR'
-//            &&  (int) $recurso['siRecurso'] == 0
-//            && $recurso['siFaseProjeto'] == $fase);
-//    }
-//
-//    public function isRecursoDuplamenteIndeferido(array $recursoEnquadramento)
-//    {
-//        return ((int) $recursoEnquadramento['stRascunho'] == (int) Recurso_Model_TbRecursoProposta::SITUACAO_RASCUNHO_ENVIADO
-//            && (int) $recursoEnquadramento['tpRecurso'] == (int) Recurso_Model_TbRecursoProposta::TIPO_RECURSO_RECURSO
-//            && $recursoEnquadramento['stAtendimento'] == Recurso_Model_TbRecursoProposta::SITUACAO_ATENDIMENTO_INDEFERIDO);
-//    }
-//
-//    public function isRecursoDeferidoAvaliado(array $recursoEnquadramento)
-//    {
-//        return ((int) $recursoEnquadramento['stRascunho'] == (int) Recurso_Model_TbRecursoProposta::SITUACAO_RASCUNHO_ENVIADO
-//            && $recursoEnquadramento['stAtendimento'] == Recurso_Model_TbRecursoProposta::SITUACAO_ATENDIMENTO_DEFERIDO);
-//    }
-//
-//    private function isRecursoEnviadoPorProponente(array $recursoEnquadramento)
-//    {
-//        return ($recursoEnquadramento['dsRecursoProponente']
-//            && !is_null($recursoEnquadramento['stRascunho'])
-//            && (int) $recursoEnquadramento['stRascunho'] == (int) Recurso_Model_TbRecursoProposta::SITUACAO_RASCUNHO_ENVIADO);
-//    }
-//
-//    private function isRecursoPossuiAvaliacaoAvaliador(array $recursoEnquadramento)
-//    {
-//        return (!is_null($recursoEnquadramento['dtAvaliacaoTecnica']) && !empty($recursoEnquadramento['dtAvaliacaoTecnica']));
-//    }
-//
-//    public function temDireitoARecurso()
-//    {
-//        $this->view->isRecursoAvaliado = false;
-//
-//        $this->view->isRecursoDesistidoDePrazoRecursal = false;
-//        if ($recursoEnquadramento) {
-//            $this->view->isRecursoDesistidoDePrazoRecursal = $this->isRecursoDesistidoDePrazoRecursal($recursoEnquadramento);
-//            if ($this->isRecursoEnviadoPorProponente($recursoEnquadramento) ||
-//                $this->isRecursoPossuiAvaliacaoAvaliador($recursoEnquadramento)) {
-//                $this->view->recursoEnquadramento = $recursoEnquadramento;
-//            }
-//
-//            if ($this->isRecursoDeferidoAvaliado($recursoEnquadramento)
-//                || $this->isRecursoDuplamenteIndeferido($recursoEnquadramento)
-//                || $this->isRecursoDesistidoDePrazoRecursal($recursoEnquadramento)
-//                || $this->isRecursoExpirouPrazoRecursal($recursoEnquadramento)) {
-//                $this->view->isRecursoAvaliado = true;
-//            }
-//        }
-//    }
-
+    public static function obterSituacoesPassiveisDeRecurso()
+    {
+        return self::obterSituacoesPassiveisDeRecursoFase2();
+    }
 }

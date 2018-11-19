@@ -25,16 +25,14 @@ header #topo #logo {
 
 header #topo #logo-homolog h1,
 header #topo #logo h1 {
-    height: 60px;
+    height: 50px;
     font-size: 12px;
     margin: 0;
     text-indent: -1000px;
-    background: url(../img/logo_salic.png) center no-repeat;
-    background-size: 150px;
+    background: url(../img/logo_salic.png) 12px no-repeat;
+    background-size: 125px;
     cursor: pointer;
 }
-
-
 
 header #topo #logo-homolog h1 {
     background-image: url(../img/logo_salic_homolog.png);

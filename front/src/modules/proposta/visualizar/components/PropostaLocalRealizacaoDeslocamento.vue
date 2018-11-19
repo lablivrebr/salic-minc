@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-content">
                 <h5>Local de Realiza&ccedil;&atilde;o</h5>
-                <table v-if="proposta.localizacoes" class="bordered responsive-table">
+                <table v-if="localizacoes.abrangencia" class="bordered responsive-table">
                     <thead>
                     <tr>
                         <th>Pa&iacute;s</th>
@@ -12,7 +12,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="localizacao in proposta.localizacoes">
+                    <tr v-for="(localizacao,index) in localizacoes.abrangencia" :key="index">
                         <td>{{ localizacao.pais }}</td>
                         <td>{{ localizacao.uf }}</td>
                         <td>{{ localizacao.cidade }}</td>
@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-content">
                 <h5>Deslocamentos</h5>
-                <table v-if="proposta.deslocamentos && proposta.deslocamentos.lenght > 1"
+                <table v-if="localizacoes.deslocamento && localizacoes.deslocamento.lenght > 1"
                        class="bordered responsive-table">
                     <thead>
                     <tr>
@@ -40,7 +40,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="deslocamento in proposta.deslocamentos">
+                    <tr v-for="(deslocamento, index) in localizacoes.deslocamento" :key="index">
                         <td>{{ deslocamento.paisorigem }}</td>
                         <td>{{ deslocamento.uforigem }}</td>
                         <td>{{ deslocamento.municipioorigem }}</td>
@@ -57,45 +57,47 @@
     </div>
 </template>
 <script>
-export default {
-    name: 'PropostaLocalRealizacaoDeslocamento',
-    data() {
-        return {
-            proposta: [],
-        };
-    },
-    props: ['idpreprojeto', 'localizacoes'],
-    mounted() {
-        if (typeof this.idpreprojeto !== 'undefined') {
-            this.fetch(this.idpreprojeto);
-        }
+    import { mapActions, mapGetters } from 'vuex';
 
-        if (typeof this.localizacoes !== 'undefined') {
-            this.$set(this.proposta, 'localizacoes', this.localizacoes.abrangencia);
-            this.$set(this.proposta, 'deslocamentos', this.localizacoes.deslocamento);
-        }
-    },
-    watch: {
-        idpreprojeto(value) {
-            this.fetch(value);
+    export default {
+        name: 'PropostaLocalRealizacaoDeslocamento',
+        props: ['idpreprojeto', 'proposta'],
+        data() {
+            return {
+                localizacoes: {},
+            };
         },
-        localizacoes(value) {
-            this.$set(this.proposta, 'localizacoes', value.abrangencia);
-            this.$set(this.proposta, 'deslocamentos', value.deslocamento);
-        },
-    },
-    methods: {
-        fetch(id) {
-            if (id) {
-                const self = this;
-                /* eslint-disable */
-                $3.ajax({
-                    url: '/proposta/visualizar/obter-local-realizacao-deslocamento/idPreProjeto/' + id
-                }).done(function (response) {
-                    self.proposta = response.data;
-                });
+        mounted() {
+            if (this.proposta && this.proposta.abrangencia) {
+                this.localizacoes = this.proposta;
+            }
+            if (typeof this.idpreprojeto !== 'undefined') {
+                this.buscaLocalRealizacaoDeslocamento(this.idpreprojeto);
             }
         },
-    },
-};
+        watch: {
+            idpreprojeto(value) {
+                if (value.abrangencia) {
+                    this.localizacoes = value.abrangencia;
+                }
+                this.buscaLocalRealizacaoDeslocamento(value);
+            },
+            local(value) {
+                this.localizacoes = value;
+            },
+            proposta(value) {
+                this.localizacoes = value;
+            },
+        },
+        computed: {
+            ...mapGetters({
+                local: 'proposta/localRealizacaoDeslocamento',
+            }),
+        },
+        methods: {
+            ...mapActions({
+                buscaLocalRealizacaoDeslocamento: 'proposta/buscaLocalRealizacaoDeslocamento',
+            }),
+        },
+    };
 </script>

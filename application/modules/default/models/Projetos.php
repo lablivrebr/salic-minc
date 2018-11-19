@@ -3880,10 +3880,10 @@ class Projetos extends MinC_Db_Table_Abstract
         $select->joinInner(array('ver' => 'Verificacao'), 'ver.idVerificacao = dil.idTipoDiligencia', array('tipoDiligencia' => 'ver.Descricao'));
         $select->joinLeft(array('prod' => 'Produto'), 'prod.Codigo = dil.idProduto', array('produto' => 'prod.Descricao'));
 
+
         foreach ($consulta as $coluna => $valor) {
             $select->where($coluna, $valor);
         }
-
 
         if ($retornaSelect) {
             return $select;
@@ -3900,6 +3900,7 @@ class Projetos extends MinC_Db_Table_Abstract
             array('pro' => $this->_name),
             array(
                 'nomeProjeto' => 'pro.NomeProjeto',
+                'situacao' => 'pro.Situacao',
                 'pronac' => new Zend_Db_Expr('pro.AnoProjeto+pro.Sequencial')
             )
         );
@@ -9228,5 +9229,14 @@ class Projetos extends MinC_Db_Table_Abstract
         return $this->update($dados, [
             "IdPRONAC = ?" => $idPronac
         ]);
+    }
+
+    public function buscarDadosCompletos($idPronac)
+    {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from($this->_name, "*");
+        $select->where("idPronac = ?", $idPronac);
+        return $this->fetchAll($select);
     }
 }

@@ -72,11 +72,6 @@ abstract class Solicitacao_GenericController extends MinC_Controller_Action_Abst
         $this->idUsuario = !empty($arrAuth['usu_codigo']) ? $arrAuth['usu_codigo'] : $arrAuth['idusuario'];
         $this->cpfLogado = isset($arrAuth['usu_identificacao']) ? $arrAuth['usu_identificacao'] : $arrAuth['cpf'];
 
-        $this->view->arrayMenu =  self::gerarArrayMenu();
-        if($this->idPreProjeto) {
-            $this->view->arrayMenu = self::gerarArrayMenuProposta($this->idPreProjeto);
-        }
-
         if ($arrAuth['cpf']) {
             /**
              * Agentes sao proponentes da proposta ou do projeto
@@ -96,98 +91,6 @@ abstract class Solicitacao_GenericController extends MinC_Controller_Action_Abst
         $this->view->usuario = $auth->getIdentity(); //@todo padronizar o usuario no header do layout
         $this->view->isProponente = $this->isProponente;
         $this->view->idUsuario = $this->idUsuario;
-    }
-
-//    private function gerarArrayMenuProjeto($idPronac)
-//    {
-//        $arrMenu = self::gerarArrayMenu();
-//
-//        $arrMenu['exibirprojeto'] = [
-//            'label' => 'Exibir projeto',
-//            'title' => '',
-//            'link' => [
-//                'module' => 'default',
-//                'controller' => 'consultardadosprojeto',
-//                'action' => 'index',
-//                'idPronac' => Seguranca::encrypt($idPronac)
-//            ],
-//            'menu' => [],
-//            'grupo' => []
-//        ];
-//
-//        $arrMenu['solicitacoes']['menu'][] = [
-//            'label' => 'Deste projeto',
-//            'title' => '',
-//            'link' => [
-//                'module' => 'solicitacao',
-//                'controller' => 'mensagem',
-//                'action' => 'index',
-//                'idPronac' => $idPronac
-//            ],
-//            'grupo' => []
-//        ];
-//
-//        return $arrMenu;
-//    }
-
-
-    private function gerarArrayMenuProposta($idPreProjeto)
-    {
-        $arrMenu = self::gerarArrayMenu();
-
-        $arrMenu['exibirproposta'] = [
-            'label' => 'Exibir proposta',
-            'title' => '',
-            'link' => [
-                'module' => 'admissibilidade',
-                'controller' => 'admissibilidade',
-                'action' => 'exibirpropostacultural',
-                'idPreProjeto' => $idPreProjeto
-            ],
-            'menu' => [],
-            'grupo' => []
-        ];
-
-//        $arrMenu['solicitacoes']['menu'][] = [
-//            'label' => 'Desta proposta',
-//            'title' => '',
-//            'link' => [
-//                'module' => 'solicitacao',
-//                'controller' => 'mensagem',
-//                'action' => 'index',
-//                'idPreProjeto' => $idPreProjeto
-//            ],
-//            'grupo' => []
-//        ];
-
-        return $arrMenu;
-    }
-
-    private function gerarArrayMenu()
-    {
-
-        $arrMenu = [];
-        $arrMenu['solicitacoes'] = [
-            'id' => 'solicitacoes',
-            'label' => 'Solicita&ccedil;&otilde;es',
-            'title' => '',
-            'link' => '',
-            'menu' => [],
-            'grupo' => []
-        ];
-
-        $arrMenu['solicitacoes']['menu'][] = [
-            'label' => 'Todas',
-            'title' => '',
-            'link' => [
-                'module' => 'solicitacao',
-                'controller' => 'mensagem',
-                'action' => 'index'
-            ],
-            'grupo' => []
-        ];
-
-        return $arrMenu;
     }
 }
 

@@ -587,6 +587,7 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
             array(
                 'aval.stProrrogacao',
                 'idDiligencia' => 'aval.idAvaliacaoProposta',
+                'idAvaliacaoProposta' => 'aval.idAvaliacaoProposta',
                 'dataSolicitacao' => new Zend_Db_Expr('CONVERT(VARCHAR,aval.DtAvaliacao,120)'),
                 'dataResposta' => new Zend_Db_Expr('CONVERT(VARCHAR,aval.dtResposta,120)'),
                 'Solicitacao' => 'aval.Avaliacao',

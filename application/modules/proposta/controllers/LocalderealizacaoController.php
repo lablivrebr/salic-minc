@@ -52,6 +52,7 @@ class Proposta_LocalderealizacaoController extends Proposta_GenericController
 //        }
 
         $this->verificarPermissaoAcesso(true, false, false);
+        $this->validarEdicaoProposta();
 
         //recupera ID do pre projeto (proposta)
         if (!empty($this->idPreProjeto)) {

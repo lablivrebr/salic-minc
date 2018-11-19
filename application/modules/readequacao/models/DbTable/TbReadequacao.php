@@ -34,7 +34,11 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
     const ST_ESTADO_EM_ANDAMENTO = 0;
     const ST_ESTADO_FINALIZADO = 1;
 
-
+    const ST_ATENDIMENTO_INDEFERIDA = 'I';
+    const ST_ATENDIMENTO_DEFERIDA = 'D';
+    const ST_ATENDIMENTO_DEVOLVIDA = 'E';
+    const ST_ATENDIMENTO_SEM_AVALIACAO = 'N';
+    
     const TIPOS_READEQUACOES_ORCAMENTARIAS = [
         self::TIPO_READEQUACAO_REMANEJAMENTO_PARCIAL,
         self::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA,
@@ -63,6 +67,8 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
                     a.idReadequacao,
                     a.idPronac,
                     a.dtSolicitacao,
+                    a.stAtendimento,
+                    a.dsAvaliacao,
                     CAST(a.dsSolicitacao AS TEXT) AS dsSolicitacao,
                     CAST(a.dsJustificativa AS TEXT) AS dsJustificativa,
                     a.idTipoReadequacao"
@@ -152,6 +158,134 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
         return $result;
     }
 
+    private function painelCoordenadorReadequacaoAnalisadosQuery() {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(
+            ['tbReadequacao' => $this->_name],
+            ['idPronac' => 'projetos.idPronac',
+             'idReadequacao' => 'tbReadequacao.idReadequacao',
+             'PRONAC' => new Zend_Db_Expr('projetos.AnoProjeto + projetos.Sequencial'),
+             'NomeProjeto' => 'projetos.NomeProjeto',
+             'dtEnvio' => 'tbDistribuirReadequacao.DtEncaminhamento',
+             'dtDistribuicao' => 'tbDistribuirReadequacao.dtEnvioAvaliador',
+             'dtDevolucao' => 'tbDistribuirReadequacao.dtRetornoAvaliador',
+             'qtDiasDistribuir' => new Zend_Db_Expr('DATEDIFF(DAY,tbDistribuirReadequacao.DtEncaminhamento,tbDistribuirReadequacao.dtEnvioAvaliador)'),
+             'qtDiasAvaliar' => new Zend_Db_Expr('DATEDIFF(DAY,tbDistribuirReadequacao.dtEnvioAvaliador,tbDistribuirReadequacao.dtRetornoAvaliador)'),
+             'qtTotalDiasAvaliar' => new Zend_Db_Expr('DATEDIFF(DAY,tbDistribuirReadequacao.dtEncaminhamento,tbDistribuirReadequacao.dtRetornoAvaliador)'),
+             'tpReadequacao' => 'tbTipoReadequacao.dsReadequacao',
+             'idTecnicoParecerista' => 'tbDistribuirReadequacao.idAvaliador',
+             'nmTecnicoParecerista' => new Zend_Db_Expr("
+       CASE
+	     WHEN tbReadequacao.siEncaminhamento = 17
+		   THEN '<b><font color=red>Devolvida pelo CNIC</font></b>'
+	     WHEN tbReadequacao.siEncaminhamento = 18
+		   THEN '<b><font color=red>Assinatura do Cooordenador-Geral</font></b>'
+	     WHEN tbReadequacao.siEncaminhamento = 19
+		   THEN '<b><font color=red>Assinatura do Diretor</font></b>'
+	     WHEN tbReadequacao.siEncaminhamento = 20
+		   THEN '<b><font color=red>Assinatura do Secret&atilde;rio</font></b>'
+	     WHEN tbReadequacao.siEncaminhamento = 21
+		   THEN '<b><font color=red>Devolvida pelo Coordenador-Geral</font></b>'
+	     WHEN tbReadequacao.siEncaminhamento = 22
+		   THEN '<b><font color=red>Devolvida pelo Diretor</font></b>'
+	     WHEN tbReadequacao.siEncaminhamento = 23
+		   THEN '<b><font color=red>Devolvida pelo Secret&atilde;rio</font></b>'
+         WHEN tbReadequacao.siEncaminhamento = 26
+		   THEN '<b><font color=red>Solicita&ccedil;&atilde;o devolvida ao Coordenador ap&oacute;s completar o ciclo de assinaturas</font></b>'
+		   ELSE usuarios.usu_nome
+
+	   END"),
+             'idOrgao' => 'tbDistribuirReadequacao.idUnidade',
+             'idOrgaoOrigem' => new Zend_Db_Expr("
+       CASE 
+	     WHEN projetos.Orgao in (" . Orgaos::ORGAO_SUPERIOR_SAV . "," . Orgaos::ORGAO_SAV_SAL . "," . Orgaos::SAV_DPAV . ")
+		   THEN " . Orgaos::ORGAO_SAV_CAP . "
+	     WHEN projetos.Orgao in (" . Orgaos::ORGAO_SUPERIOR_SEFIC . "," . Orgaos::SEFIC_DEIPC .")
+		   THEN " . Orgaos::ORGAO_GEAR_SACAV . "
+		   ELSE projetos.Orgao
+	   END"),            
+             'siEncaminhamento' => 'tbReadequacao.siEncaminhamento'
+            ]
+        );
+
+        $select->joinInner(
+            ['projetos' => 'projetos'],
+            'projetos.idPronac = tbReadequacao.idPronac',
+            [],
+            $this->_schema
+        );
+
+        $select->joinInner(
+            ['tbTipoReadequacao' => 'tbTipoReadequacao'],
+            'tbTipoReadequacao.idTipoReadequacao = tbReadequacao.idTipoReadequacao',
+            [],
+            $this->_schema
+        );
+        
+        $select->joinInner(
+            ['tbDistribuirReadequacao' => 'tbDistribuirReadequacao'],
+            'tbDistribuirReadequacao.idReadequacao = tbReadequacao.idReadequacao',
+            [],
+            $this->_schema
+        );
+        
+        $select->joinInner(
+            ['usuarios' => 'Usuarios'],
+            'usuarios.usu_codigo = tbDistribuirReadequacao.idAvaliador',
+            [],
+            $this->getSchema('tabelas')
+        );
+
+        $select->joinInner(
+            ['orgaos' => 'Orgaos'],
+            'orgaos.Codigo = tbDistribuirReadequacao.idUnidade',
+            [],
+            $this->_schema
+        );
+        
+        $select->joinLeft(
+            ['tbReadequacaoXParecer' => 'tbReadequacaoXParecer'],
+            'tbReadequacaoXParecer.idReadequacao = tbReadequacao.idReadequacao',
+            [],
+            $this->_schema
+        );
+
+        $servicoReadequacaoAssinatura = new \Application\Modules\Readequacao\Service\Assinatura\ReadequacaoAssinatura(
+            $this->grupoAtivo,
+            $this->auth
+        );
+        
+        $select->joinLeft(
+            ['tbDocumentoAssinatura' => 'tbDocumentoAssinatura'],
+            'tbReadequacaoXParecer.idParecer = tbDocumentoAssinatura.idAtoDeGestao AND
+             tbDocumentoAssinatura.idTipoDoAtoAdministrativo IN ('.
+            implode(',', $servicoReadequacaoAssinatura->obterAtosAdministativos()) .') AND
+            tbDocumentoAssinatura.stEstado = ' . Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_ATIVO,
+            [
+                'tbDocumentoAssinatura.idDocumentoAssinatura',
+                'tbDocumentoAssinatura.idTipoDoAtoAdministrativo',
+            ],
+            $this->_schema
+        );
+        
+        $select->where('tbReadequacao.stEstado = ?', 0);
+        $select->where('tbReadequacao.siEncaminhamento IN (?)', [
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_DEVOLVIDA_AO_MINC,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_DEVOLVIDA_COORDENADOR_TECNICO,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_DEVOLVIDA_CNIC_AO_COORDENADOR,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_ENCAMINHADA_AO_COORDENADOR_GERAL,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_ENCAMINHADA_AO_DIRETOR,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_ENCAMINHADA_AO_SECRETARIO,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_DEVOLVIDA_AO_COORDENADOR_PELO_COORDENADOR_GERAL,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_DEVOLVIDA_AO_COORDENADOR_PELO_DIRETOR,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_DEVOLVIDA_AO_COORDENADOR_PELO_SECRETARIO,
+            Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_DEVOLVIDA_AO_COORDENADOR_FINAL
+        ]);
+        
+        return $select;
+    }
+    
 
     /**
      * painelReadequacoesCoordenadorAcompanhamento
@@ -180,7 +314,7 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
                 $select = $this->selectView('vwPainelCoordenadorReadequacaoEmAnalise');
                 break;
             case 'analisados':
-                $select = $this->selectView('vwPainelCoordenadorReadequacaoAnalisados');
+                $select = $this->painelCoordenadorReadequacaoAnalisadosQuery();
                 break;
             case 'aguardando_publicacao':
                 $select = $this->selectView('vwPainelReadequacaoAguardandoPublicacao');
@@ -243,15 +377,14 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
 
         $select = $db->select()->from(
             array('a' => $table),
-            array('*'),
-            $this->_schema
+            array('*')
         );
 
         //adiciona quantos filtros foram enviados
         foreach ($where as $coluna => $valor) {
             $select->where($coluna, $valor);
         }
-
+        
         $result = $db->query($select)->fetchAll();
         return count($result);
     }
@@ -947,50 +1080,50 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
             $select = $this->select();
             $select->setIntegrityCheck(false);
             $select->from(
-                array('a' => $this->_name),
+                array('tbReadequacao' => $this->_name),
                 new Zend_Db_Expr(
                     "
-                        b.idPronac,
-                        a.idReadequacao,
-                        b.AnoProjeto+b.Sequencial as PRONAC,
-                        b.NomeProjeto,
-                        c.dsReadequacao as tpReadequacao,
-                        d.dtEnvioAvaliador as dtDistribuicao,
+                        projetos.idPronac,
+                        tbReadequacao.idReadequacao,
+                        projetos.AnoProjeto+projetos.Sequencial as PRONAC,
+                        projetos.NomeProjeto,
+                        tbTipoReadequacao.dsReadequacao as tpReadequacao,
+                        dtDistribuicao.dtEnvioAvaliador as dtDistribuicao,
                         DATEDIFF(DAY,
-                        d.dtEnvioAvaliador,
+                        dtDistribuicao.dtEnvioAvaliador,
                         GETDATE()) as qtDiasAvaliacao,
-                        d.idAvaliador AS idTecnicoParecerista,
-                        d.idUnidade as idOrgao"
+                        dtDistribuicao.idAvaliador AS idTecnicoParecerista,
+                        dtDistribuicao.idUnidade as idOrgao"
                 )
             );
 
             $select->joinInner(
-                array('d' => 'tbDistribuirReadequacao'),
-                'a.idReadequacao = d.idReadequacao',
+                array('dtDistribuicao' => 'tbDistribuirReadequacao'),
+                'tbReadequacao.idReadequacao = dtDistribuicao.idReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('b' => 'Projetos'),
-                'a.idPronac = b.idPronac',
+                array('projetos' => 'Projetos'),
+                'tbReadequacao.idPronac = projetos.idPronac',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('c' => 'tbTipoReadequacao'),
-                'c.idTipoReadequacao = a.idTipoReadequacao',
+                array('tbTipoReadequacao' => 'tbTipoReadequacao'),
+                'tbTipoReadequacao.idTipoReadequacao = tbReadequacao.idTipoReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('e' => 'tbTipoEncaminhamento'),
-                'a.siEncaminhamento = e.idTipoEncaminhamento',
+                array('tbTipoEncaminhamentoe' => 'tbTipoEncaminhamento'),
+                'tbReadequacao.siEncaminhamento = tbTipoEncaminhamentoe.idTipoEncaminhamento',
                 array(''),
                 $this->_schema
             );
 
-            $select->where('a.stEstado = ? ', 0);
-            $select->where('a.siEncaminhamento = ? ', 4);
+            $select->where('tbReadequacao.stEstado = ? ', 0);
+            $select->where('tbReadequacao.siEncaminhamento = ? ', 4);
 
 
             foreach ($where as $coluna => $valor) {
@@ -1036,7 +1169,7 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
                 $total = $this->count('vwPainelCoordenadorReadequacaoEmAnalise', $where);
                 break;
             case 'analisados':
-                $total = $this->count('vwPainelCoordenadorReadequacaoAnalisados', $where);
+                $total = $this->count($this->painelCoordenadorReadequacaoAnalisadosQuery(), $where);
                 break;
             case 'aguardando_publicacao':
                 $total = $this->count('vwPainelReadequacaoAguardandoPublicacao', $where);
@@ -1052,59 +1185,59 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
             $select = $this->select();
             $select->setIntegrityCheck(false);
             $select->from(
-                array('a' => $this->_name),
+                array('tbReadequacao' => $this->_name),
                 new Zend_Db_Expr(
                     "
-                 b.idPronac,
-                 a.idReadequacao,
-                 b.AnoProjeto+b.Sequencial as PRONAC,
-                 b.NomeProjeto,
-                 b.Area,
-                 b.Segmento,
-                 c.dsReadequacao as tpReadequacao,
-                 d.dtEnvioAvaliador as dtDistribuicao,
+                 projetos.idPronac,
+                 tbReadequacao.idReadequacao,
+                 projetos.AnoProjeto+projetos.Sequencial as PRONAC,
+                 projetos.NomeProjeto,
+                 projetos.Area,
+                 projetos.Segmento,
+                 tbTipoReadequacao.dsReadequacao as tpReadequacao,
+                 tbdistribuirReadequacao.dtEnvioAvaliador as dtDistribuicao,
                  DATEDIFF(DAY,    
-                 d.dtEnvioAvaliador,
+                 tbdistribuirReadequacao.dtEnvioAvaliador,
                  GETDATE()) as qtDiasEmAnalise,
-                 d.idAvaliador,
-                 f.usu_nome as nmParecerista,
-                 d.idUnidade as idOrgao"
+                 tbdistribuirReadequacao.idAvaliador,
+                 usuarios.usu_nome as nmParecerista,
+                 tbdistribuirReadequacao.idUnidade as idOrgao"
                 )
             );
 
             $select->joinInner(
-                array('d' => 'tbDistribuirReadequacao'),
-                'a.idReadequacao = d.idReadequacao',
+                array('tbdistribuirReadequacao' => 'tbDistribuirReadequacao'),
+                'tbReadequacao.idReadequacao = tbdistribuirReadequacao.idReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('b' => 'Projetos'),
-                'a.idPronac = b.idPronac',
+                array('projetos' => 'Projetos'),
+                'tbReadequacao.idPronac = projetos.idPronac',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('c' => 'tbTipoReadequacao'),
-                'a.idReadequacao = d.idReadequacao',
+                array('tbTipoReadequacao' => 'tbTipoReadequacao'),
+                'tbReadequacao.idReadequacao = tbdistribuirReadequacao.idReadequacao',
                 array(''),
                 $this->_schema
             );
             $select->joinInner(
-                array('e' => 'tbTipoEncaminhamento'),
-                'a.siEncaminhamento = e.idTipoEncaminhamento',
+                array('tbTipoEncaminhamento' => 'tbTipoEncaminhamento'),
+                'tbReadequacao.siEncaminhamento = tbTipoEncaminhamento.idTipoEncaminhamento',
                 array(''),
                 $this->_schema
             );
             $select->joinLeft(
-                array('f' => 'Usuarios'),
-                'd.idAvaliador = f.usu_codigo',
+                array('usuarios' => 'Usuarios'),
+                'tbdistribuirReadequacao.idAvaliador = usuarios.usu_codigo',
                 array(''),
                 $this->getSchema('tabelas')
             );
 
-            $select->where('a.stEstado = ? ', 0);
-            $select->where('a.siEncaminhamento = ? ', 4);
+            $select->where('tbReadequacao.stEstado = ? ', 0);
+            $select->where('tbReadequacao.siEncaminhamento = ? ', 4);
 
             foreach ($where as $coluna => $valor) {
                 $select->where($coluna, $valor);
@@ -1287,7 +1420,8 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
         );
         $select->where('r.idPronac = ?', $idPronac);
         $select->where('r.idTipoReadequacao IN (?)', self::TIPOS_READEQUACOES_ORCAMENTARIAS);
-
+        $select->where('r.stEstado=?', self::ST_ESTADO_EM_ANDAMENTO);
+        
         $result = $this->fetchAll($select);
 
         if (count($result) > 0) {
@@ -1332,7 +1466,7 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
     {
         $liberacao = new Liberacao();
         $projeto = new Projetos();
-        $tbCumprimentoObjeto = new tbCumprimentoObjeto();
+        $tbCumprimentoObjeto = new ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
 
         $existeReadequacaoEmAndamento = $this->existeReadequacaoEmAndamento($idPronac);
         $contaLiberada = $liberacao->contaLiberada($idPronac);
@@ -1541,7 +1675,7 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
         $idTipoReadequacao
     )
     {
-        $auth = Zend_Auth::getInstance();
+        $auth = \Zend_Auth::getInstance();
         $tblAgente = new Agente_Model_DbTable_Agentes();
         $rsAgente = $tblAgente->buscar(array('CNPJCPF=?'=>$auth->getIdentity()->Cpf))->current();
 
@@ -1648,5 +1782,147 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
         if($resultado) {
             return $resultado->toArray();
         }
+    }
+
+    public function obterAssinaturasReadequacaoDisponiveis($tbAssinaturaDbTable)
+    {
+        $query = $tbAssinaturaDbTable->obterQueryAssinaturasDisponiveis();
+        
+        $query->joinInner(
+            array('tbReadequacaoXParecer' => 'tbReadequacaoXParecer'),
+            "tbReadequacaoXParecer.idParecer = tbDocumentoAssinatura.idAtoDeGestao",
+            "",
+            $this->_schema
+        );
+
+        $query->joinInner(
+            array('tbReadequacao' => 'tbReadequacao'),
+            "tbReadequacao.idReadequacao = tbReadequacaoXParecer.idReadequacao",
+            "tbReadequacao.idReadequacao",
+            $this->_schema
+        );
+
+        $query->joinInner(
+            array('tbTipoReadequacao' => 'tbTipoReadequacao'),
+            "tbTipoReadequacao.idTipoReadequacao = tbReadequacao.idTipoReadequacao",
+            "tbTipoReadequacao.dsReadequacao",
+            $this->_schema
+        );
+        
+        return $this->_db->fetchAll($query);
+    }
+
+    public function obterPainelDeDocumentosDeReadequacaoAguardandoAssinatura($idOrgaoDoAssinante, $idPerfilDoAssinante)
+    {
+        // ref: sac.dbo.vwPainelDeDocumentosDeReadequacaoAguardandoAssinatura
+        $this->auth = Zend_Auth::getInstance();
+        $this->grupoAtivo = new Zend_Session_Namespace('GrupoAtivo');
+        
+        $query = $this->select();
+        $query->setIntegrityCheck(false);
+        $query->from(
+            ['projetos' => 'projetos'],
+            [
+                'AnoProjeto' => 'projetos.AnoProjeto',
+                'pronac' => new Zend_Db_Expr('projetos.AnoProjeto + projetos.Sequencial'),
+                'nomeProjeto' => 'projetos.NomeProjeto',
+                'IdPRONAC' => 'projetos.IdPRONAC',
+                'Orgao' => 'projetos.Orgao'
+            ],
+            $this->_schema
+        );
+        
+        $query->joinInner(
+            ['Orgaos' => 'Orgaos'],
+            "Orgaos.Codigo = projetos.Orgao",
+            [],
+            $this->_schema
+        );
+
+        $query->joinInner(
+            ['tbDocumentoAssinatura' => 'tbDocumentoAssinatura'],
+            "tbDocumentoAssinatura.idPronac = projetos.idPronac",
+            [
+                'idTipoDoAtoAdministrativo',
+                'idDocumentoAssinatura'
+            ],
+            $this->_schema
+        );
+        
+        $query->joinInner(
+            ['Verificacao' => 'Verificacao'],
+            "Verificacao.idVerificacao = tbDocumentoAssinatura.idTipoDoAtoAdministrativo",
+            ['tipoDoAtoAdministrativo' => 'Descricao'],
+            $this->_schema
+        );
+
+        $query->joinInner(
+            ['TbAtoAdministrativo' => 'TbAtoAdministrativo'],
+            "TbAtoAdministrativo.idTipoDoAto = tbDocumentoAssinatura.idTipoDoAtoAdministrativo",            
+            ['idOrgaoSuperiorDoAssinante', 'grupo'],
+            $this->_schema
+        );
+
+        $query->joinInner(
+            ['tbReadequacaoXParecer' => 'tbReadequacaoXParecer'],
+            "tbReadequacaoXParecer.idParecer = tbDocumentoAssinatura.idAtoDeGestao",
+            [],
+            $this->_schema
+        );
+
+        $query->joinInner(
+            ['tbReadequacao' => 'tbReadequacao'],
+            "tbReadequacao.idReadequacao = tbReadequacaoXParecer.idReadequacao AND
+            tbReadequacao.stEstado = " . SELF::ST_ESTADO_EM_ANDAMENTO,
+            [],
+            $this->_schema
+        );
+
+        $query->joinInner(
+            ['tbTipoReadequacao' => 'tbTipoReadequacao'],
+            "tbTipoReadequacao.idTipoReadequacao = tbReadequacao.idTipoReadequacao",
+            ['dsReadequacao'],
+            $this->_schema
+        );
+        
+        $query->where('tbDocumentoAssinatura.cdSituacao = ?', Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA);
+        $query->where('tbDocumentoAssinatura.stEstado = ?', Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_ATIVO);
+        
+        
+        $query->where(
+            new Zend_Db_Expr("NOT EXISTS(SELECT TOP 1 * 
+                       FROM     sac.dbo.TbAssinatura          j
+                     INNER JOIN sac.dbo.tbDocumentoAssinatura k ON (j.idDocumentoAssinatura = k.idDocumentoAssinatura)
+	                 INNER JOIN sac.dbo.TbAtoAdministrativo   l ON (j.idAtoAdministrativo   = l.idAtoAdministrativo)
+
+                      WHERE     j.idDocumentoAssinatura       = k.idDocumentoAssinatura
+							AND j.idAtoAdministrativo         = l.idAtoAdministrativo
+							AND l.idPerfilDoAssinante         = TbAtoAdministrativo.idPerfilDoAssinante
+							AND l.idOrgaoDoAssinante          = TbAtoAdministrativo.idOrgaoDoAssinante
+							AND k.idTipoDoAtoAdministrativo   = TbAtoAdministrativo.idTipoDoAto
+							AND l.idOrdemDaAssinatura         = TbAtoAdministrativo.idOrdemDaAssinatura
+							AND l.idOrgaoSuperiorDoAssinante  = Tabelas.dbo.fnCodigoOrgaoEstrutura(projetos.Orgao,1)
+							AND j.idPronac = projetos.IdPRONAC
+							AND k.cdSituacao = " . Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA  . ")"
+            )
+        );
+        
+        $query->where("TbAtoAdministrativo.grupo = (?)", new Zend_Db_Expr("
+select grupo from sac..tbAtoAdministrativo where idAtoAdministrativo = (
+   select top 1 idAtoAdministrativo from sac..tbAssinatura where iddocumentoAssinatura = tbDocumentoAssinatura.idDocumentoAssinatura
+)
+        "));
+        
+        $query->where(new Zend_Db_Expr('sac.dbo.fnQtdeDePessoasQueAssinaramDocumento (projetos.IdPRONAC,tbDocumentoAssinatura.idDocumentoAssinatura) = (TbAtoAdministrativo.idOrdemDaAssinatura - 1)'));
+
+        $query->where('TbAtoAdministrativo.idOrgaoDoAssinante = ?', $idOrgaoDoAssinante);
+        $query->where('TbAtoAdministrativo.idPerfilDoAssinante = ?', $idPerfilDoAssinante);
+        
+        $query->order([
+            'idTipoDoAtoAdministrativo',
+            'nomeProjeto'
+        ]);
+
+        return $this->_db->fetchAll($query);
     }
 }

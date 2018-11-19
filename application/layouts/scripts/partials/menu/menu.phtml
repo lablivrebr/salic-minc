@@ -150,23 +150,6 @@ $arrMenu['assinatura']['menu'][] = array(
     'label' => 'Gerenciar Assinaturas - Readequa&ccedil;&atilde;o'
 );
 
-
-$arrMenu['assinatura']['menu'][] = array(
-    'grupo' => [
-        Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-        Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
-        Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
-    ],
-    'url' => $this->url(
-        array(
-            'module' => 'assinatura',
-            'controller' => 'index',
-            'action' => 'gerenciar-assinaturas'
-        ), '', true) . "?idTipoDoAtoAdministrativo=" . \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_LAUDO_PRESTACAO_CONTAS,
-    'title' => 'Ir para Readequa&ccedil;&atilde;o - Gerenciar Assinaturas',
-    'label' => 'Gerenciar Assinaturas - Laudo Presta&ccedil;&atilde;o de Contas'
-);
-
 $arrMenu['assinatura']['menu'][] = array(
     'grupo' => array(97),
     'url' => $this->url(
@@ -255,18 +238,6 @@ $arrMenu['acompanhamento']['menu'][] = array(
     'label' => 'Fiscalizar Projeto'
 );
 
-$arrMenu['acompanhamento']['menu'][] = array(
-    'grupo' => array(138),
-    'url' => $this->url(array('controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index'), '', true),
-    'title' => 'Ir para Analisar Projeto Parecer',
-    'label' => 'Analisar Comprova&ccedil;&atilde;o do Objeto'
-);
-$arrMenu['acompanhamento']['menu'][] = array(
-    'grupo' => array(139, 148, 151),
-    'url' => $this->url(array('controller' => 'avaliaracompanhamentoprojeto', 'action' => 'index-tecnico'), '', true),
-    'title' => 'Ir para Analisar Projeto Parecer',
-    'label' => 'Analisar Comprova&ccedil;&atilde;o do Objeto'
-);
 $arrMenu['acompanhamento']['menu'][] = array(
     'grupo' => array(137),
     'url' => $this->url(array('controller' => 'parecerista', 'action' => 'configurar-pagamento-parecerista'), '', true),
@@ -916,7 +887,7 @@ if (isset ($auth['cpf'])) {
 </style>
 <div id="navbar-header">
     <nav class="">
-        <div class="nav-wrapper  container">
+        <div class="nav-wrapper" style="margin: 0 auto; max-width: 1200px">
             <a id="menu-right" href="#" data-activates="nav-mobile" class="button-collapse right"><i
                         class="material-icons">menu</i></a>
             <ul class="left hide-on-med-and-down">

@@ -5,7 +5,10 @@ class AvaliacaoResultados_IndexController extends MinC_Controller_Action_Abstrac
     {
         $PermissoesGrupo = [
             Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS
+            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::SECRETARIO,
+            Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO
         ];
 
         $auth = Zend_Auth::getInstance();
@@ -28,11 +31,5 @@ class AvaliacaoResultados_IndexController extends MinC_Controller_Action_Abstrac
     public function indexAction()
     {
         $this->_helper->layout->disableLayout();
-        $gitTag = '?v=' . $this->view->gitTag();
-        $this->view->headScript()->offsetSetFile(99, '/public/dist/js/manifest.js' . $gitTag, 'text/javascript', array('charset' => 'utf-8'));
-        $this->view->headScript()->offsetSetFile(100, '/public/dist/js/vendor.js' . $gitTag, 'text/javascript', array('charset' => 'utf-8'));
-        $this->view->headScript()->offsetSetFile(101, '/public/dist/js/avaliacao_resultados.js'. $gitTag, 'text/javascript', array('charset' => 'utf-8'));
-        $this->view->headScript()->offsetSetFile(102, 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons', 'stylesheet', array('charset' => 'utf-8'));
-        $this->view->headScript()->offsetSetFile(103, 'https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css', 'stylesheet', array('charset' => 'utf-8'));
     }
 }

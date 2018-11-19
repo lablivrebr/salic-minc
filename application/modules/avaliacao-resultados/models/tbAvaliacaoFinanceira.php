@@ -114,7 +114,7 @@ class AvaliacaoResultados_Model_tbAvaliacaoFinanceira extends MinC_Db_Model
      */
     public function setDsParecer($dsParecer)
     {
-        $this->_dsParecer = $dsParecer;
+        $this->_dsParecer = utf8_decode($dsParecer);
         return $this;
     }
 

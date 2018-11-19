@@ -190,8 +190,12 @@ x - Menu lateral (legado)
     background-color: #2d2f40;
     padding: 10px;
     line-height: 12px;
-    max-height: 90px;
+    /*max-height: 90px;*/
     overflow: hidden;
+}
+
+.proposta #sidenav .sidebar-info {
+    /*max-height: 120px;*/
 }
 
 #sidenav .sidebar-info.disabled {
@@ -220,6 +224,8 @@ x - Menu lateral (legado)
 #sidenav .sidebar-info .info-title {
     /*font-size: 15px;*/
     line-height: 22px;
+    max-height: 40px;
+    overflow: hidden;
 }
 
 #sidenav ul {
@@ -261,9 +267,10 @@ x - Menu lateral (legado)
 /* sub-menu */
 #sidenav .collapsible-body li a,
 #sidenav.fixed .collapsible-body li a {
-    /*font-size: 13px;*/
-    line-height: 22px;
-    padding: 14px 5px 7px 40px;
+    /*line-height: 22px;*/
+    /*padding: 14px 5px 7px 40px;*/
+    line-height: 16px;
+    padding: 9px 5px 4px 40px;
 }
 
 #sidenav li a.active:before,

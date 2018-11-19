@@ -30,6 +30,10 @@ class AvaliacaoResultados_EmissaoParecerRestController extends MinC_Controller_R
 
     public function getAction()
     {
+        if (!isset($this->_request->idPronac)){
+            $this->customRenderJsonResponse([], 422);
+        }
+
         $avaliacaoFinanceiraService = new AvaliacaoFinanceiraService($this->getRequest(), $this->getResponse());
 
         $resposta = $avaliacaoFinanceiraService->buscarDadosProjeto();

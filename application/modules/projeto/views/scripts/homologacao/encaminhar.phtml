@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="finalizar" class="btn waves-effect waves-light" type="submit" name="action">Finalizar</button>
+                <a id="finalizar" href="javascript:void(0)" class="btn waves-effect waves-light">Finalizar</a>
                 <a href="#!" class="modal-action modal-close waves-effect waves-orange btn-flat orange-text"
                    style="margin-right: 15px;">Fechar</a>
             </div>
@@ -65,21 +65,23 @@
 
     $3('.collapsible').collapsible();
 
-    $3("#form-mensagem").on('submit', function(){
-        event.preventDefault();
-        $3("button#finalizar").addClass('disabled').attr('disabled');
-        $3.ajaxFormSubmit({form: $3(this)}, function(status, response) {
+    $3("a#finalizar").on('click', function(){
+        $3("a#finalizar").addClass('disabled').attr('disabled');
+
+        $3.ajaxFormSubmit({form: $3("#form-mensagem")}, function(status, response) {
 
             if(status === true && response.data.idDocumentoAssinatura) {
                 var botaoHomologar = '<h6>' + response.msg  + '</h6>' +
                     '<br><br>' +
                     '<a title="Assinatura" class="btn waves-effect waves-light btn-secondary" target="_blank" ' +
-                    'href="/assinatura/index/visualizar-projeto?idDocumentoAssinatura/'+ response.data.idDocumentoAssinatura +'">' +
+                    'href="/assinatura/index/visualizar-projeto?idDocumentoAssinatura='+ response.data.idDocumentoAssinatura +'">' +
                     '<i class="material-icons right">visibility</i>Visualizar documento gerado' +
                     '</a>';
 
                 $3("#mensagem-card").html(botaoHomologar);
                 $3("#conteudo-parecer").hide();
+            } else {
+                $3("a#finalizar").removeClass('disabled').removeAttr('disabled');
             }
         });
         return false;

@@ -1,6 +1,6 @@
 <?php
 
-abstract class MinC_Controller_Rest_Abstract extends MinC_Controller_Action_Abstract
+abstract class MinC_Controller_Rest_Abstract extends Zend_Controller_Action
 {
     protected $_response;
 
@@ -27,7 +27,7 @@ abstract class MinC_Controller_Rest_Abstract extends MinC_Controller_Action_Abst
     /**
      * Validação de perfis de acesso ou comportamentos excepcionais na inicialização
      */
-    final public function init()
+    public function init()
     {
         $authInstance = Zend_Auth::getInstance();
 
@@ -112,20 +112,22 @@ abstract class MinC_Controller_Rest_Abstract extends MinC_Controller_Action_Abst
     {
         $this->getResponse()->setHttpResponseCode($code);
 
-        $this->_helper->json([
-            'data' =>[
+        $this->view->assign(
+            'data',
+            [
                 'code' => $code,
                 'items' => $data
             ]
-        ]);
+        );
     }
 
     final public function customRenderJsonResponse(array $data, int $code)
     {
         $this->getResponse()->setHttpResponseCode($code);
 
-        $this->_helper->json($data);
+        $this->view->assign($data);
     }
+
     /**
      * The index action handles index/list requests; it should respond with a
      * list of the requested resources.

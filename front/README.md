@@ -44,18 +44,27 @@ app
 │   │   │       ├── _migrar_estilos_css_pra_ca.scss
 │   │   │       └── main.scss
 │   │   ├── components (neste nível apenas componentes globais, ou seja, que  podem ser usados por toda aplicação)
-│   │   │   ├── Planilha
+│   │   │   ├── planilha
 │   │   │   │   ├── Planilha.vue
 │   │   │   │   ├── PlanilhaItensAprovados.vue
 │   │   │   │   ├── PlanilhaItensPadrao.vue
 │   │   │   │   └── PlanilhaItensReadequados.vue
-│   │   │   ├── Todo
+│   │   │   ├── agente
+│   │   │   │   ├── AgenteDirigente.vue
+│   │   │   │   ├── AgenteEmail.vue
+│   │   │   │   ├── AgenteEndereco.vue
+│   │   │   │   ├── AgenteIdentificacao.vue
+│   │   │   │   ├── AgenteNatureza.vue
+│   │   │   │   ├── AgenteProcurador.vue
+│   │   │   │   ├── AgenteTelefone.vue
+│   │   │   │   └── AgenteIdentificacao.vue
+│   │   │   ├── todo
 │   │   │   │   ├── TodoList.vue
 │   │   │   │   ├── TodoListItem.vue
 │   │   │   │   └── TodoListItemButton.vue
 │   │   │   ├── SalicCarregando.vue
 │   │   │   ├── SalicFormatarValor.vue
-│   │   │   ├── Sidebar
+│   │   │   ├── sidebar
 │   │   │   │   ├── SideBar.vue
 │   │   │   │   ├── SidebarLink.vue
 │   │   │   │   └── SidebarSearch.vue
@@ -67,17 +76,17 @@ app
 │   │   │   ├── projeto
 │   │   │   │   ├── components (neste nível apenas componentes a nível do módulo)
 │   │   │   │   │   └── MenuSuspenso.vue
-│   │   │   │   ├── incentivo
+│   │   │   │   ├── visualizar
 │   │   │   │   │   ├── components (nível da pagina)
 │   │   │   │   │   │     ├── DadosProjeto.vue
-│   │   │   │   │   │     ├── Proponente.vue
-│   │   │   │   │   │     └── PlanilhaProposta.vue
-│   │   │   │   │   └── Index.vue
-│   │   │   │   ├── convenio
-│   │   │   │   │   ├── components (nível da pagina)
-│   │   │   │   │   │     ├── DadosProjeto.vue
-│   │   │   │   │   │     └── Proponente.vue
-│   │   │   │   │   └── Index.vue
+│   │   │   │   │   │     ├── incentivo
+│   │   │   │   │   │     │     ├── Index.vue
+│   │   │   │   │   │     │     ├── ValoresDoProjeto.vue
+│   │   │   │   │   │     │     └── TransferenciaRecurso.vue
+│   │   │   │   │   │     ├── Convenio.vue
+│   │   │   │   │   │     ├── Proponente.vue (chama os componentes de @/componentes/agentes)
+│   │   │   │   │   │     └── PlanilhaProposta.vue (chama os componentes de @/componentes/planilha)
+│   │   │   │   │   └── Index.vue (possui a barra lateral e route view para visualizacao)
 │   │   │   │   ├── store (actions e getters) - apenas se usar o vuex
 │   │   │   │   │   ├── actions.js 
 │   │   │   │   │   ├── getters.js 
@@ -85,15 +94,15 @@ app
 │   │   │   │   │   ├── mutations.js 
 │   │   │   │   │   └── types.js
 │   │   │   │   ├── config.js (sync da rota com a store vuex)
-│   │   │   │   ├── main.js
+│   │   │   │   ├── index.js
 │   │   │   │   ├── router.js
-│   │   │   │   └── Index.vue
+│   │   │   │   └── Index.vue (para inicializacao do modulo. obs: futuramente nao sera necessario)
 │   │   │   └── agente
-│   │   │       ├── components (nível da pagina)
+│   │   │       ├── components (nível da página)
 │   │   │       │   ├── Cadastrar.vue
 │   │   │       │   ├── Listar.vue
 │   │   │       │   └── Editar.vue
-│   │   │       ├── main.js
+│   │   │       ├── index.js
 │   │   │       ├── router.js
 │   │   │       └── Index.vue
 │   │   ├── plugins
@@ -118,8 +127,8 @@ Ao criar um novo módulo você deve:
 2 - atualizar o arquivo `webpack.base.conf.js` no diretório `build` com informações do novo módulo, conforme exemplo abaixo;
 ```
  entry: {
-        projeto: './src/modules/projeto/main.js',
-        agente: './src/modules/agente/main.js'
+        projeto: './src/modules/projeto/index.js',
+        agente: './src/modules/agente/index.js'
     }
  ```
 3 - criar um método para carregar os scripts na controller desejada. Recomendamos utilizar a `indexController` do seu módulo com o exemplo abaixo.

@@ -3,37 +3,38 @@
         <legend>Identificação</legend>
         <table class="tabela">
             <tr class="destacar">
-                <td><b>PRONAC</b></td>
-                <td><b>Nome do Projeto</b></td>
+                <td align="center"><b>PRONAC</b></td>
+                <td align="center"><b>Nome do Projeto</b></td>
             </tr>
             <tr>
-                <td>{{dadosProjeto.Pronac}}</td>
-                <td>{{dadosProjeto.NomeProjeto}}</td>
+                <td align="center">{{dadosProjeto.Pronac}}</td>
+                <td align="center">{{dadosProjeto.NomeProjeto}}</td>
             </tr>
         </table>
-        <table class="tabela" v-if="dadosProjeto.ProponenteInabilitado" style="background-color: red;">
+        <br clear="all">
+        <table class="tabela" v-if="ProponenteInabilitado" style="background-color: red;">
             <tr style="background-color: red;">
                 <td align="center" style="text-transform: uppercase; color: red;">
                     <b>Proponente Inabilitado</b>
                 </td>
             </tr>
         </table>
-        <table class="tabela">
+        <table class="tabela" v-else v-for="(proponente, index) in proponentes" v-bind:key="index">
             <tr class="destacar">
-                <td><b>CNPJ/CPF</b></td>
-                <td><b>Nome do Proponente</b></td>
-                <td><b>Tipo de Pessoa</b></td>
+                <td tabindex="1" align="center"><b>CNPJ/CPF</b></td>
+                <td tabindex="2" align="center"><b>Nome do Proponente</b></td>
+                <td tabindex="3" align="center"><b>Tipo de Pessoa</b></td>
             </tr>
             <tr>
-                <td v-if="dadosProjeto.CgcCPf">
-                    <SalicFormatarCpfCnpj :cpf="dadosProjeto.CgcCPf"/>
+                <td tabindex="4" align="center" v-if="proponente.CNPJCPF">
+                    <SalicFormatarCpfCnpj :cpf="proponente.CNPJCPF"/>
                 </td>
-                <td v-else>Dado não informado!</td>
-                <td v-if="dadosProjeto.Proponente">
-                    {{dadosProjeto.Proponente}}
+                <td tabindex="4" align="center" v-else>Dado não informado!</td>
+                <td tabindex="5" align="center" v-if="proponente.nmeProponente">
+                    {{proponente.nmeProponente}}
                 </td>
-                <td v-else>Dado não informado!</td>
-                <td>{{tipoProponente}}</td>
+                <td tabindex="5" align="center" v-else>Dado não informado!</td>
+                <td tabindex="6" align="center">{{tipoProponente}}</td>
             </tr>
         </table>
     </div>
@@ -44,40 +45,37 @@
     import { mapGetters } from 'vuex';
     import SalicFormatarCpfCnpj from '@/components/SalicFormatarCpfCnpj';
 
-    export default {
-        components: {
+    export default{
+        data() {
+            return{
+                codPronac: '510115', nmeProjeto: '', ProponenteInabilitado: false,
+                proponentes:[
+                    {CNPJCPF:'12378965215', nmeProponente:'Teste Teste'},
+                ],
+            };
+        },
+        components:{
             SalicFormatarCpfCnpj,
         },
-        methods: {
-            tipoCgcCPf(cgcCPf) {
-                let resposta = '';
-
-                switch (String(cgcCPf).length) {
-                case 11:
-                    resposta = 'Pessoa Física';
-                    break;
-                case 14:
-                    resposta = 'Pessoa Jurídica';
-                    break;
-                default:
-                    resposta = 'CPF/CNPJ inválido!';
+        computed:{
+            tipoProponente: function(campo){
+                for(campo of this.proponentes){
+                    if(String(campo.CNPJCPF).length>0){
+                        if(String(campo.CNPJCPF).length===11){
+                            return 'Pessoa Física';
+                        }else if(String(campo.CNPJCPF).length===14){
+                            return 'Pessoa Jurídica';
+                        }else{
+                            return 'CPF/CNPJ inválido!'
+                        }
+                    }else{
+                        return 'Dado não informado!'
+                    }
                 }
-
-                return resposta;
-            },
-        },
-        computed: {
-            tipoProponente() {
-                const cgcCPf = this.dadosProjeto.CgcCPf;
-
-                if (String(cgcCPf).length > 0) {
-                    return this.tipoCgcCPf(cgcCPf);
-                }
-                return 'Dado não informado!';
             },
             ...mapGetters({
                 dadosProjeto: 'projeto/projeto',
             }),
-        },
+        }
     };
 </script>

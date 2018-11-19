@@ -1,28 +1,26 @@
 {
-    post:
-    {
+    "post": {
         "idPronac": 2,
         "dtAvaliacaoFinanceira": "12:12:12 12-12-12",
         "tpAvaliacaoFinanceira": 1,
         "siManifestacao": "A",
-        "dsParecer": "jhfaiphfçahfpiaçkfhçfkh",
+        "dsParecer": "Laudo do Parecer do Projeto TESTE!",
         "idUsuario": 913
     },
-    put:
-    {
+    "put": {
         "idAvaliacaoFinanceira": 1,
         "idPronac": 2,
         "dtAvaliacaoFinanceira": "12:12:12 12-12-12",
         "tpAvaliacaoFinanceira": 1,
         "siManifestacao": "A",
-        "dsParecer": "jhfaiphfçahfpiaçkfhçfkh",
+        "dsParecer": "Laudo do Parecer do Projeto TESTE!",
         "idUsuario": 913
     },
-    get: {
-        pronac: {
+    "get": {
+        "request": {
             "idPronac": 123456
         },
-        response: {
+        "response": {
             "data": {
                 "code": 200,
                 "items": {
@@ -34,11 +32,8 @@
                     "proponente": {
                         "CnpjCpf": "434234234",
                         "Proponente": "Instituto Eletrocooperativa"
-                        //alterar proponente -> nome
                     },
-                    "parecer": {
-                        //inserir aqui os dados caso ja tenha um parecer gravado
-                    },
+                    "parecer": {},
                     "consolidacaoComprovantes": {
                         "qtTotalComprovante": 0,
                         "qtComprovantesValidadosProjeto": 0,
@@ -53,8 +48,7 @@
             }
         }
     },
-    delete:
-    {
-        mensagem: "error 403"
+    "delete": {
+        "mensagem": "error 403"
     }
 }

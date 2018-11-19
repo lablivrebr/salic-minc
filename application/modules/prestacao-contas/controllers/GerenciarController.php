@@ -6,9 +6,9 @@ class PrestacaoContas_GerenciarController extends MinC_Controller_Action_Abstrac
 
     public function init()
     {
-        /* $auth = Zend_Auth::getInstance(); */
+        $auth = Zend_Auth::getInstance();
 
-        /* isset($auth->getIdentity()->usu_codigo) ? parent::perfil(1, $PermissoesGrupo) : parent::perfil(4, $PermissoesGrupo); */
+        isset($auth->getIdentity()->usu_codigo) ? parent::perfil(1, $PermissoesGrupo) : parent::perfil(4, $PermissoesGrupo);
 
         /* isset($auth->getIdentity()->usu_codigo) ? $this->idUsuario = $auth->getIdentity()->usu_codigo : $this->idUsuario = $auth->getIdentity()->IdUsuario; */
 
@@ -522,16 +522,18 @@ class PrestacaoContas_GerenciarController extends MinC_Controller_Action_Abstrac
 
     public function cadastrarAction()
     {
-        $comprovante = new PrestacaoContas_Model_ComprovantePagamento();
-        $comprovante->preencher($this->getRequest()->getPost()['comprovante']);
-
-        $data = [];
         try {
+            $comprovante = new PrestacaoContas_Model_ComprovantePagamento();
+            $comprovante->preencher($this->getRequest()->getPost()['comprovante']);
+
+            $data = [];
             $id = $comprovante->cadastrar();
             $data = ['success' => true, 'idComprovantePagamento' => $id];
+            $data['message'] = 'Salvo com sucesso!';
         } catch (Exception $e) {
             $this->view->message = $e->getMessage();
-            echo $e->getMessage();die;
+            $data['success'] = false;
+            $data['message'] = $e->getMessage();
         }
         $this->_helper->json($data);
     }
@@ -546,9 +548,10 @@ class PrestacaoContas_GerenciarController extends MinC_Controller_Action_Abstrac
         try {
             $id = $comprovante->atualizar();
             $data = ['success' => true, 'idComprovantePagamento' => $id];
+            $data['message'] = 'Salvo com sucesso!';
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
-            echo $e->getMessage();die;
+            $data['success'] = false;
+            $data['message'] = $e->getMessage();
         }
         $this->_helper->json($data);
     }

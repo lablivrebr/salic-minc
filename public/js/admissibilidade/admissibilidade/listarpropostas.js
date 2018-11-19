@@ -2,10 +2,32 @@
     $(document).ready(function () {
         var objetoDataTable = $('#tabelaAnaliseFinal').DataTable(
             {
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        title: 'Excel',
+                        text: '<i class="material-icons">cloud_download</i>',
+                        extend: 'excel',
+                        className: 'waves-effect waves-dark btn white black-text',
+                        exportOptions: {
+                            columns: [0,1,2,3,5,6,7,8]
+                        }
+                    },
+                    {
+                        title: '',
+                        text: '<i class="material-icons">print</i>',
+                        extend: 'print',
+                        className: 'waves-effect waves-dark btn white black-text',
+                        exportOptions: {
+                            columns: [0,1,2,3,5,6,7,8]
+                        }
+                    }
+                ],
                 'language': {
                     'url': 'https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json'
                 }
                 , 'order': [0, 1]
+                , 'lengthMenu': [[10, 50, 100, -1], [10, 50, 100, "Tudo"]]
                 , 'searching': true
                 , 'lengthChange': true
                 , columnDefs: [
@@ -41,7 +63,8 @@
                     && data.tipo_recurso == "-"
                 ) {
                         $(row).addClass('green lighten-5')
-                    } else if (data.tipo_recurso != '-' || data.isRecursoDesistidoDePrazoRecursal){
+                    } else if (
+			(data.tipo_recurso != '-' && data.prazo_recursal == 0) || data.isRecursoDesistidoDePrazoRecursal || data.isRecursoExpirou10dias){
                         $(row).addClass('blue lighten-5')
                     }
                 },
@@ -86,8 +109,15 @@ function obterColunasListagem () {
         'data': 'DtMovimentacao'
     })
     colunas.push({
+        'data': 'diasCorridos',
         'name': 'diasCorridos',
-        'data': 'diasCorridos'
+        'bSortable': false,
+        'render': function(data, type, row) {
+            if (data < 0) {
+                return '<strong>PD</strong>';
+            }
+            return data;
+        }
     })
     if ($('#perfil_atual').val() != $('#perfil_componente_comissao').val()) {
         colunas.push({

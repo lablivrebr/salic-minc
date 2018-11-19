@@ -35,6 +35,7 @@
                             <input type="checkbox"
                                    name="marcarDesmarcarCheckbox"
                                    id="marcarDesmarcarCheckbox"
+                                   disabled
                                    class="filled-in"/>
                             <label id="marcarDesmarcarCheckboxLabel"
                                    for="marcarDesmarcarCheckbox"></label>
@@ -53,7 +54,8 @@
                 </table>
                 <div class="center-align" id="divAssinaturaEmMassa"
                      style="display: none;">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                    <input type="hidden" id="idTipoDoAtoAdministrativo" value="" />
+                    <button class="btn waves-effect waves-light" type="submit" name="action" id="enviarAssinaturaEmMassa">
                         Assinar em massa <i class="material-icons right">send</i>
                     </button>
                 </div>
@@ -61,7 +63,7 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="/public/js/jquery-1.12.4.min.js"></script>
     <script src="/public/js/moment.js"></script>
     <script type="text/javascript" src="/public/scripts/layout/datatables.min.js"></script>
     <script src="/public/js/dataTables.buttons.min.js" type="text/javascript"></script>
@@ -69,210 +71,281 @@
     <link rel="stylesheet" type="text/css" href="/public/css/layout/datatables.min.css"/>
 
     <script type="text/javascript">
-        (function ($) {
-            $(document).ready(function () {
+     (function ($) {
+         $(document).ready(function () {
 
-                $(document).ajaxStart(function () {
-                    $('#container-loading').fadeIn('slow');
-                });
+             $(document).ajaxStart(function () {
+                 $('#container-loading').fadeIn('slow');
+             });
 
-                $(document).ajaxComplete(function () {
-                    $('#container-loading').fadeOut('slow');
-                });
+             $(document).ajaxComplete(function () {
+                 $('#container-loading').fadeOut('slow');
+             });
 
-                $(document).on('click', "#marcarDesmarcarCheckboxLabel", function () {
-                    $3('.checkbox_legal').prop("checked", !$3($("#marcarDesmarcarCheckbox")).prop("checked"));
-                    tratarExibicaoCheckboxChecados('.checkbox_legal', '#divAssinaturaEmMassa');
-                });
+             $(document).on('click', "#marcarDesmarcarCheckboxLabel", function () {
+                 if (!$('#marcarDesmarcarCheckbox').prop('disabled')) {
+                     let checkedValue = $3('.checkbox_legal').prop('checked');
+                     $3('.checkbox_legal').prop("checked", !checkedValue);
+                     tratarExibicaoCheckboxChecados('.checkbox_legal', '#divAssinaturaEmMassa');
+                 }
+             });
+             
+             $('#enviarAssinaturaEmMassa').on('click', function(e) {
+                 let arrIdPronac = [];
+                 $('.checkbox_legal').filter(':checked').each(function(index, item) {
+                     $('#idTipoDoAtoAdministrativo').val($(item).data('idtipoatoadministrativo'));
+                     arrIdPronac[index] = item.value;
+                 });
+                 const idTipoDoAtoAdministrativo = $('#idTipoDoAtoAdministrativo').val();
+                 window.location.replace('/assinatura/index/assinar-projeto?IdPRONAC=' + arrIdPronac.join(',') + '&idTipoDoAtoAdministrativo=' + idTipoDoAtoAdministrativo);
+             });
 
-                function tratarExibicaoCheckboxChecados(seletorCheckboxes, seletorExibicao) {
-                    var quantidadeCheckboxChecados = $(seletorCheckboxes).filter(':checked').length;
-                    $(seletorExibicao).hide('fast');
-                    if (quantidadeCheckboxChecados > 0) {
-                        $(seletorExibicao).show('fast');
-                    }
-                }
+             function destacarTiposSemelhantes(idTipoDoAtoAdministrativo) {
+                 $('#assinaturaProjetos tr td input').each(function(index, itemTipo) {
+                     let indexTr = index + 1;
+                     if (idTipoDoAtoAdministrativo == $(itemTipo).data('idtipoatoadministrativo')) {
+                         $($('#assinaturaProjetos tr')[indexTr]).addClass('blue');
+                         $($('#assinaturaProjetos tr')[indexTr]).addClass('lighten-4');
+                     } else {
+                         $($('#assinaturaProjetos tr')[indexTr]).removeClass('blue');
+                         $($('#assinaturaProjetos tr')[indexTr]).removeClass('lighten-4');
+                     }
+                 });
+             }
 
-                $(document).on('click', '.checkbox_legal', function () {
-                    var quantidadeCheckBoxesSelecionados = $('.checkbox_legal').filter(':checked').length;
-                    var isCheckBoxAtualSelecionado = ($(this).filter(':checked').length > 0);
+             function tratarExibicaoCheckboxChecados(seletorCheckboxes, seletorExibicao) {
+                 const quantidadeCheckboxChecados = $(seletorCheckboxes).filter(':checked').length;
+                 const idTipoDoAtoAdministrativo = $('#idTipoDoAtoAdministrativo').val();
 
-                    $("#idTipoDoAtoAdministrativo").val(null);
-                    if (quantidadeCheckBoxesSelecionados == 1) {
-                        $("#idTipoDoAtoAdministrativo").val($(this).data('idtipoatoadministrativo'))
-                    } else if (quantidadeCheckBoxesSelecionados > 1) {
-                        if (isCheckBoxAtualSelecionado && $(this).data('idtipoatoadministrativo') != $("#idTipoDoAtoAdministrativo").val()) {
-                            Materialize.toast("O Encaminhamento em massa só é permitido para projetos com o mesmo Tipo de Ato Administrativo.", 4000);
-                            $(this).trigger('click');
-                        }
-                    }
-                    tratarExibicaoCheckboxChecados('.checkbox_legal', '#divAssinaturaEmMassa');
-                });
+                 destacarTiposSemelhantes(idTipoDoAtoAdministrativo);
+                 if (quantidadeCheckboxChecados > 0) {
+                     $(seletorExibicao).show('fast');
+                 } else {
+                     $(seletorExibicao).hide('fast');
+                     $('#assinaturaProjetos tr').removeClass('blue');
+                     $('#assinaturaProjetos tr').removeClass('lighten-4');
+                 }
+             }
+
+             $(document).on('click', '.checkbox_legal', function () {
+                 var quantidadeCheckBoxesSelecionados = $('.checkbox_legal').filter(':checked').length;
+                 var isCheckBoxAtualSelecionado = ($(this).filter(':checked').length > 0);
+
+                 if (quantidadeCheckBoxesSelecionados == 1) {
+                     $("#idTipoDoAtoAdministrativo").val($(this).data('idtipoatoadministrativo'))
+                 } else if (quantidadeCheckBoxesSelecionados > 1) {
+                     if (isCheckBoxAtualSelecionado && $(this).data('idtipoatoadministrativo') != $("#idTipoDoAtoAdministrativo").val()) {
+                         Materialize.toast("O Encaminhamento em massa s&oacute; &eacute; permitido para projetos com o mesmo Tipo de Ato Administrativo.", 4000);
+                         $(this).prop('checked', false);
+                     }
+                 }
+                 tratarExibicaoCheckboxChecados('.checkbox_legal', '#divAssinaturaEmMassa');
+             });
 
 
-                var assinaturaProjetos = $('#assinaturaProjetos').DataTable({
-                    dom: 'Blfrtip',
-                    buttons: [
-                        {
-                            title: '',
-                            text: '<i class="material-icons">print</i>',
-                            orientation: 'landscape',
-                            extend: 'print',
-                            className: 'waves-effect waves-dark btn white black-text',
-                            exportOptions: {
-                                columns: [2, 3, 4, 5, 6]
-                            }
-                        }
-                    ],
-                    initComplete: function () {
-                        this.api().columns().every(function () {
-                            var column = this;
-                            var searchIndex = 0;
-                            $("#seletorSelect").change(function () {
-                                if (column[0].includes(searchIndex)) {
-                                    column.search($("#seletorSelect").val()).draw();
-                                }
-                            });
-                        });
-                    },
-                    "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
-                    "language": {
-                        "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
-                    },
-                    "ajax": {
-                        url: "/assinatura/index/gerenciar-assinatura-ajax/",
-                        data: {},
-                        type: "POST"
-                    },
-                    "autoWidth": false,
-                    "serverSide": true,
-                    "searchDelay": 350,
-                    "columnDefs": [
-                        // { "width": "1%", "targets": 0 },
-                        // { "width": "20%", "targets": 2 },
-                        // { "width": "10%", "targets": 3 },
-                        // { "width": "5%", "targets": [5,6,7,9] },
-                        {"className": "dt-center", "targets": [0, 1, 2, 5, 7]},
-                        {'bSortable': true, 'aTargets': [0, 1, 7]},
-                    ],
-                    "columns": [
-                        {
-                            "targets": 0,
-                            "data": null,
-                            "name": "IdPRONAC",
-                            render: (data) => {
-                                let assinarEmMassa = '<input type="checkbox" ' +
-                                    'name="IdPRONAC[]" ' +
-                                    'id="IdPRONAC' + data.IdPRONAC + '"' +
-                                    'class="checkbox_legal filled-in"' +
-                                    'value="' + data.IdPRONAC + '" ' +
-                                    'data-idtipoatoadministrativo="' + data.idTipoDoAtoAdministrativo + '" ' +
-                                    '/> ' +
-                                    '<label for="IdPRONAC' + data.IdPRONAC + '" data-idtipoatoadministrativo="' + data.idTipoDoAtoAdministrativo + '">' +
-                                    '</label>';
+             var assinaturaProjetos = $('#assinaturaProjetos').DataTable({
+                 dom: 'Blfrtip',
+                 buttons: [
+                     {
+                         title: '',
+                         text: '<i class="material-icons">print</i>',
+                         orientation: 'landscape',
+                         extend: 'print',
+                         className: 'waves-effect waves-dark btn white black-text',
+                         exportOptions: {
+                             columns: [2, 3, 4, 5, 6]
+                         }
+                     }
+                 ],
+                 initComplete: function () {
+                     this.api().columns().every(function () {
+                         var column = this;
+                         var searchIndex = 0;
+                         $("#seletorSelect").change(function () {
+                             if (column[0].includes(searchIndex)) {
+                                 column.search($("#seletorSelect").val()).draw();
+                             }
+                         });
+                     });
+                     this.api().columns(6).every(function () {
+                         var column = this;
+                         var select = $('<select class="btn grey lighten-3 black-text"><option value="">filtrar por Tipo de Assinatura</option></select>')
+                             .appendTo( $(column.header()).empty() )
+                             .on( 'change', function () {
+                                 let val = '';
+                                 val = $.fn.dataTable.util.escapeRegex(
+                                     $(this).val()
+                                 );
+                                 column
+                                     .search( val ? '^'+ val+'$': '', true, false )
+                                     .draw();
 
-                                return assinarEmMassa;
-                            }
-                        },
-                        {
-                            "targets": 1,
-                            "data": null,
-                            "name": "IdPRONAC",
-                            render: () => {
-                                return '<button class="btn small waves-effect waves-light btn-secondary expand"><i class="material-icons">expand_more</i></button>';
-                            }
-                        },
-                        {
-                            "targets": 2,
-                            "data": null,
-                            "name": "pronac",
-                            render: (data) => {
-                                return '<a class="waves-effect waves-dark btn white black-text" ' +
+                                 val = val.replace(/\\/, '');
+                                 
+                                 $('#assinaturaProjetos_filter input').val(val);
+                                 $('#assinaturaProjetos_filter input').keyup();
+                                 
+                                 if (val !== '') {
+                                     $('#marcarDesmarcarCheckbox').removeProp('disabled');
+                                 } else {
+                                     $('#marcarDesmarcarCheckbox').prop('disabled', true);
+                                 }
+                                 $('#marcarDesmarcarCheckbox').prop('checked', false);
+                             });
+                         column.data().unique().sort().each( function( d, j ) {
+                             select.append('<option value="'+ d + '">' + d + '</option>');
+                         });                         
+                     });
+                 },
+                 "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+                 "language": {
+                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                 },
+                 "ajax": {
+                     url: "/assinatura/index/gerenciar-assinatura-ajax/",
+                     data: {},
+                     type: "POST"
+                 },
+                 "autoWidth": false,
+                 "serverSide": true,
+                 "searchDelay": 350,
+                 "columnDefs": [
+                     // { "width": "1%", "targets": 0 },
+                     // { "width": "20%", "targets": 2 },
+                     // { "width": "10%", "targets": 3 },
+                     // { "width": "5%", "targets": [5,6,7,9] },
+                     {"className": "dt-center", "targets": [0, 1, 2, 5, 7]},
+                     {'bSortable': true, 'aTargets': [1, 7]},
+                 ],
+                 "columns": [
+                     {
+                         "targets": 0,
+                         "data": null,
+                         "name": "IdPRONAC",
+                         "orderable": false,
+                         render: (data) => {
+                             let assinarEmMassa = '<input type="checkbox" ' +
+                                                  'name="IdPRONAC[]" ' +
+                                                  'id="IdPRONAC' + data.IdPRONAC + '"' +
+                                                  'class="checkbox_legal filled-in"' +
+                                                  'value="' + data.IdPRONAC + '" ' +
+                                                  'data-idtipoatoadministrativo="' + data.idTipoDoAtoAdministrativo + '" ' +
+                                                  '/> ' +
+                                                  '<label for="IdPRONAC' + data.IdPRONAC + '" data-idtipoatoadministrativo="' + data.idTipoDoAtoAdministrativo + '">' +
+                                                  '</label>';
+
+                             return assinarEmMassa;
+                         }
+                     },
+                     {
+                         "targets": 1,
+                         "data": null,
+                         "name": "IdPRONAC",
+                         render: () => {
+                             return '<button class="btn small waves-effect waves-light btn-secondary expand"><i class="material-icons">expand_more</i></button>';
+                         }
+                     },
+                     {
+                         "targets": 2,
+                         "data": null,
+                         "name": "pronac",
+                         render: (data) => {
+                             return '<a class="waves-effect waves-dark btn white black-text" ' +
                                     'href="/consultardadosprojeto/index?idPronac=' + data.IdPRONAC + '"><u> ' +
                                     data.pronac +
                                     '</u></a>';
-                            }
-                        },
-                        {
-                            "targets": 3,
-                            "data": "nomeProjeto",
-                            "name": "nomeProjeto"
-                        },
-                        {
-                            "targets": 4,
-                            "data": null,
-                            "name": "area",
-                            render: (data) => {
-                                return data.area + ' / ' + data.segmento;
-                            }
-                        },
-                        {
-                            "targets": 5,
-                            "data": null,
-                            "name": "dias",
-                            render: (data) => {
-                                return (parseInt(data.dias, 10) > 1) ? data.dias + ' dias' : '-';
-                            }
-                        },
-                        {
-                            "targets": 6,
-                            "data": 'tipoDoAtoAdministrativo',
-                            "name": 'tipoDoAtoAdministrativo',
-                        },
-                        {
-                            "targets": 7,
-                            "data": null,
-                            render: (data) => {
-                                let botaoVisualizar = '<a class="btn-floating waves-effect waves-light btn-primary tooltipped" ' +
-                                    ' href="/assinatura/index/visualizar-projeto?idDocumentoAssinatura=' + data.idDocumentoAssinatura + '"' +
-                                    ' data-position="top"' +
-                                    ' data-delay="50"' +
-                                    ' data-tooltip="Visualizar">' +
-                                    ' <i class="material-icons">search</i>' +
-                                    ' </a>';
-                                let botaoAssinar = '<a class="btn-floating waves-effect waves-light btn-primary tooltipped" ' +
-                                    ' href="/assinatura/index/assinar-projeto?IdPRONAC=' + data.IdPRONAC +
-                                    '&idTipoDoAtoAdministrativo=' + data.idTipoDoAtoAdministrativo + '"' +
-                                    ' data-position="top" ' +
-                                    ' data-delay="50" ' +
-                                    ' data-tooltip="Assinar"> ' +
-                                    ' <i class="material-icons">create</i> ' +
-                                    ' </a>';
+                         }
+                     },
+                     {
+                         "targets": 3,
+                         "data": "nomeProjeto",
+                         "name": "nomeProjeto"
+                     },
+                     {
+                         "targets": 4,
+                         "data": null,
+                         "name": "area",
+                         render: (data) => {
+                             return data.area + ' / ' + data.segmento;
+                         }
+                     },
+                     {
+                         "targets": 5,
+                         "data": null,
+                         "name": "dias",
+                         render: (data) => {
+                             return (parseInt(data.dias, 10) > 1) ? data.dias + ' dias' : '-';
+                         }
+                     },
+                     {
+                         "targets": 6,
+                         "data": 'tipoDoAtoAdministrativo',
+                         "name": 'tipoDoAtoAdministrativo',
+                         "orderable": false,
+                     },
+                     {
+                         "targets": 7,
+                         "data": null,
+                         render: (data) => {
+                             let botaoVisualizar = '<a class="btn-floating waves-effect waves-light btn-primary tooltipped" ' +
+                                                   ' href="/assinatura/index/visualizar-projeto?idDocumentoAssinatura=' + data.idDocumentoAssinatura + '"' +
+                                                   ' data-position="top"' +
+                                                   ' data-delay="50"' +
+                                                   ' data-tooltip="Visualizar">' +
+                                                   ' <i class="material-icons">search</i>' +
+                                                   ' </a>';
+                             let botaoAssinar = '<a class="btn-floating waves-effect waves-light btn-primary tooltipped" ' +
+                                                ' href="/assinatura/index/assinar-projeto?IdPRONAC=' + data.IdPRONAC +
+                                                '&idTipoDoAtoAdministrativo=' + data.idTipoDoAtoAdministrativo + '"' +
+                                                ' data-position="top" ' +
+                                                ' data-delay="50" ' +
+                                                ' data-tooltip="Assinar"> ' +
+                                                ' <i class="material-icons">create</i> ' +
+                                                ' </a>';
+                             let botaoDevolver = '<a class="btn-floating waves-effect waves-light btn-danger tooltipped" ' +
+                                 ' href="/assinatura/index/devolver-projeto?IdPRONAC=' + data.IdPRONAC +
+                                 '&idTipoDoAtoAdministrativo=' + data.idTipoDoAtoAdministrativo + '"' +
+                                 ' data-position="top" ' +
+                                 ' data-delay="50" ' +
+                                 ' data-tooltip="Devolver"> ' +
+                                 ' <i class="material-icons">undo</i> ' +
+                                 ' </a>';
 
-                                return '<div style="position: relative; height: 60px;">'
-                                    + '<div class="fixed-action-btn horizontal" style="position: absolute; top: 0px; right: 0; z-index: 996; padding: 15px 0 0 15px;">'
-                                    + '<a class="btn btn-primary small">'
-                                    + '<i class="material-icons">more_vert</i></a>'
-                                    + '<ul>'
-                                    + '<li>'
-                                    + botaoVisualizar
-                                    + botaoAssinar
-                                    + '</li>'
-                                    + '</ul>'
-                                    + '</div>';
+                             return '<div style="position: relative; height: 60px;">'
+                                  + '<div class="fixed-action-btn horizontal" style="position: absolute; top: 0px; right: 0; z-index: 996; padding: 15px 0 0 15px;">'
+                                  + '<a class="btn btn-primary small">'
+                                  + '<i class="material-icons">more_vert</i></a>'
+                                  + '<ul>'
+                                  + '<li>'
+                                  + botaoVisualizar
+                                  + botaoAssinar
+                                  + botaoDevolver
+                                  + '</li>'
+                                  + '</ul>'
+                                  + '</div>';
 
-                                return stringBotoes;
-                            }
-                        },
-                    ]
-                });
+                             return stringBotoes;
+                         }
+                     },
+                 ]
+             });
 
-                function informacoes(data) {
+             function informacoes(data) {
 
-                    let htmlBotoes = '', corBotao = '';
+                 let htmlBotoes = '', corBotao = '';
 
-                    for(var contadorAssinatura = 1; contadorAssinatura <= data.quantidadeTotalAssinaturas; contadorAssinatura++) {
-                        corBotao = 'grey lighten-4 black-text';
-                        if(contadorAssinatura <= data.quantidadeAssinaturas) {
-                            corBotao = 'light-green darken-1'
-                        }
-                        if(contadorAssinatura > 1) {
-                            htmlBotoes += '<div style="display:inline-block"><i class="tiny material-icons">arrow_forward</i></div>';
-                        }
-                        htmlBotoes += '<div style="display:inline-block"><a class="margin20 btn-floating btn-large waves-effect waves-light ' + corBotao + '">' + contadorAssinatura + '</a></div>'
-                    }
+                 for(var contadorAssinatura = 1; contadorAssinatura <= data.quantidadeTotalAssinaturas; contadorAssinatura++) {
+                     corBotao = 'grey lighten-4 black-text';
+                     if(contadorAssinatura <= data.quantidadeAssinaturas) {
+                         corBotao = 'light-green darken-1'
+                     }
+                     if(contadorAssinatura > 1) {
+                         htmlBotoes += '<div style="display:inline-block"><i class="tiny material-icons">arrow_forward</i></div>';
+                     }
+                     htmlBotoes += '<div style="display:inline-block"><a class="margin20 btn-floating btn-large waves-effect waves-light ' + corBotao + '">' + contadorAssinatura + '</a></div>'
+                 }
 
-                    return '<div class="expansivel">' +
+                 return '<div class="expansivel">' +
                         '<div class="col s12">' +
                         '<div class="card">' +
                         '<div class="card-content">' +
@@ -306,26 +379,30 @@
                         '</div>' +
                         '</div>' +
                         '</div>';
-                }
+             }
+             $('#assinaturaProjetos').on('preXhr.dt', function(e, settings, data) {
+                 let searchValue = data.search.value;
+                 data.search.value = escape(searchValue.replace(/\//g, ''));
+             });
 
-                $('#assinaturaProjetos tbody').on('click', '.expand', function () {
-                    var tr = $(this).closest('tr');
-                    var row = assinaturaProjetos.row(tr);
+             $('#assinaturaProjetos tbody').on('click', '.expand', function () {
+                 var tr = $(this).closest('tr');
+                 var row = assinaturaProjetos.row(tr);
 
-                    if (row.child.isShown()) {
-                        $('div.expansivel', row.child()).slideUp(function () {
-                            row.child.hide();
-                            tr.removeClass('shown');
-                        });
-                        $(this).find('i').first().html('expand_more');
-                    } else {
-                        row.child(informacoes(row.data()), 'no-padding').show();
-                        tr.addClass('shown');
-                        $('div.expansivel', row.child()).slideDown();
-                        $(this).find('i').first().html('expand_less');
-                    }
-                })
-            });
-        }($.noConflict(true)));
+                 if (row.child.isShown()) {
+                     $('div.expansivel', row.child()).slideUp(function () {
+                         row.child.hide();
+                         tr.removeClass('shown');
+                     });
+                     $(this).find('i').first().html('expand_more');
+                 } else {
+                     row.child(informacoes(row.data()), 'no-padding').show();
+                     tr.addClass('shown');
+                     $('div.expansivel', row.child()).slideDown();
+                     $(this).find('i').first().html('expand_less');
+                 }
+             })
+         });
+     }($.noConflict(true)));
     </script>
 </main>

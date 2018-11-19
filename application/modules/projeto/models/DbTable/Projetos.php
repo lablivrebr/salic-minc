@@ -9,6 +9,61 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
     protected $_name = 'Projetos';
     protected $_primary = 'IdPRONAC';
 
+
+    public function buscarProjeto($where = [], $order = null, $count = 0, $offset = 20)
+    {
+        $query = $this->select()
+            ->setIntegrityCheck(false)
+            ->from(
+                ['p' => $this->_name],
+                [
+                    'p.IdPRONAC as idPronac',
+                    'p.NomeProjeto',
+                    'p.CgcCPf',
+                    'p.idProjeto as idPreProjeto',
+                    'p.Situacao',
+                    'p.Mecanismo as idMecanismo',
+                    new Zend_Db_Expr('p.AnoProjeto + p.Sequencial as Pronac')
+                ],
+                $this->_schema
+            );
+
+        $query->joinLeft(
+            ['a' => 'Agentes'],
+            "p.CgcCpf = a.CNPJCPF",
+            [
+                'a.idAgente',
+                new Zend_Db_Expr('sac.dbo.fnNome(a.idAgente) AS NomeProponente')
+            ],
+            $this->getSchema('agentes')
+        );
+
+        $query->joinInner(
+            ['s' => 'Situacao'],
+            's.Codigo = p.Situacao',
+            ['Descricao as descricaoSituacao'],
+            $this->_schema
+        );
+
+        foreach ($where as $coluna => $valor) {
+            $query->where($coluna, $valor);
+        }
+
+        if ($order) {
+            $query->order($order);
+        }
+
+
+        if (!is_null($offset) && $count) {
+            $start = (int)$offset;
+            $limit = (int)$count;
+            $query->limit($limit, $start);
+        }
+
+        return $this->fetchAll($query);
+    }
+
+
     public function alterarOrgao($orgao, $idPronac)
     {
         $this->update(
@@ -28,8 +83,10 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
                 'projetos' => $this->_name
             ),
             array(
+                "Pronac" => new Zend_Db_Expr("projetos.AnoProjeto + projetos.Sequencial"),
+                "NomeProjeto" => new Zend_Db_Expr("projetos.NomeProjeto"),
                 "ValorProposta" => new Zend_Db_Expr("sac.dbo.fnValorSolicitado(projetos.AnoProjeto,projetos.Sequencial)"),
-                "ValorSolicitado" => new Zend_Db_Expr("sac.dbo.fnValorSolicitado(projetos.AnoProjeto,projetos.Sequencial)") ,
+                "ValorSolicitado" => new Zend_Db_Expr("sac.dbo.fnValorSolicitado(projetos.AnoProjeto,projetos.Sequencial)"),
                 "OutrasFontes" => new Zend_Db_Expr("sac.dbo.fnOutrasFontes(projetos.idPronac)"),
                 "ValorAprovado" => new Zend_Db_Expr(
                     "case when projetos.Mecanismo ='2' or projetos.Mecanismo ='6'
@@ -45,6 +102,29 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
                       end "
                 ),
                 "ValorCaptado" => new Zend_Db_Expr("sac.dbo.fnCustoProjeto (projetos.AnoProjeto,projetos.Sequencial)"),
+                new Zend_Db_Expr("CONVERT(DECIMAL(18,2),
+                    ((sac.dbo.fnTotalCaptadoProjeto (projetos.AnoProjeto,projetos.Sequencial) 
+                    + sac.dbo.fnVlRecebido(projetos.idPronac) 
+                    - sac.dbo.fnVlTransferido(projetos.idPronac)) 
+                    / sac.dbo.fnTotalAprovadoProjeto(projetos.AnoProjeto,projetos.Sequencial)) * 100) as PercentualCaptado"
+                ),
+                new Zend_Db_Expr("sac.dbo.fnVlComprovadoProjeto(projetos.idPronac) as ValorComprovado"),
+                new Zend_Db_Expr("CONVERT(DECIMAL(18,2),
+                ((sac.dbo.fnTotalCaptadoProjeto (projetos.AnoProjeto,projetos.Sequencial) 
+                    + sac.dbo.fnVlRecebido(projetos.idPronac) 
+                    - sac.dbo.fnVlComprovadoProjeto(projetos.idPronac))) ) as ValorAComprovar"
+                ),
+                new Zend_Db_Expr("
+                    CASE
+	                    WHEN sac.dbo.fnTotalCaptadoProjeto (projetos.AnoProjeto,projetos.Sequencial) > 0 
+	                        THEN CONVERT(DECIMAL(18,2), (
+	                        sac.dbo.fnVlComprovadoProjeto(projetos.idPronac) 
+	                        / (sac.dbo.fnTotalCaptadoProjeto (projetos.AnoProjeto,projetos.Sequencial) 
+	                        + sac.dbo.fnVlRecebido(projetos.idPronac) 
+	                        - sac.dbo.fnVlTransferido(projetos.idPronac))) * 100)  
+                        ELSE 0 
+                    END as PercentualComprovado
+                ")
             )
         );
         $objQuery->where('projetos.IdPRONAC = ?', $idPronac);
@@ -141,7 +221,7 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
         $exec = new Zend_Db_Expr("SELECT dbo.fnChecarLiberacaoDaAdequacaoDoProjeto({$idPronac})");
 
         try {
-            $db= Zend_Db_Table::getDefaultAdapter();
+            $db = Zend_Db_Table::getDefaultAdapter();
         } catch (Zend_Exception_Db $e) {
             $this->view->message = $e->getMessage();
         }
@@ -153,14 +233,15 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
         $exec = new Zend_Db_Expr("EXEC SAC.dbo.spClonarProjeto {$idPronac}, {$usuarioLogado}");
 
         try {
-            $db= Zend_Db_Table::getDefaultAdapter();
+            $db = Zend_Db_Table::getDefaultAdapter();
         } catch (Zend_Exception_Db $e) {
             $this->view->message = $e->getMessage();
         }
         return $db->fetchRow($exec);
     }
 
-    public function atualizarProjetoEnquadrado($projeto, $id_usuario_logado, $situacaoFinalProjeto = 'B02') {
+    public function atualizarProjetoEnquadrado($projeto, $id_usuario_logado, $situacaoFinalProjeto = 'B02')
+    {
         $orgaoDestino = null;
         $providenciaTomada = 'Projeto enquadrado ap&oacute;s avalia&ccedil;&atilde;o t&eacute;cnica.';
         if ($projeto['Situacao'] == 'B03') {
@@ -402,7 +483,7 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
         $db = Zend_Db_Table::getDefaultAdapter();
         $db->setFetchMode(Zend_DB::FETCH_OBJ);
 
-        $sql = $db->select()->union(array($a , $b,  $c), Zend_Db_Select::SQL_UNION);
+        $sql = $db->select()->union(array($a, $b, $c), Zend_Db_Select::SQL_UNION);
 
         if ($total) {
             $sqlFinal = $db->select()->from(array("p" => $sql), array('count(distinct IdPRONAC)'));
@@ -416,16 +497,16 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
         }
 
         if (!empty($search['value']) && count($search['value']) > 5) {
-            $sqlFinal->where('a.AnoProjeto + a.Sequencial like ?', '%'.$search['value']);
+            $sqlFinal->where('a.AnoProjeto + a.Sequencial like ?', '%' . $search['value']);
         }
 
-        if(count($order) > 0 && !empty(trim($order[0]))) {
+        if (count($order) > 0 && !empty(trim($order[0]))) {
             $sqlFinal->order($order);
         }
 
         if (!is_null($start) && $limit) {
-            $start = (int) $start;
-            $limit = (int) $limit;
+            $start = (int)$start;
+            $limit = (int)$limit;
             $sqlFinal->limit($limit, $start);
         }
 
@@ -464,7 +545,7 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
                 new Zend_Db_Expr("sac.dbo.fnVlSolicitadoProposta(a.idPronac) AS vlTotalPropostaOriginal"),
                 new Zend_Db_Expr("sac.dbo.fnVlAutorizadoACaptarIncentivo(a.idPronac) AS vlAutorizado"),
                 new Zend_Db_Expr("sac.dbo.fnVlAutorizadoACaptarOutrasFontes(a.idPronac) AS vlAutorizadoOutrasFontes"),
-                new Zend_Db_Expr("sac.dbo.fnVlAutorizadoACaptarIncentivo(a.idPronac) - sac.dbo.fnVlAutorizadoACaptarOutrasFontes(a.idPronac) AS vlTotalAutorizado"),
+                new Zend_Db_Expr("sac.dbo.fnVlAutorizadoACaptar(a.idPronac) as vlTotalAutorizado"),
                 new Zend_Db_Expr("sac.dbo.fnVlAdequadoIncentivo(a.idPronac) AS vlAdequadoIncentivo"),
                 new Zend_Db_Expr("sac.dbo.fnVlAdequadoOutrasFontes(a.idPronac) AS vlAdequadoOutrasFontes"),
                 new Zend_Db_Expr("sac.dbo.fnVlTotalAdequado(a.idPronac) AS vlTotalAdequado"),
@@ -514,7 +595,7 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
             "a.idPronac = b.idPronac",
             [
                 new Zend_Db_Expr(
-                "CASE 
+                    "CASE 
                     WHEN b.Enquadramento = '1' THEN 'Artigo 26' 
                     WHEN b.Enquadramento = '2' THEN 'Artigo 18' 
                     ELSE 'N&atilde;o enquadrado' 
@@ -634,7 +715,7 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
                 'm.idNormativo',
                 'm.nmNormativo AS Normativo',
                 'm.dtPublicacao AS dtPublicacaoNormativo',
-		        'm.dtRevogacao AS dtRevogacaoNormativo',
+                'm.dtRevogacao AS dtRevogacaoNormativo',
             ],
             $this->_schema
         );

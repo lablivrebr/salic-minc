@@ -5,7 +5,10 @@ class PrestacaoContas_RealizarPrestacaoContasController extends MinC_Controller_
     {
         $PermissoesGrupo = [
             Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
-            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS
+            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
+            Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO,
+            Autenticacao_Model_Grupos::SECRETARIO
         ];
 
         $auth = Zend_Auth::getInstance();
@@ -38,6 +41,11 @@ class PrestacaoContas_RealizarPrestacaoContasController extends MinC_Controller_
         $vlComprovado = 0;
         $vlAprovado = 0;
         foreach ($resposta as $item) {
+
+            if ($item->vlAprovado == 0) {
+                continue;
+            }
+            
             $vlComprovar = $item->vlAprovado - $item->vlComprovado;
             $vlTotalComprovar += $vlComprovar;
 

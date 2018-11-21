@@ -1,4 +1,4 @@
-import * as api from './base';
+import * as api from '../base';
 
 export const buscaProjeto = (idPronac) => {
     const module = '/projeto';

@@ -12,6 +12,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 const watchWebpackConfig = merge(baseWebpackConfig, {
+    resolve: {
+        alias: {
+            '@api-client': config.build.apiClient === 'mock'
+                ? path.join(__dirname, '..', 'src/helpers/mock')
+                : path.join(__dirname, '..', 'src/helpers/api')
+        }
+    },
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.dev.cssSourceMap,

@@ -64,11 +64,13 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import { mapActions, mapGetters } from 'vuex';
-import Data from '../../../../filters/date';
+    import Vue from 'vue';
+    import _ from 'lodash';
+    import {mapActions, mapGetters} from 'vuex';
+    import Data from '../../../../filters/date';
 
-Vue.filter('date', Data);
+
+    Vue.filter('date', Data);
 
 export default {
     name: 'HistoricoDiligencias',
@@ -99,9 +101,6 @@ export default {
             this.show.resposta = !this.show.resposta;
             this.show.index = index;
         },
-        sortByDate(list) {
-            return _.orderBy(list, 'dataSolicitacao', 'desc');
-        },
         statusDiligencia(obj) {
             const prazo = this.prazoResposta(obj);
             let status = {
@@ -110,29 +109,30 @@ export default {
             };
             const prazoPadrao = 40;
             // diligenciado
-            if (obj.DtSolicitacao && obj.DtResposta === null && prazo <= prazoPadrao && obj.stEnviado === 'S') {
+            if (obj.DtSolicitacao && obj.DtResposta === null &&
+                prazo <= prazoPadrao && obj.stEnviado === 'S') {
                 status = { color: 'yellow', desc: 'Diligenciado' };
                 return status;
                 // diligencia não respondida
-            } else if (obj.DtSolicitacao && obj.DtResposta == null && prazo > prazoPadrao) {
+            } else if (obj.DtSolicitacao && obj.DtResposta === null && prazo > prazoPadrao) {
                 status = { color: 'red', desc: 'Diligencia não respondida' };
                 return status;
                 // diligencia respondida com ressalvas
-            } else if (obj.DtSolicitacao && obj.DtResposta != null) {
+            } else if (obj.DtSolicitacao && obj.DtResposta !== null) {
                 if (obj.stEnviado === 'N' && prazo > prazoPadrao) {
                     status = { color: 'red', desc: 'Diligencia não respondida' };
                     return status;
-                } else if (obj.stEnviado === 'N' && prazo < prazoPadrao) {
+                }
+                if (obj.stEnviado === 'N' && prazo < prazoPadrao) {
                     status = { color: 'yellow', desc: 'Diligenciado' };
                     return status;
-                } else {
-                    status = { color: 'blue', desc: 'Diligencia respondida' };
-                    return status;
                 }
-            } else {
-                status = { color: 'green', desc: 'A Diligenciar' };
+
+                status = { color: 'blue', desc: 'Diligencia respondida' };
                 return status;
             }
+            status = { color: 'green', desc: 'A Diligenciar' };
+            return status;
         },
         prazoResposta(obj) {
             /**
@@ -185,13 +185,12 @@ export default {
                     // prazo negativo
                     return 0;
                 }
-                if (prazo == 40) {
+                if (prazo === 40) {
                     // para prazo de resposta igual ao padrão
                     return -1;
                 }
-            } else {
-                return 0;
             }
+            return null;
         },
     },
     computed: {
@@ -205,6 +204,9 @@ export default {
                 return this.diligencias;
             }
             return 0;
+        },
+        sortByDate(list) {
+            return _.orderBy(list, 'dataSolicitacao', 'desc');
         },
     },
     updated() {

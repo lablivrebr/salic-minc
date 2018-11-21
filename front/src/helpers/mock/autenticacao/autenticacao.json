@@ -1,0 +1,15 @@
+{
+    "data": {
+        "code": 200,
+        "items": {
+            "usu_codigo": "236",
+            "usu_identificacao": "23969156149",
+            "usu_nome": "R\u00f4mulo Menh\u00f4 Barbosa",
+            "usu_pessoa": "536",
+            "usu_orgao": "251",
+            "usu_org_max_superior": "251",
+            "grupo_ativo": 93,
+            "orgao_ativo": 93
+        }
+    }
+}

@@ -191,25 +191,26 @@ export default {
             }
             return null;
         },
+        setInfo() {
+            if (Object.keys(this.diligencias).length > 0) {
+                this.info.nomeProjeto = this.diligencias.items[0].nomeProjeto;
+                this.info.pronac = this.diligencias.items[0].pronac;
+                return this.info;
+            }
+            return this.info;
+        },
     },
     computed: {
         ...mapGetters({
             diligencias: 'avaliacaoResultados/diligenciasHistorico',
         }),
-        setInfo() {
-            if (Object.keys(this.diligencias).length > 0) {
-                this.info.nomeProjeto = this.diligencias.items[0].nomeProjeto;
-                this.info.pronac = this.diligencias.items[0].pronac;
-                return this.diligencias;
-            }
-            return 0;
-        },
+
         sortByDate() {
             return _.orderBy(this.diligencias.items, 'dataSolicitacao', 'desc');
         },
     },
     updated() {
-        this.setInfo;
+        this.setInfo();
     },
 };
 </script>

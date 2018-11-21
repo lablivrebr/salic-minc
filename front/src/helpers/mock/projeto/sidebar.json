@@ -1,0 +1,108 @@
+{
+    "success": "true",
+    "msg": "",
+    "data": {
+        "informacoes": {
+            "id": "informacoes",
+            "titulo": "Pronac 087080",
+            "descricao": "Festival BrasilNoar 2008 \u0096 8\u00b0 Festival Internacional da Nova Arte Brasileira.",
+            "icone_ativo": "info",
+            "ativo": true,
+            "icone_inativo": "info"
+        },
+        "dadosprojeto": {
+            "id": "dadosdoprojeto",
+            "label": "Dados do Projeto",
+            "title": "",
+            "link": "\/projeto\/#\/2",
+            "ajax": false,
+            "icon": "home",
+            "submenu": "",
+            "grupo": []
+        },
+        "convenente": {
+            "id": "convenente",
+            "label": "Convenente",
+            "title": "",
+            "link": "\/projeto\/#\/2\/convenente",
+            "ajax": false,
+            "icon": "person",
+            "submenu": "",
+            "grupo": []
+        },
+        "outrasinformacoes": {
+            "id": "outrasinformacoes",
+            "label": "Outras Informa\u00e7\u00f5es",
+            "title": "Outras Informa\u00e7\u00f5es",
+            "link": "",
+            "ajax": false,
+            "icon": "style",
+            "submenu": [
+                {
+                    "label": "Certid&otilde;es Negativas",
+                    "title": "Ir para Dados Certid&otilde;es Negativas",
+                    "link": "\/projeto\/#\/2\/certidoes-negativas",
+                    "ajax": false,
+                    "grupo": []
+                },
+                {
+                    "label": "Documentos anexados",
+                    "title": "Ir para  Documentos anexados",
+                    "link": "\/projeto\/#\/2\/documentos-anexados",
+                    "ajax": false,
+                    "grupo": []
+                },
+                {
+                    "label": "Dilig&ecirc;ncias do projeto",
+                    "title": "Ir para Dilig&ecirc;ncias do projeto",
+                    "link": "\/projeto\/#\/2\/diligencias",
+                    "ajax": false,
+                    "grupo": []
+                },
+                {
+                    "label": "Provid&ecirc;ncia tomada",
+                    "title": "Ir para Provid&ecirc;ncia tomada",
+                    "link": "\/projeto\/#\/2\/providencia-tomada",
+                    "ajax": false,
+                    "grupo": []
+                },
+                {
+                    "label": "Tramita&ccedil;&atilde;o",
+                    "title": "Ir para Tramita&ccedil;&atilde;o",
+                    "link": "\/projeto\/#\/2\/tramitacao",
+                    "ajax": false,
+                    "grupo": []
+                }
+            ],
+            "grupo": []
+        },
+        "execucao": {
+            "id": "execucao",
+            "label": "Execu&ccedil;&atilde;o",
+            "title": "Menu Execu&ccedil;&atilde;o",
+            "link": "",
+            "ajax": false,
+            "icon": "play_for_work",
+            "submenu": [
+                {
+                    "label": "Dados da fiscaliza&ccedil;&atilde;o",
+                    "title": "Ir para Dados da fiscaliza&ccedil;&atilde;o",
+                    "link": "\/default\/consultardadosprojeto\/dados-fiscalizacao\/?idPronac=2",
+                    "ajax": true,
+                    "grupo": []
+                }
+            ],
+            "grupo": []
+        },
+        "solicitacoes": {
+            "id": "solicitacoes",
+            "label": "Solicita&ccedil;&otilde;es",
+            "title": "Ir para Solicita\u00e7\u00f5es",
+            "link": "\/solicitacao\/mensagem\/index\/listarTudo\/true\/idPronac\/2",
+            "ajax": false,
+            "icon": "contact_mail",
+            "submenu": "",
+            "grupo": []
+        }
+    }
+}

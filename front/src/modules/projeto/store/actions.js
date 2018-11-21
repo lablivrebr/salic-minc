@@ -1,4 +1,4 @@
-import * as projetoHelperAPI from '@/helpers/api/Projeto';
+import * as projetoHelperAPI from '@api-client/Projeto';
 import { state } from './mutations';
 import * as types from './types';
 

@@ -108,16 +108,16 @@ export default {
             };
             const prazoPadrao = 40;
             // diligenciado
-            if (obj.DtSolicitacao && typeof obj.DtResposta === 'undefined' &&
+            if (obj.DtSolicitacao && obj.DtResposta === '' &&
                 prazo <= prazoPadrao && obj.stEnviado === 'S') {
                 status = { color: 'yellow', desc: 'Diligenciado' };
                 return status;
                 // diligencia não respondida
-            } else if (obj.DtSolicitacao && typeof obj.DtResposta === 'undefined' && prazo > prazoPadrao) {
+            } else if (obj.DtSolicitacao && obj.DtResposta === '' && prazo > prazoPadrao) {
                 status = { color: 'red', desc: 'Diligencia não respondida' };
                 return status;
                 // diligencia respondida com ressalvas
-            } else if (obj.DtSolicitacao && typeof obj.DtResposta !== 'undefined') {
+            } else if (obj.DtSolicitacao && obj.DtResposta !== '') {
                 if (obj.stEnviado === 'N' && prazo > prazoPadrao) {
                     status = { color: 'red', desc: 'Diligencia não respondida' };
                     return status;

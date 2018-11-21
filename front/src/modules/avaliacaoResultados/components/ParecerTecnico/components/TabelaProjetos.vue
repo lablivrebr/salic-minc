@@ -34,7 +34,7 @@
                     <template v-for="(c, index) in componentes.acoes" d-inline-block>
                         <component
                             v-bind:key="index"
-                            :status="statusDiligencia(props.item)"
+                            :obj="props.item"
                             :is="c"
                             :id-pronac="props.item.IdPRONAC"
                             :pronac="props.item.PRONAC"
@@ -173,95 +173,6 @@ export default {
             };
 
             return dados;
-        },
-        statusDiligencia(obj){
-            const prazo = this.prazoResposta(obj);
-            let status = {
-                color: 'grey',
-                desc: 'Histórico Diligências',
-            };
-            const prazoPadrao = 40;
-            // diligenciado
-            if (obj.DtSolicitacao && obj.DtResposta === null && prazo <= prazoPadrao && obj.stEnviado === 'S') {
-                status = { color: 'yellow', desc: 'Diligenciado' };
-                return status;
-            // diligencia não respondida
-            } else if (obj.DtSolicitacao && obj.DtResposta == null && prazo > prazoPadrao) {
-                status = { color: 'red', desc: 'Diligencia não respondida' };
-                return status;
-            // diligencia respondida com ressalvas
-            } else if (obj.DtSolicitacao && obj.DtResposta != null) {
-                if (obj.stEnviado === 'N' && prazo > prazoPadrao) {
-                    status = { color: 'red', desc: 'Diligencia não respondida' };
-                    return status;
-                } else if (obj.stEnviado === 'N' && prazo < prazoPadrao) {
-                    status = { color: 'yellow', desc: 'Diligenciado' };
-                    return status;
-                } else {
-                    status = { color: 'blue', desc: 'Diligencia respondida' };
-                    return status;
-                }
-            } else {
-                status = { color: 'green', desc: 'A Diligenciar' };
-                return status;
-            }
-        },
-        prazoResposta(obj) {
-            /**
-             If (notempty dtSolicitação){
-             Calculo do Prazo
-
-             prazo = date.now() - datainicial(dtSolicitacao);
-
-              converter.dias(prazo)
-
-             -> Para casos de de ser contagem regressiva.
-             if (key boolean (bln_descrescente) ){
-              prazo = prazoPadrao - prazo(do calculo acima);
-             }
-
-             if(prazo > 0) { prazo positivo
-              return prazo
-             } else if( prazo <= 0) { prazo negativo
-                return 0
-             } else {        para prazo de resposta igual ao padrão
-              return -1
-             }
-             }else {
-             return 0
-             }
-             */
-
-            let coisa;
-            let timeDiff;
-            let prazo;
-            if (typeof obj.DtSolicitacao !== 'undefined') {
-                coisa = Date.now();
-                timeDiff = Math.abs(coisa - new Date(obj.DtSolicitacao));
-                prazo = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                // console.info(new Date().toLocaleDateString(undefined, {
-                //     day: '2-digit',
-                //     month: '2-digit',
-                //     year: 'numeric'
-                // }) + " - "+ new Date(obj.DtSolicitacao).toLocaleDateString(undefined, {
-                //     day: '2-digit',
-                //     month: '2-digit',
-                //     year: 'numeric'
-                // }) + " = "+ prazo);
-
-                if (prazo > 0) {
-                    // prazo positivo
-                    return prazo;
-                } else if (prazo <= 0) {
-                    // prazo negativo
-                    return 0;
-                } else {
-                    // para prazo de resposta igual ao padrão
-                    return -1;
-                }
-            } else {
-                return 0;
-            }
         },
     },
     computed: {

@@ -1,7 +1,6 @@
 import projeto from './projeto/projeto.json';
 import sidebar from './projeto/sidebar.json';
 
-
 const fetch = (mockData, time = 0) => {
     const response = {
         data: mockData,

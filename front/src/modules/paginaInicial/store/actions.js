@@ -1,4 +1,4 @@
-import * as paginaInicialHelperAPI from '@/helpers/api/PaginaInicial';
+import * as paginaInicialHelperAPI from '@api-client/PaginaInicial';
 import * as types from './types';
 
 export const buscarComunicados = ({ commit }, idPronac) => {

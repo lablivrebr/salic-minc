@@ -1,8 +1,7 @@
 <template>
-
-    <v-layout row justify-center>
         <v-dialog v-model="dialog"
                   scrollable
+                  fullscreen
         >
             <v-tooltip slot="activator" bottom>
                 <v-btn slot="activator" flat icon @click.native="obterDiligencias(idPronac);">

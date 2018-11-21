@@ -2,13 +2,11 @@
 
     <v-layout row justify-center>
         <v-dialog v-model="dialog"
-                  full-width
                   scrollable
-                  fullscreen
         >
             <v-tooltip slot="activator" bottom>
                 <v-btn slot="activator" flat icon @click.native="obterDiligencias(idPronac);">
-                    <v-icon :color="status.color" class="material-icons">assignment_late</v-icon>
+                    <v-icon :color="status.color" :change="status.color" class="material-icons">assignment_late</v-icon>
                 </v-btn>
                 <span>{{status.desc}} </span>
             </v-tooltip>
@@ -121,7 +119,7 @@ export default {
         },
     },
     updated() {
-        this.setInfo();
+        this.setInfo;
     },
 };
 </script>

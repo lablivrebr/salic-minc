@@ -1,0 +1,791 @@
+{
+    "data": {
+        "analise": {
+            "id": "analise",
+            "label": "An&aacute;lise",
+            "title": "Ir para An&aacute;lise",
+            "menu": {
+                "6": {
+                    "label": "Imprimir Parecer T&eacute;cnico",
+                    "title": "Ir para Imprimir Parecer T&eacute;cnico",
+                    "url": {
+                        "module": "default",
+                        "controller": "gerenciarpareceres",
+                        "action": "imprimir-parecer-tecnico"
+                    },
+                    "grupo": [
+                        93,
+                        97,
+                        103,
+                        137
+                    ]
+                },
+                "17": {
+                    "label": "Gerenciar Pareceres",
+                    "title": "Ir para Gerenciar Pareceres",
+                    "url": {
+                        "module": "parecer",
+                        "controller": "gerenciar-parecer",
+                        "action": "index"
+                    },
+                    "grupo": [
+                        93
+                    ]
+                },
+                "24": {
+                    "label": "Avaliar Recursos",
+                    "title": "Ir para Avaliar Recursos",
+                    "url": {
+                        "module": "default",
+                        "controller": "recursos",
+                        "action": "painel-recursos"
+                    },
+                    "grupo": [
+                        93,
+                        94,
+                        110
+                    ]
+                },
+                "25": {
+                    "label": "Avaliar Readequa&ccedil;&otilde;es",
+                    "title": "Ir para Avaliar Readequa&ccedil;&otilde;es",
+                    "url": {
+                        "module": "readequacao",
+                        "controller": "readequacoes",
+                        "action": "painel-readequacoes"
+                    },
+                    "grupo": [
+                        93,
+                        94,
+                        110
+                    ]
+                }
+            },
+            "grupo": [
+                154,
+                153,
+                93,
+                94,
+                97,
+                103,
+                110,
+                118,
+                119,
+                120,
+                127,
+                128,
+                132,
+                133,
+                137,
+                141,
+                142,
+                143,
+                148,
+                151
+            ]
+        },
+        "administrativo": {
+            "id": "administrativo",
+            "label": "Administrativo",
+            "title": "Ir para Administrativo",
+            "menu": {
+                "4": {
+                    "label": "Manter Parecerista",
+                    "title": "Ir para Manter Parecerista",
+                    "url": {
+                        "module": "agente",
+                        "controller": "agentes",
+                        "action": "painelcredenciamento"
+                    },
+                    "grupo": [
+                        137,
+                        93
+                    ]
+                }
+            },
+            "grupo": [
+                93,
+                94,
+                97,
+                103,
+                118,
+                120,
+                121,
+                122,
+                123,
+                137
+            ]
+        },
+        "assinatura": {
+            "id": "assinatura",
+            "label": "Assinatura",
+            "title": "Ir para Assinatura",
+            "menu": [
+                {
+                    "url": {
+                        "module": "assinatura",
+                        "controller": "index",
+                        "action": "gerenciar-assinaturas"
+                    },
+                    "title": "Ir para Gerenciamento de assinaturas",
+                    "label": "Gerenciar Assinaturas"
+                },
+                {
+                    "url": {
+                        "module": "assinatura",
+                        "controller": "index",
+                        "action": "visualizar-assinaturas"
+                    },
+                    "title": "Ir para Visualiza\u00e7\u00e3o de Assinaturas",
+                    "label": "Visualizar Assinaturas"
+                },
+                {
+                    "grupo": [
+                        94,
+                        93,
+                        148,
+                        154,
+                        123,
+                        121,
+                        122,
+                        149
+                    ],
+                    "url": {
+                        "module": "readequacao",
+                        "controller": "readequacao-assinatura",
+                        "action": "gerenciar-assinaturas"
+                    },
+                    "title": "Ir para Readequa&ccedil;&atilde;o - Gerenciar Assinaturas",
+                    "label": "Gerenciar Assinaturas - Readequa&ccedil;&atilde;o"
+                }
+            ]
+        },
+        "parecer": {
+            "id": "parecer",
+            "label": "Parecer",
+            "title": "Ir para Pareceres",
+            "menu": [
+                {
+                    "label": "Gerar Relat&oacute;rios de Parecerista",
+                    "title": "Gerar Relat&oacute;rios de Parecerista",
+                    "url": {
+                        "module": "default",
+                        "controller": "gerarrelatorioparecerista",
+                        "action": "aguardandoparecer"
+                    },
+                    "grupo": [
+                        93,
+                        137
+                    ]
+                }
+            ],
+            "grupo": [
+                93,
+                137
+            ]
+        },
+        "relatorios": {
+            "id": "relatorios",
+            "label": "Relat&oacute;rios",
+            "title": "Ir para Relat&oacute;rios",
+            "menu": [
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "gerarrelatorios",
+                        "action": "index"
+                    },
+                    "title": "Ir para Edital",
+                    "label": "Edital",
+                    "grupo": [
+                        92,
+                        93,
+                        97,
+                        103,
+                        110,
+                        114,
+                        118,
+                        119,
+                        127,
+                        131,
+                        133
+                    ]
+                },
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "relatorio",
+                        "action": "index"
+                    },
+                    "title": "Ir para Propostas",
+                    "label": "Propostas",
+                    "grupo": [
+                        90,
+                        91,
+                        92,
+                        93,
+                        96,
+                        97,
+                        103,
+                        104,
+                        110,
+                        114,
+                        115,
+                        119,
+                        120,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        135,
+                        138,
+                        139,
+                        148,
+                        151
+                    ]
+                },
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "relatorio",
+                        "action": "projeto"
+                    },
+                    "title": "Ir para Projetos",
+                    "label": "Projetos",
+                    "grupo": [
+                        90,
+                        91,
+                        92,
+                        93,
+                        96,
+                        97,
+                        103,
+                        104,
+                        110,
+                        114,
+                        115,
+                        119,
+                        120,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        135,
+                        138,
+                        139,
+                        148,
+                        151
+                    ]
+                },
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "operacional",
+                        "action": "index"
+                    },
+                    "title": "Ir para Operacional",
+                    "label": "Operacional",
+                    "grupo": [
+                        90,
+                        91,
+                        92,
+                        93,
+                        96,
+                        97,
+                        103,
+                        104,
+                        110,
+                        114,
+                        115,
+                        119,
+                        120,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        135,
+                        138,
+                        139,
+                        148,
+                        151
+                    ]
+                },
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "relatorio",
+                        "action": "gerencial"
+                    },
+                    "title": "Ir para Gerencial",
+                    "label": "Gerencial",
+                    "grupo": [
+                        90,
+                        91,
+                        92,
+                        93,
+                        96,
+                        97,
+                        103,
+                        104,
+                        110,
+                        114,
+                        115,
+                        119,
+                        120,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        135,
+                        138,
+                        139,
+                        148,
+                        151
+                    ]
+                },
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "relatorio",
+                        "action": "desembolso"
+                    },
+                    "title": "Ir para Consultar Pontos Culturais",
+                    "label": "Ponto de Cultura",
+                    "grupo": [
+                        90,
+                        91,
+                        92,
+                        93,
+                        96,
+                        97,
+                        103,
+                        104,
+                        110,
+                        114,
+                        115,
+                        119,
+                        120,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        135,
+                        138,
+                        139,
+                        148,
+                        151
+                    ]
+                },
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "gerarrelatorioreuniao",
+                        "action": "gerarrelatorioreuniao"
+                    },
+                    "title": "Ir para Gerenciar Relat&oacute;rio Reuni&atilde;o",
+                    "label": "Relat&oacute;rio de resultado CNIC",
+                    "grupo": [
+                        90,
+                        91,
+                        92,
+                        93,
+                        96,
+                        97,
+                        103,
+                        104,
+                        110,
+                        114,
+                        115,
+                        119,
+                        120,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        135,
+                        138,
+                        139,
+                        148,
+                        151
+                    ]
+                },
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "gerarrelatorioparecerista",
+                        "action": "geraldeanalise"
+                    },
+                    "title": "Ir para Relat&oacute;rio geral de an&aacute;lise",
+                    "label": "Relat&oacute;rio geral de an&aacute;lise",
+                    "grupo": [
+                        90,
+                        91,
+                        92,
+                        93,
+                        96,
+                        97,
+                        103,
+                        104,
+                        110,
+                        114,
+                        115,
+                        119,
+                        120,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        135,
+                        138,
+                        139,
+                        148,
+                        151
+                    ]
+                },
+                {
+                    "url": {
+                        "module": "default",
+                        "controller": "consultarpareceristas",
+                        "action": "consultardadospareceristas"
+                    },
+                    "title": "Consultar Dados do Parecerista",
+                    "label": "Consultar Dados do Parecerista",
+                    "grupo": [
+                        93,
+                        97,
+                        127,
+                        137,
+                        148,
+                        151
+                    ]
+                }
+            ],
+            "grupo": [
+                90,
+                91,
+                92,
+                93,
+                96,
+                97,
+                103,
+                104,
+                110,
+                114,
+                115,
+                119,
+                120,
+                121,
+                122,
+                123,
+                124,
+                125,
+                126,
+                127,
+                128,
+                131,
+                132,
+                135,
+                138,
+                139,
+                148,
+                151
+            ]
+        },
+        "seguranca": {
+            "id": "seguranca",
+            "label": "Seguran&ccedil;a",
+            "title": "Seguran&ccedil;a",
+            "menu": {
+                "4": {
+                    "url": {
+                        "module": "autenticacao",
+                        "controller": "index",
+                        "action": "alterarsenhausuario"
+                    },
+                    "title": "Ir para Alterar Senha",
+                    "label": "Alterar Senha",
+                    "grupo": []
+                }
+            },
+            "grupo": []
+        },
+        "manutencao": {
+            "id": "manutencao",
+            "title": "Ir para Manuten&ccedil;&atilde;o",
+            "label": "Manuten&ccedil;&atilde;o",
+            "grupo": [
+                148,
+                151,
+                92,
+                93,
+                97,
+                103,
+                104,
+                110,
+                113,
+                114,
+                115,
+                121,
+                122,
+                123,
+                124,
+                125,
+                126,
+                127,
+                128,
+                131,
+                132,
+                134,
+                135,
+                136,
+                137,
+                138,
+                139,
+                140,
+                143
+            ],
+            "menu": [
+                {
+                    "title": "Ir para Alterar Projeto",
+                    "label": "Alterar Projeto",
+                    "url": {
+                        "module": "default",
+                        "controller": "alterarprojeto",
+                        "action": "consultarprojeto"
+                    },
+                    "grupo": [
+                        148,
+                        151,
+                        92,
+                        93,
+                        97,
+                        103,
+                        104,
+                        110,
+                        113,
+                        114,
+                        115,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        134,
+                        135,
+                        136,
+                        137,
+                        138,
+                        139,
+                        140,
+                        143
+                    ]
+                },
+                {
+                    "title": "Anexar Documentos",
+                    "label": "Anexar Documentos",
+                    "url": {
+                        "module": "defalut",
+                        "controller": "anexardocumentosminc",
+                        "action": "index"
+                    },
+                    "grupo": [
+                        148,
+                        151,
+                        92,
+                        93,
+                        97,
+                        103,
+                        104,
+                        110,
+                        113,
+                        114,
+                        115,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        134,
+                        135,
+                        136,
+                        137,
+                        138,
+                        139,
+                        140,
+                        143
+                    ]
+                },
+                {
+                    "title": "Excluir Documentos",
+                    "label": "Excluir Documentos",
+                    "url": {
+                        "module": "default",
+                        "controller": "anexardocumentosminc",
+                        "action": "excluir"
+                    },
+                    "grupo": [
+                        92,
+                        93,
+                        97,
+                        103,
+                        104,
+                        110,
+                        113,
+                        114,
+                        115,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        134,
+                        135,
+                        136,
+                        137,
+                        138,
+                        139,
+                        140,
+                        143
+                    ]
+                },
+                {
+                    "grupo": [
+                        148,
+                        151,
+                        92,
+                        93,
+                        97,
+                        103,
+                        104,
+                        110,
+                        113,
+                        114,
+                        115,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        134,
+                        135,
+                        136,
+                        137,
+                        138,
+                        139,
+                        140,
+                        143
+                    ],
+                    "url": {
+                        "module": "default",
+                        "controller": "rastrearagente",
+                        "action": "index"
+                    },
+                    "title": "Ir para Rastrear Agente",
+                    "label": "Rastrear Agente"
+                },
+                {
+                    "title": "Localiza&ccedil;&atilde;o F&iacute;sica do Projeto",
+                    "label": "Localiza&ccedil;&atilde;o F&iacute;sica do Projeto",
+                    "url": {
+                        "module": "default",
+                        "controller": "localizacao-fisica",
+                        "action": "index"
+                    },
+                    "grupo": [
+                        148,
+                        151,
+                        92,
+                        93,
+                        97,
+                        103,
+                        104,
+                        110,
+                        113,
+                        114,
+                        115,
+                        121,
+                        122,
+                        123,
+                        124,
+                        125,
+                        126,
+                        127,
+                        128,
+                        131,
+                        132,
+                        134,
+                        135,
+                        136,
+                        137,
+                        138,
+                        139,
+                        140,
+                        143
+                    ]
+                }
+            ]
+        }
+    }
+}

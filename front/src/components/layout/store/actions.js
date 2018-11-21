@@ -1,6 +1,6 @@
 import { fnSetCookie, fnGetCookie } from '@/mixins/funcoes/cookie';
-import * as layoutHelperAPI from '@/helpers/api/Layout';
-import { obterMenuProjeto } from '@/helpers/api/Projeto';
+import { obterMenuProjeto } from '@api-client/Projeto';
+import * as layoutHelperAPI from '@api-client/Layout';
 import * as solicitacaoHelperAPI from '@/helpers/api/Solicitacao';
 import * as desencapsularResponse from '@/helpers/actions';
 import * as types from './types';

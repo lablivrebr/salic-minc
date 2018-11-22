@@ -24,7 +24,7 @@
 		<?php } else { ?>
 		<th style="width: 130px;">Parecerista</th>
 		<?php } ?>
-		<th>Finalizar</th>
+                <th>Ações</th>                 
 
          </tr>
         </thead>
@@ -51,8 +51,8 @@
 		<td align="center">
 		  <input type="button" class="btn_ver" idReadequacao="<?php echo Seguranca::encrypt($d->idReadequacao); ?>" />
 		</td>			
-        <td style="text-align:right">
-	  <?php
+                <td style="text-align:right">
+	            <?php
 
 	  $outrasVinculadas = array(92, 93, 94, 95, 335); // Vinculadas exceto IPHAN
 	  if ($this->idOrgao == 91) { // especificidade do IPHAN
@@ -90,14 +90,35 @@
 	  
 	</td>
 
-	<td>
-          <input type="button"
-                 name="btn_finalizar"
-                 class="btn_finalizar"
-                 id_pronac="<?php echo $d->idPRONAC; ?>"
-                 idDistProj="<?php echo $d->idDistribuirReadequacao; ?>"
-                 idReadequacao="<?php echo $d->idReadequacao; ?>" title="Finalizar">
-	</td>
+	<td align="center">
+	    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::PARECERISTA ||
+            $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_DE_PARECER): ?>
+            <?php if ($d->idDocumentoAssinatura != ''): ?>
+            <a data-ajax-modal="<?= $this->url([
+				'module' => 'assinatura',
+				'controller' => 'index',
+				'action' => 'visualizar-projeto'
+				], '', true); ?>?idDocumentoAssinatura=<?php echo $d->idDocumentoAssinatura; ?>&modal=1&origin=readequacao/readequacoes/painel-readequacoes?tipoFiltro=analisados"
+               href="javascript:void(0);"
+               data-position="top"
+               data-delay="50"
+               data-ajax-modal-height="96%"
+               data-ajax-modal-width="98%"
+               data-tooltip="Assinar"
+               class="btn small waves-effect waves-light white-text tooltipped btn-primary"
+               idReadequacao="<?php echo $d->idReadequacao; ?>">
+                <i class="material-icons">edit</i>
+            </a>
+            <?php else: ?>
+            <input type="button"
+                   name="btn_finalizar"
+                   class="btn_finalizar"
+                   id_pronac="<?php echo $d->idPRONAC; ?>"
+                   idDistProj="<?php echo $d->idDistribuirReadequacao; ?>"
+                   idReadequacao="<?php echo $d->idReadequacao; ?>" title="Finalizar">            
+	    <?php endif; ?>            
+	    <?php endif; ?>
+        </td>
         
           </tr>
           <?php endforeach; ?>

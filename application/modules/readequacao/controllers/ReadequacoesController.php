@@ -924,15 +924,23 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         if (strlen($idPronac) > 7) {
             $idPronac = Seguranca::dencrypt($idPronac);
         }
-
+        
+        $idReadequacao = filter_var($this->_request->getParam("idReadequacao"), FILTER_SANITIZE_NUMBER_INT);
+        $idTipoReadequacao = filter_var($this->_request->getParam("tipoReadequacao"), FILTER_SANITIZE_NUMBER_INT);
+        
         $urlCallback = $this->_request->getParam('urlCallback');
 
         if (empty($urlCallback)) {
-            $urlCallback = "readequacao/readequacoes/index?idPronac=" . Seguranca::encrypt($idPronac);
+            switch ($idTipoReadequacao) {
+                case Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA:
+                    $urlCallback = "readequacao/readequacoes/planilha-orcamentaria/?idPronac=" . Seguranca::encrypt($idPronac);
+                    break;
+                default:
+                    $urlCallback = "readequacao/readequacoes/index?idPronac=" . Seguranca::encrypt($idPronac);
+                    break;
+            }
         }
 
-        $idReadequacao = filter_var($this->_request->getParam("idReadequacao"), FILTER_SANITIZE_NUMBER_INT);
-        $idTipoReadequacao = filter_var($this->_request->getParam("tipoReadequacao"), FILTER_SANITIZE_NUMBER_INT);
 
         $tbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
         $busca = array();

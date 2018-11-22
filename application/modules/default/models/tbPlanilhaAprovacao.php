@@ -337,6 +337,7 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
             )
         );
         $select->where('a.idPronac = ?', $idPronac);
+        $select->where('a.tpAcao != ?', 'E');
         $select->where('a.stAtivo = ?', 'S');
 
         if (!empty($nrFonteRecurso)) {

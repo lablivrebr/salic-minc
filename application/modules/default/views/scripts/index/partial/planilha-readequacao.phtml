@@ -167,7 +167,7 @@
                                         <td class="excluirItem centro" style="width: 1%;">
                                         <?php if($this->link && $this->idPerfil == Autenticacao_Model_Grupos::PROPONENTE){ ?>
                                             <?php if($planilha['tpAcao'] == 'E'){ ?>
-                                                Item excluído
+                                            Item exclu&iacute;do
                                                 <img src="<?php echo $this->baseUrl(); ?>/public/img/refresh.gif" style="cursor: pointer;" class="restaurarItem" tipo="<?php echo $planilha['tpAcao']; ?>" idPlanilha="<?php echo $planilha['idPlanilhaAprovacao']; ?>" title="<?php echo 'restaurar item'; ?>"/>
                                             <?php } else { ?>
                                                 <?php if(empty($planilha['vlComprovado'])){ ?>

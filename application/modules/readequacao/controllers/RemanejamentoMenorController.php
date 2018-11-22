@@ -235,49 +235,52 @@ class Readequacao_RemanejamentoMenorController extends MinC_Controller_Action_Ab
             
             parent::message($mensagemErro, "readequacao/remanejamento-menor?idPronac=$id", "ERROR");
         } else {
-            
-            $auth = Zend_Auth::getInstance(); // pega a autentica��o
-            $tblAgente = new Agente_Model_DbTable_Agentes();
-            $rsAgente = $tblAgente->buscar(array('CNPJCPF=?'=>$auth->getIdentity()->Cpf))->current();
-
-            $Readequacao_Model_DbTable_TbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
-            
-            $dadosReadequacao = array();
-            $dadosReadequacao['idPronac'] = $idPronac;
-            $dadosReadequacao['dtSolicitacao'] = new Zend_Db_Expr('GETDATE()');
-            $dadosReadequacao['idSolicitante'] = $rsAgente->idAgente;
-            $dadosReadequacao['dsJustificativa'] = utf8_decode('Readequação até 50%');
-            $dadosReadequacao['stEstado'] = Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_FINALIZADO;
-            $update = $Readequacao_Model_DbTable_TbReadequacao->update(
-                $dadosReadequacao,
-                array(
-                    'idPronac=?' => $idPronac,
-                    'idTipoReadequacao=?' => Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_REMANEJAMENTO_PARCIAL,
-                    'stAtendimento=?' => 'D',
-                    'siEncaminhamento=?' => Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_NAO_ENVIA_MINC,
-                    'stEstado = ?' => Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_EM_ANDAMENTO,
-                    'idReadequacao=?' => $idReadequacao
-                )
-            );
-            
-            if ($update > 0) {
-                $dadosReadequacaoAnterior = array('stAtivo' => 'N');
-                $whereReadequacaoAnterior = array(
-                    'IdPRONAC = ?' => $idPronac,
-                    'stAtivo = ?' => 'S'
-                );
-                $update = $tbPlanilhaAprovacao->update($dadosReadequacaoAnterior, $whereReadequacaoAnterior);
+            try {
+                $auth = Zend_Auth::getInstance(); // pega a autentica��o
+                $tblAgente = new Agente_Model_DbTable_Agentes();
+                $rsAgente = $tblAgente->buscar(['CNPJCPF=?'=>$auth->getIdentity()->Cpf])->current();
                 
-                $dadosReadequacaoNova = array('stAtivo' => 'S');
-                $whereReadequacaoNova = array(
-                    'IdPRONAC = ?' => $idPronac,
-                    'stAtivo = ?' => 'N',
-                    'idReadequacao=?' => $idReadequacao
+                $Readequacao_Model_DbTable_TbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
+                
+                $dadosReadequacao = [];
+                $dadosReadequacao['idPronac'] = $idPronac;
+                $dadosReadequacao['dtSolicitacao'] = new Zend_Db_Expr('GETDATE()');
+                $dadosReadequacao['idSolicitante'] = $rsAgente->idAgente;
+                $dadosReadequacao['dsJustificativa'] = utf8_decode('Readequação até 50%');
+                $dadosReadequacao['stEstado'] = Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_FINALIZADO;
+                $update = $Readequacao_Model_DbTable_TbReadequacao->update(
+                    $dadosReadequacao,
+                    [
+                        'idPronac=?' => $idPronac,
+                        'idTipoReadequacao=?' => Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_REMANEJAMENTO_PARCIAL,
+                        'stAtendimento=?' => 'D',
+                        'siEncaminhamento=?' => Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_NAO_ENVIA_MINC,
+                        'stEstado = ?' => Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_EM_ANDAMENTO,
+                        'idReadequacao=?' => $idReadequacao
+                    ]
                 );
-                $tbPlanilhaAprovacao->update($dadosReadequacaoNova, $whereReadequacaoNova);
-                parent::message("O remanejamento foi finalizado com sucesso!", "default/consultardadosprojeto?idPronac=$id", "CONFIRM");
-            } else {
-                parent::message("Ocorreu um erro durante o cadastro do remanejamento!", "default/consultardadosprojeto?idPronac=$id", "ERROR");
+                
+                if ($update > 0) {
+                    $dadosReadequacaoAnterior = ['stAtivo' => 'N'];
+                    $whereReadequacaoAnterior = [
+                        'IdPRONAC = ?' => $idPronac,
+                        'stAtivo = ?' => 'S'
+                    ];
+                    $update = $tbPlanilhaAprovacao->update($dadosReadequacaoAnterior, $whereReadequacaoAnterior);
+                    
+                    $dadosReadequacaoNova = ['stAtivo' => 'S'];
+                    $whereReadequacaoNova = [
+                        'IdPRONAC = ?' => $idPronac,
+                        'stAtivo = ?' => 'N',
+                        'idReadequacao=?' => $idReadequacao
+                    ];
+                    $tbPlanilhaAprovacao->update($dadosReadequacaoNova, $whereReadequacaoNova);
+                    parent::message("O remanejamento foi finalizado com sucesso!", "default/consultardadosprojeto?idPronac=$id", "CONFIRM");
+                } else {
+                    parent::message("Ocorreu um erro durante o cadastro do remanejamento!", "default/consultardadosprojeto?idPronac=$id", "ERROR");
+                }
+            } catch (Zend_Exception $e) {
+                parent::message("Ocorreu um erro durante o cadastro do remanejamento: {$e}", "default/consultardadosprojeto?idPronac=$id", "ERROR");
             }
         }
     }

@@ -177,6 +177,8 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
              'idTecnicoParecerista' => 'tbDistribuirReadequacao.idAvaliador',
              'nmTecnicoParecerista' => new Zend_Db_Expr("
        CASE
+         WHEN tbReadequacao.siEncaminhamento = 10
+           THEN '<b><font color=red>Assinatura do Coordenador (parecer de ' + usuarios.usu_nome + ')</font></b>'
 	     WHEN tbReadequacao.siEncaminhamento = 17
 		   THEN '<b><font color=red>Devolvida pelo CNIC</font></b>'
 	     WHEN tbReadequacao.siEncaminhamento = 18

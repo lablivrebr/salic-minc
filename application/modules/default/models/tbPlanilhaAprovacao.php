@@ -337,7 +337,7 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
             )
         );
         $select->where('a.idPronac = ?', $idPronac);
-        $select->where('a.tpAcao != ?', 'E');
+        $select->where(new Zend_Db_Expr('a.tpAcao <> ? OR a.tpAcao IS NULL'), 'E');
         $select->where('a.stAtivo = ?', 'S');
 
         if (!empty($nrFonteRecurso)) {

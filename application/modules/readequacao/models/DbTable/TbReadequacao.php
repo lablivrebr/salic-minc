@@ -1203,7 +1203,8 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
                  GETDATE()) as qtDiasEmAnalise,
                  tbdistribuirReadequacao.idAvaliador,
                  usuarios.usu_nome as nmParecerista,
-                 tbdistribuirReadequacao.idUnidade as idOrgao"
+                 tbdistribuirReadequacao.idUnidade as idOrgao,
+                 tbdistribuirReadequacao.idDistribuirReadequacao"
                 )
             );
 

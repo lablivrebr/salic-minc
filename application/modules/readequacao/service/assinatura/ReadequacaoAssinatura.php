@@ -227,7 +227,7 @@ class ReadequacaoAssinatura implements IServico
                         $this->finalizarReadequacaoTransferenciaRecursos($read);
                         break;
                     case \Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_SALDO_APLICACAO:
-                        $this->finalizarReadequacaoSaldoAplicacao($read);
+                        $this->finalizarReadequacaoSaldoAplicacao($read, $parecerTecnico);
                         break;
                 }
             }
@@ -479,7 +479,7 @@ class ReadequacaoAssinatura implements IServico
                     $novoLocalRead['idPais'] = $abg->idPais;
                     $novoLocalRead['idUF'] = $abg->idUF;
                     $novoLocalRead['idMunicipioIBGE'] = $abg->idMunicipioIBGE;
-                    $novoLocalRead['Usuario'] = $idUsuarioLogado;
+                    $novoLocalRead['Usuario'] = $this->auth->getIdentity()->usu_codigo;
                     $novoLocalRead['stAbrangencia'] = 1;
                     $Abrangencia->salvar($novoLocalRead);
                 }
@@ -757,7 +757,7 @@ class ReadequacaoAssinatura implements IServico
         }
     }
 
-    protected function finalizarReadequacaoSaldoAplicacao($read)
+    protected function finalizarReadequacaoSaldoAplicacao($read, $parecerTecnico)
     {
                     
         $Projetos = new \Projetos();

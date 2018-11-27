@@ -6,6 +6,7 @@
             class="elevation-1 container-fluid"
             rows-per-page-text="Items por Página"
             hide-actions
+            no-data-text="Nenhum dado encontrado"
         >
             <template slot="items" slot-scope="props">
                 <td class="text-xs-center">
@@ -234,19 +235,19 @@
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Prestação de Contas Apresentada?</b></p>
-                                                    {{ parecer.stConvenioFiscalizacao.stPrestacaoContas }}
+                                                    <div v-html="parecer.stConvenioFiscalizacao.stPrestacaoContas"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Foram cumpridas as normas estabelecidas?</b></p>
-                                                    {{ parecer.stConvenioFiscalizacao.stCumpridasNormas }}
+                                                <div v-html="parecer.stConvenioFiscalizacao.stCumpridasNormas"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Foi cumprido o prazo para entrega da prestação de contas?</b></p>
-                                                    {{ parecer.stConvenioFiscalizacao.stCumpridoPrazo }}
+                                                <div v-html="parecer.stConvenioFiscalizacao.stCumpridoPrazo"></div>
                                             </v-flex>
                                         </v-layout>
                                     </v-container>
@@ -268,87 +269,87 @@
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Foi apurado por unidade fiscalizadora ou auditora a aplicação irregular de recursos?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stApuracaoUFiscalizacao }}
+                                                <div v-html="parecer.utilizacaoRecursos.stApuracaoUFiscalizacao"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Comprovou a correta utilização dos recursos da contrapartida?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stComprovacaoUtilizacaoRecurso }}
+                                                <div v-html="parecer.utilizacaoRecursos.stComprovacaoUtilizacaoRecurso"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <div v-if="parecer.stDtDeCorte == 0"><br><p><b>Há compatibilidade entre os recursos transferidos e a evolução do projeto?</b></p></div>
                                                 <div v-else-if="parecer.stDtDeCorte == 1"><br><p><b>Há compatibilidade entre o desembolso e a evolução?</b></p></div>
-                                                {{ parecer.utilizacaoRecursos.stCompatibilidadeDesembolsoEvo }}
+                                                <div v-html="parecer.utilizacaoRecursos.stCompatibilidadeDesembolsoEvo"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Ocorreu despesas com multas, juros, taxas bancárias ou correção monetária?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stOcorreuDespesas }}
+                                                <div v-html="parecer.utilizacaoRecursos.stOcorreuDespesas"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Ocorreu pagamento de servidor público?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stPagamentoServidorPublico }}
+                                                <div v-html="parecer.utilizacaoRecursos.stPagamentoServidorPublico"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Ocorreu despesa com taxa de administração?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stDespesaAdministracao }}
+                                                <div v-html="parecer.utilizacaoRecursos.stDespesaAdministracao"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Há transferência de recurso para clubes/associações ou outras entidades congêneres?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stTransferenciaRecurso }}
+                                                <div v-html="parecer.utilizacaoRecursos.stTransferenciaRecurso"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Há despesas com publicidade, salvo as de caráter educativo, informativo ou de orientação social?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stDespesasPublicidade }}
+                                                <div v-html="parecer.utilizacaoRecursos.stDespesasPublicidade"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Ocorreu aditamento prevendo alteração de objeto?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stOcorreuAditamento }}
+                                                <div v-html="parecer.utilizacaoRecursos.stOcorreuAditamento"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <div v-if="parecer.stDtDeCorte == 0"><br><p><b>Os recursos de contrapartida foram depositados na conta do projeto?</b></p></div>
                                                 <div v-else-if="parecer.stDtDeCorte == 1"><br><p><b>Não foram aplicados os recursos de contrapartida?</b></p></div>
-                                                {{ parecer.utilizacaoRecursos.stAplicadosRecursos }}
+                                                <div v-html="parecer.utilizacaoRecursos.stAplicadosRecursos"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Ocorreu aplicação de recursos em outra finalidade que não a do objeto pactuado?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stAplicacaoRecursosFinalidade }}
+                                                <div v-html="parecer.utilizacaoRecursos.stAplicacaoRecursosFinalidade"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 0">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Os recursos captados estão sendo aplicados em conformidade com a legislação vigente?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stRecursosCaptados }}
+                                                <div v-html="parecer.utilizacaoRecursos.stRecursosCaptados"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Ocorreu saldo após o encerramento do projeto?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stSaldoAposEncerramento }}
+                                                <div v-html="parecer.utilizacaoRecursos.stSaldoAposEncerramento"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>O saldo verificado foi recolhido ao FNC?</b></p>
-                                                    {{ parecer.utilizacaoRecursos.stSaldoVerificacaoFNC }}
+                                                <div v-html="parecer.utilizacaoRecursos.stSaldoVerificacaoFNC"></div>
                                             </v-flex>
                                         </v-layout>
                                     </v-container>
@@ -371,56 +372,56 @@
                                             <v-flex xs10 offset-xs1>
                                                 <div v-if="parecer.stDtDeCorte == 0"><br><p><b>O proponente/convenente tem mantido a documentação relativa ao projeto em arquivo próprio?</b></p></div>
                                                 <div v-else-if="parecer.stDtDeCorte == 1"><br><p><b>O processo está bem documentado?</b></p></div>
-                                                    {{ parecer.comprovantesDespesa.stProcessoDocumentado }}
+                                                <div v-html="parecer.comprovantesDespesa.stProcessoDocumentado"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>A documentação está completa e arquivada?</b></p>
-                                                    {{ parecer.comprovantesDespesa.stDocumentacaoCompleta }}
+                                                <div v-html="parecer.comprovantesDespesa.stDocumentacaoCompleta"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Guardam conformidade entre o executado e o aprovado?</b></p>
-                                                    {{ parecer.comprovantesDespesa.stConformidadeExecucao }}
+                                                <div v-html="parecer.comprovantesDespesa.stConformidadeExecucao"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <div v-if="parecer.stDtDeCorte == 0"><br><p><b>Identificam o projeto com o número do Pronac/Convênio?</b></p></div>
                                                 <div v-if="parecer.stDtDeCorte == 1"><br><p><b>Identificam o nome do projeto e o número do convênio?</b></p></div>
-                                                    {{ parecer.comprovantesDespesa.stIdentificaProjeto }}
+                                                <div v-html="parecer.comprovantesDespesa.stIdentificaProjeto"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Existem despesas anteriores ao prazo de vigência?</b></p>
-                                                    {{ parecer.comprovantesDespesa.stDespesaAnterior }}
+                                                <div v-html="parecer.comprovantesDespesa.stDespesaAnterior"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Existem despesas posteriores ao prazo de vigência?</b></p>
-                                                    {{ parecer.comprovantesDespesa.stDespesaPosterior }}
+                                                <div v-html="parecer.comprovantesDespesa.stDespesaPosterior"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>As despesas coincidem com as informadas na relação de pagamentos?</b></p>
-                                                    {{ parecer.comprovantesDespesa.stDespesaCoincidem }}
+                                                <div v-html="parecer.comprovantesDespesa.stDespesaCoincidem"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>As despesas estão devidamente relacionadas no extrato bancário?</b></p>
-                                                    {{ parecer.comprovantesDespesa.stDespesaRelacionada }}
+                                                <div v-html="parecer.comprovantesDespesa.stDespesaRelacionada"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Os comprovantes fiscais estão com o atesto do recebimento?</b></p>
-                                                    {{ parecer.comprovantesDespesa.stComprovanteFiscal }}
+                                                <div v-html="parecer.comprovantesDespesa.stComprovanteFiscal"></div>
                                             </v-flex>
                                         </v-layout>
                                     </v-container>
@@ -442,19 +443,19 @@
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Ciência ao Poder legislativo?</b></p>
-                                                    {{ parecer.divulgacao.stCienciaLegislativo }}
+                                                <div v-html="parecer.divulgacao.stCienciaLegislativo"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Contemplou as exigências legais?</b></p>
-                                                    {{ parecer.divulgacao.stExigenciaLegal }}
+                                                <div v-html="parecer.divulgacao.stExigenciaLegal"></div>
                                             </v-flex>
                                         </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
                                                 <br><p><b>Há material informativo do Projeto?</b></p>
-                                                    {{ parecer.divulgacao.stMaterialInformativo }}
+                                                <div v-html="parecer.divulgacao.stMaterialInformativo"></div>
                                             </v-flex>
                                         </v-layout>
                                     </v-container>
@@ -476,20 +477,20 @@
                                             <v-layout v-if="parecer.stDtDeCorte == 1">
                                                 <v-flex xs10 offset-xs1>
                                                     <br><p><b>Alcançou a finalidade esperada?</b></p>
-                                                        {{ parecer.execucao.stFinalidadeEsperada }}
+                                                    <div v-html="parecer.execucao.stFinalidadeEsperada"></div>
                                                 </v-flex>
                                             </v-layout>
                                             <v-layout v-if="parecer.stDtDeCorte == 1">
                                                 <v-flex xs10 offset-xs1>
                                                     <br><p><b>As metas/etapas do Plano de Trabalho foram executadas integralmente?</b></p>
-                                                        {{ parecer.execucao.stPlanoTrabalho }}
+                                                    <div v-html="parecer.execucao.stPlanoTrabalho"></div>
                                                 </v-flex>
                                             </v-layout>
                                             <v-layout>
                                                 <v-flex xs10 offset-xs1>
                                                     <div v-if="parecer.stDtDeCorte == 0"><br><p><b>O projeto está sendo executado de acordo com o aprovado?</b></p></div>
                                                     <div v-if="parecer.stDtDeCorte == 1"><br><p><b>A execução respeitou o aprovado?</b></p></div>
-                                                        {{ parecer.execucao.stExecucaoAprovado }}
+                                                    <div v-html="parecer.execucao.stExecucaoAprovado"></div>
                                                 </v-flex>
                                             </v-layout>
                                             <v-layout v-if="parecer.stDtDeCorte == 0">
@@ -664,7 +665,9 @@
 <script>
 
     import { mapActions, mapGetters } from 'vuex';
+
     let contador = 0;
+
     export default {
         name: 'DadosFiscalizacao',
         data() {

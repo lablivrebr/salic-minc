@@ -91,6 +91,10 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
                 $objDateTimeDtFim = $objDateTimeDtFim->format('d/m/Y');
             }
 
+            if (empty($item['idFiscalizacao'])) {
+                return null;
+            }
+
             $listaFiscalizacao[] = [
                 'dtInicio' => $objDateTimeDtInicio,
                 'dtFim' => $objDateTimeDtFim,
@@ -258,10 +262,10 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
                 $result = 'Sim';
                 break;
             case 2:
-                $result = 'Não';
+                $result = 'N&atilde;o';
                 break;
             case 3:
-                $result = 'Não se aplica.';
+                $result = 'N&atilde;o se aplica.';
                 break;
             default:
                 $result = ' - ';

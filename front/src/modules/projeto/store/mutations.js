@@ -10,21 +10,26 @@ export const state = {
     planilhaAdequada: {},
     transferenciaRecursos: [],
     certidoesNegativas: {},
-    documentosAssinados: {},
+    documentosAssinados: [],
     dadosComplementares: {},
     documentosAnexados: [],
     localRealizacaoDeslocamento: {},
     providenciaTomada: {},
     planoDistribuicaoIn2013: [],
     historicoEncaminhamento: {},
-    tramitacaoDocumento: {},
-    tramitacaoProjeto: {},
-    ultimaTramitacao: {},
+    tramitacaoDocumento: [],
+    tramitacaoProjeto: [],
+    ultimaTramitacao: [],
     planoDistribuicaoIn2017: [],
     diligenciaProposta: [],
     diligenciaAdequacao: [],
     diligenciaProjeto: [],
     diligencia: [],
+    marcasAnexadas: [],
+    dadosReadequacoes: [],
+    pedidoProrrogacao: [],
+    dadosFiscalizacaoLista: [],
+    dadosFiscalizacaoVisualiza: [],
 };
 
 export const mutations = {
@@ -99,5 +104,20 @@ export const mutations = {
     },
     [types.SET_DILIGENCIA](state, dados) {
         state.diligencia = dados;
+    },
+    [types.SET_MARCAS_ANEXADAS](state, dados) {
+        state.marcasAnexadas = dados;
+    },
+    [types.SET_DADOS_READEQUACOES](state, dados) {
+        state.dadosReadequacoes = dados;
+    },
+    [types.SET_PEDIDO_PRORROGACAO](state, dados) {
+        state.pedidoProrrogacao = dados;
+    },
+    [types.SET_DADOS_FISCALIZACAO_LISTA](state, dados) {
+        state.dadosFiscalizacaoLista = dados;
+    },
+    [types.SET_DADOS_FISCALIZACAO_VISUALIZA](state, dados) {
+        state.dadosFiscalizacaoVisualiza = dados;
     },
 };

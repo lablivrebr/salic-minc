@@ -79,7 +79,7 @@ header #atalhos {
     width: 80%;
     text-align: right;
     min-height: 45px;
-    z-index: 998;
+    z-index: 201;
 }
 
 header #atalhos a {
@@ -178,7 +178,7 @@ header #atalhos #combousuario select.perfilXgrupo option {
         top: 0px;
         right: 0px;
         font-size: 10px;
-        z-index: 998;
+        z-index: 202;
     }
 
     header #atalhos #combousuario {
@@ -260,7 +260,7 @@ header nav {
     background-color: #388E3C;
     width: 100%;
     height: 40px;
-    z-index: 997;
+    z-index: 200;
     position: relative;
 }
 
@@ -322,7 +322,7 @@ header #header_notificacoes {
     width: 400px !important;
     max-height: 350px;
     min-height: 250px;
-    z-index: 999;
+    z-index: 202;
     background: #fff;
     border-color: #ccc;
     box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
@@ -340,7 +340,7 @@ header #header_notificacoes:before {
     border-width: 0 8px 8px 8px;
     border-style: solid;
     border-color: #ffffff transparent;
-    z-index: 999;
+    z-index: 202;
 }
 
 header #header_notificacoes .card-panel {

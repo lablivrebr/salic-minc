@@ -1,62 +1,60 @@
 <template>
-    <div id="conteudo">
+    <div>
         <div v-if="loading">
-            <Carregando :text="'Carregando Local de Realizacao e Deslocamento'"></Carregando>
+            <Carregando :text="'Carregando Local de Realiza&ccedil;&atilde;o e Deslocamento'"></Carregando>
         </div>
         <div v-else-if="Object.keys(dados).length > 0">
-            <IdentificacaoProjeto :pronac="dadosProjeto.Pronac"
-                                  :nomeProjeto="dadosProjeto.NomeProjeto">
-            </IdentificacaoProjeto>
-            <fieldset>
-                <legend>Local de Realiza&ccedil;&atilde;o</legend>
-                <table class="tabela" v-if="Object.keys(dados.localRealizacoes).length > 0">
-                    <thead>
-                    <tr class="destacar">
-                        <th class="center">Pa&iacute;s</th>
-                        <th class="center">UF</th>
-                        <th class="center">Cidade</th>
-                    </tr>
-                    </thead>
-                    <tbody v-for="(dado, index) in dados.localRealizacoes" :key="index">
-                    <tr>
-                        <td class="center">{{ dado.Descricao }}</td>
-                        <td class="center">{{ dado.UF }}</td>
-                        <td class="center">{{ dado.Cidade }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div v-else class="center"><em>Dados N&atilde;o Informados.</em></div>
-            </fieldset>
-            <fieldset>
-                <legend>Deslocamento</legend>
-                <div v-if="dados.Deslocamento.length > 0">
-                    <table class="tabela">
-                        <thead>
-                        <tr class="destacar">
-                            <th class="center">Pa&iacute;s de Origem</th>
-                            <th class="center">UF de Origem</th>
-                            <th class="center">Cidade de Origem</th>
-                            <th class="center">Pa&iacute;s de Destino</th>
-                            <th class="center">UF de Destino</th>
-                            <th class="center">Cidade de Destino</th>
-                            <th class="center">Quantidade</th>
-                        </tr>
-                        </thead>
-                        <tbody v-for="(dado, index) in dados.Deslocamento" :key="index">
-                        <tr>
-                            <td class="center">{{ dado.PaisOrigem }}</td>
-                            <td class="center">{{ dado.UFOrigem }}</td>
-                            <td class="center">{{ dado.MunicipioOrigem }}</td>
-                            <td class="center">{{ dado.PaisDestino }}</td>
-                            <td class="center">{{ dado.UFDestino }}</td>
-                            <td class="center">{{ dado.MunicipioDestino }}</td>
-                            <td class="center">{{ dado.Qtde }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div v-else class="center"><em>Dados N&atilde;o Informados.</em></div>
-            </fieldset>
+            <v-card>
+                <v-card-title>
+                     <h6>Local de Realiza&ccedil;&atilde;o</h6>
+                </v-card-title>
+                <v-data-table
+                        :headers="headersLocalRealizacao"
+                        :items="dados.localRealizacoes"
+                        class="elevation-1 container-fluid"
+                        rows-per-page-text="Items por Página"
+                        no-data-text="Nenhum dado encontrado"
+                >
+                    <template slot="items" slot-scope="props">
+                        <td>{{ props.item.Descricao }}</td>
+                        <td>{{ props.item.UF }}</td>
+                        <td>{{ props.item.Cidade }}</td>
+                    </template>
+                    <template slot="no-data">
+                        <v-alert :value="true" color="info" icon="warning">
+                            Nenhum dado encontrado
+                        </v-alert>
+                    </template>
+                    <template slot="pageText" slot-scope="props">
+                        Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+                    </template>
+                </v-data-table>
+            </v-card>
+            <v-card>
+                <v-card-title>
+                     <h6>Deslocamento</h6>
+                </v-card-title>
+                <v-data-table
+                        :headers="headersDeslocamento"
+                        :items="dados.Deslocamento"
+                        class="elevation-1 container-fluid"
+                        rows-per-page-text="Items por Página"
+                        no-data-text="Nenhum dado encontrado"
+                >
+                    <template slot="items" slot-scope="props">
+                        <td>{{ props.item.PaisOrigem }}</td>
+                        <td>{{ props.item.UFOrigem }}</td>
+                        <td>{{ props.item.MunicipioOrigem }}</td>
+                        <td>{{ props.item.PaisDestino }}</td>
+                        <td>{{ props.item.UFDestino }}</td>
+                        <td>{{ props.item.MunicipioDestino }}</td>
+                        <td>{{ props.item.Qtde }}</td>
+                    </template>
+                    <template slot="pageText" slot-scope="props">
+                        Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+                    </template>
+                </v-data-table>
+            </v-card>
         </div>
     </div>
 </template>
@@ -69,7 +67,58 @@
         name: 'LocalRealizacaoDeslocamento',
         data() {
             return {
+                search: '',
+                pagination: {
+                    sortBy: 'fat',
+                },
+                selected: [],
                 loading: true,
+                headersLocalRealizacao: [
+                    {
+                        text: 'PAÍS',
+                        align: 'left',
+                        value: 'Descricao',
+                    },
+                    {
+                        text: 'UF',
+                        value: 'UF',
+                    },
+                    {
+                        text: 'CIDADE',
+                        value: 'Cidade',
+                    },
+                ],
+                headersDeslocamento: [
+                    {
+                        text: 'PAÍS DE ORIGEM',
+                        align: 'left',
+                        value: 'PaisOrigem',
+                    },
+                    {
+                        text: 'UF DE ORIGEM',
+                        value: 'UFOrigem',
+                    },
+                    {
+                        text: 'CIDADE DE ORIGEM',
+                        value: 'MunicipioOrigem',
+                    },
+                    {
+                        text: 'PAÍS DE DESTINO',
+                        value: 'PaisDestino',
+                    },
+                    {
+                        text: 'UF DE DESTINO',
+                        value: 'UFDestino',
+                    },
+                    {
+                        text: 'CIDADE DE DESTINO',
+                        value: 'MunicipioDestino',
+                    },
+                    {
+                        text: 'QUANTIDADE',
+                        value: 'Qtde',
+                    },
+                ],
             };
         },
         components: {

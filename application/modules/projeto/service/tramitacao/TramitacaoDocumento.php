@@ -51,12 +51,12 @@ class TramitacaoDocumento implements \MinC\Servico\IServicoRestZend
 
             if (!empty($tramitacao['dtDocumento'])) {
                 $objDateTimedtDocumento = new \DateTime($tramitacao['dtDocumento']);
-                $objDateTimedtDocumento = $objDateTimedtDocumento->format('d/m/Y H:i:s');
+                $objDateTimedtDocumento = $objDateTimedtDocumento->format('d/m/Y');
             }
 
             if (!empty($tramitacao['dtJuntada'])) {
                 $objDateTimedtJuntada = new \DateTime($tramitacao['dtJuntada']);
-                $objDateTimedtJuntada = $objDateTimedtJuntada->format('d/m/Y H:i:s');
+                $objDateTimedtJuntada = $objDateTimedtJuntada->format('d/m/Y');
             }
 
             $resultArray[] = [

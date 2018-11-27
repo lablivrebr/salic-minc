@@ -50,12 +50,12 @@ class TramitacaoProjeto implements \MinC\Servico\IServicoRestZend
 
             if (!empty($tramitacao['dtTramitacaoEnvio'])) {
                 $objDateTimeDtTramitacaoEnvio = new \DateTime($tramitacao['dtTramitacaoEnvio']);
-                $objDateTimeDtTramitacaoEnvio = $objDateTimeDtTramitacaoEnvio->format('d/m/Y H:i:s');
+                $objDateTimeDtTramitacaoEnvio = $objDateTimeDtTramitacaoEnvio->format('d/m/Y');
             }
 
             if (!empty($tramitacao['dtTramitacaoRecebida'])) {
                 $objDateTimedtTramitacaoRecebida = new \DateTime($tramitacao['dtTramitacaoRecebida']);
-                $objDateTimedtTramitacaoRecebida = $objDateTimedtTramitacaoRecebida->format('d/m/Y H:i:s');
+                $objDateTimedtTramitacaoRecebida = $objDateTimedtTramitacaoRecebida->format('d/m/Y');
             }
 
             $resultArray[] = [

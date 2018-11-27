@@ -1,12 +1,9 @@
 <template>
-    <div id="conteudo">
+    <div>
         <div v-if="loading">
             <Carregando :text="'Carregando Dados Complementares do Projeto'"></Carregando>
         </div>
         <div v-else-if="dados.Proposta && dados.CustosVinculados">
-            <IdentificacaoProjeto :pronac="dadosProjeto.Pronac"
-                                  :nomeProjeto="dadosProjeto.NomeProjeto">
-            </IdentificacaoProjeto>
             <TabelaDadosComplementares dadoComplementar="Objetivos"
                                        :dsDadoComplementar="dados.Proposta.Objetivos">
             </TabelaDadosComplementares>
@@ -47,7 +44,6 @@
 <script>
     import { mapActions, mapGetters } from 'vuex';
     import Carregando from '@/components/Carregando';
-    import IdentificacaoProjeto from './IdentificacaoProjeto';
     import TabelaDadosComplementares from './TabelaDadosComplementares';
 
     export default {
@@ -59,7 +55,6 @@
         },
         components: {
             Carregando,
-            IdentificacaoProjeto,
             TabelaDadosComplementares,
         },
         mounted() {

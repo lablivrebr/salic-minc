@@ -21,6 +21,10 @@ import PlanoDistribuicaoIn2017 from './visualizar/components/outrasInformacoes/P
 import ProvidenciaTomada from './visualizar/components/outrasInformacoes/ProvidenciaTomada';
 import DiligenciaProjeto from './visualizar/components/outrasInformacoes/DiligenciaProjeto';
 import Tramitacao from './visualizar/components/outrasInformacoes/Tramitacao';
+import MarcasAnexadas from './visualizar/components/execucao/MarcasAnexadas';
+import DadosReadequacoes from './visualizar/components/execucao/DadosReadequacoes';
+import PedidoProrrogacao from './visualizar/components/execucao/PedidoProrrogacao';
+import DadosFiscalizacao from './visualizar/components/execucao/DadosFiscalizacao';
 
 Vue.use(Router);
 
@@ -217,6 +221,38 @@ const routes = [
                 component: Tramitacao,
                 meta: {
                     title: 'Tramita&ccedil;&atilde;o',
+                },
+            },
+            {
+                path: 'marcas-anexadas',
+                name: 'MarcasAnexadas',
+                component: MarcasAnexadas,
+                meta: {
+                    title: 'Marcas Anexadas',
+                },
+            },
+            {
+                path: 'readequacoes',
+                name: 'DadosReadequacoes',
+                component: DadosReadequacoes,
+                meta: {
+                    title: 'Dados das Readequações',
+                },
+            },
+            {
+                path: 'pedido-prorrogacao',
+                name: 'PedidoProrrogacao',
+                component: PedidoProrrogacao,
+                meta: {
+                    title: 'Pedido de Prorrogação',
+                },
+            },
+            {
+                path: 'dados-fiscalizacao',
+                name: 'DadosFiscalizacao',
+                component: DadosFiscalizacao,
+                meta: {
+                    title: 'Dados Fiscalizacao',
                 },
             },
         ],

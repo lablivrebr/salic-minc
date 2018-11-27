@@ -1,45 +1,30 @@
 <template>
-    <div id="conteudo">
+    <div>
         <div v-if="loading">
             <Carregando :text="'Carregando Certidoes Negativas'"></Carregando>
         </div>
-        <div v-else-if="dados">
-            <IdentificacaoProjeto :pronac="dadosProjeto.Pronac"
-                                  :nomeProjeto="dadosProjeto.NomeProjeto">
-            </IdentificacaoProjeto>
-            <div v-if="Object.keys(dados.certidoes).length > 0">
-                <table class="tabela">
-                    <thead>
-                    <tr class="destacar">
-                        <th class="center">CERTID&otilde;es</th>
-                        <th class="center">DATA DE EMISS&Atilde;O</th>
-                        <th class="center">DATA DE VALIDADE</th>
-                        <th class="center">PRONAC</th>
-                        <th class="center">SITUA&Ccedil;&Atilde;O</th>
-                    </tr>
-                    </thead>
-                    <tbody v-for="(dado, index) in dados.certidoes" :key="index">
-                    <tr>
-                        <td class="center" v-html="dado.dsCertidao"></td>
-                        <td class="center">{{ dado.DtEmissao }}</td>
-                        <td class="center">{{ dado.DtValidade }}</td>
-                        <td class="center">{{ dado.Pronac }}</td>
-                        <td class="center" v-if="dado.Situacao" v-html="dado.Situacao"></td>
-                        <td class="center" v-else>
-                            Vencida
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div v-else>
-                <fieldset>
-                    <legend>Certid&otilde;es Negativas</legend>
-                    <div class="center">
-                        <em>Dados n&atilde;o  informado.</em>
-                    </div>
-                </fieldset>
-            </div>
+        <div v-else-if="dados.certidoes">
+            <v-data-table
+                    :headers="headers"
+                    :items="dados.certidoes"
+                    class="elevation-1 container-fluid"
+                    rows-per-page-text="Items por Página"
+                    no-data-text="Nenhum dado encontrado"
+            >
+                <template slot="items" slot-scope="props">
+                    <td class="text-xs-left" v-html="props.item.dsCertidao"></td>
+                    <td class="text-xs-right">{{ props.item.DtEmissao }}</td>
+                    <td class="text-xs-right">{{ props.item.DtValidade }}</td>
+                    <td class="text-xs-right">{{ props.item.Pronac }}</td>
+                    <td class="text-xs-left" v-if="props.item.Situacao" v-html="props.item.Situacao"></td>
+                    <td v-else class="text-xs-left">
+                        Vencida
+                    </td>
+                </template>
+                <template slot="pageText" slot-scope="props">
+                    Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+                </template>
+            </v-data-table>
         </div>
     </div>
 </template>
@@ -47,17 +32,47 @@
 
     import { mapActions, mapGetters } from 'vuex';
     import Carregando from '@/components/Carregando';
-    import IdentificacaoProjeto from './IdentificacaoProjeto';
 
     export default {
         name: 'CertidoesNegativas',
         data() {
             return {
+                search: '',
+                pagination: {
+                    sortBy: 'fat',
+                },
+                selected: [],
                 loading: true,
+                headers: [
+                    {
+                        text: 'CERTIDÕES',
+                        align: 'left',
+                        value: 'dsCertidao',
+                    },
+                    {
+                        text: 'DATA DE EMISSÃO',
+                        align: 'center',
+                        value: 'DtEmissao',
+                    },
+                    {
+                        text: 'DATA DE VALIDADE',
+                        align: 'center',
+                        value: 'DtValidade',
+                    },
+                    {
+                        text: 'PRONAC',
+                        align: 'center',
+                        value: 'Pronac',
+                    },
+                    {
+                        text: 'SITUAÇÃO',
+                        align: 'left',
+                        value: 'Situacao',
+                    },
+                ],
             };
         },
         components: {
-            IdentificacaoProjeto,
             Carregando,
         },
         mounted() {

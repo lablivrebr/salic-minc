@@ -160,7 +160,7 @@ x - Menu lateral (legado)
         height: calc(100% - 99px);
         padding-bottom: 99px;
         overflow-x: hidden;
-        z-index: 990;
+        z-index: 199;
     }
 
     body.nav-fixed #menuContexto,

@@ -15,6 +15,9 @@ class Projeto_Bootstrap extends Zend_Application_Module_Bootstrap
             [
                 "projeto" => [
                     'proponente-rest',
+                    'diligencia-adequacao-rest',
+                    'diligencia-projeto-rest',
+                    'diligencia-proposta-rest',
                 ]
             ]
         );
@@ -25,6 +28,5 @@ class Projeto_Bootstrap extends Zend_Application_Module_Bootstrap
             $restRoute
         );
     }
-
 }
 

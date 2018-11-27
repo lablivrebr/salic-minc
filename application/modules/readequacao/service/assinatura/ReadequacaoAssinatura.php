@@ -81,8 +81,8 @@ class ReadequacaoAssinatura implements IServico
 
             if ($qtPessoasQueFaltamAssinar > 0) {
                 $ordemDaProximaAssinatura = $tbDocumentoAssinaturaDbTable->obterProximaAssinatura(
-                    $projeto->idDocumentoAssinatura,
-                    $projeto->idPronac
+                    $projeto['idDocumentoAssinatura'],
+                    $projeto['IdPRONAC']
                 );
             }
             $projeto['ordemDaProximaAssinatura'] = $ordemDaProximaAssinatura;

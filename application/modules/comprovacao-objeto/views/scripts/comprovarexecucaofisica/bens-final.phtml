@@ -55,7 +55,7 @@
                 height:160,
                 modal: true,
                 buttons : {
-                    'N�o' : function(){
+                    'N\u00E3o' : function(){
                         $(this).dialog('close');
                     },
                     'Sim' : function(){
@@ -82,7 +82,7 @@
                                     $('.ui-dialog-titlebar-close').remove();
                                     window.setTimeout('location.reload()', 1000);
                                 } else {
-                                    alertaModal("N�o foi poss�vel excluir o Bem Doado.");
+                                    alertaModal("N&atilde;o foi poss&iacute;vel excluir o Bem Doado.");
                                 }
                             },
                             dataType : 'json'
@@ -142,7 +142,7 @@
                                 modal: true,
                                 autoOpen:true,
                                 draggable:false,
-                                title: 'Cadastrar Benefici�rio',
+                                title: 'Cadastrar Benefici&aacute;rio',
                                 buttons: {
                                     'Fechar': function() {
                                         $("#divDinamicaAgentes").remove();
@@ -212,7 +212,7 @@
                                 modal: true,
                                 autoOpen:true,
                                 draggable:false,
-                                title: 'Cadastrar Benefici�rio',
+                                title: 'Cadastrar Benefici&aacute;rio',
                                 buttons: {
                                     'Fechar': function() {
                                         $("#divDinamicaAgentes").remove();
@@ -239,7 +239,7 @@
             $("#camposObrigatorios").html(texto);
             $("#camposObrigatorios").dialog({
                 resizable: true,
-                title: 'Observa��es',
+                title: 'Observa&ccedil;&otilde;es',
                 width:350,
                 modal: true,
                 buttons : {
@@ -266,7 +266,7 @@
             draggable:false,
             title: 'Alerta!',
             buttons: {
-                'N�o': function(){
+                'N\u00E3o': function(){
                     $("#agenteMovel").val('');
                     $("#nomeAgenteMovel").html('');
                     $('#cnpjcpfMovel').val('');
@@ -339,7 +339,7 @@
     <ul>
         <li class="first"><a href="#" title="In&iacute;cio">In&iacute;cio</a></li>
         <li class="second"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" title="Consultar dados do Projeto">Consultar dados do Projeto</a></li>
-        <li class="second">Comprovar Realiza��o do Objeto</li>
+        <li class="second">Comprovar Realiza&ccedil;&atilde;o do Objeto</li>
         <li class="last">Bens Doados</li>
     </ul>
 </div>
@@ -353,7 +353,7 @@
 <div id="conteudo">
     <table class="tabela">
         <tr>
-            <th align="center" width="30%">N� PRONAC:</th>
+            <th align="center" width="30%">N&ordm; PRONAC:</th>
             <th align="center">Nome do Projeto:</th>
         </tr>
         <tr class="linha">
@@ -375,10 +375,10 @@
     <form id="formBemMovel" action="<?php echo $this->url(array('module' => 'comprovacao-objeto', 'controller' => 'comprovarexecucaofisica', 'action' => 'cadastrar-bens-moveis'), '', true); ?>?idpronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" method="post" enctype="multipart/form-data">
         <table class="tabela">
             <tr align="center">
-                <th colspan="2">Bens M�veis</th>
+                <th colspan="2">Bens M&oacute;veis</th>
             </tr>
             <tr>
-                <td class="destacar bold" width="200px" align="right">Itens Or�ament�rios<span style="color: red;">*</span></td>
+                <td class="destacar bold" width="200px" align="right">Itens Or&ccedil;ament&aacute;rios<span style="color: red;">*</span></td>
                 <td>
                     <select class="select_simples obrigatorioMovel" name="itemOrcamentario">
                         <option value=""> - Selecione - </option>
@@ -389,11 +389,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="destacar bold" align="right">Upload de documento de doa��o<span style="color: red;">*</span></td>
+                <td class="destacar bold" align="right">Upload de documento de doa&ccedil;&atilde;o<span style="color: red;">*</span></td>
                 <td><input type="file" class="obrigatorioMovel" name="documentoDoacao"></td>
             </tr>
             <tr>
-                <td colspan="2" align="center">Benefici�rio que recebeu o bem ao final do projeto</td>
+                <td colspan="2" align="center">Benefici&aacute;rio que recebeu o bem ao final do projeto</td>
             </tr>
             <tr>
                 <td class="destacar bold" align="right">CPF/CNPJ<span style="color: red;">*</span></td>
@@ -415,10 +415,10 @@
                 <td><input type="file" class="obrigatorioMovel" name="documentoAceite" /></td>
             </tr>
             <tr>
-                <td class="destacar bold" align="right">Observa��es</td>
+                <td class="destacar bold" align="right">Observa&ccedil;&otilde;es</td>
                 <td>
                     <textarea name="observacao" cols="" rows="7" style="width: 99%;" class="textarea_simples"></textarea>
-                    <br clear="all" /><span style="color: #FF9999; font-size: 11px;">Limite m�ximo de 1000 caracteres</span>
+                    <br clear="all" /><span style="color: #FF9999; font-size: 11px;">Limite m&aacute;ximo de 1000 caracteres</span>
                 </td>
             </tr>
         </table>
@@ -433,10 +433,10 @@
     <form id="formBemImovel" action="<?php echo $this->url(array('module' => 'comprovacao-objeto', 'controller' => 'comprovarexecucaofisica', 'action' => 'cadastrar-bens-imoveis'), '', true); ?>?idpronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" method="post" enctype="multipart/form-data">
         <table class="tabela">
             <tr align="center">
-                <th colspan="2">Bens Im�veis</th>
+                <th colspan="2">Bens Im&oacute;veis</th>
             </tr>
             <tr>
-                <td class="destacar bold" width="200px" align="right">Itens Or�ament�rios<span style="color: red;">*</span></td>
+                <td class="destacar bold" width="200px" align="right">Itens Or&ccedil;ament&aacute;rios<span style="color: red;">*</span></td>
                 <td>
                     <select class="select_simples obrigatorioImovel" name="itemOrcamentario">
                         <option value=""> - Selecione - </option>
@@ -447,11 +447,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="destacar bold" align="right">Upload de documento de doa��o<span style="color: red;">*</span></td>
+                <td class="destacar bold" align="right">Upload de documento de doa&ccedil;&atilde;o<span style="color: red;">*</span></td>
                 <td><input type="file" class="obrigatorioImovel" name="documentoDoacao"></td>
             </tr>
             <tr>
-                <td colspan="2" align="center">Benefici�rio que recebeu o bem ao final do projeto</td>
+                <td colspan="2" align="center">Benefici&aacute;rio que recebeu o bem ao final do projeto</td>
             </tr>
             <tr>
                 <td class="destacar bold" align="right">CPF/CNPJ<span style="color: red;">*</span></td>
@@ -473,13 +473,13 @@
                 <td><input type="file" class="obrigatorioImovel" name="documentoAceite" /></td>
             </tr>
             <tr>
-                <td colspan="2" align="center">Favor informar nome do cart�rio, n�mero do registro e de folha, especificando o im�vel tamb�m.</td>
+                <td colspan="2" align="center">Favor informar nome do cart&oacute;rio, n&uacute;mero do registro e de folha, especificando o im&oacute;vel tamb&eacute;m.</td>
             </tr>
             <tr>
-                <td class="destacar bold" align="right">Observa��es</td>
+                <td class="destacar bold" align="right">Observa&ccedil;&otilde;es</td>
                 <td>
                     <textarea name="observacao" cols="" rows="7" style="width: 99%;" class="textarea_simples"></textarea>
-                    <br clear="all" /><span style="color: #FF9999; font-size: 11px;">Limite m�ximo de 1000 caracteres</span>
+                    <br clear="all" /><span style="color: #FF9999; font-size: 11px;">Limite m&aacute;ximo de 1000 caracteres</span>
                 </td>
             </tr>
         </table>
@@ -493,23 +493,23 @@
 
     <table class="tabela">
         <tr align="center">
-            <th colspan="9">Bens M�veis / Im�veis Doados</th>
+            <th colspan="9">Bens M&oacute;veis / Im&oacute;veis Doados</th>
         </tr>
         <?php if(count($this->BensCadastrados)>0) { ?>
         <tr align="center">
             <td class="destacar bold">Tipo do Bem</td>
-            <td class="destacar bold">Item Or�ament�rio</td>
+            <td class="destacar bold">Item Or&ccedil;ament&aacute;rio</td>
             <td class="destacar bold">CNPJ/CPF</td>
             <td class="destacar bold">Nome</td>
-            <td class="destacar bold">Arquivo Doa��o</td>
+            <td class="destacar bold">Arquivo Doa&ccedil;&atilde;o</td>
             <td class="destacar bold">Arquivo Aceite</td>
             <td class="destacar bold">Quantidade</td>
-            <td class="destacar bold">Observa��o</td>
-            <td class="destacar bold">A��o</td>
+            <td class="destacar bold">Observa&ccedil;&atilde;o</td>
+            <td class="destacar bold">A&ccedil;&atilde;o</td>
         </tr>
         <?php foreach ($this->BensCadastrados as $bens) { ?>
         <tr>
-            <td><?php echo ($bens->tpBem == 'M') ? 'M�vel' : 'Im�vel'; ?></td>
+            <td><?php echo ($bens->tpBem == 'M') ? 'M&oacute;vel' : 'Im&oacute;vel'; ?></td>
             <td><?php echo $bens->ItemOrcamentario; ?></td>
             <td align="center"><?php echo (strlen($bens->CNPJCPF) == 11) ? Mascara::addMaskCPF($bens->CNPJCPF) : Mascara::addMaskCNPJ($bens->CNPJCPF); ?></td>
             <td><?php echo $bens->NomeAgente; ?></td>
@@ -533,10 +533,3 @@
 
     <br clear="all" />
 </div>
-
-
-<!-- in�cio: detalhe final da div conteudo #rodapeConteudo -->
-<div id="rodapeConteudo"><span></span></div>
-<!-- final: detalhe final da div conteudo #rodapeConteudo -->
-
-<br clear="all" />

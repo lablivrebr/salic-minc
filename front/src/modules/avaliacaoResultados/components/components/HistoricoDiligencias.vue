@@ -23,6 +23,7 @@
                 <v-card-text>
                     <v-timeline >
                         <v-timeline-item
+                            id="time"
                             v-for="(item, i) in sortByDate"
                             :key="i"
                             small
@@ -31,7 +32,7 @@
                                  slot="opposite"
                                  :class="`headline font-weight-bold green--text`"
                              >
-                                 Solicitado: {{item.dataSolicitacao | date}} </br>
+                                 Solicitado: {{item.dataSolicitacao | date}} <br/>
                                  <span v-if="item.dataResposta">  Respondido: {{item.dataResposta | date}}</span>
                              </span>
 
@@ -215,3 +216,8 @@ export default {
 };
 </script>
 
+<style>
+    #time .v-timeline-item__body{
+        height: auto;
+    }
+</style>

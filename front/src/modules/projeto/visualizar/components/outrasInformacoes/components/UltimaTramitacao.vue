@@ -16,8 +16,8 @@
                     <td class="text-xs-right">{{ props.item.dtTramitacaoEnvio }}</td>
                     <td class="text-xs-left">{{ props.item.Receptor }}</td>
                     <td class="text-xs-right">{{ props.item.dtTramitacaoRecebida }}</td>
-                    <td class="text-xs-right">{{ props.item.Estado }}</td>
-                    <td class="text-xs-right">{{ props.item.Destino }}</td>
+                    <td class="text-xs-left">{{ props.item.Estado }}</td>
+                    <td class="text-xs-left">{{ props.item.Destino }}</td>
                     <td class="text-xs-left">{{ props.item.meDespacho }}</td>
                 </template>
                 <template slot="pageText" slot-scope="props">
@@ -64,12 +64,12 @@
                     },
                     {
                         text: 'ESTADO',
-                        align: 'center',
+                        align: 'left',
                         value: 'Estado',
                     },
                     {
                         text: 'DESTINO',
-                        align: 'center',
+                        align: 'left',
                         value: 'Destino',
                     },
                     {

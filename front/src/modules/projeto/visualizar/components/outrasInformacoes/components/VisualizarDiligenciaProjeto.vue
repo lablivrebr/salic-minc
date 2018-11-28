@@ -23,7 +23,7 @@
                 <td class="text-xs-left" v-if="props.item.produto">
                     {{ props.item.produto }}
                 </td>
-                <td v-else class="text-xs-left"> - </td>
+                <td v-else class="text-xs-left"> -</td>
                 <td class="text-xs-left">{{ props.item.tipoDiligencia }}</td>
                 <td class="text-xs-right">{{ props.item.dataSolicitacao }}</td>
                 <td class="text-xs-right">{{ props.item.dataResposta }}</td>
@@ -107,19 +107,7 @@
                     </v-container>
                 </v-card-text>
                 <v-card-text v-else>
-                    <div style="align: center" class="text-xs-center">
-                        <div style="padding-top: 25px">
-                            <v-progress-circular
-                                    :size="50"
-                                    color="primary"
-                                    indeterminate
-                            ></v-progress-circular>
-                        </div>
-                        <br>
-                        <div style="padding-top: 20px">
-                            Carregando...
-                        </div>
-                    </div>
+                    <Carregando :text="'Carregando ...'"></Carregando>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
@@ -138,10 +126,14 @@
 </template>
 <script>
     import { mapGetters, mapActions } from 'vuex';
+    import Carregando from '@/components/Carregando';
 
     export default {
         name: 'VisualizarDiligenciaProjeto',
         props: ['idPronac', 'diligencias'],
+        components: {
+            Carregando,
+        },
         data() {
             return {
                 dialog: false,

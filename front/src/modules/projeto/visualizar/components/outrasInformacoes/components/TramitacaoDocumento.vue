@@ -53,7 +53,7 @@
                     },
                     {
                         text: 'DATA',
-                        align: 'right',
+                        align: 'center',
                         value: 'dtDocumento',
                     },
                     {

@@ -218,6 +218,6 @@ export default {
 
 <style>
     #time .v-timeline-item__body{
-        height: auto;
+        height: auto !important;
     }
 </style>

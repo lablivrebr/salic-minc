@@ -1,0 +1,197 @@
+FORMAT: 1A
+HOST: http://api.salic.cultura.gov.br
+
+# Salic
+
+O Salic (Sistema de Apoio às Leis de Incentivo à Cultura) é um sistema unificado, utilizado para apresentação de propostas e acompanhamento de projetos culturais. Nosso repositório no [GitHub](https://github.com/culturagovbr/salic-minc).
+
+# Salic API Root [/]
+
+## Retrieve the Entry Point [GET]
+
++ Response 200 (application/json)
+
+        {
+            "projetos_url": "/projetos"
+        }
+
+## Group Projeto
+
+Recursos relacionados aos projetos na API.
+
+## Projeto [/projetos/{idPRONAC}]
+
+O objeto de projeto tem os seguintes atributos:
+
++ idPRONAC
++ anoProjeto
++ sequencial
++ ufProjeto
++ area
++ segmento
++ mecanismo
++ nomeProjeto
++ processo
++ cgcCpf
++ situacao
++ dtProtocolo An ISO8601 date
++ dtAnalise An ISO8601 date
++ modalidade
++ orgaoOrigem
++ orgao
++ dtSaida An ISO8601 date
++ dtRetorno An ISO8601 date
++ unidadeAnalise
++ analista
++ dtSituacao An ISO8601 date
++ resumoProjeto
++ providenciaTomada
++ localizacao
++ dtInicioExecucao An ISO8601 date inicio da execução
++ dtFimExecucao An ISO8601 date final da execução
++ solicitadoReal
++ data - An ISO8601 date when the question was published.
++ url
++ choices - An array of Choice objects.
+
++ Parameters
+    + idPRONAC: 1 (required, number) - ID do Projeto no formatdo integer
+
+### Ver detalhes de Projetos [GET]
+
++ Response 200 (application/json)
+
+        {
+            "nomeProjeto": "Favourite programming language?",
+            "published_at": "2014-11-11T08:40:51.620Z",
+            "url": "/questions/1",
+            "choices": [
+                {
+                    "choice": "Swift",
+                    "url": "/questions/1/choices/1",
+                    "votes": 2048
+                }, {
+                    "choice": "Python",
+                    "url": "/questions/1/choices/2",
+                    "votes": 1024
+                }, {
+                    "choice": "Objective-C",
+                    "url": "/questions/1/choices/3",
+                    "votes": 512
+                }, {
+                    "choice": "Ruby",
+                    "url": "/questions/1/choices/4",
+                    "votes": 256
+                }
+            ]
+        }
+
+## Choice [/questions/{question_id}/choices/{choice_id}]
+
++ Parameters
+    + question_id: 1 (required, number) - ID of the Question in form of an integer
+    + choice_id: 1 (required, number) - ID of the Choice in form of an integer
+
+### Vote on a Choice [POST]
+
+This action allows you to vote on a question's choice.
+
++ Response 201
+
+    + Headers
+
+            Location: /questions/1
+
+## Questions Collection [/questions{?page}]
+
++ Parameters
+    + page: 1 (optional, number) - The page of questions to return
+
+### List All Questions [GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </questions?page=2>; rel="next"
+
+    + Body
+
+            [
+                {
+                    "question": "Favourite programming language?",
+                    "published_at": "2014-11-11T08:40:51.620Z",
+                    "url": "/questions/1",
+                    "choices": [
+                        {
+                            "choice": "Swift",
+                            "url": "/questions/1/choices/1",
+                            "votes": 2048
+                        }, {
+                            "choice": "Python",
+                            "url": "/questions/1/choices/2",
+                            "votes": 1024
+                        }, {
+                            "choice": "Objective-C",
+                            "url": "/questions/1/choices/3",
+                            "votes": 512
+                        }, {
+                            "choice": "Ruby",
+                            "url": "/questions/1/choices/4",
+                            "votes": 256
+                        }
+                    ]
+                }
+            ]
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON object containing a question and a collection of answers in the form of choices.
+
++ question (string) - The question
++ choices (array[string]) - A collection of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2014-11-11T08:40:51.620Z",
+                "url": "/questions/2",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "url": "/questions/2/choices/1",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "url": "/questions/2/choices/2",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "url": "/questions/2/choices/3",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "url": "/questions/2/choices/4",
+                        "votes": 0
+                    }
+                ]
+            }

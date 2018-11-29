@@ -1,44 +1,61 @@
 <template>
-    <v-card color="blue-grey darken-2" class="white--text" dark>
-        <v-card-title class="subheading">
-            Buscar projeto
-        </v-card-title>
-        <v-card-text>
-            <v-autocomplete
-                v-model="model"
-                :items="items"
-                :loading="isLoading"
-                :search-input.sync="campoDeBusca"
-                hide-selected
-                hide-no-data
-                cache-items
-                chips
-                deletable-chips
-                color="white"
-                item-text="Description"
-                item-value="API"
-                label="Projetos"
-                placeholder="Escreva o pronac ou nome do projeto"
-                prepend-icon="style"
-                return-object
-            ></v-autocomplete>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-expand-transition>
-            <v-list v-if="model" color="blue-grey darken-1" class="white--text py-0">
-                <v-list-tile
-                    v-for="(field, i) in fields"
-                    :key="i"
-                    :href="`/projeto/#/${model.idPronac}`"
-                >
-                    <v-list-tile-content>
-                        <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
-                        <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-        </v-expand-transition>
-    </v-card>
+    <form v-on:submit.prevent="irParaProjeto()">
+        <v-card color="blue-grey darken-2" class="white--text" dark>
+            <v-card-title class="subheading">
+                Buscar projeto
+            </v-card-title>
+            <v-card-text>
+                <v-autocomplete
+                    v-model="model"
+                    :items="items"
+                    :loading="isLoading"
+                    :search-input.sync="campoDeBusca"
+                    hide-selected
+                    hide-no-data
+                    cache-items
+                    chips
+                    deletable-chips
+                    color="white"
+                    item-text="Description"
+                    item-value="API"
+                    label="Projetos"
+                    placeholder="Escreva o pronac ou nome do projeto"
+                    prepend-icon="style"
+                    return-object
+                ></v-autocomplete>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-expand-transition>
+                <div>
+                    <v-list v-if="model">
+                        <v-list-tile>
+                            <v-btn
+                                ripple
+                                color="blue-grey"
+                                class="white--text"
+                                :href="`/projeto/#/${model.idPronac}`"
+                            >
+                                Ver projeto
+                                <v-icon right dark>visibility</v-icon>
+                            </v-btn>
+                        </v-list-tile>
+                    </v-list>
+                    <v-list v-if="model" color="blue-grey darken-1" class="white--text py-0">
+                        <v-list-tile
+                            v-for="(field, i) in fields"
+                            :key="i"
+                            :href="`/projeto/#/${model.idPronac}`"
+                        >
+                            <v-list-tile-content>
+                                <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
+                                <v-list-tile-title v-text="field.value"></v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
+                </div>
+            </v-expand-transition>
+        </v-card>
+    </form>
 </template>
 
 <script>
@@ -110,10 +127,11 @@
                     });
             },
             formatarCPNJ,
+            irParaProjeto() {
+                if (this.model.idPronac) {
+                    window.location = `/projeto/#/${this.model.idPronac}`;
+                }
+            },
         },
     };
 </script>
-
-<style scoped>
-
-</style>

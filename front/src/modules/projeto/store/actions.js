@@ -181,8 +181,9 @@ export const buscarPlanoDistribuicaoIn2017 = ({ commit }, idPreProjeto) => {
         });
 };
 
-export const buscarDiligenciaProposta = ({ commit }, dados) => {
-    projetoHelperAPI.buscarDiligenciaProposta(dados)
+export const buscarDiligenciaProposta = ({ commit }, value) => {
+    const { idPreprojeto, valor } = value;
+    projetoHelperAPI.buscarDiligenciaProposta(idPreprojeto, valor)
         .then((response) => {
             const data = response.data.data.items;
             commit(types.SET_DILIGENCIA_PROPOSTA, data);
@@ -214,3 +215,45 @@ export const buscarDiligencia = ({ commit }, idPronac) => {
             commit(types.SET_DILIGENCIA, data);
         });
 };
+
+export const buscarMarcasAnexadas = ({ commit }, idPronac) => {
+    projetoHelperAPI.buscarMarcasAnexadas(idPronac)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_MARCAS_ANEXADAS, data);
+        });
+};
+
+export const buscarDadosReadequacoes = ({ commit }, idPronac) => {
+    projetoHelperAPI.buscarDadosReadequacoes(idPronac)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_DADOS_READEQUACOES, data);
+        });
+};
+
+export const buscarPedidoProrrogacao = ({ commit }, idPronac) => {
+    projetoHelperAPI.buscarPedidoProrrogacao(idPronac)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_PEDIDO_PRORROGACAO, data);
+        });
+};
+
+export const buscarDadosFiscalizacaoLista = ({ commit }, idPronac) => {
+    projetoHelperAPI.buscarDadosFiscalizacaoLista(idPronac)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_DADOS_FISCALIZACAO_LISTA, data);
+        });
+};
+
+export const buscarDadosFiscalizacaoVisualiza = ({ commit }, value) => {
+    const { idPronac, idFiscalizacao } = value;
+    projetoHelperAPI.buscarDadosFiscalizacaoVisualiza(idPronac, idFiscalizacao)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_DADOS_FISCALIZACAO_VISUALIZA, data);
+        });
+};
+

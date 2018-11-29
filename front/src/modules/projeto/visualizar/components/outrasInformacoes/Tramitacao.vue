@@ -1,25 +1,13 @@
 <template>
-    <div id="conteudo">
+    <div>
         <div v-if="dadosProjeto">
-            <IdentificacaoProjeto :pronac="dadosProjeto.Pronac"
-                                  :nomeProjeto="dadosProjeto.NomeProjeto">
-            </IdentificacaoProjeto>
-            <fieldset style="margin: 0px;">
-                <legend>&Uacute;ltima Tramita&ccedil;&atilde;o</legend>
-                <UltimaTramitacao :idPronac="dadosProjeto.idPronac"></UltimaTramitacao>
-            </fieldset>
-            <fieldset style="margin: 0px;">
-                <legend>Tramita&ccedil;&atilde;o do Projeto</legend>
-                <TramitacaoProjeto
-                        :idPronac="dadosProjeto.idPronac">
-                </TramitacaoProjeto>
-            </fieldset>
-            <fieldset style="margin: 0px;">
-                <legend>Tramita&ccedil;&atilde;o de Documentos</legend>
-                <TramitacaoDocumento
-                        :idPronac="dadosProjeto.idPronac">
-                </TramitacaoDocumento>
-            </fieldset>
+            <UltimaTramitacao :idPronac="dadosProjeto.idPronac"></UltimaTramitacao>
+            <TramitacaoProjeto
+                    :idPronac="dadosProjeto.idPronac">
+            </TramitacaoProjeto>
+            <TramitacaoDocumento
+                    :idPronac="dadosProjeto.idPronac">
+            </TramitacaoDocumento>
         </div>
     </div>
 </template>

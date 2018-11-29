@@ -68,7 +68,7 @@ class DocumentosAnexados implements \MinC\Servico\IServicoRestZend
 
             if (!empty($item->Data)) {
                 $data = new \DateTime($item->Data);
-                $data = $data->format('d/m/Y H:i:s');
+                $data = $data->format('d/m/Y');
             }
             $itemArray = [
                 'Anexado' => $item->Anexado,

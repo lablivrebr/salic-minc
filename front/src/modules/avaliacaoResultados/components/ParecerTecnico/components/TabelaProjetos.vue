@@ -25,7 +25,7 @@
                             <v-btn flat :href="'/projeto/#/'+ props.item.idPronac">{{ props.item.PRONAC }}</v-btn>
                         </div>
                     </v-flex>
-                </td>
+                </td>cd
                 <td class="text-xs-left">{{ props.item.NomeProjeto }}</td>
                 <td class="text-xs-center">{{ props.item.Situacao }}</td>
                 <td class="text-xs-center">{{ props.item.UfProjeto }}</td>

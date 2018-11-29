@@ -40,7 +40,7 @@
                 height:160,
                 modal: true,
                 buttons : {
-                    'N�o' : function(){
+                    'N\u00E3o' : function(){
                         $(this).dialog('close');
                     },
                     'Sim' : function(){
@@ -65,7 +65,7 @@
                                     $('.ui-dialog-titlebar-close').remove();
                                     window.setTimeout('location.reload()', 1000);
                                 } else {
-                                    alertaModal("N�o foi poss�vel excluir o Plano de Distribui��o.");
+                                    alertaModal("N&atilde;o foi poss&iacute;vel excluir o Plano de Distribui&ccedil;&atilde;o.");
                                 }
                             },
                             dataType : 'json'
@@ -106,21 +106,21 @@
     <ul>
         <li class="first"><a href="#" title="In&iacute;cio">In&iacute;cio</a></li>
         <li class="second"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" title="Consultar dados do Projeto">Consultar dados do Projeto</a></li>
-        <li class="second">Comprovar Realiza��o do Objeto</li>
-        <li class="last">Comprovantes de Execu��o</li>
+        <li class="second">Comprovar Realiza&ccedil;&atilde;o do Objeto</li>
+        <li class="last">Comprovantes de Execu&ccedil;&atilde;o</li>
     </ul>
 </div>
 
 
 <div id="titulo">
-    <div>Comprovantes de Execu��o <span class="voltar"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" title="Voltar">Voltar</a></span></div>
+    <div>Comprovantes de Execu&ccedil;&atilde;o <span class="voltar"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" title="Voltar">Voltar</a></span></div>
 </div>
 
 
 <div id="conteudo">
     <table class="tabela">
         <tr>
-            <th align="center" width="30%">N� PRONAC:</th>
+            <th align="center" width="30%">N&ordm; PRONAC:</th>
             <th align="center">Nome do Projeto:</th>
         </tr>
         <tr class="linha">
@@ -142,10 +142,10 @@
     <form id="formCadastroComprovante" action="<?php echo $this->url(array('module' => 'comprovacao-objeto', 'controller' => 'comprovarexecucaofisica', 'action' => 'cadastrar-comprovante-execucao'), '', true); ?>?idpronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" method="post" enctype="multipart/form-data">
         <table class="tabela">
             <tr align="center">
-                <th colspan="2">Comprovante de Execu��o</th>
+                <th colspan="2">Comprovante de Execu&ccedil;&atilde;o</th>
             </tr>
             <tr>
-                <td colspan="2">Fazer upload de fotos/v�deos de reformas, constru��es e de qualquer outro produto.</td>
+                <td colspan="2">Fazer upload de fotos/v&iacute;deos de reformas, constru&ccedil;&otilde;es e de qualquer outro produto.</td>
             </tr>
             <tr>
                 <td class="destacar bold w150" align="right">Tipo de comprovante <span style="color: red;">*</span></td>
@@ -153,7 +153,7 @@
                     <select class="select_simples obrigatorio" name="tipoDocumento">
                         <option value=""> - Selecione - </option>
                         <option value="22">Fotos</option>
-                        <option value="23">V�deos</option>
+                        <option value="23">V&iacute;deos</option>
                         <option value="24">Arquivo</option>
                     </select>
                 </td>
@@ -163,7 +163,7 @@
                 <td><input type="file" id="arquivo" name="arquivo" class="obrigatorio"></td>
             </tr>
             <tr>
-                <td class="destacar bold" align="right">Observa��es <span style="color: red;">*</span></td>
+                <td class="destacar bold" align="right">Observa&ccedil;&otilde;es <span style="color: red;">*</span></td>
                 <td>
                     <textarea name="observacoes" cols="" rows="5" class="textarea_simples obrigatorio" style="width: 99%;"></textarea>
                     <input type="hidden" name="relatorofinal" value="1" />
@@ -186,8 +186,8 @@
             <td class="destacar bold">Tipo de Comprovante</td>
             <td class="destacar bold">Nome do Arquivo</td>
             <td class="destacar bold">Data de Envio</td>
-            <td class="destacar bold">Observa��es</td>
-            <td class="destacar bold" width="1%">A��o</td>
+            <td class="destacar bold">Observa&ccedil;&otilde;es</td>
+            <td class="destacar bold" width="1%">A&ccedil;&atilde;o</td>
         </tr>
         <?php foreach ($this->DadosComprovantes as $DadosComprovantes) { ?>
         <tr>
@@ -196,7 +196,7 @@
                     if($DadosComprovantes->idTipoDocumento == 22){
                         echo 'Fotos';
                     } else if($DadosComprovantes->idTipoDocumento == 23){
-                        echo 'V�deos';
+                        echo 'V&iacute;deos';
                     } else if($DadosComprovantes->idTipoDocumento == 24){
                         echo 'Arquivo';
                     }
@@ -214,9 +214,3 @@
     <br clear="all" />
 
 </div>
-
-<!-- in�cio: detalhe final da div conteudo #rodapeConteudo -->
-<div id="rodapeConteudo"><span></span></div>
-<!-- final: detalhe final da div conteudo #rodapeConteudo -->
-
-<br clear="all" />

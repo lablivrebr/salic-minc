@@ -23,6 +23,10 @@ describe('Projeto Mutations', () => {
     let tramitacaoProjeto;
     let ultimaTramitacao;
     let planoDistribuicaoIn2017;
+    let diligenciaProposta;
+    let diligenciaAdequacao;
+    let diligenciaProjeto;
+    let diligencia;
 
     beforeEach(() => {
         defaultState = {
@@ -140,6 +144,34 @@ describe('Projeto Mutations', () => {
                 idPlanoDistribuicao: '',
                 idProjeto: '',
                 idProduto: '',
+            },
+            diligenciaProposta: {
+                nomeProjeto: '',
+                dataSolicitacao: '',
+            },
+            diligenciaAdequacao: {
+                idAvaliarAdequacaoProjeto: '',
+                dtAvaliacao: '',
+            },
+            diligenciaProjeto: {
+                arquivos: {
+                    idArquivo: '',
+                },
+                nomeProjeto: '',
+            },
+            diligencia: {
+                diligenciaAdequacao: {
+                    tipoDiligencia: '',
+                    idAvaliarAdequacaoProjeto: '',
+                },
+                diligenciaProjeto: {
+                    tipoDiligencia: '',
+                    idDiligencia: '',
+                },
+                diligenciaProposta: {
+                    idAvaliacaoProposta: '',
+                    idPreprojeto: '',
+                },
             },
         };
 
@@ -267,6 +299,34 @@ describe('Projeto Mutations', () => {
             idProjeto: 273246,
             idProduto: 19,
         };
+        diligenciaProposta = {
+            nomeProjeto: 'FOTOATIVIDADES',
+            dataSolicitacao: '04/04/2017',
+        };
+        diligenciaAdequacao = {
+            idAvaliarAdequacaoProjeto: 1452,
+            dtAvaliacao: '06/06/2018',
+        };
+        diligenciaProjeto = {
+            arquivos: {
+                idArquivo: 1272611,
+            },
+            nomeProjeto: 'FOTOATIVIDADES',
+        };
+        diligencia = {
+            diligenciaAdequacao: {
+                tipoDiligencia: 'Diligência na Análise da adequação à realidade do projeto.',
+                idAvaliarAdequacaoProjeto: 1452,
+            },
+            diligenciaProjeto: {
+                tipoDiligencia: 'Diligência de Checklist - Análise',
+                idDiligencia: 72427,
+            },
+            diligenciaProposta: {
+                idAvaliacaoProposta: 401888,
+                idPreprojeto: 245047,
+            },
+        };
     });
 
     test('SET_PROJETO', () => {
@@ -367,5 +427,25 @@ describe('Projeto Mutations', () => {
     test('SET_PLANO_DISTRIBUICAO_IN2017', () => {
         mutations.SET_PLANO_DISTRIBUICAO_IN2017(state, planoDistribuicaoIn2017);
         expect(state.planoDistribuicaoIn2017).toEqual(planoDistribuicaoIn2017);
+    });
+
+    test('SET_DILIGENCIA_PROPOSTA', () => {
+        mutations.SET_DILIGENCIA_PROPOSTA(state, diligenciaProposta);
+        expect(state.diligenciaProposta).toEqual(diligenciaProposta);
+    });
+
+    test('SET_DILIGENCIA_ADEQUACAO', () => {
+        mutations.SET_DILIGENCIA_ADEQUACAO(state, diligenciaAdequacao);
+        expect(state.diligenciaAdequacao).toEqual(diligenciaAdequacao);
+    });
+
+    test('SET_DILIGENCIA_PROJETO', () => {
+        mutations.SET_DILIGENCIA_PROJETO(state, diligenciaProjeto);
+        expect(state.diligenciaProjeto).toEqual(diligenciaProjeto);
+    });
+
+    test('SET_DILIGENCIA', () => {
+        mutations.SET_DILIGENCIA(state, diligencia);
+        expect(state.diligencia).toEqual(diligencia);
     });
 });

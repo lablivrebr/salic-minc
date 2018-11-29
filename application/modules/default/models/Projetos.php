@@ -1616,6 +1616,86 @@ class Projetos extends MinC_Db_Table_Abstract
         return $this->fetchAll($select);
     }
 
+    public function consultarFiscalizacao($where, $order = array())
+    {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(
+            array($this->_name),
+            array(
+                'Projetos.IdPRONAC',
+                'Projetos.AnoProjeto',
+                'Projetos.Sequencial',
+                'Projetos.Area',
+                'Projetos.Situacao',
+                'Projetos.Segmento',
+                'Projetos.Mecanismo',
+                'Projetos.idProjeto',
+                'Projetos.NomeProjeto',
+                'Projetos.idProjeto',
+                'Projetos.CgcCpf'
+            )
+        );
+
+        $select->joinLeft(
+            array('i' => 'Interessado'),
+            'Projetos.CgcCpf = i.CgcCpf',
+            array('Nome as Proponente'),
+            "SAC.dbo"
+        );
+        $select->joinLeft(
+            array('PreProjeto'),
+            "Projetos.idProjeto = PreProjeto.idPreProjeto",
+            array('PreProjeto.stPlanoAnual')
+        );
+        $select->joinLeft(
+            array('nom' => 'Nomes'),
+            "nom.idAgente = PreProjeto.idAgente",
+            array('nom.Descricao AS nmAgente'),
+            'Agentes.dbo'
+        );
+        $select->joinInner(
+            array('Segmento'),
+            "Projetos.Segmento = Segmento.Codigo AND Projetos.Segmento = Segmento.Codigo",
+            array('Segmento.Descricao AS dsSegmento')
+        );
+        $select->joinInner(
+            array('Situacao'),
+            "Projetos.Situacao = Situacao.Codigo",
+            array('Situacao.Descricao AS dsSituacao')
+        );
+        $select->joinInner(
+            array('Area'),
+            "Projetos.Area = Area.Codigo",
+            array('Area.Descricao AS dsArea')
+        );
+        $select->joinInner(
+            array('Mecanismo'),
+            "Projetos.Mecanismo = Mecanismo.Codigo",
+            array('Mecanismo.Descricao AS dsMecanismo')
+        );
+        $select->joinLeft(
+            array('tbFiscalizacao'),
+            "tbFiscalizacao.IdPRONAC = Projetos.IdPRONAC",
+            array('idTecnico' => 'tbFiscalizacao.idAgente', 'tbFiscalizacao.tpDemandante',
+                'CAST(tbFiscalizacao.dsFiscalizacaoProjeto AS TEXT) AS dsFiscalizacaoProjeto', 'tbFiscalizacao.idFiscalizacao', 'tbFiscalizacao.dtInicioFiscalizacaoProjeto', 'tbFiscalizacao.dtFimFiscalizacaoProjeto', 'tbFiscalizacao.stFiscalizacaoProjeto', 'tbFiscalizacao.dtRespostaSolicitada')
+        );
+        $select->joinLeft(
+            array('usu' => 'Usuarios'),
+            "tbFiscalizacao.idUsuarioInterno = usu.usu_codigo",
+            array('cpfTecnico' => 'usu_identificacao', 'nmTecnico' => 'usu_nome'),
+            'TABELAS.dbo'
+        );
+
+        foreach ($where as $coluna => $valor) {
+            $select->where($coluna, $valor);
+        }
+
+        $select->order($order);
+
+        return $this->fetchAll($select);
+    }
+
     public function enviarEmailFiscalizacao($where)
     {
         $select = $this->select();

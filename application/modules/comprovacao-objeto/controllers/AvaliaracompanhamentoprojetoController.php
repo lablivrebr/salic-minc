@@ -288,7 +288,7 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
             $html .= '<th style="border: 1px dotted black; background-color: #9BBB59;">UF</th>';
             $html .= '<th style="border: 1px dotted black; background-color: #9BBB59;">Mecanismo</th>';
             $html .= '<th style="border: 1px dotted black; background-color: #9BBB59;">Situa&ccedil;&atilde;o</th>';
-            $html .= '<th style="border: 1px dotted black; background-color: #9BBB59;">Dt. Relat&aacute;rio</th>';
+            $html .= '<th style="border: 1px dotted black; background-color: #9BBB59;">Dt. Relat&oacute;rio</th>';
             if (isset($tipoFiltro) && $tipoFiltro != 'aguardando') {
                 $html .= '<th style="border: 1px dotted black; background-color: #9BBB59;">T&eacute;cnico</th>';
             }
@@ -426,7 +426,7 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
         $DadosRelatorio = $tbCumprimentoObjeto->buscarCumprimentoObjeto(array('idPronac = ?' => $idPronac, 'siCumprimentoObjeto!=?' => 1));
         $this->view->DadosRelatorio = $DadosRelatorio;
         if (count($DadosRelatorio) == 0) {
-            parent::message("Relat&aacute;rio n&atilde;o encontrado!", "comprovacao-objeto/avaliaracompanhamentoprojeto/index", "ALERT");
+            parent::message("Relat&oacute;rio n&atilde;o encontrado!", "comprovacao-objeto/avaliaracompanhamentoprojeto/index", "ALERT");
         }
 
         $LocaisDeRealizacao = $projetos->buscarLocaisDeRealizacao($idPronac);
@@ -487,9 +487,9 @@ class ComprovacaoObjeto_AvaliaracompanhamentoprojetoController extends MinC_Cont
         $return = $tbCumprimentoObjeto->update($dados, $where);
 
         if ($return) {
-            parent::message("Relat&aacute;rio encaminhado com sucesso!", "comprovacao-objeto/avaliaracompanhamentoprojeto/index", "CONFIRM");
+            parent::message("Relat&oacute;rio encaminhado com sucesso!", "comprovacao-objeto/avaliaracompanhamentoprojeto/index", "CONFIRM");
         } else {
-            parent::message("Relat&aacute;rio n&atilde;o foi encaminhado. Contate o Administrador do sistema!", "comprovacao-objeto/avaliaracompanhamentoprojeto/index", "ERROR");
+            parent::message("Relat&oacute;rio n&atilde;o foi encaminhado. Contate o Administrador do sistema!", "comprovacao-objeto/avaliaracompanhamentoprojeto/index", "ERROR");
         }
     }
 

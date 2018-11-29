@@ -1,58 +1,89 @@
 <template>
-    <div id="conteudo">
+    <div>
         <div v-if="loading">
-            <Carregando :text="'Carregando Providencia Tomada'"></Carregando>
+            <Carregando :text="'Carregando Providência Tomada'"></Carregando>
         </div>
-        <div v-else-if="dados">
-            <div v-if="dados.providenciaTomada">
-                <table class="tabela">
-                    <thead>
-                    <tr class="destacar">
-                        <th class="center">DT. SITUA&Ccedil;&Atilde;O</th>
-                        <th class="center">SITUA&Ccedil;&Atilde;O</th>
-                        <th class="center">PROVID&Ecirc;NCIA TOMADA</th>
-                        <th class="center">CPF</th>
-                        <th class="center">NOME</th>
-                    </tr>
-                    </thead>
-                    <tbody v-for="(dado, index) in dados.providenciaTomada" :key="index">
-                    <tr>
-                        <td class="center">{{ dado.DtSituacao }}</td>
-                        <td class="center">{{ dado.Situacao }}</td>
-                        <td class="center">{{ dado.ProvidenciaTomada }}</td>
-                        <td class="center">{{ dado.cnpjcpf }}</td>
-                        <td class="center">{{ dado.usuario }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div v-else>
-                <fieldset>
-                    <legend>Provid&ecirc;ncia Tomada</legend>
-                    <div class="center">
-                        <em>Dados n&atilde;o informado.</em>
-                    </div>
-                </fieldset>
-            </div>
+        <div v-else-if="dados.providenciaTomada">
+           <v-data-table
+                    :headers="headers"
+                    :items="dados.providenciaTomada"
+                    class="elevation-1 container-fluid"
+                    rows-per-page-text="Items por Página"
+                    :pagination.sync="pagination"
+                    :rows-per-page-items="[10, 25, 50, {'text': 'Todos', value: -1}]"
+                    no-data-text="Nenhum dado encontrado"
+           >
+                <template slot="items" slot-scope="props">
+                    <td class="text-xs-right">{{ props.item.DtSituacao }}</td>
+                    <td class="text-xs-right">{{ props.item.Situacao }}</td>
+                    <td class="text-xs-left">{{ props.item.ProvidenciaTomada }}</td>
+                    <td class="text-xs-right" v-if="props.item.cnpjcpf">
+                        {{ props.item.cnpjcpf | cnpjFilter }}
+                    </td>
+                    <td class="text-xs-left" v-else>
+                        Nao se aplica.
+                    </td>
+                    <td class="text-xs-left">{{ props.item.usuario }}</td>
+                </template>
+                <template slot="pageText" slot-scope="props">
+                    Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+                </template>
+            </v-data-table>
         </div>
     </div>
+
 </template>
+
 <script>
     import { mapActions, mapGetters } from 'vuex';
     import Carregando from '@/components/Carregando';
+    import cnpjFilter from '@/filters/cnpj';
     import IdentificacaoProjeto from './IdentificacaoProjeto';
 
     export default {
-        name: 'ProvidenciaTomada',
         components: {
             Carregando,
             IdentificacaoProjeto,
         },
         data() {
             return {
+                search: '',
+                pagination: {
+                    rowsPerPage: 10,
+                    sortBy: 'fat',
+                },
+                selected: [],
                 loading: true,
+                headers: [
+                    {
+                        text: 'DT. SITUAÇÃO',
+                        align: 'right',
+                        value: 'DtSituacao',
+                    },
+                    {
+                        text: 'SITUAÇÃO',
+                        align: 'right',
+                        value: 'Situacao',
+                    },
+                    {
+                        text: 'PROVIDÊNCIA TOMADA',
+                        align: 'left',
+                        value: 'ProvidenciaTomada',
+                    },
+                    {
+                        text: 'CPF',
+                        align: 'center',
+                        value: 'cnpjcpf',
+                    },
+                    {
+                        text: 'NOME',
+                        align: 'left',
+                        value: 'usuario',
+                    },
+                ],
             };
         },
+
         mounted() {
             if (typeof this.dadosProjeto.idPronac !== 'undefined') {
                 this.buscarProvidenciaTomada(this.dadosProjeto.idPronac);
@@ -63,6 +94,7 @@
                 this.loading = false;
             },
         },
+
         computed: {
             ...mapGetters({
                 dadosProjeto: 'projeto/projeto',
@@ -74,6 +106,8 @@
                 buscarProvidenciaTomada: 'projeto/buscarProvidenciaTomada',
             }),
         },
+        filters: {
+            cnpjFilter,
+        },
     };
 </script>
-

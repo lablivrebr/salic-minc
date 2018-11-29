@@ -5,7 +5,6 @@
         </v-subheader>
         <v-card>
             <v-tabs
-                value="tab-0"
                 centered
                 color="green darken-3"
                 dark
@@ -51,6 +50,7 @@
                 <v-tab-item
                     :value="'tab-0'"
                     :key="0"
+                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL"
                 >
                     <Laudo :dados="getProjetosLaudoFinal"
                            :estado="Const.ESTADO_ANALISE_LAUDO"
@@ -59,6 +59,7 @@
                 <v-tab-item
                     :value="'tab-1'"
                     :key="1"
+                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL"
                 >
                     <Laudo :dados="getProjetosLaudoAssinar"
                            :estado="Const.ESTADO_LAUDO_FINALIZADO"
@@ -75,6 +76,7 @@
                 <v-tab-item
                     :value="'tab-3'"
                     :key="3"
+                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL"
                 >
                     <Laudo :dados="getProjetosLaudoFinalizados"
                            :estado="Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA"

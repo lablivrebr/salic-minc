@@ -1,51 +1,65 @@
 <template>
-    <div id="conteudo">
+    <div>
         <div v-if="loading">
-            <Carregando :text="'Carregando Diligencias do Projeto'"></Carregando>
+            <Carregando :text="'Carregando Diligências do Projeto'"></Carregando>
         </div>
-        <div v-else>
-            <IdentificacaoProjeto
-                    :pronac="dadosProjeto.Pronac"
-                    :nomeProjeto="dadosProjeto.NomeProjeto"
-            >
-            </IdentificacaoProjeto>
-            <div v-if="dados.diligenciaProposta">
-                <fieldset style="margin: 0px;">
-                    <legend>Dilig&ecirc;ncia Proposta</legend>
-                    <VisualizarDiligenciaProposta
-                            :idPronac="idPronac"
-                            :diligencias="dados.diligenciaProposta"
-                    >
-                    </VisualizarDiligenciaProposta>
-                </fieldset>
-            </div>
-            <div v-if="dados.diligenciaAdequacao">
-                <fieldset style="margin: 0px;">
-                    <legend>Dilig&ecirc;ncias da Adequa&ccedil;&atilde;o do Projeto</legend>
-                    <VisualizarDiligenciaAdequacao
-                            :idPronac="idPronac"
-                            :diligencias="dados.diligenciaAdequacao"
-                    >
-                    </VisualizarDiligenciaAdequacao>
-                </fieldset>
-            </div>
-            <div v-if="dados.diligenciaProjeto">
-                <fieldset style="margin: 0px;">
-                    <legend>Dilig&ecirc;ncia Projeto</legend>
-                    <VisualizarDiligenciaProjeto
-                            :idPronac="idPronac"
-                            :diligencias="dados.diligenciaProjeto"
-                    >
-                    </VisualizarDiligenciaProjeto>
-                </fieldset>
-            </div>
-        </div>
+        <v-flex v-else>
+            <v-expansion-panel popout focusable>
+                <v-expansion-panel-content class="elevation-1">
+                    <v-layout slot="header" class="primary--text">
+                        <v-icon class="mr-3 primary--text">perm_media</v-icon>
+                        Diligência Proposta
+                    </v-layout>
+                    <v-card>
+                        <v-card-text>
+                            <VisualizarDiligenciaProposta
+                                    :idPronac="idPronac"
+                                    :diligencias="dados.diligenciaProposta"
+                            >
+                            </VisualizarDiligenciaProposta>
+                        </v-card-text>
+                    </v-card>
+                </v-expansion-panel-content>
+
+                <v-expansion-panel-content class="elevation-1">
+                    <v-layout slot="header" class="primary--text">
+                        <v-icon class="mr-3 primary--text">perm_media</v-icon>
+                        Diligências da Adequação do Projeto
+                    </v-layout>
+                    <v-card>
+                        <v-card-text>
+                            <VisualizarDiligenciaAdequacao
+                                    :idPronac="idPronac"
+                                    :diligencias="dados.diligenciaAdequacao"
+                            >
+                            </VisualizarDiligenciaAdequacao>
+                        </v-card-text>
+                    </v-card>
+                </v-expansion-panel-content>
+
+                <v-expansion-panel-content class="elevation-1">
+                    <v-layout slot="header" class="primary--text">
+                        <v-icon class="mr-3 primary--text">perm_media</v-icon>
+                        Diligência Projeto
+                    </v-layout>
+                    <v-card>
+                        <v-card-text>
+                            <VisualizarDiligenciaProjeto
+                                    :idPronac="idPronac"
+                                    :diligencias="dados.diligenciaProjeto"
+                            >
+                            </VisualizarDiligenciaProjeto>
+                        </v-card-text>
+                    </v-card>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-flex>
     </div>
+
 </template>
 <script>
     import { mapGetters, mapActions } from 'vuex';
     import Carregando from '@/components/Carregando';
-    import IdentificacaoProjeto from './IdentificacaoProjeto';
     import VisualizarDiligenciaProposta from './components/VisualizarDiligenciaProposta';
     import VisualizarDiligenciaAdequacao from './components/VisualizarDiligenciaAdequacao';
     import VisualizarDiligenciaProjeto from './components/VisualizarDiligenciaProjeto';
@@ -54,7 +68,6 @@
         name: 'DiligenciaProjeto',
         components: {
             Carregando,
-            IdentificacaoProjeto,
             VisualizarDiligenciaProposta,
             VisualizarDiligenciaAdequacao,
             VisualizarDiligenciaProjeto,

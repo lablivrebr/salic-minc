@@ -45,12 +45,12 @@ class CertidoesNegativas implements \MinC\Servico\IServicoRestZend
 
             if (!empty($item['DtEmissao'])) {
                 $objDateTimeDtEmissao = new \DateTime($item['DtEmissao']);
-                $objDateTimeDtEmissao = $objDateTimeDtEmissao->format('d/m/Y H:i:s');
+                $objDateTimeDtEmissao = $objDateTimeDtEmissao->format('d/m/Y');
             }
 
             if (!empty($item['DtValidade'])) {
                 $objDateTimeDtValidade = new \DateTime($item['DtValidade']);
-                $objDateTimeDtValidade = $objDateTimeDtValidade->format('d/m/Y H:i:s');
+                $objDateTimeDtValidade = $objDateTimeDtValidade->format('d/m/Y');
             }
 
             if ($item['DtValidade'] == '1900-01-01 00:00:00') {

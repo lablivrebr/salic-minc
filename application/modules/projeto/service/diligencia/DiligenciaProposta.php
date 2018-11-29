@@ -28,7 +28,7 @@ class DiligenciaProposta implements \MinC\Servico\IServicoRestZend
     public function visualizarDiligenciaProposta()
     {
         $idPreProjeto = $this->request->idPreProjeto;
-        $idAvaliacaoProposta = (int) $this->request->idAvaliacaoProposta;
+        $idAvaliacaoProposta = (int) $this->request->id;
 
         if (empty($idAvaliacaoProposta) || empty($idPreProjeto)) {
             return [];

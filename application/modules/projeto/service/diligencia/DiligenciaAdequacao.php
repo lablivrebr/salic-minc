@@ -30,7 +30,7 @@ class DiligenciaAdequacao implements \MinC\Servico\IServicoRestZend
     public function visualizarDiligenciaAdequacaoProjeto()
     {
         $idPronac = $this->request->idPronac;
-        $idAvaliarAdequacaoProjeto = (int) $this->request->idAvaliarAdequacaoProjeto;
+        $idAvaliarAdequacaoProjeto = (int) $this->request->id;
 
         if (strlen($idPronac) > 7) {
             $idPronac = Seguranca::dencrypt($idPronac);

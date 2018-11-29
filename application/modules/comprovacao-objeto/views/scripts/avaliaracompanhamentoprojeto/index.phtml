@@ -175,12 +175,12 @@
                                 <div id="modalDistribuirAnalise_<?= $dp->IdPRONAC ?>"
                                      class="modal modal-fixed-footer">
                                     <div class="modal-content">
-                                        <h4>Distribuir projeto "<?= $dp->NomeProjeto; ?>" para an&aacute;lise de
-                                            cumprimento do objeto</h4>
+                                        <p style="font-size: 18px;">Distribuir projeto <b>"<?= $dp->NomeProjeto; ?>"</b> para an&aacute;lise de
+                                            cumprimento do objeto</p>
                                         <p class="left-align">Selecione o t&eacute;cnico:</p>
                                         <div class="row">
                                             <div class="col l8 m8 s12">
-                                                <select name="tecnico" style="display: inline-block">
+                                                <select name="tecnico" style="display: inline-block; font-size: 14px">
                                                     <option value=""> - Selecione -</option>
                                                     <?php foreach ($this->Usuarios as $usuario) { ?>
                                                         <option

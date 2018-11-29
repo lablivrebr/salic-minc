@@ -727,7 +727,7 @@ LEFT JOIN BDCORPORATIVO.scSAC.tbAvaliacaoSubItemPedidoAlteracao tasipa ON (tasip
         $select->joinInner(
             array('uf' => 'UF'),
             'uf.idUF = a.idUF',
-            array('idUF'=>'uf.idUF', 'UF'=>'uf.Sigla', 'uf.Regiao'),
+            array('idUF'=>'uf.idUF', 'UF'=>'uf.Sigla', 'uf.Regiao', 'uf.Descricao'),
             $this->getSchema('agentes')
         );
 

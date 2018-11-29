@@ -39,7 +39,7 @@ class DocumentosAssinados implements \MinC\Servico\IServicoRestZend
 
             if (!empty($dado['dt_criacao'])) {
                 $dtCriacao = new \DateTime($dado['dt_criacao']);
-                $dtCriacao = $dtCriacao->format('d/m/Y H:i:s');
+                $dtCriacao = $dtCriacao->format('d/m/Y');
             }
 
             $itemArray[] = [

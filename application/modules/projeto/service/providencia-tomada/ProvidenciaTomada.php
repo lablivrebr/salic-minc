@@ -53,7 +53,7 @@ class ProvidenciaTomada implements \MinC\Servico\IServicoRestZend
 
             if (!empty($providencia['DtSituacao'])) {
                 $objDateTimeDtSituacao = new \DateTime($providencia['DtSituacao']);
-                $objDateTimeDtSituacao = $objDateTimeDtSituacao->format('d/m/Y H:i:s');
+                $objDateTimeDtSituacao = $objDateTimeDtSituacao->format('d/m/Y');
             }
             $resultArray[] = [
                 'DtSituacao' => $objDateTimeDtSituacao,

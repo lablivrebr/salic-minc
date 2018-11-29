@@ -43,7 +43,7 @@
     <ul>
         <li class="first"><a href="#" title="In&iacute;cio">In&iacute;cio</a></li>
         <li class="second"><a href="<?php echo $this->baseUrl(); ?>/consultardadosprojeto/index?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>" title="Consultar dados do Projeto">Consultar dados do Projeto</a></li>
-        <li class="second">Comprovar Realiza��o do Objeto</li>
+        <li class="second">Comprovar Realiza&ccedil;&atilde;o do Objeto</li>
         <li class="last">Aceite de Obra</li>
     </ul>
 </div>
@@ -57,7 +57,7 @@
 <div id="conteudo">
     <table class="tabela">
         <tr>
-            <th align="center" width="30%">N� PRONAC:</th>
+            <th align="center" width="30%">N&ordm; PRONAC:</th>
             <th align="center">Nome do Projeto:</th>
         </tr>
         <tr class="linha">
@@ -82,21 +82,21 @@
                 <th>Termo de Aceite da Obra</th>
             </tr>
             <tr>
-                <td class="destacar bold">O projeto prev� constru��o, reforma, restauro, cria��o de obras esculturais ou similares? <span style="color: red;">*</span></td>
+                <td class="destacar bold">O projeto prev&ecirc; constru&ccedil;&atilde;o, reforma, restauro, cria&ccedil;&atilde;o de obras esculturais ou similares? <span style="color: red;">*</span></td>
             </tr>
             <tr>
                 <td>
                     <span style="padding-right: 20px;">Sim <input type="radio" name="construcaoCriacaoRestauro" value="1" <?php echo (!empty($this->DadosRelatorio) && isset($this->DadosRelatorio->stConstrucaoCriacaoRestauro) && $this->DadosRelatorio->stConstrucaoCriacaoRestauro == 1)?'checked="checked"':''; ?>></span>
-                    <span>N�o <input type="radio" name="construcaoCriacaoRestauro" value="0" <?php echo (!empty($this->DadosRelatorio) && isset($this->DadosRelatorio->stConstrucaoCriacaoRestauro) && $this->DadosRelatorio->stConstrucaoCriacaoRestauro == 0)?'checked="checked"':''; ?>></span>
+                    <span>N&atilde;o <input type="radio" name="construcaoCriacaoRestauro" value="0" <?php echo (!empty($this->DadosRelatorio) && isset($this->DadosRelatorio->stConstrucaoCriacaoRestauro) && $this->DadosRelatorio->stConstrucaoCriacaoRestauro == 0)?'checked="checked"':''; ?>></span>
                 </td>
             </tr>
             <tr>
-                <td class="destacar bold">Descri��o do Termo <span style="color: red;">*</span></td>
+                <td class="destacar bold">Descri&ccedil;&atilde;o do Termo <span style="color: red;">*</span></td>
             </tr>
             <tr>
                 <td>
                     <textarea name="descricaoTermoAceite" id="descricaoTermoAceite" cols="" rows="7" style="width: 99%;" class="textarea_simples obrigatorio"><?php echo isset($this->DadosRelatorio->dsDescricaoTermoAceite) ? $this->DadosRelatorio->dsDescricaoTermoAceite : ''; ?></textarea>
-                    <br clear="all" /><span style="color: #FF9999; font-size: 11px;">Limite m�ximo de 2000 caracteres</span>
+                    <br clear="all" /><span style="color: #FF9999; font-size: 11px;">Limite m&aacute;ximo de 2000 caracteres</span>
                 </td>
             </tr>
             <tr>
@@ -118,7 +118,7 @@
         <tr>
             <td class="destacar bold" style="width: 25%">Arquivo</td>
             <td class="destacar bold" style="width: 25%">Tipo do Arquivo</td>
-            <td class="destacar bold" style="width: 25%">Extens�o do Arquivo</td>
+            <td class="destacar bold" style="width: 25%">Extens&atilde;o do Arquivo</td>
             <td class="destacar bold" style="width: 25%">Data de Envio</td>
         </tr>
         <tr>
@@ -136,10 +136,3 @@
 
     <br clear="all" />
 </div>
-
-
-<!-- in�cio: detalhe final da div conteudo #rodapeConteudo -->
-<div id="rodapeConteudo"><span></span></div>
-<!-- final: detalhe final da div conteudo #rodapeConteudo -->
-
-<br clear="all" />

@@ -441,8 +441,8 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
                 $menu['execucao']['submenu'][] = [
                     'label' => 'Dados da fiscaliza&ccedil;&atilde;o',
                     'title' => 'Ir para Dados da fiscaliza&ccedil;&atilde;o',
-                    'link' => '/default/consultardadosprojeto/dados-fiscalizacao/?idPronac=' . $idPronacHash,
-                    'ajax' => true,
+                    'link' => "/projeto/#/{$idPronacHash}/dados-fiscalizacao",
+                    'ajax' => false,
                     'grupo' => []
                 ];
 
@@ -451,24 +451,24 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             $menu['execucao']['submenu'][] = [
                 'label' => 'Dados das readequa&ccedil;&otilde;es',
                 'title' => 'Ir para Dados das readequa&ccedil;&otilde;es',
-                'link' => '/default/consultardadosprojeto/readequacoes/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/readequacoes",
+                'ajax' => false,
                 'grupo' => []
             ];
 
             $menu['execucao']['submenu'][] = [
                 'label' => 'Marcas Anexadas',
                 'title' => 'Ir para Marcas Anexadas',
-                'link' => '/default/consultardadosprojeto/marcas-anexadas/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/marcas-anexadas",
+                'ajax' => false,
                 'grupo' => []
             ];
 
             $menu['execucao']['submenu'][] = [
                 'label' => 'Pedido de Prorroga&ccedil;&atilde;o',
                 'title' => 'Ir para Pedido de Prorroga&ccedil;&atilde;o',
-                'link' => '/default/consultardadosprojeto/pedido-prorrogacao/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/pedido-prorrogacao",
+                'ajax' => false,
                 'grupo' => []
             ];
         }

@@ -25,7 +25,9 @@ class Readequacao_Model_DbTable_TbTipoReadequacao extends MinC_Db_Table_Abstract
         $select->where('stEstado = ?', 0);
 
         $select->where(new Zend_Db_Expr("idTipoReadequacao not in (
-            select idTipoReadequacao from SAC.dbo.tbReadequacao where idPronac = $idPronac AND stEstado = 0
+            SELECT idTipoReadequacao FROM SAC.dbo.tbReadequacao WHERE idPronac = $idPronac 
+            AND stEstado = " . Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_EM_ANDAMENTO . " 
+            AND stAtendimento != '" . Readequacao_Model_DbTable_TbReadequacao::ST_ATENDIMENTO_DEVOLVIDA . "'
         )"));
 
         $select->order('2');

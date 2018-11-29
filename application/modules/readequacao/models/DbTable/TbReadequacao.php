@@ -496,7 +496,7 @@ class Readequacao_Model_DbTable_TbReadequacao extends MinC_Db_Table_Abstract
         $select->joinInner(
             array('c' => 'tbTipoReadequacao'),
             'c.idTipoReadequacao = a.idTipoReadequacao',
-            array(''),
+            ['c.dsReadequacao AS tipoReadequacao'],
             'SAC.dbo'
         );
         $select->joinLeft(

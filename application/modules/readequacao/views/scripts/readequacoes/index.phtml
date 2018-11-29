@@ -1,5 +1,10 @@
 <script type="text/javascript">
-    $(document).ready(function () {
+ $(document).ready(function () {
+     $3('.editarReadequacaoDevolvida').on('click', function() {
+         var idTipoReadequacao = $(this).attr('idTipoReadequacao');
+         $('.comboReadequacoes').val(idTipoReadequacao).trigger('change');
+     });
+     
         $('.comboReadequacoes').change(function () {
             var valor = $(this).val(),
                 solicitacoesSimples = new Array(3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21);
@@ -112,7 +117,8 @@
                 tipoRead = $('#tipoReadequacao').val(),
                 solicitacoesSimples = new Array(3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21),
                 solicitacoesSimplesCKEditor = new Array(5, 6, 7, 8, 16, 17, 18, 19, 20, 21),
-                naoPedeConfirmacao = new Array(2, 11);
+                naoPedeConfirmacao = new Array(2, 11),
+                idReadequacao = $('#idReadequacao').val();
 
             if (descJustificativa == '') {
                 erro++;
@@ -404,7 +410,6 @@
                 idReadequacao: ''
             },
             success: function (data) {
-                console.log(data);
                 var readequacoes = data.readequacoes;
 
                 // @todo remove
@@ -420,7 +425,37 @@
     }
 
     function criarCampoTipoReadequacao(tpReadequacao) {
-        jqAjaxLinkSemLoading('<?php echo $this->Url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'criar-campo-tipo-readequacao'), '', true) ?>?idPronac=<?php echo $this->idPronac; ?>&tpReadequacao=' + tpReadequacao, '', 'campoCriadoTipoReadequacao');
+        $3.ajax({
+            url: '<?php echo $this->url(['module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'carregar-readequacao-devolvida']); ?>',
+            type: 'POST',
+            data: {
+                idPronac: '<?php echo $this->idPronac; ?>',
+                idTipoReadequacao: tpReadequacao
+            },
+            success: function(data) {
+                if (typeof data.readequacaoDevolvida.idReadequacao !== 'undefined') {
+                    $3('#readequacaoDevolvida').removeClass('sumir');
+                    $3('#readequacaoDevolvida .title').html('Editando readequa&ccedil;&atilde;o devolvida ao proponente');
+                    $3('#idReadequacao').val(data.readequacaoDevolvida.idReadequacao);
+                    $3('#arquivo').val(data.readequacaoDevolvida.nmArquivo);
+                    CKEDITOR.instances['descJustificativa'].setData(data.readequacaoDevolvida.dsJustificativa);
+                    
+                    jqAjaxLinkSemLoading(
+                        '<?php echo $this->Url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'criar-campo-tipo-readequacao'), '', true) ?>?idPronac=<?php echo $this->idPronac; ?>&tpReadequacao=' + tpReadequacao,
+                        '',
+                        'campoCriadoTipoReadequacao',
+                        function(html) {
+                            let descSolicitacao = $($.parseHTML(html)).filter('#descSolicitacao').text();
+                            CKEDITOR.instances['descSolicitacao'].setData(descSolicitacao);
+                        }
+                    );
+                } else {
+                    $3('#readequacaoDevolvida').addClass('sumir');
+                    jqAjaxLinkSemLoading('<?php echo $this->Url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'criar-campo-tipo-readequacao'), '', true) ?>?idPronac=<?php echo $this->idPronac; ?>&tpReadequacao=' + tpReadequacao, '', 'campoCriadoTipoReadequacao'); 
+                }
+            }
+        });
+        //jqAjaxLinkSemLoading('<?php echo $this->Url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'criar-campo-tipo-readequacao'), '', true) ?>?idPronac=<?php echo $this->idPronac; ?>&tpReadequacao=' + tpReadequacao, '', 'campoCriadoTipoReadequacao');
     }
 </script>
 
@@ -520,6 +555,12 @@
                             </td>
                         </tr>
                     </table>
+                    <table class="tabela sumir destacar" id="readequacaoDevolvida">
+                        <tr>
+                            <td class="title" style="font-weigth: bold; background-color: #cddc39">
+                            </td>
+                        </tr>
+                    </table>
                     <table class="tabela sumir" id="campoAdicionadoPorTipoReadequacao">
                         <tr>
                             <td class="destacar">
@@ -556,7 +597,7 @@
                             <td class="destacar bold" style="font-size: 13px;">Anexo</td>
                         </tr>
                         <tr>
-                            <td><input type="file" name="arquivo" class="input_simples"> <span
+                            <td><input type="file" name="arquivo" class="input_simples" id="arquivo"> <span
                                     style="margin-left: 10px;" class="red-text">Somente arquivos .pdf</span></td>
                         </tr>
                     </table>
@@ -583,6 +624,7 @@
                                     <th>Descri&ccedil;&atilde;o</th>
                                     <th>Justificativa</th>
                                     <th>Arquivo</th>
+                                    <th>Atendimento</th>
                                     <th>A&ccedil;&atilde;o</th>
                                 </tr>
                                 <?php foreach ($this->readequacoesCadastradas as $rc) : ?>
@@ -614,13 +656,32 @@
                                         <?php else : ?>
                                             <td class="centro">-</td>
                                         <?php endif; ?>
-                                        <td class="centro" style="width: 150px;">
-                                            <a
-                                                href="javascript:void(0)"
-                                                class="btn small waves-effect waves-light btn-danger btn-excluir"
-                                                title="Excluir readequa&ccedil;&atilde;o"
-                                                readequacao="<?php echo $rc->idReadequacao; ?>"
-                                            >
+                                            <td>
+                                                <?php
+                                                $atendimentoArr = [
+                                                    'I' => 'Indeferida',
+                                                    'D' => 'Deferida',
+                                                    'E' => 'Devolvida',
+                                                    'N' => 'Sem avalia&ccedil;&atilde;o'
+                                                ];
+                                                echo $atendimentoArr[$rc->stAtendimento]; ?>
+                                            </td>
+                                            <td class="centro" style="width: 150px;">
+                                                <?php if ($rc->stAtendimento == 'E'): ?>
+                                                <button
+                                                    type="button"
+                                                    href="javascript:void(0)"
+                                                    idTipoReadequacao="<?php echo $rc->idTipoReadequacao; ?>"
+                                                    class="btn small waves-effect waves-light editarReadequacaoDevolvida">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <?php endif; ?>
+                                                <a
+                                                    href="javascript:void(0)"
+                                                    class="btn small waves-effect waves-light btn-danger btn-excluir"
+                                                    title="Excluir readequa&ccedil;&atilde;o"
+                                                    readequacao="<?php echo $rc->idReadequacao; ?>"
+                                                >
                                                 <i class="material-icons">delete</i>
                                             </a>
                                         </td>

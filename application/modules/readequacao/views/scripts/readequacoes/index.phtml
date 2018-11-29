@@ -1,8 +1,29 @@
 <script type="text/javascript">
  $(document).ready(function () {
      $3('.editarReadequacaoDevolvida').on('click', function() {
-         var idTipoReadequacao = $(this).attr('idTipoReadequacao');
-         $('.comboReadequacoes').val(idTipoReadequacao).trigger('change');
+         var idTipoReadequacao = parseInt($(this).attr('idTipoReadequacao'));
+         
+         switch(idTipoReadequacao) {
+             case 1:
+                 var url = '/readequacao/remanejamento-menor/index/?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>';
+                 window.location.href = url;
+                 break;
+             case 2:
+                 var url = '/readequacao/planilha-orcamentaria/index/?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>';
+                 window.location.href = url;
+                 break;
+             case 9:
+                 var url = '/readequacao/local-realizacao/index/?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>';
+                 window.location.href = url;
+                 break;
+             case 11:
+                 var url = '/readequacao/plano-distribuicao/index/?idPronac=<?php echo Seguranca::encrypt($this->idPronac); ?>';
+                 window.location.href = url;
+                 break;
+             default:
+                 $('.comboReadequacoes').val(idTipoReadequacao).trigger('change');
+                 break;
+         }
      });
      
         $('.comboReadequacoes').change(function () {
@@ -426,19 +447,26 @@
 
     function criarCampoTipoReadequacao(tpReadequacao) {
         $3.ajax({
-            url: '<?php echo $this->url(['module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'carregar-readequacao-devolvida']); ?>',
+            url: '<?php echo $this->url(['module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'carregar-readequacao']); ?>',
             type: 'POST',
             data: {
                 idPronac: '<?php echo $this->idPronac; ?>',
                 idTipoReadequacao: tpReadequacao
             },
             success: function(data) {
-                if (typeof data.readequacaoDevolvida.idReadequacao !== 'undefined') {
-                    $3('#readequacaoDevolvida').removeClass('sumir');
-                    $3('#readequacaoDevolvida .title').html('Editando readequa&ccedil;&atilde;o devolvida ao proponente');
-                    $3('#idReadequacao').val(data.readequacaoDevolvida.idReadequacao);
-                    $3('#arquivo').val(data.readequacaoDevolvida.nmArquivo);
-                    CKEDITOR.instances['descJustificativa'].setData(data.readequacaoDevolvida.dsJustificativa);
+                if (typeof data.readequacao.idReadequacao !== 'undefined') {
+                    $3('#readequacaoEdicao').removeClass('sumir');
+                    if (data.readequacao.stAtendimento == 'E') {
+                        $3('#readequacaoEdicao .title h4').html('Editando readequa&ccedil;&atilde;o devolvida ao proponente');
+                        $3('#readequacaoEdicao .title').removeClass().addClass('lime');
+                    } else {
+                        $3('#readequacaoEdicao .title h4').html('Editando readequa&ccedil;&atilde;o');
+                        $3('#readequacaoEdicao .title').removeClass().addClass('light-green');
+                    }
+                    
+                    $3('#idReadequacao').val(data.readequacao.idReadequacao);
+                    $3('#arquivo').val(data.readequacao.nmArquivo);
+                    CKEDITOR.instances['descJustificativa'].setData(data.readequacao.dsJustificativa);
                     
                     jqAjaxLinkSemLoading(
                         '<?php echo $this->Url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'criar-campo-tipo-readequacao'), '', true) ?>?idPronac=<?php echo $this->idPronac; ?>&tpReadequacao=' + tpReadequacao,
@@ -450,7 +478,7 @@
                         }
                     );
                 } else {
-                    $3('#readequacaoDevolvida').addClass('sumir');
+                    $3('#readequacaoEdicao').addClass('sumir');
                     jqAjaxLinkSemLoading('<?php echo $this->Url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'criar-campo-tipo-readequacao'), '', true) ?>?idPronac=<?php echo $this->idPronac; ?>&tpReadequacao=' + tpReadequacao, '', 'campoCriadoTipoReadequacao'); 
                 }
             }
@@ -555,9 +583,10 @@
                             </td>
                         </tr>
                     </table>
-                    <table class="tabela sumir destacar" id="readequacaoDevolvida">
+                    <table class="tabela sumir destacar" id="readequacaoEdicao">
                         <tr>
-                            <td class="title" style="font-weigth: bold; background-color: #cddc39">
+                            <td class="title">
+                                <h4></h4>
                             </td>
                         </tr>
                     </table>
@@ -667,7 +696,11 @@
                                                 echo $atendimentoArr[$rc->stAtendimento]; ?>
                                             </td>
                                             <td class="centro" style="width: 150px;">
-                                                <?php if ($rc->stAtendimento == 'E'): ?>
+                                                <?php if (in_array($rc->siEncaminhamento,
+                                                                   [
+                                                                       Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_NAO_ENVIA_MINC,
+                                                                       Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_CADASTRADA_PROPONENTE
+                                                                   ])): ?>
                                                 <button
                                                     type="button"
                                                     href="javascript:void(0)"

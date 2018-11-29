@@ -604,42 +604,41 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $this->_helper->viewRenderer->setNoRender(true);
     }
 
-    public function carregarReadequacaoDevolvidaAction()
+    public function carregarReadequacaoAction()
     {
         $this->_helper->layout->disableLayout(); // desabilita o Zend_Layout
         $idPronac = $this->_request->getParam("idPronac");
         $idTipoReadequacao = $this->_request->getParam("idTipoReadequacao");
         
         $tbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
-        $readequacaoDevolvida = $tbReadequacao->readequacoesCadastradasProponente(
+        $readequacaoResult = $tbReadequacao->readequacoesCadastradasProponente(
             [
                 'a.idPronac = ?' => $idPronac,
                 'a.siEncaminhamento = ?' => Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_CADASTRADA_PROPONENTE,
                 'a.stEstado = ?' => Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_EM_ANDAMENTO,
-                'a.stAtendimento = ?' => Readequacao_Model_DbTable_TbReadequacao::ST_ATENDIMENTO_DEVOLVIDA,
                 'b.idTipoReadequacao = ?' => $idTipoReadequacao
             ]
         )->current();
 
         $readequacao = [];
         
-        if (count($readequacaoDevolvida) > 0) {
-            $readequacao['idReadequacao'] = $readequacaoDevolvida['idReadequacao'];
-            $readequacao['idPronac'] = $readequacaoDevolvida['idPronac'];
-            $readequacao['dtSolicitacao'] = $readequacaoDevolvida['dtSolicitacao'];
-            $readequacao['stAtendimento'] = $readequacaoDevolvida['stAtendimento'];
-            $readequacao['dsAvaliacao'] = utf8_encode($readequacaoDevolvida['dsAvaliacao']);
-            $readequacao['dsSolicitacao'] = utf8_encode($readequacaoDevolvida['dsSolicitacao']);
-            $readequacao['dsJustificativa'] = utf8_encode($readequacaoDevolvida['dsJustificativa']);
-            $readequacao['dsReadequacao'] = $readequacaoDevolvida['dsReadequacao'];
-            $readequacao['idArquivo'] = $readequacaoDevolvida['idArquivo'];
-            $readequacao['nmArquivo'] = $readequacaoDevolvida['nmArquivo'];
+        if (count($readequacaoResult) > 0) {
+            $readequacao['idReadequacao'] = $readequacaoResult['idReadequacao'];
+            $readequacao['idPronac'] = $readequacaoResult['idPronac'];
+            $readequacao['dtSolicitacao'] = $readequacaoResult['dtSolicitacao'];
+            $readequacao['stAtendimento'] = $readequacaoResult['stAtendimento'];
+            $readequacao['dsAvaliacao'] = utf8_encode($readequacaoResult['dsAvaliacao']);
+            $readequacao['dsSolicitacao'] = utf8_encode($readequacaoResult['dsSolicitacao']);
+            $readequacao['dsJustificativa'] = utf8_encode($readequacaoResult['dsJustificativa']);
+            $readequacao['dsReadequacao'] = utf8_encode($readequacaoResult['dsReadequacao']);
+            $readequacao['idArquivo'] = $readequacaoResult['idArquivo'];
+            $readequacao['nmArquivo'] = utf8_encode($readequacaoResult['nmArquivo']);
             
         }
         
         $this->_helper->json([
             'success' => true,
-            'readequacaoDevolvida' => $readequacao,
+            'readequacao' => $readequacao,
             'msg' => 'Dados salvos com sucesso!'
         ]);
     }

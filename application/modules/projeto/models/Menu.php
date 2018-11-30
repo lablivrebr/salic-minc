@@ -208,8 +208,8 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
                 $menu['execucao']['submenu'][] = [
                     'label' => 'Dados da fiscaliza&ccedil;&atilde;o',
                     'title' => 'Ir para Dados da fiscaliza&ccedil;&atilde;o',
-                    'link' => '/default/consultardadosprojeto/dados-fiscalizacao/?idPronac=' . $idPronacHash,
-                    'ajax' => true,
+                    'link' => "/projeto/#/{$idPronacHash}/dados-fiscalizacao",
+                    'ajax' => false,
                     'grupo' => []
                 ];
             }

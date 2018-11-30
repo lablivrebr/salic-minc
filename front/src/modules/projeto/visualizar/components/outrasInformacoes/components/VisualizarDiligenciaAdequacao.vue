@@ -8,6 +8,8 @@
                 no-data-text="Nenhum dado encontrado"
         >
             <template slot="items" slot-scope="props">
+                <td class="text-xs-right">{{ props.item.dtAvaliacao }}</td>
+                <td class="text-xs-left" v-html="props.item.tipoDiligencia"></td>
                 <td class="text-xs-center">
                     <v-btn flat icon>
                         <v-tooltip bottom>
@@ -20,8 +22,6 @@
                         </v-tooltip>
                     </v-btn>
                 </td>
-                <td class="text-xs-right">{{ props.item.dtAvaliacao }}</td>
-                <td class="text-xs-left" v-html="props.item.tipoDiligencia"></td>
             </template>
             <template slot="pageText" slot-scope="props">
                 Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
@@ -65,7 +65,7 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import Carregando from '@/components/Carregando';
+    import Carregando from '@/components/Carregando_vuetify';
 
     export default {
         name: 'VisualizarDiligenciaAdequacao',
@@ -78,12 +78,6 @@
                 dialog: false,
                 headers: [
                     {
-                        text: 'VISUALIZAR',
-                        align: 'center',
-                        sortable: false,
-                        value: '',
-                    },
-                    {
                         text: 'DATA DA AVALIAÇÃO',
                         align: 'center',
                         value: 'dtAvaliacao',
@@ -92,6 +86,12 @@
                         text: 'TIPO DE DILIGÊNCIA',
                         align: 'left',
                         value: 'tipoDiligencia',
+                    },
+                    {
+                        text: 'VISUALIZAR',
+                        align: 'center',
+                        sortable: false,
+                        value: '',
                     },
                 ],
             };

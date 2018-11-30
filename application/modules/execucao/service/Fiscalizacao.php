@@ -34,6 +34,11 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
 
         $infoProjeto = $Projetos->consultarFiscalizacao(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
 
+        $confereExisteAtual = $infoProjeto->current();
+
+        if (empty($confereExisteAtual['idFiscalizacao'])) {
+            return [];
+        }
         $listaFiscalizacao = $this->montaListaFiscalizacao($infoProjeto);
 
         return $listaFiscalizacao;
@@ -89,10 +94,6 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
             if (!empty($item['dtFimFiscalizacaoProjeto'])) {
                 $objDateTimeDtFim = new \DateTime($item['dtFimFiscalizacaoProjeto']);
                 $objDateTimeDtFim = $objDateTimeDtFim->format('d/m/Y');
-            }
-
-            if (empty($item['idFiscalizacao'])) {
-                return null;
             }
 
             $listaFiscalizacao[] = [

@@ -252,7 +252,7 @@ const routes = [
                 name: 'DadosFiscalizacao',
                 component: DadosFiscalizacao,
                 meta: {
-                    title: 'Dados Fiscalizacao',
+                    title: 'Dados Fiscalização',
                 },
             },
         ],

@@ -36,14 +36,12 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import Carregando from '@/components/Carregando';
+    import Carregando from '@/components/Carregando_vuetify';
     import cnpjFilter from '@/filters/cnpj';
-    import IdentificacaoProjeto from './IdentificacaoProjeto';
 
     export default {
         components: {
             Carregando,
-            IdentificacaoProjeto,
         },
         data() {
             return {

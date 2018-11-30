@@ -46,7 +46,7 @@
 </template>
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import Carregando from '@/components/Carregando';
+    import Carregando from '@/components/Carregando_vuetify';
 
     export default {
         name: 'DocumentosAnexados',

@@ -8,6 +8,15 @@
                 no-data-text="Nenhum dado encontrado"
         >
             <template slot="items" slot-scope="props">
+                <td class="text-xs-left" v-if="props.item.produto">
+                    {{ props.item.produto }}
+                </td>
+                <td v-else class="text-xs-left"> - </td>
+                <td class="text-xs-left">{{ props.item.tipoDiligencia }}</td>
+                <td class="text-xs-right">{{ props.item.dataSolicitacao }}</td>
+                <td class="text-xs-right">{{ props.item.dataResposta }}</td>
+                <td class="text-xs-right">{{ props.item.prazoResposta }}</td>
+                <td class="text-xs-left">Prorrogado</td>
                 <td class="text-xs-center">
                     <v-btn flat icon>
                         <v-tooltip bottom>
@@ -20,15 +29,6 @@
                         </v-tooltip>
                     </v-btn>
                 </td>
-                <td class="text-xs-left" v-if="props.item.produto">
-                    {{ props.item.produto }}
-                </td>
-                <td v-else class="text-xs-left"> -</td>
-                <td class="text-xs-left">{{ props.item.tipoDiligencia }}</td>
-                <td class="text-xs-right">{{ props.item.dataSolicitacao }}</td>
-                <td class="text-xs-right">{{ props.item.dataResposta }}</td>
-                <td class="text-xs-right">{{ props.item.prazoResposta }}</td>
-                <td class="text-xs-left">Prorrogado</td>
             </template>
             <template slot="pageText" slot-scope="props">
                 Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
@@ -126,7 +126,7 @@
 </template>
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import Carregando from '@/components/Carregando';
+    import Carregando from '@/components/Carregando_vuetify';
 
     export default {
         name: 'VisualizarDiligenciaProjeto',
@@ -140,12 +140,6 @@
                 abaAtiva: -1,
                 ativo: false,
                 headers: [
-                    {
-                        text: 'VISUALIZAR',
-                        align: 'center',
-                        sortable: false,
-                        value: 'produto',
-                    },
                     {
                         text: 'PRODUTO',
                         align: 'left',
@@ -176,6 +170,12 @@
                         value: 'prorrogado',
                         sortable: false,
                         align: 'left',
+                    },
+                    {
+                        text: 'VISUALIZAR',
+                        align: 'center',
+                        sortable: false,
+                        value: 'produto',
                     },
                 ],
             };

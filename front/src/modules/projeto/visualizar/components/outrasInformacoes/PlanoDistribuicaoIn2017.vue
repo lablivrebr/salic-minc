@@ -130,7 +130,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Carregando from '@/components/Carregando';
+import Carregando from '@/components/Carregando_vuetify';
 import PropostaPlanoDistribuicao from '@/modules/proposta/visualizar/components/PropostaPlanoDistribuicao';
 import DetalhamentoPlanoDistribuicao from './components/DetalhamentoPlanoDistribuicao';
 

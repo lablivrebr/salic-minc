@@ -16,8 +16,7 @@
                                     slot="activator"
                                     @click="showItem(props.item.idFiscalizacao)"
                                     class="material-icons"
-                                    color="green"
-                                    dark>add
+                                    dark>visibility
                             </v-icon>
                             <span>Visualizar Dados Fiscalizacao</span>
                         </v-tooltip>
@@ -31,77 +30,59 @@
         </v-data-table>
         <v-layout row justify-center>
             <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-card>
-                <v-toolbar dark color="primary">
-                    <v-btn icon dark @click="dialog = false">
-                        <v-icon>close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>Dados Fiscalizacao Completos</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                </v-toolbar>
-                <v-container style="max-width: 100%;">
-
-                    <v-timeline>
-                        <v-timeline-item
-                        color="green darken-3"
-                        fill-dot
-                        :class="definirClasseTimeline()"
-                        small
-                        >
-                            <span
-                                slot="opposite"
-                                :class="`headline font-weight-bold green--text text--darken-3`"
-                            >Locais</span>
+                <v-card>
+                    <v-toolbar dark color="primary">
+                        <v-btn icon dark @click="dialog = false">
+                            <v-icon>close</v-icon>
+                        </v-btn>
+                        <v-toolbar-title>Dados Fiscalizacao Completos</v-toolbar-title>
+                        <v-spacer></v-spacer>
+                    </v-toolbar>
+                    <v-container style="max-width: 100%;">
                             <v-card>
+                                <v-subheader class="primary justify-center">
+                                    <div>
+                                        <h3 class="display-1 white--text font-weight-light">Locais</h3>
+                                    </div>
+                                </v-subheader>
                                 <v-container>
                                     <v-layout>
-                                        <v-flex xs4 offset-xs1>
+                                        <v-flex xs4 offset-xs2>
                                             <p><b>REGIAO</b></p>
                                         </v-flex>
-                                        <v-flex xs4 offset-xs1 class="pl-4">
+                                        <v-flex xs4 offset-xs2 class="pl-4">
                                             <p><b>UF</b></p>
                                         </v-flex>
-                                        <v-flex xs4 offset-xs1>
+                                        <v-flex xs4 offset-xs2>
                                             <p><b>CIDADE</b></p>
                                         </v-flex>
                                     </v-layout>
                                     <v-layout v-for="(dado, index) in dadosVisualizacao.locaisFiscalizacao" :key="index">
-                                        <v-flex xs4 offset-xs1>
+                                        <v-flex xs4 offset-xs2>
                                             <p>{{ dado.regiao }}</p>
                                         </v-flex>
-                                        <v-flex xs4 offset-xs1>
+                                        <v-flex xs4 offset-xs2>
                                             <p>{{ dado.uf }}</p>
                                         </v-flex>
-                                        <v-flex xs4 offset-xs1>
+                                        <v-flex xs4 offset-xs2>
                                             <p>{{ dado.cidade }}</p>
                                         </v-flex>
                                     </v-layout>
                                 </v-container>
                             </v-card>
-                        </v-timeline-item>
-
-                        <v-timeline-item  class="justify-center"
-                        fill-dot
-                        right
-                        >
                             <v-card>
-                                <v-card-title class="primary justify-center">
-                                    <h2 class="display-1 white--text font-weight-light">Oficializar Fiscalização</h2>
-                                </v-card-title>
+                                <v-subheader class="primary justify-center">
+                                    <div>
+                                        <h3 class="display-1 white--text font-weight-light">Oficializar Fiscalização</h3>
+                                    </div>
+                                </v-subheader>
                             </v-card>
-                        </v-timeline-item>
-
-                        <v-timeline-item
-                        color="deep-orange lighten-1"
-                        fill-dot
-                        :class="definirClasseTimeline()"
-                        small
-                        >
-                            <span
-                                slot="opposite"
-                                :class="`headline font-weight-bold deep-orange--text text--lighten-1`"
-                            >Datas / Demandante</span>
                             <v-card>
+                                <v-subheader class="justify-center">
+                                    <div>
+                                        <h4 class="display-1 grey--text text--darken-4 font-weight-light">Datas / Demandante</h4>
+                                    </div>
+                                </v-subheader>
                                 <v-container v-for="(dado, index) in dadosVisualizacao.oficializarFiscalizacao" :key="index">
                                     <v-layout >
                                         <v-flex xs6 offset-xs2>
@@ -127,63 +108,43 @@
                                     </v-layout>
                                 </v-container>
                             </v-card>
-                        </v-timeline-item>
-
-                        <v-timeline-item
-                        color="deep-purple accent-3"
-                        fill-dot
-                        :class="definirClasseTimeline()"
-                        small
-                        >
-                        <span
-                                slot="opposite"
-                                :class="`headline font-weight-bold deep-purple--text text--accent-3`"
-                            >Identificação do Técnico</span>
-                        <v-card>
-                            <v-container v-for="(dado, index) in dadosVisualizacao.oficializarFiscalizacao" :key="index">
-                                <v-layout>
-                                    <v-flex xs6 offset-xs2>
-                                        <p><b>CPF</b></p>
-                                        {{ dado.cpfTecnico }} <br>
-                                    </v-flex>
-                                    <v-flex xs6 offset-xs2>
-                                        <p><b>Técnico</b></p>
-                                        {{ dado.nmTecnico }} <br>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                    <v-flex xs10 offset-xs2>
-                                        <br><p><b>Dados para Fiscalização</b></p>
-                                        {{ dado.dsFiscalizacaoProjeto }}
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                        </v-card>
-                        </v-timeline-item>
-
-                        <v-timeline-item class="justify-center"
-                        color="amber lighten-1"
-                        fill-dot
-                        small
-                        >
                             <v-card>
-                                <v-card-title class="primary justify-center">
-                                    <h2 class="display-1 mr-3 white--text font-weight-light">Fiscalização Concluída para Parecer</h2>
-                                </v-card-title>
+                                <v-subheader class="justify-center">
+                                    <div>
+                                        <h4 class="display-1 grey--text text--darken-4 font-weight-light">Identificação do Técnico</h4>
+                                    </div>
+                                </v-subheader>
+                                <v-container v-for="(dado, index) in dadosVisualizacao.oficializarFiscalizacao" :key="index">
+                                    <v-layout>
+                                        <v-flex xs6 offset-xs2>
+                                            <p><b>CPF</b></p>
+                                            {{ dado.cpfTecnico }} <br>
+                                        </v-flex>
+                                        <v-flex xs6 offset-xs2>
+                                            <p><b>Técnico</b></p>
+                                            {{ dado.nmTecnico }} <br>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout>
+                                        <v-flex xs10 offset-xs2>
+                                            <br><p><b>Dados para Fiscalização</b></p>
+                                            {{ dado.dsFiscalizacaoProjeto }}
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
                             </v-card>
-                        </v-timeline-item>
-                        <div v-if="parecer">
-                            <v-timeline-item
-                            color="cyan lighten-1"
-                            fill-dot
-                            :class="definirClasseTimeline()"
-                            small
-                            >
-                                <span
-                                    slot="opposite"
-                                    :class="`headline font-weight-bold cyan--text text--lighten-1`"
-                                >Resumo da Execução</span>
+                            <v-card>
+                                <v-subheader class="primary justify-center">
+                                    <div>
+                                        <h3 class="display-1 white--text font-weight-light">Fiscalização Concluída para Parecer</h3>
+                                    </div>
+                                </v-subheader>
+                            </v-card>
+                            <div v-if="parecer">
                                 <v-card>
+                                    <v-card-title class="justify-center">
+                                        <h2 class="display-1 font-weight-light">Resumo da Execução</h2>
+                                    </v-card-title>
                                     <v-container>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
@@ -211,20 +172,12 @@
                                         </v-layout>
                                     </v-container>
                                 </v-card>
-                            </v-timeline-item>
-
-                            <v-timeline-item
-                            v-if="parecer.stDtDeCorte == 1"
-                            color="orange darken-3"
-                            fill-dot
-                            :class="definirClasseTimeline()"
-                            small
-                            >
-                                <span
-                                    slot="opposite"
-                                    :class="`headline font-weight-bold orange--text text--darken-3`"
-                                >Situação do Convênio na Realização da Fiscalização</span>
-                                <v-card>
+                                <v-card v-if="parecer.stDtDeCorte == 1">
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Situação do Convênio na Realização da Fiscalização</h4>
+                                        </div>
+                                    </v-subheader>
                                     <v-container>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
@@ -252,19 +205,12 @@
                                         </v-layout>
                                     </v-container>
                                 </v-card>
-                            </v-timeline-item>
-
-                            <v-timeline-item
-                            color="light-green "
-                            fill-dot
-                            :class="definirClasseTimeline()"
-                            small
-                            >
-                                <span
-                                    slot="opposite"
-                                    :class="`headline font-weight-bold light-green--text`"
-                                >Utilização de Recursos</span>
                                 <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Utilização de Recursos</h4>
+                                        </div>
+                                    </v-subheader>
                                     <v-container>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
@@ -354,19 +300,12 @@
                                         </v-layout>
                                     </v-container>
                                 </v-card>
-                            </v-timeline-item>
-
-                            <v-timeline-item
-                            color="orange lighten-2"
-                            fill-dot
-                            :class="definirClasseTimeline()"
-                            small
-                            >
-                                <span
-                                    slot="opposite"
-                                    :class="`headline font-weight-bold orange--text text--lighten-2`"
-                                >Comprovantes Fiscais de Despesa</span>
                                 <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Comprovantes Fiscais de Despesa</h4>
+                                        </div>
+                                    </v-subheader>
                                     <v-container>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
@@ -426,19 +365,12 @@
                                         </v-layout>
                                     </v-container>
                                 </v-card>
-                            </v-timeline-item>
-
-                            <v-timeline-item
-                            color="indigo lighten-2"
-                            fill-dot
-                            :class="definirClasseTimeline()"
-                            small
-                            >
-                                <span
-                                    slot="opposite"
-                                    :class="`headline font-weight-bold indigo--text text--lighten-2`"
-                                >Divulgação</span>
                                 <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Divulgação</h4>
+                                        </div>
+                                    </v-subheader>
                                     <v-container>
                                         <v-layout v-if="parecer.stDtDeCorte == 1">
                                             <v-flex xs10 offset-xs1>
@@ -460,204 +392,163 @@
                                         </v-layout>
                                     </v-container>
                                 </v-card>
-                            </v-timeline-item>
-
-                            <v-timeline-item
-                            color="teal accent-3"
-                            fill-dot
-                            :class="definirClasseTimeline()"
-                            small
-                            >
-                                    <span
-                                        slot="opposite"
-                                        :class="`headline font-weight-bold teal--text text--accent-3`"
-                                    >Execução</span>
-                                    <v-card>
-                                        <v-container>
-                                            <v-layout v-if="parecer.stDtDeCorte == 1">
-                                                <v-flex xs10 offset-xs1>
-                                                    <br><p><b>Alcançou a finalidade esperada?</b></p>
-                                                    <div v-html="parecer.execucao.stFinalidadeEsperada"></div>
-                                                </v-flex>
-                                            </v-layout>
-                                            <v-layout v-if="parecer.stDtDeCorte == 1">
-                                                <v-flex xs10 offset-xs1>
-                                                    <br><p><b>As metas/etapas do Plano de Trabalho foram executadas integralmente?</b></p>
-                                                    <div v-html="parecer.execucao.stPlanoTrabalho"></div>
-                                                </v-flex>
-                                            </v-layout>
-                                            <v-layout>
-                                                <v-flex xs10 offset-xs1>
-                                                    <div v-if="parecer.stDtDeCorte == 0"><br><p><b>O projeto está sendo executado de acordo com o aprovado?</b></p></div>
-                                                    <div v-if="parecer.stDtDeCorte == 1"><br><p><b>A execução respeitou o aprovado?</b></p></div>
-                                                    <div v-html="parecer.execucao.stExecucaoAprovado"></div>
-                                                </v-flex>
-                                            </v-layout>
-                                            <v-layout v-if="parecer.stDtDeCorte == 0">
-                                                <v-flex xs10 offset-xs1>
-                                                    <br><p><b>Observações</b></p>
-                                                    <div v-html="parecer.execucao.dsObservacao"></div>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card>
-                                </v-timeline-item>
-                                <v-timeline-item
-                                color="pink lighten-3"
-                                fill-dot
-                                :class="definirClasseTimeline()"
-                                small
-                                >
-                                    <span
-                                        slot="opposite"
-                                        :class="`headline font-weight-bold pink--text text--lighten-3`"
-                                    >Empregos gerados em decorrência do projeto</span>
-                                    <v-card>
-                                        <v-container >
-                                            <v-layout>
-                                                <v-flex xs4 offset-xs1>
-                                                    <br><p><b>Diretos: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoDireto }}</p>
-                                                </v-flex>
-                                                <v-flex xs4 offset-xs1>
-                                                    <br><p><b>Indiretos: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoIndireto }}</p>
-                                                </v-flex>
-                                                <v-flex xs4 offset-xs1>
-                                                    <br><p><b>Total: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoTotal }}</p>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card>
-                                </v-timeline-item>
-
-                                <v-timeline-item
-                                color="lime lighten-1"
-                                fill-dot
-                                :class="definirClasseTimeline()"
-                                small
-                                >
-                                    <span
-                                        slot="opposite"
-                                        :class="`headline font-weight-bold lime--text text--lighten-1`"
-                                    >Evidências</span>
-                                    <v-card>
-                                        <v-container >
-                                            <v-layout>
-                                                <v-flex xs10 offset-xs1>
-                                                    <div v-html="parecer.empregosGeradosProjeto.dsEvidencia"></div>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card>
-                                </v-timeline-item>
-
-                                <v-timeline-item
-                                color="amber darken-2"
-                                fill-dot
-                                :class="definirClasseTimeline()"
-                                small
-                                >
-                                    <span
-                                        slot="opposite"
-                                        :class="`headline font-weight-bold amber--text text--darken-2`"
-                                    >Recomendações da Equipe</span>
-                                    <v-card>
-                                        <v-container >
-                                            <v-layout>
-                                                <v-flex xs10 offset-xs1>
-                                                    <div v-html="parecer.empregosGeradosProjeto.dsRecomendacaoEquipe"></div>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card>
-                                </v-timeline-item>
-
-                                <v-timeline-item
-                                color="blue-grey lighten-2"
-                                fill-dot
-                                :class="definirClasseTimeline()"
-                                small
-                                >
-                                    <span
-                                        slot="opposite"
-                                        :class="`headline font-weight-bold blue-grey--text text--lighten-2`"
-                                    >Conclusão da Equipe</span>
-                                    <v-card>
-                                        <v-container >
-                                            <v-layout>
-                                                <v-flex xs10 offset-xs1>
-                                                    <div v-if="parecer.empregosGeradosProjeto.dsConclusaoEquipe.length > 1" v-html="parecer.empregosGeradosProjeto.dsConclusaoEquipe"></div>
-                                                    <div v-else>Não se Aplica.</div>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card>
-                                </v-timeline-item>
-
-                                <v-timeline-item
-                                color="light-blue lighten-3"
-                                fill-dot
-                                :class="definirClasseTimeline()"
-                                small
-                                >
-                                    <span
-                                        slot="opposite"
-                                        :class="`headline font-weight-bold light-blue--text text--lighten-3`"
-                                    >Parecer da Fiscalização</span>
-                                    <v-card>
-                                        <v-container >
-                                            <v-layout>
-                                                <v-flex xs10 offset-xs1>
-                                                    <div v-html="parecer.empregosGeradosProjeto.dsParecerTecnico"></div>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card>
-                                </v-timeline-item>
-
-                                <v-timeline-item
-                                color="green darken-2"
-                                fill-dot
-                                :class="definirClasseTimeline()"
-                                small
-                                >
-                                    <span
-                                        slot="opposite"
-                                        :class="`headline font-weight-bold green--text text--darken-2`"
-                                    >Parecer do Coordenador</span>
-                                    <v-card>
-                                        <v-container >
-                                            <v-layout>
-                                                <v-flex xs10 offset-xs1>
-                                                    <div v-html="parecer.empregosGeradosProjeto.dsParecer"></div>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-container>
-                                    </v-card>
-                                </v-timeline-item>
-                        </div>
-                        <v-timeline-item
-                            color="orange darken-1"
-                            fill-dot
-                            :class="definirClasseTimeline()"
-                            small
-                            >
-                                <span
-                                    slot="opposite"
-                                    :class="`headline font-weight-bold orange--text text--darken-1`"
-                                >Anexos</span>
                                 <v-card>
-                                    <v-container v-for="(dado, index) in dadosVisualizacao.arquivosFiscalizacao" :key="index">
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Execução</h4>
+                                        </div>
+                                    </v-subheader>
+                                    <v-container>
+                                        <v-layout v-if="parecer.stDtDeCorte == 1">
+                                            <v-flex xs10 offset-xs1>
+                                                <br><p><b>Alcançou a finalidade esperada?</b></p>
+                                                <div v-html="parecer.execucao.stFinalidadeEsperada"></div>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout v-if="parecer.stDtDeCorte == 1">
+                                            <v-flex xs10 offset-xs1>
+                                                <br><p><b>As metas/etapas do Plano de Trabalho foram executadas integralmente?</b></p>
+                                                <div v-html="parecer.execucao.stPlanoTrabalho"></div>
+                                            </v-flex>
+                                        </v-layout>
                                         <v-layout>
                                             <v-flex xs10 offset-xs1>
-                                                <a :href="`/upload/abrir?id=${dado.idArquivo}`"><v-icon color="black"> file_copy</v-icon>{{ dado.nmArquivo }}</a>
+                                                <div v-if="parecer.stDtDeCorte == 0"><br><p><b>O projeto está sendo executado de acordo com o aprovado?</b></p></div>
+                                                <div v-if="parecer.stDtDeCorte == 1"><br><p><b>A execução respeitou o aprovado?</b></p></div>
+                                                <div v-html="parecer.execucao.stExecucaoAprovado"></div>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout v-if="parecer.stDtDeCorte == 0">
+                                            <v-flex xs10 offset-xs1>
+                                                <br><p><b>Observações</b></p>
+                                                <div v-html="parecer.execucao.dsObservacao"></div>
                                             </v-flex>
                                         </v-layout>
                                     </v-container>
                                 </v-card>
-                        </v-timeline-item>
-                    </v-timeline>
-                </v-container>
-            </v-card>
+                                <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Empregos gerados em decorrência do projeto</h4>
+                                        </div>
+                                    </v-subheader>
+                                    <v-container >
+                                        <v-layout>
+                                            <v-flex xs4 offset-xs1>
+                                                <br><p><b>Diretos: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoDireto }}</p>
+                                            </v-flex>
+                                            <v-flex xs4 offset-xs1>
+                                                <br><p><b>Indiretos: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoIndireto }}</p>
+                                            </v-flex>
+                                            <v-flex xs4 offset-xs1>
+                                                <br><p><b>Total: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoTotal }}</p>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>
+                                <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Evidências</h4>
+                                        </div>
+                                    </v-subheader>
+                                    <v-container >
+                                        <v-layout>
+                                            <v-flex xs10 offset-xs1>
+                                                <div v-html="parecer.empregosGeradosProjeto.dsEvidencia"></div>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>
+                                <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Recomendações da Equipe</h4>
+                                        </div>
+                                    </v-subheader>
+                                    <v-container >
+                                        <v-layout>
+                                            <v-flex xs10 offset-xs1>
+                                                <div v-html="parecer.empregosGeradosProjeto.dsRecomendacaoEquipe"></div>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>
+                                <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Conclusão da Equipe</h4>
+                                        </div>
+                                    </v-subheader>
+                                    <v-container >
+                                        <v-layout>
+                                            <v-flex xs10 offset-xs1>
+                                                <div v-if="parecer.empregosGeradosProjeto.dsConclusaoEquipe.length > 1" v-html="parecer.empregosGeradosProjeto.dsConclusaoEquipe"></div>
+                                                <div v-else>Não se Aplica.</div>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>
+                                <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Parecer da Fiscalização</h4>
+                                        </div>
+                                    </v-subheader>
+                                    <v-container >
+                                        <v-layout>
+                                            <v-flex xs10 offset-xs1>
+                                                <div v-html="parecer.empregosGeradosProjeto.dsParecerTecnico"></div>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>
+                                <v-card>
+                                    <v-subheader class="justify-center">
+                                        <div>
+                                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Parecer do Coordenador</h4>
+                                        </div>
+                                    </v-subheader>
+                                    <v-container >
+                                        <v-layout>
+                                            <v-flex xs10 offset-xs1>
+                                                <div v-html="parecer.empregosGeradosProjeto.dsParecer"></div>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-container>
+                                </v-card>
+                            </div>
+                            <v-card>
+                                <v-subheader class="justify-center">
+                                    <div>
+                                        <h4 class="display-1 grey--text text--darken-4 font-weight-light">Anexos</h4>
+                                    </div>
+                                </v-subheader>
+                                <v-container v-for="(dado, index) in dadosVisualizacao.arquivosFiscalizacao" :key="index">
+                                    <v-layout>
+                                        <v-flex xs10 offset-xs1>
+                                            <a :href="`/upload/abrir?id=${dado.idArquivo}`"><v-icon color="black"> file_copy</v-icon>{{ dado.nmArquivo }}</a>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                            </v-card>
+                            <v-footer
+                                height="auto"
+                            >
+                                <v-card
+                                    class="flex"
+                                    flat
+                                    tile
+                                >
+                                    <v-card-actions class="justify-center">
+                                        <v-btn @click="dialog = false" class="primary">
+                                            FECHAR
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-footer>
+                    </v-container>
+                </v-card>
             </v-dialog>
         </v-layout>
     </div>

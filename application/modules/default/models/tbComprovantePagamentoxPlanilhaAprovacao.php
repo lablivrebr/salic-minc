@@ -590,17 +590,23 @@ class tbComprovantePagamentoxPlanilhaAprovacao extends MinC_Db_Table_Abstract
             $select = $this->select();
             $select->setIntegrityCheck(false);
             $select->from(
-                array('a' => $this->_name),
-                array( new Zend_Db_Expr("ISNULL(SUM(a.vlComprovado), 0) AS vlComprovado")),
+                ['a' => $this->_name],
+                [ new Zend_Db_Expr("ISNULL(SUM(c.vlComprovacao), 0) AS vlComprovado")],
                 'BDCORPORATIVO.scSAC'
             );
             $select->joinInner(
-                array('b' => 'tbPlanilhaAprovacao'),
+                ['b' => 'tbPlanilhaAprovacao'],
                 "a.idPlanilhaAprovacao = b.idPlanilhaAprovacao",
-                array(),
+                [],
                 'SAC.dbo'
             );
-
+            $select->joinInner(
+                ['c' => 'tbComprovantePagamento'],
+                'a.idComprovantePagamento = c.idComprovantePagamento',
+                [],
+                'BDCORPORATIVO.scSAC'
+            );
+            
             foreach ($where as $coluna => $valor) {
                 if (!is_null($valor)) {
                     $select->where($coluna, $valor);

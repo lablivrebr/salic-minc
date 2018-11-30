@@ -1,66 +1,54 @@
 <template>
-        <v-dialog v-model="dialog"
-                  scrollable
-                  fullscreen
-        >
-            <v-tooltip slot="activator" bottom>
-                <v-btn slot="activator" flat icon @click.native="obterDiligencias(obj.idPronac);">
-                    <v-icon :color="statusDiligencia(obj).color" :change="statusDiligencia(obj).color" class="material-icons">assignment_late</v-icon>
+    <v-dialog v-model="dialog"
+
+              scrollable
+              max-width="850px"
+    >
+        <v-tooltip slot="activator" bottom>
+            <v-btn slot="activator" flat icon @click.native="obterDiligencias(obj.idPronac);">
+                <v-icon :color="statusDiligencia(obj).color" :change="statusDiligencia(obj).color" class="material-icons">assignment_late</v-icon>
+            </v-btn>
+            <span>{{statusDiligencia(obj).desc}} </span>
+        </v-tooltip>
+
+        <v-card>
+
+            <v-toolbar dark color="#0a420e !important">
+                <v-btn icon dark @click.native="dialog = false">
+                    <v-icon>close</v-icon>
                 </v-btn>
-                <span>{{statusDiligencia(obj).desc}} </span>
-            </v-tooltip>
+                <v-toolbar-title>Diligências Projeto: {{info.pronac}} - {{info.nomeProjeto}} </v-toolbar-title>
+            </v-toolbar>
 
-            <v-card>
-
-                <v-toolbar dark color="green">
-                    <v-btn icon dark @click.native="dialog = false">
-                        <v-icon>close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>Diligências Projeto: {{info.pronac}} - {{info.nomeProjeto}} </v-toolbar-title>
-                </v-toolbar>
-
-                <v-divider></v-divider>
-                <v-card-text>
-                    <v-timeline >
-                        <v-timeline-item
-                            id="time"
-                            v-for="(item, i) in sortByDate"
-                            :key="i"
-                            small
-                        >
-                             <span
-                                 slot="opposite"
-                                 :class="`headline font-weight-bold green--text`"
-                             >
-                                 Solicitado: {{item.dataSolicitacao | date}} <br/>
-                                 <span v-if="item.dataResposta">  Respondido: {{item.dataResposta | date}}</span>
-                             </span>
-
-                            <v-card color="green">
-                                <v-card-title dark class="title white--text">{{item.tipoDiligencia}} <span v-if="item.stProrrogacao"> - {{item.stProrrogacao}}</span></v-card-title>
-                                <v-card-text class="white text--primary">
-                                     <v-expansion-panel>
-                                        <v-expansion-panel-content v-if="item.Solicitacao">
-                                            <div slot="header">Solicitação</div>
-                                            <v-card>
-                                                <v-card-text v-html="item.Solicitacao"></v-card-text>
-                                            </v-card>
-                                        </v-expansion-panel-content>
-                                        <v-expansion-panel-content v-if="item.Resposta">
-                                            <div slot="header" class="font-weight-regular">Resposta</div>
-                                            <v-card>
-                                                <v-card-text v-html="item.Resposta"></v-card-text>
-                                            </v-card>
-                                        </v-expansion-panel-content>
-                                    </v-expansion-panel>
-                                </v-card-text>
-                            </v-card>
-
-                        </v-timeline-item>
-                    </v-timeline>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
+            <v-divider></v-divider>
+            <v-card-text>
+                <v-flex
+                    id="time"
+                    v-for="(item, i) in sortByDate"
+                    :key="i">
+                    <v-card color="green">
+                        <v-card-title dark class="title white--text">{{item.tipoDiligencia}} <span v-if="item.stProrrogacao"> - {{item.stProrrogacao}}</span></v-card-title>
+                        <v-card-text class="white text--primary">
+                            <v-expansion-panel>
+                                <v-expansion-panel-content v-if="item.Solicitacao">
+                                    <div slot="header">Solicitação: {{item.dataSolicitacao | date}}</div>
+                                    <v-card>
+                                        <v-card-text v-html="item.Solicitacao"></v-card-text>
+                                    </v-card>
+                                </v-expansion-panel-content>
+                                <v-expansion-panel-content v-if="item.Resposta">
+                                    <div slot="header" class="font-weight-regular">Resposta: : {{item.dataResposta | date}}</div>
+                                    <v-card>
+                                        <v-card-text v-html="item.Resposta"></v-card-text>
+                                    </v-card>
+                                </v-expansion-panel-content>
+                            </v-expansion-panel>
+                        </v-card-text>
+                    </v-card>
+                </v-flex>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
 
 </template>
 
@@ -215,9 +203,3 @@ export default {
     },
 };
 </script>
-
-<style>
-    #time .v-timeline-item__body{
-        height: auto !important;
-    }
-</style>

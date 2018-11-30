@@ -13,16 +13,6 @@
                 no-data-text="Nenhum dado encontrado"
         >
             <template slot="items" slot-scope="props">
-                <td class="text-xs-center">
-                    <v-btn
-                            style="text-decoration: none"
-                            slot="activator"
-                            color="primary"
-                            class="center"
-                            :to="{ name: 'dadosprojeto', params: { idPronac: dadosProjeto.idPronac }}">
-                        {{ props.item.pronac }}
-                    </v-btn>
-                </td>
                 <td class="text-xs-left">{{ props.item.nomeProjeto }}</td>
                 <td class="text-xs-left">{{ props.item.dsAtoAdministrativo }}</td>
                 <td class="text-xs-right">{{ props.item.dt_criacao }}</td>
@@ -42,6 +32,16 @@
                         <span>Visualizar</span>
                     </v-tooltip>
                 </td>
+                <td class="text-xs-center">
+                    <v-btn
+                            style="text-decoration: none"
+                            slot="activator"
+                            color="primary"
+                            class="center"
+                            :to="{ name: 'dadosprojeto', params: { idPronac: dadosProjeto.idPronac }}">
+                        {{ props.item.pronac }}
+                    </v-btn>
+                </td>
             </template>
             <template slot="pageText" slot-scope="props">
                 Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
@@ -52,7 +52,7 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import Carregando from '@/components/Carregando';
+    import Carregando from '@/components/Carregando_vuetify';
 
     export default {
         name: 'DocumentosAssinados',
@@ -69,12 +69,6 @@
                 },
                 selected: [],
                 headers: [
-                    {
-                        align: 'center',
-                        text: 'PRONAC',
-                        sortable: false,
-                        value: 'pronac',
-                    },
                     {
                         align: 'left',
                         text: 'NOME DO PROJETO',
@@ -94,6 +88,12 @@
                         align: 'center',
                         sortable: false,
                         text: 'VER',
+                    },
+                    {
+                        align: 'center',
+                        text: 'PRONAC',
+                        sortable: false,
+                        value: 'pronac',
                     },
                 ],
             };

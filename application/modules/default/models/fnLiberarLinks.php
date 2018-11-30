@@ -161,6 +161,7 @@ class fnLiberarLinks extends MinC_Db_Table_Abstract
         }
         
         # Verificar se ha diligencia para responder
+
         $vDiligencia = $db->select()
            ->from(
                'tbDiligencia',

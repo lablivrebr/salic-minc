@@ -260,7 +260,6 @@ export default {
 
             if (this.parecerData.dsParecer) {
                 data.dsParecer = this.parecerData.dsParecer;
-                console.info(data.dsParecer);
             }
             this.salvar(data);
             /** Descomentar linha após migração da lista para o VUEJS */
@@ -286,7 +285,6 @@ export default {
 
             if (this.parecerData.dsParecer) {
                 data.dsParecer = this.parecerData.dsParecer;
-                console.info(data.dsParecer);
             }
 
             this.finalizar(data);

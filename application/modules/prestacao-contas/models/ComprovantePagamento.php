@@ -42,7 +42,6 @@ final class PrestacaoContas_Model_ComprovantePagamento extends MinC_Db_Table_Abs
     public function preencher($request)
     {
         $obj = (json_decode($request));
-        /* var_dump($obj);die; */
 
         $this->eInternacional = $obj->fornecedor->eInternacional;
         $this->item = $obj->item;

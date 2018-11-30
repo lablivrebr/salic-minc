@@ -31,7 +31,7 @@
 <script>
 
     import { mapActions, mapGetters } from 'vuex';
-    import Carregando from '@/components/Carregando';
+    import Carregando from '@/components/Carregando_vuetify';
 
     export default {
         name: 'CertidoesNegativas',

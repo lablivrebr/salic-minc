@@ -30,8 +30,15 @@ class UltimaTramitacao implements \MinC\Servico\IServicoRestZend
             $idPronac = Seguranca::dencrypt($idPronac);
         }
 
-        $tblProjetos = new \Projetos();
-        $rst = $tblProjetos->buscarDadosUC75($idPronac);
+
+        $tblProjetos = new \tbHistoricoDocumento();
+        $rst = $tblProjetos->buscarHistoricoTramitacaoProjeto(
+            [
+                'h.idPronac = ?' => $idPronac,
+                'h.idDocumento = ?' => 0,
+                ' h.stEstado = ?' => 1
+            ]
+        );
 
         $tramitacoes = $this->obterUltimaTramitacao($rst);
 
@@ -50,8 +57,8 @@ class UltimaTramitacao implements \MinC\Servico\IServicoRestZend
             $objDateTimeDtTramitacaoEnvio = ' ';
             $objDateTimedtTramitacaoRecebida = ' ';
 
-            if (!empty($tramitacao['DtTramitacaoEnvio'])) {
-                $objDateTimeDtTramitacaoEnvio = new \DateTime($tramitacao['DtTramitacaoEnvio']);
+            if (!empty($tramitacao['dtTramitacaoEnvio'])) {
+                $objDateTimeDtTramitacaoEnvio = new \DateTime($tramitacao['dtTramitacaoEnvio']);
                 $objDateTimeDtTramitacaoEnvio = $objDateTimeDtTramitacaoEnvio->format('d/m/Y');
             }
             if (!empty($tramitacao['dtTramitacaoRecebida'])) {
@@ -64,7 +71,7 @@ class UltimaTramitacao implements \MinC\Servico\IServicoRestZend
                 'dtTramitacaoEnvio' => $objDateTimeDtTramitacaoEnvio,
                 'Receptor' => $Receptor,
                 'dtTramitacaoRecebida' => $objDateTimedtTramitacaoRecebida,
-                'Estado' => $tramitacao['Estado'],
+                'Situacao' => $tramitacao['Situacao'],
                 'Destino' => $tramitacao['Destino'],
                 'meDespacho' => $meDespacho,
             ];

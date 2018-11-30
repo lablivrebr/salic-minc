@@ -61,9 +61,6 @@ class Assinar implements IAcaoAssinar
             case (string)\Autenticacao_Model_Grupos::PRESIDENTE_DE_VINCULADA:
                 $siEncaminhamento = (int)\Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_ENCAMINHADA_AO_DIRETOR;
                 break;
-            case (string)\Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO:
-                $siEncaminhamento = (int)\Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_ENCAMINHADA_AO_SECRETARIO;
-                break;
             case (string)\Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO_PRESTACAO_DE_CONTAS:
                 $siEncaminhamento = (int)\Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_ENCAMINHADA_AO_DIRETOR;
                 break;

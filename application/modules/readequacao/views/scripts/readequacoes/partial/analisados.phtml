@@ -31,7 +31,7 @@
     <th>Devolver</th>
     <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO ||
               $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
-    <th>Assinar</th>
+    <th width="125" align="center">Assinatura</th>
     <?php endif; ?>
     <?php if (
     $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO): ?>
@@ -98,24 +98,37 @@ foreach ($this->dados as $d): ?>
               $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
         <td align="center">
 	    <?php if ($this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO ||
-              $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
-<?php if ($this->disponivelParaAssinatura($d->siEncaminhamento, $d->idDocumentoAssinatura, $this->idPerfil)): ?>
-            <a data-ajax-modal="<?= $this->url([
-				'module' => 'assinatura',
-				'controller' => 'index',
-				'action' => 'visualizar-projeto'
-				], '', true); ?>?idDocumentoAssinatura=<?php echo $d->idDocumentoAssinatura; ?>&modal=1&origin=readequacao/readequacoes/painel?tipoFiltro=analisados"
-               href="javascript:void(0);"
-               data-position="top"
-               data-delay="50"
-               data-ajax-modal-height="96%"
-               data-ajax-modal-width="98%"
-               data-tooltip="Assinar"
-               class="btn small waves-effect waves-light white-text tooltipped btn-primary"
-               idReadequacao="<?php echo $d->idReadequacao; ?>">
-                <i class="material-icons">edit</i>
-            </a>
-	    <?php endif; ?>
+                      $this->idPerfil == Autenticacao_Model_Grupos::COORDENADOR_GERAL_ACOMPANHAMENTO): ?>
+                <?php if ($this->disponivelParaAssinatura($d->siEncaminhamento, $d->idDocumentoAssinatura, $this->idPerfil)): ?>
+                    <a data-ajax-modal="<?= $this->url([
+				        'module' => 'assinatura',
+				        'controller' => 'index',
+				        'action' => 'visualizar-projeto'
+				        ], '', true); ?>?idDocumentoAssinatura=<?php echo $d->idDocumentoAssinatura; ?>&modal=1&origin=readequacao/readequacoes/painel?tipoFiltro=analisados"
+                       href="javascript:void(0);"
+                       data-position="top"
+                       data-delay="50"
+                       data-ajax-modal-height="96%"
+                       data-ajax-modal-width="98%"
+                       data-tooltip="Assinar"
+                       class="btn small waves-effect waves-light white-text tooltipped btn-primary"
+                       idReadequacao="<?php echo $d->idReadequacao; ?>">
+                        <i class="material-icons">edit</i>
+                    </a>
+	        <?php endif; ?>
+                <?php if ($d->idDocumentoAssinatura != ''): ?>
+                    <a class="btn small waves-effect waves-light tooltipped btn-primary "
+                       href="<?php echo $this->url(array(
+                             'module' => 'assinatura',
+                             'controller' => 'index',
+                             'action' => 'visualizar-projeto'
+                             )) . "?idDocumentoAssinatura={$d->idDocumentoAssinatura}&origin=readequacao/readequacao-assinatura" ?>"
+                       data-position="top"
+                       data-delay="50"
+                       data-tooltip="Visualizar">
+                        <i class="material-icons">search</i>
+                    </a>
+                <?php endif; ?>
 	    <?php endif; ?>
         </td>
 	<?php endif; ?>

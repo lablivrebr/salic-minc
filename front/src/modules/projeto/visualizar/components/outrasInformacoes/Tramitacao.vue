@@ -13,7 +13,6 @@
 </template>
 <script>
     import { mapGetters } from 'vuex';
-    import IdentificacaoProjeto from './IdentificacaoProjeto';
     import UltimaTramitacao from './components/UltimaTramitacao';
     import TramitacaoProjeto from './components/TramitacaoProjeto';
     import TramitacaoDocumento from './components/TramitacaoDocumento';
@@ -22,7 +21,6 @@
         name: 'Tramitacao',
         props: ['idPronac'],
         components: {
-            IdentificacaoProjeto,
             UltimaTramitacao,
             TramitacaoProjeto,
             TramitacaoDocumento,

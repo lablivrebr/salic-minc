@@ -6,12 +6,12 @@ $relatorio = $this->relatorioFiscalizacao;
 $historicoDevolucao = $this->historicoDevolucao;
 
 $ExcluirHref = $this->url(array('controller' => 'fiscalizarprojetocultural', 'action' => 'excluir'));
-if ($this->grupoAtivo == 135) { # tecnico
+if ($this->isTecnico) { # tecnico
     $salvarelatoriotecnico = $this->url(array('controller' => 'fiscalizarprojetocultural', 'action' => 'salvarelatoriotecnico'));
     $voltar = $this->url(array('controller' => 'fiscalizarprojetocultural', 'action' => 'painelcontroletecnicofiscalizacao'));
 }
 
-if ($this->grupoAtivo == 134) {
+if ($this->isCoordenador) {
     $salvarelatoriotecnico = $this->url(array('controller' => 'fiscalizarprojetocultural', 'action' => 'salvarelatoriocoordenador'));
     $voltar = $this->url(array('controller' => 'pesquisarprojetofiscalizacao', 'action' => 'painelcontrolecoordenador'));
 }
@@ -23,8 +23,8 @@ $selected = '';
 <div id="breadcrumb">
     <ul>
         <li class="first"><a href="<?php echo $this->url(array('controller' => 'principal', 'action' => '')); ?>" title="Ir para In&iacute;cio">In&iacute;cio</a></li>
-        <li class="second"><a href="<?php echo $this->url(array('controller' => 'pesquisarprojetofiscalizacao', 'action' => 'grid')); ?>" title="Ir para Fiscalização do Projeto">Fiscalização do Projeto</a></li>
-        <li class="last">Avaliar projeto para fiscalização</li>
+        <li class="second"><a href="<?php echo $this->url(array('controller' => 'pesquisarprojetofiscalizacao', 'action' => 'grid')); ?>" title="Ir para Fiscaliza&ccedil;&atilde;o do Projeto">Fiscaliza&ccedil;&atilde;o do Projeto</a></li>
+        <li class="last">Avaliar projeto para fiscaliza&ccedil;&atilde;o</li>
     </ul>
 </div>
 
@@ -36,14 +36,14 @@ $selected = '';
     <form action="<?php echo $salvarelatoriotecnico; ?>" id="formParecerTecnico" method="post" enctype="multipart/form-data">
         <input type="hidden" id="stAvaliacao" name="stAvaliacao" value="<?php if (isset($relatorio->stAvaliacao)) echo $relatorio->stAvaliacao; ?>">
         <input type="hidden" name="idFiscalizacao" value="<?php echo $projeto->idFiscalizacao; ?>">
-        <?php if ($this->grupoAtivo == 134) { // coordenador  ?>
+        <?php if ($this->isCoordenador) { ?>
             <input type="hidden" id="stAprovar" name="stAprovar" value="0">
             <input type="hidden" name="idPronac" value="<?php echo $projeto->IdPRONAC; ?>">
         <?php } ?>
             
         <table class="tabela">
             <tr>
-                <th colspan="2">Identificaç&atilde;o</th>
+                <th colspan="2">Identifica&ccedil;&atilde;o</th>
             </tr>
             <tr>
                 <td class="destacar bold" align="center" width="30%">PRONAC</td>
@@ -96,16 +96,16 @@ $selected = '';
 
         <table class="tabela">
             <tr>
-                <th colspan="4">Dados da Fiscalizaç&atilde;o</th>
+                <th colspan="4">Dados da Fiscaliza&ccedil;&atilde;o</th>
             </tr>
             <tr>
-                <td class="destacar bold" align="right" width="200">Data Início:</td>
+                <td class="destacar bold" align="right" width="200">Data In&iacute;cio:</td>
                 <td><?php echo date('d/m/Y', strtotime($projeto->dtInicioFiscalizacaoProjeto)); ?></td>
                 <td class="destacar bold" align="right">Data Fim:</td>
                 <td><?php echo date('d/m/Y', strtotime($projeto->dtFimFiscalizacaoProjeto)); ?></td>
             </tr>
             <tr>
-                <td class="destacar bold" align="right" width="200">Fiscalização:</td>
+                <td class="destacar bold" align="right" width="200">Fiscaliza&ccedil;&atilde;o:</td>
                 <td colspan="3"><?php if ($projeto['dsFiscalizacaoProjeto']) echo $projeto['dsFiscalizacaoProjeto']; ?></td>
             </tr>
             <tr>
@@ -124,30 +124,30 @@ $selected = '';
         <table class="tabela">
             <?php $y=1; ?>
             <tr>
-                <th>Resumo da Execuç&atilde;o</th>
+                <th>Resumo da Execu&ccedil;&atilde;o</th>
             </tr>
             <tr>
-                <td class="destacar bold"><?php echo $y++.'.'; ?> Aç&otilde;es Programadas</td>
+                <td class="destacar bold"><?php echo $y++.'.'; ?> A&ccedil;&otilde;es Programadas</td>
             </tr>
             <tr>
                 <td align="center">
-                    <textarea null="false" <?php if ($this->grupoAtivo == 134) echo "disabled='true'" ?> class="campoForm" class="campoForm" id="dsAcoesProgramadas" name="dsAcoesProgramadas" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsAcoesProgramadas)) echo $relatorio->dsAcoesProgramadas; ?></textarea>
+                    <textarea null="false" <?php if ($this->isCoordenador) echo "disabled='true'" ?> class="campoForm" class="campoForm" id="dsAcoesProgramadas" name="dsAcoesProgramadas" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsAcoesProgramadas)) echo $relatorio->dsAcoesProgramadas; ?></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="destacar bold"><?php echo $y++.'.'; ?> Aç&otilde;es Executadas</td>
+                <td class="destacar bold"><?php echo $y++.'.'; ?> A&ccedil;&otilde;es Executadas</td>
             </tr>
             <tr>
                 <td align="center">
-                    <textarea null="false" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> class="campoForm" id="dsAcoesExecutadas" name="dsAcoesExecutadas" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsAcoesExecutadas)) echo $relatorio->dsAcoesExecutadas; ?></textarea>
+                    <textarea null="false" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> class="campoForm" id="dsAcoesExecutadas" name="dsAcoesExecutadas" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsAcoesExecutadas)) echo $relatorio->dsAcoesExecutadas; ?></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="destacar bold"><?php echo $y++.'.'; ?> Benef&iacute;cios Alcançados</td>
+                <td class="destacar bold"><?php echo $y++.'.'; ?> Benef&iacute;cios Alcan&ccedil;ados</td>
             </tr>
             <tr>
                 <td align="center">
-                    <textarea null="false" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> class="campoForm" id="dsBeneficioAlcancado" name="dsBeneficioAlcancado" cols="1" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsBeneficioAlcancado)) echo $relatorio->dsBeneficioAlcancado; ?></textarea>
+                    <textarea null="false" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> class="campoForm" id="dsBeneficioAlcancado" name="dsBeneficioAlcancado" cols="1" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsBeneficioAlcancado)) echo $relatorio->dsBeneficioAlcancado; ?></textarea>
                 </td>
             </tr>
             <tr>
@@ -155,7 +155,7 @@ $selected = '';
             </tr>
             <tr>
                 <td align="center">
-                    <textarea null="false" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> class="campoForm" id="dsDificuldadeEncontrada" name="dsDificuldadeEncontrada" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsDificuldadeEncontrada)) echo $relatorio->dsDificuldadeEncontrada; ?></textarea>
+                    <textarea null="false" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> class="campoForm" id="dsDificuldadeEncontrada" name="dsDificuldadeEncontrada" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsDificuldadeEncontrada)) echo $relatorio->dsDificuldadeEncontrada; ?></textarea>
                 </td>
             </tr>
         </table>
@@ -163,15 +163,15 @@ $selected = '';
         <?php /* ?>
         <table class="tabela">
             <tr>
-                <th colspan="2">Situaç&atilde;o do Conv&ecirc;nio na Realizaç&atilde;o da Fiscalizaç&atilde;o</th>
+                <th colspan="2">Situa&ccedil;&atilde;o do Conv&ecirc;nio na Realiza&ccedil;&atilde;o da Fiscaliza&ccedil;&atilde;o</th>
             </tr>
             <tr>
-                <td>5*<?php echo $y++.'.'; ?> Situaç&atilde;o SIAFI</td>
+                <td>5*<?php echo $y++.'.'; ?> Situa&ccedil;&atilde;o SIAFI</td>
                 <td width="230">
                     <?php if (isset($relatorio->stSiafi)) $selected = $relatorio->stSiafi;?>
-                    <select null="false" class="campoForm w200" id="stSiafi" name="stSiafi" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stSiafi" name="stSiafi" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
-                        <option value="0" <?php if ($selected == '0') echo 'selected' ?>>Não se aplica</option>
+                        <option value="0" <?php if ($selected == '0') echo 'selected' ?>>NÃ£o se aplica</option>
                         <option value="1" <?php if ($selected == '1') echo 'selected' ?>>Aprovado</option>
                         <option value="2" <?php if ($selected == '2') echo 'selected' ?>>A aprovar</option>
                         <option value="3" <?php if ($selected == '3') echo 'selected' ?>>A comprovar</option>
@@ -179,10 +179,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td>6*<?php echo $y++.'.'; ?> Prestaç&atilde;o de Contas Apresentada?</td>
+                <td>6*<?php echo $y++.'.'; ?> Presta&ccedil;&atilde;o de Contas Apresentada?</td>
                 <td>
                     <?php if (isset($relatorio->stPrestacaoContas)) $selected = $relatorio->stPrestacaoContas; ?>
-                    <select null="false" class="campoForm w200" id="stPrestacaoContas" name="stPrestacaoContas" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stPrestacaoContas" name="stPrestacaoContas" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -194,7 +194,7 @@ $selected = '';
                 <td>7*<?php echo $y++.'.'; ?> Foram cumpridas as normas estabelecidas?</td>
                 <td>
                     <?php if (isset($relatorio->stCumpridasNormas)) $selected = $relatorio->stCumpridasNormas;?>
-                    <select null="false" class="campoForm w200" id="stCumpridasNormas" name="stCumpridasNormas" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stCumpridasNormas" name="stCumpridasNormas" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if (($selected == null) || ($selected == '')) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -203,10 +203,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td>8*<?php echo $y++.'.'; ?> Foi cumprido o prazo para entrega da prestaç&atilde;o de contas?</td>
+                <td>8*<?php echo $y++.'.'; ?> Foi cumprido o prazo para entrega da presta&ccedil;&atilde;o de contas?</td>
                 <td>
                     <?php if (isset($relatorio->stCumpridoPrazo)) $selected = $relatorio->stCumpridoPrazo; ?>
-                    <select null="false" class="campoForm w200" id="stCumpridoPrazo" name="stCumpridoPrazo" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stCumpridoPrazo" name="stCumpridoPrazo" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -219,13 +219,13 @@ $selected = '';
 
         <table class="tabela">
             <tr>
-                <th colspan="2">Utilizaç&atilde;o de Recursos</th>
+                <th colspan="2">Utiliza&ccedil;&atilde;o de Recursos</th>
             </tr>
             <tr>
-                <td><?php echo $y++.'.'; ?> Foi apurado por unidade fiscalizadora ou auditora a aplicaç&atilde;o irregular de recursos?</td>
+                <td><?php echo $y++.'.'; ?> Foi apurado por unidade fiscalizadora ou auditora a aplica&ccedil;&atilde;o irregular de recursos?</td>
                 <td width="220">
                     <?php if (isset($relatorio->stApuracaoUFiscalizacao)) $selected = $relatorio->stApuracaoUFiscalizacao; ?>
-                    <select null="false" class="campoForm w200" id="stApuracaoUFiscalizacao" name="stApuracaoUFiscalizacao" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stApuracaoUFiscalizacao" name="stApuracaoUFiscalizacao" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -234,10 +234,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td><?php echo $y++.'.'; ?> Comprovou a correta utilizaç&atilde;o dos recursos da contrapartida?</td>
+                <td><?php echo $y++.'.'; ?> Comprovou a correta utiliza&ccedil;&atilde;o dos recursos da contrapartida?</td>
                 <td>
                     <?php if (isset($relatorio->stComprovacaoUtilizacaoRecurso)) $selected = $relatorio->stComprovacaoUtilizacaoRecurso; ?>
-                    <select null="false" class="campoForm w200" id="stComprovacaoUtilizacaoRecursos" name="stComprovacaoUtilizacaoRecursos" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stComprovacaoUtilizacaoRecursos" name="stComprovacaoUtilizacaoRecursos" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -249,7 +249,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> H&aacute; compatibilidade entre os recursos transferidos e a evolu&ccedil;&atilde;o do projeto?</td>
                 <td>
                     <?php if (isset($relatorio->stCompatibilidadeDesembolsoEvo)) $selected = $relatorio->stCompatibilidadeDesembolsoEvo; ?>
-                    <select null="false" class="campoForm w200" id="stCompatibilidadeDesembolsoEvolucao" name="stCompatibilidadeDesembolsoEvolucao" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stCompatibilidadeDesembolsoEvolucao" name="stCompatibilidadeDesembolsoEvolucao" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -258,10 +258,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td><?php echo $y++.'.'; ?> Ocorreu despesas com multas, juros, taxas banc&aacute;rias ou correç&atilde;o monet&aacute;ria?</td>
+                <td><?php echo $y++.'.'; ?> Ocorreu despesas com multas, juros, taxas banc&aacute;rias ou corre&ccedil;&atilde;o monet&aacute;ria?</td>
                 <td>
                     <?php if (isset($relatorio->stOcorreuDespesas)) $selected = $relatorio->stOcorreuDespesas; ?>
-                    <select null="false" class="campoForm w200" id="stOcorreuDespesas" name="stOcorreuDespesas" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stOcorreuDespesas" name="stOcorreuDespesas" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -277,7 +277,7 @@ $selected = '';
                 <td>13*<?php echo $y++.'.'; ?> Ocorreu pagamento de servidor p&uacute;blico?</td>
                 <td>
                     <?php if (isset($relatorio->stPagamentoServidorPublico)) $selected = $relatorio->stPagamentoServidorPublico; ?>
-                    <select null="false" class="campoForm w200" id="stPagamentoServidorPublico" name="stPagamentoServidorPublico" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stPagamentoServidorPublico" name="stPagamentoServidorPublico" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -286,10 +286,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td>14*<?php echo $y++.'.'; ?> Ocorreu despesa com taxa de administraç&atilde;o?</td>
+                <td>14*<?php echo $y++.'.'; ?> Ocorreu despesa com taxa de administra&ccedil;&atilde;o?</td>
                 <td>
                     <?php if (isset($relatorio->stDespesaAdministracao)) $selected = $relatorio->stDespesaAdministracao; ?>
-                    <select null="false" class="campoForm w200" id="stDespesaAdministracao" name="stDespesaAdministracao" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stDespesaAdministracao" name="stDespesaAdministracao" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -298,10 +298,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td>15*<?php echo $y++.'.'; ?> H&aacute; transfer&ecirc;ncia de recurso para clubes/associaç&otilde;es ou outras entidades cong&ecirc;neres?</td>
+                <td>15*<?php echo $y++.'.'; ?> H&aacute; transfer&ecirc;ncia de recurso para clubes/associa&ccedil;&otilde;es ou outras entidades cong&ecirc;neres?</td>
                 <td>
                     <?php if (isset($relatorio->stTransferenciaRecurso)) $selected = $relatorio->stTransferenciaRecurso; ?>
-                    <select null="false" class="campoForm w200" id="stTransferenciaRecurso" name="stTransferenciaRecurso" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stTransferenciaRecurso" name="stTransferenciaRecurso" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -310,10 +310,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td>16*<?php echo $y++.'.'; ?> H&aacute; despesas com publicidade, salvo as de car&aacute;ter educativo, informativo ou de orientaç&atilde;o social?</td>
+                <td>16*<?php echo $y++.'.'; ?> H&aacute; despesas com publicidade, salvo as de car&aacute;ter educativo, informativo ou de orienta&ccedil;&atilde;o social?</td>
                 <td>
                     <?php if (isset($relatorio->stDespesasPublicidade)) $selected = $relatorio->stDespesasPublicidade; ?>
-                    <select null="false" class="campoForm w200" id="stDespesasPublicidade" name="stDespesasPublicidade" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stDespesasPublicidade" name="stDespesasPublicidade" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -322,10 +322,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td>17*<?php echo $y++.'.'; ?> Ocorreu aditamento prevendo alteraç&atilde;o de objeto?</td>
+                <td>17*<?php echo $y++.'.'; ?> Ocorreu aditamento prevendo altera&ccedil;&atilde;o de objeto?</td>
                 <td>
                     <?php if (isset($relatorio->stOcorreuAditamento)) $selected = $relatorio->stOcorreuAditamento; ?>
-                    <select null="false" class="campoForm w200" id="stOcorreuAditamento" name="stOcorreuAditamento" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stOcorreuAditamento" name="stOcorreuAditamento" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -341,7 +341,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> Os recursos de contrapartida foram depositados na conta do projeto?</td>
                 <td>
                     <?php if (isset($relatorio->stAplicadosRecursos)) $selected = $relatorio->stAplicadosRecursos; ?>
-                    <select null="false" class="campoForm w200" id="stAplicadosRecursos" name="stAplicadosRecursos" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stAplicadosRecursos" name="stAplicadosRecursos" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -350,10 +350,10 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td><?php echo $y++.'.'; ?> Ocorreu aplicaç&atilde;o de recursos em outra finalidade que n&atilde;o a do objeto pactuado?</td>
+                <td><?php echo $y++.'.'; ?> Ocorreu aplica&ccedil;&atilde;o de recursos em outra finalidade que n&atilde;o a do objeto pactuado?</td>
                 <td>
                     <?php if (isset($relatorio->stAplicacaoRecursosFinalidade)) $selected = $relatorio->stAplicacaoRecursosFinalidade; ?>
-                    <select null="false" class="campoForm w200" id="stAplicacaoRecursosFinalidade" name="stAplicacaoRecursosFinalidade" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stAplicacaoRecursosFinalidade" name="stAplicacaoRecursosFinalidade" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -364,7 +364,7 @@ $selected = '';
             <tr>
                 <td><?php echo $y++.'.'; ?> Os recursos captados est&atilde;o sendo aplicados em conformidade com a legisla&ccedil;&atilde;o vigente?</td>
                 <td>
-                    <select null="false" class="campoForm w200" id="stRecursosCaptados" name="stRecursosCaptados" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stRecursosCaptados" name="stRecursosCaptados" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <?php if (isset($relatorio->stRecursosCaptados)) $selected = $relatorio->stRecursosCaptados; ?>
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
@@ -377,10 +377,10 @@ $selected = '';
             
             <?php /* ?>
             <tr>
-                <td>20*<?php echo $y++.'.'; ?> Ocorreu saldo após o encerramento do projeto?</td>
+                <td>20*<?php echo $y++.'.'; ?> Ocorreu saldo ap&oacute;s o encerramento do projeto?</td>
                 <td>
                     <?php if (isset($relatorio->stSaldoAposEncerramento)) $selected = $relatorio->stSaldoAposEncerramento; ?>
-                    <select null="false" class="campoForm w200" id="stSaldoAposEncerramento" name="stSaldoAposEncerramento" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stSaldoAposEncerramento" name="stSaldoAposEncerramento" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -392,7 +392,7 @@ $selected = '';
                 <td>21*<?php echo $y++.'.'; ?> O saldo verificado foi recolhido ao FNC?</td>
                 <td>
                     <?php if (isset($relatorio->stSaldoVerificacaoFNC)) $selected = $relatorio->stSaldoVerificacaoFNC; ?>
-                    <select null="false" class="campoForm w200" id="stSaldoVerificacaoFNC" name="stSaldoVerificacaoFNC" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stSaldoVerificacaoFNC" name="stSaldoVerificacaoFNC" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -413,7 +413,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> O proponente/convenente tem mantido a documenta&ccedil;&atilde;o relativa ao projeto em arquivo pr&oacute;prio?</td>
                 <td width="220">
                     <?php if (isset($relatorio->stProcessoDocumentado)) $selected = $relatorio->stProcessoDocumentado; ?>
-                    <select null="false" class="campoForm w200" id="stProcessoDocumentado" name="stProcessoDocumentado" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stProcessoDocumentado" name="stProcessoDocumentado" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -425,10 +425,10 @@ $selected = '';
             
             <?php /* ?>
             <tr>
-                <td>23*<?php echo $y++.'.'; ?> A documentaç&atilde;o est&aacute; completa e arquivada?</td>
+                <td>23*<?php echo $y++.'.'; ?> A documenta&ccedil;&atilde;o est&aacute; completa e arquivada?</td>
                 <td>
                     <?php if (isset($relatorio->stDocumentacaoCompleta)) $selected = $relatorio->stDocumentacaoCompleta; ?>
-                    <select null="false" class="campoForm w200" id="stDocumentacaoCompleta" name="stDocumentacaoCompleta" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stDocumentacaoCompleta" name="stDocumentacaoCompleta" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -443,7 +443,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> Guardam conformidade entre o executado e o aprovado?</td>
                 <td>
                     <?php if (isset($relatorio->stConformidadeExecucao)) $selected = $relatorio->stConformidadeExecucao; ?>
-                    <select null="false" class="campoForm w200" id="stConformidadeExecucao" name="stConformidadeExecucao" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stConformidadeExecucao" name="stConformidadeExecucao" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -455,7 +455,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> Identificam o projeto com o n&uacute;mero do Pronac/Conv&ecirc;nio?</td>
                 <td>
                     <?php if (isset($relatorio->stIdentificaProjeto)) $selected = $relatorio->stIdentificaProjeto; ?>
-                    <select null="false" class="campoForm w200" id="stIdentificaProjeto" name="stIdentificaProjeto" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stIdentificaProjeto" name="stIdentificaProjeto" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -467,7 +467,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> Existem despesas anteriores ao prazo de vig&ecirc;ncia?</td>
                 <td>
                     <?php if (isset($relatorio->stDespesaAnterior)) $selected = $relatorio->stDespesaAnterior; ?>
-                    <select null="false" class="campoForm w200" id="stDespesaAnterior" name="stDespesaAnterior" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stDespesaAnterior" name="stDespesaAnterior" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -482,7 +482,7 @@ $selected = '';
                 <td>27*<?php echo $y++.'.'; ?> Existem despesas posteriores ao prazo de vig&ecirc;ncia?</td>
                 <td>
                     <?php if (isset($relatorio->stDespesaPosterior)) $selected = $relatorio->stDespesaPosterior; ?>
-                    <select null="false" class="campoForm w200" id="stDespesaPosterior" name="stDespesaPosterior" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stDespesaPosterior" name="stDespesaPosterior" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -494,10 +494,10 @@ $selected = '';
             
             
             <tr>
-                <td><?php echo $y++.'.'; ?> As despesas coincidem com as informadas na relaç&atilde;o de pagamentos?</td>
+                <td><?php echo $y++.'.'; ?> As despesas coincidem com as informadas na rela&ccedil;&atilde;o de pagamentos?</td>
                 <td>
                     <?php if (isset($relatorio->stDespesaCoincidem)) $selected = $relatorio->stDespesaCoincidem; ?>
-                    <select null="false" class="campoForm w200" id="stDespesaCoincidem" name="stDespesaCoincidem" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stDespesaCoincidem" name="stDespesaCoincidem" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -509,7 +509,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> As despesas est&atilde;o devidamente relacionadas no extrato banc&aacute;rio?</td>
                 <td>
                     <?php if (isset($relatorio->stDespesaRelacionada)) $selected = $relatorio->stDespesaRelacionada; ?>
-                    <select null="false" class="campoForm w200" id="stDespesaRelacionada" name="stDespesaRelacionada" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stDespesaRelacionada" name="stDespesaRelacionada" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -521,7 +521,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> Os comprovantes fiscais est&atilde;o com o atesto do recebimento?</td>
                 <td>
                     <?php if (isset($relatorio->stComprovanteFiscal)) $selected = $relatorio->stComprovanteFiscal; ?>
-                    <select null="false" class="campoForm w200" id="stComprovanteFiscal" name="stComprovanteFiscal" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stComprovanteFiscal" name="stComprovanteFiscal" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -534,7 +534,7 @@ $selected = '';
             
         <table class="tabela">
             <tr>
-                <th colspan="2">Divulgaç&atilde;o</th>
+                <th colspan="2">Divulga&ccedil;&atilde;o</th>
             </tr>
 
 
@@ -543,7 +543,7 @@ $selected = '';
                 <td>31*<?php echo $y++.'.'; ?> Ci&ecirc;ncia ao Poder legislativo?</td>
                 <td width="1">
                     <?php if (isset($relatorio->stCienciaLegislativo)) $selected = $relatorio->stCienciaLegislativo; ?>
-                    <select null="false" class="campoForm w200" id="stCienciaLegislativo" name="stCienciaLegislativo" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stCienciaLegislativo" name="stCienciaLegislativo" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -559,7 +559,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> H&aacute; material informativo do Projeto?</td>
                 <td width="220">
                     <?php if (isset($relatorio->stMaterialInformativo)) $selected = $relatorio->stMaterialInformativo; ?>
-                    <select null="false" class="campoForm w200" id="stMaterialInformativo" name="stMaterialInformativo" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stMaterialInformativo" name="stMaterialInformativo" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -571,7 +571,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> Contemplou as exig&ecirc;ncias legais?</td>
                 <td>
                     <?php if (isset($relatorio->stExigenciaLegal)) $selected = $relatorio->stExigenciaLegal; ?>
-                    <select null="false" class="campoForm w200" id="stExigenciaLegal" name="stExigenciaLegal" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stExigenciaLegal" name="stExigenciaLegal" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -583,16 +583,16 @@ $selected = '';
 
         <table class="tabela">
             <tr>
-                <th colspan="2">Execuç&atilde;o</th>
+                <th colspan="2">Execu&ccedil;&atilde;o</th>
             </tr>
 
 
             <?php /* ?>
             <tr>
-                <td>34*<?php echo $y++.'.'; ?> Alcançou a finalidade esperada?</td>
+                <td>34*<?php echo $y++.'.'; ?> Alcan&ccedil;ou a finalidade esperada?</td>
                 <td width="1">
                     <?php if (isset($relatorio->stFinalidadeEsperada)) $selected = $relatorio->stFinalidadeEsperada; ?>
-                    <select null="false" class="campoForm w200" id="stFinalidadeEsperada" name="stFinalidadeEsperada" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" id="stFinalidadeEsperada" name="stFinalidadeEsperada" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -604,7 +604,7 @@ $selected = '';
                 <td>35*<?php echo $y++.'.'; ?> As metas/etapas do Plano de Trabalho foram executadas integralmente?</td>
                 <td>
                     <?php if (isset($relatorio->stPlanoTrabalho)) $selected = $relatorio->stPlanoTrabalho; ?>
-                    <select null="false" class="campoForm w200" name="stPlanoTrabalho" name="stPlanoTrabalho" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" name="stPlanoTrabalho" name="stPlanoTrabalho" <?php if ($this->>isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -620,7 +620,7 @@ $selected = '';
                 <td><?php echo $y++.'.'; ?> O projeto est&aacute; sendo executado de acordo com o aprovado?</td>
                 <td width="220">
                     <?php if (isset($relatorio->stExecucaoAprovado)) $selected = $relatorio->stExecucaoAprovado; ?>
-                    <select null="false" class="campoForm w200" name="stExecucaoAprovado" name="stExecucaoAprovado" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> >
+                    <select null="false" class="campoForm w200" name="stExecucaoAprovado" name="stExecucaoAprovado" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> >
                         <option value="" <?php if ($selected == null) echo 'selected' ?>>--</option>
                         <option value="1" <?php if ($selected == 1) echo 'selected' ?>>Sim</option>
                         <option value="2" <?php if ($selected == 2) echo 'selected' ?>>N&atilde;o</option>
@@ -633,7 +633,7 @@ $selected = '';
             </tr>
             <tr>
                 <td colspan="2">
-                    <textarea null="false" class="campoForm" id="dsObservacao" name="dsObservacao" cols="" rows="3" style="width: 99%;" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?>><?php if (isset($relatorio->dsObservacao)) echo $relatorio->dsObservacao; ?></textarea>
+                    <textarea null="false" class="campoForm" id="dsObservacao" name="dsObservacao" cols="" rows="3" style="width: 99%;" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?>><?php if (isset($relatorio->dsObservacao)) echo $relatorio->dsObservacao; ?></textarea>
                 </td>
             </tr>
         </table>
@@ -649,13 +649,13 @@ $selected = '';
             </tr>
             <tr>
                 <td align="center">
-                    <input null="true" id="qtEmpregoDireto" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> value="<?php if (isset($relatorio->qtEmpregoDireto)) echo number_format($relatorio->qtEmpregoDireto, 0, ',', '.'); ?>" type="text" class="campoForm qtEmprego" style="margin-left: 5px;" name="qtEmpregoDireto">
+                    <input null="true" id="qtEmpregoDireto" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> value="<?php if (isset($relatorio->qtEmpregoDireto)) echo number_format($relatorio->qtEmpregoDireto, 0, ',', '.'); ?>" type="text" class="campoForm qtEmprego" style="margin-left: 5px;" name="qtEmpregoDireto">
                 </td>
                 <td align="center">
-                    <input null="false" id="qtEmpregoIndireto" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> value="<?php if (isset($relatorio->qtEmpregoIndireto)) echo number_format($relatorio->qtEmpregoIndireto, 0, ',', '.'); ?>" type="text" class="campoForm qtEmprego" style="margin-left: 5px;" name="qtEmpregoIndireto">
+                    <input null="false" id="qtEmpregoIndireto" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> value="<?php if (isset($relatorio->qtEmpregoIndireto)) echo number_format($relatorio->qtEmpregoIndireto, 0, ',', '.'); ?>" type="text" class="campoForm qtEmprego" style="margin-left: 5px;" name="qtEmpregoIndireto">
                 </td>
                 <td align="center">
-                    <input null="false" id="totalEmprego" class="qtEmprego" sonumero=true type="text" readonly="readonly" <?php if ($this->grupoAtivo == 134) echo "disabled='disabled'" ?> style="margin-left: 5px;" value="<?php echo (isset($relatorio->qtEmpregoDireto) && isset($relatorio->qtEmpregoIndireto)) ? number_format( ($relatorio->qtEmpregoDireto + $relatorio->qtEmpregoIndireto), 0, ',', '.') : ''; ?>">
+                    <input null="false" id="totalEmprego" class="qtEmprego" sonumero=true type="text" readonly="readonly" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?> style="margin-left: 5px;" value="<?php echo (isset($relatorio->qtEmpregoDireto) && isset($relatorio->qtEmpregoIndireto)) ? number_format( ($relatorio->qtEmpregoDireto + $relatorio->qtEmpregoIndireto), 0, ',', '.') : ''; ?>">
                 </td>
             </tr>
         </table>
@@ -666,7 +666,7 @@ $selected = '';
             </tr>
             <tr>
                 <td>
-                    <?php if ($this->grupoAtivo == 134) { // coordenador
+                    <?php if ($this->isCoordenador) { // coordenador
                               if (isset($relatorio->dsEvidencia)) echo $relatorio->dsEvidencia;
                           } else {  ?>
                     <textarea null="false" class="campoForm" id="dsEvidencia" name="dsEvidencia" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsEvidencia)) echo $relatorio->dsEvidencia; ?></textarea>
@@ -674,11 +674,11 @@ $selected = '';
                 </td>
             </tr>
             <tr>
-                <td class="destacar bold"><?php echo $y++.'.'; ?> Recomendaç&otilde;es da Equipe</td>
+                <td class="destacar bold"><?php echo $y++.'.'; ?> Recomenda&ccedil;&otilde;es da Equipe</td>
             </tr>
             <tr>
                 <td>
-                    <?php if ($this->grupoAtivo == 134) { // coordenador
+                    <?php if ($this->isCoordenador) { // coordenador
                               if (isset($relatorio->dsRecomendacaoEquipe)) echo $relatorio->dsRecomendacaoEquipe;
                           } else {  ?>
                     <textarea null="false" class="campoForm" id="dsRecomendacaoEquipe" name="dsRecomendacaoEquipe" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsRecomendacaoEquipe)) echo $relatorio->dsRecomendacaoEquipe; ?></textarea>
@@ -693,7 +693,7 @@ $selected = '';
             </tr>
             <tr>
                 <td>
-                    <?php if ($this->grupoAtivo == 134) { // coordenador
+                    <?php if ($this->>isCoordenador) { // coordenador
                               if (isset($relatorio->dsConclusaoEquipe)) echo $relatorio->dsConclusaoEquipe;
                           } else {  ?>
                     <textarea null="false" class="campoForm" id="dsConclusaoEquipe" name="dsConclusaoEquipe" cols="" rows="3" style="width: 99%;"><?php if (isset($relatorio->dsConclusaoEquipe)) echo $relatorio->dsConclusaoEquipe; ?></textarea>
@@ -711,13 +711,13 @@ $selected = '';
             </tr>
             <tr>
                 <td>
-                    <?php if ($this->grupoAtivo == 134) { // coordenador
+                    <?php if ($this->isCoordenador) { // coordenador
                               if (isset($relatorio->dsParecerTecnico)) echo $relatorio->dsParecerTecnico;
                           } else {  ?>
                     <textarea null="false" cols="" class="textocomposto" id="dsParecerTecnico" name="dsParecerTecnico" rows="6" style="width: 99%;"><?php if (isset($relatorio->dsParecerTecnico)) echo $relatorio->dsParecerTecnico; ?></textarea>
                     <?php } ?>
 
-                    <?php /*if ($this->grupoAtivo == 135 && is_object($historicoDevolucao) && $historicoDevolucao->count() > 0) { // Tecnico
+                    <?php /*if ($this->isTecnico && is_object($historicoDevolucao) && $historicoDevolucao->count() > 0) { // Tecnico
                         //!empty($historicoDevolucao->dsJustificativaDevolucao)
                         ?>
                         <fieldset><legend>Observa&ccedil;&otilde;es de encaminhamento</legend>
@@ -729,7 +729,7 @@ $selected = '';
                         </fieldset>
                     <?php } ?>
 
-                    <?php if ($this->grupoAtivo == 134) { // coordenador   ?>
+                    <?php if ($this->>isCoordenador) { // coordenador   ?>
                         <fieldset><legend>Parecer do Coordenador</legend>
                             <textarea null="false" cols="1" class="textocomposto" id="dsParecer" name="dsParecer" rows="10" style="width: 700px;"><?php if (isset($relatorio->dsParecer))
                             echo $relatorio->dsParecer; ?></textarea>
@@ -757,7 +757,7 @@ $selected = '';
         </table>
         <?php } ?>
 
-        <?php if ($this->grupoAtivo == 134) { // coordenador   ?>
+        <?php if ($this->isCoordenador) { // coordenador   ?>
         <table class="tabela">
             <tr>
                 <th>Parecer do Coordenador</th>
@@ -771,17 +771,57 @@ $selected = '';
         <?php } ?>
 
         <p align="center">
-            <?php if ($this->grupoAtivo == 135) { // TECNICO    ?>
-                <input id="Confirmar" class="btn_enviar" type="submit" onclick="" value="" title="Confirmar Fiscalizaç&atilde;o" style="margin-left: 5px;">
-                <input id="SalvarTecnico" class="btn_salvar" type="button" style="margin-left: 5px;">
-                <input id="Cancelar" class="btn_cancelar" type="button" style="margin-left: 5px;">
+            <?php if ($this->isTecnico) {   ?>
+                <a
+                    id="SalvarTecnico"
+                    class="waves-effect waves-light btn white-text tooltipped small btn-secondary"
+                    data-tooltip="Salvar parecer"
+                    style="margin-left: 5px;"
+                ><i class="material-icons left">save</i>Salvar</a>
+
+                <a
+                    id="Confirmar"
+                    class="waves-effect waves-light btn white-text tooltipped small btn-primary "
+                    data-tooltip="Finalizar fiscaliza&ccedil;&atilde;o e enviar para o Coordenador"
+                    style="margin-left: 5px;"
+                ><i class="material-icons left">send</i>Finalizar</a>
+
+                <a
+                    id="Cancelar"
+                    class="waves-effect waves btn black-text tooltipped small white"
+                    data-tooltip="Voltar para listagem"
+                ><i class="material-icons left">undo</i>Cancelar</a>
             <?php } ?>
 
-            <?php if ($this->grupoAtivo == 134) { // coordenador    ?>
-                <input id="Aprovar" class="btn_aprovar" type="button" value="" style="margin-left: 5px;">
-                <input id="DevolverTecnico" class="btn_devolver_tecnico" type="button" value="" style="margin-left: 5px;">
-                <input id="SalvarCoordenador" class="btn_salvar" type="button" style="margin-left: 5px;">
-                <input id="Cancelar" class="btn_cancelar" type="button" style="margin-left: 5px;">
+            <?php if ($this->isCoordenador) {   ?>
+
+                <a
+                    id="SalvarCoordenador"
+                    class="waves-effect waves-light btn white-text tooltipped small btn-secondary"
+                    data-tooltip="Salvar parecer"
+                    style="margin-left: 5px;"
+                ><i class="material-icons left">save</i>Salvar</a>
+
+                <a
+                    id="Aprovar"
+                    class="waves-effect waves-light btn white-text tooltipped small btn-primary"
+                    data-tooltip="Aprovar fiscaliza&ccedil;&atilde;o"
+                    style="margin-left: 5px;"
+                ><i class="material-icons left">check</i>Aprovar</a>
+
+                <a
+                    id="DevolverTecnico"
+                    class="waves-effect waves btn black-text tooltipped white-text small btn-danger"
+                    data-tooltip="Devolver para o t&eacute;cnico"
+                    style="margin-left: 5px;"
+                ><i class="material-icons right">cancel</i>Devolver</a>
+
+                <a
+                    id="Cancelar"
+                    class="waves-effect waves btn black-text tooltipped small white"
+                    data-tooltip="Voltar para listagem"
+                ><i class="material-icons left">undo</i>Cancelar</a>
+
                 <input type="hidden" name="dsJustificativaDevolucao" id="dsJustificativaDevolucao" value=""/>
             <?php } ?>
         </p>
@@ -790,7 +830,7 @@ $selected = '';
 </div>
 
 <div id="rodapeConteudo" ><span></span></div>
-<!-- ========== FIM RODAPÉ DO CONTEÚDO ========== -->
+<!-- ========== FIM RODAPÃ‰ DO CONTEÃšDO ========== -->
 <br clear="all" />
 
 <script type="text/javascript" src="<?php echo $this->baseUrl();?>/public/js/tinymce/js/tinymce/tinymce.min.js"></script>
@@ -809,7 +849,7 @@ $selected = '';
         acertaLayout();
         criacampo();
 
-	    <?php if ($this->grupoAtivo == 135) : // TECNICO   ?>
+	    <?php if ($this->isTecnico) : // TECNICO   ?>
 //            tinymce.init({
 //                plugins:"paste,textcolor",
 //                language: "pt_BR",
@@ -896,7 +936,7 @@ $selected = '';
                         },
                         Sim: function() {
                             //                            preencheTextarea();
-                            if(validarFormulario('#formParecerTecnico','Dados obrigatórios n&atilde;o informados!')){
+                            if(validarFormulario('#formParecerTecnico','Dados obrigat&oacute;rios n&atilde;o informados!')){
                                 $('#formParecerTecnico').submit();
                             }
                             $(this).dialog('close');
@@ -944,7 +984,7 @@ $selected = '';
                         },
                         Sim: function() {
                             //                            preencheTextarea();
-                            if(validarFormulario('#formParecerTecnico','Dados obrigatórios n&atilde;o informados!')){
+                            if(validarFormulario('#formParecerTecnico','Dados obrigat&oacute;rios n&atilde;o informados!')){
                                 $('#formParecerTecnico').submit();
                             }
                             $(this).dialog('close');
@@ -964,7 +1004,7 @@ $selected = '';
             $('#dsParecer').attr('null','');
             $('#dsJustificativaDevolucao').attr('null','');
 
-            if(validarFormulario('#formParecerTecnico','Dados obrigatórios n&atilde;o informados!')){
+            if(validarFormulario('#formParecerTecnico','Dados obrigat&oacute;rios n&atilde;o informados!')){
 
                 $('#stAprovar').val(0);
                 $('#stAvaliacao').val(0);
@@ -1180,7 +1220,7 @@ $selected = '';
             mensagem = '';
         }
 
-	    <?php if ($this->grupoAtivo == 135): // TECNICO
+	    <?php if ($this->isTecnico): // TECNICO
 	    ?>       
         var dsEvidencia = $('#dsEvidencia').val(),
 	    dsRecomendacaoEquipe = $('#dsRecomendacaoEquipe').val(),
@@ -1199,7 +1239,7 @@ $selected = '';
 	    <?php endif; ?>
             
             
-        //VOLTAR ESSA VERSÃO APÓS O COMANDO DOS GESTORES ROMULO E ALINE. - Jefferson Alessandro
+        //VOLTAR ESSA VERSÃƒO APÃ“S O COMANDO DOS GESTORES ROMULO E ALINE. - Jefferson Alessandro
         //$(form).find('[null=false]').not('#dsParecer').each(function(){
         $(form).find('[null=false]').not('#dsParecer, #dsObservacao, #stRecursosCaptados').each(function(){
             if($(this).attr('type')=='radio'){

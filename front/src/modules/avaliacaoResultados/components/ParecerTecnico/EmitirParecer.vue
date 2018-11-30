@@ -18,8 +18,7 @@
                         <v-toolbar-items>
                             <v-btn dark flat
                                 @click.native="salvarParecer(), confirmarSalvar = true"
-                                :disabled="!valid"
-
+                                :disabled="!parecerRules.enable"
                             >
                                 Salvar
                             </v-btn>
@@ -57,8 +56,8 @@
                             </v-dialog>
                             <v-btn dark flat
                                 @click.native="finalizarParecer()"
-                                :disabled="!valid"
                                 :href="redirectLink"
+                                :disabled="!parecerRules.enable"
                             >
                                 Finalizar
                             </v-btn>
@@ -135,7 +134,7 @@
                                                 <v-flex xs4 d-flex>
                                                         <v-select
                                                             height="20px"
-                                                            :value="getParecer.siManifestacao"
+                                                            v-model="getParecer.siManifestacao"
                                                             @input="inputManifestacao($event)"
                                                             :rules="itemRules"
                                                             :items="items"
@@ -151,16 +150,17 @@
 
                                                 <v-flex md12 xs12 mb-4>
                                                     <v-card>
-                                                        <v-textarea
-                                                            :value="getParecer.dsParecer"
-                                                            @input="inputParecer($event)"
-                                                            :rules="parecerRules"
-                                                            color="deep-purple"
-                                                            label="Texto do Parecer *"
-                                                            height="200px"
-                                                            required="required"
-                                                            outline
-                                                        ></v-textarea>
+                                                        <v-responsive>
+                                                            <div v-show="parecerRules.show" class="text-xs-left"><h4 :class="parecerRules.color">{{parecerRules.msg}}*</h4></div>
+                                                            <EditorTexto
+                                                                :style="parecerRules.backgroundColor"
+                                                                :value="getParecer.dsParecer"
+                                                                @editor-texto-input="inputParecer($event)"
+                                                                @editor-texto-counter="validarParecer($event)"
+                                                                required="required"
+                                                            >
+                                                            </EditorTexto>
+                                                        </v-responsive>
                                                     </v-card>
                                                 </v-flex>
 
@@ -182,6 +182,8 @@ import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import cnpjFilter from '@/filters/cnpj';
 import VueCurrencyFilter from 'vue-currency-filter';
+import EditorTexto from './components/EditorTexto';
+
 
 Vue.use(VueCurrencyFilter, {
     symbol: 'R$',
@@ -191,6 +193,9 @@ Vue.use(VueCurrencyFilter, {
 
 export default {
     name: 'EmitirParecer',
+    components: {
+        EditorTexto,
+    },
     data() {
         return {
             tipo: true,
@@ -200,10 +205,13 @@ export default {
             valid: false,
             dialog: true,
             itemRules: [v => !!v || 'Tipo de manifestação e obrigatório!'],
-            parecerRules: [
-                v => !!v || 'Parecer e obrigatório!',
-                v => v.length >= 10 || 'Parecer deve conter mais que 10 characteres',
-            ],
+            parecerRules: {
+                show: false,
+                color: '',
+                backgroundColor: '',
+                msg: '',
+                enable: false,
+            },
             items: [
                 {
                     id: 'R',
@@ -219,6 +227,7 @@ export default {
                 },
             ],
             parecerData: {},
+
         };
     },
     methods: {
@@ -241,7 +250,6 @@ export default {
                 siManifestacao: this.getParecer.siManifestacao,
                 dsParecer: this.getParecer.dsParecer,
             };
-
             if (this.parecer.idAvaliacaoFinanceira) {
                 data.idAvaliacaoFinanceira = this.parecer.idAvaliacaoFinanceira;
             }
@@ -252,8 +260,8 @@ export default {
 
             if (this.parecerData.dsParecer) {
                 data.dsParecer = this.parecerData.dsParecer;
+                console.info(data.dsParecer);
             }
-
             this.salvar(data);
             /** Descomentar linha após migração da lista para o VUEJS */
             // this.dialog = false;
@@ -278,15 +286,40 @@ export default {
 
             if (this.parecerData.dsParecer) {
                 data.dsParecer = this.parecerData.dsParecer;
+                console.info(data.dsParecer);
             }
 
             this.finalizar(data);
         },
         inputParecer(e) {
             this.parecerData.dsParecer = e;
+            this.validarParecer(e);
         },
         inputManifestacao(e) {
             this.parecerData.siManifestacao = e;
+        },
+        validarParecer(e) {
+            if (e < 10) {
+                this.parecerRules = { show: true,
+                    color: 'red--text',
+                    backgroundColor: { 'background-color': '#FFCDD2' },
+                    msg: 'Parecer deve conter mais que 10 characteres',
+                    enable: false };
+            }
+            if (e < 1) {
+                this.parecerRules = { show: true,
+                    color: 'red--text',
+                    backgroundColor: { 'background-color': '#FFCDD2' },
+                    msg: 'Parecer e obrigatório!',
+                    enable: false };
+            }
+            if (e >= 10) {
+                this.parecerRules = { show: false,
+                    color: '',
+                    backgroundColor: '',
+                    msg: '',
+                    enable: true };
+            }
         },
     },
     computed: {
@@ -302,6 +335,7 @@ export default {
     mounted() {
         this.redirectLink = this.redirectLink + this.idPronac;
         this.getConsolidacao(this.idPronac);
+        this.validarParecer();
     },
     filters: {
         cnpjFilter,

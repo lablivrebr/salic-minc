@@ -3093,7 +3093,7 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
      * @param null $search
      * @return array
      */
-    public function propostas($idAgente, $idResponsavel, $idAgenteCombo, $where = array(), $order = [], $start = 0, $limit = 20, $search = null)
+    public function propostas($idResponsavel, $idAgenteCombo, $where = array(), $order = [], $start = 0, $limit = 20, $search = null)
     {
         $db = Zend_Db_Table::getDefaultAdapter();
         $db->setFetchMode(Zend_DB::FETCH_OBJ);
@@ -3106,7 +3106,7 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
             ->from(array('a' => 'preprojeto'), array('a.idpreprojeto', 'a.nomeprojeto'), $this->_schema)
             ->join(array('b' => 'agentes'), 'a.idagente = b.idagente', array('b.cnpjcpf', 'b.idagente'), $this->getSchema('agentes'))
             ->joinleft(array('n' => 'nomes'), 'n.idagente = b.idagente', array('n.descricao as nomeproponente'), $this->getSchema('agentes'))
-            ->where('a.idagente = ? ', $idAgente)
+            ->where('a.idagente = ? ', $idAgenteCombo)
             ->where('a.stestado = 1')
             ->where("NOT EXISTS($subSql)")
             ->where("a.mecanismo = '1'");
@@ -3136,11 +3136,8 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
             ->where('e.sivinculoproposta = 2')
             ->where('f.idusuarioresponsavel = ?', $idResponsavel);
 
-        if (!empty($idAgenteCombo)) {
-            $sql->where('b.idagente = ?', $idAgenteCombo);
-            $sql2->where('b.idagente = ?', $idAgenteCombo);
-            $sql3->where('b.idagente = ?', $idAgenteCombo);
-        }
+        $sql2->where('a.idagente = ?', $idAgenteCombo);
+        $sql3->where('a.idagente = ?', $idAgenteCombo);
 
         $sql = $db->select()->union(array($sql, $sql2, $sql3), Zend_Db_Select::SQL_UNION);
 
@@ -3179,7 +3176,7 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
      * @param null $search
      * @return array
      */
-    public function propostasTotal($idAgente, $idResponsavel, $idAgenteCombo, $where = array(), $order = array(), $start = 0, $limit = 20, $search = null)
+    public function propostasTotal($idResponsavel, $idAgenteCombo, $where = array(), $order = array(), $start = 0, $limit = 20, $search = null)
     {
         $db = Zend_Db_Table::getDefaultAdapter();
         $db->setFetchMode(Zend_DB::FETCH_OBJ);
@@ -3192,7 +3189,7 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
             ->from(array('a' => 'preprojeto'), array('a.idpreprojeto', 'a.nomeprojeto'), $this->_schema)
             ->join(array('b' => 'agentes'), 'a.idagente = b.idagente', array('b.cnpjcpf', 'b.idagente'), $this->getSchema('agentes'))
             ->joinleft(array('n' => 'nomes'), 'n.idagente = b.idagente', array('n.descricao as nomeproponente'), $this->getSchema('agentes'))
-            ->where('a.idagente = ? ', $idAgente)
+            ->where('a.idagente = ? ', $idAgenteCombo)
             ->where('(a.stestado = 0 AND a.dtArquivamento IS NOT NULL) OR (a.stestado = 1)', '')
             ->where("NOT EXISTS($subSql)")
             ->where("a.mecanismo = '1'");
@@ -3222,11 +3219,8 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
             ->where('e.sivinculoproposta = 2')
             ->where('f.idusuarioresponsavel = ?', $idResponsavel);
 
-        if (!empty($idAgenteCombo)) {
-            $sql->where('b.idagente = ?', $idAgenteCombo);
-            $sql2->where('b.idagente = ?', $idAgenteCombo);
-            $sql3->where('b.idagente = ?', $idAgenteCombo);
-        }
+        $sql2->where('a.idagente = ?', $idAgenteCombo);
+        $sql3->where('a.idagente = ?', $idAgenteCombo);
 
         $sql = $db->select()->union(array($sql, $sql2, $sql3), Zend_Db_Select::SQL_UNION);
 

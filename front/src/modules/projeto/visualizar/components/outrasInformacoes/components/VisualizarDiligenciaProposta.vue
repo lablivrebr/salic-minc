@@ -66,19 +66,7 @@
                     </v-container>
                 </v-card-text>
                 <v-card-text v-else>
-                    <div style="align: center" class="text-xs-center">
-                        <div style="padding-top: 25px">
-                            <v-progress-circular
-                                    :size="50"
-                                    color="primary"
-                                    indeterminate
-                            ></v-progress-circular>
-                        </div>
-                        <br>
-                        <div style="padding-top: 20px">
-                            Carregando...
-                        </div>
-                    </div>
+                    <Carregando :text="'Carregando ...'"></Carregando>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
@@ -97,10 +85,14 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import Carregando from '@/components/Carregando';
 
     export default {
         name: 'VisualizarDiligenciaProposta',
         props: ['idPronac', 'diligencias'],
+        components: {
+            Carregando,
+        },
         data() {
             return {
                 dialog: false,

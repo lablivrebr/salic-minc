@@ -849,7 +849,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
 
         $idAgente = ((int)$idAgente == 0) ? $this->idAgente : (int)$idAgente;
 
-        if (empty($idAgente)) {
+        if (empty($idAgente) || empty($this->idResponsavel)) {
             $this->_helper->json(array(
                 "data" => 0,
                 'recordsTotal' => 0,
@@ -859,7 +859,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
 
         $tblPreProjeto = new Proposta_Model_DbTable_PreProjeto();
 
-        $rsPreProjeto = $tblPreProjeto->propostas($this->idAgente, $this->idResponsavel, $idAgente, array(), $order, $start, $length, $search);
+        $rsPreProjeto = $tblPreProjeto->propostas($this->idResponsavel, $idAgente, array(), $order, $start, $length, $search);
 
         $Movimentacao = new Proposta_Model_DbTable_TbMovimentacao();
 
@@ -876,8 +876,8 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
 
                 $aux[$key] = $proposta;
             }
-            $recordsFiltered = $tblPreProjeto->propostasTotal($this->idAgente, $this->idResponsavel, $idAgente, array(), null, null, null, $search);
-            $recordsTotal = $tblPreProjeto->propostasTotal($this->idAgente, $this->idResponsavel, $idAgente);
+            $recordsFiltered = $tblPreProjeto->propostasTotal($this->idResponsavel, $idAgente, array(), null, null, null, $search);
+            $recordsTotal = $tblPreProjeto->propostasTotal($this->idResponsavel, $idAgente);
         }
 
         $this->_helper->json(array(

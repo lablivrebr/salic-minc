@@ -145,13 +145,13 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         } else {
             $this->view->historicoDevolucao = array();
             $this->view->projeto = $Projeto;
-            $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+            $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
             $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $idFiscalizacao));
 
             try {
-                $relatorios = new RelatorioFiscalizacao();
+                $relatorios = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
                 $this->view->relatorioFiscalizacao = $relatorios->buscaRelatorioFiscalizacao($idFiscalizacao);
-                $HistoricoDevolucaoDAO = new HistoricoDevolucaoFiscalizacao();
+                $HistoricoDevolucaoDAO = new Fiscalizacao_Model_DbTable_TbHistoricoDevolucaoFiscalizacao();
                 if (isset($this->view->relatorioFiscalizacao)) {
                     $this->view->historicoDevolucao = $HistoricoDevolucaoDAO->buscaHistoricoDevolucaoFiscalizacao(array('idRelatorioFiscalizacao = ?' => $this->view->relatorioFiscalizacao->idRelatorioFiscalizacao));
                 }
@@ -168,7 +168,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         $idFiscalizacao = $this->_getParam('idFiscalizacao');
 
         $ProjetosDAO = new Projetos();
-//        $FiscalizacaoDAO = new Fiscalizacao();
+//        $FiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
 //        $RelatorioFiscalizacaoDAO = new RelatorioFiscalizacao();
 
 //        $aprovacaoDao = new Aprovacao();
@@ -184,11 +184,11 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
             parent::message("Dados n&atilde;o localizados", "fiscalizacao/pesquisarprojetofiscalizacao/grid", "ERROR");
         } else {
             $this->view->projeto = $Projeto;
-            $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+            $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
             $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $idFiscalizacao));
 
             try {
-                $relatorios = new RelatorioFiscalizacao();
+                $relatorios = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
                 $this->view->relatorioFiscalizacao = $relatorios->buscaRelatorioFiscalizacao($idFiscalizacao);
             } catch (Exception $e) {
                 $this->view->relatorioFiscalizacao = array();
@@ -233,7 +233,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
 //        $post = Zend_Registry::get('post');
         $idFiscalizacao = $_POST['idFiscalizacao'];
         $anexardocumentos = true;
-        $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+        $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
 
         if (count($_FILES) > 0) {
             foreach ($_FILES['arquivo']['name'] as $key => $val) {
@@ -275,7 +275,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         $_POST['stPlanoTrabalho'] = 3;
         $_POST['dsConclusaoEquipe'] = ' ';
 
-        $RelatorioFiscalizacaoDAO = new RelatorioFiscalizacao();
+        $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
         $relatorio = $RelatorioFiscalizacaoDAO->buscaRelatorioFiscalizacao($idFiscalizacao);
 
         if (count($relatorio)) {
@@ -285,7 +285,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         }
 
         if ($_POST['stAvaliacao']) {
-            $FiscalizacaoDAO = new Fiscalizacao();
+            $FiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
             $FiscalizacaoDAO->alteraSituacaoProjeto(2, $idFiscalizacao);
 
             parent::message("Formul&aacute;rio enviado com sucesso!", "fiscalizacao/pesquisarprojetofiscalizacao/grid", "CONFIRM");
@@ -320,10 +320,10 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
             $dados['qtEmpregoIndireto'] = str_replace('.', '', $dados['qtEmpregoIndireto']);
         }
 
-        $AvaliacaoFiscalizacaoDAO = new AvaliacaoFiscalizacao();
-        $FiscalizacaoDAO = new Fiscalizacao();
-        $RelatorioFiscalizacaoDAO = new RelatorioFiscalizacao();
-        $ArquivoFiscalizacaoDAO = new ArquivoFiscalizacao();
+        $AvaliacaoFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbAvaliacaoFiscalizacao();
+        $FiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
+        $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
+        $ArquivoFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
         $usuarios = new Autenticacao_Model_DbTable_Usuario();
         $projetosDAO = new Projetos();
 
@@ -350,7 +350,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         if (count($_FILES) > 0) {
             $anexardocumentos = true;
         }
-        $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+        $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
 
         if (count($_FILES) > 0) {
             foreach ($_FILES['arquivo']['name'] as $key => $val) {
@@ -441,7 +441,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         $dados = array('idRelatorioFiscalizacao' => $idRelatorioFiscalizacao, 'dsJustificativaDevolucao' => $dsJustificativa, 'dtEnvioDevolucao' => new Zend_Db_Expr('GETDATE()'));
         $where = array('idRelatorioFiscalizacao = ?' => $idRelatorioFiscalizacao);
 
-        $HistoricoDevolucaoDAO = new HistoricoDevolucaoFiscalizacao();
+        $HistoricoDevolucaoDAO = new Fiscalizacao_Model_DbTable_TbHistoricoDevolucaoFiscalizacao();
         $HistoricoDevolucaoDAO->alteraHistoricoDevolucaoFiscalizacao(array('stDevolucao' => 1), $where);
         $HistoricoDevolucaoDAO->insereHistoricoDevolucaoFiscalizacao($dados);
     }
@@ -455,7 +455,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         $resposta = array('result' => false, 'mensagem' => utf8_encode('N?o foi possivel 1!'));
 
         if ($post->idArquivoFiscalizacao) {
-            $arquivofiscalizacaoDao = new ArquivoFiscalizacao();
+            $arquivofiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
             if ($arquivofiscalizacaoDao->delete(array('idArquivoFiscalizacao = ?' => $post->idArquivoFiscalizacao))) {
                 $resposta = array('result' => true, 'mensagem' => 'Exclu&iacute;do com sucesso!');
             } else {

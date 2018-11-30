@@ -1,5 +1,5 @@
 <?php
-class RelatorioFiscalizacao extends MinC_Db_Table_Abstract
+class Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao extends MinC_Db_Table_Abstract
 {
     protected $_name = 'tbRelatorioFiscalizacao';
     protected $_schema = 'SAC';

@@ -239,11 +239,11 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
         $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoEntidade(array('Projetos.IdPRONAC = ?' => $this->view->idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $this->view->idFiscalizacao));
 
 
-        $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
+        $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
             $OrgaoFiscalizadorDao->update(array('dtRecebimentoResposta' => new Zend_Db_Expr('GETDATE()')), array('dtRecebimentoResposta is ?' => new Zend_Db_Expr('null'), 'idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao, 'idOrgao = ?' => $this->view->orgaoAtivo));
         }
-        $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+        $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
             $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
         }
@@ -267,15 +267,15 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
         $projetoDao = new Projetos();
         $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $this->view->idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $this->view->idFiscalizacao));
 
-        $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
+        $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
             $this->view->dadosOrgaos = $OrgaoFiscalizadorDao->dadosOrgaos(array('tbOF.idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
         }
-        $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+        $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
             $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
         }
-        $RelatorioFiscalizacaoDAO = new RelatorioFiscalizacao();
+        $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
         $this->view->relatorioFiscalizacao = $RelatorioFiscalizacaoDAO->buscaRelatorioFiscalizacao($this->view->idFiscalizacao);
     }
 
@@ -298,15 +298,15 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
         $projetoDao = new Projetos();
         $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $this->view->idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $this->view->idFiscalizacao));
 
-        $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
+        $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
             $this->view->dadosOrgaos = $OrgaoFiscalizadorDao->dadosOrgaos(array('tbOF.idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
         }
-        $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+        $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
             $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
         }
-        $RelatorioFiscalizacaoDAO = new RelatorioFiscalizacao();
+        $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
         $this->view->relatorioFiscalizacao = $RelatorioFiscalizacaoDAO->buscaRelatorioFiscalizacao($this->view->idFiscalizacao);
     }
 
@@ -552,12 +552,12 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
             parent::message("Projeto n�o encontrado!", "fiscalizacao/pesquisarprojetofiscalizacao/parametropesquisa", "ALERT");
         }
 
-        $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
+        $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
             $this->view->orgaoFisca = $OrgaoFiscalizadorDao->buscarOrgao(array('idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
         }
 
-        $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+        $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
             $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
         }
@@ -618,7 +618,7 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
         $post = Zend_Registry::get('post');
 
 
-        $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
+        $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
         $OrgaoFiscalizadorDao->update(array('dtConfirmacaoFiscalizacao' => new Zend_Db_Expr('GETDATE()'), 'dsObservacao' => $post->dsObservacao, 'idParecerista' => $post->idAgente), array('idFiscalizacao = ?' => $post->idFiscalizacao, 'idOrgao = ?' => $this->view->orgaoAtivo));
     }
 
@@ -638,7 +638,7 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
         }
 
         $dados = array();
-        $fiscalizacaoDao = new Fiscalizacao();
+        $fiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
 
         $auth = Zend_Auth::getInstance();
         $tpDemandante = 0;
@@ -675,12 +675,12 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
             $dados['IdPRONAC'] = $this->view->idPronac;
             $idFiscalizacao = $fiscalizacaoDao->inserir($dados);
         }
-        $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+        $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
         foreach ($idArquivo as $idArq) {
             $ArquivoFiscalizacaoDao->inserir(array('idArquivo' => $idArq, 'idFiscalizacao' => $idFiscalizacao));
         }
 
-        $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
+        $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
         foreach ($post->idOrgaoExcluido as $idOrgaoExcluido) {
             $OrgaoFiscalizadorDao->delete(array('idOrgaoFiscalizador = ?' => $idOrgaoExcluido));
         }
@@ -703,7 +703,7 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
 
         $projetoDao = new Projetos();
         $infoProjeto = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $post->idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $post->idFiscalizacao));
-        $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
+        $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
         $dadosOrgaos = $OrgaoFiscalizadorDao->dadosOrgaos(array('tbOF.idFiscalizacao = ?' => $infoProjeto[0]->idFiscalizacao));
 
         $nomeProponente = $infoProjeto[0]->nmAgente;
@@ -791,7 +791,7 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
         $post = Zend_Registry::get('post');
         $resposta = array('result' => false, 'mensagem' => utf8_encode('N&atilde;o foi poss&iacute;vel 1!'));
         if ($post->idOrgaoFiscalizador) {
-            $orgaofiscalizadorDao = new OrgaoFiscalizador();
+            $orgaofiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
             if ($orgaofiscalizadorDao->delete(array('idOrgaoFiscalizador = ?' => $post->idOrgaoFiscalizador))) {
                 $resposta = array('result' => true, 'mensagem' => 'Exclus&atilde;o realizada com sucesso!');
             } else {
@@ -799,7 +799,7 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
             }
         }
         if ($post->idArquivoFiscalizacao) {
-            $arquivofiscalizacaoDao = new ArquivoFiscalizacao();
+            $arquivofiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
             if ($arquivofiscalizacaoDao->delete(array('idArquivoFiscalizacao = ?' => $post->idArquivoFiscalizacao))) {
                 $resposta = array('result' => true, 'mensagem' => 'Exclus&atilde;o realizada com sucesso!');
             } else {

@@ -1,108 +1,108 @@
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#btn_voltar').click(function () {
-            voltar();
-        });
+ $(document).ready(function () {
+     $('#btn_voltar').click(function () {
+         voltar();
+     });
 
-        $('#btn_enviar').click(function () {
-            var dsAvaliacao = CKEDITOR.instances['dsAvaliacao'].getData().toString().replace(/(<.*?>)|(&nbsp;)|(\s+)/g, ''),
-                texto = CKEDITOR.instances['dsAvaliacao'].getData(),
-                erros = 0,
-                msg = 'Favor preencher os dados obrigatórios!';
+     $('#btn_enviar').click(function () {
+         var dsAvaliacao = CKEDITOR.instances['dsAvaliacao'].getData().toString().replace(/(<.*?>)|(&nbsp;)|(\s+)/g, ''),
+             texto = CKEDITOR.instances['dsAvaliacao'].getData(),
+             erros = 0,
+             msg = 'Favor preencher os dados obrigatórios!';
 
-            if (dsAvaliacao == '') {
-                erros++;
-            }
+         if (dsAvaliacao == '') {
+             erros++;
+         }
 
-            if (texto.length > 1000) {
-                erros++;
-                msg = 'O campo de resposta só permite 1.000 caracteres!';
-            }
+         if (texto.length > 1000) {
+             erros++;
+             msg = 'O campo de resposta só permite 1.000 caracteres!';
+         }
 
-            $('.obrigatorio').each(function () {
-                if ($.trim($(this).val()) == '') {
-                    erros++;
-                    msg = 'Favor preencher os dados obrigatórios!';
-                }
-            });
+         $('.obrigatorio').each(function () {
+             if ($.trim($(this).val()) == '') {
+                 erros++;
+                 msg = 'Favor preencher os dados obrigatórios!';
+             }
+         });
 
-            if (erros > 0) {
-                $("#alerta").dialog("destroy");
-                $("#alerta").html(msg);
-                $("#alerta").dialog({
-                    resizable: false,
-                    title: 'Alerta!',
-                    width: 320,
-                    height: 170,
-                    modal: true,
-                    buttons: {
-                        'OK': function () {
-                            $(this).dialog('close');
-                        }
-                    }
-                });
-                $('.ui-dialog-titlebar-close').remove();
+         if (erros > 0) {
+             $("#alerta").dialog("destroy");
+             $("#alerta").html(msg);
+             $("#alerta").dialog({
+                 resizable: false,
+                 title: 'Alerta!',
+                 width: 320,
+                 height: 170,
+                 modal: true,
+                 buttons: {
+                     'OK': function () {
+                         $(this).dialog('close');
+                     }
+                 }
+             });
+             $('.ui-dialog-titlebar-close').remove();
 
-            } else {
-                $("#alerta").dialog("destroy");
-                $("#alerta").html('Deseja realmente enviar a solicitação de readequação?');
-                $("#alerta").dialog({
-                    resizable: false,
-                    title: 'Alerta!',
-                    width: 380,
-                    modal: true,
-                    buttons: {
-                        'Não': function () {
-                            $(this).dialog('close');
-                        },
-                        'Sim': function () {
-                            $(this).dialog('close');
-                            $("#alerta").dialog("destroy");
-                            $("#alerta").html('<br /><div align="center"><img src="<?php echo $this->baseUrl() . '/public/img/ajax.gif'; ?>"><br />Aguarde..</div>');
-                            $("#alerta").dialog({
-                                resizable: false,
-                                width: 320,
-                                modal: true,
-                                title: 'Carregando..'
-                            });
-                            $('.ui-dialog-titlebar-close').remove();
-                            window.setTimeout('enviarformulario()', 1000);
-                        }
-                    }
-                });
-                $('.ui-dialog-titlebar-close').remove();
-            }
-        });
+         } else {
+             $("#alerta").dialog("destroy");
+             $("#alerta").html('Deseja realmente enviar a solicitação de readequação?');
+             $("#alerta").dialog({
+                 resizable: false,
+                 title: 'Alerta!',
+                 width: 380,
+                 modal: true,
+                 buttons: {
+                     'Não': function () {
+                         $(this).dialog('close');
+                     },
+                     'Sim': function () {
+                         $(this).dialog('close');
+                         $("#alerta").dialog("destroy");
+                         $("#alerta").html('<br /><div align="center"><img src="<?php echo $this->baseUrl() . '/public/img/ajax.gif'; ?>"><br />Aguarde..</div>');
+                         $("#alerta").dialog({
+                             resizable: false,
+                             width: 320,
+                             modal: true,
+                             title: 'Carregando..'
+                         });
+                         $('.ui-dialog-titlebar-close').remove();
+                         window.setTimeout('enviarformulario()', 1000);
+                     }
+                 }
+             });
+             $('.ui-dialog-titlebar-close').remove();
+         }
+     });
 
-        $('.radioAvaliacao').change(function () {
-            var radio = $(this).val();
-            console.log(radio);
-            if (radio == 'D') {
-                $('#vinculada').removeAttr('disabled');
-                $('#vinculada').addClass('obrigatorio');
-                $('.asterisco').removeClass('sumir');
-                verificarVinculada();
-                $('#opcoesEncaminhar').removeClass('sumir');
-            } else {
-                document.getElementById('vinculada').options[0].selected = true;
-                document.getElementById('destinatario').options[0].selected = true;
-                $('#vinculada').attr('disabled', true);
-                $('#destinatario').attr('disabled', true);
+     $('.radioAvaliacao').change(function () {
+         var radio = $(this).val();
+         console.log(radio);
+         if (radio == 'D') {
+             $('#vinculada').removeAttr('disabled');
+             $('#vinculada').addClass('obrigatorio');
+             $('.asterisco').removeClass('sumir');
+             verificarVinculada();
+             $('#opcoesEncaminhar').removeClass('sumir');
+         } else {
+             document.getElementById('vinculada').options[0].selected = true;
+             document.getElementById('destinatario').options[0].selected = true;
+             $('#vinculada').attr('disabled', true);
+             $('#destinatario').attr('disabled', true);
 
-                $('#vinculada').removeClass('obrigatorio');
-                $('.asterisco_dinamico').addClass('sumir');
-                $('.asterisco').addClass('sumir');
-                $('#opcoesEncaminhar').addClass('sumir');
-            }
-        });
+             $('#vinculada').removeClass('obrigatorio');
+             $('.asterisco_dinamico').addClass('sumir');
+             $('.asterisco').addClass('sumir');
+             $('#opcoesEncaminhar').addClass('sumir');
+         }
+     });
 
-        $('#vinculada').change(function () {
-            $('#vinculada').addClass('obrigatorio');
-            verificarVinculada();
-        });
+     $('#vinculada').change(function () {
+         $('#vinculada').addClass('obrigatorio');
+         verificarVinculada();
+     });
 
-        function verificarVinculada() {
-            var vinculada = $('#vinculada').val();
+     function verificarVinculada() {
+         const vinculada = parseInt($('#vinculada').val());
 
          let vinculadasAutorizadas = [
              <?php echo $this->disponivelEncaminharAnalise(); ?>
@@ -143,14 +143,12 @@
      }
 
      CKEDITOR.replace('dsAvaliacao', {toolbar: []});
-
+     
  });
 
-    });
-
-    function enviarformulario() {
-        $('#formAvaliacao').submit();
-    }
+ function enviarformulario() {
+     $('#formAvaliacao').submit();
+ }
 </script>
 
 <style type="text/css">

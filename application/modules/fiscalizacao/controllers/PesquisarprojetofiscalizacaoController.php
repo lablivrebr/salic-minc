@@ -61,35 +61,27 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
 
     public function gridAction()
     {
+        $params = $this->_request->getParams();
 
-        //DEFINE PARAMETROS DE ORDENACAO / QTDE. REG POR PAG. / PAGINACAO
-        if ($this->_request->getParam("qtde")) {
-            $this->intTamPag = $this->_request->getParam("qtde");
-        }
-        $order = array();
-
-        //==== parametro de ordenacao  ======//
-        if ($this->_request->getParam("ordem")) {
-            $ordem = $this->_request->getParam("ordem");
-            if ($ordem == "ASC") {
-                $novaOrdem = "DESC";
-            } else {
-                $novaOrdem = "ASC";
-            }
-        } else {
-            $ordem = "ASC";
-            $novaOrdem = "ASC";
+        if ($params["qtde"]) {
+            $this->intTamPag = $params["qtde"];
         }
 
-        //==== campo de ordenacao  ======//
-        if ($this->_request->getParam("campo")) {
-            $campo = $this->_request->getParam("campo");
+        $ordem = "ASC";
+        $novaOrdem = "ASC";
+
+        if ($params["ordem"]) {
+            $ordem = $params["ordem"];
+            $novaOrdem = $ordem == "ASC" ? "DESC" : "ASC";
+        }
+
+        $campo = null;
+        $order = array('dtInicioFiscalizacaoProjeto desc');
+        $ordenacao = null;
+        if ($params["campo"]) {
+            $campo = $params["campo"];
             $order = array($campo . " " . $ordem);
             $ordenacao = "&campo=" . $campo . "&ordem=" . $ordem;
-        } else {
-            $campo = null;
-            $order = array('NomeProjeto');
-            $ordenacao = null;
         }
 
         $pag = 1;
@@ -101,18 +93,14 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
 
         /* ================== PAGINACAO ======================*/
         $where = array();
-        if ((isset($_POST['pronac']) && !empty($_POST['pronac'])) || (isset($_GET['pronac']) && !empty($_GET['pronac']))) {
-            $where['pr.AnoProjeto+pr.Sequencial = ?'] = isset($_POST['pronac']) ? $_POST['pronac'] : $_GET['pronac'];
-            $this->view->pronacProjeto = isset($_POST['pronac']) ? $_POST['pronac'] : $_GET['pronac'];
+        if (!empty($params['pronac'])) {
+            $where['pr.AnoProjeto+pr.Sequencial = ?'] = $params['pronac'];
+            $this->view->pronacProjeto = $params['pronac'];
         }
 
-        if ($this->view->isCoordenador && (isset($_POST['tipoFiltro']) || isset($_GET['tipoFiltro']))) {
-            //Coordenador
-            $filtro = isset($_POST['tipoFiltro']) ? $_POST['tipoFiltro'] : $_GET['tipoFiltro'];
+        if ($this->view->isCoordenador) {
+            $filtro = !empty($params['tipoFiltro']) ? $params['tipoFiltro'] : '';
             switch ($filtro) {
-                case '':
-                    $where['b.stFiscalizacaoProjeto in (?)'] = array('0', '1');
-                    break;
                 case 'analisados':
                     $where['b.stFiscalizacaoProjeto = ?'] = '2';
                     $this->view->nmPagina = 'Fiscaliza&ccedil;&atilde;o conclu&iacute;da pelo t&eacute;cnico';
@@ -121,18 +109,18 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
                     $where['b.stFiscalizacaoProjeto = ?'] = '3';
                     $this->view->nmPagina = 'Fiscaliza&ccedil;&atilde;o conclu&iacute;da pelo coordenador';
                     break;
+                default:
+                    $where['b.stFiscalizacaoProjeto in (?)'] = array('0', '1');
+                    break;
             }
         } else {
-            //T�cnico
             $where['b.stFiscalizacaoProjeto in (?)'] = array('0', '1');
-            //$where['b.stFiscalizacaoProjeto in (?)'] = array('1');
-            //$where['b.idUsuarioInterno = ?'] = $this->codUsuario;
+            $where['b.idUsuarioInterno = ?'] = $this->codUsuario;
         }
 
-        if ((isset($_POST['tecFiltro']) || isset($_GET['tecFiltro'])) && (!empty($_POST['tecFiltro']) || !empty($_GET['tecFiltro']))) {
-            $tecnico = isset($_POST['tecFiltro']) ? $_POST['tecFiltro'] : $_GET['tecFiltro'];
-            $this->view->tecnico = $tecnico;
-            $where['b.idUsuarioInterno = ?'] = $tecnico;
+        if (!empty($params['tecFiltro'])) {
+            $this->view->tecnico = $params['tecFiltro'];
+            $where['b.idUsuarioInterno = ?'] = $params['tecFiltro'];
         }
 
         $projetos = new Projetos();
@@ -167,9 +155,8 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
         $this->view->dados = $busca;
         $this->view->intTamPag = $this->intTamPag;
 
-//        $pa = new paUsuariosDoPerfil();
         $vw = new vwUsuariosOrgaosGrupos();
-        $usuarios = $vw->buscarUsuarios(134, $this->codOrgao);
+        $usuarios = $vw->buscarUsuarios(Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO, $this->codOrgao);
         $this->view->Usuarios = $usuarios;
     }
 
@@ -251,21 +238,28 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
 
     public function consultadadosfiscalizacaoAction()
     {
-        $get = Zend_Registry::get('get');
+        $params = $this->_request->getParams();
 
-        if ($get->email) {
+        if ($params['email']) {
             $this->view->email = true;
         } else {
             $this->view->email = false;
         }
-        $this->view->idPronac = $get->idPronac;
-        $this->view->idFiscalizacao = $get->idFiscalizacao;
+        $this->view->idPronac = $params['idPronac'];
+        $this->view->idFiscalizacao = $params['idFiscalizacao'];
+
+        if (empty($this->view->idPronac)) {
+            throw new Exception("Pronac n&atilde;o informado");
+        }
 
         $orgaoDao = new Orgaos();
         $this->view->orgaos = $orgaoDao->buscar(array('Vinculo = ?' => 1, 'Status = ?' => 0), array('Sigla'));
 
         $projetoDao = new Projetos();
-        $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $this->view->idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $this->view->idFiscalizacao));
+        $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoConsultar([
+            'Projetos.IdPRONAC = ?' => $this->view->idPronac,
+            'tbFiscalizacao.idFiscalizacao = ?' => $this->view->idFiscalizacao
+        ]);
 
         $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
         if ($this->view->infoProjeto[0]->idFiscalizacao) {
@@ -441,7 +435,7 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
             $ordenacao = "&campo=" . $campo . "&ordem=" . $ordem;
         } else {
             $campo = null;
-            $order = array('AnoProjeto', 'Sequencial');
+            $order = array('idPronac DESC');
             $ordenacao = null;
         }
 
@@ -501,10 +495,10 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
             $where['(sac.dbo.fnTotalAprovadoProjeto(p.AnoProjeto, p.Sequencial)) <= ?'] = $get->valorMaior;
         }
 
-        $where["p.IdPRONAC NOT IN (SELECT IdPRONAC FROM SAC.dbo.tbFiscalizacao where stFiscalizacaoProjeto IN ('0','1') )"] = '';
-        //$where["e.Status = ?"] = 1;
+//        $where["p.IdPRONAC NOT IN (SELECT IdPRONAC FROM SAC.dbo.tbFiscalizacao where stFiscalizacaoProjeto IN ('0','1') )"] = '';
+        $where["e.Status = ?"] = 1;
 
-        $tbFiscalizacao = new tbFiscalizacao();
+        $tbFiscalizacao = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
         $total = $tbFiscalizacao->gridFiscalizacaoProjetoFiltro($where, $order, null, null, true);
 
         $fim = $inicio + $this->intTamPag;
@@ -538,33 +532,44 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
 
     public function oficializarfiscalizacaoAction()
     {
-        $post = Zend_Registry::get('get');
-        $this->view->idPronac = $post->idPronac;
+        $params = $this->_request->getParams();
+        $this->view->idPronac = $params['idPronac'];
+        $idFiscalizacao = $params['idFiscalizacao'] ?: null;
 
         $orgaoDao = new Orgaos();
         $orgao = $orgaoDao->buscar(array('Codigo = ?' => $this->view->orgaoAtivo));
         $this->view->nomeOrgao = $orgao[0]->Sigla;
         $this->view->orgaos = $orgaoDao->buscar(array('Vinculo = ?' => 1, 'Status = ?' => 0), array('Sigla'));
 
+        $where = [];
+        $where['p.IdPRONAC = ?'] = $this->view->idPronac;
+
+        if ($idFiscalizacao) {
+            $where['tf.idFiscalizacao = ?'] = $idFiscalizacao;
+        }
+
         $projetoDao = new Projetos();
-        $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoPesquisar(array('p.IdPRONAC = ?' => $this->view->idPronac));
+        $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoPesquisar($where)->current();
+
         if (count($this->view->infoProjeto) == 0) {
-            parent::message("Projeto n�o encontrado!", "fiscalizacao/pesquisarprojetofiscalizacao/parametropesquisa", "ALERT");
+            parent::message("Projeto n&atilde;o encontrado!", "fiscalizacao/pesquisarprojetofiscalizacao/parametropesquisa", "ALERT");
         }
 
         $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
-        if ($this->view->infoProjeto[0]->idFiscalizacao) {
-            $this->view->orgaoFisca = $OrgaoFiscalizadorDao->buscarOrgao(array('idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
+        if ($this->view->infoProjeto->idFiscalizacao) {
+            $this->view->orgaoFisca = $OrgaoFiscalizadorDao->buscarOrgao(array('idFiscalizacao = ?' => $this->view->infoProjeto->idFiscalizacao));
         }
 
         $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
-        if ($this->view->infoProjeto[0]->idFiscalizacao) {
-            $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $this->view->infoProjeto[0]->idFiscalizacao));
+        if ($this->view->infoProjeto->idFiscalizacao) {
+            $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $this->view->infoProjeto->idFiscalizacao));
         }
 
-//        $pa = new paUsuariosDoPerfil();
         $vw = new vwUsuariosOrgaosGrupos();
-        $usuarios = $vw->buscarUsuarios(134, $this->view->orgaoAtivo);
+        $usuarios = $vw->buscarUsuarios(
+            Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO,
+            $this->view->orgaoAtivo
+        );
         $this->view->Usuarios = $usuarios;
     }
 
@@ -861,7 +866,7 @@ class Fiscalizacao_PesquisarprojetofiscalizacaoController extends MinC_Controlle
         $retorno = array();
 
         switch ($post->option) {
-            case 'uf' &&  $post->regiao:
+            case 'uf' && $post->regiao:
                 $ufDao = new Agente_Model_DbTable_UF();
                 $resp = $ufDao->buscar(array('Regiao = ?' => $post->regiao), array('Sigla'));
 

@@ -124,6 +124,7 @@
                     <th>Valor</th>
                     <th>Mecanismo</th>
                     <th>Plano Anual</th>
+                    <th>Fiscaliza&ccedil;&atilde;o</th>
                     <th>Fiscalizar</th>
                 </tr>
                 </thead>
@@ -136,25 +137,43 @@
                                 <?php echo $d->AnoProjeto . $d->Sequencial; ?>
                             </a>
                         </td>
-                        <td><?php echo $d->NomeProjeto; ?></td>
-                        <td><?php echo $d->Regiao; ?></td>
-                        <td align="center"><?php echo $d->uf; ?></td>
-                        <td><?php echo $d->cidade; ?></td>
-                        <td><?php echo $d->dsArea; ?></td>
-                        <td><?php echo $d->dsSegmento; ?></td>
-                        <td><?php echo 'R$ ' . number_format($d->somatorio, 2, ',', '.'); ?></td>
-                        <td><?php echo $d->dsMecanismo; ?></td>
-                        <td><?php echo ($d->stPlanoAnual == 0) ? 'N&atilde;o' : 'Sim'; ?></td>
+                        <td><?= $d->NomeProjeto; ?></td>
+                        <td><?= $d->Regiao; ?></td>
+                        <td align="center"><?= $d->uf; ?></td>
+                        <td><?= $d->cidade; ?></td>
+                        <td><?= $d->dsArea; ?></td>
+                        <td><?= $d->dsSegmento; ?></td>
+                        <td><?= 'R$ ' . number_format($d->somatorio, 2, ',', '.'); ?></td>
+                        <td><?= $d->dsMecanismo; ?></td>
+                        <td><?= ($d->stPlanoAnual == 0) ? 'N&atilde;o' : 'Sim'; ?></td>
+                        <td><?= $d->statusFiscalizacao ?? 'N&atilde;o houve' ?></td>
                         <td align="center">
-                            <a
-                                class="btn waves-effect waves-light cyan tooltipped small"
-                                data-tooltip="Oficializar fiscaliza&ccedil;&atilde;o"
-                                href="<?= $this->url([
-                                    'module' => 'fiscalizacao',
-                                    'controller' => 'pesquisarprojetofiscalizacao',
-                                    'action' => 'oficializarfiscalizacao'
-                                ]) . '?idPronac=' . $d->IdPRONAC; ?>"><i
-                                    class="material-icons white-text ">zoom_in</i></a>
+                            <?php if ($d->idFiscalizacao) : ?>
+                                <a
+                                    class="btn waves-effect waves-light tooltipped small btn-info"
+                                    data-tooltip="Visualizar fiscaliza&ccedil;&atilde;o"
+                                    href="<?= $this->url([
+                                        'module' => 'fiscalizacao',
+                                        'controller' => 'pesquisarprojetofiscalizacao',
+                                        'action' => 'consultadadosfiscalizacao',
+                                        'idPronac' => $d->IdPRONAC,
+                                        'idFiscalizacao' => $d->idFiscalizacao
+                                    ]); ?>"><i class="material-icons white-text ">visibility</i></a>
+                            <?php endif; ?>
+
+                            <?php if ($d->stFiscalizacaoProjeto != Fiscalizacao_Model_TbFiscalizacao::ST_FISCALIZACAO_CONCLUIDA) : ?>
+                                <a
+                                    class="btn waves-effect waves-light btn-primary tooltipped small"
+                                    data-tooltip=" <?= (!$d->idFiscalizacao) ? 'Oficializar fiscaliza&ccedil;&atilde;o' : 'Editar'?>"
+                                    href="<?= $this->url([
+                                        'module' => 'fiscalizacao',
+                                        'controller' => 'pesquisarprojetofiscalizacao',
+                                        'action' => 'oficializarfiscalizacao',
+                                        'idPronac' => $d->IdPRONAC,
+                                        'idFiscalizacao' => $d->idFiscalizacao
+                                    ]); ?>"><i class="material-icons white-text "><?= (!$d->idFiscalizacao) ? 'library_add' : 'library_books'?></i></a>
+
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php } ?>

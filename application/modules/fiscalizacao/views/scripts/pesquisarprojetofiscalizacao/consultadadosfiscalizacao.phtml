@@ -720,6 +720,26 @@ $dtDeCorte = strtotime(date('2013-09-15 00:00:00'));
                             <?php } ?>
                         </table>
 
+                        <br clear="all"/>
+
+                        <table class="tabela">
+                            <tr>
+                                <th>Anexos</th>
+                            </tr>
+                            <?php if (count($this->arquivos)) {
+                                foreach ($this->arquivos as $arquivo) { ?>
+                                    <tr>
+                                        <td>
+                                            <a href='<?php echo $this->url(array("module" => "default", "controller" => "upload", "action" => "abrir")) . '?id=' . $arquivo->idArquivo; ?>'><?php echo $arquivo->nmArquivo; ?></a>
+                                        </td>
+                                    </tr>
+                                <?php }
+                            } else { ?>
+                                <tr>
+                                    <td style="color:red;">N&atilde;o h&aacute; arquivos anexados!</td>
+                                </tr>
+                            <?php } ?>
+                        </table>
 
                     <?php } else { ?>
                         <div align="center">
@@ -731,26 +751,7 @@ $dtDeCorte = strtotime(date('2013-09-15 00:00:00'));
                         </div>
                     <?php } ?>
 
-                    <br clear="all"/>
 
-                    <table class="tabela">
-                        <tr>
-                            <th>Anexos</th>
-                        </tr>
-                        <?php if (count($this->arquivos)) {
-                            foreach ($this->arquivos as $arquivo) { ?>
-                                <tr>
-                                    <td>
-                                        <a href='<?php echo $this->url(array("module" => "default", "controller" => "upload", "action" => "abrir")) . '?id=' . $arquivo->idArquivo; ?>'><?php echo $arquivo->nmArquivo; ?></a>
-                                    </td>
-                                </tr>
-                            <?php }
-                        } else { ?>
-                            <tr>
-                                <td style="color:red;">N&atilde;o h&aacute; arquivos anexados!</td>
-                            </tr>
-                        <?php } ?>
-                    </table>
 
                 <?php } ?>
 

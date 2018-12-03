@@ -254,7 +254,7 @@ class MantermensagensController extends MinC_Controller_Action_Abstract
         /* FIM Perfil de Acompanhamento Avalia�?o */
 
         /* Perfil de Acompanhamento Fiscalizacao */
-        $tbFiscalizacaoDAO = new tbFiscalizacao();
+        $tbFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
         $atores = $tbFiscalizacaoDAO->buscarAtoresFiscalizacao($idpronac, $usu_codigo);
         $prepara = array();
         foreach ($atores as $ator) {
@@ -488,7 +488,7 @@ class MantermensagensController extends MinC_Controller_Action_Abstract
         /* FIM Perfil de Acompanhamento Avalia�?o */
 
         /* Perfil de Acompanhamento Fiscalizacao */
-        $tbFiscalizacaoDAO = new tbFiscalizacao();
+        $tbFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
         $atores = $tbFiscalizacaoDAO->buscarAtoresFiscalizacao($idpronac, $usu_codigo);
         $prepara = array();
         foreach ($atores as $ator) {

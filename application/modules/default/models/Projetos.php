@@ -2009,7 +2009,7 @@ class Projetos extends MinC_Db_Table_Abstract
         );
         $select->joinLeft(
             array('tf' => 'tbFiscalizacao'),
-            'tf.IdPRONAC = p.IdPRONAC',
+            'tf.IdPRONAC = p.IdPRONAC AND stFiscalizacaoProjeto <> 3',
             array('idFiscalizacao',
                 'dtInicioFiscalizacaoProjeto',
                 'dtFimFiscalizacaoProjeto',
@@ -3820,7 +3820,7 @@ class Projetos extends MinC_Db_Table_Abstract
         return $this->fetchAll($select);
     }
 
-    public function buscarProjetosFiscalizacao($idFiscalizacao)
+    public function buscarProjetosFiscalizacao($where)
     {
         $select = $this->select();
         $select->setIntegrityCheck(false);
@@ -3877,8 +3877,14 @@ class Projetos extends MinC_Db_Table_Abstract
         $select->joinLeft(
             array('g' => 'tbFiscalizacao'),
             "a.IdPRONAC = g.IdPRONAC",
-            array('idFiscalizacao', 'dtInicioFiscalizacaoProjeto', 'dtFimFiscalizacaoProjeto', 'dtRespostaSolicitada',
-                new Zend_Db_Expr('CAST(g.dsFiscalizacaoProjeto as TEXT) as dsFiscalizacaoProjeto'), 'stFiscalizacaoProjeto'
+            array(
+                'idFiscalizacao',
+                'dtInicioFiscalizacaoProjeto',
+                'dtFimFiscalizacaoProjeto',
+                'dtRespostaSolicitada',
+                'idUsuarioInterno',
+                new Zend_Db_Expr('CAST(g.dsFiscalizacaoProjeto as TEXT) as dsFiscalizacaoProjeto'),
+                'stFiscalizacaoProjeto'
             ),
             'SAC.dbo'
         );
@@ -3894,7 +3900,10 @@ class Projetos extends MinC_Db_Table_Abstract
             array('idOrgaoFiscalizador', 'idOrgao', 'idParecerista', new Zend_Db_Expr('CAST(i.dsObservacao as TEXT) as dsObservacao')),
             'SAC.dbo'
         );
-        $select->where('g.idFiscalizacao = ?', $idFiscalizacao);
+
+        foreach ($where as $coluna => $valor) {
+            $select->where($coluna, $valor);
+        }
 
         $select->order('a.NomeProjeto');
         $select->order('g.idFiscalizacao');

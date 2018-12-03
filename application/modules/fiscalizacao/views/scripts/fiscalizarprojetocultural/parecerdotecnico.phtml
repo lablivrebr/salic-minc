@@ -114,7 +114,7 @@ $selected = '';
                     <?php if (is_object($this->arquivos)) foreach ($this->arquivos as $documentos) { ?>
                         <div id="linhaDoc<?php echo $documentos->idArquivo; ?>" style="margin-bottom: 10px;">
                             <input type="button" class="btn_exclusao excluir_anexo" idArquivoFiscalizacao="<?php echo $documentos->idArquivoFiscalizacao; ?>" idArquivo="<?php echo $documentos->idArquivo; ?>" />
-                            <a href="<?php echo $this->url(array('controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $documentos->idArquivo; ?>" padrao="false" retorna="true"><?php echo utf8_encode($documentos->nmArquivo); ?></a>
+                            <a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'upload', 'action' => 'abrir')); ?>?id=<?php echo $documentos->idArquivo; ?>" padrao="false" retorna="true"><?php echo utf8_encode($documentos->nmArquivo); ?></a>
                         </div>
                     <?php } ?>
                 </td>

@@ -14,9 +14,9 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
             id="frOficializar" method="post" enctype="multipart/form-data">
             <input type="hidden" name="idPronac" value="<?php echo $this->idPronac; ?>"/>
             <input type="hidden" name="idFiscalizacao" id="idFiscalizacao"
-                   value="<?php echo $this->infoProjeto[0]->idFiscalizacao; ?>"/>
+                   value="<?php echo $this->infoProjeto->idFiscalizacao; ?>"/>
             <input type="hidden" name="usu_orgao" value="<?php echo $this->usu_orgao; ?>">
-            <input type="hidden" id="idTecnico" value="<?php echo $this->infoProjeto[0]->idTecnico; ?>">
+            <input type="hidden" id="idTecnico" value="<?php echo $this->infoProjeto->idTecnico; ?>">
             <table id="tableItensCusto" class="tabela">
                 <tr>
                     <th colspan="2">Identifica&ccedil;&atilde;o</th>
@@ -26,16 +26,16 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                     <td class="destacar bold" align="center">NOME DO PROJETO</td>
                 </tr>
                 <tr>
-                    <td align="center"><?php echo $this->infoProjeto[0]->AnoProjeto . $this->infoProjeto[0]->Sequencial; ?></td>
-                    <td align="center"><?php echo $this->infoProjeto[0]->NomeProjeto; ?></td>
+                    <td align="center"><?php echo $this->infoProjeto->AnoProjeto . $this->infoProjeto->Sequencial; ?></td>
+                    <td align="center"><?php echo $this->infoProjeto->NomeProjeto; ?></td>
                 </tr>
                 <tr>
                     <td class="destacar bold" align="center">CNPJ/CPF</td>
                     <td class="destacar bold" align="center">NOME DO PROPONENTE</td>
                 </tr>
                 <tr>
-                    <td align="center"><?php echo Validacao::mascaraCPFCNPJ($this->infoProjeto[0]->CgcCpf); ?></td>
-                    <td align="center"><?php echo $this->infoProjeto[0]->Proponente; ?></td>
+                    <td align="center"><?php echo Validacao::mascaraCPFCNPJ($this->infoProjeto->CgcCpf); ?></td>
+                    <td align="center"><?php echo $this->infoProjeto->Proponente; ?></td>
                 </tr>
             </table>
 
@@ -54,8 +54,8 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                                class="browser-default"
                                style="max-width: 200px; display: inline-block"
                                title="Data In&iacute;cio" null="false" data="true"
-                               value="<?php if ($this->infoProjeto[0]->dtInicioFiscalizacaoProjeto != '') {
-                                   echo date('d/m/Y', strtotime($this->infoProjeto[0]->dtInicioFiscalizacaoProjeto));
+                               value="<?php if ($this->infoProjeto->dtInicioFiscalizacaoProjeto != '') {
+                                   echo date('d/m/Y', strtotime($this->infoProjeto->dtInicioFiscalizacaoProjeto));
                                } else {
                                    echo '';
                                } ?>"/></td>
@@ -70,8 +70,8 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                                title="Data Fim"
                                class="browser-default"
                                style="max-width: 200px; display: inline-block"
-                               data="true" value="<?php if ($this->infoProjeto[0]->dtFimFiscalizacaoProjeto != '') {
-                            echo date('d/m/Y', strtotime($this->infoProjeto[0]->dtFimFiscalizacaoProjeto));
+                               data="true" value="<?php if ($this->infoProjeto->dtFimFiscalizacaoProjeto != '') {
+                            echo date('d/m/Y', strtotime($this->infoProjeto->dtFimFiscalizacaoProjeto));
                         } else {
                             echo '';
                         } ?>"/></td>
@@ -122,8 +122,8 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                                null="true" data="true"
                                class="browser-default"
                                style="max-width: 200px; display: inline-block"
-                               value="<?php if ($this->infoProjeto[0]->dtRespostaSolicitada != '') {
-                                   echo date('d/m/Y', strtotime($this->infoProjeto[0]->dtRespostaSolicitada));
+                               value="<?php if ($this->infoProjeto->dtRespostaSolicitada != '') {
+                                   echo date('d/m/Y', strtotime($this->infoProjeto->dtRespostaSolicitada));
                                } else {
                                    echo '';
                                } ?>"/></td>
@@ -135,7 +135,7 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                             <option value="">- Selecione -</option>
                             <?php foreach ($this->Usuarios as $usuario) { ?>
                                 <option
-                                    value="<?php echo $usuario->idUsuario; ?>" <?php echo ($this->infoProjeto[0]->idTecnico == $usuario->idUsuario) ? 'selected="selected"' : ''; ?>><?php echo $usuario->Nome; ?></option>
+                                    value="<?php echo $usuario->idUsuario; ?>" <?php echo ($this->infoProjeto->idTecnico == $usuario->idUsuario) ? 'selected="selected"' : ''; ?>><?php echo $usuario->Nome; ?></option>
                             <?php } ?>
                         </select>
                     </td>
@@ -144,7 +144,13 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                     <td class="destacar bold" align="right">Dados para Fiscaliza&ccedil;&atilde;o<span
                             style="color: red;">*</span></td>
                     <td><textarea name="dsFiscalizacaoProjeto" null="false" cols="80" class="browser-default"
-                                  rows="5"><?php echo !empty($this->infoProjeto[0]->dsFiscalizacaoProjeto) ? $this->infoProjeto[0]->dsFiscalizacaoProjeto : ''; ?></textarea>
+                                  rows="5"><?php echo !empty($this->infoProjeto->dsFiscalizacaoProjeto) ? $this->infoProjeto->dsFiscalizacaoProjeto : ''; ?></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="destacar bold" align="right">Status fiscaliza&ccedil;&atilde;o</td>
+                    <td>
+                        <?= $this->infoProjeto->statusFiscalizacao ?? 'N&atilde;o cadastrado'; ?>
                     </td>
                 </tr>
                 <tr>

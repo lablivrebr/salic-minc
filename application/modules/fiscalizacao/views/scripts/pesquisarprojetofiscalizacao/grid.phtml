@@ -28,7 +28,11 @@
 
         $('.btn-editar').click(function () {
             var idPronac = $(this).attr('idPronac');
-            window.location = "<?php echo $this->url(array('controller' => 'pesquisarprojetofiscalizacao', 'action' => 'oficializarfiscalizacao')); ?>?idPronac=" + idPronac;
+            var idFiscalizacao = $(this).attr('idFiscalizacao');
+            window.location = "<?php echo $this->url([
+                'controller' => 'pesquisarprojetofiscalizacao',
+                'action' => 'oficializarfiscalizacao']
+            ); ?>?idPronac=" + idPronac + "&idFiscalizacao=" + idFiscalizacao;
         });
 
         $('.btn-recarregar').click(function () {
@@ -207,6 +211,7 @@
                                     <a
                                         class="btn-editar waves-effect waves-light btn small white-text tooltipped btn-secondary"
                                         idPronac="<?php echo $d->IdPRONAC; ?>"
+                                        idFiscalizacao="<?= $d->idFiscalizacao; ?>"
                                         data-tooltip="Editar fiscaliza&ccedil;&atilde;o"
                                     ><i class="material-icons">edit</i></a>
                                 <?php } else { ?>

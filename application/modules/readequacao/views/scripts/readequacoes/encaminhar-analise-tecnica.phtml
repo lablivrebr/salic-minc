@@ -104,41 +104,47 @@
         function verificarVinculada() {
             var vinculada = $('#vinculada').val();
 
-            if (vinculada == 171 || vinculada == 262 || vinculada == 400) {
-                $('#destinatario').removeAttr('disabled');
-                $('#destinatario').addClass('obrigatorio');
-                $('.asterisco_dinamico').removeClass('sumir');
-                $.ajax({
-                    type: 'POST',
-                    url: '<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'buscar-destinatarios')); ?>',
-                    data: {
-                        vinculada: vinculada,
-                        idPronac: <?php echo $this->projeto->IdPRONAC; ?>
-                    },
-                    success: function (data) {
-                        var destinatarios = $('#destinatario');
-                        destinatarios.html('');
-                        if (data.resposta) {
-                            destinatarios.append('<option value=""> - Selecione - </option>');
-                            for (i in data.conteudo) {
-                                destinatarios.append('<option value="' + data.conteudo[i].id + '">' + data.conteudo[i].nome + '</option>');
-                            }
-                        } else {
-                            destinatarios.append('<option> - Selecione - </option>');
-                        }
-                    },
-                    dataType: 'json'
-                });
+         let vinculadasAutorizadas = [
+             <?php echo $this->disponivelEncaminharAnalise(); ?>
+         ];
+         
+         if (vinculadasAutorizadas.includes(vinculada)) {
+             console.log('abre')
+             $('#destinatario').removeAttr('disabled');
+             $('#destinatario').addClass('obrigatorio');
+             $('.asterisco_dinamico').removeClass('sumir');
+             $.ajax({
+                 type: 'POST',
+                 url: '<?php echo $this->url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'buscar-destinatarios')); ?>',
+                 data: {
+                     vinculada: vinculada,
+                     idPronac: <?php echo $this->projeto->IdPRONAC; ?>
+                 },
+                 success: function (data) {
+                     var destinatarios = $('#destinatario');
+                     destinatarios.html('');
+                     if (data.resposta) {
+                         destinatarios.append('<option value=""> - Selecione - </option>');
+                         for (i in data.conteudo) {
+                             destinatarios.append('<option value="' + data.conteudo[i].id + '">' + data.conteudo[i].nome + '</option>');
+                         }
+                     } else {
+                         destinatarios.append('<option> - Selecione - </option>');
+                     }
+                 },
+                 dataType: 'json'
+             });
+         } else {
+             document.getElementById('destinatario').options[0].selected = true;
+             $('.asterisco_dinamico').addClass('sumir');
+             $('#destinatario').attr('disabled', true);
+             $('#destinatario').removeClass('obrigatorio');
+         }
+     }
 
-            } else {
-                document.getElementById('destinatario').options[0].selected = true;
-                $('.asterisco_dinamico').addClass('sumir');
-                $('#destinatario').attr('disabled', true);
-                $('#destinatario').removeClass('obrigatorio');
-            }
-        }
+     CKEDITOR.replace('dsAvaliacao', {toolbar: []});
 
-        CKEDITOR.replace('dsAvaliacao', {toolbar: []});
+ });
 
     });
 

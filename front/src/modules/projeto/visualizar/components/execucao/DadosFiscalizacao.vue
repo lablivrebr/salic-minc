@@ -44,9 +44,9 @@
 <script>
 
     import { mapActions, mapGetters } from 'vuex';
-    import Carregando from '@/components/Carregando_vuetify';
-    import VisualizarFiscalizacao from './components/VisualizarFiscalizacao';
+    import Carregando from '@/components/CarregandoVuetify';
     import cnpjFilter from '@/filters/cnpj';
+    import VisualizarFiscalizacao from './components/VisualizarFiscalizacao';
 
     export default {
         name: 'DadosFiscalizacao',

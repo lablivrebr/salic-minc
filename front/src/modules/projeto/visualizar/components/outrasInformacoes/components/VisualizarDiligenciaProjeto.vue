@@ -126,7 +126,7 @@
 </template>
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import Carregando from '@/components/Carregando_vuetify';
+    import Carregando from '@/components/CarregandoVuetify';
 
     export default {
         name: 'VisualizarDiligenciaProjeto',

@@ -48,7 +48,7 @@
 <script>
 
     import { mapActions, mapGetters } from 'vuex';
-    import Carregando from '@/components/Carregando_vuetify';
+    import Carregando from '@/components/CarregandoVuetify';
     import moment from 'moment';
 
     export default {

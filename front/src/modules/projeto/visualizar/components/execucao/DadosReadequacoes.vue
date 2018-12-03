@@ -154,7 +154,7 @@
 
     import { mapActions, mapGetters } from 'vuex';
     import moment from 'moment';
-    import Carregando from '@/components/Carregando_vuetify';
+    import Carregando from '@/components/CarregandoVuetify';
     import ReadequacoesDevolvidas from './components/ReadequacoesDevolvidas';
 
     export default {

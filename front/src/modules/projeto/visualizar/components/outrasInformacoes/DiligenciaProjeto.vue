@@ -59,7 +59,7 @@
 </template>
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import Carregando from '@/components/Carregando_vuetify';
+    import Carregando from '@/components/CarregandoVuetify';
     import VisualizarDiligenciaProposta from './components/VisualizarDiligenciaProposta';
     import VisualizarDiligenciaAdequacao from './components/VisualizarDiligenciaAdequacao';
     import VisualizarDiligenciaProjeto from './components/VisualizarDiligenciaProjeto';

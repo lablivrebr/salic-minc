@@ -33,7 +33,7 @@
 <script>
     import { mapGetters, mapActions } from 'vuex';
     import moment from 'moment';
-    import Carregando from '@/components/Carregando_vuetify';
+    import Carregando from '@/components/CarregandoVuetify';
 
     export default {
         name: 'PedidoProrrogacao',

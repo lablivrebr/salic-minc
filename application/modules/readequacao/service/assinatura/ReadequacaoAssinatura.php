@@ -167,7 +167,7 @@ class ReadequacaoAssinatura implements IServico
                         $tbPlanoDistribuicaoMapper->finalizarAnaliseReadequacaoPlanoDistribuicao($read->idPronac, $idReadequacao, $parecerTecnico->ParecerFavoravel);
                         break;
                     case \Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA:
-                        $this->finalizarReadequacaoPlanilhaOrcamentaria($read);
+                        $TipoDeReadequacao = $this->finalizarReadequacaoPlanilhaOrcamentaria($read);
                         break;
                     case \Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_RAZAO_SOCIAL:
                         $this->finalizarReadequacaoRazaoSocial($read);
@@ -338,7 +338,9 @@ class ReadequacaoAssinatura implements IServico
             ];
 
             $idAprovacao = $tbAprovacao->inserir($dadosAprovacao);
-        }        
+        }
+
+        return $TipoDeReadequacao;
     }
 
     protected function finalizarReadequacaoRazaoSocial($read)

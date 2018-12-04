@@ -57,15 +57,15 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
         $Localizacoes = new \Proposta_Model_DbTable_Abrangencia();
         $dadosLocalizacoes = $Localizacoes->buscarRegiaoUFMunicipio($infoProjeto[0]['idProjeto']);
 
-        $OrgaoFiscalizadorDao = new \OrgaoFiscalizador();
-        $ArquivoFiscalizacaoDao = new \ArquivoFiscalizacao();
+        $OrgaoFiscalizadorDao = new \Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
+        $ArquivoFiscalizacaoDao = new \Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
 
         if ($idFiscalizacao) {
             $arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $idFiscalizacao));
             $dadosOrgaos = $OrgaoFiscalizadorDao->dadosOrgaos(array('tbOF.idFiscalizacao = ?' => $idFiscalizacao));
         }
 
-        $RelatorioFiscalizacaoDAO = new \RelatorioFiscalizacao();
+        $RelatorioFiscalizacaoDAO = new \Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
         $relatorioFiscalizacao = $RelatorioFiscalizacaoDAO->buscaRelatorioFiscalizacao($idFiscalizacao);
 
         $resultArray['locaisFiscalizacao'] = $this->montaLocaisFiscalizacao($dadosLocalizacoes);

@@ -29,10 +29,8 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
             $idPronac = \Seguranca::dencrypt($idPronac);
         }
 
-        $Projetos = new \Projetos();
-        $dadosProj = $Projetos->buscar(array('IdPRONAC = ?' => $idPronac))->current();
-
-        $infoProjeto = $Projetos->consultarFiscalizacao(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
+        $tbFiscalizacao = new \Fiscalizacao_Model_DbTable_TbFiscalizacao();
+        $infoProjeto = $tbFiscalizacao->consultarFiscalizacao(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
 
         $confereExisteAtual = $infoProjeto->current();
 
@@ -53,10 +51,8 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
             $idPronac = \Seguranca::dencrypt($idPronac);
         }
 
-        $Projetos = new \Projetos();
-        $dadosProj = $Projetos->buscar(array('IdPRONAC = ?' => $idPronac))->current();
-
-        $infoProjeto = $Projetos->consultarFiscalizacao(array('Projetos.IdPRONAC = ?' => $idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $idFiscalizacao), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
+        $tbFiscalizacao = new \Fiscalizacao_Model_DbTable_TbFiscalizacao();
+        $infoProjeto = $tbFiscalizacao->consultarFiscalizacao(array('Projetos.IdPRONAC = ?' => $idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $idFiscalizacao), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
 
         $Localizacoes = new \Proposta_Model_DbTable_Abrangencia();
         $dadosLocalizacoes = $Localizacoes->buscarRegiaoUFMunicipio($infoProjeto[0]['idProjeto']);

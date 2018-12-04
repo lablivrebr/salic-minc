@@ -93,35 +93,32 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
             . 'template'
         );
 
-        $view->titulo = 'Parecer de Avalia&ccedil;&atilde;o do Objeto';
+        $view->titulo = 'Parecer de Fiscaliza&ccedil;&atilde;o';
         $view->IdPRONAC = $this->idPronac;
 
-        $objProjeto = new \Projeto_Model_DbTable_Projetos();
-        $view->projeto = $objProjeto->findBy(array('IdPRONAC' => $this->idPronac));
-
-//        $tbCumprimentoObjeto = new \ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto();
-//        $dadosParecer = $tbCumprimentoObjeto->buscarCumprimentoObjeto([
-//            'idPronac = ?' => $this->idPronac,
-//            'idCumprimentoObjeto = ?' => $this->idAtoDeGestao
-//        ]);
-//        $view->dadosParecer = $dadosParecer;
-
         $objAgentes = new \Agente_Model_DbTable_Agentes();
-        $dadosAgente = $objAgentes->buscarFornecedor(array('a.CNPJCPF = ?' => $view->projeto['CgcCpf']));
-        $arrayDadosAgente = $dadosAgente->current();
+        $dadosAgente = $objAgentes->buscarFornecedor([
+            'a.CNPJCPF = ?' => $this->dadosProjeto['CgcCpf']
+        ]);
 
+        $arrayDadosAgente = $dadosAgente->current();
         $view->nomeAgente = (count($arrayDadosAgente) > 0) ? $arrayDadosAgente['nome'] : ' - ';
 
-        $mapperArea = new \Agente_Model_AreaMapper();
-        $view->areaCultural = $mapperArea->findBy(array(
-            'Codigo' => $view->projeto['Area']
-        ));
-        $objSegmentocultural = new \Segmentocultural();
-        $view->segmentoCultural = $objSegmentocultural->findBy(
-            array(
-                'Codigo' => $view->projeto['Segmento']
-            )
-        );
+        $tbFiscalizacao = new \Fiscalizacao_Model_DbTable_TbFiscalizacao();
+        $view->projeto = $tbFiscalizacao->projetosFiscalizacaoConsultar([
+            'Projetos.IdPRONAC = ?' => $this->idPronac,
+            'tbFiscalizacao.idFiscalizacao = ?' => $this->idAtoDeGestao
+        ])->current();
+
+        $tbArquivoFiscalizacao = new \Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
+        if ($view->projeto->idFiscalizacao) {
+            $view->arquivos = $tbArquivoFiscalizacao->buscarArquivo([
+                'arqfis.idFiscalizacao = ?' => $this->idAtoDeGestao
+            ]);
+        }
+
+        $tbRelatorioFiscalizacao = new \Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
+        $view->relatorio = $tbRelatorioFiscalizacao->buscaRelatorioFiscalizacao($this->idAtoDeGestao);
 
         $objOrgaos = new \Orgaos();
         $dadosOrgaoSuperior = $objOrgaos->obterOrgaoSuperior($this->dadosProjeto['Orgao']);

@@ -30,8 +30,8 @@
             var idPronac = $(this).attr('idPronac');
             var idFiscalizacao = $(this).attr('idFiscalizacao');
             window.location = "<?php echo $this->url([
-                'controller' => 'pesquisarprojetofiscalizacao',
-                'action' => 'oficializarfiscalizacao']
+                    'controller' => 'pesquisarprojetofiscalizacao',
+                    'action' => 'oficializarfiscalizacao']
             ); ?>?idPronac=" + idPronac + "&idFiscalizacao=" + idFiscalizacao;
         });
 
@@ -196,7 +196,11 @@
                     ?>
                     <tr>
                         <td>
-                            <a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'index')); ?>?idPronac=<?php echo($d->IdPRONAC); ?>"
+                            <a href="<?php echo $this->url(array(
+                                'module' => 'default',
+                                'controller' => 'consultardadosprojeto',
+                                'action' => 'index'
+                            )); ?>?idPronac=<?php echo($d->IdPRONAC); ?>"
                                target="_blank">
                                 <?php echo $d->Pronac; ?>
                             </a>

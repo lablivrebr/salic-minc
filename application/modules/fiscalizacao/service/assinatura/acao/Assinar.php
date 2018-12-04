@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\ComprovacaoObjeto\Service\Assinatura\Acao;
+namespace Application\Modules\Fiscalizacao\Service\Assinatura\Acao;
 
 use MinC\Assinatura\Acao\IAcaoAssinar;
 

@@ -66,9 +66,9 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         $selectAp = $aprovacaoDao->totalAprovadoProjeto(true);
         $abrangenciaDao = new Proposta_Model_DbTable_Abrangencia();
         $selectAb = $abrangenciaDao->abrangenciaProjeto(true);
-        $projetosDao = new Projetos();
 
-        $resp = $projetosDao->buscaProjetosFiscalizacao(
+        $tbFiscalizacao = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
+        $resp = $tbFiscalizacao->buscaProjetosFiscalizacao(
             $selectAb,
             $selectAp,
             false,
@@ -96,7 +96,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
                     }
                     $this->view->projetosFiscalizacao[$num]['qtd']++;
                     $this->view->projetosFiscalizacao[$num]['projetos'][$val->IdPRONAC]['&nbsp;'] = $this->view->projetosFiscalizacao[$num]['qtd'];
-                    $this->view->projetosFiscalizacao[$num]['projetos'][$val->IdPRONAC]['PRONAC'] = "<a target='_blank' href='" . $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'index')) . "?idPronac=" . $val->IdPRONAC . "' >" . $val->AnoProjeto . $val->Sequencial . "</a>";
+                    $this->view->projetosFiscalizacao[$num]['projetos'][$val->IdPRONAC]['PRONAC'] = "<a target='_blank' href='" . $this->url(array('module' => 'default', 'controller' => 'consultardadosprojeto', 'action' => 'index')) . "?idPronac=" . $val->IdPRONAC . "' >" . $val->AnoProjeto . $val->Sequencial . "</a>";
                     $this->view->projetosFiscalizacao[$num]['projetos'][$val->IdPRONAC]['Nome do Projeto'] = $val->NomeProjeto;
                     $this->view->projetosFiscalizacao[$num]['projetos'][$val->IdPRONAC]['Regi&atilde;o'] = $val->Regiao;
                     $this->view->projetosFiscalizacao[$num]['projetos'][$val->IdPRONAC]['UF'] = $val->uf;
@@ -158,8 +158,8 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
             ];
         }
 
-        $projetosDAO = new Projetos();
-        $projeto = $projetosDAO->buscarProjetosFiscalizacao($where);
+        $tbFiscalizacao = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
+        $projeto = $tbFiscalizacao->buscarProjetosFiscalizacao($where);
 
         if (count($projeto) < 1) {
             parent::message("Dados n&atilde;o localizados", "fiscalizacao/pesquisarprojetofiscalizacao/grid", "ERROR");
@@ -196,14 +196,14 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
             $where = [];
             $where['g.idFiscalizacao = ?'] = $idFiscalizacao;
 
-            $projetosDAO = new Projetos();
-            $projeto = $projetosDAO->buscarProjetosFiscalizacao($where);
+            $tbFiscalizacao = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
+            $projeto = $tbFiscalizacao->buscarProjetosFiscalizacao($where);
 
             if (count($projeto) < 1) {
                 throw new Exception("Dados n&atilde;o localizados");
             }
 
-            $servicoDocumentoAssinatura = new \Application\Modules\ComprovacaoObjeto\Service\Assinatura\DocumentoAssinatura(
+            $servicoDocumentoAssinatura = new \Application\Modules\Fiscalizacao\Service\Assinatura\DocumentoAssinatura(
                 $projeto[0]->IdPRONAC,
                 Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_FISCALIZACAO,
                 $idFiscalizacao
@@ -348,8 +348,6 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
             throw new Exception("Fiscaliza&ccedil;&atilde;o n&atilde;o informada");
         }
 
-        $idDocumentoAssinatura = $this->iniciarFluxoAssinatura($idFiscalizacao);
-        die;
         $anexardocumentos = false;
         $idUsuario = $auth->getIdentity()->usu_codigo;
         $dsParecer = $dados['dsParecer'];
@@ -511,7 +509,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
 
         if (empty($relatorio['dsParecer'])) {
             throw new Exception(
-                "&Eacute; necess&amp;aacute;rio ao menos um parecer para iniciar o fluxo de assinatura."
+                "&Eacute; necesss&aacute;rio ao menos um parecer para iniciar o fluxo de assinatura."
             );
         }
 
@@ -522,7 +520,7 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         );
 
         if (count($documentoAssinatura) < 1) {
-            $servicoDocumentoAssinatura = new \Application\Modules\ComprovacaoObjeto\Service\Assinatura\DocumentoAssinatura(
+            $servicoDocumentoAssinatura = new \Application\Modules\Fiscalizacao\Service\Assinatura\DocumentoAssinatura(
                 $relatorio['IdPRONAC'],
                 Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_FISCALIZACAO,
                 $relatorio['idFiscalizacao']

@@ -158,20 +158,25 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                     <td>
                         <div style="float: left; padding-right:3px; margin-right: 2px" id="campoanexo"></div>
                         <div id="divAnexos" style="float: left;"></div>
+                        </br></br>
                         <?php if (is_object($this->arquivos)) {
                             foreach ($this->arquivos as $documentos) { ?>
-                                <div id="linhaDoc<?php echo $documentos->idArquivo; ?>">
-                                    <input type="button" class="btn_exclusao excluir_anexo browser-default"
-                                           idArquivoFiscalizacao="<?php echo $documentos->idArquivoFiscalizacao; ?>"
-                                           idArquivo="<?php echo $documentos->idArquivo; ?>"/>
+                                <p id="linhaDoc<?php echo $documentos->idArquivo; ?>">
+                                    <a
+                                        class="excluir_anexo waves-effect waves-teal btn-flat small tooltipped "
+                                        data-tooltip="Excluir arquivo"
+                                        idArquivoFiscalizacao="<?= $documentos->idArquivoFiscalizacao; ?>"
+                                        idArquivo="<?= $documentos->idArquivo; ?>"
+                                    ><i class="material-icons">delete</i></a>
                                     <a href="<?php echo $this->url(array(
                                         'module' => 'default',
                                         'controller' => 'upload',
                                         'action' => 'abrir'
-                                    )); ?>?id=<?php echo $documentos->idArquivo; ?>"
+                                    )); ?>?id=<?= $documentos->idArquivo; ?>"
                                        padrao="false"
-                                       retorna="true"><?php echo utf8_encode($documentos->nmArquivo); ?></a>
-                                </div>
+                                       retorna="true"><?= utf8_encode($documentos->nmArquivo); ?></a>
+
+                                </p>
                             <?php }
                         } ?>
                     </td>

@@ -1,206 +1,155 @@
 <div class="row">
     <div class="col s1"></div>
-    <div class="col s10 center-align">
-        <div>
-            <img src="/public/img/planalto_presidencia_simbolosnacionais_brasao.gif" style="height:120px">
-        </div>
-        <div class="center-align" style="font-size: 23px;">
-            MINIST&Eacute;RIO DA CULTURA
-        </div>
-        <?php if ((int)$this->orgaoSuperior == (int)\Orgaos::ORGAO_SUPERIOR_SEFIC): ?>
-            <div class="center-align" style="font-size: 23px; color: black;">
-                Secretaria de Fomento e Incentivo &agrave; Cultura - SEFIC
-            </div>
-        <?php else: ?>
-            <div class="center-align" style="font-size: 23px;">
-                Secretaria do Audiovisual - SAv
-            </div>
-        <?php endif; ?>
-    </div>
-    <div class="col s1"></div>
-</div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s10 center-align">
-        <h3 style="font-size: 23px; color: black;"><?php echo $this->titulo ?></h3>
-    </div>
-    <div class="col s1"></div>
-</div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s2">
-        <label style="color: black">PRONAC</label>
-        <p class="bold padding10 bordered">
-            <?php
-            echo $this->projeto['AnoProjeto'] . $this->projeto['Sequencial'];
-            ?>
-        </p>
-    </div>
-    <div class="col s8">
-        <label style="color: black">Nome do Projeto</label>
-        <p class="bold padding10 bordered">
-            <?php
-            echo $this->projeto['NomeProjeto'];
-            ?>
-        </p>
-    </div>
-    <div class="col s1"></div>
-</div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s3">
-        <label style="color: black">CNPJ / CPF</label>
-        <p class="bold padding10 bordered">
-            <?php
-            echo $this->projeto['CgcCpf'];
-            ?>
-    </div>
-    <div class="col s7">
-        <label style="color: black">Proponente</label>
-        <br/>
-        <p class="bold padding10 bordered">
-            <?php
-            echo $this->nomeAgente;
-            ?>
-        </p>
-    </div>
-    <div class="col s1"></div>
-</div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s1">
-        <label style="color: black">UF</label>
-        <p class="bold padding10 bordered">
-            <?php
-            echo $this->projeto['UfProjeto'];
-            ?>
-        </p>
-    </div>
-    <div class="col s3">
-        <label style="color: black">&Aacute;rea Cultural</label>
-        <p class="bold padding10 bordered">
-            <?php
-            echo $this->areaCultural['Descricao'];
-            ?>
-        </p>
-    </div>
-    <div class="col s4">
-        <label style="color: black">Segmento Cultural</label>
-        <p class="bold padding10 bordered">
-            <?php
-            echo $this->segmentoCultural['Descricao'];
-            ?>
-        </p>
-    </div>
-    <div class="col s2">
-        <label style="color: black">Per&iacute;odo de Execu&ccedil;&atilde;o</label>
-        <p class="padding10 bordered">
-            <b>
-                <?php
-                echo Data::tratarDataZend($this->projeto['DtInicioExecucao'], 'Brasileira');
-                ?>
-            </b>
-            a
-            <b>
-                <?php
-                echo Data::tratarDataZend($this->projeto['DtFimExecucao'], 'Brasileira');
-                ?>
-            </b>
-        </p>
-    </div>
-    <div class="col s1"></div>
-</div>
-<div class="row margin-bottom30"></div>
-<div class="row">
-    <div class="col s1"></div>
     <div class="col s10">
-        <label style="color: black">S&iacute;ntese do Projeto</label>
-        <p class="padding10 bordered" style="text-align: justify">
-            <?php
-            echo $this->projeto['ResumoProjeto'];
-            ?>
-        </p>
-    </div>
-    <div class="col s1"></div>
-</div>
-<div id="parecer-tecnico">
-
-
-    <div class="row">
-        <div class="col s1"></div>
-        <div class="col s10">
-            <p>
-                <label class="margin-bottom20" style="color: black">Parecer de Avalia&ccedil;&atilde;o
-                    T&eacute;cnica:</label>
-            </p>
-            <div class="padding10 bordered" style="text-align: justify">
-                <?= $this->dadosParecer->dsInformacaoAdicional; ?>
+        <div class="row">
+            <div class="col s12 center-align">
+                <div>
+                    <img src="/public/img/planalto_presidencia_simbolosnacionais_brasao.gif" style="height:120px">
+                </div>
+                <div class="center-align" style="font-size: 23px;">
+                    MINIST&Eacute;RIO DA CULTURA
+                </div>
+                <?php if ((int)$this->orgaoSuperior == (int)\Orgaos::ORGAO_SUPERIOR_SEFIC): ?>
+                    <div class="center-align" style="font-size: 23px; color: black;">
+                        Secretaria de Fomento e Incentivo &agrave; Cultura - SEFIC
+                    </div>
+                <?php else: ?>
+                    <div class="center-align" style="font-size: 23px;">
+                        Secretaria do Audiovisual - SAv
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
-        <div class="col s1"></div>
-    </div>
-
-    <?php if (trim($this->dadosParecer->dsOrientacao)) : ?>
+        <div class="row">
+            <div class="col s12 center-align">
+                <h3 style="font-size: 23px; color: black;"><?= $this->titulo ?></h3>
+            </div>
+        </div>
         <div class="row margin-bottom30"></div>
         <div class="row">
-            <div class="col s1"></div>
-            <div class="col s10">
-                <p>
-                    <label class="margin-bottom20" style="color: black">Recomenda&ccedil;&otilde;es:</label>
+            <div class="col s3">
+                <label>PRONAC</label>
+                <p class="bold padding10 bordered">
+                    <?= $this->projeto->AnoProjeto . $this->projeto->Sequencial; ?>
                 </p>
+            </div>
+            <div class="col s9">
+                <label>Nome do Projeto</label>
+                <p class="bold padding10 bordered">
+                    <?php
+                    echo $this->projeto->NomeProjeto;
+                    ?>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s3">
+                <label>CNPJ / CPF</label>
+                <p class="bold padding10 bordered">
+                    <?= $this->projeto->CgcCpf; ?>
+            </div>
+            <div class="col s9">
+                <label>Proponente</label>
+                <br/>
+                <p class="bold padding10 bordered">
+                    <?= $this->nomeAgente; ?>
+                </p>
+            </div>
+        </div>
+        <div class="row margin-bottom30"></div>
+        <div class="row">
+            <div class="col s3">
+                <label>Demandante da Fiscaliza&ccedil;&atilde;o</label>
+                <p class="padding10 bordered">
+                    <?= ($this->projeto->tpDemandante == 0) ? 'SEFIC' : 'SAV'; ?>
+                </p>
+            </div>
+            <div class="col s9">
+                <label>Per&iacute;odo de Fiscaliza&ccedil;&atilde;o</label>
+                <p class="padding10 bordered">
+                    <?= Data::tratarDataZend($this->projeto->dtInicioFiscalizacaoProjeto, 'Brasileira'); ?>
+                    a
+                    <?= Data::tratarDataZend($this->projeto->dtFimFiscalizacaoProjeto, 'Brasileira'); ?>
+                </p>
+            </div>
+        </div>
+        <div class="row margin-bottom30"></div>
+        <div class="row">
+            <div class="col s12">
+                <label>Evid&ecirc;ncias</label>
                 <div class="padding10 bordered" style="text-align: justify">
-                    <?= $this->dadosParecer->dsOrientacao; ?>
+                    <?= $this->relatorio->dsEvidencia ?? 'N&atilde;o informado'; ?>
                 </div>
             </div>
-            <div class="col s1"></div>
         </div>
-    <?php endif; ?>
-
-    <div class="row margin-bottom30"></div>
-    <div class="row">
-        <div class="col s1"></div>
-        <div class="col s10">
-            <p>
-                <label class="margin-bottom20" style="color: black">Conclus&atilde;o:</label>
-            </p>
-            <div class="padding10 bordered" style="text-align: justify">
-                <?= $this->dadosParecer->dsConclusao; ?>
+        <div class="row">
+            <div class="col s12">
+                <label>Recomenda&ccedil;&otilde;es da Equipe</label>
+                <div class="padding10 bordered" style="text-align: justify">
+                    <?= $this->relatorio->dsRecomendacaoEquipe ?? 'N&atilde;o informado'; ?>
+                </div>
             </div>
         </div>
-        <div class="col s1"></div>
-    </div>
-
-    <div class="row margin-bottom30"></div>
-    <div class="row">
-        <div class="col s1"></div>
-        <div class="col s10">
-            <p>
-                <label class="margin-bottom20" style="color: black">Resultado da avalia&ccedil;&atilde;o:</label>
-            </p>
-            <div class="padding10 bordered" style="text-align: justify">
-                <?php
-                switch ($this->dadosParecer->stResultadoAvaliacao) {
-                    case 'A':
-                        echo 'Cumpriu o objeto e objetivos';
-                        break;
-                    case 'R':
-                        echo 'N&atilde;o cumprimento do objeto e objetivos';
-                        break;
-                    case 'P':
-                        echo 'Cumpriu parcialmente o objeto e objetivos';
-                        break;
-                    default:
-                        break;
-                }
-                ?>
+        <?php if (!empty(trim($relatorio->dsConclusaoEquipe))): ?>
+            <div class="row">
+                <div class="col s12">
+                    <label>Conclus&atilde;o da Equipe</label>
+                    <div class="padding10 bordered" style="text-align: justify">
+                        <?= $this->relatorio->dsConclusaoEquipe ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="row">
+            <div class="col s12">
+                <label>Parecer da Fiscaliza&ccedil;&atilde;o</label>
+                <div class="padding10 bordered" style="text-align: justify">
+                    <?= $this->relatorio->dsParecerTecnico ?? 'N&atilde;o informado'; ?>
+                </div>
             </div>
         </div>
-        <div class="col s1"></div>
+        <div class="row">
+            <div class="col s12">
+                <label>Parecer do Coordenador</label>
+                <div class="padding10 bordered" style="text-align: justify">
+                    <?= $this->relatorio->dsParecer ?? 'N&atilde;o informado'; ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <label>Anexos</label>
+                <div class="padding10 bordered" style="text-align: justify">
+                    <?php if (count($this->arquivos)) :
+                        foreach ($this->arquivos as $arquivo) : ?>
+                            <p style="margin-top: 10px">
+                                <a href='<?= $this->url([
+                                    "module" => "default",
+                                    "controller" => "upload",
+                                    "action" => "abrir"
+                                ]) . '?id=' . $arquivo->idArquivo; ?>'
+                                ><?= $arquivo->nmArquivo; ?></a>
+                            </p>
+                        <?php endforeach;
+                    else : ?>
+                        <p>N&atilde;o h&aacute; arquivos anexados.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="col s1"></div>
 </div>
-
 <style>
+    .label {
+        color: black
+    }
+
+    p {
+        margin: 0 0 10px
+    }
+
     .assinatura table td {
-        border: 1px solid #aaaaaa;
+        border: 1px solid #aaaaaa
     }
 </style>

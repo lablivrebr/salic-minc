@@ -133,7 +133,7 @@
                                     </option>
                                 <?php endfor; ?>
                             </select>
-                            &nbsp;Registros por p&aacute;gina:<input type="text" size="1" name="qtde" id="qtde"
+                            &nbsp;Registros por p&aacute;gina:<input type="text" size="2" name="qtde" id="qtde"
                                                                      class="input_simples"
                                                                      value="<?php echo $this->intTamPag; ?>"><input
                                 type="submit" class="btn_recarregar" value="">
@@ -174,7 +174,7 @@
                     <th>
                         <a href="<?php echo $this->url(array('controller' => 'pesquisarprojetofiscalizacao', 'action' => 'grid')) . '?pag=1&qtde=' . $this->paginacao['qtde'] . '&tipoFiltro=' . $this->filtro . '&tecFiltro=' . $this->tecnico . '&campo=dtFimFiscalizacaoProjeto&ordem=' . $this->paginacao['novaOrdem']; ?>">Dt.
                             Fim</a></th>
-                    <th class="center-align" style="max-width: 300px">A&ccedil;&otilde;es</th>
+                    <th class="center-align">A&ccedil;&otilde;es</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -205,10 +205,11 @@
                                 <?php echo $d->Pronac; ?>
                             </a>
                         </td>
-                        <td><?php echo $d->NomeProjeto; ?></td>
+                        <td style="max-width: 600px"><?php echo $d->NomeProjeto; ?></td>
                         <td align="center" <?php echo $classRed; ?>><?php echo Data::tratarDataZend($d->dtInicioFiscalizacaoProjeto, 'Brasileira'); ?></td>
                         <td align="center" <?php echo $classRed; ?>><?php echo Data::tratarDataZend($d->dtFimFiscalizacaoProjeto, 'Brasileira'); ?></td>
                         <td align="center">
+                            <p class="margin0" style="display: block">
                             <?php if ($this->isCoordenador) { ?>
 
                                 <?php if ($d->stFiscalizacaoProjeto == 0) { ?>
@@ -263,6 +264,7 @@
                                     idFiscalizacao="<?php echo $d->idFiscalizacao; ?>"
                                 ><i class="material-icons">gavel</i></a>
                             <?php } ?>
+                            </p>
                         </td>
                     </tr>
                 <?php } ?>
@@ -316,7 +318,7 @@
                                             </option>
                                         <?php endfor; ?>
                                     </select>
-                                    &nbsp;Registros por p&aacute;gina:<input type="text" size="1" name="qtde" id="qtde"
+                                    &nbsp;Registros por p&aacute;gina:<input type="text" size="2" name="qtde" id="qtde"
                                                                              class="input_simples"
                                                                              value="<?php echo $this->intTamPag; ?>"><input
                                         type="submit" class="btn_recarregar" value="">

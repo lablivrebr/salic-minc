@@ -213,7 +213,7 @@ class Fiscalizacao_Model_DbTable_TbFiscalizacao extends MinC_Db_Table_Abstract
                 'idUsuarioInterno as idTecnico',
                 "statusFiscalizacao" => new Zend_Db_Expr(
                     "CASE tf.stFiscalizacaoProjeto 
-                    WHEN 0 THEN 'Iniciada' 
+                    WHEN 0 THEN 'Cadastrada' 
                     WHEN 1 THEN 'Em andamento' 
                     WHEN 2 THEN 'Em an&aacute;lise pelo Coordenador' 
                     WHEN 3 THEN 'Finalizada' 

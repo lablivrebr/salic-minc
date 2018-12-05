@@ -125,7 +125,7 @@
                     <th>Mecanismo</th>
                     <th>Plano Anual</th>
                     <th>Fiscaliza&ccedil;&atilde;o</th>
-                    <th>Fiscalizar</th>
+                    <th>A&ccedil;&otilde;es</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -152,6 +152,7 @@
                                 <a
                                     class="btn waves-effect waves-light tooltipped small btn-info"
                                     data-tooltip="Visualizar fiscaliza&ccedil;&atilde;o"
+                                    style="margin-bottom: 5px"
                                     href="<?= $this->url([
                                         'module' => 'fiscalizacao',
                                         'controller' => 'pesquisarprojetofiscalizacao',
@@ -161,18 +162,28 @@
                                     ]); ?>"><i class="material-icons white-text ">visibility</i></a>
                             <?php endif; ?>
 
-                            <?php if ($d->stFiscalizacaoProjeto != Fiscalizacao_Model_TbFiscalizacao::ST_FISCALIZACAO_CONCLUIDA) : ?>
+                            <?php if ($d->idFiscalizacao > 0 && $d->stFiscalizacaoProjeto != Fiscalizacao_Model_TbFiscalizacao::ST_FISCALIZACAO_CONCLUIDA) :?>
                                 <a
                                     class="btn waves-effect waves-light btn-primary tooltipped small"
-                                    data-tooltip=" <?= (!$d->idFiscalizacao) ? 'Oficializar fiscaliza&ccedil;&atilde;o' : 'Editar'?>"
+                                    data-tooltip="Editar"
                                     href="<?= $this->url([
                                         'module' => 'fiscalizacao',
                                         'controller' => 'pesquisarprojetofiscalizacao',
                                         'action' => 'oficializarfiscalizacao',
                                         'idPronac' => $d->IdPRONAC,
                                         'idFiscalizacao' => $d->idFiscalizacao
-                                    ]); ?>"><i class="material-icons white-text "><?= (!$d->idFiscalizacao) ? 'library_add' : 'library_books'?></i></a>
+                                    ]); ?>"><i class="material-icons white-text ">library_books</i></a>
 
+                            <?php else : ?>
+                            <a
+                                class="btn waves-effect waves-light btn-primary tooltipped small"
+                                data-tooltip="Nova fiscaliza&ccedil;&atilde;o"
+                                href="<?= $this->url([
+                                    'module' => 'fiscalizacao',
+                                    'controller' => 'pesquisarprojetofiscalizacao',
+                                    'action' => 'oficializarfiscalizacao',
+                                    'idPronac' => $d->IdPRONAC
+                                ]); ?>"><i class="material-icons white-text ">library_add</i></a>
                             <?php endif; ?>
                         </td>
                     </tr>

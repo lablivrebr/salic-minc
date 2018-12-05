@@ -36,7 +36,7 @@ class AvaliacaoResultados_DiligenciaController extends MinC_Controller_Rest_Abst
                 'tipoDiligencia' => $this->_request->tpDiligencia
             ]);
             if (!isset($coisa)){
-                $this->renderJsonResponse($coisa, 400);
+                $this->renderJsonResponse([], 400);
             }elseif (isset($coisa)){
                 $this->renderJsonResponse(\TratarArray::utf8EncodeArray($coisa->toArray()), 200);
             }
@@ -48,7 +48,7 @@ class AvaliacaoResultados_DiligenciaController extends MinC_Controller_Rest_Abst
         $diligencia = new DiligenciaService();
         $coisa = $diligencia->listaDiligenciaPainel(['idPronac' => $this->getRequest()->getParam('id'), 'situacao' => 'E17', 'tipoDiligencia' => 174]);
         if (!isset($coisa)){
-            $this->renderJsonResponse($coisa, 400);
+            $this->renderJsonResponse([], 400);
         }elseif (isset($coisa)){
             $this->renderJsonResponse(\TratarArray::utf8EncodeArray($coisa->toArray()), 200);
         }

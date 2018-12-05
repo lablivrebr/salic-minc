@@ -28,6 +28,20 @@ class AvaliacaoResultados_Model_DbTable_FluxosProjeto extends MinC_Db_Table_Abst
             ['u.usu_nome'],
             'Tabelas.dbo'
         )
+            ->joinLeft(
+                ['doc' => new Zend_Db_Expr(
+                    '(SELECT idDocumentoAssinatura,
+                                       IdPRONAC,
+                                       idTipoDoAtoAdministrativo,
+                                       stEstado,
+                                       cdSituacao 
+                                FROM "SAC".dbo.tbDocumentoAssinatura 
+                                WHERE (idTipoDoAtoAdministrativo = 622)
+                                  AND (cdSituacao = 1)
+                                  AND (stEstado = 1)) '
+                )], 'doc.IdPRONAC = p.IdPRONAC',
+                ['*']
+            )
         ->joinLeft(
             ['dil' => new Zend_Db_Expr('(SELECT a.idPronac, 
                                                           a.idDiligencia, 

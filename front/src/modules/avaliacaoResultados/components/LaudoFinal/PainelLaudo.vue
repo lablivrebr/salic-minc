@@ -105,12 +105,14 @@ export default {
         this.obterProjetosLaudoAssinar({ estadoId: 14 });
         this.obterProjetosLaudoEmAssinatura({ estadoId: 11 });
         this.obterProjetosLaudoFinalizados({ estadoId: 12 });
+        this.obterDadosTabelaTecnico({ estadoId: 11, idAgente: this.getUsuario.usu_codigo });
     },
     components: {
         Laudo,
     },
     methods: {
         ...mapActions({
+            obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
             obterProjetosLaudoFinal: 'avaliacaoResultados/obterProjetosLaudoFinal',
             obterProjetosLaudoAssinar: 'avaliacaoResultados/obterProjetosLaudoAssinar',
             obterProjetosLaudoEmAssinatura: 'avaliacaoResultados/obterProjetosLaudoEmAssinatura',
@@ -123,6 +125,7 @@ export default {
             getProjetosLaudoAssinar: 'avaliacaoResultados/getProjetosLaudoAssinar',
             getProjetosLaudoEmAssinatura: 'avaliacaoResultados/getProjetosLaudoEmAssinatura',
             getProjetosLaudoFinalizados: 'avaliacaoResultados/getProjetosLaudoFinalizados',
+            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
             getUsuario: 'autenticacao/getUsuario',
             route: 'route',
         }),

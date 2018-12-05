@@ -5,7 +5,7 @@
               max-width="850px"
     >
         <v-tooltip slot="activator" bottom>
-            <v-btn slot="activator" flat icon @click.native="obterDiligencias(obj.idPronac);">
+            <v-btn slot="activator" flat icon @click.native="obterDiligencias(obj.idPronac)">
                 <v-icon :color="statusDiligencia(obj).color" :change="statusDiligencia(obj).color" class="material-icons">assignment_late</v-icon>
             </v-btn>
             <span>{{statusDiligencia(obj).desc}} </span>
@@ -14,7 +14,7 @@
         <v-card>
 
             <v-toolbar dark color="#0a420e !important">
-                <v-btn icon dark @click.native="dialog = false">
+                <v-btn icon dark @click="dialog = false">
                     <v-icon>close</v-icon>
                 </v-btn>
                 <v-toolbar-title>Diligências Projeto: {{info.pronac}} - {{info.nomeProjeto}} </v-toolbar-title>
@@ -72,7 +72,7 @@ export default {
                 index: '',
             },
             info: {
-                nomeProjeto: '',
+                nomeProjeto: 'Nenhuma Diligência Registrada',
                 pronac: '',
             },
         };

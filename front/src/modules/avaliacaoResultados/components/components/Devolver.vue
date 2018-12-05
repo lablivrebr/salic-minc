@@ -20,7 +20,7 @@
         <v-card>
             <v-container grid-list-md>
                 <v-card-text>
-                    <div v-if="tecnico !== undefined && tecnico !== null && tecnico !== ''">
+                    <div v-if="tecnico !== undefined && tecnico !== null && tecnico !== '' && tecnico.nome !== 'sysLaudo'">
                         Você deseja devolver o projeto '{{ pronac }} - {{ nomeProjeto }}' para análise do Tecnico: {{tecnico.nome}}?
                     </div>
                     <div v-else>

@@ -18,7 +18,7 @@
                         <v-toolbar-items>
                             <v-btn dark flat
                                 @click.native="salvarParecer(), confirmarSalvar = true"
-                                :disabled="!parecerRules.enable"
+                                :disabled="!valid || !parecerRules.enable"
                             >
                                 Salvar
                             </v-btn>
@@ -57,7 +57,7 @@
                             <v-btn dark flat
                                 @click.native="finalizarParecer()"
                                 :href="redirectLink"
-                                :disabled="!parecerRules.enable"
+                                :disabled="!valid || !parecerRules.enable"
                             >
                                 Finalizar
                             </v-btn>
@@ -182,7 +182,7 @@ import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import cnpjFilter from '@/filters/cnpj';
 import VueCurrencyFilter from 'vue-currency-filter';
-import EditorTexto from './components/EditorTexto';
+import EditorTexto from '../components/EditorTexto';
 
 
 Vue.use(VueCurrencyFilter, {
@@ -308,7 +308,7 @@ export default {
                 this.parecerRules = { show: true,
                     color: 'red--text',
                     backgroundColor: { 'background-color': '#FFCDD2' },
-                    msg: 'Parecer e obrigatório!',
+                    msg: 'Parecer é obrigatório!',
                     enable: false };
             }
             if (e >= 10) {

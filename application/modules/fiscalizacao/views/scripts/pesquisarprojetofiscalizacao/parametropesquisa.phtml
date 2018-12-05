@@ -128,7 +128,7 @@ $carregaDadosHref = $this->url(array('module' => 'fiscalizacao', 'controller' =>
                             $(this).removeAttr('checked');
                             validar = true;
                         }
-                        if ($(this).attr('type') == 'select-one') {
+                        if ($(this).is("select")) {
                             $(this).val('');
                             validar = true;
                         }
@@ -139,6 +139,7 @@ $carregaDadosHref = $this->url(array('module' => 'fiscalizacao', 'controller' =>
                     }
                     if (validar) {
                         $(this).attr('disabled', 'true');
+                        $(this).addClass('disabled');
                     }
                 });
             } else {

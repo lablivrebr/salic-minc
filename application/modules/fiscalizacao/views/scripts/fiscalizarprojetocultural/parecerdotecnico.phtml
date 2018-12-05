@@ -129,8 +129,8 @@ $selected = '';
                 </tr>
                 <tr>
                     <td align="center">
-                        <textarea null="false" <?php if ($this->isCoordenador) echo "disabled='true'" ?>
-                                  class="campoForm" class="campoForm" id="dsAcoesProgramadas" name="dsAcoesProgramadas"
+                        <textarea null="false"
+                                  class="campoForm campoTecnico" id="dsAcoesProgramadas" name="dsAcoesProgramadas"
                                   cols="" rows="3"
                                   style="width: 99%;"><?php if (isset($relatorio->dsAcoesProgramadas)) echo $relatorio->dsAcoesProgramadas; ?></textarea>
                     </td>
@@ -140,8 +140,8 @@ $selected = '';
                 </tr>
                 <tr>
                     <td align="center">
-                        <textarea null="false" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?>
-                                  class="campoForm" id="dsAcoesExecutadas" name="dsAcoesExecutadas" cols="" rows="3"
+                        <textarea null="false"
+                                  class="campoForm campoTecnico" id="dsAcoesExecutadas" name="dsAcoesExecutadas" cols="" rows="3"
                                   style="width: 99%;"><?php if (isset($relatorio->dsAcoesExecutadas)) echo $relatorio->dsAcoesExecutadas; ?></textarea>
                     </td>
                 </tr>
@@ -150,8 +150,8 @@ $selected = '';
                 </tr>
                 <tr>
                     <td align="center">
-                        <textarea null="false" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?>
-                                  class="campoForm" id="dsBeneficioAlcancado" name="dsBeneficioAlcancado" cols="1"
+                        <textarea null="false"
+                                  class="campoForm campoTecnico" id="dsBeneficioAlcancado" name="dsBeneficioAlcancado" cols="1"
                                   rows="3"
                                   style="width: 99%;"><?php if (isset($relatorio->dsBeneficioAlcancado)) echo $relatorio->dsBeneficioAlcancado; ?></textarea>
                     </td>
@@ -161,8 +161,8 @@ $selected = '';
                 </tr>
                 <tr>
                     <td align="center">
-                        <textarea null="false" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?>
-                                  class="campoForm" id="dsDificuldadeEncontrada" name="dsDificuldadeEncontrada" cols=""
+                        <textarea null="false"
+                                  class="campoForm campoTecnico" id="dsDificuldadeEncontrada" name="dsDificuldadeEncontrada" cols=""
                                   rows="3"
                                   style="width: 99%;"><?php if (isset($relatorio->dsDificuldadeEncontrada)) echo $relatorio->dsDificuldadeEncontrada; ?></textarea>
                     </td>
@@ -675,7 +675,7 @@ $selected = '';
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <textarea null="false" class="campoForm" id="dsObservacao" name="dsObservacao" cols="" rows="3"
+                        <textarea null="false" class="campoForm campoTecnico" id="dsObservacao" name="dsObservacao" cols="" rows="3"
                                   style="width: 99%;" <?php if ($this->isCoordenador) echo "disabled='disabled'" ?>><?php if (isset($relatorio->dsObservacao)) echo $relatorio->dsObservacao; ?></textarea>
                     </td>
                 </tr>
@@ -722,7 +722,7 @@ $selected = '';
                         <?php if ($this->isCoordenador) { // coordenador
                             if (isset($relatorio->dsEvidencia)) echo $relatorio->dsEvidencia;
                         } else { ?>
-                            <textarea null="false" class="campoForm" id="dsEvidencia" name="dsEvidencia" cols=""
+                            <textarea null="false" class="campoForm campoTecnico" id="dsEvidencia" name="dsEvidencia" cols=""
                                       rows="3"
                                       style="width: 99%;"><?php if (isset($relatorio->dsEvidencia)) echo $relatorio->dsEvidencia; ?></textarea>
                         <?php } ?>
@@ -736,7 +736,7 @@ $selected = '';
                         <?php if ($this->isCoordenador) { // coordenador
                             if (isset($relatorio->dsRecomendacaoEquipe)) echo $relatorio->dsRecomendacaoEquipe;
                         } else { ?>
-                            <textarea null="false" class="campoForm" id="dsRecomendacaoEquipe"
+                            <textarea null="false" class="campoForm campoTecnico" id="dsRecomendacaoEquipe"
                                       name="dsRecomendacaoEquipe" cols="" rows="3"
                                       style="width: 99%;"><?php if (isset($relatorio->dsRecomendacaoEquipe)) echo $relatorio->dsRecomendacaoEquipe; ?></textarea>
                         <?php } ?>
@@ -771,7 +771,7 @@ $selected = '';
                         <?php if ($this->isCoordenador) { // coordenador
                             if (isset($relatorio->dsParecerTecnico)) echo $relatorio->dsParecerTecnico;
                         } else { ?>
-                            <textarea null="false" cols="" class="textocomposto" id="dsParecerTecnico"
+                            <textarea null="false" cols="" class="textocomposto campoTecnico" id="dsParecerTecnico"
                                       name="dsParecerTecnico" rows="6"
                                       style="width: 99%;"><?php if (isset($relatorio->dsParecerTecnico)) echo $relatorio->dsParecerTecnico; ?></textarea>
                         <?php } ?>
@@ -825,7 +825,7 @@ $selected = '';
                     </tr>
                     <tr>
                         <td>
-                            <textarea cols="" class="textocomposto" id="dsParecer" name="dsParecer" rows="6"
+                            <textarea cols="" class="textocomposto campoCoordenador" id="dsParecer" name="dsParecer" rows="6"
                                       style="width: 99%;"><?php if (isset($relatorio->dsParecer)) echo $relatorio->dsParecer; ?></textarea>
                         </td>
                     </tr>
@@ -897,71 +897,26 @@ $selected = '';
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $("textarea").each(function () {
+        $("textarea.campoTecnico").each(function () {
             $(this).editorRico({
                 altura: 300,
                 maxchar: 8000,
                 isLimitarCarateres: true,
-                isDesabilitarEdicao: 0
+                isDesabilitarEdicao: <?= ($this->isTecnico) ? 0 : 1; ?>
+            });
+        });
+
+        $("textarea.campoCoordenador").each(function () {
+            $(this).editorRico({
+                altura: 300,
+                maxchar: 8000,
+                isLimitarCarateres: true,
+                isDesabilitarEdicao: <?= ($this->isTecnico) ? 1 : 0; ?>
             });
         });
 
         acertaLayout();
         criacampo();
-
-        <?php if ($this->isTecnico) : // TECNICO   ?>
-//            tinymce.init({
-//                plugins:"paste,textcolor",
-//                language: "pt_BR",
-//                paste_as_text: true,
-//                    selector: '#dsObservacao',
-//                    height: 300,
-//                toolbar : "bold,italic,underline,color,forecolor backcolor,fontsizeselect",
-//                menubar:"",
-//            });
-//
-//            tinymce.init({
-//                plugins:"paste,textcolor",
-//                language: "pt_BR",
-//                paste_as_text: true,
-//                    selector: '#dsParecerTecnico',
-//                    height: 300,
-//                toolbar : "bold,italic,underline,color,forecolor backcolor,fontsizeselect",
-//                menubar:"",
-//            });
-//
-//            tinymce.init({
-//                plugins:"paste,textcolor",
-//                language: "pt_BR",
-//                paste_as_text: true,
-//                    selector: '#dsEvidencia',
-//                    height: 300,
-//                toolbar : "bold,italic,underline,color,forecolor backcolor,fontsizeselect",
-//                menubar:"",
-//            });
-//
-//            tinymce.init({
-//                plugins:"paste,textcolor",
-//                language: "pt_BR",
-//                paste_as_text: true,
-//                    selector: '#dsRecomendacaoEquipe',
-//                    height: 300,
-//                toolbar : "bold,italic,underline,color,forecolor backcolor,fontsizeselect",
-//                menubar:"",
-//            });
-
-        <?php else: ?>
-
-//            tinymce.init({
-//                plugins:"paste,textcolor",
-//                language: "pt_BR",
-//                paste_as_text: true,
-//                    selector: '#dsParecer',
-//                    height: 300,
-//                toolbar : "bold,italic,underline,color,forecolor backcolor,fontsizeselect",
-//                menubar:"",
-//            });
-        <?php endif; ?>
 
         somaEmpregos();
         limparCampos();
@@ -972,9 +927,6 @@ $selected = '';
         $(".qtEmprego").keyup(function (event) {
             mascara(this, format_num_pontos);
         });
-
-//        $("#qtEmpregoDireto").numeric();
-//        $("#qtEmpregoIndireto").numeric();
 
         $('#addAnexo').click(function () {
             var divAnexos = $('#divAnexos');

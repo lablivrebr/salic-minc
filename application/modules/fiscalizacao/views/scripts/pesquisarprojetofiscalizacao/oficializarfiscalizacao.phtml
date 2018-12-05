@@ -117,8 +117,7 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                                title="Data da Resposta"
                                name="dtResposta" id="dtResposta"
                                maiorquedataatual="true"
-                               maiorquedtinicio="dtInicio"
-                               menorquedtfim="dtFim"
+                               menorquedtfim="dtInicio"
                                null="true" data="true"
                                class="browser-default"
                                style="max-width: 200px; display: inline-block"
@@ -178,15 +177,23 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
 
                                 </p>
                             <?php }
-                        } ?>
+                        }?>
                     </td>
                 </tr>
             </table>
 
             <p align="center">
                 <input type="hidden" name="oficializar" id="oficializar" value=""/>
-                <a id="btn-oficializar" class="waves-effect waves-light btn white-text btn-primary"><i class="material-icons right">send</i>Oficializar fiscaliza&ccedil;&atilde;o</a>
-                <a id="btn-salvar" class="waves-effect waves-light btn white-text"><i class="material-icons right">save</i>Salvar</a>
+                <a id="btn-oficializar" class="waves-effect waves-light btn white-text btn-primary"><i class="material-icons right">send</i>
+                    <?php if ($this->infoProjeto->stFiscalizacaoProjeto > 0) : ?>
+                        Atualizar
+                    <?php else: ?>
+                        Oficializar fiscaliza&ccedil;&atilde;o
+                    <?php endif; ?>
+                </a>
+                <?php if (!$this->infoProjeto->stFiscalizacaoProjeto > 0) : ?>
+                    <a id="btn-salvar" class="waves-effect waves-light btn white-text"><i class="material-icons right">save</i>Salvar</a>
+                <?php endif; ?>
             </p>
             <br clear="all"/>
         </form>
@@ -535,17 +542,15 @@ $ExcluirHref = $this->url(array('controller' => 'Pesquisarprojetofiscalizacao', 
                 }
             }
             /* VALIDAÇÃO DT RESPOSTA MAIOR QUE DATA FIM */
-            if ($(this).attr('maiorquedtinicio') != undefined && $(this).val() != "") {
+            if ($(this).attr('menorquedtfim') != undefined && $(this).val() != "") {
                 //maiorquedtinicio="dtInicio" menorquedtfim="dtFim"
-                var idDtIncio = '#' + $(this).attr('maiorquedtinicio');
                 var idDtFim = '#' + $(this).attr('menorquedtfim');
 
-                if ($(idDtIncio).val() != '' && $(idDtFim).val() != '') {
-                    var dtInicio = $(idDtIncio).val().slice(6, 10) + '' + $(idDtIncio).val().slice(3, 5) + '' + $(idDtIncio).val().slice(0, 2);
+                if ($(idDtFim).val() != '') {
                     var dtFim = $(idDtFim).val().slice(6, 10) + '' + $(idDtFim).val().slice(3, 5) + '' + $(idDtFim).val().slice(0, 2);
-                    if (estadata < dtInicio || estadata > dtFim) {
+                    if (estadata > dtFim) {
                         validar = true;
-                        mensagem = 'A "' + $(this).attr('title') + '" deve estar entre a "' + $(idDtIncio).attr('title') + '" e "' + $(idDtFim).attr('title') + '"';
+                        mensagem = 'A "' + $(this).attr('title') + '" deve ser menor que a "' + $(idDtFim).attr('title') + '"';
                     }
                 }
             }

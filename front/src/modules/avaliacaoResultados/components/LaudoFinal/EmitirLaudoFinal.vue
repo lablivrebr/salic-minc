@@ -171,7 +171,6 @@ export default {
             if (this.laudoFinalData.dsLaudoFinal) {
                 data.dsLaudoFinal = this.laudoFinalData.dsLaudoFinal;
             }
-            console.info(data);
 
             this.finalizar(data);
         },

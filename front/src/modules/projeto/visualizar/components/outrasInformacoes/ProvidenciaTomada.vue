@@ -16,7 +16,7 @@
                 <template slot="items" slot-scope="props">
                     <td class="text-xs-right">{{ props.item.DtSituacao }}</td>
                     <td class="text-xs-right">{{ props.item.Situacao }}</td>
-                    <td class="text-xs-left">{{ props.item.ProvidenciaTomada }}</td>
+                    <td class="text-xs-left" v-html="props.item.ProvidenciaTomada"></td>
                     <td class="text-xs-right" v-if="props.item.cnpjcpf">
                         {{ props.item.cnpjcpf | cnpjFilter }}
                     </td>

@@ -33,13 +33,12 @@ class DiligenciaProjeto implements \MinC\Servico\IServicoRestZend
         $tblProjeto = new \Projetos();
         if (!empty($idPronac)) {
             $projeto = $tblProjeto->buscar(array('IdPRONAC = ?' => $idPronac))->current();
-
+            $proposta = [];
             if (isset($projeto->idProjeto) && !empty($projeto->idProjeto)) {
                 $tblPreProjeto = new \Proposta_Model_DbTable_PreProjeto();
                 $diligenciasProposta = $tblPreProjeto->listarDiligenciasPreProjeto(array('pre.idPreProjeto = ?' => $projeto->idProjeto,'aval.ConformidadeOK = ? '=>0));
                 $proposta = $this->montarArrayListaDiligenciaProposta($diligenciasProposta);
             }
-            $proposta = [];
         }
         $diligencias = $tblProjeto->listarDiligencias(array('pro.IdPRONAC = ?' => $idPronac, 'dil.stEnviado = ?' => 'S'));
         $projeto = $this->montarArrayListaDiligenciaProjeto($diligencias);

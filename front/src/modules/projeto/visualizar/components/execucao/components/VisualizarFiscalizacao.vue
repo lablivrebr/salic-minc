@@ -126,28 +126,28 @@
                                     <v-flex xs10 offset-xs1>
                                         <br>
                                         <p><b>Ações Programadas</b></p>
-                                        {{ parecer.resumoExecucao.dsAcoesProgramadas }}
+                                        <div v-html="parecer.resumoExecucao.dsAcoesProgramadas"></div>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout>
                                     <v-flex xs10 offset-xs1>
                                         <br>
                                         <p><b>Ações Executadas</b></p>
-                                        {{ parecer.resumoExecucao.dsAcoesExecutadas }}
+                                        <div v-html="parecer.resumoExecucao.dsAcoesExecutadas"></div>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout>
                                     <v-flex xs10 offset-xs1>
                                         <br>
                                         <p><b>Benefícios Alcançados</b></p>
-                                        {{ parecer.resumoExecucao.dsBeneficioAlcancado }}
+                                        <div v-html="parecer.resumoExecucao.dsBeneficioAlcancado"></div>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout>
                                     <v-flex xs10 offset-xs1>
                                         <br>
                                         <p><b>Dificuldades Encontradas</b></p>
-                                        {{ parecer.resumoExecucao.dsDificuldadeEncontrada }}
+                                        <div v-html="parecer.resumoExecucao.dsDificuldadeEncontrada"></div>
                                     </v-flex>
                                 </v-layout>
                             </v-container>

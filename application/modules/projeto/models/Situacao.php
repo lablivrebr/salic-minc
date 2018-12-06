@@ -78,6 +78,7 @@ class Projeto_Model_Situacao extends MinC_Db_Table_Abstract
     const DEBITO_PARCELADO = "L09";
     const PC_REPROVADA_INABILITACAO_PRESCRITA = "L10";
     const PC_REPROVADA_INABILITACAO_SUSPENSA = "L11";
+    const PRESTACAO_DE_CONTAS_APROVADA = "E19";
 
     public static function obterSituacoesProjetoArquivado()
     {

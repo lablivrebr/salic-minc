@@ -137,6 +137,46 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
         return $custosVinculados;
     }
 
+    public function obterCustosVinculadosReadequacao($idPronac)
+    {
+        if (!$idPronac) {
+            return;
+        }
+
+        $projetos = new Projetos();
+        $projeto = $projetos->buscar(['idPronac = ?' => $idPronac])->current();
+        $idPreProjeto = $projeto['idProjeto'];
+
+        $tbCustosVinculadosMapper = new Proposta_Model_TbCustosVinculadosMapper();
+        $custosVinculados = $tbCustosVinculadosMapper->obterCustosVinculadosPlanilhaProposta($idPreProjeto);
+        
+        $readequacaoModelDbTable = new Readequacao_Model_DbTable_TbReadequacao();
+        $idReadequacao = $readequacaoModelDbTable->buscarIdReadequacaoAtiva(
+            $idPronac,
+            Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
+        );
+        
+        $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+        $itensEmReadequacao = $tbPlanilhaAprovacao->obterPlanilhaReadequacao($idReadequacao);
+
+        $totalParaDivulgacaoAdministracao = 0;
+
+        $etapasSomaDivulgacaoAdministracao = [
+            PlanilhaEtapa::ETAPA_PRE_PRODUCAO_PREPARACAO,
+            PlanilhaEtapa::ETAPA_PRODUCAO_EXECUCAO,
+            PlanilhaEtapa::ETAPA_POS_PRODUCAO,
+            PlanilhaEtapa::ETAPA_ASSESORIA_CONTABIL_JURIDICA
+        ];
+        
+        foreach ($itensEmReadequacao as $item) {
+            if (in_array($item->idEtapa, $etapasSomaDivulgacaoAdministracao) && $item->tpAcao != 'E') {
+                $totalParaDivulgacaoAdministracao += $item->vlUnitario * $item->qtItem * $item->nrOcorrencia;
+            }
+        }
+        
+        return $this->obterCustosVinculados($idPreProjeto, $totalParaDivulgacaoAdministracao);
+    }
+
     public function obterValoresDosItens($custosVinculados, $valorDoProjeto)
     {
         $custoAdicional = 0;

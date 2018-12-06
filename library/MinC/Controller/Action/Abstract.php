@@ -682,7 +682,7 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
         $planilha = array();
         $count = 0;
         $seq = 1;
-        if ($tipoPlanilha == 0) {
+        if ($tipoPlanilha == spPlanilhaOrcamentaria::TIPO_PLANILHA_PROPOSTA) {
             foreach ($planilhaOrcamentaria as $resuplanilha) {
                 $produto = $resuplanilha->Produto == null ? 'Administra&ccedil;&atilde;o do Projeto' : $resuplanilha->Produto;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Seq'] = $seq;
@@ -700,7 +700,7 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $count++;
                 $seq++;
             }
-        } else if ($tipoPlanilha == 1) {
+        } else if ($tipoPlanilha == spPlanilhaOrcamentaria::TIPO_PLANILHA_PROPONENTE) {
             foreach ($planilhaOrcamentaria as $resuplanilha) {
                 $produto = $resuplanilha->Produto == null ? 'Administra&ccedil;&atilde;o do Projeto' : $resuplanilha->Produto;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Seq'] = $seq;
@@ -717,7 +717,7 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $count++;
                 $seq++;
             }
-        } else if ($tipoPlanilha == 2) {
+        } else if ($tipoPlanilha == spPlanilhaOrcamentaria::TIPO_PLANILHA_PARECERISTA) {
             foreach ($planilhaOrcamentaria as $resuplanilha) {
                 $produto = $resuplanilha->Produto == null ? 'Administra&ccedil;&atilde;o do Projeto' : $resuplanilha->Produto;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Seq'] = $seq;
@@ -736,7 +736,7 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $count++;
                 $seq++;
             }
-        } else if ($tipoPlanilha == 3) {
+        } else if ($tipoPlanilha == spPlanilhaOrcamentaria::TIPO_PLANILHA_APROVADA_ATIVA) {
             foreach ($planilhaOrcamentaria as $resuplanilha) {
                 $produto = $resuplanilha->Produto == null ? 'Administra&ccedil;&atilde;o do Projeto' : $resuplanilha->Produto;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Seq'] = $seq;
@@ -759,7 +759,7 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $count++;
                 $seq++;
             }
-        } else if ($tipoPlanilha == 4) {
+        } else if ($tipoPlanilha == spPlanilhaOrcamentaria::TIPO_PLANILHA_CORTES_APROVADOS) {
             foreach ($planilhaOrcamentaria as $resuplanilha) {
                 $produto = $resuplanilha->Produto == null ? 'Administra&ccedil;&atilde;o do Projeto' : $resuplanilha->Produto;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Seq'] = $seq;
@@ -781,7 +781,7 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $count++;
                 $seq++;
             }
-        } else if ($tipoPlanilha == 5) {
+        } else if ($tipoPlanilha == spPlanilhaOrcamentaria::TIPO_PLANILHA_REMANEJAMENTO) {
             foreach ($planilhaOrcamentaria as $resuplanilha) {
                 $produto = $resuplanilha->Produto == null ? 'Administra&ccedil;&atilde;o do Projeto' : $resuplanilha->Produto;
                 $planilha[$resuplanilha->FonteRecurso][$produto][$resuplanilha->idEtapa . ' - ' . $resuplanilha->Etapa][$resuplanilha->UF . ' - ' . $resuplanilha->Municipio][$count]['Seq'] = $seq;
@@ -804,7 +804,8 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 $count++;
                 $seq++;
             }
-        } else if ($tipoPlanilha == 6 || $tipoPlanilha == 7) {
+        } else if ($tipoPlanilha == spPlanilhaOrcamentaria::TIPO_PLANILHA_READEQUACAO ||
+                   $tipoPlanilha == spPlanilhaOrcamentaria::TIPO_PLANILHA_SALDO_APLICACAO) {
 
             $valorTotalProjeto = 0;
             $valorTotalProjeto = array_reduce($planilhaOrcamentaria, function($valorTotalProjeto, $item) {
@@ -828,10 +829,7 @@ abstract class MinC_Controller_Action_Abstract extends Zend_Controller_Action
                 if ($resuplanilha->idEtapa == PlanilhaEtapa::ETAPA_CUSTOS_VINCULADOS) {
                     if (!$custosVinculados) {
                         $propostaTbCustosVinculados = new Proposta_Model_TbCustosVinculadosMapper();
-                        $custosVinculados = $propostaTbCustosVinculados->obterCustosVinculados(
-                            $resuplanilha->idProjeto,
-                            $valorTotalProjeto
-                        );
+                        $custosVinculados = $propostaTbCustosVinculados->obterCustosVinculadosReadequacao($resuplanilha->idPronac);
                     }
                     
                     $valorItemCustoVinculado = 0;

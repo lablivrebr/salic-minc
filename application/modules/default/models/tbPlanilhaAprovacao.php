@@ -942,4 +942,19 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
         }
         return false;
     }
+
+    public function obterPlanilhaReadequacao($idReadequacao)
+    {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+
+        $select->from(
+            array('a' => $this->_name),
+            '*'
+        );
+
+        $select->where('a.idReadequacao = ?', $idReadequacao);
+        
+        return $this->fetchAll($select);
+    }
 }

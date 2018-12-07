@@ -957,4 +957,28 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
         
         return $this->fetchAll($select);
     }
+
+    public function obterValorRemuneracaoCaptacaoAprovado($idPronac)
+    {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        
+        $select->from(
+            array('a' => $this->_name),
+            'a.vlUnitario'
+        );
+
+        $idRemuneracaoCaptacao = 5249;
+        
+        $select->where('a.idPronac = ?', $idPronac);
+        $select->where('a.tpPlanilha = ?', 'CO');
+        $select->where('a.idPlanilhaItem = ?', $idRemuneracaoCaptacao);
+        
+        $result = $this->fetchRow($select);
+
+        if (!empty($result)) {
+            return $result['vlUnitario'];
+        }
+        return $result;
+    }
 }

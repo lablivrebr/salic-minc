@@ -37,6 +37,9 @@ class Diligencia
                          );
 
                          $diligencias = $Projetosdao->listarDiligencias(array('pro.IdPRONAC = ?' => $idPronac));
+                         for()
+                         var_dump($diligencias);
+                         die;
                    return $diligencias;
                    }
                } else {
@@ -156,5 +159,20 @@ class Diligencia
         }
     }
 
-
+    private function obterAnexosDiligencias($diligencia)
+    {
+        $arquivo = new \Arquivo();
+        $arquivos = $arquivo->buscarAnexosDiligencias($diligencia['idDiligencia']);
+        $arquivoArray = [];
+        foreach ($arquivos as $arquivo) {
+            $objdtEnvio = new \DateTime($arquivo->dtEnvio);
+            $arquivoArray[] = [
+                'idArquivo' => $arquivo->idArquivo,
+                'nmArquivo' => $arquivo->nmArquivo,
+                'dtEnvio' => $objdtEnvio->format('d/m/Y H:i:s'),
+                'idDiligencia' => $arquivo->idDiligencia,
+            ];
+        }
+        return $arquivoArray;
+    }
 }

@@ -17,13 +17,13 @@
                     <td class="text-xs-right">{{ props.item.DtSituacao }}</td>
                     <td class="text-xs-right">{{ props.item.Situacao }}</td>
                     <td class="text-xs-left" v-html="props.item.ProvidenciaTomada"></td>
-                    <td class="text-xs-right" v-if="props.item.cnpjcpf">
+                    <td class="text-xs-right" v-if="props.item.cnpjcpf" style="width: 200px">
                         {{ props.item.cnpjcpf | cnpjFilter }}
                     </td>
                     <td class="text-xs-left" v-else>
                         Nao se aplica.
                     </td>
-                    <td class="text-xs-left">{{ props.item.usuario }}</td>
+                    <td class="text-xs-left" style="width: 200px">{{ props.item.usuario }}</td>
                 </template>
                 <template slot="pageText" slot-scope="props">
                     Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}

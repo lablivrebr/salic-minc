@@ -165,7 +165,8 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
             PlanilhaEtapa::ETAPA_PRE_PRODUCAO_PREPARACAO,
             PlanilhaEtapa::ETAPA_PRODUCAO_EXECUCAO,
             PlanilhaEtapa::ETAPA_POS_PRODUCAO,
-            PlanilhaEtapa::ETAPA_ASSESORIA_CONTABIL_JURIDICA
+            PlanilhaEtapa::ETAPA_ASSESORIA_CONTABIL_JURIDICA,
+            PlanilhaEtapa::ETAPA_RECOLHIMENTOS
         ];
         
         foreach ($itensEmReadequacao as $item) {

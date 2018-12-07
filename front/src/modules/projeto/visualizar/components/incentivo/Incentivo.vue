@@ -174,10 +174,10 @@
                     >{{ dadosProjeto.DtFimExecucao | formatarData }}
                     </td>
                     <td align="center">
-                        <SalicTextoSimples :texto="dadosProjeto.NrPortariaVigente"/>
+                        <SalicTextoSimples :texto="dadosProjeto.TipoPortariaVigente"/>
                     </td>
                     <td align="center">
-                        <SalicTextoSimples :texto="dadosProjeto.TipoPortariaVigente"/>
+                        <SalicTextoSimples :texto="dadosProjeto.NrPortariaVigente"/>
                     </td>
                     <td align="center">
                         <SalicTextoSimples :texto="dadosProjeto.DtPublicacaoPortariaVigente"/>

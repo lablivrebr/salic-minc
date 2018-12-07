@@ -33,9 +33,12 @@
                         </v-container>
                     </div>
                     <div v-else>
-                        <v-alert :value="true" color="info" icon="warning">
-                            Nenhum dado encontrado
-                        </v-alert>
+                        <v-data-table
+                                no-data-text="Nenhum dado encontrado"
+                                hide-actions
+                                hide-headers
+                        >
+                        </v-data-table>
                     </div>
                 </v-card-text>
             </v-card>

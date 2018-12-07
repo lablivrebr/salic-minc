@@ -279,62 +279,73 @@ class Fiscalizacao_FiscalizarprojetoculturalController extends MinC_Controller_A
         $anexardocumentos = true;
         $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
 
-        if (count($_FILES) > 0) {
-            foreach ($_FILES['arquivo']['name'] as $key => $val) {
-                $arquivoNome = $_FILES['arquivo']['name'][$key];
-                $arquivoTemp = $_FILES['arquivo']['tmp_name'][$key];
-                $arquivoTipo = $_FILES['arquivo']['type'][$key];
-                $arquivoTamanho = $_FILES['arquivo']['size'][$key];
+        try {
 
-                if (!empty($arquivoTemp)) {
-                    $idArquivo = $this->cadastraranexo($arquivoNome, $arquivoTemp, $arquivoTipo, $arquivoTamanho);
-                    $ArquivoFiscalizacaoDao->inserir(array('idArquivo' => $idArquivo, 'idFiscalizacao' => $idFiscalizacao));
+            if (count($_FILES) > 0) {
+                $maxSizeFile = 10485760;
+
+                foreach ($_FILES['arquivo']['name'] as $key => $val) {
+                    $arquivoNome = $_FILES['arquivo']['name'][$key];
+                    $arquivoTemp = $_FILES['arquivo']['tmp_name'][$key];
+                    $arquivoTipo = $_FILES['arquivo']['type'][$key];
+                    $arquivoTamanho = $_FILES['arquivo']['size'][$key];
+
+                    if ($arquivoTamanho > $maxSizeFile) {
+                        throw new Exception("O arquivo n&atilde;o pode ser maior do que 10MB!");
+                    }
+
+                    if (!empty($arquivoTemp)) {
+                        $idArquivo = $this->cadastraranexo($arquivoNome, $arquivoTemp, $arquivoTipo, $arquivoTamanho);
+                        $ArquivoFiscalizacaoDao->inserir(array('idArquivo' => $idArquivo, 'idFiscalizacao' => $idFiscalizacao));
+                    }
                 }
             }
-        }
 
-        unset($_POST['dsJustificativaDevolucao']);
-        $_POST['qtEmpregoDireto'] = str_replace('.', '', $_POST['qtEmpregoDireto']);
-        $_POST['qtEmpregoIndireto'] = str_replace('.', '', $_POST['qtEmpregoIndireto']);
-        //$_POST['dsParecerTecnico'] = $_POST['dsParecerTecnico'];
+            unset($_POST['dsJustificativaDevolucao']);
+            $_POST['qtEmpregoDireto'] = str_replace('.', '', $_POST['qtEmpregoDireto']);
+            $_POST['qtEmpregoIndireto'] = str_replace('.', '', $_POST['qtEmpregoIndireto']);
+            //$_POST['dsParecerTecnico'] = $_POST['dsParecerTecnico'];
 
 
-        // A partir da data 15/09/2013, todos estes campos receberao a informacao => Nao se aplica
-        // *******************************************
-        $_POST['stSiafi'] = 0;
-        $_POST['stPrestacaoContas'] = 3;
-        $_POST['stCumpridasNormas'] = 3;
-        $_POST['stCumpridoPrazo'] = 3;
-        $_POST['stPagamentoServidorPublico'] = 3;
-        $_POST['stDespesaAdministracao'] = 3;
-        $_POST['stTransferenciaRecurso'] = 3;
-        $_POST['stDespesasPublicidade'] = 3;
-        $_POST['stOcorreuAditamento'] = 3;
-        $_POST['stSaldoAposEncerramento'] = 3;
-        $_POST['stSaldoVerificacaoFNC'] = 3;
-        $_POST['stDocumentacaoCompleta'] = 3;
-        $_POST['stDespesaPosterior'] = 3;
-        $_POST['stCienciaLegislativo'] = 3;
-        $_POST['stFinalidadeEsperada'] = 3;
-        $_POST['stPlanoTrabalho'] = 3;
-        $_POST['dsConclusaoEquipe'] = ' ';
+            // A partir da data 15/09/2013, todos estes campos receberao a informacao => Nao se aplica
+            // *******************************************
+            $_POST['stSiafi'] = 0;
+            $_POST['stPrestacaoContas'] = 3;
+            $_POST['stCumpridasNormas'] = 3;
+            $_POST['stCumpridoPrazo'] = 3;
+            $_POST['stPagamentoServidorPublico'] = 3;
+            $_POST['stDespesaAdministracao'] = 3;
+            $_POST['stTransferenciaRecurso'] = 3;
+            $_POST['stDespesasPublicidade'] = 3;
+            $_POST['stOcorreuAditamento'] = 3;
+            $_POST['stSaldoAposEncerramento'] = 3;
+            $_POST['stSaldoVerificacaoFNC'] = 3;
+            $_POST['stDocumentacaoCompleta'] = 3;
+            $_POST['stDespesaPosterior'] = 3;
+            $_POST['stCienciaLegislativo'] = 3;
+            $_POST['stFinalidadeEsperada'] = 3;
+            $_POST['stPlanoTrabalho'] = 3;
+            $_POST['dsConclusaoEquipe'] = ' ';
 
-        $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
-        $relatorio = $RelatorioFiscalizacaoDAO->buscaRelatorioFiscalizacao($idFiscalizacao);
+            $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
+            $relatorio = $RelatorioFiscalizacaoDAO->buscaRelatorioFiscalizacao($idFiscalizacao);
 
-        if (count($relatorio)) {
-            $RelatorioFiscalizacaoDAO->alteraRelatorio($_POST, array('idFiscalizacao = ?' => $idFiscalizacao));
-        } else {
-            $RelatorioFiscalizacaoDAO->inserir($_POST);
-        }
+            if (count($relatorio)) {
+                $RelatorioFiscalizacaoDAO->alteraRelatorio($_POST, array('idFiscalizacao = ?' => $idFiscalizacao));
+            } else {
+                $RelatorioFiscalizacaoDAO->inserir($_POST);
+            }
 
-        if ($_POST['stAvaliacao']) {
-            $FiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
-            $FiscalizacaoDAO->alteraSituacaoProjeto(2, $idFiscalizacao);
+            if ($_POST['stAvaliacao']) {
+                $FiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
+                $FiscalizacaoDAO->alteraSituacaoProjeto(2, $idFiscalizacao);
 
-            parent::message("Formul&aacute;rio enviado com sucesso!", "fiscalizacao/pesquisarprojetofiscalizacao/grid", "CONFIRM");
-        } else {
-            parent::message("Dados salvos com sucesso!", "fiscalizacao/fiscalizarprojetocultural/parecerdotecnico" . '?idFiscalizacao=' . $idFiscalizacao, "CONFIRM");
+                parent::message("Formul&aacute;rio enviado com sucesso!", "fiscalizacao/pesquisarprojetofiscalizacao/grid", "CONFIRM");
+            } else {
+                parent::message("Dados salvos com sucesso!", "fiscalizacao/fiscalizarprojetocultural/parecerdotecnico" . '?idFiscalizacao=' . $idFiscalizacao, "CONFIRM");
+            }
+        } catch (Exception $e) {
+            parent::message("Erro ao salvar! " . $e->getMessage(), "fiscalizacao/fiscalizarprojetocultural/parecerdotecnico" . '?idFiscalizacao=' . $idFiscalizacao, "ERROR");
         }
     }
 

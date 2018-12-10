@@ -37,9 +37,6 @@ class Diligencia
                          );
 
                          $diligencias = $Projetosdao->listarDiligencias(array('pro.IdPRONAC = ?' => $idPronac));
-                         for()
-                         var_dump($diligencias);
-                         die;
                    return $diligencias;
                    }
                } else {

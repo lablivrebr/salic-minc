@@ -13,19 +13,13 @@
     }
 </style>
 
-<main>
-    <?php
-    $links = array(
-        array('Gerenciar Assinaturas' => array())
-    );
-    ?>
-    <div class="content padding20 clearfix">
+<div class="container-fluid">
+    <?php $titulo = 'Gerenciar Assinaturas'; ?>
 
-        <div class="row">
-            <div class="col s10">
-                <?php gerarBreadCrumb($links); ?>
-            </div>
-        </div>
+    <?php $this->PageTitle($titulo, array(
+        [$titulo => ''],
+    )); ?>
+    <div class="content card padding10">
         <div class="row">
             <div class="col s12">
                 <table class="stripped" id="assinaturaProjetos">
@@ -62,6 +56,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <script src="/public/js/jquery-1.12.4.min.js"></script>
     <script src="/public/js/moment.js"></script>
@@ -70,9 +65,31 @@
     <script src="/public/js/buttons.print.min.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="/public/css/layout/datatables.min.css"/>
 
-    <script type="text/javascript">
+<script type="text/javascript">
      (function ($) {
          $(document).ready(function () {
+
+             $(document).on({
+                 mouseenter: function () {
+                     trIndex = $(this).index()+1;
+                     $("table.dataTable").each(function(index) {
+                         $(this).find("tr:eq("+trIndex+")").each(function(index) {
+                             $(this).find("td").addClass("grey lighten-4");
+                             $3(this).find('.fixed-action-btn').openFAB();
+                         });
+                     });
+                 },
+                 mouseleave: function () {
+                     trIndex = $(this).index()+1;
+                     $("table.dataTable").each(function(index) {
+                         $(this).find("tr:eq("+trIndex+")").each(function(index) {
+                             $(this).find("td").removeClass("grey lighten-4");
+                             $3(this).find('.fixed-action-btn').closeFAB();
+                         });
+                     });
+                 }
+             }, ".dataTables_wrapper tr");
+
 
              $(document).ajaxStart(function () {
                  $('#container-loading').fadeIn('slow');
@@ -199,15 +216,14 @@
                  },
                  "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
                  "language": {
-                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                     "url": "/public/scripts/layout/Portuguese-Brasil.json"
                  },
                  "ajax": {
                      url: "/assinatura/index/gerenciar-assinatura-ajax/",
-                     data: {},
                      type: "POST"
                  },
                  "autoWidth": false,
-                 "serverSide": true,
+                 // "serverSide": true,
                  "searchDelay": 350,
                  "columnDefs": [
                      // { "width": "1%", "targets": 0 },
@@ -382,8 +398,10 @@
                         '</div>';
              }
              $('#assinaturaProjetos').on('preXhr.dt', function(e, settings, data) {
-                 let searchValue = data.search.value;
-                 data.search.value = escape(searchValue.replace(/\//g, ''));
+                if (data.search) {
+                     let searchValue = data.search.value;
+                     data.search.value = escape(searchValue.replace(/\//g, ''));
+                 }
              });
 
              $('#assinaturaProjetos tbody').on('click', '.expand', function () {
@@ -405,5 +423,4 @@
              })
          });
      }($.noConflict(true)));
-    </script>
-</main>
+</script>

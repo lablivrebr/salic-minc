@@ -1,17 +1,18 @@
 <?php
-echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
+echo $this->partial('fiscalizarprojetocultural/inc/menu-suspenso.phtml', $this)
+
 ?>
 <form name="formParecerTecnico" action="<?php echo $this->baseUrl(); ?>/Fiscalizarprojetocultural/painelcontroletecnicofiscalizacao" method="post">
     <table class="tabela">
         <tr>
-            <th colspan="4">Fiscalizaç&atilde;o Conclu&iacute;da para Parecer</th>
+            <th colspan="4">FiscalizaÃ§&atilde;o Conclu&iacute;da para Parecer</th>
         </tr>
         <tr>
         	<td colspan="4">&nbsp;</td>
         </tr>
-        <!--  ************************************** Identificaç&atilde;o ************************************  -->
+        <!--  ************************************** IdentificaÃ§&atilde;o ************************************  -->
         <tr>
-            <th colspan="4">Identificaç&atilde;o</th>
+            <th colspan="4">IdentificaÃ§&atilde;o</th>
         </tr>
         <tr>
             <th colspan="2" style="width: 50%;">Pronac</th>
@@ -37,7 +38,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             <td colspan="4" style="border: 1px solid black; padding: 5px;"></td>
         </tr>
         <tr>
-            <th colspan="4" style="font-weight: bold;">Dados da Fiscalizaç&atilde;o</th>
+            <th colspan="4" style="font-weight: bold;">Dados da FiscalizaÃ§&atilde;o</th>
         </tr>
         <tr>
             <td style="font-weight: bold; width: 25%;">Data In&iacute;cio </td>
@@ -45,17 +46,17 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td colspan="4"><b>Demandante da Fiscalizaç&atilde;o</b> </td>
+            <td colspan="4"><b>Demandante da FiscalizaÃ§&atilde;o</b> </td>
         </tr>
         <tr>
             <td colspan="4">
-                <label>Técnicos</label><br>
+                <label>TÃ©cnicos</label><br>
                 <div colspan="4" style="border: 1px solid black; padding: 5px;"></div>
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                <label>Observaç&atilde;o</label><br>
+                <label>ObservaÃ§&atilde;o</label><br>
                 <div colspan="4" style="border: 1px solid black; padding: 5px;"></div>
             </td>
         </tr>
@@ -74,7 +75,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
                     <thead>
                         <tr>
                             <th>Tipo</th>
-                            <th>Descriç&atilde;o</th>
+                            <th>DescriÃ§&atilde;o</th>
                             <th>Documento</th>
                             <th>Excluir</th>
                         </tr>
@@ -90,52 +91,52 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
                 </table>
             </td>
         </tr>
-        <!--  ************************************** Dados Apresentados na Fiscalizaç&atilde;o ************************************  -->
+        <!--  ************************************** Dados Apresentados na FiscalizaÃ§&atilde;o ************************************  -->
         <tr>
-            <th colspan="4">Dados Apresentados na Fiscalizaç&atilde;o</th>
+            <th colspan="4">Dados Apresentados na FiscalizaÃ§&atilde;o</th>
         </tr>
         <tr>
             <td>Processo </td>
-            <td>UF 
+            <td>UF
                 Exerc&iacute;cio</td>
             <td>Data In&iacute;cio  </td>
             <td>Data Fim </td>
         </tr>
         <tr>
             <td>Conv&ecirc;nio </td>
-            <td>Data Publicaç&atilde;o </td>
+            <td>Data PublicaÃ§&atilde;o </td>
             <td colspan="2">Mecanismo</td>
         </tr>
         <tr>
             <td colspan="4">
-                Endereço da Obra
+                EndereÃ§o da Obra
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                <b>Fiscalizaç&atilde;o</b><br>
+                <b>FiscalizaÃ§&atilde;o</b><br>
                 <div colspan="4" style="border: 1px solid black; padding: 5px;"></div>
             </td>
         </tr>
-        <!--  ************************************** Resumo da Execuç&atilde;o ************************************  -->
+        <!--  ************************************** Resumo da ExecuÃ§&atilde;o ************************************  -->
         <tr>
-            <th colspan="4">Resumo da Execuç&atilde;o</th>
+            <th colspan="4">Resumo da ExecuÃ§&atilde;o</th>
         </tr>
         <tr>
             <td colspan="4">
-                <b>Aç&otilde;es Programdas</b><br>
+                <b>AÃ§&otilde;es Programdas</b><br>
                 <textarea name="" cols="1" rows="3" style="width: 80%;">digite o texto...</textarea>
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                <b>Aç&otilde;es Executadas</b><br>
+                <b>AÃ§&otilde;es Executadas</b><br>
                 <textarea name="" cols="1" rows="3" style="width: 80%;">digite o texto...</textarea>
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                <b>Benef&iacute;cios Alcançados</b><br>
+                <b>Benef&iacute;cios AlcanÃ§ados</b><br>
                 <textarea name="" cols="1" rows="3" style="width: 80%;">digite o texto...</textarea>
             </td>
         </tr>
@@ -146,13 +147,13 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <!--  ************************************** Situaç&atilde;o do Conv&ecirc;nio na Realizaç&atilde;o da Fiscalizaç&atilde;o ************************************  -->
+            <!--  ************************************** SituaÃ§&atilde;o do Conv&ecirc;nio na RealizaÃ§&atilde;o da FiscalizaÃ§&atilde;o ************************************  -->
             <th colspan="4">
-                Situaç&atilde;o do Conv&ecirc;nio na Realizaç&atilde;o da Fiscalizaç&atilde;o
+                SituaÃ§&atilde;o do Conv&ecirc;nio na RealizaÃ§&atilde;o da FiscalizaÃ§&atilde;o
             </th>
         </tr>
         <tr>
-            <td colspan="2">Situaç&atilde;o SIAFI </td>
+            <td colspan="2">SituaÃ§&atilde;o SIAFI </td>
             <td colspan="2">
                 <select name="">
                     <option value="0">--</option>
@@ -163,7 +164,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="2">Prestaç&atilde;o de Contas Apresentada?</td>
+            <td colspan="2">PrestaÃ§&atilde;o de Contas Apresentada?</td>
             <td colspan="2">
                 <select name="">
                     <option value="0">--</option>
@@ -185,7 +186,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="2">Foi Cumprido o prazo para entrega da Prestaç&atilde;o de Contas?</td>
+            <td colspan="2">Foi Cumprido o prazo para entrega da PrestaÃ§&atilde;o de Contas?</td>
             <td colspan="2">
                 <select name="">
                     <option value="0">--</option>
@@ -196,11 +197,11 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <!--  ****************************************** Utilizaç&atilde;o de Recursos *************************************************************  -->
-            <th colspan="4">Utilizaç&atilde;o de Recursos</th>
+            <!--  ****************************************** UtilizaÃ§&atilde;o de Recursos *************************************************************  -->
+            <th colspan="4">UtilizaÃ§&atilde;o de Recursos</th>
         </tr>
         <tr>
-            <td colspan="3">Foi apurado por unidade fiscalizadora u auditora a aplicaç&atilde;o irregular de recursos?</td>
+            <td colspan="3">Foi apurado por unidade fiscalizadora u auditora a aplicaÃ§&atilde;o irregular de recursos?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -211,7 +212,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">Comprovou a correta utilizaç&atilde;o dos recursos da contrapartida?</td>
+            <td colspan="3">Comprovou a correta utilizaÃ§&atilde;o dos recursos da contrapartida?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -222,7 +223,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">H&aacute; compatibilidade entre o desembolso e a evoluç&atilde;o?</td>
+            <td colspan="3">H&aacute; compatibilidade entre o desembolso e a evoluÃ§&atilde;o?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -233,7 +234,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">Ocorreu despesas com multas, juros, taxas banc&aacute;rias ou correç&atilde;o monet&aacute;ria?</td>
+            <td colspan="3">Ocorreu despesas com multas, juros, taxas banc&aacute;rias ou correÃ§&atilde;o monet&aacute;ria?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -255,7 +256,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">Ocorreu despesa com taxa de administraç&atilde;o?</td>
+            <td colspan="3">Ocorreu despesa com taxa de administraÃ§&atilde;o?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -266,7 +267,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">H&aacute; transfer&ecirc;ncia de recurso para clubes/associaç&otilde;es ou outras entidades cong&ecirc;neres?</td>
+            <td colspan="3">H&aacute; transfer&ecirc;ncia de recurso para clubes/associaÃ§&otilde;es ou outras entidades cong&ecirc;neres?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -277,7 +278,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">H&aacute; despesas com publicidade, salvo as de car&aacute;ter educativo, informativo ou de orientaç&atilde;o social?</td>
+            <td colspan="3">H&aacute; despesas com publicidade, salvo as de car&aacute;ter educativo, informativo ou de orientaÃ§&atilde;o social?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -288,7 +289,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">Ocorreu aditamento prevendo alteraç&atilde;o de objeto?</td>
+            <td colspan="3">Ocorreu aditamento prevendo alteraÃ§&atilde;o de objeto?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -310,7 +311,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">Ocorreu aplicaç&atilde;o de recursos em outra finalidade que n&atilde;o a do objeto pactuado?</td>
+            <td colspan="3">Ocorreu aplicaÃ§&atilde;o de recursos em outra finalidade que n&atilde;o a do objeto pactuado?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -321,7 +322,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">Ocorreu saldo após o encerramento do projeto?</td>
+            <td colspan="3">Ocorreu saldo apÃ³s o encerramento do projeto?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -357,7 +358,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">A documentaç&atilde;o est&aacute; completa e arquivada?</td>
+            <td colspan="3">A documentaÃ§&atilde;o est&aacute; completa e arquivada?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -412,7 +413,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </td>
         </tr>
         <tr>
-            <td colspan="3">As despesas coincidem com as informadas na relaç&atilde;o de pagamentos?</td>
+            <td colspan="3">As despesas coincidem com as informadas na relaÃ§&atilde;o de pagamentos?</td>
             <td>
                 <select name="">
                     <option value="0">--</option>
@@ -448,7 +449,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             <td colspan="4">
                 <table width="48%" style="float: left;">
                     <tr>
-                        <th colspan="2">Divulgaç&atilde;o</th>
+                        <th colspan="2">DivulgaÃ§&atilde;o</th>
                     </tr>
                     <tr>
                         <td>Ci&ecirc;ncia ao Poder legislativo?</td>
@@ -486,10 +487,10 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
                 </table>
                 <table width="48%" style="float: right;">
                     <tr>
-                        <th colspan="2">Execuç&atilde;o</th>
+                        <th colspan="2">ExecuÃ§&atilde;o</th>
                     </tr>
                     <tr>
-                        <td>Alcançou a finalidade esperada?</td>
+                        <td>AlcanÃ§ou a finalidade esperada?</td>
                         <td>
                             <select name="">
                                 <option value="0">--</option>
@@ -511,7 +512,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
                         </td>
                     </tr>
                     <tr>
-                        <td>A execuç&atilde;o respeitou o aprovado?</td>
+                        <td>A execuÃ§&atilde;o respeitou o aprovado?</td>
                         <td>
                             <select name="">
                                 <option value="0">--</option>
@@ -543,7 +544,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
         </tr>
         <tr>
             <td colspan="4">
-                <b>Recomendaç&otilde;es da equipe</b><br>
+                <b>RecomendaÃ§&otilde;es da equipe</b><br>
                 <textarea name="" cols="1" rows="3" style="width: 80%;">digite o texto...</textarea>
             </td>
         </tr>
@@ -577,7 +578,7 @@ echo $this->partial('fiscalizarprojetocultural/inc/menu.inc.php', $this)
             </p>
 
 
-    
+
 </form>
 <script>
     $(document).ready(function(){

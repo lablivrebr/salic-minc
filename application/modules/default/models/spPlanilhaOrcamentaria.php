@@ -3,17 +3,16 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
 {
     protected $_schema = 'sac';
     protected $_name  = 'spPlanilhaOrcamentaria';
-
-    /**
-     *  tipoPlanilha = 0 : Planilha Orcamentaria da Proposta
-     *  tipoPlanilha = 1 : Planilha Orcamentaria do Proponente
-     *  tipoPlanilha = 2 : Planilha Orcamentaria do Parecerista
-     *  tipoPlanilha = 3 : Planilha Orcamentaria Aprovada Ativa
-     *  tipoPlanilha = 4 : Cortes Orcamentarios Aprovados
-     *  tipoPlanilha = 5 : Remanejamento menor que 20%
-     *  tipoPlanilha = 6 : Readequacao
-     */
-
+    
+    const TIPO_PLANILHA_PROPOSTA = 0;
+    const TIPO_PLANILHA_PROPONENTE = 1;
+    const TIPO_PLANILHA_PARECERISTA = 2;
+    const TIPO_PLANILHA_APROVADA_ATIVA = 3;
+    const TIPO_PLANILHA_CORTES_APROVADOS = 4;
+    const TIPO_PLANILHA_REMANEJAMENTO = 5;
+    const TIPO_PLANILHA_READEQUACAO = 6;
+    const TIPO_PLANILHA_SALDO_APLICACAO = 7;
+    
     /**
      * Retorna planilha orçamentária
      * 
@@ -25,19 +24,19 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
     public function exec($idPronac, $tipoPlanilha, $params = [])
     {
         switch ($tipoPlanilha) {
-            case 0:
+            case self::TIPO_PLANILHA_PROPOSTA:
                 return $this->planilhaOrcamentariaProposta($idPronac);
                 break;
-            case 1:
+            case self::TIPO_PLANILHA_PROPONENTE:
                 return $this->orcamentariaProponente($idPronac);
                 break;
-            case 2:
+            case self::TIPO_PLANILHA_PARECERISTA:
                 return $this->execSpPlanilhaOrcamentaria($idPronac, $tipoPlanilha);
-            case 3:
+            case self::TIPO_PLANILHA_APROVADA_ATIVA:
                 return $this->execSpPlanilhaOrcamentaria($idPronac, $tipoPlanilha);
-            case 4:
+            case self::TIPO_PLANILHA_CORTES_APROVADOS:
                 return $this->execSpPlanilhaOrcamentaria($idPronac, $tipoPlanilha);
-            case 5:
+            case self::TIPO_PLANILHA_REMANEJAMENTO:
                 if ($params['link'] || $params['view_edicao']) {
                     $planilhaOrcamentaria = $this->execSpPlanilhaOrcamentaria($idPronac, $tipoPlanilha);
                 } else {
@@ -47,7 +46,7 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
                 
                 return $planilhaOrcamentaria;
                 break;
-            case 6:
+            case self::TIPO_PLANILHA_READEQUACAO:
                 if ($params['link'] || $params['view_edicao']) {
                     $planilhaOrcamentaria = $this->readequacao($idPronac, Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA);
                 } else {
@@ -56,7 +55,7 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
                 }
                 return $planilhaOrcamentaria;
                 break;
-            case 7:
+            case self::TIPO_PLANILHA_SALDO_APLICACAO:
                 if ($params['link'] || $params['view_edicao']) {
                     $planilhaOrcamentaria = $this->readequacao($idPronac, Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_SALDO_APLICACAO);
                 } else {
@@ -624,8 +623,8 @@ class spPlanilhaOrcamentaria extends MinC_Db_Table_Abstract
             ->where("a.stAtivo = 'N'")
             ->where("a.tpPlanilha = 'SR'")
             ->where("b.idTipoReadequacao = ?", $idTipoReadequacao)
-            ->where("b.siEncaminhamento <> 15")
-            ->where("b.stEstado = 0")
+            ->where("b.siEncaminhamento <> ?", Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_FINALIZADA_SEM_PORTARIA)
+            ->where("b.stEstado = ?", Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_EM_ANDAMENTO)
             ->limit(1)
         ;
         $readequacao = $db->fetchAll($sql);

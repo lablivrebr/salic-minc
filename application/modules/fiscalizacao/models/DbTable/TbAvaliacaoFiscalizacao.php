@@ -1,10 +1,5 @@
 <?php
-/**
- * Description of Projetos
- *
- * @author Andr� Nogueira Pereira
- */
-class AvaliacaoFiscalizacao extends MinC_Db_Table_Abstract
+class Fiscalizacao_Model_DbTable_TbAvaliacaoFiscalizacao extends MinC_Db_Table_Abstract
 {
     protected $_name = 'tbAvaliacaoFiscalizacao';
     protected $_schema = 'SAC';

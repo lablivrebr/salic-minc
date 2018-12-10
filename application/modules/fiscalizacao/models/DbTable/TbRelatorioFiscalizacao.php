@@ -1,5 +1,5 @@
 <?php
-class RelatorioFiscalizacao extends MinC_Db_Table_Abstract
+class Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao extends MinC_Db_Table_Abstract
 {
     protected $_name = 'tbRelatorioFiscalizacao';
     protected $_schema = 'SAC';
@@ -72,7 +72,7 @@ class RelatorioFiscalizacao extends MinC_Db_Table_Abstract
         $select->joinLeft(
             array('f' => 'tbFiscalizacao'),
                 'f.idFiscalizacao = rf.idFiscalizacao',
-                array('f.dtInicioFiscalizacaoProjeto')
+                array('f.dtInicioFiscalizacaoProjeto', 'f.IdPRONAC')
         );
 
         $select->where('rf.idFiscalizacao = ?', $idFiscalizacao);

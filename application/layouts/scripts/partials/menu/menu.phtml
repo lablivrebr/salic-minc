@@ -231,9 +231,15 @@ $arrMenu['acompanhamento']['menu'][] = array(
     'title' => 'Analisar Relat&oacute;rios Trimestrais',
     'label' => 'Analisar Relat&oacute;rios Trimestrais'
 );
+
 $arrMenu['acompanhamento']['menu'][] = array(
-    'grupo' => array(134, 135),
-    'url' => $this->url(array('controller' => 'pesquisarprojetofiscalizacao', 'action' => 'grid'), '', true),
+    'grupo' => array(
+        Autenticacao_Model_Grupos::COORDENADOR_ACOMPANHAMENTO,
+        Autenticacao_Model_Grupos::TECNICO_ACOMPANHAMENTO,
+        Autenticacao_Model_Grupos::COORDENADOR_FISCALIZACAO,
+        Autenticacao_Model_Grupos::TECNICO_FISCALIZACAO
+    ),
+    'url' => $this->url(array('module' => 'fiscalizacao', 'controller' => 'pesquisarprojetofiscalizacao', 'action' => 'grid'), '', true),
     'title' => 'Ir para Fiscalizar Projeto',
     'label' => 'Fiscalizar Projeto'
 );

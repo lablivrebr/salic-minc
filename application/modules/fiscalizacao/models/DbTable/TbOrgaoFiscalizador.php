@@ -1,15 +1,5 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of OrgaoFiscalizador
- *
- * @author 01610881125
- */
-class OrgaoFiscalizador extends MinC_Db_Table_Abstract
+class Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador extends MinC_Db_Table_Abstract
 {
     protected $_banco = 'SAC';
     protected $_name  = 'tbOrgaoFiscalizador';

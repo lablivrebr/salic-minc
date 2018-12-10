@@ -3129,23 +3129,21 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         if (!empty($idPronac)) {
             $projetoDao = new Projetos();
             $this->view->projeto = $projetoDao->buscar(array('IdPRONAC = ?'=>$idPronac))->current();
-
+            $tbFiscalizacao = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
             if (empty($idFiscalizacao)) {
-                $projetoDao = new Projetos();
-                $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
+                $this->view->infoProjeto = $tbFiscalizacao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
             } else {
-                $projetoDao = new Projetos();
-                $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $idFiscalizacao), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
+                $this->view->infoProjeto = $tbFiscalizacao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $idFiscalizacao), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
 
-                $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
+                $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
                 if ($idFiscalizacao) {
                     $this->view->dadosOrgaos = $OrgaoFiscalizadorDao->dadosOrgaos(array('tbOF.idFiscalizacao = ?' => $idFiscalizacao));
                 }
-                $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
+                $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
                 if ($idFiscalizacao) {
                     $this->view->arquivos = $ArquivoFiscalizacaoDao->buscarArquivo(array('arqfis.idFiscalizacao = ?' => $idFiscalizacao));
                 }
-                $RelatorioFiscalizacaoDAO = new RelatorioFiscalizacao();
+                $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
                 $this->view->relatorioFiscalizacao = $RelatorioFiscalizacaoDAO->buscaRelatorioFiscalizacao($idFiscalizacao);
 
                 $this->montaTela("/consultardadosprojeto/detalhes-dados-da-fiscalizacao.phtml", array());
@@ -3928,18 +3926,18 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
                         if (isset($arrConteudoImpressao) && in_array('dadosfiscalizacao', $arrConteudoImpressao)) {
                             $arrRegistros = array();
                             //$this->view->registrosFiscalizacao = $arrRegistros;
-                            $projetoDao = new Projetos();
-                            $arrProjetos = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
+
+                            $tbFiscalizacao = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
+                            $arrProjetos = $tbFiscalizacao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
                             $arrIdFiscalizacao = array();
 
-                            $projetoDao = new Projetos();
-                            $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
-                            $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
-                            $RelatorioFiscalizacaoDAO = new RelatorioFiscalizacao();
+                            $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
+                            $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
+                            $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
 
                             foreach ($arrProjetos as $chave => $projeto) {
                                 if (isset($projeto->idFiscalizacao) && $projeto->idFiscalizacao!="") {
-                                    $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $projeto->idFiscalizacao), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
+                                    $this->view->infoProjeto = $tbFiscalizacao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $projeto->idFiscalizacao), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
                                     $arrRegistros[$chave]['infoProjeto'] =$this->view->infoProjeto;
 
                                     if ($projeto->idFiscalizacao) {
@@ -4727,18 +4725,17 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
                             // === DADOS DA FISCALIZACAO
                             $arrRegistros = array();
                             //$this->view->registrosFiscalizacao = $arrRegistros;
-                            $projetoDao = new Projetos();
-                            $arrProjetos = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
+                            $tbFiscalizacao = new Fiscalizacao_Model_DbTable_TbFiscalizacao();
+                            $arrProjetos = $tbFiscalizacao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
                             $arrIdFiscalizacao = array();
 
-                            $projetoDao = new Projetos();
-                            $OrgaoFiscalizadorDao = new OrgaoFiscalizador();
-                            $ArquivoFiscalizacaoDao = new ArquivoFiscalizacao();
-                            $RelatorioFiscalizacaoDAO = new RelatorioFiscalizacao();
+                            $OrgaoFiscalizadorDao = new Fiscalizacao_Model_DbTable_TbOrgaoFiscalizador();
+                            $ArquivoFiscalizacaoDao = new Fiscalizacao_Model_DbTable_TbArquivoFiscalizacao();
+                            $RelatorioFiscalizacaoDAO = new Fiscalizacao_Model_DbTable_TbRelatorioFiscalizacao();
 
                             foreach ($arrProjetos as $chave => $projeto) {
                                 if (isset($projeto->idFiscalizacao) && $projeto->idFiscalizacao!="") {
-                                    $this->view->infoProjeto = $projetoDao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $projeto->idFiscalizacao), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
+                                    $this->view->infoProjeto = $tbFiscalizacao->projetosFiscalizacaoConsultar(array('Projetos.IdPRONAC = ?' => $idPronac, 'tbFiscalizacao.idFiscalizacao = ?' => $projeto->idFiscalizacao), array('tbFiscalizacao.dtInicioFiscalizacaoProjeto ASC', 'tbFiscalizacao.dtFimFiscalizacaoProjeto ASC'));
                                     $arrRegistros[$chave]['infoProjeto'] =$this->view->infoProjeto;
 
                                     if ($projeto->idFiscalizacao) {

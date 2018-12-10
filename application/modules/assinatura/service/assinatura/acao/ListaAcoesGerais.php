@@ -12,7 +12,8 @@ use \Assinatura_Model_DbTable_TbAssinatura as TbAssinaturaDbTable,
     \Application\Modules\Admissibilidade\Service\Assinatura\Acao\ListaAcoesModulo as ListaAcoesEnquadramento,
     \Application\Modules\AvaliacaoResultados\Service\Assinatura\Parecer\Acao\ListaAcoesModulo as ListaAcoesParecerAvaliacaoResultados,
     \Application\Modules\AvaliacaoResultados\Service\Assinatura\Laudo\Acao\ListaAcoesModulo as ListaAcoesLaudoAvaliacaoResultados,
-    \Application\Modules\ComprovacaoObjeto\Service\Assinatura\Acao\ListaAcoesModulo as ListaAcoesParecerAvaliacaoObjeto;
+    \Application\Modules\ComprovacaoObjeto\Service\Assinatura\Acao\ListaAcoesModulo as ListaAcoesParecerAvaliacaoObjeto,
+    \Application\Modules\Fiscalizacao\Service\Assinatura\Acao\ListaAcoesModulo as ListaAcoesFiscalizacao;
 
 class ListaAcoesGerais implements IListaAcoesGerais
 {
@@ -53,6 +54,8 @@ class ListaAcoesGerais implements IListaAcoesGerais
             TbAssinaturaDbTable::TIPO_ATO_PARECER_AVALIACAO_OBJETO => new ListaAcoesParecerAvaliacaoObjeto(),
             TbAssinaturaDbTable::TIPO_ATO_LAUDO_PRESTACAO_CONTAS => new ListaAcoesParecerAvaliacaoResultados(),
             TbAssinaturaDbTable::TIPO_ATO_LAUDO_FINAL_PRESTACAO_CONTAS => new ListaAcoesLaudoAvaliacaoResultados(),
+
+            TbAssinaturaDbTable::TIPO_ATO_FISCALIZACAO => new ListaAcoesFiscalizacao(),
         ];
     }
 }

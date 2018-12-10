@@ -29,16 +29,18 @@ class Finalizar implements IAcaoFinalizar
         $tbProjetos = new \Projetos();
         $tbProjetos->alterarSituacao($modeloTbAssinatura->getIdPronac(), '', $situacao, $providenciaTomada);
 
+        $dadosProjeto = $tbProjetos->findBy(array(
+            'IdPRONAC' => $modeloTbAssinatura->getIdPronac()
+        ));
+
         $objOrgaos = new \Orgaos();
-        $dadosOrgaoSuperior = $objOrgaos->obterOrgaoSuperior($tbProjetos['Orgao']);
+        $dadosOrgaoSuperior = $objOrgaos->obterOrgaoSuperior($dadosProjeto['Orgao']);
         if ((int)$dadosOrgaoSuperior['Codigo'] == (int)\Orgaos::ORGAO_SUPERIOR_SEFIC) {
             $orgaoDestino = (int)\Orgaos::ORGAO_GEAR_SACAV;
         } elseif ((int)$dadosOrgaoSuperior['Codigo'] == (int)\Orgaos::ORGAO_SUPERIOR_SAV) {
             $orgaoDestino = (int)\Orgaos::ORGAO_SAV_CEP;
         }
         $objTbProjetos = new \Projeto_Model_DbTable_Projetos();
-        $objTbProjetos->alterarOrgao(
-            $orgaoDestino,
-            $modeloTbAssinatura->getIdPronac());
+        $objTbProjetos->alterarOrgao($orgaoDestino, $modeloTbAssinatura->getIdPronac());
     }
 }

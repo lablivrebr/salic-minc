@@ -105,7 +105,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
         $projetosDisponiveis = $tbAssinaturaDbTable->obterAssinaturasDisponiveis();
         $recordsFiltered = 0;
         $recordsTotal = 0;
-        $projetos = 0;
+        $projetos = [];
 
         if (count($projetosDisponiveis) > 0) {
             $projetos = $projetosDisponiveis;
@@ -311,7 +311,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
             if ($arrayIdPronacs > 1) {
                 $idPronac = current($arrayIdPronacs);
             }
-            
+
             $post = $this->getRequest()->getPost();
 
 
@@ -326,7 +326,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
             );
 
             $idDocumentoAssinatura = $this->view->documentoAssinatura['idDocumentoAssinatura'];
-            
+
             $objTbAtoAdministrativo = new Assinatura_Model_DbTable_TbAtoAdministrativo();
             $grupoAtoAdministrativo = null;
             if ($idDocumentoAssinatura != '') {
@@ -337,8 +337,8 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 $this->grupoAtivo->codGrupo,
                 $this->grupoAtivo->codOrgao,
                 $grupoAtoAdministrativo
-            );            
-            
+            );
+
             if ($post) {
 
                 try {

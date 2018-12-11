@@ -109,16 +109,16 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
 
                     $projetos = new Projetos();
                     $projeto = $projetos->buscar(['idProjeto = ?' => $idPreProjeto]);
-                    if (!empty($projeto)) {
+                    if (count($projeto) > 0) {
                         $tbPlanilhaAprovacaoModel = new tbPlanilhaAprovacao();
                         $idPronac = $projeto->current()['IdPRONAC'];
-                        
+
                         $valorRemuneracaoCaptacaoAprovado = $tbPlanilhaAprovacaoModel->obterValorRemuneracaoCaptacaoAprovado($idPronac);
                         if ($limiteRemuneracaoCaptacao > $valorRemuneracaoCaptacaoAprovado) {
                             $limiteRemuneracaoCaptacao = $valorRemuneracaoCaptacaoAprovado;
                         }
                     }
-                    
+
                     $item['limitePadrao'] = $limiteRemuneracaoCaptacao;
                     break;
             }
@@ -162,13 +162,13 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
 
         $tbCustosVinculadosMapper = new Proposta_Model_TbCustosVinculadosMapper();
         $custosVinculados = $tbCustosVinculadosMapper->obterCustosVinculadosPlanilhaProposta($idPreProjeto);
-        
+
         $readequacaoModelDbTable = new Readequacao_Model_DbTable_TbReadequacao();
         $idReadequacao = $readequacaoModelDbTable->buscarIdReadequacaoAtiva(
             $idPronac,
             Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
         );
-        
+
         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
         $itensEmReadequacao = $tbPlanilhaAprovacao->obterPlanilhaReadequacao($idReadequacao);
 
@@ -181,13 +181,13 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
             PlanilhaEtapa::ETAPA_ASSESORIA_CONTABIL_JURIDICA,
             PlanilhaEtapa::ETAPA_RECOLHIMENTOS
         ];
-        
+
         foreach ($itensEmReadequacao as $item) {
             if (in_array($item->idEtapa, $etapasSomaDivulgacaoAdministracao) && $item->tpAcao != 'E') {
                 $totalParaDivulgacaoAdministracao += $item->vlUnitario * $item->qtItem * $item->nrOcorrencia;
             }
         }
-        
+
         return $this->obterCustosVinculados($idPreProjeto, $totalParaDivulgacaoAdministracao);
     }
 

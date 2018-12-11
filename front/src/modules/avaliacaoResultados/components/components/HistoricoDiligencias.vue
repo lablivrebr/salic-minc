@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog"
 
               scrollable
-              max-width="850px"
+              max-width="980px"
     >
         <v-tooltip slot="activator" bottom>
             <v-btn slot="activator" flat icon @click.native="obterDiligencias(obj.idPronac)">
@@ -11,7 +11,7 @@
             <span>{{statusDiligencia(obj).desc}} </span>
         </v-tooltip>
 
-        <v-card>
+        <v-card v-if="Object.keys(diligencias).length > 0">
 
             <v-toolbar dark color="#0a420e !important">
                 <v-btn icon dark @click="dialog = false">
@@ -42,18 +42,48 @@
                                         <v-card-text v-html="item.Resposta"></v-card-text>
                                     </v-card>
                                 </v-expansion-panel-content>
+
+                                <v-expansion-panel-content v-if="item.Arquivos.length > 0">
+                                    <div slot="header" class="font-weight-regular">Arquivos: {{item.Arquivos.length}}</div>
+
+
+                                <v-layout justify-space-around align-center row
+                                          v-for="arquivo of item.Arquivos"
+                                          :key="arquivo.idArquivo"
+                                >
+                                    <v-flex xs6>
+                                        <p>
+                                            <a :href="`/upload/abrir?id=${arquivo.idArquivo}`"
+                                               target="_blank">
+                                                {{ arquivo.nmArquivo }}
+                                            </a>
+                                        </p>
+                                    </v-flex>
+                                    <v-flex xs4>
+                                        <p>
+                                            {{ arquivo.dtEnvio}}
+                                        </p>
+                                    </v-flex>
+                                </v-layout>
+
+                                </v-expansion-panel-content>
                             </v-expansion-panel>
                         </v-card-text>
                     </v-card>
                 </v-flex>
             </v-card-text>
         </v-card>
+        <v-card-text v-else>
+            <Carregando :text="'Carregando ...'"></Carregando>
+        </v-card-text>
+        <v-divider></v-divider>
     </v-dialog>
 
 </template>
 
 <script>
 import Vue from 'vue';
+import Carregando from '@/components/CarregandoVuetify';
 import _ from 'lodash';
 import { mapActions, mapGetters } from 'vuex';
 import Data from '../../../../filters/date';
@@ -62,6 +92,9 @@ Vue.filter('date', Data);
 
 export default {
     name: 'HistoricoDiligencias',
+    components: {
+        Carregando,
+    },
     props: { obj: Object },
     data() {
         return {

@@ -104,7 +104,10 @@ $selected = '';
                     <td colspan="3"><?php if ($projeto['dsFiscalizacaoProjeto']) echo $projeto['dsFiscalizacaoProjeto']; ?></td>
                 </tr>
                 <tr>
-                    <td class="destacar bold" align="right">Anexos</td>
+                    <td class="destacar" align="right">
+                        <b>Anexos</b>
+                        <span style="font-size: 11px">(At&eacute; 10mb)</span>
+                    </td>
                     <td colspan="3" id="campoanexo">
                         <?php if (is_object($this->arquivos)) foreach ($this->arquivos as $documentos) { ?>
                             <div id="linhaDoc<?php echo $documentos->idArquivo; ?>" style="margin-bottom: 10px;">

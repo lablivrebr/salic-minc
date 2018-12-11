@@ -5,7 +5,7 @@
                 class="cursor"
                 @click="abrirModal('transferencia-recursos');"
             >
-                {{valor | formatarParaReal}}
+                {{valor | filtroFormatarParaReal}}
             </a>
         </div>
         <ModalTemplate v-if="modalVisible === 'transferencia-recursos'" @close="fecharModal();">
@@ -37,13 +37,13 @@
                             <td>{{informacoesTransferencia.PronacRecebedor}}</td>
                             <td>{{informacoesTransferencia.NomeProjetoRecedor}}</td>
                             <td>{{informacoesTransferencia.dtRecebimento}}</td>
-                            <td>R${{informacoesTransferencia.vlRecebido | formatarParaReal}}</td>
+                            <td>R${{informacoesTransferencia.vlRecebido | filtroFormatarParaReal}}</td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="1">Total</td>
-                            <td style="text-align: right" colspan="5">R${{ somaValoresRecebidos | formatarParaReal }}</td>
+                            <td style="text-align: right" colspan="5">R${{ somaValoresRecebidos | filtroFormatarParaReal }}</td>
                         </tr>
                     </tfoot>
                 </table>

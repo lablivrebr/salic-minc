@@ -32,7 +32,7 @@ class ProvidenciaTomada implements \MinC\Servico\IServicoRestZend
         $pronacArray['p.IdPRONAC = ?'] = $idPronac;
 
         $tblHisSituacao = new \HistoricoSituacao();
-        $result = $tblHisSituacao->buscarHistoricosEncaminhamentoIdPronac($pronacArray, null, null, null, false);
+        $result = $tblHisSituacao->buscarHistoricosEncaminhamentoIdPronac($pronacArray, ['h.dtSituacao DESC'], null, null, false);
 
         $providenciaTomada = $this->montaArrayProvidenciaTomada($result);
         $resultArray['providenciaTomada'] = $providenciaTomada;

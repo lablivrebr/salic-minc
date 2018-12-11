@@ -20,21 +20,18 @@
                     <td class="text-xs-left">{{ props.item.Anexado }}</td>
                     <td class="center">{{ props.item.Data }}</td>
                     <td class="text-xs-left">{{ props.item.Descricao }}</td>
-                    <td class="text-xs-right">
-                        <v-tooltip left>
-                            <v-btn
-                                    :loading="parseInt(props.item.id) === loadingButton"
-                                    style="text-decoration: none"
-                                    slot="activator"
-                                    color="blue"
-                                    @click.native="loadingButton = parseInt(props.item.id)"
-                                    :href="`/consultardadosprojeto/abrir-documentos-anexados?id=${props.item.idArquivo}&tipo=${props.item.AgenteDoc}&idPronac=${dadosProjeto.idPronac}`"
-                                    dark
-                            >
-                                <v-icon dark>cloud_download</v-icon>
-                            </v-btn>
-                            <span>{{ props.item.NoArquivo }}</span>
-                        </v-tooltip>
+                    <td class="text-xs-center">
+                        <a
+                                :loading="parseInt(props.item.id) === loadingButton"
+                                style="text-decoration: none"
+                                slot="activator"
+                                color="blue"
+                                @click.native="loadingButton = parseInt(props.item.id)"
+                                :href="`/consultardadosprojeto/abrir-documentos-anexados?id=${props.item.idArquivo}&tipo=${props.item.AgenteDoc}&idPronac=${dadosProjeto.idPronac}`"
+                                dark
+                        >
+                            <v-btn round color="primary" dark small="">{{ props.item.NoArquivo }}</v-btn>
+                        </a>
                     </td>
                 </template>
                 <template slot="pageText" slot-scope="props">

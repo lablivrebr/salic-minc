@@ -31,7 +31,7 @@
         <v-dialog v-model="dialog" width="80%">
             <v-card>
                 <v-card-text v-if="Object.keys(dadosDiligencia).length > 0">
-                    <v-container fluid>'
+                    <v-container fluid>
                         <div v-if="dadosDiligencia.dsAvaliacao">
                             <v-layout justify-space-around row wrap>
                                 <v-flex lg12 dark>

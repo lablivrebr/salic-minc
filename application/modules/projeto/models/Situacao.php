@@ -67,6 +67,7 @@ class Projeto_Model_Situacao extends MinC_Db_Table_Abstract
     const AGUARDANDO_LAUDO_FINAL = 'E77';
     const AGUARDANDO_REVISAO_DE_RESULTADOS = 'E92';
 
+    const PC_AVALIADA_SEFIC = 'D53';
     const PC_APROVADA_COM_CERTIFICACAO_DE_QUALIDADE_GESTAO = "L01";
     const PC_APROVADA_SEM_CERTIFICACAO_DE_QUALIDADE_GESTAO = "L02";
     const PC_APROVADA_COM_RESSALVA_FORMAL_E_SEM_PREJUIZO = "L03";
@@ -78,6 +79,7 @@ class Projeto_Model_Situacao extends MinC_Db_Table_Abstract
     const DEBITO_PARCELADO = "L09";
     const PC_REPROVADA_INABILITACAO_PRESCRITA = "L10";
     const PC_REPROVADA_INABILITACAO_SUSPENSA = "L11";
+    const PRESTACAO_DE_CONTAS_APROVADA = "E19";
 
     public static function obterSituacoesProjetoArquivado()
     {

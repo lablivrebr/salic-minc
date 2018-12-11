@@ -180,34 +180,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
             $this->view->IdPRONAC = $this->view->documentoAssinatura['IdPRONAC'];
             $this->view->idTipoDoAtoAdministrativo = $this->view->documentoAssinatura['idTipoDoAtoAdministrativo'];
 
-            $objTbProjetos = new Projeto_Model_DbTable_Projetos();
-            $this->view->projeto = $objTbProjetos->findBy(array(
-                'IdPRONAC' => $this->view->IdPRONAC
-            ));
-
-            $this->view->valoresProjeto = $objTbProjetos->obterValoresProjeto($this->view->IdPRONAC);
-            $objAgentes = new Agente_Model_DbTable_Agentes();
-            $dadosAgente = $objAgentes->buscarFornecedor(array(
-                'a.CNPJCPF = ?' => $this->view->projeto['CgcCpf']
-            ));
-
-            $arrayDadosAgente = $dadosAgente->current();
-            $this->view->nomeAgente = $arrayDadosAgente['nome'];
-
-            $mapperArea = new Agente_Model_AreaMapper();
-            $this->view->areaCultural = $mapperArea->findBy(array(
-                'Codigo' => $this->view->projeto['Area']
-            ));
-
-            $objSegmentocultural = new Segmentocultural();
-            $this->view->segmentoCultural = $objSegmentocultural->findBy(array(
-                'Codigo' => $this->view->projeto['Segmento']
-            ));
-
-            $objPlanoDistribuicaoProduto = new Projeto_Model_vwPlanoDeDistribuicaoProduto();
-            $this->view->dadosProducaoProjeto = $objPlanoDistribuicaoProduto->obterProducaoProjeto(array(
-                'IdPronac = ?' => $this->view->IdPRONAC
-            ));
+            $this->view->isProponente = (bool) !$this->cod_usuario ?: false;
 
             $objAssinatura = new Assinatura_Model_DbTable_TbAssinatura();
             $this->view->assinaturas = $objAssinatura->obterAssinaturas(
@@ -219,24 +192,27 @@ class Assinatura_IndexController extends Assinatura_GenericController
             $moduleAndControllerArray = explode('/', $this->view->origin);
             $this->view->moduleOrigin = $moduleAndControllerArray[0];
             $this->view->controllerOrigin = $moduleAndControllerArray[1];
-            $objTbAtoAdministrativo = new Assinatura_Model_DbTable_TbAtoAdministrativo();
-            $perfilAssinanteAtoAdministrativo = $objTbAtoAdministrativo->obterPerfilAssinante(
-                $this->grupoAtivo->codOrgao,
-                $this->grupoAtivo->codGrupo,
-                $this->view->documentoAssinatura['idTipoDoAtoAdministrativo']
-            );
 
             $this->view->isPermitidoAssinar = false;
-            if (count($perfilAssinanteAtoAdministrativo) > 0) {
-                $objAssinatura->preencherModeloAssinatura([
-                    'idPronac' => $this->view->IdPRONAC,
-                    'idAtoAdministrativo' => $perfilAssinanteAtoAdministrativo['idAtoAdministrativo'],
-                    'idDocumentoAssinatura' => $idDocumentoAssinatura,
-                ]);
+            if ($this->cod_usuario) {
+                $objTbAtoAdministrativo = new Assinatura_Model_DbTable_TbAtoAdministrativo();
+                $perfilAssinanteAtoAdministrativo = $objTbAtoAdministrativo->obterPerfilAssinante(
+                    $this->grupoAtivo->codOrgao,
+                    $this->grupoAtivo->codGrupo,
+                    $this->view->documentoAssinatura['idTipoDoAtoAdministrativo']
+                );
 
-                if (!$objAssinatura->isProjetoAssinado()
-                    && (int)$this->view->documentoAssinatura['cdSituacao'] == (int)Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA) {
-                    $this->view->isPermitidoAssinar = true;
+                if (count($perfilAssinanteAtoAdministrativo) > 0) {
+                    $objAssinatura->preencherModeloAssinatura([
+                        'idPronac' => $this->view->IdPRONAC,
+                        'idAtoAdministrativo' => $perfilAssinanteAtoAdministrativo['idAtoAdministrativo'],
+                        'idDocumentoAssinatura' => $idDocumentoAssinatura,
+                    ]);
+
+                    if (!$objAssinatura->isProjetoAssinado()
+                        && (int)$this->view->documentoAssinatura['cdSituacao'] == (int)Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_DISPONIVEL_PARA_ASSINATURA) {
+                        $this->view->isPermitidoAssinar = true;
+                    }
                 }
             }
 

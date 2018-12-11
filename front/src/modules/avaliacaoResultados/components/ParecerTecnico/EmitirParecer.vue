@@ -9,7 +9,7 @@
                 transition="dialog-bottom-transition">
                 <v-btn slot="activator" color="green" dark>Emitir Parecer</v-btn>
                 <v-card>
-                    <v-toolbar dark color="green">
+                    <v-toolbar dark color="primary">
                         <v-btn icon dark :href="redirectLink">
                             <v-icon>close</v-icon>
                         </v-btn>
@@ -17,43 +17,11 @@
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
                             <v-btn dark flat
-                                @click.native="salvarParecer(), confirmarSalvar = true"
+                                @click.native="salvarParecer()"
                                 :disabled="!valid || !parecerRules.enable"
                             >
                                 Salvar
                             </v-btn>
-                            <v-dialog
-                                v-model="confirmarSalvar"
-                                max-width="290"
-                                width="200"
-                                height="200"
-                                >
-                                <v-card>
-                                    <v-container fluid>
-                                        <v-layout align-center justify-center column>
-                                            <v-flex xs12>
-                                                    <v-card-text
-                                                    class="subheading"
-                                                    primary-title
-                                                    >
-                                                        <span class="black--text">Parecer salvo!</span>
-                                                    </v-card-text>
-                                            </v-flex>
-                                            <v-divider></v-divider>
-                                            <v-flex xs12>
-                                                <v-btn
-                                                    class="white--text"
-                                                    color="green lighten-2"
-                                                    @click="confirmarSalvar = false"
-                                                    :href="redirectLink"
-                                                >
-                                                    OK
-                                                </v-btn>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-container>
-                                </v-card>
-                            </v-dialog>
                             <v-btn dark flat
                                 @click.native="finalizarParecer()"
                                 :href="redirectLink"
@@ -135,7 +103,7 @@
                                                         <v-select
                                                             height="20px"
                                                             v-model="getParecer.siManifestacao"
-                                                            @input="inputManifestacao($event)"
+                                                            @change="inputManifestacao($event)"
                                                             :rules="itemRules"
                                                             :items="items"
                                                             item-text="text"
@@ -201,7 +169,6 @@ export default {
             tipo: true,
             idPronac: this.$route.params.id,
             redirectLink: '#/planilha/',
-            confirmarSalvar: false,
             valid: false,
             dialog: true,
             itemRules: [v => !!v || 'Tipo de manifestação e obrigatório!'],
@@ -226,7 +193,7 @@ export default {
                     text: 'Aprovação com Ressalva',
                 },
             ],
-            parecerData: {},
+            parecerData: { },
 
         };
     },
@@ -262,8 +229,6 @@ export default {
                 data.dsParecer = this.parecerData.dsParecer;
             }
             this.salvar(data);
-            /** Descomentar linha após migração da lista para o VUEJS */
-            // this.dialog = false;
         },
         finalizarParecer() {
             const data = {
@@ -333,7 +298,7 @@ export default {
     mounted() {
         this.redirectLink = this.redirectLink + this.idPronac;
         this.getConsolidacao(this.idPronac);
-        this.validarParecer();
+        this.validarParecer(this.getParecer.dsParecer);
     },
     filters: {
         cnpjFilter,

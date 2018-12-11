@@ -6,7 +6,7 @@
         <v-card>
             <v-tabs
                 centered
-                color="green darken-3"
+                color="primary"
                 dark
                 icons-and-text
             >

@@ -240,6 +240,7 @@
                     color="teal"
                     slot="activator"
                     :to="'/emitir-parecer/' + idPronac"
+                    @click.native="getConsolidacao(idPronac)"
                 >
                     <v-icon>gavel</v-icon>
                 </v-btn>
@@ -324,9 +325,13 @@ export default {
     },
     methods: {
         ...mapActions({
+            requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
             setPlanilha: 'avaliacaoResultados/syncPlanilhaAction',
             setProjetoAnalise: 'avaliacaoResultados/syncProjetoAction',
         }),
+        getConsolidacao(id) {
+            this.requestEmissaoParecer(id);
+        },
         moeda: (moedaString) => {
             const moeda = Number(moedaString);
             return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });

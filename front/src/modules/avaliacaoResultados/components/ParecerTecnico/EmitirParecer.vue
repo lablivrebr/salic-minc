@@ -15,21 +15,6 @@
                         </v-btn>
                         <v-toolbar-title>Avaliação Financeira - Emissão de Parecer</v-toolbar-title>
                         <v-spacer></v-spacer>
-                        <v-toolbar-items>
-                            <v-btn dark flat
-                                @click.native="salvarParecer()"
-                                :disabled="!valid || !parecerRules.enable"
-                            >
-                                Salvar
-                            </v-btn>
-                            <v-btn dark flat
-                                @click.native="finalizarParecer()"
-                                :href="redirectLink"
-                                :disabled="!valid || !parecerRules.enable"
-                            >
-                                Finalizar
-                            </v-btn>
-                        </v-toolbar-items>
                     </v-toolbar>
 
                     <v-card-text>
@@ -46,7 +31,7 @@
                                     </v-card-title>
                                     <v-card-text>
                                         <v-container grid-list-xs text-xs-center ma-0 pa-0>
-                                                <v-layout row wrap>
+                                            <v-layout row wrap>
                                                 <v-flex xs12 md6 mb-2>
                                                         <v-data-table
                                                             :items="[]"
@@ -131,10 +116,28 @@
                                                         </v-responsive>
                                                     </v-card>
                                                 </v-flex>
-
                                             </v-layout>
                                         </v-container>
                                     </v-card-text>
+                                    <v-card-actions>
+                                        <v-container grid-list-xs text-xs-center ma-0 pa-0>
+                                            <v-btn
+                                                color="primary"
+                                                @click.native="salvarParecer()"
+                                                :disabled="!valid || !parecerRules.enable"
+                                            >
+                                                Salvar
+                                            </v-btn>
+                                            <v-btn
+                                                color="primary"
+                                                @click.native="finalizarParecer()"
+                                                :href="redirectLink"
+                                                :disabled="!valid || !parecerRules.enable"
+                                            >
+                                                Finalizar
+                                            </v-btn>
+                                        </v-container>
+                                    </v-card-actions>
                                 </v-card>
                             </v-card-text>
                         </v-container>

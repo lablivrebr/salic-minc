@@ -24,7 +24,7 @@
                     </template>
                     <template v-else>
                         Em Analise
-                        <v-icon>how_to_reg</v-icon>
+                        <v-icon>gavel</v-icon>
                     </template>
                 </v-tab>
                 <v-tab href="#tab-1"

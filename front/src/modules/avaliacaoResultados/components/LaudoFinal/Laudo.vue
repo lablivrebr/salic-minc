@@ -77,7 +77,7 @@
                            @click.native="sincState(props.item.IdPronac)"
                            :to="{ name: 'EmitirLaudoFinal', params:{ id:props.item.IdPronac }}">
                         <v-tooltip bottom>
-                            <v-icon slot="activator" class="material-icons">create</v-icon>
+                            <v-icon slot="activator" class="material-icons">gavel</v-icon>
                             <span>Emitir Laudo</span>
                         </v-tooltip>
                     </v-btn>
@@ -87,7 +87,7 @@
                            id="assinarLaudo"
                            :href="'/assinatura/index/assinar-projeto?IdPRONAC='+props.item.IdPronac+'&idTipoDoAtoAdministrativo=623'">
                         <v-tooltip bottom>
-                            <v-icon slot="activator" class="material-icons">assignment_turned_in</v-icon>
+                            <v-icon slot="activator" class="material-icons">edit</v-icon>
                             <span>Assinar Laudo</span>
                         </v-tooltip>
                     </v-btn>

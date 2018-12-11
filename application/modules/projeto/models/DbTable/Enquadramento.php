@@ -180,7 +180,7 @@ class Projeto_Model_DbTable_Enquadramento extends MinC_Db_Table_Abstract
             $sql->where('a.NomeProjeto like ? OR a.AnoProjeto+a.Sequencial like ? OR d.NrReuniao like ?', '%'.$search['value'].'%');
         }
 
-        $sql->where('c.TipoParecer = ?', 1);
+//        $sql->where('c.TipoParecer = ?', 1);
         $sql->where('c.stAtivo = ?', 1);
         $sql->where('c.idTipoAgente = ?', 6);
         $sql->where('j.idNormativo > ?', 6);

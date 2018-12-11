@@ -59,12 +59,14 @@ class Projeto_HomologacaoController extends Projeto_GenericController
                 $where['a.Situacao = ?'] = 'D50';
                 $where['EXISTS(SELECT TOP 1 * FROM SAC.dbo.tbDiligencia WHERE idPronac = a.IdPRONAC AND idTipoDiligencia = 181 AND DtSolicitacao IS NOT NULL AND DtResposta IS NOT NULL AND stEstado = 0)'] = '';
                 break;
-//            case 'aguardando-recurso':
-//                $where['a.Situacao = \'D51\' OR (a.Situacao = \'D20\' AND EXISTS(SELECT TOP 1 idPronac from sac.dbo.tbRecurso where idPronac = a.IdPRONAC AND siFaseProjeto = 2 AND stEstado = 0))'] = '';
-//                break;
+            case 'aguardando-recurso':
+                $where['a.Situacao in (?)'] = ['D51', 'D20', 'B11'];
+                $where['EXISTS(SELECT TOP 1 idPronac from sac.dbo.tbRecurso where idPronac = a.IdPRONAC AND siFaseProjeto = 2 AND siRecurso <> 9)'] = '';
+                break;
             case 'pos-recurso':
-                $where['a.Situacao = \'D51\' OR a.Situacao = \'D20\''] = '';
-                $where['EXISTS(SELECT TOP 1 idPronac from sac.dbo.tbRecurso where idPronac = a.IdPRONAC AND siFaseProjeto = 2 AND stEstado = 1)'] = '';
+                $where['a.Situacao in (?)'] = ['D51', 'D20'];
+                $where['c.TipoParecer = ?'] = 7;
+                $where['EXISTS(SELECT TOP 1 idPronac from sac.dbo.tbRecurso where idPronac = a.IdPRONAC AND siFaseProjeto = 2 AND siRecurso = 9)'] = '';
                 break;
         }
 
@@ -145,7 +147,7 @@ class Projeto_HomologacaoController extends Projeto_GenericController
                 'data' => $retorno['data'],
                 'status' => $retorno['status'],
                 'msg' => $mapper->getMessages(),
-                'close' => 0
+                'close' => isset($retorno['close']) ? $retorno['close'] : 0
             ]);
         } else {
             $idPronac = $this->getRequest()->getParam('id');

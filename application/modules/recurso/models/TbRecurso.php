@@ -1,40 +1,5 @@
 <?php
 
-/**
- * Class Projeto_Model_Situacao
- *
- *
- *
- * select * from sac.dbo.tbRecurso;
- * -- tpRecurso 1 - quando é pedido de reconsideração 2 - quando é recurso
- * -- tpSolicitacao - PI - Projeto Indeferido; DR - Desitência do prazo recursal; OR - Orcamento; - EN - Enquadramento;
- * -- siFaseProjeto = 2 homologação
- * -- siRecurso - 1 - quando envia; 12 - quando cadastra; 9 - foi finalizado 15 - finaliza
- * -- stEstado - 1 inativo e 0 é ativo
- *
- * --finalizado -- stEstado = 1 e siRecurso = 9
- * --arquivado -- stEstado = 1 e siRecurso = 15
- * -- desistencia -- stEstado = 1 e tpSolicitacao = DR e siRecurso = 0;
- *
- * select * from sac.dbo.tbRecurso where IdPRONAC = 209751 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0; -- desistiu do prazo recursal
- * select * from sac.dbo.tbRecurso where IdPRONAC = 167719 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0; -- desistiu do prazo recursal
- * select * from sac.dbo.tbRecurso; --where IdPRONAC = 209751 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0;
- *
- * select * from sac.dbo.tbRecurso where IdPRONAC = 167719 and stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' and siRecurso = 0;
- *
- * select * from sac.dbo.tbRecurso where tpSolicitacao = 'or';
- *
- *
- * --se desistiu não pode mais entrar com recurso --  IdPRONAC = 167719
- * select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao = 'DR' AND siRecurso = 0 AND tpRecurso = 1;
- *
- * -- verificar se tem direito a segundo recurso --  IdPRONAC = 167719
- * select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao in ('PI', 'OR', 'EN') and siRecurso in (9, 15) AND tpRecurso = 1;
- *
- * -- ja teve os dois recursos
- * select * from sac.dbo.tbRecurso where stEstado = 1 and siFaseProjeto = 2 and tpSolicitacao in ('PI', 'OR', 'EN') and siRecurso in (9, 15) AND tpRecurso = 2;
- */
-
 class Recurso_Model_TbRecurso extends MinC_Db_Model
 {
     protected $_idRecurso;
@@ -102,6 +67,10 @@ class Recurso_Model_TbRecurso extends MinC_Db_Model
     const SITUACAO_RECURSO_INATIVO = 1;
 
     const SI_RECURSO_ENVIADO = 1;
+    const SI_RECURSO_INDEFERIDO = 2;
+    const SI_RECURSO_PARA_ANALISE_COORDENADOR = 3;
+    const SI_RECURSO_PARA_ANALISE_TECNICA = 4;
+    const SI_RECURSO_DEVOLVIDO_DA_ANALISE_TECNICA = 5;
     const SI_RECURSO_CADASTRADO = 12;
     const SI_RECURSO_FINALIZADO = 9;
     const SI_RECURSO_ARQUIVADO = 15;

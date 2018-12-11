@@ -296,23 +296,23 @@ class RecursosController extends MinC_Controller_Action_Abstract
         $idRecurso = $_POST['idRecurso'];
 
         $tbRecurso = new tbRecurso();
-        $r = $tbRecurso->find(array('idRecurso = ?'=>$idRecurso))->current();
+        $objRecurso = $tbRecurso->find(array('idRecurso = ?'=>$idRecurso))->current();
         $stEstado = 0;
         $stFecharAnalise = 0;
 
-        if ($r) {
+        if ($objRecurso) {
             $Projetos = new Projetos();
-            $dp = $Projetos->buscar(array('IdPRONAC = ?'=>$r->IdPRONAC))->current();
+            $dp = $Projetos->buscar(array('IdPRONAC = ?'=>$objRecurso->IdPRONAC))->current();
             $pronac = $dp->AnoProjeto.$dp->Sequencial;
 
-            $r->stAtendimento = $_POST['stAtendimento'];
-            $r->dsAvaliacao = $_POST['dsAvaliacao'];
-            $r->dtAvaliacao = new Zend_Db_Expr('GETDATE()');
-            $r->idAgenteAvaliador = $this->idUsuario;
+            $objRecurso->stAtendimento = $_POST['stAtendimento'];
+            $objRecurso->dsAvaliacao = $_POST['dsAvaliacao'];
+            $objRecurso->dtAvaliacao = new Zend_Db_Expr('GETDATE()');
+            $objRecurso->idAgenteAvaliador = $this->idUsuario;
 
             if ($_POST['stAtendimento'] == 'I') {
-                $r->siRecurso = 2; //2=Solicita&ccedil;&atilde;o indeferida
-                $r->stEstado = 1;
+                $objRecurso->siRecurso = Recurso_Model_TbRecurso::SI_RECURSO_INDEFERIDO; //2=Solicita&ccedil;&atilde;o indeferida
+                $objRecurso->stEstado = 1;
 
                 //BUSCA A SITUA&Ccedil;&Atilde;O ANTERIOR DO PROJETO ANTES DA SOLICITA&Ccedil;&Atilde;O RECURSO
                 $historicoSituacao = new HistoricoSituacao();
@@ -327,15 +327,15 @@ class RecursosController extends MinC_Controller_Action_Abstract
                 $where = "IdPRONAC = $dp->IdPRONAC";
                 $Projetos->update($w, $where);
             } else {
-                if ($_POST['vinculada'] == 262) {
-                    $r->siRecurso = 4; //4=Enviado para An�lise T�cnica (SEFIC)
-                } elseif ($_POST['vinculada'] == 400) {
+                if ($_POST['vinculada'] == Orgaos::ORGAO_GEAAP_SUAPI_DIAAPI) {
+                    $objRecurso->siRecurso = Recurso_Model_TbRecurso::SI_RECURSO_PARA_ANALISE_TECNICA; //4=Enviado para An�lise T�cnica (SEFIC)
+                } elseif ($_POST['vinculada'] == Orgaos::ORGAO_CNIC) {
                     $stEstado = 1;
                     $stFecharAnalise = 1;
-                    $r->siRecurso = 7; //7=CNIC
-                    $r->idAgenteAvaliador = $_POST['destinatario'];
+                    $objRecurso->siRecurso = 7; //7=CNIC
+                    $objRecurso->idAgenteAvaliador = $_POST['destinatario'];
                 } else {
-                    $r->siRecurso = 3; //3=Enviado para o coordenador de parecer
+                    $objRecurso->siRecurso = Recurso_Model_TbRecurso::SI_RECURSO_PARA_ANALISE_COORDENADOR; //3=Enviado para o coordenador de parecer
 
                     //ATUALIZA A SITUACAO DO PROJETO
                     $w = array();
@@ -347,28 +347,28 @@ class RecursosController extends MinC_Controller_Action_Abstract
                     $Projetos->update($w, $where);
 
                     //SE O RECURSO SE TRATAR DE PROJETO INDEFERIDO, OS DADOS DAS PLANILHAS ABAIXO DEVEM SER DELETADAS.
-                    if ($r->tpSolicitacao == 'PI') {
+                    if ($objRecurso->tpSolicitacao == 'PI') {
                         //DELETAR DADOS
                         $tbAnaliseAprovacao = new tbAnaliseAprovacao();
-                        $tbAnaliseAprovacao->delete(array('IdPRONAC = ?' => $r->IdPRONAC, 'tpAnalise = ?' => 'CO'));
+                        $tbAnaliseAprovacao->delete(array('IdPRONAC = ?' => $objRecurso->IdPRONAC, 'tpAnalise = ?' => 'CO'));
 
                         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
-                        $tbPlanilhaAprovacao->delete(array('IdPRONAC = ?' => $r->IdPRONAC, 'tpPlanilha = ?' => 'CO', 'stAtivo = ?' => 'S'));
+                        $tbPlanilhaAprovacao->delete(array('IdPRONAC = ?' => $objRecurso->IdPRONAC, 'tpPlanilha = ?' => 'CO', 'stAtivo = ?' => 'S'));
 
                         $Parecer = new Parecer();
-                        $Parecer->delete(array('IdPRONAC = ?' => $r->IdPRONAC, 'stAtivo = ?' => 1, 'idTipoAgente = ?' => 6));
+                        $Parecer->delete(array('IdPRONAC = ?' => $objRecurso->IdPRONAC, 'stAtivo = ?' => 1, 'idTipoAgente = ?' => 6));
 
                         $Enquadramento = new Admissibilidade_Model_Enquadramento();
-                        $Enquadramento->delete(array('IdPRONAC = ?' => $r->IdPRONAC));
+                        $Enquadramento->delete(array('IdPRONAC = ?' => $objRecurso->IdPRONAC));
                     }
                 }
             }
-            $r->save();
+            $objRecurso->save();
 
             if ($_POST['stAtendimento'] == 'D') {
                 $tbDistribuirProjeto = new tbDistribuirProjeto();
                 $dados = array(
-                    'IdPRONAC' => $r->IdPRONAC,
+                    'IdPRONAC' => $objRecurso->IdPRONAC,
                     'idUnidade' => $_POST['vinculada'],
                     'dtEnvio' => new Zend_Db_Expr('GETDATE()'),
                     'idAvaliador' => isset($_POST['destinatario']) ? $_POST['destinatario'] : null,
@@ -710,7 +710,7 @@ class RecursosController extends MinC_Controller_Action_Abstract
         if (!$return) {
             parent::message("N&atilde;o foi poss&iacute;vel encaminhar o recurso para o Checklist de Publica&ccedil;&atilde;o", "recurso?tipoFiltro=analisados", "ERROR");
         }
-        parent::message("Recurso encaminhado com sucesso!", "recurso?tipoFiltro=analisados", "CONFIRM");
+        parent::message("Recurso encaminhado com sucesso!", "/default/recursos?tipoFiltro=analisados", "CONFIRM");
     }
 
     public function formAvaliarRecursoAction()
@@ -862,14 +862,12 @@ class RecursosController extends MinC_Controller_Action_Abstract
                     'Logon' => $idusuario
                 );
 
-                foreach ($dadosParecer as $dp) {
-                    $parecerAntigo = array(
-                        'Atendimento' => 'S',
-                        'stAtivo' => 0
-                    );
-                    $whereUpdateParecer = 'IdPRONAC = '.$idPronac;
-                    $alteraParecer = $parecerDAO->alterar($parecerAntigo, $whereUpdateParecer);
-                }
+                $parecerAntigo = array(
+                    'Atendimento' => 'S',
+                    'stAtivo' => 0
+                );
+                $whereUpdateParecer = 'IdPRONAC = '.$idPronac;
+                $parecerDAO->alterar($parecerAntigo, $whereUpdateParecer);
 
                 $buscarParecer = $parecerDAO->buscar(array('IdPRONAC = ?' => $idPronac, 'AnoProjeto = ?' => $dadosProjeto[0]->AnoProjeto, 'Sequencial = ?' => $dadosProjeto[0]->Sequencial, 'TipoParecer = ?' => 7, 'idTipoAgente = ?' =>1));
                 if (count($buscarParecer) > 0) {
@@ -1305,7 +1303,7 @@ class RecursosController extends MinC_Controller_Action_Abstract
     {
         $mapperArea = new Agente_Model_AreaMapper();
 
-        if ($this->idPerfil != 118) {
+        if ($this->idPerfil != Autenticacao_Model_Grupos::COMPONENTE_COMISSAO) {
             parent::message("Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa &acute;rea do sistema!", "principal", "ALERT");
         }
 
@@ -1370,7 +1368,7 @@ class RecursosController extends MinC_Controller_Action_Abstract
 
     public function cnicSalvarEnquadramentoAction()
     {
-        if ($this->idPerfil != 118) {
+        if ($this->idPerfil != Autenticacao_Model_Grupos::COMPONENTE_COMISSAO) {
             parent::message("Voc&ecirc; n&atilde;o tem permiss&atilde;o para acessar essa &aacute;rea do sistema!", "principal", "ALERT");
         }
 

@@ -111,10 +111,13 @@ class Projeto_Model_TbHomologacaoMapper extends MinC_Db_Mapper
                 $situacao['mensagem']
             );
 
+
             if ($updated) {
+                $retorno['close'] = 1;
                 if ($situacao['codigo'] == Projeto_Model_Situacao::PROJETO_ENCAMINHADO_PARA_HOMOLOGACAO) {
                     $idDocumentoAssinatura = $this->iniciarFluxoAssinatura($idPronac);
                     $retorno['data'] = ['idDocumentoAssinatura' => $idDocumentoAssinatura];
+                    $retorno['close'] = 0;
                 }
 
                 $this->setMessage($situacao['mensagem']);

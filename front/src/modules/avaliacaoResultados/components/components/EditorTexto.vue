@@ -41,7 +41,7 @@ export default {
         },
 
         counter(e) {
-            if (e.ops.length > 0 && e.ops[0].retain !== undefined) {
+            if (e !== undefined && e.ops.length > 0 && e.ops[0].retain !== undefined) {
                 this.$emit('editor-texto-counter', e.ops[0].retain);
             }
         },

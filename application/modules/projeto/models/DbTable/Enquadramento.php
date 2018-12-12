@@ -129,7 +129,7 @@ class Projeto_Model_DbTable_Enquadramento extends MinC_Db_Table_Abstract
 
         $sql->joinLeft(
             ['d' => 'tbReuniao'],
-            'c.NumeroReuniao = d.idNrReuniao',
+            'c.NumeroReuniao = d.NrReuniao',
             ['d.NrReuniao'],
             $this->_schema
         );

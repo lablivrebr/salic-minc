@@ -27,7 +27,7 @@
                         <v-expansion-panel-content v-for="(comprovante, index) in currentComprovantes" :key="index">
                             <div slot="header">
                                 <div style="display:inline-block;">
-                                    Fornecedor: {{comprovante.nmFornecedor}}
+                                    <b>Fornecedor:</b> {{comprovante.nmFornecedor}}
                                 </div>
                                 <v-chip
                                     style="display: inline-block; float: right; margin-right: 20px;"
@@ -40,12 +40,14 @@
                             <v-card>
                                 <v-card-text>
                                     <b>Valor: </b>R$ {{comprovante.vlComprovacao | filtroFormatarParaReal}}
-                                </v-card-text>
-                                <v-card-text>
+                                    &nbsp;&nbsp;&nbsp;
                                     <b>Arquivo: </b>
                                     <a :href="'/upload/abrir/id/' + comprovante.arquivo.id">
                                         {{comprovante.arquivo.nome}}
                                     </a>
+                                </v-card-text>
+                                <v-card-text>
+                                        {{comprovante.dsJustificativaProponente}}
                                 </v-card-text>
                             </v-card>
                         </v-expansion-panel-content>

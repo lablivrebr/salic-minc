@@ -33,7 +33,7 @@
                     hide-actions
                 >
                     <template slot="items" slot-scope="props">
-                        <td>{{ props.item.dtInicioEncaminhamento }}</td>
+                        <td>{{ props.item.dtInicioEncaminhamento | formatarData}}</td>
                         <td>{{ props.item.NomeOrigem }}</td>
                         <td>{{ props.item.NomeDestino }}</td>
                         <td>{{ props.item.dsJustificativa }}</td>
@@ -134,5 +134,16 @@ export default {
     computed: mapGetters({
         dadosHistoricoEncaminhamento: 'avaliacaoResultados/dadosHistoricoEncaminhamento',
     }),
+    filters: {
+        formatarData(value) {
+            const date = new Date(value);
+            
+            return date.toLocaleString(['pt-BR'], { 
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
+        },
+    },
 };
 </script>

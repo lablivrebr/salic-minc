@@ -17,9 +17,16 @@
             </v-btn>
             <span>Devolver Projeto</span>
         </v-tooltip>
+
+        
         <v-card>
+            <v-card-title class="headline primary" primary-title>
+                <span class="white--text">
+                    Devolver Projeto 
+                </span>
+            </v-card-title>
             <v-container grid-list-md>
-                <v-card-text>
+                <v-card-text class="subheading">
                     <div v-if="tecnico !== undefined && tecnico !== null && tecnico !== '' && tecnico.nome !== 'sysLaudo'">
                         Você deseja devolver o projeto '{{ pronac }} - {{ nomeProjeto }}' para análise do Tecnico: {{tecnico.nome}}?
                     </div>
@@ -51,6 +58,7 @@
                 </v-btn>
             </v-card-actions>
         </v-card>
+
     </v-dialog>
 </template>
 

@@ -23,7 +23,7 @@
                     primary-title
                 >
                     <span class="white--text">
-                        Encaminhamento1 do projeto
+                        Encaminhamento do projeto
                     </span>
                 </v-card-title>
                 <v-card-text>

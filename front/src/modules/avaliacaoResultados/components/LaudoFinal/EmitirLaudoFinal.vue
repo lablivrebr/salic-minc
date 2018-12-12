@@ -32,13 +32,13 @@
                                     <v-card-text>
                                         <v-container grid-list-xs text-xs-center ma-0 pa-0>
                                             <v-layout row wrap>
-                                                <v-flex xs7 d-flex>
-                                                    <label for="manifestacao">Manifestação *</label>
+                                                <v-flex xs7>
+                                                    <h4 class="text-xs-left">Manifestação *</h4>
                                                     <v-radio-group :value="parecerLaudoFinal.items.siManifestacao"
                                                                 @change="updateManifestacao"
-                                                                id="manifestacao"
                                                                 :rules="manifestacaoRules"
-                                                                row>
+                                                                row
+                                                                class="text-xs-left">
                                                         <v-radio color="success" label="Aprovado" value="A"></v-radio>
                                                         <v-radio color="success" label="Aprovado com ressalvas" value="P"></v-radio>
                                                         <v-radio color="error" label="Reprovado" value="R"></v-radio>

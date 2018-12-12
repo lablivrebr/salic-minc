@@ -92,8 +92,8 @@ Vue.component('readequacao-formulario', {
                 'idDocumento': '',
                 'nomeArquivo': ''
             },
-	    exibirInfo: false,
-	    minCaracteresJustificativa: 10,
+            exibirInfo: false,
+            minCaracteresJustificativa: 10,
             arquivo: {
                 tamanhoMaximo: 500000,
                 tiposAceitos: ['pdf']
@@ -117,9 +117,9 @@ Vue.component('readequacao-formulario', {
     },
     watch: {
         objReadequacao: function (value) {
-	    if (typeof value.idReadequacao != 'undefined') {
-		this.readequacao = value;
-	    }
+            if (typeof value.idReadequacao != 'undefined') {
+                this.readequacao = value;
+            }
         }
     },
     methods: {
@@ -140,7 +140,7 @@ Vue.component('readequacao-formulario', {
         },
         salvarReadequacao: function () {
             if (this.readequacao.justificativa.length < this.minCaracteresJustificativa) {
-                this.mensagemAlerta("\xC9 obrigat\xF3rio preencher a justificativa da readequa\xE7\xE3o!");
+                this.mensagemAlerta("\xC9 obrigat\xF3rio preencher a justificativa da readequa\xE7\xE3o. M\xEDnimo de " + this.minCaracteresJustificativa + " caracteres.");
                 this.$refs.readequacaoJustificativa.focus();
                 return;
             }
@@ -159,10 +159,10 @@ Vue.component('readequacao-formulario', {
             formData.append('idPronac', self.idPronac);
             formData.append('idTipoReadequacao', self.idTipoReadequacao);
             formData.append('idDocumentoAtual', self.readequacao.idDocumento);
-	    if (self.readequacao.idReadequacao) {
-		formData.append('idReadequacao', self.readequacao.idReadequacao);
-	    }
-	    
+            if (self.readequacao.idReadequacao) {
+                formData.append('idReadequacao', self.readequacao.idReadequacao);
+            }
+
             $3('#carregando-arquivo').fadeIn('slow');
             $3.ajax(
                 Object.assign(
@@ -208,7 +208,7 @@ Vue.component('readequacao-formulario', {
                 $3('#carregando-arquivo').fadeOut('slow');
             });
         },
-	validarDocumento: function (arquivo) {
+        validarDocumento: function (arquivo) {
             if (!this.arquivo.tiposAceitos.includes(arquivo.name.split(".").pop().toLowerCase())) {
                 this.mensagemAlerta("Extens\xE3o de arquivo inv\xE1lida. Envie arquivos nos tipos: " + this.arquivo.tiposAceitos.join(','));
                 return;
@@ -220,9 +220,9 @@ Vue.component('readequacao-formulario', {
             }
             return true;
         },
-	atualizarDsSolicitacao: function(valor) {
-	    this.readequacao.dsSolicitacao = valor;
-	    this.$emit('eventoAtualizarReadequacao', this.readequacao);
-	}
+        atualizarDsSolicitacao: function (valor) {
+            this.readequacao.dsSolicitacao = valor;
+            this.$emit('eventoAtualizarReadequacao', this.readequacao);
+        }
     }
 });

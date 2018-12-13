@@ -21,14 +21,14 @@ class Finalizar implements IAcaoFinalizar
             'providencia' => "Projeto encaminhado para elabora&ccedil;&atilde;o de portaria de redu&ccedil;&atilde;o or&ccedil;ament&aacute;ria"
         ];
 
-        if ($enquadramentoProjeto['VlHomologadoIncentivo'] == $enquadramentoProjeto['VlAdequadoIncentivo']) {
+        if ($enquadramentoProjeto['VlHomologadoIncentivo'] == $enquadramentoProjeto['VlAutorizadoACaptarIncentivo']) {
             $orgaoDestinoSAV = (int)\Orgaos::ORGAO_SAV_CAP;
             $situacao = [
                 'codigo' => \Projeto_Model_Situacao::AUTORIZADA_CAPTACAO_RESIDUAL_DOS_RECURSOS,
                 'providencia' => "Homologado a execu&ccedil;&atilde;o do projeto cultural"
             ];
 
-        } else if ($enquadramentoProjeto['VlHomologadoIncentivo'] > $enquadramentoProjeto['VlAdequadoIncentivo']) {
+        } else if ($enquadramentoProjeto['VlHomologadoIncentivo'] > $enquadramentoProjeto['VlAutorizadoACaptarIncentivo']) {
             $situacao = [
                 'codigo' => \Projeto_Model_Situacao::ENCAMINHADO_PARA_INCLUSAO_EM_PORTARIA_COMPLEMENTACAO,
                 'providencia' => "Projeto encaminhado para elabora&ccedil;&atilde;o de portaria de complementa&ccedil;&atilde;o or&ccedil;ament&aacute;ria"

@@ -146,7 +146,7 @@ function mascara ($val, $mask) {
         <thead>
             <tr>
                 <th>&nbsp;</th>
-                <th colspan="2" align="center">Fornecedor</th>
+                <th colspan="2" style="text-align:left;">Fornecedor</th>
                 <th colspan="3" align="center">Dados do Pagamento</th>
                 <th colspan="2" align="center">Informa&ccedil;&otilde;es do Banco do Brasil</th>
                 <th>&nbsp;</th>
@@ -154,13 +154,13 @@ function mascara ($val, $mask) {
             <tr class="titulo_tabela">
                 <th style="text-align:left;"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=4&ordem='.$this->paginacao['novaOrdem'];?>">Item Or&ccedil;ament&aacute;rio</a></th>
                 <th width="150px" style="text-align:left;"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=5&ordem='.$this->paginacao['novaOrdem'];?>">CNPJ / CPF</a></th>
-                <th align="center"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=6&ordem='.$this->paginacao['novaOrdem'];?>">Fornecedor</a></th>
-                <th align="center"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=8&ordem='.$this->paginacao['novaOrdem'];?>">N&uacute;mero</a></th>
+                <th style="text-align:left;"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=6&ordem='.$this->paginacao['novaOrdem'];?>">Fornecedor</a></th>
+                <th width="100px" style="text-align:right;"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=8&ordem='.$this->paginacao['novaOrdem'];?>">N&uacute;mero</a></th>
                 <th align="center"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=9&ordem='.$this->paginacao['novaOrdem'];?>">Data</a></th>
-                <th width="75px"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=10&ordem='.$this->paginacao['novaOrdem'];?>">Vl. Comprovado</a></th>
+                <th width="100px"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=10&ordem='.$this->paginacao['novaOrdem'];?>">Vl. Comprovado</a></th>
                 <th align="center"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=12&ordem='.$this->paginacao['novaOrdem'];?>">Lan&ccedil;amento</a></th>
-                <th width="75px" align="center"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=14&ordem='.$this->paginacao['novaOrdem'];?>">Vl. Debitado</a></th>
-                <th width="75px" align="center"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=15&ordem='.$this->paginacao['novaOrdem'];?>">Vl. Diferen&ccedil;a</a></th>
+                <th width="100px" style="text-align:right;"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=14&ordem='.$this->paginacao['novaOrdem'];?>">Vl. Debitado</a></th>
+                <th width="100px" style="text-align:right;"><a href="<?php echo $this->url(array('controller' => 'consultardadosprojeto', 'action' => 'conciliacao-bancaria')).'?pag=1&qtde='.$this->paginacao['qtde'].'&idPronac='.$this->idPronac.'&campo=15&ordem='.$this->paginacao['novaOrdem'];?>">Vl. Diferen&ccedil;a</a></th>
  </tr>
         </thead>
     <tbody>

@@ -55,7 +55,7 @@ class Diligencia_DiligenciaController extends Zend_Rest_Controller
         $dados = array(
             'idPronac' => $idPronac,
             'DtSolicitacao' => new Zend_Db_Expr('GETDATE()'),
-            'Solicitacao' => $solicitacao,
+            'Solicitacao' => utf8_decode($solicitacao),
             'idTipoDiligencia' => $idTipoDiligencia,
             'idProduto' => null,
             'stEstado' => 0,

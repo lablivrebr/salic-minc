@@ -51,7 +51,7 @@ function mascara ($val, $mask) {
 
 </script>
 
-<!-- ========== IN�CIO BREADCRUMB (LINKS TOPO) ========== -->
+<!-- ========== INICIO BREADCRUMB (LINKS TOPO) ========== -->
 <div id="breadcrumb">
     <ul>
         <li class="first"><a href="<?php echo $this->url(array('controller' => 'principal', 'action' => '')); ?>" title="Ir para In&iacute;cio">In&iacute;cio</a></li>
@@ -64,15 +64,15 @@ function mascara ($val, $mask) {
 
 
 
-<!-- ========== IN�CIO T�TULO ========== -->
+<!-- ========== INICIO TITULO ========== -->
 <div id="titulo">
     <div>Concilia&ccedil;&atilde;o Banc&aacute;ria</div>
 </div>
 
-<!-- ========== FIM T�TULO ========== -->
+<!-- ========== FIM TITULO ========== -->
 
 
-<!-- ========== IN�CIO CONTE�DO ========== -->
+<!-- ========== INICIO CONTEUDO ========== -->
 
 <div id="conteudo">
     <table class="tabela">
@@ -88,7 +88,7 @@ function mascara ($val, $mask) {
 </br>
 
 <?php if(count($this->dados)>0){ ?>
-    <!-- ============ PAGINA��O ============ -->
+    <!-- ============ PAGINACAO ============ -->
     <table class="tabela" style="width: 97%;" border="0" cellpadding="0" cellspacing="0">
         <tbody>
             <tr>
@@ -136,7 +136,7 @@ function mascara ($val, $mask) {
             echo " de ". $this->paginacao['total']. " Registros listados";
         ?>
     </center>
-    <!-- ========== FIM PAGINA��O ========== -->
+    <!-- ========== FIM PAGINACAO ========== -->
     <?php } ?>
 
 
@@ -168,7 +168,7 @@ function mascara ($val, $mask) {
             foreach ($this->dados as $d){
             $style = "";
 
-                if ($d->dsLancamento==="SEM INFORMA��ES BANC�RIAS") {
+                if ($d->dsLancamento==="SEM INFORMA&Ccedil;&Otilde;ES BANC&Aacute;RIAS") {
                     $d->vlDiferenca = "<center>-</center>";
                     $d->vlDebitado = "<center>-</center>";
                     $d->dtLancamento = "<center>-</center>";
@@ -211,7 +211,7 @@ function mascara ($val, $mask) {
     </table>
 
  <?php if(count($this->dados)>0){ ?>
-    <!-- ============ PAGINA��O ============ -->
+    <!-- ============ PAGINACAO ============ -->
     <table class="tabela" style="width: 97%;" border="0" cellpadding="0" cellspacing="0">
         <tbody>
             <tr>
@@ -259,7 +259,7 @@ function mascara ($val, $mask) {
             echo " de ". $this->paginacao['total']. " Registros listados";
         ?>
     </center>
-    <!-- ========== FIM PAGINA��O ========== -->
+    <!-- ========== FIM PAGINACAO ========== -->
     <?php } ?>
 
 <?php } else { ?>

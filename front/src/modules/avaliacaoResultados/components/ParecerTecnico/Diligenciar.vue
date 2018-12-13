@@ -43,7 +43,7 @@
                                                 @editor-texto-input="inputSolicitacao($event)"
                                                 @editor-texto-counter="validarSolicitacao($event)"
                                                 required="required"
-                                            >                                                
+                                            >
                                             </EditorTexto>
                                         </v-form>
                                     </v-card-text>
@@ -114,7 +114,7 @@
             },
             inputSolicitacao(e) {
                 this.solicitacao = e;
-                this.validarSolicitacao(e);
+                // this.validarSolicitacao(e);
             },
             validarSolicitacao(e) {
                 if (e < 1) {

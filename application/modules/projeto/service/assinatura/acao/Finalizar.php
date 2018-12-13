@@ -10,6 +10,24 @@ class Finalizar implements IAcaoFinalizar
     {
         $modeloTbAssinatura = $assinatura->modeloTbAssinatura;
 
+        $dbTableHomologacao = new \Projeto_Model_DbTable_TbHomologacao();
+        $parecerHomologacao = $dbTableHomologacao->getBy([
+            'idPronac' => $modeloTbAssinatura->getIdPronac(),
+            'tpHomologacao' => '1'
+        ]);
+
+        $objProjetos = new \Projetos();
+
+        if ($parecerHomologacao['stDecisao'] == \Projeto_Model_TbHomologacao::ST_DECISAO_INDEFERIDO) {
+            $objProjetos->alterarSituacao(
+                $modeloTbAssinatura->getIdPronac(),
+                null,
+                \Projeto_Model_Situacao::PROJETO_INDEFERIDO,
+                'Projeto indeferido'
+            );
+            return true;
+        }
+
         $dbTableEnquadramento = new \Projeto_Model_DbTable_Enquadramento();
         $enquadramentoProjeto = $dbTableEnquadramento->obterProjetoAreaSegmento(
             ['a.IdPRONAC = ?' => $modeloTbAssinatura->getIdPronac()]
@@ -35,7 +53,6 @@ class Finalizar implements IAcaoFinalizar
             ];
         }
 
-        $objProjetos = new \Projetos();
         $objProjetos->alterarSituacao(
             $modeloTbAssinatura->getIdPronac(),
             null,

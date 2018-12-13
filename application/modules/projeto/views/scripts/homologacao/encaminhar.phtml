@@ -57,7 +57,7 @@
     </div>
 
     <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-orange btn-flat orange-text"
+        <a href="#!" class="modal-action modal-close waves-effect waves-orange btn-flat white-text btn-info"
            style="margin-right: 15px;">Fechar</a>
     </div>
 <?php endif; ?>
@@ -73,6 +73,7 @@
             if(status === true && response.data.idDocumentoAssinatura) {
                 var botaoHomologar = '<h6>' + response.msg  + '</h6>' +
                     '<br><br>' +
+                    'O documento est&aacute; dispon&iacute;vel para assinatura do Coordenador-Geral.<br><br>' +
                     '<a title="Assinatura" class="btn waves-effect waves-light btn-secondary" target="_blank" ' +
                     'href="/assinatura/index/visualizar-projeto?idDocumentoAssinatura='+ response.data.idDocumentoAssinatura +'">' +
                     '<i class="material-icons right">visibility</i>Visualizar documento gerado' +

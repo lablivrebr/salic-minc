@@ -153,22 +153,22 @@ class Projeto_Model_DbTable_Enquadramento extends MinC_Db_Table_Abstract
             $this->_schema
         );
 
-        $sql->joinInner(
-            ['h'=> 'tbVerificaProjeto'],
-            'h.IdPRONAC = a.IdPRONAC',
-            ['h.stAnaliseProjeto'],
-            $this->_schema
-        );
+//        $sql->joinInner(
+//            ['h'=> 'tbVerificaProjeto'],
+//            'h.IdPRONAC = a.IdPRONAC',
+//            ['h.stAnaliseProjeto'],
+//            $this->_schema
+//        );
 
-        $sql->joinInner(
-            ['i' => 'Usuarios'],
-            'h.idUsuario = i.usu_codigo',
-            [
-                'usu_nome AS Tecnico',
-                new Zend_Db_Expr("DATEDIFF(day, h.dtrecebido, GETDATE()) AS tempoAnalise")
-            ],
-            'TABELAS.dbo'
-        );
+//        $sql->joinInner(
+//            ['i' => 'Usuarios'],
+//            'h.idUsuario = i.usu_codigo',
+//            [
+//                'usu_nome AS Tecnico',
+//                new Zend_Db_Expr("DATEDIFF(day, h.dtrecebido, GETDATE()) AS tempoAnalise")
+//            ],
+//            'TABELAS.dbo'
+//        );
 
         $sql->joinInner(
             ['j' => 'tbProjetoFase'],

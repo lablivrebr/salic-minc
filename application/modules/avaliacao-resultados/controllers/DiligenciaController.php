@@ -77,7 +77,7 @@ class AvaliacaoResultados_DiligenciaController extends MinC_Controller_Rest_Abst
         $dados = array(
             'idPronac' => $idPronac,
             'DtSolicitacao' => new Zend_Db_Expr('GETDATE()'),
-            'Solicitacao' => $solicitacao,
+            'Solicitacao' => utf8_decode($solicitacao),
             'idTipoDiligencia' => $idTipoDiligencia,
             'idProduto' => null,
             'stEstado' => 0,

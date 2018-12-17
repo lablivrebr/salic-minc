@@ -60,17 +60,17 @@ class Finalizar implements IAcaoFinalizar
         $objAprovacao = new \Aprovacao();
         $idAprovacao = $objAprovacao->inserir($dadosInclusaoAprovacao);
 
-        $idTecnico = new \Zend_Db_Expr("sac.dbo.fnPegarTecnico(110, {$orgaoDestino}, 3)");
-
-        $tblVerificaProjeto = new \tbVerificaProjeto();
-        $dadosVP['idPronac'] = $modeloTbAssinatura->getIdPronac();
-        $dadosVP['idOrgao'] = $orgaoDestino;
-        $dadosVP['idAprovacao'] = $idAprovacao;
-        $dadosVP['idUsuario'] = $idTecnico;
-        $dadosVP['stAnaliseProjeto'] = 1;
-        $dadosVP['dtRecebido'] = $tblVerificaProjeto->getExpressionDate();
-        $dadosVP['stAtivo'] = 1;
-        $tblVerificaProjeto->inserir($dadosVP);
+//        $idTecnico = new \Zend_Db_Expr("sac.dbo.fnPegarTecnico(110, {$orgaoDestino}, 3)");
+//
+//        $tblVerificaProjeto = new \tbVerificaProjeto();
+//        $dadosVP['idPronac'] = $modeloTbAssinatura->getIdPronac();
+//        $dadosVP['idOrgao'] = $orgaoDestino;
+//        $dadosVP['idAprovacao'] = $idAprovacao;
+//        $dadosVP['idUsuario'] = $idTecnico;
+//        $dadosVP['stAnaliseProjeto'] = 1;
+//        $dadosVP['dtRecebido'] = $tblVerificaProjeto->getExpressionDate();
+//        $dadosVP['stAtivo'] = 1;
+//        $tblVerificaProjeto->inserir($dadosVP);
     }
 
 }

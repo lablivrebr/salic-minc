@@ -1,8 +1,8 @@
 <template>
     <v-dialog v-model="dialog"
-
+              transition="dialog-bottom-transition"
               scrollable
-              max-width="980px"
+              fullscreen
     >
         <v-tooltip slot="activator" bottom>
             <v-btn slot="activator" flat icon @click.native="obterDiligencias(obj.idPronac)">
@@ -20,58 +20,101 @@
                 <v-toolbar-title>Diligências Projeto: {{info.pronac}} - {{info.nomeProjeto}} </v-toolbar-title>
             </v-toolbar>
 
-            <v-divider></v-divider>
-            <v-card-text>
-                <v-flex
-                    id="time"
-                    v-for="(item, i) in sortByDate"
-                    :key="i">
-                    <v-card color="green">
-                        <v-card-title dark class="title white--text">{{item.tipoDiligencia}} <span v-if="item.stProrrogacao"> - {{item.stProrrogacao}}</span></v-card-title>
-                        <v-card-text class="white text--primary">
-                            <v-expansion-panel>
-                                <v-expansion-panel-content v-if="item.Solicitacao">
-                                    <div slot="header">Solicitação: {{item.dataSolicitacao | date}}</div>
-                                    <v-card>
-                                        <v-card-text v-html="item.Solicitacao"></v-card-text>
-                                    </v-card>
-                                </v-expansion-panel-content>
-                                <v-expansion-panel-content v-if="item.Resposta">
-                                    <div slot="header" class="font-weight-regular">Resposta: : {{item.dataResposta | date}}</div>
-                                    <v-card>
-                                        <v-card-text v-html="item.Resposta"></v-card-text>
-                                    </v-card>
-                                </v-expansion-panel-content>
+            <template>
+                <div>
+                    <v-data-table
+                        :headers="headers"
+                        :items="sortByDate"
+                        item-key="idDiligencia"
+                        class="elevation-1"
+                        rows-per-page-text="Items por Página"
+                        no-data-text="Nenhum dado encontrado"
+                        v-if="Object.keys(diligencias).length > 0"
+                    >
+                        <template slot="items" slot-scope="props">
+                            <tr @click="props.expanded = !props.expanded">
+                                <td class="text-xs-left" v-if="props.item.produto">
+                                    {{ props.item.produto }}
+                                </td>
+                                <td v-else class="text-xs-left"> - </td>
+                                <td class="text-xs-left">{{ props.item.tipoDiligencia }}</td>
+                                <td class="text-xs-center">{{ props.item.dataSolicitacao | date }}</td>
+                                <td class="text-xs-center" v-if="props.item.dataResposta === null ">{{ props.item.dataResposta}}</td>
+                                <td class="text-xs-center" v-if="props.item.dataResposta !== null ">{{ props.item.dataResposta | date}}</td>
+                                <td class="text-xs-center">{{ statusDiligencia(props.item).prazo}}</td>
+                                <td class="text-xs-left">Prorrogado</td>
+                            </tr>
+                        </template>
+                        <template slot="expand" slot-scope="props">
+                            <v-card flat>
+                                <v-card-text v-if="Object.keys(diligencias).length > 0">
+                                    <v-container fluid>
+                                        <div v-if="props.item.Solicitacao">
+                                            <v-layout justify-space-around row wrap>
+                                                <v-flex lg12 dark>
+                                                    <b>SOLICITAÇÃO</b>
+                                                </v-flex>
+                                                <v-flex>
+                                                    <p v-html="props.item.Solicitacao"></p>
+                                                </v-flex>
+                                            </v-layout>
+                                        </div>
 
-                                <v-expansion-panel-content v-if="item.Arquivos.length > 0">
-                                    <div slot="header" class="font-weight-regular">Arquivos: {{item.Arquivos.length}}</div>
+                                        <div v-if="props.item.Resposta">
+                                            <v-layout justify-space-around row wrap>
+                                                <v-flex lg12 dark>
+                                                    <b>RESPOSTA</b>
+                                                </v-flex>
+                                                <v-flex>
+                                                    <p v-html="props.item.Resposta"></p>
+                                                </v-flex>
+                                            </v-layout>
+                                        </div>
 
+                                        <div v-if="props.item.Arquivos && Object.keys(props.item.Arquivos).length > 0">
+                                            <v-flex lg12 dark class="text-xs-center">
+                                                <b>ARQUIVOS ANEXADOS</b>
+                                            </v-flex>
+                                            <v-container grid-list-md>
+                                                <v-layout justify-space-around row wrap>
+                                                    <v-flex xs6>
+                                                        <b>Arquivo</b>
+                                                    </v-flex>
+                                                    <v-flex xs2>
+                                                        <b>Dt.Envio</b>
+                                                    </v-flex>
+                                                </v-layout>
+                                                <v-layout justify-space-around align-center row
+                                                          v-for="arquivo of props.item.Arquivos"
+                                                          :key="arquivo.idArquivo"
+                                                >
+                                                    <v-flex xs6>
+                                                        <p>
+                                                            <a :href="`/upload/abrir?id=${arquivo.idArquivo}`"
+                                                               target="_blank">
+                                                                {{ arquivo.nmArquivo | date }}
+                                                            </a>
+                                                        </p>
+                                                    </v-flex>
+                                                    <v-flex xs2>
+                                                        <p>
+                                                            {{ arquivo.dtEnvio | date }}
+                                                        </p>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </v-container>
+                                        </div>
+                                    </v-container>
+                                </v-card-text>
+                                <v-card-text v-else>
+                                    <Carregando :text="'Carregando ...'"></Carregando>
+                                </v-card-text>
+                            </v-card>
+                        </template>
+                    </v-data-table>
+                </div>
+            </template>
 
-                                <v-layout justify-space-around align-center row
-                                          v-for="arquivo of item.Arquivos"
-                                          :key="arquivo.idArquivo"
-                                >
-                                    <v-flex xs6>
-                                        <p>
-                                            <a :href="`/upload/abrir?id=${arquivo.idArquivo}`"
-                                               target="_blank">
-                                                {{ arquivo.nmArquivo }}
-                                            </a>
-                                        </p>
-                                    </v-flex>
-                                    <v-flex xs4>
-                                        <p>
-                                            {{ arquivo.dtEnvio}}
-                                        </p>
-                                    </v-flex>
-                                </v-layout>
-
-                                </v-expansion-panel-content>
-                            </v-expansion-panel>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-            </v-card-text>
         </v-card>
         <v-card-text v-else>
             <Carregando :text="'Carregando ...'"></Carregando>
@@ -108,6 +151,39 @@ export default {
                 nomeProjeto: 'Nenhuma Diligência Registrada',
                 pronac: '',
             },
+            headers: [
+                {
+                    text: 'PRODUTO',
+                    align: 'left',
+                    value: 'produto',
+                },
+                {
+                    text: 'TIPO DE DILIGÊNCIA',
+                    align: 'left',
+                    value: 'tipoDiligencia',
+                },
+                {
+                    text: 'DATA DA SOLICITAÇÃO',
+                    align: 'center',
+                    value: 'dataSolicitacao',
+                },
+                {
+                    text: 'DATA DA RESPOSTA',
+                    align: 'center',
+                    value: 'dataResposta',
+                },
+                {
+                    text: 'PRAZO DA RESPOSTA',
+                    align: 'center',
+                    value: 'prazoResposta',
+                },
+                {
+                    text: 'PRORROGADO',
+                    value: 'prorrogado',
+                    sortable: false,
+                    align: 'left',
+                },
+            ],
         };
     },
     methods: {
@@ -123,36 +199,46 @@ export default {
             this.show.index = index;
         },
         statusDiligencia(obj) {
+            let fim = new Date();
             const prazo = this.prazoResposta(obj);
+
+            const result = new Date(obj.dataSolicitacao);
+            fim.setTime(result.getTime() + (40 * 24 * 60 * 60 * 1000));
+
+            fim = fim.toLocaleString(['pt-BR'], { month: '2-digit',
+                day: '2-digit',
+                year: 'numeric' });
+
             let status = {
                 color: 'grey',
                 desc: 'Histórico Diligências',
+                prazo: fim,
             };
             const prazoPadrao = 40;
             // diligenciado
             if (obj.DtSolicitacao && obj.DtResposta === '' &&
                 prazo <= prazoPadrao && obj.stEnviado === 'S') {
-                status = { color: 'yellow', desc: 'Diligenciado' };
+                status = { color: 'yellow', desc: 'Diligenciado', prazo: fim };
                 return status;
                 // diligencia não respondida
             } else if (obj.DtSolicitacao && obj.DtResposta === '' && prazo > prazoPadrao) {
-                status = { color: 'red', desc: 'Diligencia não respondida' };
+                status = { color: 'red', desc: 'Diligencia não respondida', prazo: fim };
                 return status;
                 // diligencia respondida com ressalvas
             } else if (obj.DtSolicitacao && obj.DtResposta !== '') {
                 if (obj.stEnviado === 'N' && prazo > prazoPadrao) {
-                    status = { color: 'red', desc: 'Diligencia não respondida' };
+                    status = { color: 'red', desc: 'Diligencia não respondida', prazo: fim };
                     return status;
                 }
                 if (obj.stEnviado === 'N' && prazo < prazoPadrao) {
-                    status = { color: 'yellow', desc: 'Diligenciado' };
+                    status = { color: 'yellow', desc: 'Diligenciado', prazo: fim };
                     return status;
                 }
 
-                status = { color: 'blue', desc: 'Diligencia respondida' };
+                status = { color: 'blue', desc: 'Diligencia respondida', prazo: fim };
                 return status;
             }
-            status = { color: 'green', desc: 'A Diligenciar' };
+            status = { color: 'green', desc: 'A Diligenciar', prazo: fim };
             return status;
         },
         prazoResposta(obj) {
@@ -184,9 +270,9 @@ export default {
             let now;
             let timeDiff;
             let prazo;
-            if (typeof obj.DtSolicitacao !== 'undefined') {
+            if (typeof obj.dataSolicitacao !== 'undefined') {
                 now = Date.now();
-                timeDiff = Math.abs(now - new Date(obj.DtSolicitacao));
+                timeDiff = Math.abs(now - new Date(obj.dataSolicitacao));
                 prazo = Math.ceil(timeDiff / (1000 * 3600 * 24));
                 // console.info(new Date().toLocaleDateString(undefined, {
                 //     day: '2-digit',
@@ -200,6 +286,7 @@ export default {
 
                 if (prazo > 0) {
                     // prazo positivo
+
                     return prazo;
                 }
                 if (prazo <= 0) {

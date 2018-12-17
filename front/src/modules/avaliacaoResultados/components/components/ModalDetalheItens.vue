@@ -47,7 +47,7 @@
                                     </a>
                                 </v-card-text>
                                 <v-card-text>
-                                        {{comprovante.dsJustificativaProponente}}
+                                        {{comprovante.dsOcorrenciaDoTecnico}}
                                 </v-card-text>
                             </v-card>
                         </v-expansion-panel-content>

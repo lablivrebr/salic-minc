@@ -46,11 +46,11 @@
                                         {{comprovante.arquivo.nome}}
                                     </a>
                                 </v-card-text>
-                                <v-card-text v-if="comprovante.dsOcorrenciaDoTecnico && comprovante.dsOcorrenciaDoTecnico != ' '">
-                                    <b>Parecer Avaliação: </b>{{comprovante.dsOcorrenciaDoTecnico}}
-                                </v-card-text>
                                 <v-card-text v-if="comprovante.dsJustificativaProponente && comprovante.dsJustificativaProponente != ' '">
                                     <b>Justificativa do Proponente: </b>{{comprovante.dsJustificativaProponente}}
+                                </v-card-text>
+                                <v-card-text v-if="comprovante.dsOcorrenciaDoTecnico && comprovante.dsOcorrenciaDoTecnico != ' '">
+                                    <b>Parecer da Avaliação: </b>{{comprovante.dsOcorrenciaDoTecnico}}
                                 </v-card-text>
                             </v-card>
                         </v-expansion-panel-content>

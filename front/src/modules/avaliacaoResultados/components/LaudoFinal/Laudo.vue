@@ -29,33 +29,39 @@
                 </td>
                 <td class="text-xs-center">{{ props.item.NomeProjeto }}</td>
                 <td class="text-xs-center">
-                    <v-btn v-if="props.item.siManifestacao == 'A'"
-                            round
-                            color="green darken-4"
-                            dark
-                            @click.native="sincState(props.item.IdPronac)"
-                            :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
+                    <VisualizarParecer
+                        :obj="props.item"
+                        :id-pronac="props.item.idPronac"
                     >
-                        <v-icon>mood</v-icon>Aprovado
-                    </v-btn>
-                    <v-btn v-if="props.item.siManifestacao == 'P'"
-                            round
-                            color="green lighten-1"
-                            dark
-                            @click.native="sincState(props.item.IdPronac)"
-                            :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
-                    >
-                        <v-icon>sentiment_satisfied_alt</v-icon>Aprovado com ressalva
-                    </v-btn>
-                    <v-btn v-if="props.item.siManifestacao == 'R'"
-                            round
-                            color="red"
-                            dark
-                            @click.native="sincState(props.item.IdPronac)"
-                            :to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"
-                    >
-                        <v-icon>sentiment_very_dissatisfied</v-icon>Reprovado
-                    </v-btn>
+
+                    </VisualizarParecer>
+                    <!--<v-btn v-if="props.item.siManifestacao == 'A'"-->
+                            <!--round-->
+                            <!--color="green darken-4"-->
+                            <!--dark-->
+                            <!--@click.native="sincState(props.item.IdPronac)"-->
+                            <!--:to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"-->
+                    <!--&gt;-->
+                        <!--<v-icon>mood</v-icon>Aprovado-->
+                    <!--</v-btn>-->
+                    <!--<v-btn v-if="props.item.siManifestacao == 'P'"-->
+                            <!--round-->
+                            <!--color="green lighten-1"-->
+                            <!--dark-->
+                            <!--@click.native="sincState(props.item.IdPronac)"-->
+                            <!--:to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"-->
+                    <!--&gt;-->
+                        <!--<v-icon>sentiment_satisfied_alt</v-icon>Aprovado com ressalva-->
+                    <!--</v-btn>-->
+                    <!--<v-btn v-if="props.item.siManifestacao == 'R'"-->
+                            <!--round-->
+                            <!--color="red"-->
+                            <!--dark-->
+                            <!--@click.native="sincState(props.item.IdPronac)"-->
+                            <!--:to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"-->
+                    <!--&gt;-->
+                        <!--<v-icon>sentiment_very_dissatisfied</v-icon>Reprovado-->
+                    <!--</v-btn>-->
                 </td>
                 <td class="text-xs-center">
                     <Devolver
@@ -131,132 +137,126 @@
 </template>
 
 <script>
-    import ModalTemplate from '@/components/modal';
-    import { mapActions, mapGetters } from 'vuex';
-    import Const from '../../const';
-    import Devolver from '../components/Devolver';
+import ModalTemplate from '@/components/modal';
+import { mapGetters } from 'vuex';
+import Const from '../../const';
+import Devolver from '../components/Devolver';
+import VisualizarParecer from '../components/VisualizarParecer';
 
-    export default {
-        name: 'Painel',
-        props: ['dados', 'estado'],
-        data() {
-            return {
-                devolucaoLaudo: {
-                    idAgente: 0,
-                    nome: 'sysLaudo',
-                },
-                pagination: {
-                    rowsPerPage: 10,
-                },
-                searchLength: 0,
-                search: '',
-                dialog: false,
-                cabecalho: [
-                    {
-                        align: 'center',
-                        text: '#',
-                        sortable: false,
-                    },
-                    {
-                        align: 'center',
-                        text: 'PRONAC',
-                        value: 'PRONAC',
-                    },
-                    {
-                        align: 'center',
-                        text: 'Nome Do Projeto',
-                        value: 'NomeProjeto',
-                    },
-                    {
-                        align: 'center',
-                        text: 'Manifestação',
-                        value: 'dsResutaldoAvaliacaoObjeto',
-                    },
-                    {
-                        align: 'center',
-                        text: 'Devolver',
-                        sortable: false,
-
-                    },
-                    {
-                        align: 'center',
-                        text: 'Ação',
-                        sortable: false,
-                    },
-                ],
-                Const,
-            };
-        },
-        components: {
-            ModalTemplate,
-            Devolver,
-        },
-        methods: {
-            ...mapActions({
-                requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
-                getLaudoFinal: 'avaliacaoResultados/getLaudoFinal',
-            }),
-            sincState(id) {
-                this.requestEmissaoParecer(id);
-                this.getLaudoFinal(id);
+export default {
+    name: 'Painel',
+    props: ['dados', 'estado'],
+    data() {
+        return {
+            devolucaoLaudo: {
+                idAgente: 0,
+                nome: 'sysLaudo',
             },
-            proximoEstado() {
-                let proximo = '';
-
-                switch (this.estado) {
-                case Const.ESTADO_ANALISE_LAUDO:
-                    proximo = Const.ESTADO_ANALISE_PARECER;
-                    break;
-                case Const.ESTADO_LAUDO_FINALIZADO:
-                    proximo = Const.ESTADO_ANALISE_LAUDO;
-                    break;
-                case Const.ESTADO_AGUARDANDO_ASSINATURA_LAUDO:
-                    proximo = Const.ESTADO_ANALISE_LAUDO;
-                    break;
-                case Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA:
-                    proximo = Const.ESTADO_ANALISE_LAUDO;
-                    break;
-                default:
-                    proximo = '';
-                }
-                return proximo;
+            pagination: {
+                rowsPerPage: 10,
             },
+            searchLength: 0,
+            search: '',
+            dialog: false,
+            cabecalho: [
+                {
+                    align: 'center',
+                    text: '#',
+                    sortable: false,
+                },
+                {
+                    align: 'center',
+                    text: 'PRONAC',
+                    value: 'PRONAC',
+                },
+                {
+                    align: 'center',
+                    text: 'Nome Do Projeto',
+                    value: 'NomeProjeto',
+                },
+                {
+                    align: 'center',
+                    text: 'Manifestação',
+                    value: 'dsResutaldoAvaliacaoObjeto',
+                },
+                {
+                    align: 'center',
+                    text: 'Devolver',
+                    sortable: false,
+
+                },
+                {
+                    align: 'center',
+                    text: 'Ação',
+                    sortable: false,
+                },
+            ],
+            Const,
+        };
+    },
+    components: {
+        ModalTemplate,
+        Devolver,
+        VisualizarParecer,
+    },
+    methods: {
+        proximoEstado() {
+            let proximo = '';
+
+            switch (this.estado) {
+            case Const.ESTADO_ANALISE_LAUDO:
+                proximo = Const.ESTADO_ANALISE_PARECER;
+                break;
+            case Const.ESTADO_LAUDO_FINALIZADO:
+                proximo = Const.ESTADO_ANALISE_LAUDO;
+                break;
+            case Const.ESTADO_AGUARDANDO_ASSINATURA_LAUDO:
+                proximo = Const.ESTADO_ANALISE_LAUDO;
+                break;
+            case Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA:
+                proximo = Const.ESTADO_ANALISE_LAUDO;
+                break;
+            default:
+                proximo = '';
+            }
+            return proximo;
         },
-        computed: {
-            ...mapGetters({
-                getUsuario: 'autenticacao/getUsuario',
-            }),
-            pages() {
-                if (this.pagination.rowsPerPage == null ||
+    },
+    computed: {
+        ...mapGetters({
+            getUsuario: 'autenticacao/getUsuario',
+        }),
+        pages() {
+            if (this.pagination.rowsPerPage == null ||
                     this.pagination.totalItems == null
-                ) return 0;
-                return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
-            },
-            atoAdministrativo() {
-                let ato = Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
+            ) return 0;
+            return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
+        },
+        atoAdministrativo() {
+            let ato = Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
 
-                if (
-                    this.usuario &&
+            if (
+                this.usuario &&
                     (
                         Const.PERFIL_DIRETOR === this.getUsuario.grupo_ativo
                         || Const.PERFIL_SECRETARIO === this.getUsuario.grupo_ativo
                     )
-                ) {
-                    ato = Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
-                }
+            ) {
+                ato = Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
+            }
 
-                return ato;
-            },
-            usuario() {
-                return (this.getUsuario !== undefined && Object.keys(this.getUsuario).length > 0);
-            },
+            return ato;
         },
-        watch: {
-            dados() {
-                if (this.dados.items !== undefined) {
-                    this.pagination.totalItems = this.dados.items.length;
-                }
-            },
+        usuario() {
+            return (this.getUsuario !== undefined && Object.keys(this.getUsuario).length > 0);
         },
-    };
+    },
+    watch: {
+        dados() {
+            if (this.dados.items !== undefined) {
+                this.pagination.totalItems = this.dados.items.length;
+            }
+        },
+    },
+};
 </script>

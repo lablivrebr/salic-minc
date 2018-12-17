@@ -23,7 +23,7 @@
                         ></v-progress-circular>
                     </template>
                     <template v-else>
-                        Distribuir 
+                        Distribuir
                         <v-icon>assignment_ind</v-icon>
                     </template>
                 </v-tab>
@@ -157,6 +157,7 @@ import AssinarButton from '../analise/AssinarButton';
 import Devolver from '../components/Devolver';
 import VisualizarPlanilhaButtton from '../analise/VisualizarPlanilhaButtton';
 import Diligencias from '../components/HistoricoDiligencias';
+import VisualizarParecer from '../components/VisualizarParecer';
 
 export default {
     name: 'Painel',
@@ -207,7 +208,7 @@ export default {
             listaAcoesTecnico: {
                 atual: '',
                 proximo: '',
-                acoes: [Diligencias, Historico, AnaliseButton],
+                acoes: [Diligencias, Historico, AnaliseButton, VisualizarParecer],
             },
             listaAcoesAssinar: {
                 usuario: this.getUsuario,
@@ -220,7 +221,13 @@ export default {
                 usuario: this.getUsuario,
                 atual: '',
                 proximo: '',
-                acoes: [Diligencias, Encaminhar, Historico, VisualizarPlanilhaButtton] },
+                acoes: [
+                    Diligencias,
+                    Encaminhar,
+                    Historico,
+                    VisualizarPlanilhaButtton,
+                    VisualizarParecer,
+                ] },
             listaAcoesAssinarCoordenadorGeral: {
                 usuario: this.getUsuario,
                 atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,

@@ -10,7 +10,7 @@ import Diligenciar from './components/ParecerTecnico/Diligenciar';
 import EmitirLaudoFinal from './components/LaudoFinal/EmitirLaudoFinal';
 import Laudo from './components/LaudoFinal/PainelLaudo';
 import AnalisarItem from './components/ParecerTecnico/AnalisarItem';
-import VisualizarParecer from './components/LaudoFinal/VisualizarParecer';
+import VisualizarParecer from './components/components/VisualizarParecer';
 import VisualizarLaudo from './components/LaudoFinal/VisualizarLaudo';
 
 Vue.use(Router);

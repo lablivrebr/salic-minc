@@ -74,8 +74,6 @@ class AvaliacaoResultados_DiligenciaController extends MinC_Controller_Rest_Abst
             return;
         }
 
-        xd($solicitacao);
-        var_dump($solicitacao);
         $dados = [
             'idPronac' => $idPronac,
             'DtSolicitacao' => new Zend_Db_Expr('GETDATE()'),

@@ -15,7 +15,6 @@
 import { VueEditor } from 'vue2-editor';
 
 export default {
-    name: 'EditorTexto',
     props: { value: String },
     components: {
         VueEditor,

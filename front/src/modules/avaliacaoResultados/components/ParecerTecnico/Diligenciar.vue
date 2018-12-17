@@ -69,12 +69,8 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import EditorTexto from '../components/EditorTexto';
 
     export default {
-        components: {
-            EditorTexto,
-        },
         data() {
             return {
                 tpDiligencia: '',

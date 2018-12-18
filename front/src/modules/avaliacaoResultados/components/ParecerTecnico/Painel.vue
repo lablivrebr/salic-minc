@@ -215,7 +215,7 @@ export default {
                 atual: CONST.ESTADO_PARECER_FINALIZADO,
                 proximo: CONST.ESTADO_ANALISE_PARECER,
                 idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
-                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
+                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton, VisualizarParecer],
             },
             listaAcoesCoordenador: {
                 usuario: this.getUsuario,
@@ -233,7 +233,7 @@ export default {
                 atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
                 proximo: CONST.ESTADO_ANALISE_PARECER,
                 idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
-                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton],
+                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton, VisualizarParecer],
             },
             distribuirAcoes: { atual: '', proximo: '', acoes: [Encaminhar] },
             historicoAcoes: { atual: '', proximo: '', acoes: [Historico, VisualizarPlanilhaButtton] },

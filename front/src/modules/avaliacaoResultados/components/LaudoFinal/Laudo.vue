@@ -35,33 +35,6 @@
                     >
 
                     </VisualizarParecer>
-                    <!--<v-btn v-if="props.item.siManifestacao == 'A'"-->
-                            <!--round-->
-                            <!--color="green darken-4"-->
-                            <!--dark-->
-                            <!--@click.native="sincState(props.item.IdPronac)"-->
-                            <!--:to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"-->
-                    <!--&gt;-->
-                        <!--<v-icon>mood</v-icon>Aprovado-->
-                    <!--</v-btn>-->
-                    <!--<v-btn v-if="props.item.siManifestacao == 'P'"-->
-                            <!--round-->
-                            <!--color="green lighten-1"-->
-                            <!--dark-->
-                            <!--@click.native="sincState(props.item.IdPronac)"-->
-                            <!--:to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"-->
-                    <!--&gt;-->
-                        <!--<v-icon>sentiment_satisfied_alt</v-icon>Aprovado com ressalva-->
-                    <!--</v-btn>-->
-                    <!--<v-btn v-if="props.item.siManifestacao == 'R'"-->
-                            <!--round-->
-                            <!--color="red"-->
-                            <!--dark-->
-                            <!--@click.native="sincState(props.item.IdPronac)"-->
-                            <!--:to="{ name: 'VisualizarParecer', params:{ id:props.item.IdPronac }}"-->
-                    <!--&gt;-->
-                        <!--<v-icon>sentiment_very_dissatisfied</v-icon>Reprovado-->
-                    <!--</v-btn>-->
                 </td>
                 <td class="text-xs-center">
                     <Devolver

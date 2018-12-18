@@ -32,7 +32,7 @@
                         v-if="Object.keys(diligencias).length > 0"
                     >
                         <template slot="items" slot-scope="props">
-                            <tr @click="props.expanded = !props.expanded">
+                            <tr class="line" @click="props.expanded = !props.expanded; arrow = !arrow">
                                 <td class="text-xs-left" v-if="props.item.produto">
                                     {{ props.item.produto }}
                                 </td>
@@ -43,6 +43,10 @@
                                 <td class="text-xs-center" v-if="props.item.dataResposta !== null ">{{ props.item.dataResposta | date}}</td>
                                 <td class="text-xs-center">{{ statusDiligencia(props.item).prazo}}</td>
                                 <td class="text-xs-left">Prorrogado</td>
+                                <td>
+                                    <v-icon v-if="arrow">keyboard_arrow_down</v-icon>
+                                    <v-icon v-else>keyboard_arrow_up</v-icon>
+                                </td>
                             </tr>
                         </template>
                         <template slot="expand" slot-scope="props">
@@ -183,7 +187,12 @@ export default {
                     sortable: false,
                     align: 'left',
                 },
+                {
+                    text: '',
+                    sortable: false,
+                },
             ],
+            arrow: true,
         };
     },
     methods: {
@@ -323,3 +332,8 @@ export default {
     },
 };
 </script>
+<style scoped>
+    .line {
+        cursor: pointer;
+    }
+</style>

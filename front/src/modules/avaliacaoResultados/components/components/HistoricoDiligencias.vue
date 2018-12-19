@@ -96,13 +96,13 @@
                                                         <p>
                                                             <a :href="`/upload/abrir?id=${arquivo.idArquivo}`"
                                                                target="_blank">
-                                                                {{ arquivo.nmArquivo | date }}
+                                                                {{ arquivo.nmArquivo }}
                                                             </a>
                                                         </p>
                                                     </v-flex>
                                                     <v-flex xs2>
                                                         <p>
-                                                            {{ arquivo.dtEnvio | date }}
+                                                            {{ arquivo.dtEnvio }}
                                                         </p>
                                                     </v-flex>
                                                 </v-layout>

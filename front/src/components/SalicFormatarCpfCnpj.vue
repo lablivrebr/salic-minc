@@ -1,6 +1,6 @@
 <template>
-    <div v-if="cpfCnpjFormatado && cpfCnpjFormatado.length > 0" v-html="cpfCnpjFormatado"></div>
-    <div v-else>N&atilde;o informado(a)</div>
+    <span v-if="cpfCnpjFormatado && cpfCnpjFormatado.length > 0" v-html="cpfCnpjFormatado"></span>
+    <span v-else>N&atilde;o informado(a)</span>
 </template>
 
 <script>

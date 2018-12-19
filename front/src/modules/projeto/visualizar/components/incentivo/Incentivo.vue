@@ -206,7 +206,7 @@
                     </td>
                     <td class="centro" rowspan="2" width="10%">
                         <b>
-                            Conta Liberada
+                            Liberado para Execu&ccedil;&atilde;o
                         </b>
                     </td>
                     <td class="centro" rowspan="2">

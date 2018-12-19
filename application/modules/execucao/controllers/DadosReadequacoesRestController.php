@@ -35,6 +35,22 @@ class Execucao_DadosReadequacoesRestController extends MinC_Controller_Rest_Abst
 
     public function getAction()
     {
+        try {
+            $VisulualizarReadequacoesService = new DadosReadequacoesService($this->getRequest(), $this->getResponse());
+            $resposta = $VisulualizarReadequacoesService->visualizarReadequacao();
+            $resposta = \TratarArray::utf8EncodeArray($resposta);
+
+            $this->renderJsonResponse($resposta, 200);
+
+        } catch (Exception $objException) {
+            $this->customRenderJsonResponse([
+                'error' => [
+                    'code' => 404,
+                    'message' => $objException->getMessage()
+                ]
+            ], 404);
+
+        }
     }
 
     public function postAction()

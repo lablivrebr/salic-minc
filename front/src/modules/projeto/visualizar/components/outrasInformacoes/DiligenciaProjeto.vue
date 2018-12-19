@@ -8,7 +8,7 @@
                 <v-expansion-panel-content class="elevation-1">
                     <v-layout slot="header" class="primary--text">
                         <v-icon class="mr-3 primary--text">perm_media</v-icon>
-                        Diligência Proposta
+                        Diligência Proposta ({{dados.diligenciaProposta.length}})
                     </v-layout>
                     <v-card>
                         <v-card-text>
@@ -24,7 +24,7 @@
                 <v-expansion-panel-content class="elevation-1">
                     <v-layout slot="header" class="primary--text">
                         <v-icon class="mr-3 primary--text">perm_media</v-icon>
-                        Diligências da Adequação do Projeto
+                        Diligências da Adequação do Projeto ({{dados.diligenciaAdequacao.length}})
                     </v-layout>
                     <v-card>
                         <v-card-text>
@@ -40,7 +40,7 @@
                 <v-expansion-panel-content class="elevation-1">
                     <v-layout slot="header" class="primary--text">
                         <v-icon class="mr-3 primary--text">perm_media</v-icon>
-                        Diligência Projeto
+                        Diligência Projeto ({{dados.diligenciaProjeto.length}})
                     </v-layout>
                     <v-card>
                         <v-card-text>

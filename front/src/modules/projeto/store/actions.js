@@ -257,3 +257,11 @@ export const buscarDadosFiscalizacaoVisualiza = ({ commit }, value) => {
         });
 };
 
+export const visualizarGrupoReadequacao = ({ commit }, value) => {
+    const { idPronac, valor } = value;
+    projetoHelperAPI.visualizarGrupoReadequacao(idPronac, valor)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_DADOS_GRUPO_READEQUACAO, data);
+        });
+};

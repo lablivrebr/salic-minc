@@ -27,6 +27,7 @@ export const state = {
     diligencia: [],
     marcasAnexadas: [],
     dadosReadequacoes: [],
+    gruposReadequacoes: [],
     pedidoProrrogacao: [],
     dadosFiscalizacaoLista: [],
     dadosFiscalizacaoVisualiza: [],
@@ -119,5 +120,8 @@ export const mutations = {
     },
     [types.SET_DADOS_FISCALIZACAO_VISUALIZA](state, dados) {
         state.dadosFiscalizacaoVisualiza = dados;
+    },
+    [types.SET_DADOS_GRUPO_READEQUACAO](state, dados) {
+        state.gruposReadequacoes = dados;
     },
 };

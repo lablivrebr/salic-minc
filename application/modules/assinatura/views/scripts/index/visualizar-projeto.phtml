@@ -20,6 +20,19 @@
         </div>
         <div class="col s1"></div>
     </div>
+    <?php if ($this->documentoAssinatura["stEstado"] == Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_INATIVO) : ?>
+        <div class="row margin-bottom30"></div>
+        <div class="row">
+            <div class="col s1"></div>
+            <div class="col s10">
+                <div style="background-color: #EF5350; text-transform: uppercase"
+                     class="darken-2 padding10 white-text center-align">
+                    <div><b>Documento Arquivado</b></div>
+                </div>
+            </div>
+            <div class="col s1"></div>
+        </div>
+    <?php endif; ?>
     <form method="post" target="_blank" action="<?php
     echo $this->url(
             array(

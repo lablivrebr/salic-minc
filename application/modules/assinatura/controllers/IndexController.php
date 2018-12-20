@@ -524,23 +524,9 @@ class Assinatura_IndexController extends Assinatura_GenericController
 
             $idDocumentoAssinatura = $this->view->documentoAssinatura['idDocumentoAssinatura'];
 
-            $objTbAtoAdministrativo = new Assinatura_Model_DbTable_TbAtoAdministrativo();
-
-            $grupoAtoAdministrativo = '';
-            if ($idDocumentoAssinatura != '') {
-                $grupoAtoAdministrativo = $objTbAtoAdministrativo->obterGrupoPorIdDocumentoAssinatura($idDocumentoAssinatura);
-            }
-            $dadosAtoAdministrativoAtual = $objTbAtoAdministrativo->obterAtoAdministrativoAtual(
-                $idTipoDoAtoAdministrativo,
-                $this->grupoAtivo->codGrupo,
-                $this->grupoAtivo->codOrgao,
-                $grupoAtoAdministrativo
-            );
-
             $post = $this->getRequest()->getPost();
             if ($post) {
                 try {
-                    $this->view->despac = $post['dsManifestacao'];
                     $documentoAssinatura = $objModelDocumentoAssinatura->findBy(
                         array(
                             'IdPRONAC' => $idPronac,
@@ -553,7 +539,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
                     $servicoAssinatura = new \MinC\Assinatura\Servico\Assinatura(
                         [
                             'idPronac' => $idPronac,
-                            'Despacho' => $post['despacho'],
+                            'dsMotivoDevolucao' => $post['dsMotivoDevolucao'],
                             'idAssinante' => $this->auth->getIdentity()->usu_codigo,
                             'idDocumentoAssinatura' => $documentoAssinatura['idDocumentoAssinatura'],
                             'idTipoDoAto' => $idTipoDoAtoAdministrativo,
@@ -581,16 +567,13 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 }
             }
 
-            $objTbAssinatura = new Assinatura_Model_DbTable_TbAssinatura();
-            $assinaturaExistente = $objTbAssinatura->buscar(array(
-                'idPronac = ?' => $idPronac,
-                'idAtoAdministrativo = ?' => $dadosAtoAdministrativoAtual['idAtoAdministrativo'],
-                'idAssinante = ?' => $this->auth->getIdentity()->usu_codigo,
+            $objTbAssinatura = new Assinatura_Model_DbTable_TbMotivoDevolucao();
+            $documentoDevolvido = $objTbAssinatura->buscar(array(
                 'idDocumentoAssinatura = ?' => $idDocumentoAssinatura
             ));
 
-            if (count($assinaturaExistente) > 0) {
-                throw new Exception("O documento j&aacute; foi assinado pelo usu&aacute;rio logado nesta fase atual.");
+            if (count($documentoDevolvido) > 0) {
+                throw new Exception("O documento j&aacute; foi devolvido!");
             }
 
             $objProjeto = new Projeto_Model_DbTable_Projetos();

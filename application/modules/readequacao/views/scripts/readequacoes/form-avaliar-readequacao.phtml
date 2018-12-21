@@ -249,6 +249,7 @@
                         $('#modalValorUnitario').val(data.dadosPlanilhaEditavel.ValorUnitario.replace('R$ ', ''));
                         $('#modalDias').val(data.dadosPlanilhaEditavel.QtdeDias);
                         $('#modalJustificativa').val(data.dadosPlanilhaEditavel.Justificativa);
+                        $('#modalNrFonteRecurso').val(data.dadosPlanilhaEditavel.nrFonteRecurso);
                         $('#TotalCalculado').html(data.dadosPlanilhaEditavel.TotalSolicitado);
 
                         $('#campoIdPlanilha').attr('idPlanilha', idPlanilhaAprovacao);
@@ -276,6 +277,7 @@
                                         ValorUnitario = $('#modalValorUnitario').val(),
                                         QtdeDias = $('#modalDias').val(),
                                         Justificativa = $('#modalJustificativa').val(),
+                                        nrFonteRecurso = $('#modalNrFonteRecurso').val(),
                                         obrigatorios = 0,
                                         erros = 0;
 
@@ -334,7 +336,8 @@
                                                 ValorUnitario: ValorUnitario,
                                                 QtdeDias: QtdeDias,
                                                 Justificativa: Justificativa,
-                                                valorSolicitado: valorParaMsgErro
+                                                valorSolicitado: valorParaMsgErro,
+                                                nrFonteRecurso: nrFonteRecurso,
                                             },
                                             success: function (data) {
                                                 $("#modalItem").dialog("destroy");
@@ -743,6 +746,8 @@
                                 <textarea id="modalJustificativa" class="textarea_simples modalObrigatorios" rows="3"
                                           style="width:98%" name="Justificativa"></textarea>
                             </td>
+
+                            <input type="hidden" id="modalNrFonteRecurso" name="nrFonteRecurso" value="">
                         </tr>
                     </table>
                 </div>

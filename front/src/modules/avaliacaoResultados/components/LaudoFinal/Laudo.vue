@@ -111,7 +111,7 @@
 
 <script>
 import ModalTemplate from '@/components/modal';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import Const from '../../const';
 import Devolver from '../components/Devolver';
 import VisualizarParecer from '../components/VisualizarParecer';
@@ -173,6 +173,14 @@ export default {
         VisualizarParecer,
     },
     methods: {
+        ...mapActions({
+            requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
+            getLaudoFinal: 'avaliacaoResultados/getLaudoFinal',
+        }),
+        sincState(id) {
+            this.requestEmissaoParecer(id);
+            this.getLaudoFinal(id);
+        },
         proximoEstado() {
             let proximo = '';
 

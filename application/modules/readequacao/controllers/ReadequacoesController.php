@@ -500,6 +500,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $editarItem->idUFDespesa = $itemAtivo->idUFDespesa;
             $editarItem->idMunicipioDespesa = $itemAtivo->idMunicipioDespesa;
             $editarItem->idMunicipioDespesa = $itemAtivo->idMunicipioDespesa;
+            $editarItem->dsJustificativa = $itemAtivo->dsJustificativa;
             $editarItem->tpAcao = 'N';
         }
         $editarItem->save();

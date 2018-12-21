@@ -193,6 +193,7 @@
                             },
                             success: function (data) {
                                 $("#modalItem").dialog("destroy");
+                                Materialize.toast(data.msg, 4000, 'green light-green accent-1 black-text');
                                 jqAjaxLinkSemLoading('<?php echo $this->Url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'carregar-valor-entre-planilhas'), '', true) ?>?idPronac=<?php echo $this->idPronac; ?>', '', 'valorEntrePlanilhas');
                                 jqAjaxLinkSemLoading('<?php echo $this->Url(array('module' => 'default', 'controller' => 'index', 'action' => 'montar-planilha-orcamentaria')) ?>?idPronac=<?php echo $this->idPronac; ?>&tipoPlanilha=6&link=true', '', 'planilhaOrcamentariaMontada');
                             }
@@ -341,6 +342,7 @@
                                             },
                                             success: function (data) {
                                                 $("#modalItem").dialog("destroy");
+                                                Materialize.toast(data.msg, 4000, 'green light-green accent-1 black-text');
                                                 jqAjaxLinkSemLoading('<?php echo $this->Url(array('module' => 'readequacao', 'controller' => 'readequacoes', 'action' => 'carregar-valor-entre-planilhas'), '', true) ?>?idPronac=<?php echo $this->idPronac; ?>', '', 'valorEntrePlanilhas');
                                                 jqAjaxLinkSemLoading('<?php echo $this->Url(array('module' => 'default', 'controller' => 'index', 'action' => 'montar-planilha-orcamentaria')) ?>?idPronac=<?php echo $this->idPronac; ?>&tipoPlanilha=6&link=true', '', 'planilhaOrcamentariaMontada');
                                             }

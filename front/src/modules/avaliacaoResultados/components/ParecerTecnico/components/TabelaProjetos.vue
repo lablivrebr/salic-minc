@@ -86,44 +86,6 @@ export default {
             },
             selected: [],
             search: '',
-            cabecalho: [
-                {
-                    text: '#',
-                    align: 'left',
-                    sortable: false,
-                    value: 'numero',
-                },
-                {
-                    text: 'PRONAC',
-                    value: 'Pronac',
-                    align: 'center',
-                },
-                {
-                    text: 'Nome Do Projeto',
-                    align: 'center',
-                    value: 'NomeProjeto',
-                },
-                {
-                    text: 'Situacao',
-                    align: 'center',
-                    value: 'Situacao',
-                },
-                {
-                    text: 'Estado',
-                    align: 'center',
-                    value: 'UfProjeto',
-                },
-                {
-                    text: 'Tecnico',
-                    align: 'center',
-                    value: '',
-                },
-                {
-                    text: 'Ações',
-                    sortable: false,
-                    align: 'center',
-                },
-            ],
         };
     },
     methods: {
@@ -142,7 +104,7 @@ export default {
                 },
                 {
                     text: 'PRONAC',
-                    value: 'Pronac',
+                    value: 'PRONAC',
                 },
                 {
                     text: 'Nome Do Projeto',

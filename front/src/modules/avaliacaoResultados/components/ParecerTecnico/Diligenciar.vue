@@ -68,29 +68,33 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import EditorTexto from '../components/EditorTexto';
 
-    export default {
-        data() {
-            return {
-                tpDiligencia: '',
-                solicitacao: '',
-                idPronac: this.$route.params.id,
-                valid: false,
-                dialog: true,
-                solicitacaoRules: {
-                    show: false,
-                    color: '',
-                    backgroundColor: '',
-                    msg: '',
-                    enable: false,
-                },
-                diligenciaRules: [
-                    v => !!v || 'Tipo de diligencia é obrigatório!',
-                ],
-            };
-        },
-        methods:
+export default {
+    components: {
+        EditorTexto,
+    },
+    data() {
+        return {
+            tpDiligencia: '',
+            solicitacao: '',
+            idPronac: this.$route.params.id,
+            valid: false,
+            dialog: true,
+            solicitacaoRules: {
+                show: false,
+                color: '',
+                backgroundColor: '',
+                msg: '',
+                enable: false,
+            },
+            diligenciaRules: [
+                v => !!v || 'Tipo de diligencia é obrigatório!',
+            ],
+        };
+    },
+    methods:
         {
             ...mapActions({
                 requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
@@ -133,14 +137,14 @@
                 }
             },
         },
-        computed:
+    computed:
         {
             ...mapGetters({
                 projeto: 'avaliacaoResultados/projeto',
             }),
         },
-        created() {
-            this.getConsolidacao(this.idPronac);
-        },
-    };
+    created() {
+        this.getConsolidacao(this.idPronac);
+    },
+};
 </script>

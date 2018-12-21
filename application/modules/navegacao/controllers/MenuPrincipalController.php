@@ -86,8 +86,8 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
         ];
 
         $arrMenu['prestacao-contas']['menu'][] = [
-            'label' => 'Parecer T&eacute;cnico',
-            'title' => 'Ir para Parecer T&eacute;cnico',
+            'label' => 'Analisar Comprova&ccedil;&atilde;o Financeira',
+            'title' => 'Ir para Analisar Comprova&ccedil;&atilde;o Financeira',
             'url' => ['module' => 'avaliacao-resultados', 'controller' => 'index', 'action' => 'index'],
             'grupo' => [126,125,124]
         ];
@@ -96,7 +96,7 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
             'grupo' => [126, 148, 151],
             'url' => ['module' => 'avaliacao-resultados', 'controller' => 'index', 'action' => 'index/#/laudo'],
             'title' => 'Ir para Laudo Final',
-            'label' => 'Laudo Final'
+            'label' => 'Analisar Laudo Final'
         ];
 
         return $arrMenu;

@@ -3,17 +3,18 @@
         <div v-if="loading">
             <Carregando :text="'Carregando Dados das Readequações'"></Carregando>
         </div>
-        <div v-else-if="Object.keys(gruposReadequacao).length > 0">
+        <v-flex v-else-if="Object.keys(gruposReadequacao).length > 0">
             <v-expansion-panel popout focusable>
                 <v-expansion-panel-content
                         class="elevation-1"
-                        v-for="(dadoAgrupado, index2) in this.gruposReadequacao"
-                        :key="index2"
+                        v-for="(dadoAgrupado, titulo) in this.gruposReadequacao"
+                        :key="dadoAgrupado[0].idReadequacao"
                 >
                     <v-layout slot="header" class="primary--text">
-                        <v-icon class="mr-3 primary--text">{{ dadoAgrupado[0].idTipoReadequacao | filtrarIcone }}
+                        <v-icon class="mr-3 primary--text">
+                            {{ dadoAgrupado[0].idTipoReadequacao | filtrarIcone }}
                         </v-icon>
-                        <span>{{ index2 }} ({{dadoAgrupado.length}})</span>
+                        <span>{{ titulo }} ({{dadoAgrupado.length}})</span>
                     </v-layout>
                     <v-data-table
                             :headers="headers"
@@ -34,160 +35,157 @@
                                 {{ props.item.dtAvaliacao | formatarData }}
                             </td>
                             <td class="text-xs-center">
-                                <v-btn flat icon>
-                                    <v-tooltip bottom>
-                                        <v-icon
-                                                slot="activator"
-                                                @click="showItem(props.item)"
-                                                class="material-icons">visibility
-                                        </v-icon>
-                                        <span>Visualizar Dados das Readequações</span>
-                                    </v-tooltip>
-                                </v-btn>
+                                <v-tooltip bottom>
+                                    <v-btn
+                                            flat
+                                            icon
+                                            slot="activator"
+                                            @click="showItem(props.item)"
+                                    >
+                                        <v-icon>visibility</v-icon>
+                                    </v-btn>
+                                    <span>Visualizar Projeto</span>
+                                </v-tooltip>
                             </td>
                         </template>
                         <template slot="pageText" slot-scope="props">
                             Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
                         </template>
                     </v-data-table>
-                    <v-dialog v-model="dialog" width="90%" v-for="(dado, index) in gruposReadequacoes.dadosReadequacoes"
-                              :key="index">
-                        <v-card>
-                            <v-card-text v-if="Object.keys(gruposReadequacoes.dadosReadequacoes).length > 0">
-                                <v-container grid-list-md text-xs-left>
-                                    <div>
-                                        <v-layout justify-space-around row wrap>
-                                            <v-flex lg12 dark class="text-xs-left">
-                                                <b><h4>SOLICITAÇÃO DO PROPONENTE</h4></b>
-                                                <v-divider class="pb-2"></v-divider>
-                                            </v-flex>
-                                            <v-flex>
-                                                <b>Arquivo</b><br>
-                                                <a
-                                                        v-if="dado.idArquivo"
-                                                        :href="`/upload/abrir?id=${dado.idArquivo}`"
-                                                >
-                                                    <span v-html="dado.nmArquivo"></span>
-                                                </a>
-                                                <span v-else>
-                                                          -
-                                                        </span>
-                                            </v-flex>
-                                            <v-flex>
-                                                <b>Data envio</b>
-                                                <p v-if="dado.dtEnvio">
-                                                    {{ dado.dtEnvio | formatarData }}
-                                                </p>
-                                                <p v-else>
-                                                    -
-                                                </p>
-                                            </v-flex>
-                                            <v-flex>
-                                                <b>Data solicitação</b>
-                                                <p>{{ dado.dtSolicitacao | formatarData }} </p>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-layout row justify-space-between>
-                                            <v-flex>
-                                                <b>Dados da solicitação</b>
-                                                <p v-html="dado.dsSolicitacao" v-if="dado.dsSolicitacao"></p>
-                                                <p v-else>
-                                                    -
-                                                </p>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-layout row justify-space-between>
-                                            <v-flex>
-                                                <b>Justificativa da solicitação</b>
-                                                <p v-html="dado.dsJustificativa"></p>
-                                            </v-flex>
-                                        </v-layout>
-                                    </div>
-                                    <br>
-                                    <div v-if="validarAcessoSituacao(dado.siEncaminhamento)">
-                                        <v-layout justify-space-around row wrap>
-                                            <v-flex lg12 dark class="text-xs-left">
-                                                <b><h4>AVALIAÇÃO</h4></b>
-                                                <v-divider class="pb-2"></v-divider>
-                                            </v-flex>
-                                            <v-flex>
-                                                <b>Situação</b>
-                                                <p v-if="dado.stAtendimento === 'I'">
-                                                    Rejeitado
-                                                </p>
-                                                <p v-else>
-                                                    Recebido
-                                                </p>
-                                            </v-flex>
-                                            <v-flex>
-                                                <b>Data avaliação</b>
-                                                <p v-if="dado.dtAvaliador">
-                                                    {{ dado.dtAvaliador | formatarData }}
-                                                </p>
-                                                <p v-else>
-                                                    -
-                                                </p>
-                                            </v-flex>
-                                            <v-flex>
-                                                <b>Descrição da avaliação</b>
-                                                <p v-html="dado.dsAvaliacao"></p>
-                                            </v-flex>
-                                        </v-layout>
-                                    </div>
-                                    <br>
-                                    <div v-if="dado.siEncaminhamento === 15">
-                                        <v-list v-for="(parecer, index) in dado.pareceres" :key="index">
-                                            <v-flex lg12 dark class="text-xs-left">
-                                                <b><h4>PARECER TÉCNICO</h4></b>
-                                                <v-divider class="pb-2"></v-divider>
-                                            </v-flex>
-                                            <v-layout row justify-space-between>
-                                                <v-flex>
-                                                    <b>Parecer favorável?</b>
-                                                    <p v-if="parecer.ParecerFavoravel === '2'">
-                                                        SIM
-                                                    </p>
-                                                    <p v-else>
-                                                        NÂO
-                                                    </p>
-                                                </v-flex>
-
-                                                <v-flex>
-                                                    <b>Data parecer</b>
-                                                    <p> {{ parecer.DtParecer | formatarData }}</p>
-                                                </v-flex>
-                                            </v-layout>
-                                            <v-layout row justify-space-between>
-                                                <v-flex>
-                                                    <b>Descrição do parecer - Técnico / Parecerista</b>
-                                                    <p v-html="parecer.ResumoParecer"></p>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-list>
-                                    </div>
-                                </v-container>
-                            </v-card-text>
-                            <v-card-text v-else>
-                                <Carregando :text="'Carregando ...'"></Carregando>
-                            </v-card-text>
-                            <v-divider></v-divider>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                        color="red"
-                                        flat
-                                        @click="dialog = false">
-                                    Fechar
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
                 </v-expansion-panel-content>
             </v-expansion-panel>
+            <v-dialog v-model="dialog">
+                <v-card>
+                    <v-card-text v-if="readequacao">
+                        <v-container grid-list-md text-xs-left>
+                            <div>
+                                <v-layout justify-space-around row wrap>
+                                    <v-flex lg12 dark class="text-xs-left">
+                                        <b><h4>SOLICITAÇÃO DO PROPONENTE</h4></b>
+                                        <v-divider class="pb-2"></v-divider>
+                                    </v-flex>
+                                    <v-flex>
+                                        <b>Arquivo</b><br>
+                                        <a
+                                                v-if="readequacao.idArquivo"
+                                                :href="`/upload/abrir?id=${readequacao.idArquivo}`"
+                                        >
+                                            <span v-html="readequacao.nmArquivo"></span>
+                                        </a>
+                                        <span v-else>
+                                         -
+                                        </span>
+                                    </v-flex>
+                                    <v-flex>
+                                        <b>Data envio</b>
+                                        <p v-if="readequacao.dtEnvio">
+                                            {{ readequacao.dtEnvio | formatarData }}
+                                        </p>
+                                        <p v-else>
+                                            -
+                                        </p>
+                                    </v-flex>
+                                    <v-flex>
+                                        <b>Data solicitação</b>
+                                        <p>{{ readequacao.dtSolicitacao | formatarData }} </p>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row justify-space-between>
+                                    <v-flex>
+                                        <b>Dados da solicitação</b>
+                                        <p v-html="readequacao.dsSolicitacao" v-if="readequacao.dsSolicitacao"></p>
+                                        <p v-else>
+                                            -
+                                        </p>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row justify-space-between>
+                                    <v-flex>
+                                        <b>Justificativa da solicitação</b>
+                                        <p v-html="readequacao.dsJustificativa"></p>
+                                    </v-flex>
+                                </v-layout>
+                            </div>
+                            <br>
+                            <div v-if="validarAcessoSituacao(readequacao.siEncaminhamento)">
+                                <v-layout justify-space-around row wrap>
+                                    <v-flex lg12 dark class="text-xs-left">
+                                        <b><h4>AVALIAÇÃO</h4></b>
+                                        <v-divider class="pb-2"></v-divider>
+                                    </v-flex>
+                                    <v-flex>
+                                        <b>Situação</b>
+                                        <p v-if="readequacao.stAtendimento === 'I'">
+                                            Rejeitado
+                                        </p>
+                                        <p v-else>
+                                            Recebido
+                                        </p>
+                                    </v-flex>
+                                    <v-flex>
+                                        <b>Data avaliação</b>
+                                        <p v-if="readequacao.dtAvaliador">
+                                            {{ readequacao.dtAvaliador | formatarData }}
+                                        </p>
+                                        <p v-else>
+                                            -
+                                        </p>
+                                    </v-flex>
+                                    <v-flex>
+                                        <b>Descrição da avaliação</b>
+                                        <p v-html="readequacao.dsAvaliacao"></p>
+                                    </v-flex>
+                                </v-layout>
+                            </div>
+                            <br>
+                            <div v-if="readequacao.siEncaminhamento === 15">
+                                <v-list v-for="(parecer, index) in readequacao.pareceres" :key="index">
+                                    <v-flex lg12 dark class="text-xs-left">
+                                        <b><h4>PARECER TÉCNICO</h4></b>
+                                        <v-divider class="pb-2"></v-divider>
+                                    </v-flex>
+                                    <v-layout row justify-space-between>
+                                        <v-flex>
+                                            <b>Parecer favorável?</b>
+                                            <p v-if="parecer.ParecerFavoravel === '2'">
+                                                SIM
+                                            </p>
+                                            <p v-else>
+                                                NÂO
+                                            </p>
+                                        </v-flex>
 
+                                        <v-flex>
+                                            <b>Data parecer</b>
+                                            <p> {{ parecer.DtParecer | formatarData }}</p>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout row justify-space-between>
+                                        <v-flex>
+                                            <b>Descrição do parecer - Técnico / Parecerista</b>
+                                            <p v-html="parecer.ResumoParecer"></p>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-list>
+                            </div>
+                        </v-container>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                                color="red"
+                                flat
+                                @click="dialog = false"
+                        >
+                            Fechar
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
             <ReadequacoesDevolvidas/>
-        </div>
-        <div v-else>
+        </v-flex>
+        <v-layout v-else>
             <v-container grid-list-md text-xs-center>
                 <v-layout row wrap>
                     <v-flex>
@@ -197,7 +195,7 @@
                     </v-flex>
                 </v-layout>
             </v-container>
-        </div>
+        </v-layout>
     </div>
 </template>
 <script>
@@ -212,6 +210,7 @@
         props: ['idPronac'],
         data() {
             return {
+                readequacao: {},
                 dialog: false,
                 loading: true,
                 gruposReadequacao: {},
@@ -257,7 +256,6 @@
             ...mapGetters({
                 dadosProjeto: 'projeto/projeto',
                 dados: 'projeto/dadosReadequacoes',
-                gruposReadequacoes: 'projeto/gruposReadequacoes',
             }),
         },
         watch: {
@@ -310,12 +308,9 @@
         methods: {
             ...mapActions({
                 buscarDadosReadequacoes: 'projeto/buscarDadosReadequacoes',
-                visualizarGrupoReadequacao: 'projeto/visualizarGrupoReadequacao',
             }),
             showItem(item) {
-                const idPronac = this.dadosProjeto.idPronac;
-                const valor = item.idReadequacao;
-                this.visualizarGrupoReadequacao({ idPronac, valor });
+                this.readequacao = item;
                 this.dialog = true;
             },
             validarAcessoSituacao(siEncaminhamento) {

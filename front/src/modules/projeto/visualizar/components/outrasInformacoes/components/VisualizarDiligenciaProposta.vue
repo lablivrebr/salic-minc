@@ -11,16 +11,17 @@
                 <td class="text-xs-center">{{ props.item.idPreprojeto }}</td>
                 <td class="text-xs-center">{{ props.item.dataSolicitacao }}</td>
                 <td class="text-xs-center">
-                    <v-btn flat icon>
-                        <v-tooltip bottom>
-                            <v-icon
-                                    slot="activator"
-                                    @click="showItem(props.item)"
-                                    class="material-icons">visibility
-                            </v-icon>
-                            <span>Visualizar Projeto</span>
-                        </v-tooltip>
-                    </v-btn>
+                    <v-tooltip bottom>
+                        <v-btn
+                                flat
+                                icon
+                                slot="activator"
+                                @click="showItem(props.item)"
+                        >
+                            <v-icon>visibility</v-icon>
+                        </v-btn>
+                        <span>Visualizar Projeto</span>
+                    </v-tooltip>
                 </td>
             </template>
             <template slot="pageText" slot-scope="props">

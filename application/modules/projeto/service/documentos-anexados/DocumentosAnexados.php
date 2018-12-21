@@ -58,12 +58,7 @@ class DocumentosAnexados implements \MinC\Servico\IServicoRestZend
                     $item->Anexado = 'Documento do Projeto';
                     break;
             }
-//            $data = ' ';
 
-//            if (!empty($item->Data)) {
-////                $data = new \DateTime($item->Data);
-////                $data = $data->format('d/m/Y');
-//            }
             $itemArray = [
                 'Anexado' => $item->Anexado,
                 'Data' => $item->Data,

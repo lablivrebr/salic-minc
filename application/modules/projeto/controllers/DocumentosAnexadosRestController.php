@@ -17,6 +17,7 @@ class Projeto_DocumentosAnexadosRestController extends MinC_Controller_Rest_Abst
         try {
             $DocumentosAnexadosService = new DocumentosAnexados($this->getRequest(), $this->getResponse());
             $resposta = $DocumentosAnexadosService->buscarDocumentosAnexados();
+            $resposta = \TratarArray::utf8EncodeArray($resposta);
 
             $this->renderJsonResponse($resposta, 200);
 

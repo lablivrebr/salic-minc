@@ -17,7 +17,7 @@
                     <td class="text-xs-right">{{ props.item.DtSituacao }}</td>
                     <td class="text-xs-right">{{ props.item.Situacao }}</td>
                     <td class="text-xs-left" v-html="props.item.ProvidenciaTomada"></td>
-                    <td class="text-xs-right" v-if="props.item.cnpjcpf" style="width: 200px">
+                    <td class="text-xs-left" v-if="props.item.cnpjcpf" style="width: 200px">
                         {{ props.item.cnpjcpf | cnpjFilter }}
                     </td>
                     <td class="text-xs-left" v-else>
@@ -70,7 +70,7 @@
                     },
                     {
                         text: 'CPF',
-                        align: 'center',
+                        align: 'left',
                         value: 'cnpjcpf',
                     },
                     {

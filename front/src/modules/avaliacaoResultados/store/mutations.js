@@ -12,10 +12,10 @@ export const state = {
     dadosDestinatarios: [],
     diligenciasHistorico: [],
     mocks:
-    {
-        parecer: Parecer,
-        tipoAvaliacao: TipoAvaliacao,
-    },
+        {
+            parecer: Parecer,
+            tipoAvaliacao: TipoAvaliacao,
+        },
     parecer: {},
     projeto: {},
     proponente: {},
@@ -42,7 +42,7 @@ export const state = {
     devolverProjeto: {},
     objetoParecer: {},
     itensBuscaComprovantes: {},
-    comprovantes: {},
+    comprovantes: [],
     projetosAssinarCoordenador: {},
     projetosAssinarCoordenadorGeral: {},
 };
@@ -181,6 +181,12 @@ export const mutations = {
     [types.SET_COMPROVANTES](state, dados) {
         state.comprovantes = dados;
     },
+    [types.EDIT_COMPROVANTE](state, comprovante) {
+        const index = state.comprovantes.findIndex(
+            item => item.idComprovantePagamento === comprovante.idComprovantePagamento,
+        );
+        Object.assign(state.comprovantes[index], comprovante);
+    },
     [types.SYNC_PROJETOS_ASSINAR_COORDENADOR](state, dados) {
         state.projetosAssinarCoordenador = dados;
     },
@@ -188,73 +194,42 @@ export const mutations = {
         state.projetosAssinarCoordenadorGeral = dados;
     },
     [types.ALTERAR_PLANILHA](state, params) {
-        const tiposAvaliacoes = {
-            avaliado: 1,
-            impugnado: 3,
-            aguardandoAnalise: 4,
-
+        const tiposXQuantidade = {
+            1: 0, // avaliado
+            3: 0, // impugnado
+            4: 0, // aguardando analise
         };
 
-        const copiaItem = _.cloneDeep(state
+        const itens = state
             .planilha[params.cdProduto]
             .etapa[params.etapa]
             .UF[params.cdUf]
             .cidade[params.idmunicipio]
-            .itens[params.stItemAvaliado][params.idPlanilhaItem]);
-        Object.values(tiposAvaliacoes).forEach((tipoAvaliacao) => {
-            if (typeof state
-                .planilha[params.cdProduto]
-                .etapa[params.etapa]
-                .UF[params.cdUf]
-                .cidade[params.idmunicipio]
-                .itens[tipoAvaliacao] !== 'undefined') {
-                Vue.delete(state
-                    .planilha[params.cdProduto]
-                    .etapa[params.etapa]
-                    .UF[params.cdUf]
-                    .cidade[params.idmunicipio]
-                    .itens[tipoAvaliacao], params.idPlanilhaItem);
-            }
+            .itens;
+
+        const copiaItem = _.cloneDeep(itens.todos[params.idPlanilhaItem]);
+
+        state.comprovantes.forEach((comprovante) => {
+            tiposXQuantidade[comprovante.stItemAvaliado] += 1;
         });
 
-        state.dadosItemComprovacao.comprovantes.forEach((valor) => {
-            copiaItem.stItemAvaliado = valor.stItemAvaliado;
-            if (typeof state
-                .planilha[params.cdProduto]
-                .etapa[params.etapa]
-                .UF[params.cdUf]
-                .cidade[params.idmunicipio]
-                .itens[valor.stItemAvaliado] === 'undefined') {
-                Vue.set(state
-                    .planilha[params.cdProduto]
-                    .etapa[params.etapa]
-                    .UF[params.cdUf]
-                    .cidade[params.idmunicipio]
-                    .itens, valor.stItemAvaliado, {});
+        Object.keys(tiposXQuantidade).forEach((tipo) => {
+            const quantidade = tiposXQuantidade[tipo];
+            if (quantidade === 0) {
+                if (typeof itens[tipo] !== 'undefined') {
+                    Vue.delete(itens[tipo], params.idPlanilhaItem);
+
+                    if (Object.keys(itens[tipo]).length === 0) {
+                        Vue.delete(itens, tipo);
+                    }
+                }
+                return;
             }
 
-            Vue.set(state
-                .planilha[params.cdProduto]
-                .etapa[params.etapa]
-                .UF[params.cdUf]
-                .cidade[params.idmunicipio]
-                .itens[valor.stItemAvaliado], params.idPlanilhaItem, copiaItem);
-        });
-
-        Object.values(tiposAvaliacoes).forEach((tipoAvaliacao) => {
-            if (Object.keys(state
-                .planilha[params.cdProduto]
-                .etapa[params.etapa]
-                .UF[params.cdUf]
-                .cidade[params.idmunicipio]
-                .itens[tipoAvaliacao]).length === 0) {
-                Vue.delete(state
-                    .planilha[params.cdProduto]
-                    .etapa[params.etapa]
-                    .UF[params.cdUf]
-                    .cidade[params.idmunicipio]
-                    .itens, tipoAvaliacao);
+            if (typeof itens[tipo] === 'undefined') {
+                Vue.set(itens, tipo, {});
             }
+            Vue.set(itens[tipo], params.idPlanilhaItem, copiaItem);
         });
     },
 };

@@ -1,5 +1,6 @@
 <template>
-    <v-container fluid v-if="dadosProjeto">
+    <carregando v-if="Object.keys(dadosProjeto).length == 0" :text="'Carregando ...'"></carregando>
+    <v-container fluid  v-else>
         <v-toolbar>
             <v-btn icon class="hidden-xs-only"
                 :to="{ name: 'Painel'}"
@@ -192,11 +193,7 @@
             </v-card>
         </template>
         <template v-else>
-            <v-progress-circular
-                color="primary"
-                indeterminate
-            >
-            </v-progress-circular>
+            <Carregando :text="'Carregando planilha ...'" />
         </template>
         <v-speed-dial
             v-if="(!dadosProjeto.items.diligencia)"
@@ -260,10 +257,11 @@
                 <span>Diligenciar</span>
             </v-tooltip>
         </v-speed-dial>
-     </v-container>
+    </v-container>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import Carregando from '@/components/CarregandoVuetify';
 import ConsolidacaoAnalise from '../components/ConsolidacaoAnalise';
 import AnalisarItem from './AnalisarItem';
 
@@ -297,7 +295,10 @@ export default {
             getProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
         }),
         dadosProjeto() {
-            return this.getProjetoAnalise.data;
+            if (Object.keys(this.getProjetoAnalise).length > 0) {
+                return this.getProjetoAnalise.data;
+            }
+            return {};
         },
         documento() {
             let documento = this.getProjetoAnalise.data.items.documento;
@@ -322,6 +323,7 @@ export default {
     components: {
         ConsolidacaoAnalise,
         AnalisarItem,
+        Carregando,
     },
     methods: {
         ...mapActions({

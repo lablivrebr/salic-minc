@@ -48,37 +48,46 @@ class AvaliacaoResultados_AvaliacaoComprovanteController extends MinC_Controller
         $stItemAvaliado = $this->getRequest()->getParam('stItemAvaliado');
         $idComprovantePagamento = $this->getRequest()->getParam('idComprovantePagamento');
 
-        if (!$idPronac) {
-            throw new Exception('Falta idPronac');
-        }
-
-        if (!$idComprovantePagamento) {
-            throw new Exception('Falta idComprovantePagamento');
-        }
-
-        if (!$dsJustificativa) {
-            throw new Exception('Falta dsJustificativa');
-        }
-
-        if (!$stItemAvaliado) {
-            throw new Exception('Falta stItemAvaliado');
-        }
-
-        $tblComprovantePag = new ComprovantePagamentoxPlanilhaAprovacao();
-        $rsComprovantePag = $tblComprovantePag
-            ->buscar( [ 'idComprovantePagamento = ?' => $idComprovantePagamento] )
-            ->current();
-
-        $rsComprovantePag->dtValidacao = date('Y/m/d H:i:s');
-        $rsComprovantePag->dsJustificativa = $dsJustificativa;
-        $rsComprovantePag->stItemAvaliado = $stItemAvaliado;
-
         try {
+
+            if (!$idPronac) {
+                throw new Exception('Falta idPronac');
+            }
+
+            if (!$idComprovantePagamento) {
+                throw new Exception('Falta idComprovantePagamento');
+            }
+
+            if ($stItemAvaliado == '3' && strlen(trim($dsJustificativa)) == 0) {
+                throw new Exception('Falta Parecer da avalia&ccedil;&atilde;o');
+            }
+
+            if (!$stItemAvaliado) {
+                throw new Exception('Falta Avalia&ccedil;&atilde;o do item');
+            }
+
+            $tblComprovantePag = new ComprovantePagamentoxPlanilhaAprovacao();
+            $rsComprovantePag = $tblComprovantePag
+                ->buscar( [ 'idComprovantePagamento = ?' => $idComprovantePagamento] )
+                ->current();
+
+            $rsComprovantePag->dtValidacao = date('Y/m/d H:i:s');
+            $rsComprovantePag->dsJustificativa = $dsJustificativa;
+            $rsComprovantePag->stItemAvaliado = $stItemAvaliado;
+
             $rsComprovantePag->save();
-            $this->renderJsonResponse(['mensagem' => 'ok'], 200);
+            $this->customRenderJsonResponse(
+                [
+                    'code' => 200,
+                    'message' => html_entity_decode('Avalia&ccedil;&atilde;o realizada com sucesso')
+                ], 200);
+
         } catch (Exception $e) {
-            $tblComprovantePag->getAdapter()->rollBack();
-            $this->renderJsonResponse(['mensagem'=> 'erro'], 500);
+            $this->customRenderJsonResponse(
+                [
+                    'code' => 500,
+                    'message' => html_entity_decode($e->getMessage())
+                ], 500);
 
         }
     }

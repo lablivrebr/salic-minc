@@ -554,7 +554,7 @@ class PrestacaoContas_Model_vwComprovacaoFinanceiraProjetoPorItemOrcamentario ex
             ['i' => 'tbFonecedorExterior'],
             '(c.idFornecedorExterior = i.idFornecedorExterior)',
             [
-                'i.dsEndereco as endereco', 
+                'i.dsEndereco as endereco',
                 'i.idFornecedorExterior as id',
                 'i.dsPais as pais'
             ],
@@ -629,7 +629,7 @@ class PrestacaoContas_Model_vwComprovacaoFinanceiraProjetoPorItemOrcamentario ex
             new Zend_Db_Expr("
             CASE
              WHEN c.tpFormaDePagamento = '1' THEN 'Cheque'
-             WHEN c.tpFormaDePagamento = '2' THEN 'Transferencia Bancária'
+             WHEN c.tpFormaDePagamento = '2' THEN 'Transferencia Banc&aacute;ria'
              WHEN c.tpFormaDePagamento = '3' THEN 'Saque/Dinheiro' ELSE ''
             END as tpFormaDePagamento"),
             "c.nrDocumentoDePagamento",
@@ -641,7 +641,7 @@ class PrestacaoContas_Model_vwComprovacaoFinanceiraProjetoPorItemOrcamentario ex
            new Zend_Db_Expr("CASE
              WHEN stItemAvaliado = 1 THEN 'Validado'
              WHEN stItemAvaliado = 3 THEN 'Impugnado'
-             WHEN stItemAvaliado = 4 THEN 'Aguardando análise'
+             WHEN stItemAvaliado = 4 THEN 'Aguardando an&aacute;lise'
            END AS stAvaliacao"),
            "c.vlComprovacao"
        ];

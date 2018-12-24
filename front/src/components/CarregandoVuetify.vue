@@ -1,43 +1,29 @@
 <template>
-    <div class="text-xs-center">
-        <div style="padding-top: 20px">
-            <h6 v-html="text"></h6>
-        </div>
-        <v-progress-circular
-                :rotate="180"
-                :size="70"
-                :width="7"
-                :value="value"
-                color="primary"
-        >
-            {{ value }}
-        </v-progress-circular>
-    </div>
+    <v-layout column>
+        <v-flex xs12>
+            <div class="text-xs-center">
+                <div style="padding: 20px">
+                    <h3 v-html="text"></h3>
+                </div>
+                <v-progress-circular
+                    :size="50"
+                    indeterminate
+                    color="primary"
+                >
+                </v-progress-circular>
+            </div>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
     export default {
-        name: 'Carregando',
+        name: 'CarregandoVuetify',
         props: {
             text: {
                 type: String,
                 default: '',
             },
-        },
-
-        data() {
-            return {
-                interval: {},
-                value: 0,
-            };
-        },
-        mounted() {
-            this.interval = setInterval(() => {
-                if (this.value === 100) {
-                    return (this.value = 0);
-                }
-                this.value += 10;
-            }, 1000);
         },
     };
 </script>

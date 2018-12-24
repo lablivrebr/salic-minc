@@ -9,13 +9,18 @@
         <v-card>
             <v-card-text>
                 <h2>{{ nomeProjeto }}</h2>
-                <div class="mt-3">
+                <div class="mt-3" v-if="Object.keys(getConsolidacaoAnalise).length > 0">
                     <v-expansion-panel>
                         <v-expansion-panel-content
                             v-for="(consolidacao, i) in getConsolidacaoAnalise"
                             :key="i"
                         >
-                            <div slot="header" v-text="consolidacao.title"></div>
+                            <v-layout slot="header" class="blue--text">
+                                <v-icon class="mr-3 blue--text" >{{ consolidacao.icon }}</v-icon>
+                                <span v-text="consolidacao.title"></span>
+                                <v-spacer></v-spacer>
+                            </v-layout>
+
                             <v-card>
                                 <v-card-text>
                                     <v-data-table
@@ -26,7 +31,7 @@
                                     >
                                         <template slot="items" slot-scope="props">
                                             <td
-                                                v-for="(celula, i) in props.item" 
+                                                v-for="(celula, i) in props.item"
                                                 :key="i"
                                                 v-html="celula"
                                             ></td>
@@ -37,6 +42,7 @@
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </div>
+                <Carregando v-else :text="'Carregando dados da consolidação ...'" />
             </v-card-text>
             <v-btn color="red" @click="dialog = false" flat>FECHAR</v-btn>
         </v-card>
@@ -45,6 +51,7 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import Carregando from '@/components/CarregandoVuetify';
 
     export default {
         name: 'ConsolidacaoAnalise',
@@ -53,6 +60,7 @@
                 dialog: false,
             };
         },
+        components: { Carregando },
         props: {
             idPronac: String,
             nomeProjeto: String,
@@ -63,7 +71,13 @@
             }),
         },
         mounted() {
-            this.setConsolidacaoAnalise(this.idPronac);
+        },
+        watch: {
+            dialog(value) {
+                if (value) {
+                    this.setConsolidacaoAnalise(this.idPronac);
+                }
+            },
         },
         methods: {
             ...mapActions({

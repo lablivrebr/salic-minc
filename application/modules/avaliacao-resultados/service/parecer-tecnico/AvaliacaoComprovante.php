@@ -83,7 +83,7 @@ class AvaliacaoComprovante
             $dataAux[$chave]['serie'] = $comprovante['serie'];
             $dataAux[$chave]['forma'] = $comprovante['forma'];
             $dataAux[$chave]['valor'] = $comprovante['vlComprovacao'];
-            $dataAux[$chave]['justificativa'] = $comprovante['dsJustificativaProponente'];
+            $dataAux[$chave]['justificativa'] = \TratarString::tratarTextoRico($comprovante['dsJustificativaProponente']);
             $dataAux[$chave]['dataPagamento'] = $comprovante['dtPagamento'];
             $dataAux[$chave]['dataEmissao'] = $comprovante['dataEmissao'];
             $dataAux[$chave]['numeroDocumento'] = $comprovante['numeroDocumento'];

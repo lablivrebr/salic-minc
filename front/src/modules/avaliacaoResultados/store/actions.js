@@ -191,13 +191,16 @@ export const alterarParecer = ({ commit }, param) => {
     commit(types.SET_PARECER, param);
 };
 
-export const obterDadosItemComprovacao = ({ commit }, params) => avaliacaoResultadosHelperAPI
-    .obterDadosItemComprovacao(params)
-    .then((response) => {
-        const dados = response.data.data.items;
-        commit(types.GET_DADOS_ITEM_COMPROVACAO, dados.dadosItem);
-        commit(types.SET_COMPROVANTES, dados.comprovantes);
-    });
+export const obterDadosItemComprovacao = ({ commit }, params) => {
+    commit(types.SET_COMPROVANTES, []);
+    return avaliacaoResultadosHelperAPI
+        .obterDadosItemComprovacao(params)
+        .then((response) => {
+            const dados = response.data.data.items;
+            commit(types.GET_DADOS_ITEM_COMPROVACAO, dados.dadosItem);
+            commit(types.SET_COMPROVANTES, dados.comprovantes);
+        });
+}
 
 export const getLaudoFinal = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI.obterLaudoFinal(params)
@@ -371,22 +374,14 @@ export const salvarAvaliacaoComprovante = async ({ commit }, avaliacao) => {
         dsJustificativa: avaliacao.dsOcorrenciaDoTecnico,
         stItemAvaliado: avaliacao.stItemAvaliado,
         idComprovantePagamento: avaliacao.idComprovantePagamento,
-        cdProduto: avaliacao.cdProduto,
-        etapa: avaliacao.cdEtapa,
-        cdUf: avaliacao.cdUF,
-        idmunicipio: avaliacao.cdCidade,
-        idPlanilhaItem: avaliacao.idPlanilhaItem,
-        stItemAvaliadoAlterado: avaliacao,
     };
     const valor = await avaliacaoResultadosHelperAPI.salvarAvaliacaoComprovante(params)
         .then((response) => {
             commit(types.EDIT_COMPROVANTE, avaliacao);
             return response.data;
         }).catch((e) => {
-            console.log('error', e);
             throw new TypeError(e.response.data.message, 'salvarAvaliacaoComprovante', 10);
         });
-
     return valor;
 };
 

@@ -159,23 +159,25 @@
                                                                         <td>{{ moeda(props.item.varlorAprovado) }}</td>
                                                                         <td>{{ moeda(props.item.varlorComprovado) }}</td>
                                                                         <td>{{ moeda(props.item.varlorAprovado - props.item.varlorComprovado) }}</td>
-                                                                        <td >
-                                                                            <template
+                                                                        <td>
+                                                                            <v-btn
                                                                                 v-if="podeEditar(props.item.varlorComprovado)"
+                                                                                color="red"
+                                                                                dark
+                                                                                small
+                                                                                title="Comprovar Item"
+                                                                                @click="avaliarItem(
+                                                                                        props.item,
+                                                                                        produto.produto,
+                                                                                        etapa.etapa,
+                                                                                        uf.Uf,
+                                                                                        produto.cdProduto,
+                                                                                        cidade.cdCidade,
+                                                                                        etapa.cdEtapa,
+                                                                                        uf.cdUF)"
                                                                             >
-                                                                                <analisar-item
-                                                                                     :id-pronac="idPronac"
-                                                                                     :uf="uf.Uf"
-                                                                                     :produto="produto.cdProduto"
-                                                                                     :idmunicipio="cidade.cdCidade"
-                                                                                     :id-planilha-item="props.item.idPlanilhaItens"
-                                                                                     :etapa="etapa.cdEtapa"
-                                                                                     :cd-produto="produto.cdProduto"
-                                                                                     :cd-uf="uf.cdUF"
-                                                                                     :st-item-avaliado="props.item.stItemAvaliado"
-                                                                                >
-                                                                                </analisar-item>
-                                                                            </template>
+                                                                                <v-icon>gavel</v-icon>
+                                                                            </v-btn>
                                                                         </td>
                                                                     </template>
                                                                 </v-data-table>
@@ -191,6 +193,20 @@
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-card>
+            <analisar-item
+                v-if="isModalVisible === 'avaliacao-item'"
+                :item="itemEmAvaliacao.item"
+                :descricao-produto="itemEmAvaliacao.produto"
+                :descricao-etapa="itemEmAvaliacao.etapa"
+                :id-pronac="idPronac"
+                :uf="itemEmAvaliacao.Uf"
+                :produto="itemEmAvaliacao.cdProduto"
+                :idmunicipio="itemEmAvaliacao.cdCidade"
+                :etapa="itemEmAvaliacao.cdEtapa"
+                :cd-produto="itemEmAvaliacao.cdProduto"
+                :cd-uf="itemEmAvaliacao.cdUF"
+            >
+            </analisar-item>
         </template>
         <template v-else>
             <Carregando :text="'Carregando planilha ...'" />
@@ -270,13 +286,13 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Item de Custo', value: 'item', sortable: false },
-                { text: 'Quantidade', value: 'quantidade', sortable: false },
-                { text: 'Número Ocorrências', value: 'numeroOcorrencias', sortable: false },
-                { text: 'Valor', value: 'valor', sortable: false },
-                { text: 'Valor Aprovado', value: 'varlorAprovado', sortable: false },
-                { text: 'Valor Comprovado', value: 'varlorComprovado', sortable: false },
-                { text: 'Valor a Comprovar', value: 'valorAComprovar', sortable: false },
+                { text: 'Item', value: 'item', sortable: false },
+                { text: 'Qtd', value: 'quantidade', sortable: false },
+                { text: 'Nº Ocorr.', value: 'numeroOcorrencias', sortable: false },
+                { text: 'Valor (R$)', value: 'valor', sortable: false },
+                { text: 'Vl. Aprovado (R$)', value: 'varlorAprovado', sortable: false },
+                { text: 'Vl. Comprovado (R$)', value: 'varlorComprovado', sortable: false },
+                { text: 'Vl. a Comprovar (R$)', value: 'valorAComprovar', sortable: false },
                 { text: '', value: 'comprovarItem', sortable: false },
             ],
             tabs: {
@@ -287,12 +303,14 @@ export default {
             },
             fab: false,
             idPronac: this.$route.params.id,
+            itemEmAvaliacao: {},
         };
     },
     computed: {
         ...mapGetters({
             getPlanilha: 'avaliacaoResultados/planilha',
             getProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
+            isModalVisible: 'modal/default',
         }),
         dadosProjeto() {
             if (Object.keys(this.getProjetoAnalise).length > 0) {
@@ -327,6 +345,7 @@ export default {
     },
     methods: {
         ...mapActions({
+            modalOpen: 'modal/modalOpen',
             requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
             setPlanilha: 'avaliacaoResultados/syncPlanilhaAction',
             setProjetoAnalise: 'avaliacaoResultados/syncProjetoAction',
@@ -336,7 +355,7 @@ export default {
         },
         moeda: (moedaString) => {
             const moeda = Number(moedaString);
-            return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+            return moeda.toLocaleString('pt-br', { currency: 'BRL' });
         },
         podeEditar(varlorComprovado) {
             if (varlorComprovado !== 0
@@ -347,6 +366,27 @@ export default {
             }
 
             return false;
+        },
+        avaliarItem(item,
+            produto,
+            etapa,
+            Uf,
+            cdProduto,
+            cdCidade,
+            cdEtapa,
+            cdUF,
+        ) {
+            this.itemEmAvaliacao = {
+                item,
+                produto,
+                etapa,
+                Uf,
+                cdProduto,
+                cdCidade,
+                cdEtapa,
+                cdUF,
+            };
+            this.modalOpen('avaliacao-item');
         },
         expandir(obj) {
             const arr = [];

@@ -629,7 +629,7 @@ class PrestacaoContas_Model_vwComprovacaoFinanceiraProjetoPorItemOrcamentario ex
             new Zend_Db_Expr("
             CASE
              WHEN c.tpFormaDePagamento = '1' THEN 'Cheque'
-             WHEN c.tpFormaDePagamento = '2' THEN 'Transferencia Banc&aacute;ria'
+             WHEN c.tpFormaDePagamento = '2' THEN 'Transfer&ecirc;ncia Banc&aacute;ria'
              WHEN c.tpFormaDePagamento = '3' THEN 'Saque/Dinheiro' ELSE ''
             END as tpFormaDePagamento"),
             "c.nrDocumentoDePagamento",

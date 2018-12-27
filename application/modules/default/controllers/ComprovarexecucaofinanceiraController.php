@@ -158,7 +158,7 @@ class ComprovarexecucaofinanceiraController extends MinC_Controller_Action_Abstr
         $auth = Zend_Auth::getInstance();
 
         $diligencia = $diligencia->aberta($this->getRequest()->getParam('idpronac'));
-        if ($diligencia->idTipoDiligencia == 645) {
+        if ($diligencia->idTipoDiligencia == 174) {
             $this->_helper->getHelper('Redirector')
                 ->setGotoSimple(
                     'responder',

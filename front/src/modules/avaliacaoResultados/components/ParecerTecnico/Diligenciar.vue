@@ -33,8 +33,8 @@
                                                 :rules="diligenciaRules"
                                                 id="diligencia"
                                             >
-                                                <v-radio color="success" label="Somente itens recusados" value="645"></v-radio>
-                                                <v-radio color="success" label="Todos os itens orçamentários" value="174"></v-radio>
+                                                <v-radio color="success" label="Somente itens recusados" value="174"></v-radio>
+                                                <v-radio color="success" label="Todos os itens orçamentários" value="645"></v-radio>
                                             </v-radio-group>
                                             <div v-show="solicitacaoRules.show" class="text-xs-left"><h4 :class="solicitacaoRules.color">{{solicitacaoRules.msg}}*</h4></div>
                                             <EditorTexto

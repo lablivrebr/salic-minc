@@ -14,8 +14,9 @@
     </head>
     <body>
         <div id="app"></div>
-        <script type="text/javascript" charset="utf-8" src="/public/dist/js/manifest.js?v=v5.0.6"></script>
-        <script type="text/javascript" charset="utf-8" src="/public/dist/js/vendor.js?v=v5.0.6"></script>
-        <script type="text/javascript" charset="utf-8" src="/public/dist/js/avaliacao_resultados.js?v=v5.0.6"></script>
+        <?php $gitTag = '?v=' . $this->gitTag(); ?>
+        <script type="text/javascript" charset="utf-8" src="/public/dist/js/manifest.js<?= $gitTag; ?>"></script>
+        <script type="text/javascript" charset="utf-8" src="/public/dist/js/vendor.js<?= $gitTag; ?>"></script>
+        <script type="text/javascript" charset="utf-8" src="/public/dist/js/avaliacao_resultados.js<?= $gitTag; ?>"></script>
     </body>
 </html>

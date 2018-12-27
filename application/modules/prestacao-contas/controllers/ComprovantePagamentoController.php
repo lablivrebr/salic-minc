@@ -27,7 +27,7 @@ class PrestacaoContas_ComprovantePagamentoController extends Zend_Rest_Controlle
         $tipo = $this->getRequest()->getParam('tipo');
 
         $projetoModel = new Projetos();
-        $projeto = $projetoModel->find($idpronac)->current();
+        $projeto = $projetoModel->find($idPronac)->current();
 
         $dtInicioExecucao = new DateTime($projeto->DtInicioExecucao);
         $dtFimExecucao = new DateTime($projeto->DtFimExecucao);
@@ -61,29 +61,29 @@ class PrestacaoContas_ComprovantePagamentoController extends Zend_Rest_Controlle
         }
 
         $dataAux = [];
-        foreach($data as $value) {
+        foreach($data as $chave => $value) {
             $key =  $value['idComprovantePagamento'];
-            $dataAux[$key] = $value;
-            $dataAux[$key]['tipo'] = $value['tipo'];
-            $dataAux[$key]['numero'] = $value['numero'];
-            $dataAux[$key]['serie'] = $value['serie'];
-            $dataAux[$key]['forma'] = $value['forma'];
-            $dataAux[$key]['valor'] = $value['vlComprovacao'];
-            $dataAux[$key]['justificativa'] = $value['dsJustificativaProponente'];
-            $dataAux[$key]['dataPagamento'] = $value['dtPagamento'];
-            $dataAux[$key]['dataEmissao'] = $value['dataEmissao'];
-            $dataAux[$key]['numeroDocumento'] = $value['numeroDocumento'];
-            $dataAux[$key]['nrDocumentoDePagamento'] = $value['nrDocumentoDePagamento'];
-            $dataAux[$key]['fornecedor']['CNPJCPF'] = $value['CNPJCPF'];
-            $dataAux[$key]['fornecedor']['nome'] = $value['nmFornecedor'];
-            $dataAux[$key]['fornecedor']['endereco'] = $value['endereco'];
-            $dataAux[$key]['fornecedor']['id'] = $value['id'];
-            $dataAux[$key]['fornecedor']['pais'] = $value['pais'];
-            $dataAux[$key]['fornecedor']['nacionalidade'] = $value['pais'];
-            $dataAux[$key]['arquivo']['nome'] = $value['nmArquivo'];
-            $dataAux[$key]['arquivo']['id'] = $value['idArquivo'];
-            $dataAux[$key]['projeto']['dataInicioExecucao'] = $dtInicioExecucao;
-            $dataAux[$key]['projeto']['dataFimExecucao'] = $dtFimExecucao;
+            $dataAux[$chave] = $value;
+            $dataAux[$chave]['tipo'] = $value['tipo'];
+            $dataAux[$chave]['numero'] = $value['numero'];
+            $dataAux[$chave]['serie'] = $value['serie'];
+            $dataAux[$chave]['forma'] = $value['forma'];
+            $dataAux[$chave]['valor'] = $value['vlComprovacao'];
+            $dataAux[$chave]['justificativa'] = $value['dsJustificativaProponente'];
+            $dataAux[$chave]['dataPagamento'] = $value['dtPagamento'];
+            $dataAux[$chave]['dataEmissao'] = $value['dataEmissao'];
+            $dataAux[$chave]['numeroDocumento'] = $value['numeroDocumento'];
+            $dataAux[$chave]['nrDocumentoDePagamento'] = $value['nrDocumentoDePagamento'];
+            $dataAux[$chave]['fornecedor']['CNPJCPF'] = $value['CNPJCPF'];
+            $dataAux[$chave]['fornecedor']['nome'] = $value['nmFornecedor'];
+            $dataAux[$chave]['fornecedor']['endereco'] = $value['endereco'];
+            $dataAux[$chave]['fornecedor']['id'] = $value['id'];
+            $dataAux[$chave]['fornecedor']['pais'] = $value['pais'];
+            $dataAux[$chave]['fornecedor']['nacionalidade'] = $value['pais'];
+            $dataAux[$chave]['arquivo']['nome'] = $value['nmArquivo'];
+            $dataAux[$chave]['arquivo']['id'] = $value['idArquivo'];
+            $dataAux[$chave]['projeto']['dataInicioExecucao'] = $dtInicioExecucao;
+            $dataAux[$chave]['projeto']['dataFimExecucao'] = $dtFimExecucao;
         }
         $this->view->assign('data', $dataAux);
         $this->getResponse()->setHttpResponseCode(200);

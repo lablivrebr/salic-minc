@@ -1,5 +1,6 @@
 <template>
-    <v-container fluid v-if="dadosProjeto">
+    <carregando v-if="!dadosProjeto" :text="'Carregando ...'"></carregando>
+    <v-container fluid v-else>
         <v-toolbar>
             <v-btn icon class="hidden-xs-only"
                    :to="{ name: 'Painel'}"
@@ -49,7 +50,7 @@
 
             </v-card-actions>
         </v-card>
-        <template v-if="Object.keys(planilha).length">
+        <template v-if="Object.keys(planilha).length > 0">
             <v-card class="mt-3" flat>
                 <!-- PRODUTO -->
                 <v-expansion-panel
@@ -129,17 +130,22 @@
                                                                         props.item.varlorComprovado) }}
                                                                     </td>
                                                                     <td>
-                                                                        <ModalDetalheItens
-                                                                            :idPronac="idPronac"
-                                                                            :uf="uf.Uf"
-                                                                            :codigoCidade="cidade.cdCidade"
-                                                                            :codigoProduto="produto.cdProduto"
-                                                                            :stItemAvaliado="codigoStItemAvaliado(tabs[index])"
-                                                                            :codigoEtapa="etapa.cdEtapa"
-                                                                            :idPlanilhaItens="props.item.idPlanilhaItens"
-                                                                            :item="props.item.item "
+                                                                        <v-btn
+                                                                            @click="visualizarComprovantes(
+                                                                                uf.Uf,
+                                                                                cidade.cdCidade,
+                                                                                produto.cdProduto,
+                                                                                props.item.stItemAvaliado,
+                                                                                etapa.cdEtapa,
+                                                                                props.item.idPlanilhaItens,
+                                                                                props.item.item,
+                                                                            )"
+                                                                            slot="activator"
+                                                                            color="blue lighten-2"
+                                                                            dark
                                                                         >
-                                                                        </ModalDetalheItens>
+                                                                            <v-icon dark>visibility</v-icon>
+                                                                        </v-btn>
                                                                     </td>
                                                                 </template>
                                                             </v-data-table>
@@ -155,11 +161,24 @@
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-card>
+            <ModalDetalheItens
+                :idPronac="idPronac"
+                :uf="itemEmVisualizacao.Uf"
+                :codigoCidade="itemEmVisualizacao.cdCidade"
+                :codigoProduto="itemEmVisualizacao.cdProduto"
+                :stItemAvaliado="itemEmVisualizacao.stItemAvaliado"
+                :codigoEtapa="itemEmVisualizacao.cdEtapa"
+                :idPlanilhaItens="itemEmVisualizacao.idPlanilhaItens"
+                :item="itemEmVisualizacao.item "
+            >
+            </ModalDetalheItens>
         </template>
+        <carregando v-else :text="'Carregando planilha...'"></carregando>
     </v-container>
 </template>
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import Carregando from '@/components/CarregandoVuetify';
     import ModalDetalheItens from './ModalDetalheItens';
     import ConsolidacaoAnalise from './ConsolidacaoAnalise';
     import AnalisarItem from '../ParecerTecnico/AnalisarItem';
@@ -183,13 +202,14 @@
                 },
                 fab: false,
                 idPronac: this.$route.params.id,
+                itemEmVisualizacao: {},
             };
         },
         computed: {
             ...mapGetters({
                 getPlanilha: 'avaliacaoResultados/planilha',
                 getProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
-                modalVisible: 'modal/default',
+                isModalVisible: 'modal/default',
             }),
             dadosProjeto() {
                 return this.getProjetoAnalise.data;
@@ -216,12 +236,12 @@
         mounted() {
             this.setPlanilha(this.idPronac);
             this.setProjetoAnalise(this.idPronac);
-            // this.buscarDetalhamentoItens(this.idPronac);
         },
         components: {
             ModalDetalheItens,
             ConsolidacaoAnalise,
             AnalisarItem,
+            Carregando,
         },
         methods: {
             ...mapActions({
@@ -235,14 +255,25 @@
                 const moeda = Number(moedaString);
                 return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
             },
-            podeEditar(varlorComprovado) {
-                if (varlorComprovado !== 0
-                    && !this.dadosProjeto.items.diligencia
-                    && this.documento === 0) {
-                    return true;
-                }
+            visualizarComprovantes(
+                Uf,
+                cdCidade,
+                cdProduto,
+                stItemAvaliado,
+                cdEtapa,
+                idPlanilhaItens,
+                item) {
+                this.itemEmVisualizacao = {
+                    Uf,
+                    cdCidade,
+                    cdProduto,
+                    stItemAvaliado,
+                    cdEtapa,
+                    idPlanilhaItens,
+                    item,
+                };
 
-                return false;
+                this.modalOpen('visualizar-comprovantes');
             },
             expandir(obj) {
                 const arr = [];

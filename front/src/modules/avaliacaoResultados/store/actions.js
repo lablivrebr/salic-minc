@@ -200,7 +200,7 @@ export const obterDadosItemComprovacao = ({ commit }, params) => {
             commit(types.GET_DADOS_ITEM_COMPROVACAO, dados.dadosItem);
             commit(types.SET_COMPROVANTES, dados.comprovantes);
         });
-}
+};
 
 export const getLaudoFinal = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI.obterLaudoFinal(params)
@@ -302,6 +302,7 @@ export const projetosRevisao = ({ commit }, params) => {
 };
 
 export const buscarComprovantes = ({ commit }, params) => {
+    commit(types.SET_COMPROVANTES, []);
     avaliacaoResultadosHelperAPI.buscarComprovantes(params)
         .then((response) => {
             const data = response.data;

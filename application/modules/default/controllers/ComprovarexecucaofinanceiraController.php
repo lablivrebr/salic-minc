@@ -158,19 +158,19 @@ class ComprovarexecucaofinanceiraController extends MinC_Controller_Action_Abstr
         $auth = Zend_Auth::getInstance();
 
         $diligencia = $diligencia->aberta($this->getRequest()->getParam('idpronac'));
-        if ($diligencia->idTipoDiligencia == 174) {
-            $this->_helper->getHelper('Redirector')
-                ->setGotoSimple(
-                    'responder',
-                    'gerenciar',
-                    'diligencia',
-                    ['idpronac' => $this->getRequest()->getParam('idpronac')]
-            );
-            return;
-        }
+        // if ($diligencia->idTipoDiligencia == 174) {
+        //     $this->_helper->getHelper('Redirector')
+        //         ->setGotoSimple(
+        //             'responder',
+        //             'gerenciar',
+        //             'diligencia',
+        //             ['idpronac' => $this->getRequest()->getParam('idpronac')]
+        //     );
+        //     return;
+        // }
 
         // se nao estiver no periodo de comprovaco, limitar a comprovantes recusados
-        if ($this->view->vrSituacao) {
+        if ($this->view->vrSituacao || $diligencia->idTipoDiligencia == 174) {
             $this->_helper->getHelper('Redirector')
                 ->setGotoSimple(
                     'comprovantes-recusados',
@@ -179,6 +179,7 @@ class ComprovarexecucaofinanceiraController extends MinC_Controller_Action_Abstr
                     array('idpronac' => $this->getRequest()->getParam('idpronac')
                 )
             );
+            return;
         }
 
         $this->view->idpronac   = $this->getRequest()->getParam('idpronac');

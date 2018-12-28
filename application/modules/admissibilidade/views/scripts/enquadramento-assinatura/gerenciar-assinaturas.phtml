@@ -104,8 +104,10 @@
                                            href="<?php echo $this->url(array(
                                                    'module' => 'admissibilidade',
                                                    'controller' => 'enquadramento-assinatura',
-                                                   'action' => 'devolver-projeto'
-                                               )) . "?IdPRONAC={$dado['IdPRONAC']}&origin=admissibilidade/enquadramento-assinatura" ?>"
+                                                   'action' => 'devolver-projeto',
+                                                   'IdPRONAC' => $dado['IdPRONAC'],
+                                                   'idDocumentoAssinatura' => $dado['idDocumentoAssinatura']
+                                               )) . "?origin=admissibilidade/enquadramento-assinatura" ?>"
                                            data-position="top"
                                            data-delay="50"
                                            data-tooltip="Devolver">

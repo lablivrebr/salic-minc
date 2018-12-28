@@ -564,6 +564,17 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
             'title' => 'Ir para Gerir Atos Administrativos',
             'label' => 'Gerir Atos Administrativos'
         ];
+
+        $arrMenu['assinatura']['menu'][] = [
+            'url' => [
+                'module' => 'assinatura',
+                'controller' => 'documentos-devolvidos',
+                'action' => 'listar'
+            ],
+            'title' => 'Ir para Listar documentos devolvidos',
+            'label' => 'Listar Documentos Devolvidos'
+        ];
+
         return $arrMenu;
 
     }

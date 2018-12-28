@@ -107,11 +107,15 @@ class Assinatura_IndexController extends Assinatura_GenericController
         $recordsTotal = 0;
         $projetos = [];
 
+        $tbAtoAdministrativo = new Assinatura_Model_TbAtoAdministrativo();
+
         if (count($projetosDisponiveis) > 0) {
-            $projetos = $projetosDisponiveis;
-            array_walk($projetos, function (&$value) {
-                $value = array_map('utf8_encode', $value);
-            });
+            foreach($projetosDisponiveis as $projeto) {
+                $projeto['isDisponivelParaDevolucao'] = $tbAtoAdministrativo->isAtoDisponivelParaDevolucao(
+                    $projeto['idTipoDoAtoAdministrativo']
+                );
+                $projetos[] = array_map('utf8_encode', $projeto);
+            };
             $recordsTotal = count($projetos);
         }
 
@@ -180,6 +184,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
             $this->view->IdPRONAC = $this->view->documentoAssinatura['IdPRONAC'];
             $this->view->idTipoDoAtoAdministrativo = $this->view->documentoAssinatura['idTipoDoAtoAdministrativo'];
 
+
             $this->view->isProponente = (bool) !$this->cod_usuario ?: false;
 
             $objAssinatura = new Assinatura_Model_DbTable_TbAssinatura();
@@ -199,6 +204,11 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 $perfilAssinanteAtoAdministrativo = $objTbAtoAdministrativo->obterPerfilAssinante(
                     $this->grupoAtivo->codOrgao,
                     $this->grupoAtivo->codGrupo,
+                    $this->view->documentoAssinatura['idTipoDoAtoAdministrativo']
+                );
+
+                $tbAtoAdministrativo = new Assinatura_Model_TbAtoAdministrativo();
+                $this->view->isDisponivelParaDevolucao = $tbAtoAdministrativo->isAtoDisponivelParaDevolucao(
                     $this->view->documentoAssinatura['idTipoDoAtoAdministrativo']
                 );
 
@@ -495,6 +505,16 @@ class Assinatura_IndexController extends Assinatura_GenericController
             if (!filter_input(INPUT_GET, 'idTipoDoAtoAdministrativo')) {
                 throw new Exception("Identificador do tipo do ato administrativo &eacute; necess&aacute;rio para acessar essa funcionalidade.");
             }
+
+            $tbAtoAdministrativo = new Assinatura_Model_TbAtoAdministrativo();
+            $isDisponivelParaDevolucao = $tbAtoAdministrativo->isAtoDisponivelParaDevolucao(
+                $idTipoDoAtoAdministrativo
+            );
+
+            if (!$isDisponivelParaDevolucao) {
+                throw new Exception("Este tipo de ato administrativo n&atilde;o est&aacute; dispon&iacute;vel para este tipo de devolu&ccedil;&atilde;o.");
+            }
+
         } catch (Exception $objException) {
             parent::message($objException->getMessage(), "/{$this->view->origin}/gerenciar-assinaturas");
         }

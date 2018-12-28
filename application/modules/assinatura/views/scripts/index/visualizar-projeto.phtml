@@ -67,18 +67,19 @@
                        ))
                        . "?IdPRONAC={$this->IdPRONAC}&idTipoDoAtoAdministrativo={$this->idTipoDoAtoAdministrativo}&origin={$this->origin}";
                    ?>">Assinar</a>
-                <a class="btn waves-effect waves-dark btn-danger"
-                   href="<?php
-                   echo $this->url(array(
-                           'module' => 'assinatura',
-                           'controller' => 'index',
-                           'action' => 'devolver-projeto'
-                       ))
-                       . "?IdPRONAC={$this->IdPRONAC}&idTipoDoAtoAdministrativo={$this->idTipoDoAtoAdministrativo}&origin={$this->origin}";
-                   ?>">Devolver</a>
-            <?php
-            endif;
-            ?>
+
+                <?php if ($this->isDisponivelParaDevolucao === true): ?>
+                    <a class="btn waves-effect waves-dark btn-danger"
+                       href="<?php
+                       echo $this->url(array(
+                               'module' => 'assinatura',
+                               'controller' => 'index',
+                               'action' => 'devolver-projeto'
+                           ))
+                           . "?IdPRONAC={$this->IdPRONAC}&idTipoDoAtoAdministrativo={$this->idTipoDoAtoAdministrativo}&origin={$this->origin}";
+                       ?>">Devolver</a>
+                <?php endif; ?>
+            <?php endif; ?>
             <a id="acao_imprimir"
                href="#"
                class="btn waves-effect waves-dark"

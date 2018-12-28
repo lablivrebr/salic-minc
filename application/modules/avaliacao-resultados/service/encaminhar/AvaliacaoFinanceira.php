@@ -35,7 +35,7 @@ class AvaliacaoFinanceira
         $model->setIdSituacaoEncPrestContas($params['idSituacaoEncPrestContas']);
         $model->setIdSituacao($params['idSituacao']);
         $model->setStAtivo(1);
-        $model->setDsJustificativa($params['dsJustificativa']);
+        $model->setDsJustificativa(utf8_decode($params['dsJustificativa']));
 
         $id = $mapper->save($model);
 

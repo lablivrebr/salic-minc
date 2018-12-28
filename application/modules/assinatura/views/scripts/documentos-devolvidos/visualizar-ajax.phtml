@@ -26,7 +26,7 @@
             <tr>
                 <td><?= data::dataBrasileira($documento['dtDevolucao']); ?></td>
                 <td><?= $documento['nomeAvaliador']; ?></td>
-                <td><?= $documento['dsMotivoDevolucao']; ?></td>
+                <td><?= TratarString::tratarTextoRico($documento['dsMotivoDevolucao']); ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

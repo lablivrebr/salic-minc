@@ -49,7 +49,7 @@ class AvaliacaoResultados_ProjetoAssinaturaController extends MinC_Controller_Re
         $this->grupoAtivo = new Zend_Session_Namespace('GrupoAtivo');
         $assinaturaService = new \MinC\Assinatura\Servico\Assinatura(
             [
-                'Despacho' => 'devolvi pq eu quis',
+                'dsMotivoDevolucao' => 'devolvi pq eu quis',
                 'idTipoDoAto' => 622,
                 'idPerfilDoAssinante' => $this->grupoAtivo->codGrupo,
                 'idPronac' => 132451,

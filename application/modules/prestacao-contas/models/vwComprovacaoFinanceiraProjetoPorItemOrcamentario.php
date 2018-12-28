@@ -438,7 +438,9 @@ class PrestacaoContas_Model_vwComprovacaoFinanceiraProjetoPorItemOrcamentario ex
         $stItemAvaliado = null,
         $codigoProduto = null,
         $idComprovantePagamento = null,
-        $etapa = null
+        $etapa = null,
+        $idUf = null,
+        $idMunicipio
     ) {
         $cols = [
             "a.idPlanilhaAprovacao",
@@ -591,6 +593,14 @@ class PrestacaoContas_Model_vwComprovacaoFinanceiraProjetoPorItemOrcamentario ex
             $select->where('a.idEtapa = ?', $etapa);
         }
 
+        if ($idUf) {
+            $select->where('a.idUFDespesa = ?', $idUf);
+        }
+
+        if ($idMunicipio) {
+            $select->where('a.idMunicipioDespesa = ?', $idMunicipio);
+        }
+
         $select->where('a.IdPRONAC = ?', $idpronac);
         return $this->fetchAll($select);
     }
@@ -601,7 +611,9 @@ class PrestacaoContas_Model_vwComprovacaoFinanceiraProjetoPorItemOrcamentario ex
         $stItemAvaliado = null,
         $codigoProduto = null,
         $idComprovantePagamento = null,
-        $etapa = null
+        $etapa = null,
+        $idUf = null,
+        $idMunicipio = null
     ) {
         /* var_dump($etapa);die; */
         $cols = [
@@ -741,6 +753,14 @@ class PrestacaoContas_Model_vwComprovacaoFinanceiraProjetoPorItemOrcamentario ex
 
         if ($etapa) {
             $select->where('a.idEtapa = ?', $etapa);
+        }
+
+        if ($idUf) {
+            $select->where('a.idUFDespesa = ?', $idUf);
+        }
+
+        if ($idMunicipio) {
+            $select->where('a.idMunicipioDespesa = ?', $idMunicipio);
         }
 
         $select->where('a.IdPRONAC = ?', $idpronac);

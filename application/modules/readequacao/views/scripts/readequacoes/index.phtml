@@ -463,9 +463,12 @@
                         $3('#readequacaoEdicao .title h4').html('Editando readequa&ccedil;&atilde;o');
                         $3('#readequacaoEdicao .title').removeClass().addClass('light-green');
                     }
-                    
                     $3('#idReadequacao').val(data.readequacao.idReadequacao);
-                    $3('#arquivo').val(data.readequacao.nmArquivo);
+                    $3('#arquivo').parent().find('.arquivo-readequacao').remove();
+                    if (data.readequacao.idArquivo) {
+                        $3('#arquivo').after('<a class="arquivo-readequacao" href="/upload/abrir?id=' + data.readequacao.idArquivo + '">' + data.readequacao.nmArquivo + '</a>');
+                    }
+
                     CKEDITOR.instances['descJustificativa'].setData(data.readequacao.dsJustificativa);
                     
                     jqAjaxLinkSemLoading(

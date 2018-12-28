@@ -53,6 +53,7 @@ Vue.component('sl-planilha-itens', {
     props: [
         'itens',
         'idpronac',
+        'idUf',
         'uf',
         'cdproduto',
         'cdcidade',
@@ -86,6 +87,7 @@ Vue.component('sl-planilha-itens', {
             let url = '/prestacao-contas/analisar/comprovante'
                 + '/idPronac/' + this.idpronac
                 + '/uf/' + this.uf
+                + '/idUf/' + this.idUf
                 + '/produto/' + this.cdproduto
                 + '/idmunicipio/' + this.cdcidade
                 + '/idPlanilhaItem/' + idPlanilhaItens
@@ -100,6 +102,7 @@ Vue.component('sl-planilha-itens', {
         urlDoProponente: function(idPlanilhaAprovacao, idPlanilhaItens) {
             const url = '/prestacao-contas/gerenciar/comprovar-pagamento'
                 + '/idpronac/' + this.idpronac
+                + '/idUf/' + this.idUf
                 + '/uf/' + this.uf
                 + '/produto/' + this.cdproduto
                 + '/cidade/' + this.cdcidade

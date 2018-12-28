@@ -102,6 +102,7 @@ Vue.component('comprovantes', {
         produto: null,
         stitemavaliado: null,
         uf: null,
+        idUf: null,
         idmunicipio: null,
         idplanilhaitem: null,
         etapa: null,
@@ -184,6 +185,7 @@ Vue.component('comprovantes', {
                 idPlanilhaItem: this.idplanilhaitem,
                 produto: this.produto,
                 uf: this.uf,
+                idUf: this.idUf,
                 idmunicipio: this.idmunicipio,
                 etapa: this.etapa,
                 tipo: vue.tipo

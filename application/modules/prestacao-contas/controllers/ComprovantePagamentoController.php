@@ -20,8 +20,9 @@ class PrestacaoContas_ComprovantePagamentoController extends Zend_Rest_Controlle
         $idPlanilhaItem = $this->_request->getParam("idPlanilhaItem");
         $codigoProduto = $this->getRequest()->getParam('produto');
         $stItemAvaliado = $this->getRequest()->getParam('stItemAvaliado');
-        $UF = $this->getRequest()->getParam('uf');
-        $idmunicipio = $this->getRequest()->getParam('idmunicipio');
+        $uf = $this->getRequest()->getParam('uf');
+        $idUf = $this->getRequest()->getParam('idUf');
+        $idMunicipio = $this->getRequest()->getParam('idmunicipio');
         $etapa = $this->getRequest()->getParam('etapa');
 
         $tipo = $this->getRequest()->getParam('tipo');
@@ -41,7 +42,9 @@ class PrestacaoContas_ComprovantePagamentoController extends Zend_Rest_Controlle
                 $stItemAvaliado,
                 $codigoProduto,
                 null,
-                $etapa
+                $etapa,
+                $idUf,
+                $idMunicipio
             );
         } else {
             $comprovantes = $vwComprovacoes->comprovacoesNacionais(
@@ -50,7 +53,9 @@ class PrestacaoContas_ComprovantePagamentoController extends Zend_Rest_Controlle
                 $stItemAvaliado,
                 $codigoProduto,
                 null,
-                $etapa
+                $etapa,
+                $idUf,
+                $idMunicipio
             );
         }
 

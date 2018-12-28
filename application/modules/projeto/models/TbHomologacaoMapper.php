@@ -156,7 +156,7 @@ class Projeto_Model_TbHomologacaoMapper extends MinC_Db_Mapper
             ['a.IdPRONAC = ?' => $idPronac]
         )->current();
 
-        return ($enquadramentoProjeto['VlHomologadoIncentivo'] != $enquadramentoProjeto['VlAutorizadoACaptarIncentivo']);
+        return ($enquadramentoProjeto['VlHomologadoIncentivo'] != $enquadramentoProjeto['VlAdequadoIncentivo']);
     }
 
     final private function iniciarFluxoAssinatura($idPronac)

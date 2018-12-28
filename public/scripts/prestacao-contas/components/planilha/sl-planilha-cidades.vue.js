@@ -1,5 +1,5 @@
 Vue.component('sl-planilha-cidades', {
-    props: ['cidade', 'cdEtapa', 'uf', 'cdProduto', 'idpronac', "documento"],
+    props: ['cidade', 'cdEtapa', 'idUf', 'uf', 'cdProduto', 'idpronac', "documento"],
     template: `
         <li class="active">
             <div class="collapsible-header blue-text active" style="padding-left: 70px;">
@@ -11,6 +11,7 @@ Vue.component('sl-planilha-cidades', {
                     <sl-planilha-itens
                         :itens="cidade.itens"
                         :idpronac="idpronac"
+                        :idUf="idUf"
                         :uf="uf"
                         :cdproduto="cdProduto"
                         :cdcidade="cidade.cdCidade"

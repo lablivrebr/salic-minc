@@ -12,6 +12,7 @@ Vue.component('sl-planilha-ufs', {
                                         v-for="(cidade, index) in estado.cidade"
                                         :cidade="cidade"
                                         :idpronac="idpronac"
+                                        :idUf="estado.cdUF"
                                         :uf="estado.Uf"
                                         :cdEtapa="cdEtapa"
                                         :cdProduto="cdProduto"

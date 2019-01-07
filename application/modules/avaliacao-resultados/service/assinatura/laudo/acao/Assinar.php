@@ -16,6 +16,8 @@ class Assinar implements IAcaoAssinar
 
         if ( $numeroDeAssinaturas == 1) {
             $proximoEstado = 11;
+        } elseif ($numeroDeAssinaturas == 2) {
+            $proximoEstado = 16;
         } elseif ( $numeroDeAssinaturas == 3) {
             $proximoEstado = 12;
         }

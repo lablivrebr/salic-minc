@@ -168,9 +168,7 @@ class ComprovarexecucaofinanceiraController extends MinC_Controller_Action_Abstr
         //     );
         //     return;
         // }
-
-        // se nao estiver no periodo de comprovaco, limitar a comprovantes recusados
-        if ($this->view->vrSituacao || $diligencia->idTipoDiligencia == 174) {
+        if ($diligencia->idTipoDiligencia == 174) {
             $this->_helper->getHelper('Redirector')
                 ->setGotoSimple(
                     'comprovantes-recusados',
@@ -180,6 +178,18 @@ class ComprovarexecucaofinanceiraController extends MinC_Controller_Action_Abstr
                 )
             );
             return;
+        }
+
+        // se nao estiver no periodo de comprovaco, limitar a comprovantes recusados
+        if ($this->view->vrSituacao) {
+            $this->_helper->getHelper('Redirector')
+                ->setGotoSimple(
+                    'comprovantes-recusados',
+                    null,
+                    null,
+                    array('idpronac' => $this->getRequest()->getParam('idpronac')
+                )
+            );
         }
 
         $this->view->idpronac   = $this->getRequest()->getParam('idpronac');

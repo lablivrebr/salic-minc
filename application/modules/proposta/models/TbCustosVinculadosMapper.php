@@ -114,7 +114,8 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                         $idPronac = $projeto->current()['IdPRONAC'];
 
                         $valorRemuneracaoCaptacaoAprovado = $tbPlanilhaAprovacaoModel->obterValorRemuneracaoCaptacaoAprovado($idPronac);
-                        if ($limiteRemuneracaoCaptacao > $valorRemuneracaoCaptacaoAprovado) {
+                        if (!empty($valorRemuneracaoCaptacaoAprovado)
+                            && $limiteRemuneracaoCaptacao > $valorRemuneracaoCaptacaoAprovado) {
                             $limiteRemuneracaoCaptacao = $valorRemuneracaoCaptacaoAprovado;
                         }
                     }
@@ -224,7 +225,6 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
 
         return $custosVinculados;
     }
-
 
     public function obterCustosVinculadosPlanilhaProposta($idPreProjeto)
     {

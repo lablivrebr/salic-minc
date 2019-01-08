@@ -1,5 +1,5 @@
 <template>
-    <slProposta :idpreprojeto="dadosProjeto.idPreProjeto"></slProposta>
+    <slProposta :idpreprojeto="dadosProjeto.idPreProjeto"/>
 </template>
 <script>
 import slProposta from '@/modules/proposta/visualizar/Proposta';

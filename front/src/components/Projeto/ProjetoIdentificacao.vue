@@ -1,8 +1,13 @@
 <template>
     <div class="proponente">
-        <table class="tabela" v-if="projeto.ProponenteInabilitado" style="background-color: red;">
+        <table
+            v-if="projeto.ProponenteInabilitado"
+            class="tabela"
+            style="background-color: red;">
             <tr style="background-color: red;">
-                <td align="center" style="text-transform: uppercase; color: red;">
+                <td
+                    align="center"
+                    style="text-transform: uppercase; color: red;">
                     <b>Proponente Inabilitado</b>
                 </td>
             </tr>
@@ -23,15 +28,16 @@
             </tr>
             <tr>
                 <td>
-                        <span v-if="projeto.idUsuarioExterno"><SalicFormatarCpfCnpj
-                            :cpf="projeto.CgcCPf"/></span>
-                    <a v-else
-                       :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + projeto.CgcCPf">
+                    <span v-if="projeto.idUsuarioExterno"><SalicFormatarCpfCnpj
+                        :cpf="projeto.CgcCPf"/></span>
+                    <a
+                        v-else
+                        :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + projeto.CgcCPf">
                         <SalicFormatarCpfCnpj :cpf="projeto.CgcCPf"/>
                     </a>
                 </td>
                 <td>
-                    <span v-html="projeto.Proponente"></span>
+                    <span v-html="projeto.Proponente"/>
                 </td>
             </tr>
         </table>
@@ -40,14 +46,14 @@
 
 <script type="text/javascript">
 
-    import SalicFormatarCpfCnpj from '@/components/SalicFormatarCpfCnpj';
+import SalicFormatarCpfCnpj from '@/components/SalicFormatarCpfCnpj';
 
-    export default {
-        props: {
-            projeto: {},
-        },
-        components: {
-            SalicFormatarCpfCnpj,
-        },
-    };
+export default {
+    components: {
+        SalicFormatarCpfCnpj,
+    },
+    props: {
+        projeto: {},
+    },
+};
 </script>

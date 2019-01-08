@@ -3,7 +3,9 @@
         v-model="dialog"
         width="750"
     >
-        <v-tooltip slot="activator" bottom>
+        <v-tooltip
+            slot="activator"
+            bottom>
             <v-btn
                 slot="activator"
                 flat
@@ -15,8 +17,8 @@
         </v-tooltip>
         <v-card>
             <v-form
-                v-model="form"
                 ref="form"
+                v-model="form"
             >
                 <v-card-title
                     class="headline primary"
@@ -27,13 +29,15 @@
                     </span>
                 </v-card-title>
                 <v-card-text>
-                    <v-list three-line subheader>
+                    <v-list
+                        three-line
+                        subheader>
                         <v-subheader>
                             <h4 class="headline mb-0 grey--text text--darken-3">
-                                {{pronac}} - {{nomeProjeto}}
+                                {{ pronac }} - {{ nomeProjeto }}
                             </h4>
                         </v-subheader>
-                        <v-divider></v-divider>
+                        <v-divider/>
                         <v-subheader>
                             Informações do encaminhamento
                         </v-subheader>
@@ -45,31 +49,31 @@
                         </v-list-tile>
                         <v-select
                             v-model="destinatarioEncaminhamento"
+                            :items="dadosDestinatarios"
+                            :rules="[rules.required]"
                             height="10px"
                             solo
                             single-line
-                            :items="dadosDestinatarios"
                             label="-- Escolha um técnico  --"
                             item-text="usu_nome"
                             item-value="usu_codigo"
-                            :rules="[rules.required]"
                             prepend-icon="perm_identity"
-                        ></v-select>
+                        />
                         <v-textarea
-                            v-model="justificativa"
                             ref="justificativa"
+                            v-model="justificativa"
+                            :rules="[rules.required]"
                             label="Justificativa de encaminhamento para análise"
                             prepend-icon="create"
                             color="green"
                             autofocus
-                            :rules="[rules.required]"
                             height="150px"
-                        ></v-textarea>
+                        />
                     </v-list>
                 </v-card-text>
-                <v-divider></v-divider>
+                <v-divider/>
                 <v-card-actions>
-                    <v-spacer></v-spacer>
+                    <v-spacer/>
                     <v-btn
                         color="red"
                         flat
@@ -78,10 +82,10 @@
                         Fechar
                     </v-btn>
                     <v-btn
+                        :disabled="!form"
                         color="primary"
                         flat
                         @click="enviarEncaminhamento"
-                        :disabled="!form"
                     >
                         Encaminhar
                     </v-btn>

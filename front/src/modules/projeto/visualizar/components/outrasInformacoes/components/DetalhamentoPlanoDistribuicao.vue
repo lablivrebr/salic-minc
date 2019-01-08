@@ -2,38 +2,50 @@
     <v-card>
         <v-expansion-panel popout>
             <v-expansion-panel-content
-                class="elevation-1"
                 v-for="(detalhamento, index) of detalhamentos"
                 :key="index"
-                >
-                <v-layout slot="header" class="black--text">
+                class="elevation-1"
+            >
+                <v-layout
+                    slot="header"
+                    class="black--text">
                     <v-icon class="mr-3 black--text">place</v-icon>
-                    <span>Detalhamento - {{detalhamento[0].DescricaoUf}} - {{detalhamento[0].DescricaoMunicipio}}</span>
+                    <span>Detalhamento - {{ detalhamento[0].DescricaoUf }} - {{ detalhamento[0].DescricaoMunicipio }}</span>
                 </v-layout>
                 <v-card-title>
-                    <v-layout justify-space-around row wrap>
-                        <v-flex lg4 offset-lg3 class="text-xs-center">
+                    <v-layout
+                        justify-space-around
+                        row
+                        wrap>
+                        <v-flex
+                            lg4
+                            offset-lg3
+                            class="text-xs-center">
                             <h6>Preco Popular</h6>
                         </v-flex>
-                        <v-flex lg2 class="text-xs-left">
+                        <v-flex
+                            lg2
+                            class="text-xs-left">
                             <h6>Proponente</h6>
                         </v-flex>
                     </v-layout>
                 </v-card-title>
                 <v-data-table
-                        :headers="headers"
-                        :items="detalhamento"
-                        class="elevation-1 container-fluid"
-                        rows-per-page-text="Items por Página"
-                        no-data-text="Nenhum dado encontrado"
-                        hide-actions
+                    :headers="headers"
+                    :items="detalhamento"
+                    class="elevation-1 container-fluid"
+                    rows-per-page-text="Items por Página"
+                    no-data-text="Nenhum dado encontrado"
+                    hide-actions
                 >
-                    <template slot="items" slot-scope="props">
-                        <td class="text-xs-left">{{props.item.dsProduto}}</td>
+                    <template
+                        slot="items"
+                        slot-scope="props">
+                        <td class="text-xs-left">{{ props.item.dsProduto }}</td>
                         <td class="text-xs-right">{{ props.item.qtExemplares }}</td>
 
                         <td class="text-xs-right">{{ parseInt(props.item.qtGratuitaDivulgacao) +
-                            parseInt(props.item.qtGratuitaPatrocinador) + parseInt(props.item.qtGratuitaPopulacao) }}
+                        parseInt(props.item.qtGratuitaPatrocinador) + parseInt(props.item.qtGratuitaPopulacao) }}
                         </td>
 
                         <td class="text-xs-right">{{ props.item.qtPopularIntegral }}</td>
@@ -144,6 +156,6 @@ export default {
             return novoDetalhamento;
         },
     },
-}
+};
 </script>
 

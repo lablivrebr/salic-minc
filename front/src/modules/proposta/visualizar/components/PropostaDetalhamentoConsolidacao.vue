@@ -1,26 +1,26 @@
 <template>
     <tfoot style="opacity: 0.8">
-            <tr>
-                <td><b>Totais</b></td>
-                <td class="right-align">{{ qtExemplaresTotal }}</td>
+        <tr>
+            <td><b>Totais</b></td>
+            <td class="right-align">{{ qtExemplaresTotal }}</td>
 
-                <td class="right-align">
-                    {{
-                        parseInt(qtGratuitaDivulgacaoTotal) +
+            <td class="right-align">
+                {{
+                    parseInt(qtGratuitaDivulgacaoTotal) +
                         parseInt(qtGratuitaPatrocinadorTotal) +
                         parseInt(qtGratuitaPopulacaoTotal)
-                    }}
-                </td>
+                }}
+            </td>
 
-                <td class="right-align">{{ qtPopularIntegralTotal }}</td>
-                <td class="right-align">{{ qtPopularParcialTotal }}</td>
-                <td class="right-align"> --- </td>
+            <td class="right-align">{{ qtPopularIntegralTotal }}</td>
+            <td class="right-align">{{ qtPopularParcialTotal }}</td>
+            <td class="right-align"> --- </td>
 
-                <td class="right-align">{{ qtProponenteIntegralTotal }}</td>
-                <td class="right-align">{{ qtProponenteParcialTotal }}</td>
-                <td class="right-align"> --- </td>
-                <td class="right-align">{{ receitaPrevistaTotal }}</td>
-            </tr>
+            <td class="right-align">{{ qtProponenteIntegralTotal }}</td>
+            <td class="right-align">{{ qtProponenteParcialTotal }}</td>
+            <td class="right-align"> --- </td>
+            <td class="right-align">{{ receitaPrevistaTotal }}</td>
+        </tr>
     </tfoot>
 </template>
 <script>
@@ -35,10 +35,10 @@ numeral.defaultFormat('0,0.00');
 
 export default {
     name: 'PropostaDetalhamentoConsolidacao',
+    mixins: [utils],
     props: {
         items: {},
     },
-    mixins: [utils],
     computed: {
         qtExemplaresTotal() {
             let total = 0;

@@ -1,23 +1,27 @@
 <template>
     <div>
-        <PropostaFluxo :id-pre-projeto="idPreProjeto"></PropostaFluxo>
-        <Proposta :idpreprojeto="idPreProjeto"></Proposta>
+        <PropostaFluxo :id-pre-projeto="idPreProjeto"/>
+        <Proposta :idpreprojeto="idPreProjeto"/>
         <SalicMenuSuspenso v-if="Object.keys(dadosProposta).length > 0">
             <li v-if="dadosProposta.fase_proposta !== 'proposta_arquivada'">
-                <a class="btn-floating red tooltipped"
-                   :href="`/solicitacao/mensagem/index/idPreProjeto/${idPreProjeto}`"
-                   data-tooltip="Solicitações"
+                <a
+                    :href="`/solicitacao/mensagem/index/idPreProjeto/${idPreProjeto}`"
+                    class="btn-floating red tooltipped"
+                    data-tooltip="Solicitações"
                 ><i class="material-icons">message</i></a>
             </li>
             <li v-if="dadosProposta.fase_proposta === 'proposta_com_proponente'">
-                <a class="btn-floating green tooltipped"
-                   :href="`/proposta/manterpropostaincentivofiscal/identificacaodaproposta/idPreProjeto/${idPreProjeto}`"
-                   data-tooltip="Editar proposta"
+                <a
+                    :href="`/proposta/manterpropostaincentivofiscal/identificacaodaproposta/idPreProjeto/${idPreProjeto}`"
+                    class="btn-floating green tooltipped"
+                    data-tooltip="Editar proposta"
                 ><i class="material-icons">edit</i></a>
             </li>
         </SalicMenuSuspenso>
 
-        <div class="tap-target" data-activates="menu-suspenso">
+        <div
+            class="tap-target"
+            data-activates="menu-suspenso">
             <div class="tap-target-content white-text">
                 <h5>Botão flutuante</h5>
                 <p>Clique aqui para acessar a ferramenta Minhas Solicitações e enviar seu questionamento ao MinC</p>
@@ -35,6 +39,12 @@ import Proposta from './Proposta';
 
 export default {
     name: 'PropostaProponente',
+    components: {
+        SalicMenuSuspenso,
+        PropostaFluxo,
+        Proposta,
+    },
+    mixins: [CookieMixin],
     props: ['idPreProjeto'],
     data() {
         return {
@@ -47,21 +57,15 @@ export default {
             loading: true,
         };
     },
-    mixins: [CookieMixin],
-    components: {
-        SalicMenuSuspenso,
-        PropostaFluxo,
-        Proposta,
+    computed: {
+        ...mapGetters({
+            dadosProposta: 'proposta/proposta',
+        }),
     },
     watch: {
         dadosProposta() {
             this.mensagemBotaoFlutuante();
         },
-    },
-    computed: {
-        ...mapGetters({
-            dadosProposta: 'proposta/proposta',
-        }),
     },
     methods: {
         mensagemBotaoFlutuante() {

@@ -1,6 +1,6 @@
 <template>
     <div>
-       AnaliseComprovantes 
+        AnaliseComprovantes
     </div>
 </template>
 
@@ -10,13 +10,13 @@ import ModalTemplate from '@/components/modal';
 
 export default {
     name: 'Painel',
+    components: {
+        ModalTemplate,
+    },
     data() {
         return {
             DadoNr: null,
         };
-    },
-    components: {
-        ModalTemplate,
     },
     methods: {
         ...mapActions({

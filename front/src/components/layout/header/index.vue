@@ -1,6 +1,6 @@
 <template>
     <div>
-        <HeaderMenuPrincipalSidebar :dadosMenu="dadosMenu"></HeaderMenuPrincipalSidebar>
+        <HeaderMenuPrincipalSidebar :dados-menu="dadosMenu"/>
         <v-toolbar
             app
             dense
@@ -9,68 +9,70 @@
             clipped-left
             color="primary"
         >
-            <HeaderLogo></HeaderLogo>
+            <HeaderLogo/>
             <v-toolbar-title class="ma-0 hidden-sm-and-down">Salic</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <HeaderMenuPrincipalToolbar :dadosMenu="dadosMenu"></HeaderMenuPrincipalToolbar>
-            <HeaderSolicitacoes></HeaderSolicitacoes>
-            <HeaderInformacoesDaConta></HeaderInformacoesDaConta>
-            <v-divider vertical class="hidden-md-and-up"></v-divider>
+            <v-spacer/>
+            <HeaderMenuPrincipalToolbar :dados-menu="dadosMenu"/>
+            <HeaderSolicitacoes/>
+            <HeaderInformacoesDaConta/>
+            <v-divider
+                vertical
+                class="hidden-md-and-up"/>
             <v-toolbar-side-icon
-                class="hidden-md-and-up"
                 v-if="$vuetify.breakpoint.smAndDown"
+                class="hidden-md-and-up"
                 @click.stop="drawerRight = !drawerRight"
-            ></v-toolbar-side-icon>
+            />
         </v-toolbar>
     </div>
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
-    import HeaderMenuPrincipalToolbar from './HeaderMenuPrincipalToolbar';
-    import HeaderMenuPrincipalSidebar from './HeaderMenuPrincipalSidebar';
-    import HeaderInformacoesDaConta from './HeaderInformacoesDaConta';
-    import HeaderSolicitacoes from './HeaderSolicitacoes';
-    import HeaderLogo from './HeaderLogo';
+import { mapActions, mapGetters } from 'vuex';
+import HeaderMenuPrincipalToolbar from './HeaderMenuPrincipalToolbar';
+import HeaderMenuPrincipalSidebar from './HeaderMenuPrincipalSidebar';
+import HeaderInformacoesDaConta from './HeaderInformacoesDaConta';
+import HeaderSolicitacoes from './HeaderSolicitacoes';
+import HeaderLogo from './HeaderLogo';
 
-    export default {
-        name: 'Header',
-        components: {
-            HeaderInformacoesDaConta,
-            HeaderMenuPrincipalToolbar,
-            HeaderMenuPrincipalSidebar,
-            HeaderSolicitacoes,
-            HeaderLogo,
+export default {
+    name: 'Header',
+    components: {
+        HeaderInformacoesDaConta,
+        HeaderMenuPrincipalToolbar,
+        HeaderMenuPrincipalSidebar,
+        HeaderSolicitacoes,
+        HeaderLogo,
+    },
+    data() {
+        return {
+            drawerRight: false,
+        };
+    },
+    watch: {
+        statusSidebarDireita(value) {
+            this.drawerRight = value;
         },
-        data() {
-            return {
-                drawerRight: false,
-            };
+        drawerRight(value) {
+            this.atualizarStatusSidebar(value);
         },
-        created() {
-            this.buscarDadosMenu();
-            this.buscarDadosLayout();
-        },
-        watch: {
-            statusSidebarDireita(value) {
-                this.drawerRight = value;
-            },
-            drawerRight(value) {
-                this.atualizarStatusSidebar(value);
-            },
-        },
-        computed: {
-            ...mapGetters({
-                dadosMenu: 'layout/getDadosMenu',
-                statusSidebarDireita: 'layout/getStatusSidebarDireita',
-            }),
-        },
-        methods: {
-            ...mapActions({
-                buscarDadosMenu: 'layout/buscarDadosMenu',
-                buscarDadosLayout: 'layout/buscarDadosLayout',
-                atualizarStatusSidebar: 'layout/atualizarStatusSidebarDireita',
-            }),
-        },
-    };
+    },
+    created() {
+        this.buscarDadosMenu();
+        this.buscarDadosLayout();
+    },
+    computed: {
+        ...mapGetters({
+            dadosMenu: 'layout/getDadosMenu',
+            statusSidebarDireita: 'layout/getStatusSidebarDireita',
+        }),
+    },
+    methods: {
+        ...mapActions({
+            buscarDadosMenu: 'layout/buscarDadosMenu',
+            buscarDadosLayout: 'layout/buscarDadosLayout',
+            atualizarStatusSidebar: 'layout/atualizarStatusSidebarDireita',
+        }),
+    },
+};
 </script>

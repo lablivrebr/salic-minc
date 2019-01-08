@@ -30,7 +30,7 @@ describe('Teste getters - Avaliação de Resultados', () => {
             getParecerLaudoFinal: [],
             projetosFinalizados: [],
             dadosItemComprovacao: [],
-            
+
         };
     });
 
@@ -48,7 +48,7 @@ describe('Teste getters - Avaliação de Resultados', () => {
         const result = getters.getProjetosAssinatura(state);
         expect(result).toEqual(state.getProjetosAssinatura);
     });
-    
+
     test('getProjetosAssinar', () => {
         const result = getters.getProjetosAssinar(state);
         expect(result).toEqual(state.getProjetosAssinar);
@@ -78,7 +78,7 @@ describe('Teste getters - Avaliação de Resultados', () => {
         const result = getters.getProjetosLaudoEmAssinatura(state);
         expect(result).toEqual(state.getProjetosLaudoEmAssinatura);
     });
-    
+
     test('dadosHistoricoEncaminhamento', () => {
         const result = getters.dadosHistoricoEncaminhamento(state);
         expect(result).toEqual(state.dadosHistoricoEncaminhamento);
@@ -153,7 +153,4 @@ describe('Teste getters - Avaliação de Resultados', () => {
         const result = getters.dadosItemComprovacao(state);
         expect(result).toEqual(state.dadosItemComprovacao);
     });
-    
-    
-    
 });

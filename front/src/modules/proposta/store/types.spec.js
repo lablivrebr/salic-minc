@@ -24,5 +24,4 @@ describe('Proposta types', () => {
     test('SET_HISTORICO_ENQUADRAMENTO', () => {
         expect(types.SET_HISTORICO_ENQUADRAMENTO).toEqual('SET_HISTORICO_ENQUADRAMENTO');
     });
-
 });

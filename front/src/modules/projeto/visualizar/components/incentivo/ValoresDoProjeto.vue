@@ -1,9 +1,13 @@
 <template>
     <fieldset>
         <legend>Valores em R$</legend>
-        <table class="tabela planilha-proposta" :class="verificarSePlanilhaAtiva('planilha-proposta')">
+        <table
+            :class="verificarSePlanilhaAtiva('planilha-proposta')"
+            class="tabela planilha-proposta">
             <tr class="destacar">
-                <td align="center" colspan="5">
+                <td
+                    align="center"
+                    colspan="5">
                     <b>
                         1 - Planilha de Solicita&ccedil;&atilde;o da proposta original
                     </b>
@@ -25,18 +29,25 @@
                 </td>
                 <td class="right-align destaque-texto-primary">
                     <b>
-                        <router-link v-if="dadosProjeto.vlTotalPropostaOriginal > 0"
-                                     :to="{ name: 'planilhaproposta', params: { idPronac: idPronac }}">
+                        <router-link
+                            v-if="dadosProjeto.vlTotalPropostaOriginal > 0"
+                            :to="{ name: 'planilhaproposta', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlTotalPropostaOriginal"/>
                         </router-link>
-                        <SalicFormatarValor v-else :valor="dadosProjeto.vlTotalPropostaOriginal"/>
+                        <SalicFormatarValor
+                            v-else
+                            :valor="dadosProjeto.vlTotalPropostaOriginal"/>
                     </b>
                 </td>
             </tr>
         </table>
-        <table class="tabela planilha-autorizada" :class="verificarSePlanilhaAtiva('planilha-autorizada')">
+        <table
+            :class="verificarSePlanilhaAtiva('planilha-autorizada')"
+            class="tabela planilha-autorizada">
             <tr class="destacar">
-                <td align="center" colspan="3">
+                <td
+                    align="center"
+                    colspan="3">
                     <b>
                         2 - Planilha Autorizada para Captar
                     </b>
@@ -67,15 +78,21 @@
                             :to="{ name: 'planilhaaprovada', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlTotalAutorizado"/>
                         </router-link>
-                        <SalicFormatarValor v-else :valor="dadosProjeto.vlTotalAutorizado"/>
+                        <SalicFormatarValor
+                            v-else
+                            :valor="dadosProjeto.vlTotalAutorizado"/>
                     </b>
                 </td>
             </tr>
         </table>
 
-        <table class="tabela planilha-adequada" :class="verificarSePlanilhaAtiva('planilha-adequada')">
+        <table
+            :class="verificarSePlanilhaAtiva('planilha-adequada')"
+            class="tabela planilha-adequada">
             <tr class="destacar">
-                <td align="center" colspan="3">
+                <td
+                    align="center"
+                    colspan="3">
                     <b>
                         3 - Planilha Adequada &agrave; realidade de execu&ccedil;&atilde;o pelo proponente
                     </b>
@@ -96,19 +113,26 @@
                 </b></td>
                 <td class="right-align destaque-texto-primary">
                     <b>
-                        <router-link v-if="dadosProjeto.vlTotalAdequado > 0"
-                                     :to="{ name: 'planilhaadequada', params: { idPronac: idPronac }}">
+                        <router-link
+                            v-if="dadosProjeto.vlTotalAdequado > 0"
+                            :to="{ name: 'planilhaadequada', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlTotalAdequado"/>
                         </router-link>
-                        <SalicFormatarValor v-else :valor="dadosProjeto.vlTotalAdequado"/>
+                        <SalicFormatarValor
+                            v-else
+                            :valor="dadosProjeto.vlTotalAdequado"/>
                     </b>
                 </td>
             </tr>
         </table>
 
-        <table class="tabela planilha-homologada" :class="verificarSePlanilhaAtiva('planilha-homologada')">
+        <table
+            :class="verificarSePlanilhaAtiva('planilha-homologada')"
+            class="tabela planilha-homologada">
             <tr class="destacar">
-                <td align="center" colspan="3">
+                <td
+                    align="center"
+                    colspan="3">
                     <b>
                         4 - Planilha Homologada para execu&ccedil;&atilde;o
                     </b>
@@ -129,19 +153,26 @@
                 </b></td>
                 <td class="right-align destaque-texto-primary">
                     <b>
-                        <router-link v-if="dadosProjeto.vlTotalHomologado > 0"
-                                     :to="{ name: 'planilhahomologada', params: { idPronac: idPronac }}">
+                        <router-link
+                            v-if="dadosProjeto.vlTotalHomologado > 0"
+                            :to="{ name: 'planilhahomologada', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlTotalHomologado"/>
                         </router-link>
-                        <SalicFormatarValor v-else :valor="dadosProjeto.vlTotalHomologado"/>
+                        <SalicFormatarValor
+                            v-else
+                            :valor="dadosProjeto.vlTotalHomologado"/>
                     </b>
                 </td>
             </tr>
         </table>
 
-        <table class="tabela planilha-readequada" :class="verificarSePlanilhaAtiva('planilha-readequada')">
+        <table
+            :class="verificarSePlanilhaAtiva('planilha-readequada')"
+            class="tabela planilha-readequada">
             <tr class="destacar">
-                <td align="center" colspan="3">
+                <td
+                    align="center"
+                    colspan="3">
                     <b>
                         5 - Planilha Readequada na execu&ccedil;&atilde;o
                     </b>
@@ -164,11 +195,14 @@
                 </b></td>
                 <td class="right-align destaque-texto-primary">
                     <b>
-                        <router-link v-if="dadosProjeto.vlTotalReadequado > 0"
-                                     :to="{ name: 'planilhareadequada', params: { idPronac: idPronac }}">
+                        <router-link
+                            v-if="dadosProjeto.vlTotalReadequado > 0"
+                            :to="{ name: 'planilhareadequada', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlTotalReadequado"/>
                         </router-link>
-                        <SalicFormatarValor v-else :valor="dadosProjeto.vlTotalReadequado"/>
+                        <SalicFormatarValor
+                            v-else
+                            :valor="dadosProjeto.vlTotalReadequado"/>
                     </b>
                 </td>
             </tr>
@@ -176,7 +210,9 @@
 
         <table class="tabela">
             <tr class="destacar">
-                <td align="center" colspan="5">
+                <td
+                    align="center"
+                    colspan="5">
                     <b>
                         Capta&ccedil;&atilde;o de recursos
                     </b>
@@ -202,7 +238,9 @@
                         <SalicFormatarValor :valor="dadosProjeto.vlTransferido"/>
                     </b>
                     <b v-else>
-                        <TransferenciaRecursos :valor="dadosProjeto.vlTransferido" :acao="'transferidor'"></TransferenciaRecursos>
+                        <TransferenciaRecursos
+                            :valor="dadosProjeto.vlTransferido"
+                            :acao="'transferidor'"/>
                     </b>
                 </td>
                 <td class="right-align">
@@ -210,7 +248,9 @@
                         <SalicFormatarValor :valor="dadosProjeto.vlRecebido"/>
                     </b>
                     <b v-else>
-                        <TransferenciaRecursos :valor="dadosProjeto.vlRecebido" :acao="'recebedor'"></TransferenciaRecursos>
+                        <TransferenciaRecursos
+                            :valor="dadosProjeto.vlRecebido"
+                            :acao="'recebedor'"/>
                     </b>
                 </td>
                 <td class="right-align destacar-celula"><b>
@@ -225,9 +265,13 @@
                 </td>
             </tr>
         </table>
-        <table class="tabela" v-if="dadosProjeto.PercentualComprovado > 0">
+        <table
+            v-if="dadosProjeto.PercentualComprovado > 0"
+            class="tabela">
             <tr class="destacar">
-                <td align="center" colspan="3">
+                <td
+                    align="center"
+                    colspan="3">
                     <b>
                         Comprova&ccedil;&atilde;o
                     </b>
@@ -241,11 +285,14 @@
             <tr>
                 <td class="right-align destaque-texto-primary destacar-celula">
                     <b>
-                        <router-link v-if="dadosProjeto.vlComprovado > 0"
-                                     :to="{ name: 'relacaodepagamentos', params: { idPronac: idPronac }}">
+                        <router-link
+                            v-if="dadosProjeto.vlComprovado > 0"
+                            :to="{ name: 'relacaodepagamentos', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlComprovado"/>
                         </router-link>
-                        <SalicFormatarValor v-else :valor="dadosProjeto.vlComprovado"/>
+                        <SalicFormatarValor
+                            v-else
+                            :valor="dadosProjeto.vlComprovado"/>
                     </b>
                 </td>
                 <td class="right-align destacar-celula">
@@ -265,55 +312,55 @@
     </fieldset>
 </template>
 <script>
-    import { utils } from '@/mixins/utils';
-    import SalicFormatarValor from '@/components/SalicFormatarValor';
-    import TransferenciaRecursos from './TransferenciaRecursos';
+import { utils } from '@/mixins/utils';
+import SalicFormatarValor from '@/components/SalicFormatarValor';
+import TransferenciaRecursos from './TransferenciaRecursos';
 
-    export default {
-        components: {
-            SalicFormatarValor,
-            TransferenciaRecursos,
-        },
-        mixins: [utils],
-        props: {
-            dadosProjeto: {},
-            idPronac: 0,
-        },
-        methods: {
-            obterPlanilhaAtiva() {
-                let planilhaAtiva = '';
+export default {
+    components: {
+        SalicFormatarValor,
+        TransferenciaRecursos,
+    },
+    mixins: [utils],
+    props: {
+        dadosProjeto: {},
+        idPronac: 0,
+    },
+    methods: {
+        obterPlanilhaAtiva() {
+            let planilhaAtiva = '';
 
-                switch (true) {
-                case (parseFloat(this.dadosProjeto.vlTotalReadequado) > 0) :
-                    planilhaAtiva = 'planilha-readequada';
-                    break;
-                case (parseFloat(this.dadosProjeto.vlTotalHomologado) > 0) :
-                    planilhaAtiva = 'planilha-homologada';
-                    break;
-                case (parseFloat(this.dadosProjeto.vlTotalAdequado) > 0) :
-                    planilhaAtiva = 'planilha-adequada';
-                    break;
-                case (parseFloat(this.dadosProjeto.vlTotalAutorizado) > 0) :
-                    planilhaAtiva = 'planilha-autorizada';
-                    break;
-                case (parseFloat(this.dadosProjeto.vlTotalPropostaOriginal) > 0) :
-                    planilhaAtiva = 'planilha-proposta';
-                    break;
-                default :
-                    planilhaAtiva = '';
-                    break;
-                }
+            switch (true) {
+            case (parseFloat(this.dadosProjeto.vlTotalReadequado) > 0) :
+                planilhaAtiva = 'planilha-readequada';
+                break;
+            case (parseFloat(this.dadosProjeto.vlTotalHomologado) > 0) :
+                planilhaAtiva = 'planilha-homologada';
+                break;
+            case (parseFloat(this.dadosProjeto.vlTotalAdequado) > 0) :
+                planilhaAtiva = 'planilha-adequada';
+                break;
+            case (parseFloat(this.dadosProjeto.vlTotalAutorizado) > 0) :
+                planilhaAtiva = 'planilha-autorizada';
+                break;
+            case (parseFloat(this.dadosProjeto.vlTotalPropostaOriginal) > 0) :
+                planilhaAtiva = 'planilha-proposta';
+                break;
+            default :
+                planilhaAtiva = '';
+                break;
+            }
 
-                return planilhaAtiva;
-            },
-            verificarSePlanilhaAtiva(nomePlanilha) {
-                return {
-                    active: nomePlanilha === this.obterPlanilhaAtiva(),
-                };
-            },
-            mensagemPlanilhaAtiva(nomePlanilha) {
-                return (nomePlanilha === this.obterPlanilhaAtiva()) ? '(PLANILHA ATUAL)' : '';
-            },
+            return planilhaAtiva;
         },
-    };
+        verificarSePlanilhaAtiva(nomePlanilha) {
+            return {
+                active: nomePlanilha === this.obterPlanilhaAtiva(),
+            };
+        },
+        mensagemPlanilhaAtiva(nomePlanilha) {
+            return (nomePlanilha === this.obterPlanilhaAtiva()) ? '(PLANILHA ATUAL)' : '';
+        },
+    },
+};
 </script>

@@ -1,14 +1,16 @@
 <template>
     <div id="app">
         <v-app :dark="isModoNoturno">
-            <SlNav></SlNav>
+            <SlNav/>
             <v-content>
-                <v-container fluid v-if="Object.keys(usuario).length > 0">
-                  <v-layout>
-                    <v-fade-transition mode="out-in">
-                        <router-view></router-view>
-                    </v-fade-transition>
-                  </v-layout>
+                <v-container
+                    v-if="Object.keys(usuario).length > 0"
+                    fluid>
+                    <v-layout>
+                        <v-fade-transition mode="out-in">
+                            <router-view/>
+                        </v-fade-transition>
+                    </v-layout>
                 </v-container>
             </v-content>
 
@@ -22,8 +24,8 @@
             >
                 {{ this.getSnackbar.text }}
             </v-snackbar>
-            <Rodape></Rodape>
-      </v-app>
+            <Rodape/>
+        </v-app>
     </div>
 </template>
 
@@ -52,6 +54,11 @@ export default {
             usuario: 'autenticacao/getUsuario',
         }),
     },
+    watch: {
+        getSnackbar(val) {
+            this.snackbar = val.ativo;
+        },
+    },
     mounted() {
         this.setSnackbar({ ativo: false, color: 'success' });
         this.setUsuario();
@@ -62,11 +69,6 @@ export default {
             dark: false,
             snackbar: false,
         };
-    },
-    watch: {
-        getSnackbar(val) {
-            this.snackbar = val.ativo;
-        },
     },
 };
 </script>

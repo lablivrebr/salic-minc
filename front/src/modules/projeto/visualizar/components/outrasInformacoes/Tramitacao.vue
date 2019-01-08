@@ -1,35 +1,33 @@
 <template>
     <div>
         <div v-if="dadosProjeto">
-            <UltimaTramitacao :idPronac="dadosProjeto.idPronac"></UltimaTramitacao>
+            <UltimaTramitacao :id-pronac="dadosProjeto.idPronac"/>
             <TramitacaoProjeto
-                    :idPronac="dadosProjeto.idPronac">
-            </TramitacaoProjeto>
+                :id-pronac="dadosProjeto.idPronac"/>
             <TramitacaoDocumento
-                    :idPronac="dadosProjeto.idPronac">
-            </TramitacaoDocumento>
+                :id-pronac="dadosProjeto.idPronac"/>
         </div>
     </div>
 </template>
 <script>
-    import { mapGetters } from 'vuex';
-    import UltimaTramitacao from './components/UltimaTramitacao';
-    import TramitacaoProjeto from './components/TramitacaoProjeto';
-    import TramitacaoDocumento from './components/TramitacaoDocumento';
+import { mapGetters } from 'vuex';
+import UltimaTramitacao from './components/UltimaTramitacao';
+import TramitacaoProjeto from './components/TramitacaoProjeto';
+import TramitacaoDocumento from './components/TramitacaoDocumento';
 
-    export default {
-        name: 'Tramitacao',
-        props: ['idPronac'],
-        components: {
-            UltimaTramitacao,
-            TramitacaoProjeto,
-            TramitacaoDocumento,
-        },
-        computed: {
-            ...mapGetters({
-                dadosProjeto: 'projeto/projeto',
-            }),
-        },
-    };
+export default {
+    name: 'Tramitacao',
+    components: {
+        UltimaTramitacao,
+        TramitacaoProjeto,
+        TramitacaoDocumento,
+    },
+    props: ['idPronac'],
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+        }),
+    },
+};
 </script>
 

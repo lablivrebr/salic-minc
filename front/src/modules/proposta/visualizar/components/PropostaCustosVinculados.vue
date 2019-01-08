@@ -1,7 +1,7 @@
 <template>
     <div class="tabelas">
         <div class="row">
-            <slTabelaSimples v-bind:dados="dados"></slTabelaSimples>
+            <slTabelaSimples :dados="dados"/>
         </div>
     </div>
 </template>
@@ -10,24 +10,24 @@ import slTabelaSimples from '@/components/slTabelaSimples';
 
 export default {
     name: 'PropostaCustosVinculados',
+    components: {
+        slTabelaSimples,
+    },
+    props: ['arrayCustos'],
     data() {
         return {
             dados: [],
         };
     },
-    props: ['arrayCustos'],
-    components: {
-        slTabelaSimples,
+    watch: {
+        arrayCustos(value) {
+            this.dados = value;
+        },
     },
     mounted() {
         if (typeof this.arrayCustos !== 'undefined') {
             this.dados = this.arrayCustos;
         }
-    },
-    watch: {
-        arrayCustos(value) {
-            this.dados = value;
-        },
     },
 };
 </script>

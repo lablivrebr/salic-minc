@@ -1,16 +1,18 @@
 <template>
     <div class="dados-usuario">
-        <div class="card" v-if="usuario">
+        <div
+            v-if="usuario"
+            class="card">
             <div class="card-content">
                 <h5>Usu&aacute;rio do sistema</h5>
                 <div class="row">
                     <div class="col s12 l3 m3">
                         <b>CPF</b><br>
-                        {{ usuario.cpf}}
+                        {{ usuario.cpf }}
                     </div>
                     <div class="col s12 l3 m3">
                         <b>Nome</b><br>
-                        {{ usuario.nome}}
+                        {{ usuario.nome }}
                     </div>
                 </div>
             </div>
@@ -20,21 +22,21 @@
 <script>
 export default {
     name: 'AgenteUsuario',
+    props: ['idusuario'],
     data() {
         return {
             usuario: [],
         };
     },
-    props: ['idusuario'],
-    mounted() {
-        if (typeof this.idusuario !== 'undefined') {
-            this.fetch(this.idusuario);
-        }
-    },
     watch: {
         idusuario(value) {
             this.fetch(value);
         },
+    },
+    mounted() {
+        if (typeof this.idusuario !== 'undefined') {
+            this.fetch(this.idusuario);
+        }
     },
     methods: {
         fetch(id) {

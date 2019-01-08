@@ -1,8 +1,12 @@
 <template>
-    <v-btn flat icon color="green" :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}">
+    <v-btn
+        :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}"
+        flat
+        icon
+        color="green">
         <v-tooltip bottom>
-            <v-icon 
-                slot="activator" 
+            <v-icon
+                slot="activator"
                 class="material-icons"
             >
                 visibility
@@ -14,10 +18,10 @@
 </template>
 
 <script>
-    export default {
-        name: 'VisualizarButton',
-        props: [
-            'idPronac',
-        ],
-    };
+export default {
+    name: 'VisualizarButton',
+    props: [
+        'idPronac',
+    ],
+};
 </script>

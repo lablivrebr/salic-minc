@@ -1,39 +1,50 @@
 <template>
     <div>
         <v-card-title>
-            <v-spacer></v-spacer>
+            <v-spacer/>
             <v-text-field
                 v-model="search"
                 append-icon="search"
                 label="Pesquisar"
                 single-line
                 hide-details
-                ></v-text-field>
+            />
         </v-card-title>
         <v-data-table
             :headers="cab()"
             :items="dados.items"
             :pagination.sync="pagination"
-            hide-actions
             :search="search"
+            hide-actions
         >
-            <template slot="items" slot-scope="props">
+            <template
+                slot="items"
+                slot-scope="props">
                 <td>{{ props.index+1 }}</td>
                 <td class="text-xs-right">
-                    <v-flex xs12 sm4 text-xs-center>
+                    <v-flex
+                        xs12
+                        sm4
+                        text-xs-center>
                         <div>
-                            <v-btn flat :href="'/projeto/#/'+ props.item.idPronac">{{ props.item.PRONAC }}</v-btn>
+                            <v-btn
+                                :href="'/projeto/#/'+ props.item.idPronac"
+                                flat>{{ props.item.PRONAC }}</v-btn>
                         </div>
                     </v-flex>
                 </td>
                 <td class="text-xs-left">{{ props.item.NomeProjeto }}</td>
                 <td class="text-xs-center">{{ props.item.Situacao }}</td>
                 <td class="text-xs-center">{{ props.item.UfProjeto }}</td>
-                <td class="text-xs-center" v-if="mostrarTecnico">{{ props.item.usu_nome }}</td>
+                <td
+                    v-if="mostrarTecnico"
+                    class="text-xs-center">{{ props.item.usu_nome }}</td>
                 <td class="text-xs-center">
-                    <template v-for="(c, index) in componentes.acoes" d-inline-block>
+                    <template
+                        v-for="(c, index) in componentes.acoes"
+                        d-inline-block>
                         <component
-                            v-bind:key="index"
+                            :key="index"
                             :obj="props.item"
                             :is="c"
                             :link-direto-assinatura="true"
@@ -43,19 +54,21 @@
                             :nome-projeto="props.item.NomeProjeto"
                             :atual="componentes.atual"
                             :proximo="componentes.proximo"
-                            :idTipoDoAtoAdministrativo="componentes.idTipoDoAtoAdministrativo"
+                            :id-tipo-do-ato-administrativo="componentes.idTipoDoAtoAdministrativo"
                             :usuario="componentes.usuario"
                             :tecnico="{
-                               idAgente: props.item.idAgente,
-                               nome: props.item.usu_nome
+                                idAgente: props.item.idAgente,
+                                nome: props.item.usu_nome
                             }"
-                        >
-                        </component>
+                        />
                     </template>
                 </td>
             </template>
             <template slot="no-data">
-                <v-alert :value="true" color="error" icon="warning">
+                <v-alert
+                    :value="true"
+                    color="error"
+                    icon="warning">
                     Nenhum dado encontrado ¯\_(ツ)_/¯
                 </v-alert>
             </template>
@@ -67,7 +80,7 @@
                     :length="pages"
                     :total-visible="4"
                     color="primary "
-                ></v-pagination>
+                />
             </div>
         </div>
     </div>

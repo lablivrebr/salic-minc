@@ -1,23 +1,35 @@
 <template>
     <div>
-        <a class="btn btn-primary" @click="modalOpen('create-bar'); inputClear();">
+        <a
+            class="btn btn-primary"
+            @click="modalOpen('create-bar'); inputClear();">
             Criar
         </a>
-        <ModalTemplate v-if="modalVisible === 'create-bar'" @close="fecharModal()">
+        <ModalTemplate
+            v-if="modalVisible === 'create-bar'"
+            @close="fecharModal()">
             <template slot="header">Criar Bar</template>
             <template slot="body">
                 <form action="">
                     <p>
                         <label for="DadoNr">DadoNr</label>
-                        <input type="text" name="DadoNr" id="DadoNr" v-model="DadoNr">
+                        <input
+                            id="DadoNr"
+                            v-model="DadoNr"
+                            type="text"
+                            name="DadoNr">
                     </p>
                 </form>
             </template>
             <template slot="footer">
-                <a class="btn btn-danger" @click="fecharModal();$event.preventDefault()">
+                <a
+                    class="btn btn-danger"
+                    @click="fecharModal();$event.preventDefault()">
                     Fechar
                 </a>
-                <a class="btn btn-primary" @click="criarRegistro({ DadoNr });fecharModal();">Salvar</a>
+                <a
+                    class="btn btn-primary"
+                    @click="criarRegistro({ DadoNr });fecharModal();">Salvar</a>
             </template>
         </ModalTemplate>
     </div>
@@ -29,13 +41,13 @@ import ModalTemplate from '@/components/modal';
 
 export default {
     name: 'CreateBar',
+    components: {
+        ModalTemplate,
+    },
     data() {
         return {
             DadoNr: '',
         };
-    },
-    components: {
-        ModalTemplate,
     },
     methods: {
         ...mapActions({

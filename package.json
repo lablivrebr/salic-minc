@@ -18,7 +18,8 @@
     "e2e": "node front/test/e2e/runner.js",
     "cypress:open": "cypress open",
     "cypress": "cypress run",
-    "lint": "eslint --ext .js,.vue src front/test/unit"
+    "lint": "eslint --ext .js,.vue front/src front/test/unit front/test/e2e/specs",
+    "lint-fix": "eslint --fix --ext .js,.vue front/src front/test/unit front/test/e2e/specs"
   },
   "husky": {
     "hooks": {

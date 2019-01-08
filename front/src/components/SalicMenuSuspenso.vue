@@ -1,33 +1,39 @@
 <template>
     <div>
         <div class="fixed-action-btn vertical">
-            <a id="menu-suspenso" class="btn-floating btn-large red">
+            <a
+                id="menu-suspenso"
+                class="btn-floating btn-large red">
                 <i class="large material-icons">add</i>
             </a>
             <ul>
                 <li>
-                    <a id="ir-para-o-topo" class="btn-floating yellow darken-1 tooltipped"
-                       data-tooltip="Ir para o topo"
-                       href='javascript:void(0)'>
+                    <a
+                        id="ir-para-o-topo"
+                        class="btn-floating yellow darken-1 tooltipped"
+                        data-tooltip="Ir para o topo"
+                        href="javascript:void(0)">
                         <i class="material-icons">arrow_upward</i>
                     </a>
                 </li>
                 <li>
-                    <a id="ir-para-o-fim" class="btn-floating yellow darken-1 tooltipped"
-                       data-tooltip="Ir para o fim"
-                       href='javascript:void(0)'>
+                    <a
+                        id="ir-para-o-fim"
+                        class="btn-floating yellow darken-1 tooltipped"
+                        data-tooltip="Ir para o fim"
+                        href="javascript:void(0)">
                         <i class="material-icons">arrow_downward</i>
                     </a>
                 </li>
-                <slot></slot>
+                <slot/>
             </ul>
         </div>
     </div>
 </template>
 <script>
-    export default {
-        name: 'SalicMenuSuspenso',
-        /* eslint-disable */
+export default {
+    name: 'SalicMenuSuspenso',
+    /* eslint-disable */
         mounted() {
             this.irParaOTopo();
             this.irParaOFim();

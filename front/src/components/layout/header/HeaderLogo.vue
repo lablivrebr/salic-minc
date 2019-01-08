@@ -1,5 +1,8 @@
 <template>
-    <v-btn icon large href="/principal">
+    <v-btn
+        icon
+        large
+        href="/principal">
         <v-avatar size="38px">
             <img
                 src="@/assets/img/logomarca.png"
@@ -10,7 +13,7 @@
 </template>
 
 <script>
-    export default {
-        name: 'Logo',
-    };
+export default {
+    name: 'Logo',
+};
 </script>

@@ -1,8 +1,8 @@
 <template>
     <div class="tabelas">
-            <div class="row">
-                <slTabelaSimples v-bind:dados="dado"></slTabelaSimples>
-            </div>
+        <div class="row">
+            <slTabelaSimples :dados="dado"/>
+        </div>
     </div>
 </template>
 <script>
@@ -10,24 +10,24 @@ import slTabelaSimples from '@/components/slTabelaSimples';
 
 export default {
     name: 'PropostaHistoricoAvaliacoes',
+    components: {
+        slTabelaSimples,
+    },
+    props: ['idpreprojeto'],
     data() {
         return {
             dado: [],
         };
     },
-    props: ['idpreprojeto'],
-    components: {
-        slTabelaSimples,
+    watch: {
+        idpreprojeto(value) {
+            this.fetch(value);
+        },
     },
     mounted() {
         if (typeof this.idpreprojeto !== 'undefined') {
             this.fetch(this.idpreprojeto);
         }
-    },
-    watch: {
-        idpreprojeto(value) {
-            this.fetch(value);
-        },
     },
     methods: {
         fetch(id) {

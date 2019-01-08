@@ -1,55 +1,77 @@
 <template>
     <aside id="sidebar-vue">
-        <ul id="sidenav" class="sidenav-apoio side-nav fixed">
-            <Carregando v-if="loading"></Carregando>
-            <li v-show="!loading" class="sidebar-info" v-if="menu.informacoes">
+        <ul
+            id="sidenav"
+            class="sidenav-apoio side-nav fixed">
+            <Carregando v-if="loading"/>
+            <li
+                v-show="!loading"
+                v-if="menu.informacoes"
+                class="sidebar-info">
                 <div>
                     <p>
                         <i class="material-icons left tiny">
-                            <span v-if="menu.informacoes.ativo">{{menu.informacoes.icone_ativo}}</span>
-                            <span v-else>{{menu.informacoes.icone_inativo}}</span>
+                            <span v-if="menu.informacoes.ativo">{{ menu.informacoes.icone_ativo }}</span>
+                            <span v-else>{{ menu.informacoes.icone_inativo }}</span>
                         </i>
-                        <b v-html="menu.informacoes.titulo"></b>
+                        <b v-html="menu.informacoes.titulo"/>
                     </p>
-                    <p class="info-title" v-html="menu.informacoes.descricao"></p>
+                    <p
+                        class="info-title"
+                        v-html="menu.informacoes.descricao"/>
                 </div>
             </li>
-            <li v-show="!loading"
+            <li
                 v-for="(item, index) in menu"
+                v-show="!loading"
                 v-if="index != 'informacoes'"
                 :key="index"
                 :class="[item.submenu ? 'no-padding' : 'bold']">
-                <ul v-if="item.submenu" class="collapsible collapsible-accordion">
+                <ul
+                    v-if="item.submenu"
+                    class="collapsible collapsible-accordion">
                     <li class="bold">
                         <a
                             class="collapsible-header waves-effect waves-cyan"
                             href="javascript:void(0)"
                         >
-                            <i v-if="item.icon" class="material-icons left">{{ item.icon }}</i>
-                            <span v-html="item.label"></span>
-                            <span v-if="item.badge" class="new badge">{{ item.badge }}</span>
+                            <i
+                                v-if="item.icon"
+                                class="material-icons left">{{ item.icon }}</i>
+                            <span v-html="item.label"/>
+                            <span
+                                v-if="item.badge"
+                                class="new badge">{{ item.badge }}</span>
                         </a>
                         <div class="collapsible-body">
                             <ul>
-                                <li v-for="(subitem, index) in item.submenu" :key="index">
-                                    <a class="waves-effect waves-cyan"
-                                       href="javascript:void(0)"
-                                       v-on:click="carregarDados(subitem)"
-                                       title="Ir para"
-                                       v-html="subitem.label"
-                                    ></a>
+                                <li
+                                    v-for="(subitem, index) in item.submenu"
+                                    :key="index">
+                                    <a
+                                        class="waves-effect waves-cyan"
+                                        href="javascript:void(0)"
+                                        title="Ir para"
+                                        @click="carregarDados(subitem)"
+                                        v-html="subitem.label"
+                                    />
                                 </li>
                             </ul>
                         </div>
                     </li>
                 </ul>
-                <a v-else
-                   href="javascript:void(0)"
-                   v-on:click="carregarDados(item)"
+                <a
+                    v-else
+                    href="javascript:void(0)"
+                    @click="carregarDados(item)"
                 >
-                    <i v-if="item.icon" class="material-icons left">{{ item.icon}}</i>
-                    <span v-html="item.label"></span>
-                    <span v-if="item.badge" class="new badge">{{ item.badge }}</span>
+                    <i
+                        v-if="item.icon"
+                        class="material-icons left">{{ item.icon }}</i>
+                    <span v-html="item.label"/>
+                    <span
+                        v-if="item.badge"
+                        class="new badge">{{ item.badge }}</span>
                 </a>
             </li>
         </ul>
@@ -57,7 +79,7 @@
 </template>
 
 <script>
-    /* eslint-disable */
+/* eslint-disable */
     import Carregando from '@/components/Carregando';
 
     export default {

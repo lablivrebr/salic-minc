@@ -9,6 +9,7 @@
             <template v-for="(item) in dadosMenu">
                 <v-list-group
                     v-if="item.menu"
+                    :key="item.index"
                     :prepend-icon="item.icon"
                 >
                     <v-list-tile slot="activator">
@@ -18,6 +19,7 @@
                     <template v-for="(subMenu) in item.menu">
                         <v-list-group
                             v-if="subMenu.menu"
+                            :key="subMenu.index"
                             no-action
                             sub-group
                         >
@@ -28,7 +30,10 @@
                             <v-list-tile
                                 v-for="(subitem, i) in subMenu.menu"
                                 :key="i"
-                                :href="'/' + subitem.url.module + '/' + subitem.url.controller + '/' + subitem.url.action"
+                                :href="'/' +
+                                    subitem.url.module + '/' +
+                                    subitem.url.controller + '/' +
+                                subitem.url.action"
                             >
                                 <v-list-tile-title v-text="subitem.label"/>
                                 <v-list-tile-action if="subitem.icon">
@@ -40,20 +45,29 @@
                         </v-list-group>
                         <v-list-tile
                             v-else
-                            :href="'/' + subMenu.url.module + '/' + subMenu.url.controller + '/' + subMenu.url.action">
+                            :key="subMenu.index"
+                            :href="'/' +
+                                subMenu.url.module + '/' +
+                                subMenu.url.controller + '/' +
+                            subMenu.url.action">
                             <span v-html="subMenu.label"/>
                         </v-list-tile>
                     </template>
                 </v-list-group>
                 <v-list-tile
                     v-else
-                    :href="'/' + item.url.module + '/' + item.url.controller + '/' + item.url.action">
+                    :key="item.index"
+                    :href="'/' +
+                        item.url.module + '/' +
+                        item.url.controller + '/' +
+                    item.url.action"
+                >
                     <v-list-tile-action v-if="item.icon">
                         <v-icon>{{ item.icon }}</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-title><span v-html="item.label"/></v-list-tile-title>
                 </v-list-tile>
-                <v-divider/>
+                <v-divider :key="item.index"/>
             </template>
         </v-list>
     </v-navigation-drawer>
@@ -65,7 +79,10 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'MenuPrincipal',
     props: {
-        dadosMenu: {},
+        dadosMenu: {
+            type: Object,
+            required: true,
+        },
     },
     data() {
         return {

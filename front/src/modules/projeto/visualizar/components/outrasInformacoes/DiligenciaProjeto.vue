@@ -83,6 +83,12 @@ export default {
             idPronac: {},
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            dados: 'projeto/diligencia',
+        }),
+    },
     watch: {
         dados() {
             this.loading = false;
@@ -92,12 +98,6 @@ export default {
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             this.buscarDiligencia(this.dadosProjeto.idPronac);
         }
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/diligencia',
-        }),
     },
     methods: {
         ...mapActions({

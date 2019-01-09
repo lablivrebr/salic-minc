@@ -1,6 +1,5 @@
 'use strict'
 process.env.NODE_ENV = 'watch'
-const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
@@ -8,57 +7,58 @@ const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const watchWebpackConfig = merge(baseWebpackConfig, {
-    module: {
-        rules: utils.styleLoaders({
-            sourceMap: config.dev.cssSourceMap,
-            extract: true,
-            usePostCSS: true
-        })
-    },
+    mode: 'none',
     watch: true,
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    chunks: "initial",
+                    name: "manifest",
+                    minChunks: 2,
+                    maxInitialRequests: 5, // The default limit is too small to showcase the effect
+                    minSize: 0 // This is example is too small to create commons chunks
+                },
+                vendor: {
+                    test: /node_modules/,
+                    chunks: "all",
+                    name: "vendor",
+                    priority: 10,
+                    enforce: true
+                }
+            }
+        },
+        namedModules: true,
+        namedChunks: true,
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader',
+                ],
+            }
+        ]
+    },
     // cheap-module-eval-source-map is faster for development
     devtool: config.dev.devtool,
     plugins: [
         new webpack.DefinePlugin({
             'process.env': require('../config/dev.env')
         }),
-        new ExtractTextPlugin({
-            filename: utils.assetsPath('css/[name].css'),
-            // Setting the following option to `false` will not extract CSS from codesplit chunks.
-            // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
-            // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`,
-            // increasing file size: https://github.com/vuejs-templates/webpack/issues/1110
-            allChunks: true,
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks(module) {
-                // any required modules inside node_modules are extracted to vendor
-                return (
-                    module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(
-                        path.join(__dirname, '../../node_modules')
-                    ) === 0
-                )
-            }
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest',
-            minChunks: Infinity
-        }),
-        // This instance extracts shared chunks from code splitted chunks and bundles them
-        // in a separate chunk, similar to the vendor chunk
-        // see: https://webpack.js.org/plugins/commons-chunk-plugin/#extra-async-commons-chunk
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'app',
-            async: 'vendor-async',
-            children: true,
-            minChunks: 3
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: 'css/[name].css',
+            chunkFilename: 'css/[id].css',
         }),
         new CopyWebpackPlugin([
             {
@@ -87,10 +87,5 @@ const watchWebpackConfig = merge(baseWebpackConfig, {
         })
     ]
 })
-
-if (config.build.bundleAnalyzerReport) {
-    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-    watchWebpackConfig.plugins.push(new BundleAnalyzerPlugin())
-}
 
 module.exports = watchWebpackConfig

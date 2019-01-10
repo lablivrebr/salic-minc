@@ -63,7 +63,7 @@ class Projeto_HomologacaoController extends Projeto_GenericController
                 $where['EXISTS(SELECT TOP 1 * FROM SAC.dbo.tbDiligencia WHERE idPronac = a.IdPRONAC AND idTipoDiligencia = 181 AND DtSolicitacao IS NOT NULL AND DtResposta IS NOT NULL AND stEstado = 0)'] = '';
                 break;
             case 'aguardando-recurso':
-                $where['a.Situacao in (?)'] = ['D51', 'D20'];
+                $where['a.Situacao in (?)'] = ['D51'];
                 $where['NOT EXISTS(SELECT TOP 1 idPronac from sac.dbo.tbRecurso where idPronac = a.IdPRONAC AND siFaseProjeto = 2 AND (siRecurso = 9 OR tpSolicitacao = \'DR\'))'] = '';
                 break;
             case 'pos-recurso':

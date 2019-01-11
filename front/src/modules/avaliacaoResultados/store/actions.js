@@ -276,16 +276,20 @@ export const obterProjetosLaudoAssinar = ({ commit }, param) => {
         });
 };
 
-export const obterProjetosLaudoEmAssinatura = ({ commit }, param) => {
+export const obterProjetosLaudoEmAssinatura = async ({ commit }, param) => {
     commit(types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA, {});
-    const dadosTabela = { code: 200, items: [] };
+    let items = [];
     let u;
+    let i = 0;
     for (u = 0; u < param.length; u += 1) {
         avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal(param[u])
             .then((response) => {
-                dadosTabela.items = dadosTabela.items.concat(response.data.data.items);
-                if (u === param.length) {
-                    commit(types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA, dadosTabela);
+                items = items.concat(response.data.data.items);
+                i += 1;
+
+                if (i === param.length) {
+                    console.info('oi');
+                    commit(types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA, { code: 200, items });
                 }
             });
     }

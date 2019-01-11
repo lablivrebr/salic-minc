@@ -1,16 +1,16 @@
 <template>
     <div>
-        {{id}}
+        {{ id }}
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'Index',
-        data() {
-            return {
-                id: this.$route.params.idPreProjeto,
-            };
-        },
-    };
+export default {
+    name: 'Index',
+    data() {
+        return {
+            id: this.$route.params.idPreProjeto,
+        };
+    },
+};
 </script>

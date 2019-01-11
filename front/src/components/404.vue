@@ -1,10 +1,10 @@
 <template>
     <div class="404">
-       Página não encontrada
+        Página não encontrada
     </div>
 </template>
 
 <script>
-    export default {
-    };
+export default {
+};
 </script>

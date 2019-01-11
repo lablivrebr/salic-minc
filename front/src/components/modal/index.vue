@@ -1,5 +1,7 @@
 <template>
-    <div id="modalTemplate" class="modal modal-fixed-footer">
+    <div
+        id="modalTemplate"
+        class="modal modal-fixed-footer">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>
@@ -12,7 +14,9 @@
         </div>
         <div class="modal-footer">
             <slot name="footer">
-                <button class="btn btn-danger" @click="fecharModal();$event.preventDefault()">
+                <button
+                    class="btn btn-danger"
+                    @click="fecharModal();$event.preventDefault()">
                     Fechar
                 </button>
             </slot>
@@ -21,27 +25,27 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
-    export default {
-        mounted() {
-            const objeto = this;
-            // eslint-disable-next-line
+export default {
+    mounted() {
+        const objeto = this;
+        // eslint-disable-next-line
             $3('.modal').modal({ complete: () => { objeto.fecharModal(); } });
 
-            // eslint-disable-next-line
+        // eslint-disable-next-line
             $3('#modalTemplate').modal('open');
-        },
-        methods: {
-            fecharModal() {
-                // eslint-disable-next-line
+    },
+    methods: {
+        fecharModal() {
+            // eslint-disable-next-line
                 $3('#modalTemplate')
-                    .modal('close');
-                this.$emit('close');
-            },
-            ...mapActions({
-                modalClose: 'modal/modalClose',
-            }),
+                .modal('close');
+            this.$emit('close');
         },
-    };
+        ...mapActions({
+            modalClose: 'modal/modalClose',
+        }),
+    },
+};
 </script>

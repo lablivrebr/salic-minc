@@ -1,16 +1,16 @@
 <template>
     <div>
-        <MenuSuperior></MenuSuperior>
+        <MenuSuperior/>
     </div>
 </template>
 
 <script>
-    import MenuSuperior from '@/components/layout/header';
+import MenuSuperior from '@/components/layout/header';
 
-    export default {
-        name: 'SlNav',
-        components: {
-            MenuSuperior,
-        },
-    };
+export default {
+    name: 'SlNav',
+    components: {
+        MenuSuperior,
+    },
+};
 </script>

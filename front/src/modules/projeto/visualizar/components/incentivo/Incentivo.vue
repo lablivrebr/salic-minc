@@ -1,8 +1,11 @@
 <template>
     <div id="conteudo">
-        <div class="row" v-if="dadosProjeto.ProponenteInabilitado">
-            <div style="background-color: #EF5350; text-transform: uppercase"
-                 class="darken-2 padding10 white-text center-align">
+        <div
+            v-if="dadosProjeto.ProponenteInabilitado"
+            class="row">
+            <div
+                style="background-color: #EF5350; text-transform: uppercase"
+                class="darken-2 padding10 white-text center-align">
                 <div><b>Proponente Inabilitado</b></div>
             </div>
         </div>
@@ -24,13 +27,14 @@
                     <td>
                         <span v-if="dadosProjeto.idUsuarioExterno"><SalicFormatarCpfCnpj
                             :cpf="dadosProjeto.CgcCPf"/></span>
-                        <a v-else
-                           :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + dadosProjeto.CgcCPf">
+                        <a
+                            v-else
+                            :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + dadosProjeto.CgcCPf">
                             <SalicFormatarCpfCnpj :cpf="dadosProjeto.CgcCPf"/>
                         </a>
                     </td>
                     <td>
-                        <span v-html="dadosProjeto.Proponente"></span>
+                        <span v-html="dadosProjeto.Proponente"/>
                     </td>
                 </tr>
             </table>
@@ -55,7 +59,9 @@
                     <td align="center">
                         <SalicTextoSimples :texto="dadosProjeto.Segmento"/>
                     </td>
-                    <td align="center" class="bold destacar-celula">
+                    <td
+                        align="center"
+                        class="bold destacar-celula">
                         <SalicTextoSimples :texto="dadosProjeto.Enquadramento"/>
                     </td>
                 </tr>
@@ -82,11 +88,17 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="center" class="bold destaque-texto-primary">
-                        <router-link v-if="dadosProjeto.idPreProjeto" :to="{ name: 'proposta', params: { idPronac: idPronac }}">
+                    <td
+                        align="center"
+                        class="bold destaque-texto-primary">
+                        <router-link
+                            v-if="dadosProjeto.idPreProjeto"
+                            :to="{ name: 'proposta', params: { idPronac: idPronac }}">
                             {{ dadosProjeto.idPreProjeto }}
                         </router-link>
-                        <SalicTextoSimples v-else :texto="dadosProjeto.idPreProjeto"/>
+                        <SalicTextoSimples
+                            v-else
+                            :texto="dadosProjeto.idPreProjeto"/>
                     </td>
                     <td align="center">
                         <SalicTextoSimples :texto="dadosProjeto.DataFixa"/>
@@ -97,7 +109,9 @@
                     <td align="center">
                         <SalicTextoSimples :texto="dadosProjeto.ProrrogacaoAutomatica"/>
                     </td>
-                    <td align="center" class="destacar-celula">
+                    <td
+                        align="center"
+                        class="destacar-celula">
                         <SalicTextoSimples :texto="dadosProjeto.PlanoExecucaoImediata"/>
                     </td>
                 </tr>
@@ -105,13 +119,19 @@
 
             <table class="tabela">
                 <tr class="destacar">
-                    <td colspan="2" class="centro bold">
+                    <td
+                        colspan="2"
+                        class="centro bold">
                         Per&iacute;odo de capta&ccedil;&atilde;o
                     </td>
-                    <td colspan="2" class="centro bold">
+                    <td
+                        colspan="2"
+                        class="centro bold">
                         Per&iacute;odo de execu&ccedil;&atilde;o
                     </td>
-                    <td colspan="3" class="centro bold">
+                    <td
+                        colspan="3"
+                        class="centro bold">
                         Per&iacute;odo Vigente
                     </td>
                 </tr>
@@ -153,24 +173,28 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="center"
-                        class="bold destacar-celula text-darken-2"
+                    <td
                         :class="[ isDataExpirada(dadosProjeto.DtFimCaptacao) ? 'orange-text' : 'green-text' ]"
+                        align="center"
+                        class="bold destacar-celula text-darken-2"
                     >{{ dadosProjeto.DtInicioCaptacao | formatarData }}
                     </td>
-                    <td align="center"
-                        class="bold destacar-celula text-darken-2"
+                    <td
                         :class="[ isDataExpirada(dadosProjeto.DtFimCaptacao) ? 'orange-text' : 'green-text' ]"
+                        align="center"
+                        class="bold destacar-celula text-darken-2"
                     >{{ dadosProjeto.DtFimCaptacao | formatarData }}
                     </td>
-                    <td align="center"
-                        class="bold destacar-celula text-darken-2"
+                    <td
                         :class="[ isDataExpirada(dadosProjeto.DtFimExecucao) ? 'orange-text' : 'green-text' ]"
+                        align="center"
+                        class="bold destacar-celula text-darken-2"
                     >{{ dadosProjeto.DtInicioExecucao | formatarData }}
                     </td>
-                    <td align="center"
-                        class="bold destacar-celula text-darken-2"
+                    <td
                         :class="[ isDataExpirada(dadosProjeto.DtFimExecucao) ? 'orange-text' : 'green-text' ]"
+                        align="center"
+                        class="bold destacar-celula text-darken-2"
                     >{{ dadosProjeto.DtFimExecucao | formatarData }}
                     </td>
                     <td align="center">
@@ -187,29 +211,40 @@
 
             <table class="tabela">
                 <tr class="destacar">
-                    <td align="center" colspan="5">
+                    <td
+                        align="center"
+                        colspan="5">
                         <b>
                             Informa&ccedil;&otilde;es banc&aacute;rias
                         </b>
                     </td>
                 </tr>
                 <tr class="destacar">
-                    <td class="centro" rowspan="2">
+                    <td
+                        class="centro"
+                        rowspan="2">
                         <b>
                             Ag&ecirc;ncia
                         </b>
                     </td>
-                    <td class="centro" colspan="2">
+                    <td
+                        class="centro"
+                        colspan="2">
                         <b>
                             N&uacute;meros das Contas
                         </b>
                     </td>
-                    <td class="centro" rowspan="2" width="10%">
+                    <td
+                        class="centro"
+                        rowspan="2"
+                        width="10%">
                         <b>
                             Liberado para Execu&ccedil;&atilde;o
                         </b>
                     </td>
-                    <td class="centro" rowspan="2">
+                    <td
+                        class="centro"
+                        rowspan="2">
                         <b>
                             Dt. Libera&ccedil;&atilde;o
                         </b>
@@ -237,7 +272,9 @@
                     <td align="center">
                         <SalicTextoSimples :texto="dadosProjeto.ContaMovimentacao | formatarConta"/>
                     </td>
-                    <td align="center" class="destacar-celula">
+                    <td
+                        align="center"
+                        class="destacar-celula">
                         <SalicTextoSimples :texto="dadosProjeto.ContaBancariaLiberada"/>
                     </td>
                     <td align="center">
@@ -261,15 +298,23 @@
                 </tr>
             </table>
 
-            <div v-if="dadosProjeto.EmAnaliseNaCNIC" class="row">
-                <div style="background-color: #EF5350" class="darken-2 padding10 white-text">
+            <div
+                v-if="dadosProjeto.EmAnaliseNaCNIC"
+                class="row">
+                <div
+                    style="background-color: #EF5350"
+                    class="darken-2 padding10 white-text">
                     A T E N &Ccedil; &Atilde; O: Projeto em an&aacute;lise pela Comiss&atilde;o Nacional
                     de Incentivo &agrave; Cultura-CNIC. Aguardar resultado da avalia&ccedil;&atilde;o.
                 </div>
             </div>
-            <table v-else class="tabela">
+            <table
+                v-else
+                class="tabela">
                 <tr class="destacar">
-                    <td align="center" colspan="4">
+                    <td
+                        align="center"
+                        colspan="4">
                         <b>
                             Situa&ccedil;&atilde;o do projeto
                         </b>
@@ -305,13 +350,17 @@
                     <td class="left-align">
                         <SalicTextoSimples :texto="dadosProjeto.ProvidenciaTomada"/>
                     </td>
-                    <td align="center" class="bold">{{ dadosProjeto.LocalizacaoAtual }}</td>
+                    <td
+                        align="center"
+                        class="bold">{{ dadosProjeto.LocalizacaoAtual }}</td>
                 </tr>
             </table>
 
             <table class="tabela">
                 <tr class="destacar">
-                    <td align="center" colspan="2"><b>Fase do projeto</b></td>
+                    <td
+                        align="center"
+                        colspan="2"><b>Fase do projeto</b></td>
                 </tr>
                 <tr class="destacar">
                     <td class="left-align"><b>Fase</b></td>
@@ -329,7 +378,9 @@
 
             <table class="tabela">
                 <tr class="destacar">
-                    <td align="center" colspan="3">
+                    <td
+                        align="center"
+                        colspan="3">
                         <b>
                             Normativo vigente na apresenta&ccedil;&atilde;o do projeto
                         </b>
@@ -355,7 +406,9 @@
                 </tr>
             </table>
 
-            <table class="tabela" v-if="dadosProjeto.DtArquivamento">
+            <table
+                v-if="dadosProjeto.DtArquivamento"
+                class="tabela">
                 <caption style="color: red !important;">Arquivado Definitivamente</caption>
                 <tr class="destacar">
                     <td align="center"><b>Dt.Arquivamento</b></td>
@@ -368,81 +421,83 @@
                     <td align="center">{{ dadosProjeto.CaixaFinal }}</td>
                 </tr>
             </table>
-            <ValoresDoProjeto :idPronac="idPronac" :dadosProjeto="dadosProjeto"/>
+            <ValoresDoProjeto
+                :id-pronac="idPronac"
+                :dados-projeto="dadosProjeto"/>
         </div>
     </div>
 </template>
 
 <script>
-    import moment from 'moment';
-    import { mapGetters } from 'vuex';
-    import { utils } from '@/mixins/utils';
-    import Carregando from '@/components/Carregando';
-    import SalicTextoSimples from '@/components/SalicTextoSimples';
-    import SalicFormatarCpfCnpj from '@/components/SalicFormatarCpfCnpj';
-    import ValoresDoProjeto from './ValoresDoProjeto';
+import moment from 'moment';
+import { mapGetters } from 'vuex';
+import { utils } from '@/mixins/utils';
+import Carregando from '@/components/Carregando';
+import SalicTextoSimples from '@/components/SalicTextoSimples';
+import SalicFormatarCpfCnpj from '@/components/SalicFormatarCpfCnpj';
+import ValoresDoProjeto from './ValoresDoProjeto';
 
-    export default {
-        data() {
-            return {
-                loading: true,
-                idPronac: this.$route.params.idPronac,
-                ProponenteInabilitado: false,
-                emAnaliseNaCNIC: false,
-            };
-        },
-        mixins: [utils],
-        components: {
-            Carregando,
-            SalicTextoSimples,
-            SalicFormatarCpfCnpj,
-            ValoresDoProjeto,
-        },
-        created() {
-            if (Object.keys(this.dadosProjeto).length > 0) {
+export default {
+    components: {
+        Carregando,
+        SalicTextoSimples,
+        SalicFormatarCpfCnpj,
+        ValoresDoProjeto,
+    },
+    mixins: [utils],
+    data() {
+        return {
+            loading: true,
+            idPronac: this.$route.params.idPronac,
+            ProponenteInabilitado: false,
+            emAnaliseNaCNIC: false,
+        };
+    },
+    watch: {
+        dadosProjeto(value) {
+            if (Object.keys(value).length > 0) {
                 this.loading = false;
+                this.idPronac = this.dadosProjeto.idPronac;
             }
         },
-        watch: {
-            dadosProjeto(value) {
-                if (Object.keys(value).length > 0) {
-                    this.loading = false;
-                    this.idPronac = this.dadosProjeto.idPronac;
-                }
-            },
+    },
+    created() {
+        if (Object.keys(this.dadosProjeto).length > 0) {
+            this.loading = false;
+        }
+    },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+        }),
+    },
+    methods: {
+        isDataExpirada(date) {
+            return moment()
+                .diff(date, 'days') > 0;
         },
-        computed: {
-            ...mapGetters({
-                dadosProjeto: 'projeto/projeto',
-            }),
-        },
-        methods: {
-            isDataExpirada(date) {
-                return moment()
-                    .diff(date, 'days') > 0;
-            },
 
+    },
+    filters: {
+        formatarData(date) {
+            if (date.length === 0) {
+                return '-';
+            }
+            return moment(date)
+                .format('DD/MM/YYYY');
         },
-        filters: {
-            formatarData(date) {
-                if (date.length === 0) {
-                    return '-';
-                }
-                return moment(date)
-                    .format('DD/MM/YYYY');
-            },
-            formatarAgencia(agencia) {
-                // formato: 9999-9
-                if (agencia.length === 5) {
-                    agencia = agencia.replace(/(\d{4})(\S)/, '$1-$2');
-                }
-                return agencia;
-            },
-            formatarConta(conta) {
-                // formato: 99999-9 ou 99999-x
-                const regex = /^(0+)(\d+)(\S{1})$/;
-                return conta.replace(regex, '$2-$3');
-            },
+        formatarAgencia(agencia) {
+            // formato: 9999-9
+            if (agencia.length === 5) {
+                agencia = agencia.replace(/(\d{4})(\S)/, '$1-$2');
+            }
+            return agencia;
         },
-    };
+        formatarConta(conta) {
+            // formato: 99999-9 ou 99999-x
+            const regex = /^(0+)(\d+)(\S{1})$/;
+            return conta.replace(regex, '$2-$3');
+        },
+    },
+};
 </script>

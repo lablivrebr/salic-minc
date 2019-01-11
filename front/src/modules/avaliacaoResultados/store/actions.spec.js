@@ -16,12 +16,12 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             mockReponse = {
                 data: [
                     {
-                        "analise": {
-                            "id": "analise",
-                            "label": "Análise",
-                            "title": "Ir para Análise"
-                        }
-                    }
+                        analise: {
+                            id: 'analise',
+                            label: 'Análise',
+                            title: 'Ir para Análise',
+                        },
+                    },
                 ],
             };
 
@@ -31,7 +31,6 @@ describe('Testes Actions - Avaliação de Resultados', () => {
 
             jest.spyOn(API, 'dadosMenu');
             actions.dadosMenu({ commit });
-
         });
 
         test('it is commit to projetosParaDistribuir', (done) => {
@@ -49,16 +48,16 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             mockReponse = {
                 data: [
                     {
-                        "Pronac": "1410398",
-                        "PRONAC": "1410398",
-                        "NomeProjeto": "Porto Verão Alegre 2015",
-                        "cdSituacao": "E68",
-                        "Situacao": "E68",
-                        "UfProjeto": "RS",
-                        "IdPRONAC": "185373",
-                        "Prioridade": "0",
-                        "idPronac": "185373"
-                    }
+                        Pronac: '1410398',
+                        PRONAC: '1410398',
+                        NomeProjeto: 'Porto Verão Alegre 2015',
+                        cdSituacao: 'E68',
+                        Situacao: 'E68',
+                        UfProjeto: 'RS',
+                        IdPRONAC: '185373',
+                        Prioridade: '0',
+                        idPronac: '185373',
+                    },
                 ],
             };
 
@@ -68,7 +67,6 @@ describe('Testes Actions - Avaliação de Resultados', () => {
 
             jest.spyOn(API, 'obterProjetosParaDistribuir');
             actions.projetosParaDistribuir({ commit });
-
         });
 
         test('it is commit to projetosParaDistribuir', (done) => {
@@ -92,7 +90,7 @@ describe('Testes Actions - Avaliação de Resultados', () => {
                             UfProjeto: 'MT',
                             PRONAC: '456789',
                             idPronac: '168213',
-                            usu_nome: 'Rômulo Menhô Barbosa'
+                            usu_nome: 'Rômulo Menhô Barbosa',
                         },
                     ],
                 },
@@ -102,14 +100,13 @@ describe('Testes Actions - Avaliação de Resultados', () => {
 
             params = {
                 estadoid: 5,
-                idAgente: 123
-            }
+                idAgente: 123,
+            };
 
             commit = jest.fn();
 
             jest.spyOn(API, 'obterDadosTabelaTecnico');
             actions.obterDadosTabelaTecnico({ commit }, params);
-
         });
 
         test('it is commit to obterDadosTabelaTecnico', (done) => {
@@ -133,7 +130,7 @@ describe('Testes Actions - Avaliação de Resultados', () => {
                             UfProjeto: 'MT',
                             PRONAC: '456789',
                             idPronac: '168213',
-                            usu_nome: 'Rômulo Menhô Barbosa'
+                            usu_nome: 'Rômulo Menhô Barbosa',
                         },
                     ],
                 },
@@ -143,14 +140,13 @@ describe('Testes Actions - Avaliação de Resultados', () => {
 
             params = {
                 estadoid: 6,
-                idAgente: 123
-            }
+                idAgente: 123,
+            };
 
             commit = jest.fn();
 
             jest.spyOn(API, 'projetosRevisao');
             actions.projetosFinalizados({ commit }, params);
-
         });
 
         test('it is commit to projetosFinalizados', (done) => {
@@ -174,7 +170,7 @@ describe('Testes Actions - Avaliação de Resultados', () => {
                             UfProjeto: 'MT',
                             PRONAC: '456789',
                             idPronac: '168213',
-                            usu_nome: 'Rômulo Menhô Barbosa'
+                            usu_nome: 'Rômulo Menhô Barbosa',
                         },
                     ],
                 },
@@ -188,7 +184,6 @@ describe('Testes Actions - Avaliação de Resultados', () => {
 
             jest.spyOn(API, 'obterProjetosAssinatura');
             actions.projetosAssinatura({ commit }, params);
-
         });
 
         test('it is commit to projetosFinalizados', (done) => {
@@ -199,7 +194,6 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         test('it calls API.projetosRevisao', () => {
             expect(API.obterProjetosAssinatura).toHaveBeenCalled();
             expect(API.obterProjetosAssinatura).toHaveBeenCalledWith(params);
-
         });
     });
 
@@ -211,10 +205,10 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             actions.obterDestinatarios({ commit });
 
             tecnico = [{
-                "usu_codigo": 6087,
-                "usu_nome": "Adilson S da Silva",
-                "idperfil": 124,
-                "idAgente": 6087
+                usu_codigo: 6087,
+                usu_nome: 'Adilson S da Silva',
+                idperfil: 124,
+                idAgente: 6087,
             }];
         });
 
@@ -234,12 +228,12 @@ describe('Testes Actions - Avaliação de Resultados', () => {
                 data: {
                     data: [
                         {
-                            "PRONAC": "138419",
-                            "NomeProjeto": "Manutenção das atividades da Orquestra Sinfônica Jovem de Nova Mutum",
-                            "dtInicioEncaminhamento": "10/15/2018",
-                            "dsJustificativa": "Justificando",
-                            "NomeOrigem": "Rômulo Menhô Barbosa",
-                            "NomeDestino": "Rômulo Menhô Barbosa"
+                            PRONAC: '138419',
+                            NomeProjeto: 'Manutenção das atividades da Orquestra Sinfônica Jovem de Nova Mutum',
+                            dtInicioEncaminhamento: '10/15/2018',
+                            dsJustificativa: 'Justificando',
+                            NomeOrigem: 'Rômulo Menhô Barbosa',
+                            NomeDestino: 'Rômulo Menhô Barbosa',
                         },
                     ],
                 },
@@ -251,12 +245,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             commit = jest.fn();
 
             params = {
-                idPronac: 168213
+                idPronac: 168213,
             };
 
             jest.spyOn(API, 'obterHistoricoEncaminhamento');
             actions.obterHistoricoEncaminhamento({ commit }, params);
-
         });
 
         test('it is commit to projetosFinalizados', (done) => {
@@ -278,12 +271,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             commit = jest.fn();
 
             params = {
-                idPronac: 159934
+                idPronac: 159934,
             };
 
             jest.spyOn(API, 'planilha');
             actions.planilha({ commit }, params);
-
         });
 
         test('it is commit to planilha', (done) => {
@@ -299,16 +291,16 @@ describe('Testes Actions - Avaliação de Resultados', () => {
     describe('Analisar Projeto', () => {
         beforeEach(() => {
             mockReponse = {
-                "items": {
-                    "nomeProjeto": "Manutenção das atividades da Orquestra Sinfônica Jovem de Nova Mutum",
-                    "vlTotalComprovar": 308722.05,
-                    "vlAprovado": 563996,
-                    "vlComprovado": 255273.95,
-                    "pronac": "138419",
-                    "diligencia": false,
-                    "estado": null,
-                    "documento": []
-                }
+                items: {
+                    nomeProjeto: 'Manutenção das atividades da Orquestra Sinfônica Jovem de Nova Mutum',
+                    vlTotalComprovar: 308722.05,
+                    vlAprovado: 563996,
+                    vlComprovado: 255273.95,
+                    pronac: '138419',
+                    diligencia: false,
+                    estado: null,
+                    documento: [],
+                },
             };
 
             axios.get.mockResolvedValue(mockReponse);
@@ -316,12 +308,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             commit = jest.fn();
 
             params = {
-                idPronac: 168213
+                idPronac: 168213,
             };
 
             jest.spyOn(API, 'projetoAnalise');
             actions.projetoAnalise({ commit }, params);
-
         });
 
         test('it is commit to projetoAnalise', (done) => {
@@ -343,12 +334,11 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             commit = jest.fn();
 
             params = {
-                idPronac: 168213
+                idPronac: 168213,
             };
 
             jest.spyOn(API, 'consolidacaoAnalise');
             actions.consolidacaoAnalise({ commit }, params);
-
         });
 
         test('it is commit to consolidacaoAnalise', (done) => {
@@ -365,41 +355,39 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
+                    data:
                         {
                             idPronac: '138419',
                             atual: '6',
                             proximo: '5',
                             idTipoDoAtoAdministrativo: '622',
                             usuario: {
-                                grupo_ativo: '125'
-                            }
+                                grupo_ativo: '125',
+                            },
                         },
                 },
             };
 
             axios.post.mockResolvedValue(mockReponse);
-            
+
             function FormDataMock() {
                 this.append = jest.fn();
             }
 
             global.FormData = FormDataMock;
-            
+
 
             commit = jest.fn();
             dispatch = jest.fn();
 
             jest.spyOn(API, 'alterarEstado');
             actions.devolverProjeto({ commit, dispatch }, mockReponse.data.data);
-
         });
 
         test('it is commit to devolverProjeto', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_FINALIZADOS', {});
             expect(commit).toHaveBeenCalledWith('SET_DEVOLVER_PROJETO', mockReponse.data);
-
         });
 
         test('it calls API.alterarEstado', () => {
@@ -411,25 +399,23 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
+                    data:
                         {
                             idPronac: '138419',
                         },
                 },
             };
             axios.get.mockResolvedValue(mockReponse);
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'obterLaudoFinal');
             actions.getLaudoFinal({ commit }, mockReponse.data.data);
-
         });
 
         test('it is commit to getLaudoFinal', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('GET_PARECER_LAUDO_FINAL', mockReponse.data.data);
-
         });
 
         test('it calls API.obterLaudoFinal', () => {
@@ -441,7 +427,7 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
+                    data:
                         {
                             idPronac: '138419',
                             siManifestacao: 'A',
@@ -451,27 +437,25 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             };
 
             axios.post.mockResolvedValue(mockReponse);
-            
+
             function FormDataMock() {
                 this.append = jest.fn();
             }
 
             global.FormData = FormDataMock;
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'criarParecerLaudoFinal');
             actions.salvarLaudoFinal({ commit }, mockReponse.data.data);
-
         });
 
         test('it is commit to finalizarLaudoFinal', (done) => {
-            var config = { ativo: true, color: 'success', text: 'Salvo com sucesso!'}; 
-            var root = { root: true };
+            const config = { ativo: true, color: 'success', text: 'Salvo com sucesso!' };
+            const root = { root: true };
 
             done();
             expect(commit).toHaveBeenCalledWith('noticias/SET_DADOS', config, root);
-
         });
 
         test('it calls API.criarParecerLaudoFinal', () => {
@@ -483,7 +467,7 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
+                    data:
                         {
                             idPronac: '138419',
                             idtipodoatoadministrativo: 623,
@@ -497,27 +481,25 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             };
 
             axios.post.mockResolvedValue(mockReponse);
-            
+
             function FormDataMock() {
                 this.append = jest.fn();
             }
 
             global.FormData = FormDataMock;
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'alterarEstado');
             actions.finalizarLaudoFinal({ commit }, mockReponse.data.data);
-
         });
 
         test('it is commit to finalizarLaudoFinal', (done) => {
-            var config = { ativo: true, color: 'success', text: 'Finalizado com sucesso!'}; 
-            var root = { root: true };
+            const config = { ativo: true, color: 'success', text: 'Finalizado com sucesso!' };
+            const root = { root: true };
 
             done();
             expect(commit).toHaveBeenCalledWith('noticias/SET_DADOS', config, root);
-
         });
 
         test('it calls API.alterarEstado', () => {
@@ -529,7 +511,7 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
+                    data:
                         {
                             idPronac: '138419',
                             tpDiligencia: 'Diligência',
@@ -539,16 +521,15 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             };
 
             axios.post.mockResolvedValue(mockReponse);
-            
+
             function FormDataMock() {
                 this.append = jest.fn();
             }
 
             global.FormData = FormDataMock;
-            
+
             jest.spyOn(API, 'criarDiligencia');
             actions.enviarDiligencia({}, mockReponse.data.data);
-
         });
 
         test('it calls API.criarDiligencia', () => {
@@ -561,25 +542,23 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
-                        { 
-                            estadoId: 10 
+                    data:
+                        {
+                            estadoId: 10,
                         },
                 },
             };
             axios.get.mockResolvedValue(mockReponse);
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'obterProjetosLaudoFinal');
             actions.obterProjetosLaudoFinal({ commit }, mockReponse.data.data);
-
         });
 
         test('it is commit to obterProjetosLaudoFinal', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_LAUDO_FINAL', mockReponse.data.data);
-
         });
 
         test('it calls API.obterProjetosLaudoFinal', () => {
@@ -591,25 +570,23 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
-                        { 
-                            estadoId: 14 
+                    data:
+                        {
+                            estadoId: 14,
                         },
                 },
             };
             axios.get.mockResolvedValue(mockReponse);
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'obterProjetosLaudoFinal');
             actions.obterProjetosLaudoAssinar({ commit }, mockReponse.data.data);
-
         });
 
         test('it is commit to obterProjetosLaudoAssinar', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_LAUDO_ASSINAR', mockReponse.data.data);
-
         });
 
         test('it calls API.obterProjetosLaudoFinal', () => {
@@ -621,25 +598,23 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
-                        { 
-                            estadoId: 11 
+                    data:
+                        {
+                            estadoId: 11,
                         },
                 },
             };
             axios.get.mockResolvedValue(mockReponse);
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'obterProjetosLaudoFinal');
             actions.obterProjetosLaudoEmAssinatura({ commit }, mockReponse.data.data);
-
         });
 
         test('it is commit to obterProjetosLaudoEmAssinatura', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA', mockReponse.data.data);
-
         });
 
         test('it calls API.obterProjetosLaudoFinal', () => {
@@ -651,25 +626,23 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
-                        { 
-                            estadoId: 12 
+                    data:
+                        {
+                            estadoId: 12,
                         },
                 },
             };
             axios.get.mockResolvedValue(mockReponse);
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'obterProjetosLaudoFinal');
             actions.obterProjetosLaudoFinalizados({ commit }, mockReponse.data.data);
-
         });
 
         test('it is commit to obterProjetosLaudoFinalizados', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('SET_DADOS_PROJETOS_LAUDO_FINALIZADOS', mockReponse.data.data);
-
         });
 
         test('it calls API.obterProjetosLaudoFinal', () => {
@@ -681,8 +654,8 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
-                        { 
+                    data:
+                        {
                             uf: 'DF',
                             idPronac: '168192',
                             codigoCidade: '13',
@@ -694,18 +667,16 @@ describe('Testes Actions - Avaliação de Resultados', () => {
                 },
             };
             axios.get.mockResolvedValue(mockReponse);
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'buscarComprovantes');
             actions.buscarComprovantes({ commit }, mockReponse.data.data);
-
         });
 
         test('it is commit to buscarComprovantes', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('SET_COMPROVANTES', mockReponse.data.data);
-
         });
 
         test('it calls API.buscarComprovantes', () => {
@@ -717,32 +688,29 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
-                        { 
+                    data:
+                        {
                             idPronac: '168192',
                             estadoId: '9',
                         },
                 },
             };
             axios.get.mockResolvedValue(mockReponse);
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'projetosPorEstado');
             actions.projetosAssinarCoordenador({ commit });
-
         });
 
         test('it is commit to projetosAssinarCoordenador', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('SYNC_PROJETOS_ASSINAR_COORDENADOR', mockReponse.data.data);
-
         });
 
         test('it calls API.projetosPorEstado', () => {
             expect(API.projetosPorEstado).toHaveBeenCalledWith({ estadoid: 9 });
             expect(API.projetosPorEstado).toHaveBeenCalled();
-
         });
     });
 
@@ -750,26 +718,24 @@ describe('Testes Actions - Avaliação de Resultados', () => {
         beforeEach(() => {
             mockReponse = {
                 data: {
-                    data: 
-                        { 
+                    data:
+                        {
                             idPronac: '168192',
                             estadoId: '15',
                         },
                 },
             };
             axios.get.mockResolvedValue(mockReponse);
-            
+
             commit = jest.fn();
 
             jest.spyOn(API, 'projetosPorEstado');
             actions.projetosAssinarCoordenadorGeral({ commit });
-
         });
 
         test('it is commit to projetosAssinarCoordenadorGeral', (done) => {
             done();
             expect(commit).toHaveBeenCalledWith('SYNC_PROJETOS_ASSINAR_COORDENADOR_GERAL', mockReponse.data.data);
-
         });
 
         test('it calls API.projetosPorEstado', () => {
@@ -777,5 +743,4 @@ describe('Testes Actions - Avaliação de Resultados', () => {
             expect(API.projetosPorEstado).toHaveBeenCalled();
         });
     });
-
 });

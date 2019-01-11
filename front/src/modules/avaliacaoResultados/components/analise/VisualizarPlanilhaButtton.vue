@@ -1,8 +1,11 @@
 <template>
-    <v-btn flat icon :to="{ name: 'VisualizarPlanilha', params:{ id: idPronac }}">
+    <v-btn
+        :to="{ name: 'VisualizarPlanilha', params:{ id: idPronac }}"
+        flat
+        icon>
         <v-tooltip bottom>
-            <v-icon 
-                slot="activator" 
+            <v-icon
+                slot="activator"
                 class="material-icons">visibility
             </v-icon>
             <span>Visualizar Projeto</span>
@@ -11,18 +14,18 @@
 </template>
 
 <script>
-    export default {
-        name: 'VisualizarPlanilhaButtton',
-        props: [
-            'idPronac',
-        ],
-        data() {
-            return {
-            };
-        },
-        methods: {
-        },
-        computed: {
-        },
-    };
+export default {
+    name: 'VisualizarPlanilhaButtton',
+    props: [
+        'idPronac',
+    ],
+    data() {
+        return {
+        };
+    },
+    computed: {
+    },
+    methods: {
+    },
+};
 </script>

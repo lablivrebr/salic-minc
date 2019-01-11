@@ -4,7 +4,9 @@
         v-model="dialog"
         width="650"
     >
-        <v-tooltip slot="activator" bottom>
+        <v-tooltip
+            slot="activator"
+            bottom>
             <v-btn
                 slot="activator"
                 color="green lighten-2"
@@ -13,22 +15,26 @@
                 icon
                 light
             >
-                <v-icon color="error" class="material-icons">undo</v-icon>
+                <v-icon
+                    color="error"
+                    class="material-icons">undo</v-icon>
             </v-btn>
             <span>Devolver Projeto</span>
         </v-tooltip>
 
-        
+
         <v-card>
-            <v-card-title class="headline primary" primary-title>
+            <v-card-title
+                class="headline primary"
+                primary-title>
                 <span class="white--text">
-                    Devolver Projeto 
+                    Devolver Projeto
                 </span>
             </v-card-title>
             <v-container grid-list-md>
                 <v-card-text class="subheading">
                     <div v-if="tecnico !== undefined && tecnico !== null && tecnico !== '' && tecnico.nome !== 'sysLaudo'">
-                        Você deseja devolver o projeto '{{ pronac }} - {{ nomeProjeto }}' para análise do Tecnico: {{tecnico.nome}}?
+                        Você deseja devolver o projeto '{{ pronac }} - {{ nomeProjeto }}' para análise do Tecnico: {{ tecnico.nome }}?
                     </div>
                     <div v-else>
                         Você deseja devolver o projeto <b> {{ pronac }} - {{ nomeProjeto }}</b> para a etapa anterior?
@@ -38,7 +44,7 @@
                         outline
                         name="input-7-4"
                         label="Justificativa"
-                        ></v-textarea>
+                    />
                 </v-card-text>
             </v-container>
             <v-card-actions>
@@ -68,12 +74,6 @@ import { mapActions } from 'vuex';
 
 export default {
     name: 'Devolver',
-    data() {
-        return {
-            dialog: false,
-            justificativa: '',
-        };
-    },
     props: {
         idPronac: String,
         usuario: Object,
@@ -89,6 +89,12 @@ export default {
             },
         },
         tecnico: Object,
+    },
+    data() {
+        return {
+            dialog: false,
+            justificativa: '',
+        };
     },
     methods: {
         ...mapActions({

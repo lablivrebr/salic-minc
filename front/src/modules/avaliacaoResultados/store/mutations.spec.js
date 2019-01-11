@@ -10,7 +10,7 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
 
     beforeEach(() => {
         defaultState = {
-            dados: []
+            dados: [],
         };
 
         state = Object.assign({}, defaultState);
@@ -19,11 +19,11 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
             {
                 uf: 'DF',
                 idPronac: '168192',
-            }
+            },
         ];
     });
 
-    
+
     test('GET_CONSOLIDACAO_PARECER', () => {
         mutations.GET_CONSOLIDACAO_PARECER(state, dados);
         expect(state.consolidacaoComprovantes).toEqual(dados);
@@ -38,13 +38,13 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
         mutations.GET_PROJETO(state, dados);
         expect(state.projeto).toEqual(dados);
     });
-    
+
     test('GET_PROPONENTE', () => {
         mutations.GET_PROPONENTE(state, dados);
         expect(state.proponente).toEqual(dados);
     });
-    
-    
+
+
     test('SET_REGISTRO_ATIVO', () => {
         mutations.SET_REGISTRO_ATIVO(state, dados);
         expect(state.registroAtivo).toEqual(dados);
@@ -52,7 +52,7 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
 
     describe('SET_REGISTROS_TABELA - Criação e Atualização do state.dadosTabela', () => {
         beforeEach(() => {
-            mutations.SET_REGISTROS_TABELA(state, dados);            
+            mutations.SET_REGISTROS_TABELA(state, dados);
         });
 
         test('SET_REGISTROS_TABELA', () => {
@@ -60,7 +60,7 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
         });
 
         test('SET_REGISTRO_TABELA', () => {
-            mutations.SET_REGISTRO_TABELA(state, dados);            
+            mutations.SET_REGISTRO_TABELA(state, dados);
             expect(state.dadosTabela).toContain(dados);
         });
 
@@ -74,7 +74,6 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
             mutations.REMOVER_REGISTRO(state, dados);
             expect(state.dadosTabela).toEqual([]);
         });
-    
     });
 
     test('DESTINATARIOS_ENCAMINHAMENTO', () => {
@@ -98,7 +97,7 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
     });
 
     test('LINK_REDIRECIONAMENTO_TIPO_AVALIACAO_RESULTADO', () => {
-        var link = '/#'
+        const link = '/#';
         mutations.LINK_REDIRECIONAMENTO_TIPO_AVALIACAO_RESULTADO(state, link);
         expect(state.redirectLink).toEqual(link);
     });
@@ -136,13 +135,12 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
 
     describe('Criação e Atualização do state.dadosItemComprovacao', () => {
         beforeEach(() => {
-            mutations.GET_DADOS_ITEM_COMPROVACAO(state, dados);          
+            mutations.GET_DADOS_ITEM_COMPROVACAO(state, dados);
         });
-        
+
         test('GET_DADOS_ITEM_COMPROVACAO', () => {
             expect(state.dadosItemComprovacao).toEqual(dados);
         });
-    
     });
 
     test('SET_DADOS_PROJETOS_PARA_DISTRIBUIR', () => {
@@ -179,7 +177,7 @@ describe('Testes das Mutations - Avaliação de Resultados', () => {
         mutations.SET_DADOS_PROJETOS_LAUDO_FINALIZADOS(state, dados);
         expect(state.getProjetosLaudoFinalizados).toEqual(dados);
     });
-    
+
     test('SET_DADOS_PROJETOS_HISTORICO', () => {
         mutations.SET_DADOS_PROJETOS_HISTORICO(state, dados);
         expect(state.getProjetosHistorico).toEqual(dados);

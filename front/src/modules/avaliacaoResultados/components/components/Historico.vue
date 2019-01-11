@@ -1,18 +1,25 @@
 <template>
     <v-dialog
-      v-model="dialog"
-      scrollable
-      max-width="750px"
+        v-model="dialog"
+        scrollable
+        max-width="750px"
     >
-        <v-tooltip slot="activator" bottom>
-            <v-btn slot="activator" flat icon>
+        <v-tooltip
+            slot="activator"
+            bottom>
+            <v-btn
+                slot="activator"
+                flat
+                icon>
                 <v-icon class="material-icons">history</v-icon>
             </v-btn>
             <span>Histórico de Encaminhamentos</span>
         </v-tooltip>
 
         <v-card>
-            <v-card-title class="headline primary" primary-title>
+            <v-card-title
+                class="headline primary"
+                primary-title>
                 <span class="white--text">
                     Histórico de encaminhamentos
                 </span>
@@ -21,41 +28,46 @@
             <v-card-text style="height: 500px;">
                 <v-subheader>
                     <h4 class="headline mb-0 grey--text text--darken-3">
-                        {{pronac}} - {{nomeProjeto}}
+                        {{ pronac }} - {{ nomeProjeto }}
                     </h4>
                 </v-subheader>
 
-                <v-divider dark></v-divider>
+                <v-divider dark/>
 
                 <v-data-table
                     :headers="historicoHeaders"
                     :items="dadosHistoricoEncaminhamento"
                     hide-actions
                 >
-                    <template slot="items" slot-scope="props">
-                        <td>{{ props.item.dtInicioEncaminhamento | formatarData}}</td>
+                    <template
+                        slot="items"
+                        slot-scope="props">
+                        <td>{{ props.item.dtInicioEncaminhamento | formatarData }}</td>
                         <td>{{ props.item.NomeOrigem }}</td>
                         <td>{{ props.item.NomeDestino }}</td>
                         <td>{{ props.item.dsJustificativa }}</td>
                     </template>
                     <template slot="no-data">
-                        <v-alert :value="true" color="error" icon="warning">
+                        <v-alert
+                            :value="true"
+                            color="error"
+                            icon="warning">
                             Nenhum dado encontrado ¯\_(ツ)_/¯
                         </v-alert>
                     </template>
                 </v-data-table>
             </v-card-text>
 
-            <v-divider></v-divider>
+            <v-divider/>
 
             <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
+                <v-spacer/>
+                <v-btn
                     color="red"
                     flat
                     @click="dialog = false">
-                Fechar
-            </v-btn>
+                    Fechar
+                </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -66,18 +78,14 @@ import ModalTemplate from '@/components/modal';
 
 export default {
     name: 'Painel',
+    components: {
+        ModalTemplate,
+    },
     props: [
         'idPronac',
         'pronac',
         'nomeProjeto',
     ],
-    watch: {
-        dialog(val) {
-            if (val) {
-                this.obterHistoricoEncaminhamento(this.idPronac);
-            }
-        },
-    },
     data() {
         return {
             projetoHeaders: [
@@ -123,8 +131,12 @@ export default {
             dialog: false,
         };
     },
-    components: {
-        ModalTemplate,
+    watch: {
+        dialog(val) {
+            if (val) {
+                this.obterHistoricoEncaminhamento(this.idPronac);
+            }
+        },
     },
     methods: {
         ...mapActions({
@@ -137,8 +149,8 @@ export default {
     filters: {
         formatarData(value) {
             const date = new Date(value);
-            
-            return date.toLocaleString(['pt-BR'], { 
+
+            return date.toLocaleString(['pt-BR'], {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',

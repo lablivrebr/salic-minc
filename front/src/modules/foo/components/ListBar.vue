@@ -11,12 +11,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(registro, index) in dadosTabela" :key="index">
+                <tr
+                    v-for="(registro, index) in dadosTabela"
+                    :key="index">
                     <td>{{ registro.Codigo }}</td>
                     <td>{{ registro.DadoNr }}</td>
                     <td>
                         <div class="atualizar-action">
-                            <UpdateBar :registroAtivo="registro"/>
+                            <UpdateBar :registro-ativo="registro"/>
                         </div>
                         <div class="remover-action">
                             <a
@@ -41,12 +43,12 @@ import UpdateBar from './UpdateBar';
 
 export default {
     name: 'ListBar',
-    created() {
-        this.obterDadosTabela();
-    },
     components: {
         CreateBar,
         UpdateBar,
+    },
+    created() {
+        this.obterDadosTabela();
     },
     computed: {
         ...mapGetters({

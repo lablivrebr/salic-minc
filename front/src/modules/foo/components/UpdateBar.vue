@@ -4,21 +4,31 @@
             style="width: 150px;"
             class="btn btn-primary"
             @click="modalOpen('atualizar-bar');
-            setRegistroAtivo(registroAtivo);"
+                    setRegistroAtivo(registroAtivo);"
         >
             Atualizar
         </a>
-        <ModalTemplate v-if="modalVisible === 'atualizar-bar'" @close="fecharModal()">
+        <ModalTemplate
+            v-if="modalVisible === 'atualizar-bar'"
+            @close="fecharModal()">
             <template slot="header">Atualizar Bar</template>
             <template slot="body">
                 <form action="">
                     <label for="registro">DadoNr</label>
-                    <input type="text" name="DadoNr" :value="registro.DadoNr" @input="buildRegistro"/>
+                    <input
+                        :value="registro.DadoNr"
+                        type="text"
+                        name="DadoNr"
+                        @input="buildRegistro">
                 </form>
             </template>
             <template slot="footer">
-                <a class="btn btn-danger" @click="fecharModal();$event.preventDefault()">Fechar</a>
-                <a class="btn btn-primary" @click="checkChangesAndUpdate();fecharModal();">Atualizar</a>
+                <a
+                    class="btn btn-danger"
+                    @click="fecharModal();$event.preventDefault()">Fechar</a>
+                <a
+                    class="btn btn-primary"
+                    @click="checkChangesAndUpdate();fecharModal();">Atualizar</a>
             </template>
         </ModalTemplate>
     </div>
@@ -30,6 +40,10 @@ import ModalTemplate from '@/components/modal';
 
 export default {
     name: 'UpdateBar',
+    components: {
+        ModalTemplate,
+    },
+    props: ['registroAtivo'],
     data() {
         return {
             currentRegistro: {
@@ -37,10 +51,6 @@ export default {
                 DadoNr: '',
             },
         };
-    },
-    props: ['registroAtivo'],
-    components: {
-        ModalTemplate,
     },
     methods: {
         ...mapActions({

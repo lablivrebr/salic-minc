@@ -1,17 +1,23 @@
 <template>
     <div class="conteudo">
         <legend>E-mail</legend>
-        <table class="tabela" v-if="Object(emails).length > 0">
+        <table
+            v-if="Object(emails).length > 0"
+            class="tabela">
             <tr class="destacar">
                 <td width="25%"><b>Tipo</b></td>
                 <td><b>E-mail</b></td>
             </tr>
-            <tr v-for="email in emails" v-bind:key="email.idInternet">
-                <td>{{email.tipo}}</td>
-                <td>{{email.descricao}}</td>
+            <tr
+                v-for="email in emails"
+                :key="email.idInternet">
+                <td>{{ email.tipo }}</td>
+                <td>{{ email.descricao }}</td>
             </tr>
         </table>
-        <table class="tabela" v-else>
+        <table
+            v-else
+            class="tabela">
             <td colspan="2"><em>N&atilde;o existe email cadastrado!</em></td>
         </table>
     </div>
@@ -19,10 +25,9 @@
 
 <script>
 
-    export default{
-        props: {
-            emails: {},
-        },
-    };
+export default{
+    props: {
+        emails: {},
+    },
+};
 </script>
-

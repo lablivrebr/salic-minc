@@ -1,9 +1,12 @@
 <template>
     <div id="conteudo">
         <div>
-            <div class="row" v-if="dadosProjeto.ProponenteInabilitado">
-                <div style="background-color: #EF5350; text-transform: uppercase"
-                     class="darken-2 padding10 white-text center-align">
+            <div
+                v-if="dadosProjeto.ProponenteInabilitado"
+                class="row">
+                <div
+                    style="background-color: #EF5350; text-transform: uppercase"
+                    class="darken-2 padding10 white-text center-align">
                     <div><b>Proponente Inabilitado</b></div>
                 </div>
             </div>
@@ -14,8 +17,8 @@
                     <td><b>Nome do Projeto</b></td>
                 </tr>
                 <tr>
-                    <td>{{dadosProjeto.Pronac}}</td>
-                    <td>{{dadosProjeto.NomeProjeto}}</td>
+                    <td>{{ dadosProjeto.Pronac }}</td>
+                    <td>{{ dadosProjeto.NomeProjeto }}</td>
                 </tr>
                 <tr class="destacar">
                     <td><b>CNPJ / CPF</b></td>
@@ -23,14 +26,17 @@
                 </tr>
                 <tr>
                     <td v-if="dadosProjeto.CNPJ_CPF">
-                        <a v-if="!dadosProjeto.isProponente"
-                           :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + dadosProjeto.CNPJ_CPF">
+                        <a
+                            v-if="!dadosProjeto.isProponente"
+                            :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + dadosProjeto.CNPJ_CPF">
                             <SalicFormatarCpfCnpj :cpf="dadosProjeto.CNPJ_CPF"/>
                         </a>
-                        <SalicFormatarCpfCnpj v-else :cpf="dadosProjeto.CNPJ_CPF"/>
+                        <SalicFormatarCpfCnpj
+                            v-else
+                            :cpf="dadosProjeto.CNPJ_CPF"/>
                     </td>
                     <td v-else>Dado não informado!</td>
-                    <td>{{dadosProjeto.Proponente}}</td>
+                    <td>{{ dadosProjeto.Proponente }}</td>
                 </tr>
             </table>
 
@@ -43,18 +49,24 @@
                     <th align="center"><b>Processo</b></th>
                 </tr>
                 <tr>
-                    <td align="center">{{dadosProjeto.UfProjeto}}</td>
-                    <td align="center">{{dadosProjeto.Mecanismo}}</td>
-                    <td align="center">{{dadosProjeto.Area}}</td>
-                    <td align="center">{{dadosProjeto.Segmento}}</td>
-                    <td align="center">{{dadosProjeto.Processo}}</td>
+                    <td align="center">{{ dadosProjeto.UfProjeto }}</td>
+                    <td align="center">{{ dadosProjeto.Mecanismo }}</td>
+                    <td align="center">{{ dadosProjeto.Area }}</td>
+                    <td align="center">{{ dadosProjeto.Segmento }}</td>
+                    <td align="center">{{ dadosProjeto.Processo }}</td>
                 </tr>
             </table>
 
-            <table class="tabela" v-if="dadosProjeto.DtConvenio">
+            <table
+                v-if="dadosProjeto.DtConvenio"
+                class="tabela">
                 <tr class="destacar">
-                    <th align="center" rowspan="2"><b>Per&iacute;odo de vig&ecirc;ncia</b></th>
-                    <th align="center" colspan="3"><b>Conv&ecirc;nio</b></th>
+                    <th
+                        align="center"
+                        rowspan="2"><b>Per&iacute;odo de vig&ecirc;ncia</b></th>
+                    <th
+                        align="center"
+                        colspan="3"><b>Conv&ecirc;nio</b></th>
                 </tr>
                 <tr class="destacar">
                     <th align="center"><b>N&ordm; Conv&ecirc;nio</b></th>
@@ -62,13 +74,13 @@
                     <th align="center"><b>Dt. Publica&ccedil;&atilde;o</b></th>
                 </tr>
                 <tr>
-                    <td align="center">{{dadosProjeto.DtConvenioPrimeiraVigencia}} &agrave;
-                        {{dadosProjeto.DtConvenioUltimaVigencia}}
+                    <td align="center">{{ dadosProjeto.DtConvenioPrimeiraVigencia }} &agrave;
+                        {{ dadosProjeto.DtConvenioUltimaVigencia }}
                     </td>
                     <!-- OBS:período entre essas datas-->
-                    <td align="center">{{dadosProjeto.NrConvenio}}</td>
-                    <td align="center">{{dadosProjeto.DtConvenio}}</td>
-                    <td align="center">{{dadosProjeto.DtConvenioPublicacao}}</td>
+                    <td align="center">{{ dadosProjeto.NrConvenio }}</td>
+                    <td align="center">{{ dadosProjeto.DtConvenio }}</td>
+                    <td align="center">{{ dadosProjeto.DtConvenioPublicacao }}</td>
                 </tr>
             </table>
 
@@ -77,19 +89,23 @@
                     <th align="center">S&iacute;ntese do Projeto</th>
                 </tr>
                 <tr>
-                    <td align="justify">{{dadosProjeto.ResumoProjeto}}</td>
+                    <td align="justify">{{ dadosProjeto.ResumoProjeto }}</td>
                 </tr>
-                <tr class="destacar" v-if="dadosProjeto.Objeto">
+                <tr
+                    v-if="dadosProjeto.Objeto"
+                    class="destacar">
                     <th align="center">Objeto</th>
                 </tr>
                 <tr v-if="dadosProjeto.Objeto">
-                    <td align="justify">{{dadosProjeto.Objeto}}</td>
+                    <td align="justify">{{ dadosProjeto.Objeto }}</td>
                 </tr>
             </table>
 
             <table class="tabela">
                 <tr class="destacar">
-                    <th align="center" colspan="4"><b>Situa&ccedil;&atilde;o do Projeto</b></th>
+                    <th
+                        align="center"
+                        colspan="4"><b>Situa&ccedil;&atilde;o do Projeto</b></th>
                 </tr>
                 <tr class="destacar">
                     <th>Dt. Situa&ccedil;&atilde;o</th>
@@ -98,16 +114,21 @@
                     <th>Localiza&ccedil;&atilde;o Atual</th>
                 </tr>
                 <tr>
-                    <td align="center">{{dadosProjeto.DtSituacao}}</td>
-                    <td align="center">{{dadosProjeto.Situacao}}</td>
-                    <td align="center">{{dadosProjeto.ProvidenciaTomada}}</td>
-                    <td align="center">{{dadosProjeto.LocalizacaoAtual}}</td>
+                    <td align="center">{{ dadosProjeto.DtSituacao }}</td>
+                    <td align="center">{{ dadosProjeto.Situacao }}</td>
+                    <td align="center">{{ dadosProjeto.ProvidenciaTomada }}</td>
+                    <td align="center">{{ dadosProjeto.LocalizacaoAtual }}</td>
                 </tr>
             </table>
 
-            <table class="tabela" v-if="dadosProjeto.DtArquivamento">
+            <table
+                v-if="dadosProjeto.DtArquivamento"
+                class="tabela">
                 <tr class="destacar">
-                    <th align="center" colspan="3" class="red-text"><b>Arquivado definitivamente</b></th>
+                    <th
+                        align="center"
+                        colspan="3"
+                        class="red-text"><b>Arquivado definitivamente</b></th>
                 </tr>
                 <tr class="destacar">
                     <th>Dt. Arquivamento</th>
@@ -115,15 +136,17 @@
                     <th>Nº final da caixa</th>
                 </tr>
                 <tr>
-                    <td align="center">{{dadosProjeto.DtArquivamento}}</td>
-                    <td align="center">{{dadosProjeto.CaixaInicio}}</td>
-                    <td align="center">{{dadosProjeto.CaixaFinal}}</td>
+                    <td align="center">{{ dadosProjeto.DtArquivamento }}</td>
+                    <td align="center">{{ dadosProjeto.CaixaInicio }}</td>
+                    <td align="center">{{ dadosProjeto.CaixaFinal }}</td>
                 </tr>
             </table>
 
             <table class="tabela">
                 <tr class="destacar">
-                    <th align="center" colspan="4"><b>Solicitado</b></th>
+                    <th
+                        align="center"
+                        colspan="4"><b>Solicitado</b></th>
                 </tr>
                 <tr class="destacar">
                     <th>Custeio(A)</th>
@@ -145,7 +168,9 @@
 
             <table class="tabela">
                 <tr class="destacar">
-                    <th align="center" colspan="5"><b>Aprovado</b></th>
+                    <th
+                        align="center"
+                        colspan="5"><b>Aprovado</b></th>
                 </tr>
                 <tr class="destacar">
                     <th><b>Custeio(D)</b></th>
@@ -164,16 +189,21 @@
                     <td class="right-align">
                         <SalicFormatarValor :valor="dadosProjeto.Contrapartida"/>
                     </td>
-                    <td class="right-align" v-if="!dadosProjeto.ProponenteInabilitado">
+                    <td
+                        v-if="!dadosProjeto.ProponenteInabilitado"
+                        class="right-align">
                         <b>
-                            <a :href="'/default/consultardadosprojeto/dados-convenio?idPronac=' + dadosProjeto.idPronac"
-                               style="color: blue !important;">
+                            <a
+                                :href="'/default/consultardadosprojeto/dados-convenio?idPronac=' + dadosProjeto.idPronac"
+                                style="color: blue !important;">
                                 <SalicFormatarValor :valor="dadosProjeto.vlTotalAprovado"/>
                             </a>
                         </b>
                     </td>
-                    <td class="right-align" v-else><b>
-                        <SalicFormatarValor :valor="dadosProjeto.vlTotalAprovado"/>
+                    <td
+                        v-else
+                        class="right-align"><b>
+                            <SalicFormatarValor :valor="dadosProjeto.vlTotalAprovado"/>
                     </b></td>
                     <td class="right-align">
                         <SalicFormatarValor :valor="dadosProjeto.ValorConvenio"/>
@@ -185,23 +215,23 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
-    import { utils } from '@/mixins/utils';
-    import Carregando from '@/components/Carregando';
-    import SalicFormatarCpfCnpj from '@/components/SalicFormatarCpfCnpj';
-    import SalicFormatarValor from '@/components/SalicFormatarValor';
+import { mapGetters } from 'vuex';
+import { utils } from '@/mixins/utils';
+import Carregando from '@/components/Carregando';
+import SalicFormatarCpfCnpj from '@/components/SalicFormatarCpfCnpj';
+import SalicFormatarValor from '@/components/SalicFormatarValor';
 
-    export default {
-        mixins: [utils],
-        components: {
-            Carregando,
-            SalicFormatarCpfCnpj,
-            SalicFormatarValor,
-        },
-        computed: {
-            ...mapGetters({
-                dadosProjeto: 'projeto/projeto',
-            }),
-        },
-    };
+export default {
+    components: {
+        Carregando,
+        SalicFormatarCpfCnpj,
+        SalicFormatarValor,
+    },
+    mixins: [utils],
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+        }),
+    },
+};
 </script>

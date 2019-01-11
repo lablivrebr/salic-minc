@@ -1,195 +1,270 @@
 <template>
     <div>
-        <div v-if="dados" class="proposta">
-            <div v-if="loading" class="row">
-                <Carregando :text="'Carregando proposta'"></Carregando>
+        <div
+            v-if="dados"
+            class="proposta">
+            <div
+                v-if="loading"
+                class="row">
+                <Carregando :text="'Carregando proposta'"/>
             </div>
-            <ul v-show="!loading" class="collapsible" data-collapsible="expandable">
-                 <li>
+            <ul
+                v-show="!loading"
+                class="collapsible"
+                data-collapsible="expandable">
+                <li>
                     <div class="collapsible-header">
                         <i class="material-icons">assignment</i>
-                        <span v-if="dados.PRONAC">Projeto - {{dados.PRONAC}} - {{dados.NomeProjeto}}</span>
-                        <span v-else>Proposta - {{idpreprojeto}} - {{dados.NomeProjeto}}</span>
+                        <span v-if="dados.PRONAC">
+                            Projeto - {{ dados.PRONAC }} - {{ dados.NomeProjeto }}
+                        </span>
+                        <span v-else>
+                            Proposta - {{ idpreprojeto }} - {{ dados.NomeProjeto }}
+                        </span>
                     </div>
                     <div class="collapsible-body padding20">
                         <div class="row">
                             <div class="col s12 m12 l12 scroll">
-                                 <PropostaIdentificacao
-                                         :idpreprojeto="idpreprojeto"
-                                         :proposta="dados">
-                                 </PropostaIdentificacao>
+                                <PropostaIdentificacao
+                                    :idpreprojeto="idpreprojeto"
+                                    :proposta="dados"/>
                             </div>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>Hist&oacute;rico de avalia&ccedil;&otilde;es</div>
+                    <div class="collapsible-header"><i class="material-icons">history</i>
+                        Hist&oacute;rico de avalia&ccedil;&otilde;es
+                    </div>
                     <div class="collapsible-body padding20">
                         <PropostaHistoricoAvaliacoes
-                                :idpreprojeto="dados.idPreProjeto"
-                                :proposta="dados"
-                        ></PropostaHistoricoAvaliacoes>
+                            :idpreprojeto="dados.idPreProjeto"
+                            :proposta="dados"
+                        />
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>Hist&oacute;rico de sugest&otilde;es de enquadramento</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">history</i>
+                        Hist&oacute;rico de sugest&otilde;es de enquadramento
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <PropostaHistoricoSugestoesEnquadramento
                             :idpreprojeto="dados.idPreProjeto"
-                        ></PropostaHistoricoSugestoesEnquadramento>
+                        />
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>Hist&oacute;rico de solicita&ccedil;&otilde;es</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">history</i>
+                        Hist&oacute;rico de solicita&ccedil;&otilde;es
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <PropostaHistoricoSolicitacoes
                             :idpreprojeto="dados.idPreProjeto"
-                        ></PropostaHistoricoSolicitacoes>
+                        />
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">person</i>Proponente</div>
+                    <div class="collapsible-header">
+                        <i class="material-icons">person</i>
+                        Proponente
+                    </div>
                     <div class="collapsible-body padding20">
-                        <AgenteProponente :idagente="dados.idAgente"></AgenteProponente>
-                        <AgenteUsuario :idusuario="dados.idUsuario"></AgenteUsuario>
+                        <AgenteProponente :idagente="dados.idAgente"/>
+                        <AgenteUsuario :idusuario="dados.idUsuario"/>
                     </div>
                 </li>
 
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Ficha t&eacute;cnica</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Ficha t&eacute;cnica
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.FichaTecnica"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.FichaTecnica"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Resumo</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Resumo
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.ResumoDoProjeto"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.ResumoDoProjeto"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Objetivos</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Objetivos
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.Objetivos"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.Objetivos"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Etapa de Trabalho</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Etapa de Trabalho
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.EtapaDeTrabalho"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.EtapaDeTrabalho"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Acessibilidade</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Acessibilidade
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.Acessibilidade"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.Acessibilidade"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Especifica&ccedil;&otilde;es t&eacute;cnicas
-                        do produto
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Especifica&ccedil;&otilde;es t&eacute;cnicas do produto
                     </div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.EspecificacaoTecnica"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.EspecificacaoTecnica"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Sinopse de Obra</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Sinopse de Obra
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.Sinopse"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.Sinopse"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Democratiza&ccedil;&atilde;o de Acesso</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Democratiza&ccedil;&atilde;o de Acesso
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.DemocratizacaoDeAcesso"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.DemocratizacaoDeAcesso"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Justificativa</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Justificativa
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.Justificativa"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.Justificativa"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Descri&ccedil;&atilde;o de Atividades</div>
-                    <div class="collapsible-body padding20" v-if="dados">
+                    <div class="collapsible-header"><i class="material-icons">subject</i>
+                        Descri&ccedil;&atilde;o de Atividades
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
                         <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.DescricaoAtividade"></SalicTextoSimples>
+                            <SalicTextoSimples :texto="dados.DescricaoAtividade"/>
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">attachment</i>Documentos anexados</div>
+                    <div class="collapsible-header"><i class="material-icons">attachment</i>
+                        Documentos anexados
+                    </div>
                     <div class="collapsible-body padding20">
-                        <PropostaDocumentos :proposta="dados"></PropostaDocumentos>
+                        <PropostaDocumentos :proposta="dados"/>
                     </div>
                 </li>
                 <li>
-                    <div id="plano-distribuicao" class="collapsible-header"><i class="material-icons">equalizer</i>Plano
+                    <div
+                        id="plano-distribuicao"
+                        class="collapsible-header"><i class="material-icons">equalizer</i>Plano
                         Distribui&ccedil;&atilde;o
                     </div>
                     <div class="collapsible-body padding20">
                         <PropostaPlanoDistribuicao
-                                :arrayProdutos="dados.planodistribuicaoproduto"
-                                :arrayDetalhamentos="dados.tbdetalhaplanodistribuicao"
-                        ></PropostaPlanoDistribuicao>
+                            :array-produtos="dados.planodistribuicaoproduto"
+                            :array-detalhamentos="dados.tbdetalhaplanodistribuicao"
+                        />
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>Fonte de Recurso</div>
+                    <div class="collapsible-header"><i class="material-icons">history</i>
+                        Fonte de Recurso
+                    </div>
                     <div class="collapsible-body padding20">
                         <PropostaFontesDeRecursos
-                                :idpreprojeto="idpreprojeto">
-                        </PropostaFontesDeRecursos>
+                            :idpreprojeto="idpreprojeto"/>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">place</i>Local de realiza&ccedil;&atilde;o/Deslocamento
+                    <div class="collapsible-header"><i class="material-icons">place</i>
+                        Local de realiza&ccedil;&atilde;o/Deslocamento
                     </div>
                     <div class="collapsible-body padding20">
-                        <PropostaLocalRealizacaoDeslocamento :proposta="dados"></PropostaLocalRealizacaoDeslocamento>
+                        <PropostaLocalRealizacaoDeslocamento :proposta="dados"/>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">attach_money</i>Custos Vinculados</div>
-                    <div class="collapsible-body padding20" v-if="dados">
-                         <PropostaCustosVinculados
-                                 :arrayCustos="dados.tbcustosvinculados"
-                         ></PropostaCustosVinculados>
+                    <div class="collapsible-header"><i class="material-icons">attach_money</i>
+                        Custos Vinculados
+                    </div>
+                    <div
+                        v-if="dados"
+                        class="collapsible-body padding20">
+                        <PropostaCustosVinculados
+                            :array-custos="dados.tbcustosvinculados"
+                        />
                     </div>
                 </li>
                 <li>
-                    <div id="planilha-orcamentaria" class="collapsible-header"><i class="material-icons">attach_money</i>Planilha
-                        or&ccedil;ament&aacute;ria
+                    <div
+                        id="planilha-orcamentaria"
+                        class="collapsible-header"><i class="material-icons">attach_money</i>
+                        Planilha or&ccedil;ament&aacute;ria
                     </div>
                     <div class="collapsible-body padding20">
                         <Planilha
-                            :arrayPlanilha="dados.tbplanilhaproposta"
-                        ></Planilha>
+                            :array-planilha="dados.tbplanilhaproposta"
+                        />
                     </div>
                 </li>
             </ul>
         </div>
-        <div v-else class="center-align">
+        <div
+            v-else
+            class="center-align">
             <div class="padding20 card-panel">Opa! Proposta n&atilde;o encontrada...</div>
         </div>
     </div>
@@ -214,18 +289,6 @@ import PropostaCustosVinculados from './components/PropostaCustosVinculados';
 
 export default {
     name: 'Proposta',
-    data() {
-        return {
-            dados: {
-                type: Object,
-                default() {
-                    return {};
-                },
-            },
-            loading: true,
-        };
-    },
-    props: ['idpreprojeto', 'proposta'],
     components: {
         PropostaIdentificacao,
         PropostaHistoricoAvaliacoes,
@@ -242,6 +305,38 @@ export default {
         PropostaCustosVinculados,
         Planilha,
     },
+    props: {
+        idpreprojeto: {
+            type: String,
+            default: '',
+        },
+        proposta: {
+            type: Object,
+            default: () => {},
+        },
+    },
+    data() {
+        return {
+            dados: {
+                type: Object,
+                default() {
+                    return {};
+                },
+            },
+            loading: true,
+        };
+    },
+    computed: {
+        ...mapGetters({
+            dadosProposta: 'proposta/proposta',
+        }),
+    },
+    watch: {
+        dadosProposta(value) {
+            this.dados = value;
+            this.loading = false;
+        },
+    },
     mounted() {
         if (typeof this.idpreprojeto !== 'undefined' && typeof this.proposta === 'undefined') {
             this.buscarDadosProposta(this.idpreprojeto);
@@ -254,17 +349,6 @@ export default {
         }
 
         this.iniciarCollapsible();
-    },
-    watch: {
-        dadosProposta(value) {
-            this.dados = value;
-            this.loading = false;
-        },
-    },
-    computed: {
-        ...mapGetters({
-            dadosProposta: 'proposta/proposta',
-        }),
     },
     methods: {
         ...mapActions({

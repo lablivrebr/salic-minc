@@ -32,15 +32,15 @@ describe('Proposta Mutations', () => {
                 idUsuario: '',
             },
             historicoSolicitacoes: {
-                items:{
+                items: {
                     idProjeto: '',
                     idSolicitacao: '',
                     idSolicitante: '',
                 },
             },
             historicoEnquadramento: {
-                items:{
-                    lines:{
+                items: {
+                    lines: {
                         org_sigla: '',
                         usu_nome: '',
                     },
@@ -74,7 +74,7 @@ describe('Proposta Mutations', () => {
         };
 
         historicoSolicitacoes = {
-            items:{
+            items: {
                 idProjeto: '282177',
                 idSolicitacao: '3267',
                 idSolicitante: '285582',
@@ -82,8 +82,8 @@ describe('Proposta Mutations', () => {
         };
 
         historicoEnquadramento = {
-            items:{
-                lines:{
+            items: {
+                lines: {
                     org_sigla: 'CNIC',
                     usu_nome: 'Maricene A Gregorut',
                 },

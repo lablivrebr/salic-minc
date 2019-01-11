@@ -1,9 +1,9 @@
 <template>
     <div
-        class="card-action planilha-consolidacao"
         v-if="planilha.vlSolicitadoTotal
-        || planilha.vlAprovadoTotal
-        ||  planilha.vlSugeridoTotal"
+            || planilha.vlAprovadoTotal
+        || planilha.vlSugeridoTotal"
+        class="card-action planilha-consolidacao"
     >
         <div class="totais">
             <div v-if="planilha.vlSolicitadoTotal">
@@ -27,14 +27,14 @@
 </template>
 
 <script>
-    import planilhas from '@/mixins/planilhas';
+import planilhas from '@/mixins/planilhas';
 
-    export default {
-        props: {
-            planilha: {},
-        },
-        mixins: [planilhas],
-    };
+export default {
+    mixins: [planilhas],
+    props: {
+        planilha: {},
+    },
+};
 </script>
 
 

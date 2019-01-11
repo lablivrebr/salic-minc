@@ -1,9 +1,9 @@
 <template>
     <v-btn
+        :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}"
         flat
         icon
         color="primary"
-        :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}"
     >
         <v-tooltip bottom>
             <v-icon

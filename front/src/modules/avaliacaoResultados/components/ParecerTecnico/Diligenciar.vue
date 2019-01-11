@@ -1,6 +1,8 @@
 <template>
     <v-container>
-        <v-layout row wrap>
+        <v-layout
+            row
+            wrap>
             <v-flex>
                 <v-dialog
                     v-model="dialog"
@@ -10,49 +12,66 @@
                     transition="dialog-bottom-transition"
                 >
                     <v-card>
-                        <v-toolbar dark color="primary">
-                            <v-btn icon dark :to="{ name: 'AnalisePlanilha', params:{ id:this.idPronac }}">
+                        <v-toolbar
+                            dark
+                            color="primary">
+                            <v-btn
+                                :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}"
+                                icon
+                                dark>
                                 <v-icon>close</v-icon>
                             </v-btn>
                             <v-toolbar-title>Avaliação Financeira - Diligenciar</v-toolbar-title>
-                            <v-spacer></v-spacer>
+                            <v-spacer/>
                         </v-toolbar>
                         <v-card-text>
                             <v-container>
                                 <v-card>
                                     <v-card-title primary-title>
                                         <div class="headline">
-                                            <b>Projeto:</b>{{projeto.AnoProjeto}}{{projeto.Sequencial}} - {{projeto.NomeProjeto}}
+                                            <b>Projeto:</b>
+                                            {{ projeto.AnoProjeto }}{{ projeto.Sequencial }} - {{ projeto.NomeProjeto }}
                                         </div>
                                     </v-card-title>
                                     <v-card-text>
-                                        <v-form ref="form" v-model="valid">
+                                        <v-form
+                                            ref="form"
+                                            v-model="valid">
                                             <label for="diligencia">Tipo de Diligencia *</label>
                                             <v-radio-group
+                                                id="diligencia"
                                                 v-model="tpDiligencia"
                                                 :rules="diligenciaRules"
-                                                id="diligencia"
                                             >
-                                                <v-radio color="success" label="Somente itens recusados" value="174"></v-radio>
-                                                <v-radio color="success" label="Todos os itens orçamentários" value="645"></v-radio>
+                                                <v-radio
+                                                    color="success"
+                                                    label="Somente itens recusados"
+                                                    value="174"/>
+                                                <v-radio
+                                                    color="success"
+                                                    label="Todos os itens orçamentários"
+                                                    value="645"/>
                                             </v-radio-group>
-                                            <div v-show="solicitacaoRules.show" class="text-xs-left"><h4 :class="solicitacaoRules.color">{{solicitacaoRules.msg}}*</h4></div>
+                                            <div
+                                                v-show="solicitacaoRules.show"
+                                                class="text-xs-left">
+                                                <h4 :class="solicitacaoRules.color">{{ solicitacaoRules.msg }}*</h4>
+                                            </div>
                                             <EditorTexto
                                                 :style="solicitacaoRules.backgroundColor"
                                                 :value="solicitacao"
+                                                required="required"
                                                 @editor-texto-input="inputSolicitacao($event)"
                                                 @editor-texto-counter="validarSolicitacao($event)"
-                                                required="required"
-                                            >
-                                            </EditorTexto>
+                                            />
                                         </v-form>
                                     </v-card-text>
                                     <v-card-actions class="justify-center">
                                         <v-btn
+                                            :disabled="!valid || !solicitacaoRules.enable"
+                                            :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}"
                                             color="primary"
                                             @click.native="enviarDiligencia()"
-                                            :disabled="!valid || !solicitacaoRules.enable"
-                                            :to="{ name: 'AnalisePlanilha', params:{ id:this.idPronac }}"
                                         >
                                             Enviar
                                         </v-btn>
@@ -93,6 +112,15 @@ export default {
                 v => !!v || 'Tipo de diligencia é obrigatório!',
             ],
         };
+    },
+    computed:
+        {
+            ...mapGetters({
+                projeto: 'avaliacaoResultados/projeto',
+            }),
+        },
+    created() {
+        this.getConsolidacao(this.idPronac);
     },
     methods:
         {
@@ -137,14 +165,5 @@ export default {
                 }
             },
         },
-    computed:
-        {
-            ...mapGetters({
-                projeto: 'avaliacaoResultados/projeto',
-            }),
-        },
-    created() {
-        this.getConsolidacao(this.idPronac);
-    },
 };
 </script>

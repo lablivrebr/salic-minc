@@ -145,7 +145,7 @@ describe('Proposta actions', () => {
             mockReponse = {
                 data: {
                     data: {
-                        items:{
+                        items: {
                             dadosSolicitacao: {
                                 idProjeto: '282177',
                                 idSolicitacao: '3267',
@@ -180,9 +180,9 @@ describe('Proposta actions', () => {
             mockReponse = {
                 data: {
                     data: {
-                        items:{
+                        items: {
                             dadosEnquadramento: {
-                                lines:{
+                                lines: {
                                     org_sigla: 'CNIC',
                                     usu_nome: 'Maricene A Gregorut',
                                 },
@@ -210,5 +210,4 @@ describe('Proposta actions', () => {
             expect(commit).toHaveBeenCalledWith('SET_HISTORICO_ENQUADRAMENTO', dadosEnquadramento.data.items);
         });
     });
-
 });

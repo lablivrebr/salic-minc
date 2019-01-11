@@ -1,10 +1,14 @@
 <template>
-    <div  class="detalhamento-plano-distribuicao">
-        <ul class="collapsible" data-collapsible="expandable">
-            <li v-for="( detalhamento, index ) in detalhamentos" :key="index">
+    <div class="detalhamento-plano-distribuicao">
+        <ul
+            class="collapsible"
+            data-collapsible="expandable">
+            <li
+                v-for="( detalhamento, index ) in detalhamentos"
+                :key="index">
                 <div class="collapsible-header">
                     <i class="material-icons">place</i>
-                    Detalhamento - {{detalhamento[0].DescricaoUf}} - {{detalhamento[0].DescricaoMunicipio}}
+                    Detalhamento - {{ detalhamento[0].DescricaoUf }} - {{ detalhamento[0].DescricaoMunicipio }}
                 </div>
                 <div class="collapsible-body no-padding margin20 scroll-x">
                     <table>
@@ -12,16 +16,24 @@
                             <tr>
                                 <th rowspan="2">Categoria</th>
                                 <th rowspan="2">Qtd.</th>
-                                <th class="center-align gratuito" rowspan="2">
+                                <th
+                                    class="center-align gratuito"
+                                    rowspan="2">
                                     Dist. <br>Gratuita
                                 </th>
-                                <th class="center-align popular" colspan="3">
+                                <th
+                                    class="center-align popular"
+                                    colspan="3">
                                     Pre&ccedil;o Popular
                                 </th>
-                                <th class="center-align proponente" colspan="3">
+                                <th
+                                    class="center-align proponente"
+                                    colspan="3">
                                     Proponente
                                 </th>
-                                <th rowspan="2" class="center-align">Receita <br> Prevista</th>
+                                <th
+                                    rowspan="2"
+                                    class="center-align">Receita <br> Prevista</th>
                             </tr>
                             <tr>
                                 <th class="right-align popular">Qtd. Inteira</th>
@@ -33,12 +45,14 @@
                             </tr>
                         </thead>
                         <tbody v-if="detalhamento.length > 0">
-                            <tr v-for="( item, index ) in detalhamento" :key="index">
-                                <td>{{item.dsProduto}}</td>
+                            <tr
+                                v-for="( item, index ) in detalhamento"
+                                :key="index">
+                                <td>{{ item.dsProduto }}</td>
                                 <td class="right-align">{{ item.qtExemplares }}</td>
 
                                 <td class="right-align">{{ parseInt(item.qtGratuitaDivulgacao) +
-                                    parseInt(item.qtGratuitaPatrocinador) + parseInt(item.qtGratuitaPopulacao) }}
+                                parseInt(item.qtGratuitaPatrocinador) + parseInt(item.qtGratuitaPopulacao) }}
                                 </td>
 
                                 <td class="right-align">{{ item.qtPopularIntegral }}</td>
@@ -54,7 +68,7 @@
                             </tr>
                         </tbody>
                         <PropostaDetalhamentoConsolidacao
-                                :items="detalhamento"></PropostaDetalhamentoConsolidacao>
+                            :items="detalhamento"/>
                     </table>
                 </div>
             </li>
@@ -67,17 +81,17 @@ import PropostaDetalhamentoConsolidacao from './PropostaDetalhamentoConsolidacao
 
 export default {
     name: 'PropostaDetalhamentoPlanoDistribuicao',
-    data() {
-        return {
-            detalhamentos: [],
-        };
+    components: {
+        PropostaDetalhamentoConsolidacao,
     },
     mixins: [planilhas],
     props: [
         'arrayDetalhamentos',
     ],
-    components: {
-        PropostaDetalhamentoConsolidacao,
+    data() {
+        return {
+            detalhamentos: [],
+        };
     },
     watch: {
         arrayDetalhamentos(value) {

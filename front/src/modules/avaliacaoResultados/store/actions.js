@@ -183,8 +183,7 @@ export const encaminharParaTecnico = ({ commit, dispatch }, params) => {
         .then(() => {
             dispatch('projetosParaDistribuir');
             dispatch('obterDadosTabelaTecnico', { estadoid: 5 });
-        })
-    ;
+        });
 };
 
 export const alterarParecer = ({ commit }, param) => {
@@ -386,8 +385,6 @@ export const salvarAvaliacaoComprovante = async ({ commit }, avaliacao) => {
     return valor;
 };
 
-export const alterarAvaliacaoComprovante = ({ commit }, params) =>
-    commit(types.ALTERAR_DADOS_ITEM_COMPROVACAO, params);
+export const alterarAvaliacaoComprovante = ({ commit }, params) => commit(types.ALTERAR_DADOS_ITEM_COMPROVACAO, params);
 
-export const alterarPlanilha = ({ commit }, params) =>
-    commit(types.ALTERAR_PLANILHA, params);
+export const alterarPlanilha = ({ commit }, params) => commit(types.ALTERAR_PLANILHA, params);

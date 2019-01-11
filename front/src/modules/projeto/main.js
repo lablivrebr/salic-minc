@@ -31,8 +31,8 @@ window.onload = () => {
         components: {
             Index,
         },
-        template: '<Index/>',
         created: () => {
         },
+        template: '<Index/>',
     });
 };

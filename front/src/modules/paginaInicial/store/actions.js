@@ -8,4 +8,3 @@ export const buscarComunicados = ({ commit }, idPronac) => {
             commit(types.SET_COMUNICADOS, data.items);
         });
 };
-

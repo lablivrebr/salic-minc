@@ -1,39 +1,44 @@
 <template>
     <div class="tabelas">
         <div class="row">
-            <slTabelaSimples v-bind:dados="dado"></slTabelaSimples>
+            <slTabelaSimples :dados="dado"/>
         </div>
     </div>
 </template>
 <script>
-    import slTabelaSimples from '@/components/slTabelaSimples';
-    import { mapActions, mapGetters } from 'vuex';
+import slTabelaSimples from '@/components/slTabelaSimples';
+import { mapActions, mapGetters } from 'vuex';
 
-    export default {
-        name: 'PropostaHistoricoSugestoesEnquadramento',
-        props: ['idpreprojeto'],
-        components: {
-            slTabelaSimples,
+export default {
+    name: 'PropostaHistoricoSugestoesEnquadramento',
+    components: {
+        slTabelaSimples,
+    },
+    props: {
+        idpreprojeto: {
+            type: Number,
+            default: 0,
         },
-        mounted() {
-            if (typeof this.idpreprojeto !== 'undefined') {
-                this.buscarHistoricoEnquadramento(this.idpreprojeto);
-            }
+    },
+    computed: {
+        ...mapGetters({
+            dado: 'proposta/historicoEnquadramento',
+        }),
+    },
+    watch: {
+        idpreprojeto(value) {
+            this.buscarHistoricoEnquadramento(value);
         },
-        watch: {
-            idpreprojeto(value) {
-                this.buscarHistoricoEnquadramento(value);
-            },
-        },
-        computed: {
-            ...mapGetters({
-                dado: 'proposta/historicoEnquadramento',
-            }),
-        },
-        methods: {
-            ...mapActions({
-                buscarHistoricoEnquadramento: 'proposta/buscarHistoricoEnquadramento',
-            }),
-        },
-    };
+    },
+    mounted() {
+        if (this.idpreprojeto !== 0) {
+            this.buscarHistoricoEnquadramento(this.idpreprojeto);
+        }
+    },
+    methods: {
+        ...mapActions({
+            buscarHistoricoEnquadramento: 'proposta/buscarHistoricoEnquadramento',
+        }),
+    },
+};
 </script>

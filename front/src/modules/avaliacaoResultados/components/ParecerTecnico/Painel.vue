@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-subheader>
-            <h2>{{route.meta.title}}</h2>
+            <h2>{{ route.meta.title }}</h2>
         </v-subheader>
         <v-card>
             <v-tabs
@@ -10,17 +10,17 @@
                 dark
                 icons-and-text
             >
-                <v-tabs-slider color="deep-orange accent-3"></v-tabs-slider>
+                <v-tabs-slider color="deep-orange accent-3"/>
                 <v-tab
-                    href="#tab-0"
                     v-if="getUsuario.grupo_ativo == 125"
+                    href="#tab-0"
                 >
                     <template v-if="Object.keys(getProjetosParaDistribuir).length == 0">
                         <v-progress-circular
                             indeterminate
                             color="secondary"
                             dark
-                        ></v-progress-circular>
+                        />
                     </template>
                     <template v-else>
                         Distribuir
@@ -33,7 +33,7 @@
                             indeterminate
                             color="secondary"
                             dark
-                        ></v-progress-circular>
+                        />
                     </template>
                     <template v-else>
                         Em Analise
@@ -47,7 +47,7 @@
                             indeterminate
                             color="secondary"
                             dark
-                        ></v-progress-circular>
+                        />
                     </template>
                     <template v-else>
                         Assinar
@@ -61,7 +61,7 @@
                             indeterminate
                             color="secondary"
                             dark
-                        ></v-progress-circular>
+                        />
                     </template>
                     <template v-else>
                         Historico
@@ -77,14 +77,15 @@
                         v-if="getProjetosParaDistribuir"
                         :dados="getProjetosParaDistribuir"
                         :componentes="distribuirAcoes"
-                    ></TabelaProjetos>
+                    />
                 </v-tab-item>
                 <v-tab-item
                     :value="'tab-1'"
                     :key="1"
                 >
-                    <v-card flat
+                    <v-card
                         v-if="dadosTabelaTecnico"
+                        flat
                     >
                         <v-card-text>
                             <TabelaProjetos
@@ -92,14 +93,14 @@
                                 :analisar="true"
                                 :dados="dadosTabelaTecnico"
                                 :componentes="listaAcoesCoordenador"
-                                :mostrarTecnico="true"
-                            ></TabelaProjetos>
+                                :mostrar-tecnico="true"
+                            />
                             <TabelaProjetos
                                 v-else
                                 :analisar="true"
                                 :dados="dadosTabelaTecnico"
                                 :componentes="listaAcoesTecnico"
-                            ></TabelaProjetos>
+                            />
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -113,17 +114,17 @@
                                 v-if="(getUsuario.grupo_ativo == CONST.PERFIL_COORDENADOR)"
                                 :dados="getProjetosAssinarCoordenador"
                                 :componentes="listaAcoesAssinar"
-                            ></TabelaProjetos>
+                            />
                             <TabelaProjetos
                                 v-else-if="(getUsuario.grupo_ativo == CONST.PERFIL_COORDENADOR_GERAL)"
                                 :dados="getProjetosAssinarCoordenadorGeral"
                                 :componentes="listaAcoesAssinarCoordenadorGeral"
-                            ></TabelaProjetos>
+                            />
                             <TabelaProjetos
                                 v-else
                                 :dados="getProjetosFinalizados"
                                 :componentes="listaAcoesAssinar"
-                            ></TabelaProjetos>
+                            />
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -137,7 +138,7 @@
                             <TabelaProjetos
                                 :dados="getProjetosHistorico"
                                 :componentes="historicoAcoes"
-                            ></TabelaProjetos>
+                            />
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -161,6 +162,48 @@ import VisualizarParecer from '../components/VisualizarParecer';
 
 export default {
     name: 'Painel',
+    components: {
+        TabelaProjetos,
+    },
+    data() {
+        return {
+            projetoAnaliseDados: { code: 300, items: [] },
+            listaAcoesTecnico: {
+                atual: '',
+                proximo: '',
+                acoes: [Diligencias, Historico, AnaliseButton, VisualizarParecer],
+            },
+            listaAcoesAssinar: {
+                usuario: this.getUsuario,
+                atual: CONST.ESTADO_PARECER_FINALIZADO,
+                proximo: CONST.ESTADO_ANALISE_PARECER,
+                idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
+                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton, VisualizarParecer],
+            },
+            listaAcoesCoordenador: {
+                usuario: this.getUsuario,
+                atual: '',
+                proximo: '',
+                acoes: [
+                    Diligencias,
+                    Encaminhar,
+                    Historico,
+                    VisualizarPlanilhaButtton,
+                    VisualizarParecer,
+                ],
+            },
+            listaAcoesAssinarCoordenadorGeral: {
+                usuario: this.getUsuario,
+                atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
+                proximo: CONST.ESTADO_ANALISE_PARECER,
+                idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
+                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton, VisualizarParecer],
+            },
+            distribuirAcoes: { atual: '', proximo: '', acoes: [Encaminhar] },
+            historicoAcoes: { atual: '', proximo: '', acoes: [Historico, VisualizarPlanilhaButtton] },
+            CONST: '',
+        };
+    },
     created() {
         this.CONST = CONST;
 
@@ -201,47 +244,6 @@ export default {
         Vue.set(this.listaAcoesAssinar, 'usuario', this.getUsuario);
         Vue.set(this.listaAcoesCoordenador, 'usuario', this.getUsuario);
         Vue.set(this.listaAcoesAssinarCoordenadorGeral, 'usuario', this.getUsuario);
-    },
-    data() {
-        return {
-            projetoAnaliseDados: { code: 300, items: [] },
-            listaAcoesTecnico: {
-                atual: '',
-                proximo: '',
-                acoes: [Diligencias, Historico, AnaliseButton, VisualizarParecer],
-            },
-            listaAcoesAssinar: {
-                usuario: this.getUsuario,
-                atual: CONST.ESTADO_PARECER_FINALIZADO,
-                proximo: CONST.ESTADO_ANALISE_PARECER,
-                idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
-                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton, VisualizarParecer],
-            },
-            listaAcoesCoordenador: {
-                usuario: this.getUsuario,
-                atual: '',
-                proximo: '',
-                acoes: [
-                    Diligencias,
-                    Encaminhar,
-                    Historico,
-                    VisualizarPlanilhaButtton,
-                    VisualizarParecer,
-                ] },
-            listaAcoesAssinarCoordenadorGeral: {
-                usuario: this.getUsuario,
-                atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
-                proximo: CONST.ESTADO_ANALISE_PARECER,
-                idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
-                acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton, VisualizarParecer],
-            },
-            distribuirAcoes: { atual: '', proximo: '', acoes: [Encaminhar] },
-            historicoAcoes: { atual: '', proximo: '', acoes: [Historico, VisualizarPlanilhaButtton] },
-            CONST: '',
-        };
-    },
-    components: {
-        TabelaProjetos,
     },
     methods: {
         ...mapActions({

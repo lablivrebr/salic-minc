@@ -1,21 +1,21 @@
 <template>
     <div id="conteudo">
         <div class="row">
-            <CarregarTemplateAjax :urlAjax="url"></CarregarTemplateAjax>
+            <CarregarTemplateAjax :url-ajax="url"/>
         </div>
     </div>
 </template>
 <script>
-    import CarregarTemplateAjax from '@/components/CarregarTemplateAjax';
+import CarregarTemplateAjax from '@/components/CarregarTemplateAjax';
 
-    export default {
-        data() {
-            return {
-                url: `/default/consultardadosprojeto/dados-relacao-pagamentos?idPronac=${this.$route.params.idPronac}`,
-            };
-        },
-        components: {
-            CarregarTemplateAjax,
-        },
-    };
+export default {
+    components: {
+        CarregarTemplateAjax,
+    },
+    data() {
+        return {
+            url: `/default/consultardadosprojeto/dados-relacao-pagamentos?idPronac=${this.$route.params.idPronac}`,
+        };
+    },
+};
 </script>

@@ -6,34 +6,41 @@
             </a>
             <ul>
                 <li>
-                    <a id="ir-para-o-topo" class="btn-floating yellow darken-1 tooltipped"
-                       data-tooltip="Ir para o topo"
-                       href='javascript:void(0)'>
+                    <a
+                        id="ir-para-o-topo"
+                        class="btn-floating yellow darken-1 tooltipped"
+                        data-tooltip="Ir para o topo"
+                        href="javascript:void(0)">
                         <i class="material-icons">arrow_upward</i>
                     </a>
                 </li>
                 <li>
-                    <a id="ir-para-o-fim" class="btn-floating yellow darken-1 tooltipped"
-                       data-tooltip="Ir para o fim"
-                       href='javascript:void(0)'>
+                    <a
+                        id="ir-para-o-fim"
+                        class="btn-floating yellow darken-1 tooltipped"
+                        data-tooltip="Ir para o fim"
+                        href="javascript:void(0)">
                         <i class="material-icons">arrow_downward</i>
                     </a>
                 </li>
                 <li v-if="idPronac">
-                    <a class="btn-floating blue tooltipped"
-                       href='javascript:void(0)'
-                       v-on:click="imprimirProjeto(idPronac)"
-                       data-tooltip="Imprimir Projeto"
+                    <a
+                        class="btn-floating blue tooltipped"
+                        href="javascript:void(0)"
+                        data-tooltip="Imprimir Projeto"
+                        @click="imprimirProjeto(idPronac)"
                     ><i class="material-icons">print</i></a>
                 </li>
             </ul>
         </div>
-        <div id="boxImprimirProjeto" style="display: none;"></div>
+        <div
+            id="boxImprimirProjeto"
+            style="display: none;"/>
     </div>
 </template>
 <script>
-    export default {
-        /* eslint-disable */
+export default {
+    /* eslint-disable */
         data() {
             return {
                 idPronac: this.$route.params.idPronac

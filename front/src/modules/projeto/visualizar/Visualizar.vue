@@ -53,8 +53,8 @@ export default {
                  * aqui esta recarregando os dados do novo projeto se o idPronac for diferente
                  * */
             if (
-                typeof to.params.idPronac !== 'undefined' &&
-                    to.params.idPronac !== from.params.idPronac
+                typeof to.params.idPronac !== 'undefined'
+                    && to.params.idPronac !== from.params.idPronac
             ) {
                 this.buscaProjeto(to.params.idPronac);
                 this.urlAjax = URL_MENU + to.params.idPronac;

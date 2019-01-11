@@ -1,5 +1,7 @@
 <template>
-    <div class="local-realizacao-deslocamento">
+    <div
+        v-if="localizacoes"
+        class="local-realizacao-deslocamento">
         <div class="card">
             <div class="card-content">
                 <h5>Local de Realiza&ccedil;&atilde;o</h5>
@@ -68,7 +70,16 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'PropostaLocalRealizacaoDeslocamento',
-    props: ['idpreprojeto', 'proposta'],
+    props: {
+        idpreprojeto: {
+            type: String,
+            default: '',
+        },
+        proposta: {
+            type: Object,
+            default: () => {},
+        },
+    },
     data() {
         return {
             localizacoes: {},
@@ -81,9 +92,6 @@ export default {
     },
     watch: {
         idpreprojeto(value) {
-            if (value.abrangencia) {
-                this.localizacoes = value.abrangencia;
-            }
             this.buscaLocalRealizacaoDeslocamento(value);
         },
         local(value) {
@@ -97,7 +105,7 @@ export default {
         if (this.proposta && this.proposta.abrangencia) {
             this.localizacoes = this.proposta;
         }
-        if (typeof this.idpreprojeto !== 'undefined') {
+        if (this.idpreprojeto !== '') {
             this.buscaLocalRealizacaoDeslocamento(this.idpreprojeto);
         }
     },

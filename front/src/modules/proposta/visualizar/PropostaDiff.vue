@@ -9,10 +9,14 @@
         <div v-else-if="Object.keys(dadosAtuais).length > 2">
             <div class="card padding20">
                 <div class="nao-existe-versao-proposta">
-                    <h4><i class="material-icons small left">report</i>N&atilde;o existe versionamento de altera&ccedil;&otilde;es
-                    para o projeto informado.</h4>
-                    <p style="margin-left: 44px">O proponente n&atilde;o fez altera&ccedil;&otilde;es no projeto no
-                    prazo estabelecido.</p>
+                    <h4><i class="material-icons small left">report</i>
+                        N&atilde;o existe versionamento de
+                        altera&ccedil;&otilde;es para o projeto informado.
+                    </h4>
+                    <p style="margin-left: 44px">
+                        O proponente n&atilde;o fez altera&ccedil;&otilde;es
+                        no projeto no prazo estabelecido.
+                    </p>
                 </div>
             </div>
             <Proposta
@@ -38,7 +42,16 @@ export default {
         Proposta,
         Carregando,
     },
-    props: ['idpreprojeto', 'tipo'],
+    props: {
+        idpreprojeto: {
+            type: String,
+            default: '',
+        },
+        tipo: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             dadosAtuais: {

@@ -183,8 +183,7 @@ export const encaminharParaTecnico = ({ commit, dispatch }, params) => {
         .then(() => {
             dispatch('projetosParaDistribuir');
             dispatch('obterDadosTabelaTecnico', { estadoid: 5 });
-        })
-    ;
+        });
 };
 
 export const alterarParecer = ({ commit }, param) => {
@@ -278,11 +277,18 @@ export const obterProjetosLaudoAssinar = ({ commit }, param) => {
 };
 
 export const obterProjetosLaudoEmAssinatura = ({ commit }, param) => {
-    avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal(param)
-        .then((response) => {
-            const dadosTabela = response.data.data;
-            commit(types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA, dadosTabela);
-        });
+    commit(types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA, {});
+    const dadosTabela = { code: 200, items: [] };
+    let u;
+    for (u = 0; u < param.length; u += 1) {
+        avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal(param[u])
+            .then((response) => {
+                dadosTabela.items = dadosTabela.items.concat(response.data.data.items);
+                if (u === param.length) {
+                    commit(types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA, dadosTabela);
+                }
+            });
+    }
 };
 
 export const obterProjetosLaudoFinalizados = ({ commit }, param) => {
@@ -386,8 +392,6 @@ export const salvarAvaliacaoComprovante = async ({ commit }, avaliacao) => {
     return valor;
 };
 
-export const alterarAvaliacaoComprovante = ({ commit }, params) =>
-    commit(types.ALTERAR_DADOS_ITEM_COMPROVACAO, params);
+export const alterarAvaliacaoComprovante = ({ commit }, params) => commit(types.ALTERAR_DADOS_ITEM_COMPROVACAO, params);
 
-export const alterarPlanilha = ({ commit }, params) =>
-    commit(types.ALTERAR_PLANILHA, params);
+export const alterarPlanilha = ({ commit }, params) => commit(types.ALTERAR_PLANILHA, params);

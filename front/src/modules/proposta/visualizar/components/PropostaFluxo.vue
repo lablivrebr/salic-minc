@@ -22,23 +22,28 @@
                             <span v-html="fase.label"/>
                         </a>
                         <div
-                            v-for="(children, key) of fase.childrens"
-                            v-if="dadosProposta && fase.childrens"
+                            v-for="(children) of fase.childrens"
                             :key="children.id"
                             style="display:block;"
                         >
-                            <div><i
-                                class="tiny material-icons grey-text"
-                                style="transform: rotate(90deg);">forward</i></div>
-                            <a
-                                :data-tooltip="children.descricao"
-                                :class="{ disabled : dadosProposta.fase_proposta !== children.id }"
-                                :href="(children.link) ? children.link : 'javascript:void(0)'"
-                                :style="(children.link) ? '' : 'cursor: default'"
-                                class="margin10 btn small btn-primary tooltipped">
-                                <i class="tiny material-icons left">{{ children.icon }}</i>
-                                <span v-html="children.label"/>
-                            </a>
+                            <template v-if="dadosProposta && fase.childrens">
+                                <div>
+                                    <i
+                                        class="tiny material-icons grey-text"
+                                        style="transform: rotate(90deg);">forward</i>
+                                </div>
+                                <a
+                                    :data-tooltip="children.descricao"
+                                    :class="{
+                                        disabled : dadosProposta.fase_proposta !== children.id
+                                    }"
+                                    :href="(children.link) ? children.link : 'javascript:void(0)'"
+                                    :style="(children.link) ? '' : 'cursor: default'"
+                                    class="margin10 btn small btn-primary tooltipped">
+                                    <i class="tiny material-icons left">{{ children.icon }}</i>
+                                    <span v-html="children.label"/>
+                                </a>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -52,7 +57,10 @@ import { mapGetters } from 'vuex';
 
 export default {
     props: {
-        idPreProjeto: null,
+        idPreProjeto: {
+            type: Number,
+            required: true,
+        },
     },
     data() {
         return {

@@ -45,8 +45,7 @@ const CollapsibleRecursivo = {
                                     h('i', { class: 'material-icons' }, [self.obterIconeHeader(self.contador)]),
                                     h('div', key),
                                     h('span', { class: 'badge' }, [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
-                                ],
-                            ),
+                                ]),
                             h('div',
                                 { class: 'collapsible-body no-padding' },
                                 [
@@ -62,15 +61,13 @@ const CollapsibleRecursivo = {
                                             planilha: self.planilha[key],
                                         },
                                     }),
-                                ],
-                            ),
+                                ]),
                         ]);
                     }
 
                     return true;
-                }),
-            );
-        } else if (self.$scopedSlots.default !== 'undefined') {
+                }));
+        } if (self.$scopedSlots.default !== 'undefined') {
             return h('div', { class: 'margin20 scroll-x' }, [
                 self.$scopedSlots.default({ itens: self.planilha.itens }),
             ]);

@@ -398,8 +398,7 @@ export default {
             cdProduto,
             cdCidade,
             cdEtapa,
-            cdUF,
-        ) {
+            cdUF) {
             this.itemEmAvaliacao = {
                 item,
                 produto,

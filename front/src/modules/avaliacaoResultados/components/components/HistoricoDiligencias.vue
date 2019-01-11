@@ -263,9 +263,11 @@ export default {
             const result = new Date(obj.dataSolicitacao);
             fim.setTime(result.getTime() + (40 * 24 * 60 * 60 * 1000));
 
-            fim = fim.toLocaleString(['pt-BR'], { month: '2-digit',
+            fim = fim.toLocaleString(['pt-BR'], {
+                month: '2-digit',
                 day: '2-digit',
-                year: 'numeric' });
+                year: 'numeric',
+            });
 
             let status = {
                 color: 'grey',
@@ -274,16 +276,16 @@ export default {
             };
             const prazoPadrao = 40;
             // diligenciado
-            if (obj.DtSolicitacao && obj.DtResposta === '' &&
-                prazo <= prazoPadrao && obj.stEnviado === 'S') {
+            if (obj.DtSolicitacao && obj.DtResposta === ''
+                && prazo <= prazoPadrao && obj.stEnviado === 'S') {
                 status = { color: 'yellow', desc: 'Diligenciado', prazo: fim };
                 return status;
                 // diligencia não respondida
-            } else if (obj.DtSolicitacao && obj.DtResposta === '' && prazo > prazoPadrao) {
+            } if (obj.DtSolicitacao && obj.DtResposta === '' && prazo > prazoPadrao) {
                 status = { color: 'red', desc: 'Diligencia não respondida', prazo: fim };
                 return status;
                 // diligencia respondida com ressalvas
-            } else if (obj.DtSolicitacao && obj.DtResposta !== '') {
+            } if (obj.DtSolicitacao && obj.DtResposta !== '') {
                 if (obj.stEnviado === 'N' && prazo > prazoPadrao) {
                     status = { color: 'red', desc: 'Diligencia não respondida', prazo: fim };
                     return status;

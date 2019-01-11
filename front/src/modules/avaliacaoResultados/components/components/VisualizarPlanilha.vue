@@ -285,7 +285,8 @@ export default {
             stItemAvaliado,
             cdEtapa,
             idPlanilhaItens,
-            item) {
+            item,
+        ) {
             this.itemEmVisualizacao = {
                 Uf,
                 cdCidade,

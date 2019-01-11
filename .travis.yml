@@ -3,7 +3,7 @@ node_js:
 - '8.9.4'
 branches:
     only:
-    - develop-fix
+    - dev
 cache:
     directories:
     - node_modules

@@ -64,4 +64,3 @@ export default {
     props: ['dadoComplementar', 'custosVinculados', 'dsDadoComplementar'],
 };
 </script>
-

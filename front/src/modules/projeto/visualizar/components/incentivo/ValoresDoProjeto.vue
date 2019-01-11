@@ -331,22 +331,22 @@ export default {
             let planilhaAtiva = '';
 
             switch (true) {
-            case (parseFloat(this.dadosProjeto.vlTotalReadequado) > 0) :
+            case (parseFloat(this.dadosProjeto.vlTotalReadequado) > 0):
                 planilhaAtiva = 'planilha-readequada';
                 break;
-            case (parseFloat(this.dadosProjeto.vlTotalHomologado) > 0) :
+            case (parseFloat(this.dadosProjeto.vlTotalHomologado) > 0):
                 planilhaAtiva = 'planilha-homologada';
                 break;
-            case (parseFloat(this.dadosProjeto.vlTotalAdequado) > 0) :
+            case (parseFloat(this.dadosProjeto.vlTotalAdequado) > 0):
                 planilhaAtiva = 'planilha-adequada';
                 break;
-            case (parseFloat(this.dadosProjeto.vlTotalAutorizado) > 0) :
+            case (parseFloat(this.dadosProjeto.vlTotalAutorizado) > 0):
                 planilhaAtiva = 'planilha-autorizada';
                 break;
-            case (parseFloat(this.dadosProjeto.vlTotalPropostaOriginal) > 0) :
+            case (parseFloat(this.dadosProjeto.vlTotalPropostaOriginal) > 0):
                 planilhaAtiva = 'planilha-proposta';
                 break;
-            default :
+            default:
                 planilhaAtiva = '';
                 break;
             }

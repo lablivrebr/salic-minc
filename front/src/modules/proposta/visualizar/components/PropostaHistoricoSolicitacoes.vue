@@ -87,11 +87,21 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'PropostaHistoricoSolicitacoes',
-    props: ['idpreprojeto'],
+    props: {
+        idpreprojeto: {
+            type: Number,
+            default: 0,
+        },
+    },
     data() {
         return {
             activeTab: -1,
         };
+    },
+    computed: {
+        ...mapGetters({
+            dados: 'proposta/historicoSolicitacoes',
+        }),
     },
     watch: {
         idpreprojeto(value) {
@@ -99,14 +109,9 @@ export default {
         },
     },
     mounted() {
-        if (typeof this.idpreprojeto !== 'undefined') {
+        if (this.idpreprojeto !== 0) {
             this.buscarHistoricoSolicitacoes(this.idpreprojeto);
         }
-    },
-    computed: {
-        ...mapGetters({
-            dados: 'proposta/historicoSolicitacoes',
-        }),
     },
     methods: {
         setActiveTab(index) {

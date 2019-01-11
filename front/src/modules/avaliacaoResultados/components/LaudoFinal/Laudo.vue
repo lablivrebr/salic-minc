@@ -14,9 +14,10 @@
         <v-data-table
             :headers="cabecalho"
             :items="dados.items"
-            :pagination.sync="pagination"
             :search="search"
-            hide-actions
+            item-key="item.index"
+            rows-per-page-text="Items por Página"
+            no-data-text="Nenhum dado encontrado"
         >
             <template
                 slot="items"
@@ -25,7 +26,9 @@
                 <td class="text-xs-center">
                     <v-flex>
                         <div>
-                            <v-btn :href="'/projeto/#/'+ props.item.idPronac">{{ props.item.PRONAC }}</v-btn>
+                            <v-btn :href="'/projeto/#/'+ props.item.idPronac">
+                                {{ props.item.PRONAC }}
+                            </v-btn>
                         </div>
                     </v-flex>
                 </td>
@@ -72,7 +75,8 @@
                     class="text-xs-center">
                     <v-btn
                         id="assinarLaudo"
-                        :href="'/assinatura/index/assinar-projeto?IdPRONAC='+props.item.IdPronac+'&idTipoDoAtoAdministrativo=623'"
+                        :href="'/assinatura/index/assinar-projeto?IdPRONAC='
+                        +props.item.IdPronac+'&idTipoDoAtoAdministrativo=623'"
                         flat
                         icon
                         color="teal darken-1">
@@ -122,18 +126,18 @@
                 Não foi possível encontrar um projeto com a palavra chave '{{ search }}'.
             </v-alert>
         </v-data-table>
-        <div class="text-xs-center pt-2">
-            <div
-                v-if="pagination.totalItems"
-                class="text-xs-center">
-                <v-pagination
-                    v-model="pagination.page"
-                    :length="pages"
-                    :total-visible="3"
-                    color="primary"
-                />
-            </div>
-        </div>
+        <!--<div class="text-xs-center pt-2">-->
+            <!--<div-->
+                <!--v-if="pagination.totalItems"-->
+                <!--class="text-xs-center">-->
+                <!--<v-pagination-->
+                    <!--v-model="pagination.page"-->
+                    <!--:length="pages"-->
+                    <!--:total-visible="3"-->
+                    <!--color="primary"-->
+                <!--/>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </template>
 
@@ -200,6 +204,44 @@ export default {
             Const,
         };
     },
+    computed: {
+        ...mapGetters({
+            getUsuario: 'autenticacao/getUsuario',
+        }),
+        pages() {
+            if (this.pagination.rowsPerPage == null
+                    || this.pagination.totalItems == null
+            ) return 0;
+            console.info(this.pagination);
+            return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
+        },
+        atoAdministrativo() {
+            let ato = Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
+
+            if (
+                this.usuario
+                    && (
+                        Const.PERFIL_DIRETOR === this.getUsuario.grupo_ativo
+                        || Const.PERFIL_SECRETARIO === this.getUsuario.grupo_ativo
+                    )
+            ) {
+                ato = Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
+            }
+
+            return ato;
+        },
+        usuario() {
+            return (this.getUsuario !== undefined && Object.keys(this.getUsuario).length > 0);
+        },
+    },
+    watch: {
+        dados() {
+            if (this.dados.items !== undefined) {
+                console.info(this.dados);
+                this.pagination.totalItems = this.dados.items.length;
+            }
+        },
+    },
     methods: {
         ...mapActions({
             requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
@@ -229,42 +271,6 @@ export default {
                 proximo = '';
             }
             return proximo;
-        },
-    },
-    computed: {
-        ...mapGetters({
-            getUsuario: 'autenticacao/getUsuario',
-        }),
-        pages() {
-            if (this.pagination.rowsPerPage == null ||
-                    this.pagination.totalItems == null
-            ) return 0;
-            return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
-        },
-        atoAdministrativo() {
-            let ato = Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
-
-            if (
-                this.usuario &&
-                    (
-                        Const.PERFIL_DIRETOR === this.getUsuario.grupo_ativo
-                        || Const.PERFIL_SECRETARIO === this.getUsuario.grupo_ativo
-                    )
-            ) {
-                ato = Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
-            }
-
-            return ato;
-        },
-        usuario() {
-            return (this.getUsuario !== undefined && Object.keys(this.getUsuario).length > 0);
-        },
-    },
-    watch: {
-        dados() {
-            if (this.dados.items !== undefined) {
-                this.pagination.totalItems = this.dados.items.length;
-            }
         },
     },
 };

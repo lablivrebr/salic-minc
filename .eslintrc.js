@@ -53,5 +53,6 @@ module.exports = {
         'vue/html-indent': ['error', 4,  {
             alignAttributesVertically: true
         }],
+        "no-shadow": ["error", { "allow": ["state"] }],
     }
 }

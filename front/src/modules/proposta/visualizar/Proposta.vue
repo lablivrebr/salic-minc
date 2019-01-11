@@ -68,7 +68,10 @@
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">person</i>Proponente</div>
+                    <div class="collapsible-header">
+                        <i class="material-icons">person</i>
+                        Proponente
+                    </div>
                     <div class="collapsible-body padding20">
                         <AgenteProponente :idagente="dados.idAgente"/>
                         <AgenteUsuario :idusuario="dados.idUsuario"/>
@@ -303,7 +306,16 @@ export default {
         PropostaCustosVinculados,
         Planilha,
     },
-    props: ['idpreprojeto', 'proposta'],
+    props: {
+        idpreprojeto: {
+            type: String,
+            default: '',
+        },
+        proposta: {
+            type: Object,
+            default: () => {},
+        },
+    },
     data() {
         return {
             dados: {

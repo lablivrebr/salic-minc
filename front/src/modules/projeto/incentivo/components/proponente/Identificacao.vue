@@ -94,7 +94,7 @@ export default{
                 if (String(campo.CNPJCPF).length > 0) {
                     if (String(campo.CNPJCPF).length === 11) {
                         return 'Pessoa Física';
-                    } else if (String(campo.CNPJCPF).length === 14) {
+                    } if (String(campo.CNPJCPF).length === 14) {
                         return 'Pessoa Jurídica';
                     }
                     return 'CPF/CNPJ inválido!';

@@ -122,7 +122,8 @@ export default {
                 {
                     text: 'Nome Do Projeto',
                     align: 'center',
-                    value: 'NomeProjeto' },
+                    value: 'NomeProjeto',
+                },
                 {
                     text: 'Situacao',
                     align: 'center',
@@ -158,8 +159,8 @@ export default {
             getProjetosFinalizados: 'avaliacaoResultados/getProjetosFinalizados',
         }),
         pages() {
-            if (this.pagination.rowsPerPage == null ||
-                this.pagination.totalItems == null
+            if (this.pagination.rowsPerPage == null
+                || this.pagination.totalItems == null
             ) return 0;
             return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
         },

@@ -1,7 +1,7 @@
 <template>
     <div>
         <PropostaFluxo :id-pre-projeto="idPreProjeto"/>
-        <Proposta :idpreprojeto="idPreProjeto"/>
+        <Proposta :idpreprojeto="String(idPreProjeto)"/>
         <SalicMenuSuspenso v-if="Object.keys(dadosProposta).length > 0">
             <li v-if="dadosProposta.fase_proposta !== 'proposta_arquivada'">
                 <a
@@ -12,7 +12,8 @@
             </li>
             <li v-if="dadosProposta.fase_proposta === 'proposta_com_proponente'">
                 <a
-                    :href="`/proposta/manterpropostaincentivofiscal/identificacaodaproposta/idPreProjeto/${idPreProjeto}`"
+                    :href="`/proposta/manterpropostaincentivofiscal/
+                    identificacaodaproposta/idPreProjeto/${idPreProjeto}`"
                     class="btn-floating green tooltipped"
                     data-tooltip="Editar proposta"
                 ><i class="material-icons">edit</i></a>
@@ -24,7 +25,10 @@
             data-activates="menu-suspenso">
             <div class="tap-target-content white-text">
                 <h5>Botão flutuante</h5>
-                <p>Clique aqui para acessar a ferramenta Minhas Solicitações e enviar seu questionamento ao MinC</p>
+                <p>
+                    Clique aqui para acessar a ferramenta Minhas Solicitações
+                    e enviar seu questionamento ao MinC
+                </p>
             </div>
         </div>
     </div>
@@ -45,7 +49,12 @@ export default {
         Proposta,
     },
     mixins: [CookieMixin],
-    props: ['idPreProjeto'],
+    props: {
+        idPreProjeto: {
+            type: Number,
+            required: true,
+        },
+    },
     data() {
         return {
             dados: {

@@ -190,7 +190,8 @@ export default {
                     Historico,
                     VisualizarPlanilhaButtton,
                     VisualizarParecer,
-                ] },
+                ],
+            },
             listaAcoesAssinarCoordenadorGeral: {
                 usuario: this.getUsuario,
                 atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,

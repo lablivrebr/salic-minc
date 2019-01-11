@@ -116,7 +116,11 @@
                     </table>
 
                     <PropostaDetalhamentoPlanoDistribuicao
-                        :array-detalhamentos="detalhamentosByID(detalhamentos, produto.idPlanoDistribuicao)"/>
+                        :array-detalhamentos="detalhamentosByID(
+                            detalhamentos,
+                            produto.idPlanoDistribuicao
+                        )"
+                    />
                 </div>
             </li>
         </ul>
@@ -130,10 +134,16 @@ export default {
     components: {
         PropostaDetalhamentoPlanoDistribuicao,
     },
-    props: [
-        'arrayProdutos',
-        'arrayDetalhamentos',
-    ],
+    props: {
+        arrayProdutos: {
+            type: Array,
+            default: () => [],
+        },
+        arrayDetalhamentos: {
+            type: Array,
+            default: () => [],
+        },
+    },
     data() {
         return {
             produtos: [],

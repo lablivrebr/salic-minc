@@ -113,7 +113,10 @@ export default {
     created() {
         this.obterProjetosLaudoFinal({ estadoId: 10 });
         this.obterProjetosLaudoAssinar(this.assinarPerfil());
-        this.obterProjetosLaudoEmAssinatura({ estadoId: 11 });
+        this.obterProjetosLaudoEmAssinatura([
+            { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO },
+            { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO },
+            { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECCRETARIO_LAUDO }]);
         this.obterProjetosLaudoFinalizados({ estadoId: 12 });
         this.obterDadosTabelaTecnico({ estadoId: 11, idAgente: this.getUsuario.usu_codigo });
     },

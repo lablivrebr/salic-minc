@@ -300,25 +300,31 @@ export default {
         },
         validarParecer(e) {
             if (e < 10) {
-                this.parecerRules = { show: true,
+                this.parecerRules = {
+                    show: true,
                     color: 'red--text',
                     backgroundColor: { 'background-color': '#FFCDD2' },
                     msg: 'Parecer deve conter mais que 10 characteres',
-                    enable: false };
+                    enable: false,
+                };
             }
             if (e < 1) {
-                this.parecerRules = { show: true,
+                this.parecerRules = {
+                    show: true,
                     color: 'red--text',
                     backgroundColor: { 'background-color': '#FFCDD2' },
                     msg: 'Parecer é obrigatório!',
-                    enable: false };
+                    enable: false,
+                };
             }
             if (e >= 10) {
-                this.parecerRules = { show: false,
+                this.parecerRules = {
+                    show: false,
                     color: '',
                     backgroundColor: '',
                     msg: '',
-                    enable: true };
+                    enable: true,
+                };
             }
         },
     },

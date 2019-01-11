@@ -11,7 +11,7 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const watchWebpackConfig = merge(baseWebpackConfig, {
-    mode: 'none',
+    mode: 'development',
     watch: true,
     optimization: {
         splitChunks: {

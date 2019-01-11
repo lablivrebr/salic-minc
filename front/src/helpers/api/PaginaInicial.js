@@ -7,4 +7,3 @@ export const buscarComunicados = () => {
 
     return api.getRequest(`${module}${controller}${action}`);
 };
-

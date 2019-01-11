@@ -5,11 +5,18 @@
             data-collapsible="expandable">
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.identificacaoproposta, dadosHistorico.identificacaoproposta)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.identificacaoproposta,
+                        dadosHistorico.identificacaoproposta
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">assignment</i>
-                    <span v-if="dadosAtuais.PRONAC">Projeto - {{ dadosAtuais.PRONAC }} - {{ dadosAtuais.NomeProjeto }}</span>
-                    <span v-else>Proposta - {{ idpreprojeto }} - {{ dadosAtuais.NomeProjeto }}</span>
+                    <span v-if="dadosAtuais.PRONAC">
+                        Projeto - {{ dadosAtuais.PRONAC }} - {{ dadosAtuais.NomeProjeto }}
+                    </span>
+                    <span v-else>
+                        Proposta - {{ idpreprojeto }} - {{ dadosAtuais.NomeProjeto }}
+                    </span>
                 </div>
                 <div class="collapsible-body padding20">
                     <div class="row">
@@ -27,7 +34,10 @@
                 </div>
             </li>
             <li>
-                <div class="collapsible-header"><i class="material-icons">history</i>Hist&oacute;rico de avalia&ccedil;&otilde;es</div>
+                <div class="collapsible-header">
+                    <i class="material-icons">history</i>
+                    Hist&oacute;rico de avalia&ccedil;&otilde;es
+                </div>
                 <div class="collapsible-body padding10">
                     <div class="card padding10">
                         <PropostaHistoricoAvaliacoes
@@ -36,7 +46,10 @@
                 </div>
             </li>
             <li>
-                <div class="collapsible-header"><i class="material-icons">person</i>Proponente</div>
+                <div class="collapsible-header">
+                    <i class="material-icons">person</i>
+                    Proponente
+                </div>
                 <div class="collapsible-body padding20">
                     <div class="row">
                         <div class="col s12 m12 12 scroll">
@@ -50,7 +63,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.FichaTecnica, dadosHistorico.FichaTecnica)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.FichaTecnica,
+                        dadosHistorico.FichaTecnica
+                    )}"
                     class="collapsible-header"
                     i>
                     <i class="material-icons">subject</i>Ficha t&eacute;cnica
@@ -65,7 +81,7 @@
                                     <SalicTextoSimples
                                         :texto="dadosHistorico.FichaTecnica"/>
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples
                                         :texto="dadosAtuais.FichaTecnica"/>
                                 </td>
@@ -76,7 +92,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.ResumoDoProjeto, dadosHistorico.ResumoDoProjeto)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.ResumoDoProjeto,
+                        dadosHistorico.ResumoDoProjeto
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">subject</i>Resumo
                 </div>
@@ -101,7 +120,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.Objetivos, dadosHistorico.Objetivos)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.Objetivos,
+                        dadosHistorico.Objetivos
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">subject</i>Objetivos
                 </div>
@@ -115,7 +137,7 @@
                                     <SalicTextoSimples
                                         :texto="dadosHistorico.Objetivos"/>
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples
                                         :texto="dadosAtuais.Objetivos"/>
                                 </td>
@@ -126,7 +148,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.EtapaDeTrabalho, dadosHistorico.EtapaDeTrabalho)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.EtapaDeTrabalho,
+                        dadosHistorico.EtapaDeTrabalho
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">subject</i>Etapa de Trabalho
                 </div>
@@ -140,7 +165,7 @@
                                     <SalicTextoSimples
                                         :texto="dadosHistorico.EtapaDeTrabalho"/>
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples
                                         :texto="dadosAtuais.EtapaDeTrabalho"/>
                                 </td>
@@ -151,7 +176,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.Acessibilidade, dadosHistorico.Acessibilidade)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.Acessibilidade,
+                        dadosHistorico.Acessibilidade
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">subject</i>Acessibilidade
                 </div>
@@ -165,7 +193,7 @@
                                     <SalicTextoSimples
                                         :texto="dadosHistorico.Acessibilidade"/>
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples
                                         :texto="dadosAtuais.Acessibilidade"/>
                                 </td>
@@ -176,9 +204,13 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.EspecificacaoTecnica, dadosHistorico.EspecificacaoTecnica)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.EspecificacaoTecnica,
+                        dadosHistorico.EspecificacaoTecnica
+                    )}"
                     class="collapsible-header">
-                    <i class="material-icons">subject</i>Especifica&ccedil;&otilde;es t&eacute;cnicas do produto
+                    <i class="material-icons">subject</i>
+                    Especifica&ccedil;&otilde;es t&eacute;cnicas do produto
                 </div>
                 <div
                     v-if="dadosAtuais"
@@ -187,9 +219,11 @@
                         <table>
                             <tr>
                                 <td class="original historico padding20">
-                                    <SalicTextoSimples :texto="dadosHistorico.EspecificacaoTecnica"/>
+                                    <SalicTextoSimples
+                                        :texto="dadosHistorico.EspecificacaoTecnica"
+                                    />
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples :texto="dadosAtuais.EspecificacaoTecnica"/>
                                 </td>
                             </tr>
@@ -199,7 +233,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.Sinopse, dadosHistorico.Sinopse)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.Sinopse,
+                        dadosHistorico.Sinopse
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">subject</i>Sinopse de Obra
                 </div>
@@ -212,7 +249,7 @@
                                 <td class="original historico padding20">
                                     <SalicTextoSimples :texto="dadosHistorico.Sinopse"/>
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples :texto="dadosAtuais.Sinopse"/>
                                 </td>
                             </tr>
@@ -222,7 +259,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.DemocratizacaoDeAcesso, dadosHistorico.DemocratizacaoDeAcesso)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.DemocratizacaoDeAcesso,
+                        dadosHistorico.DemocratizacaoDeAcesso
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">subject</i>Democratiza&ccedil;&atilde;o de Acesso
                 </div>
@@ -233,9 +273,11 @@
                         <table>
                             <tr>
                                 <td class="original historico padding20">
-                                    <SalicTextoSimples :texto="dadosHistorico.DemocratizacaoDeAcesso"/>
+                                    <SalicTextoSimples
+                                        :texto="dadosHistorico.DemocratizacaoDeAcesso"
+                                    />
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples :texto="dadosAtuais.DemocratizacaoDeAcesso"/>
                                 </td>
                             </tr>
@@ -245,7 +287,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.Justificativa, dadosHistorico.Justificativa)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.Justificativa,
+                        dadosHistorico.Justificativa
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">subject</i>Justificativa
                 </div>
@@ -258,7 +303,7 @@
                                 <td class="original historico padding20">
                                     <SalicTextoSimples :texto="dadosHistorico.Justificativa"/>
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples :texto="dadosAtuais.Justificativa"/>
                                 </td>
                             </tr>
@@ -268,7 +313,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.DescricaoAtividade, dadosHistorico.DescricaoAtividade)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.DescricaoAtividade,
+                        dadosHistorico.DescricaoAtividade
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">subject</i>Descri&ccedil;&atilde;o de Atividades
                 </div>
@@ -281,7 +329,7 @@
                                 <td class="original historico padding20">
                                     <SalicTextoSimples :texto="dadosHistorico.DescricaoAtividade"/>
                                 </td>
-                                <td class="changed atual padding20" >
+                                <td class="changed atual padding20">
                                     <SalicTextoSimples :texto="dadosAtuais.DescricaoAtividade"/>
                                 </td>
                             </tr>
@@ -291,9 +339,13 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.abrangencia, dadosHistorico.abrangencia)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.abrangencia,
+                        dadosHistorico.abrangencia
+                    )}"
                     class="collapsible-header">
-                    <i class="material-icons">place</i>Local de realiza&ccedil;&atilde;o/Deslocamento
+                    <i class="material-icons">place</i>
+                    Local de realiza&ccedil;&atilde;o/Deslocamento
                 </div>
                 <div class="collapsible-body padding20">
                     <div class="row">
@@ -310,7 +362,10 @@
             </li>
             <li>
                 <div
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.documentos_proposta, dadosHistorico.documentos_proposta)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.documentos_proposta,
+                        dadosHistorico.documentos_proposta
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">attachment</i>Documentos anexados
                 </div>
@@ -328,7 +383,10 @@
             <li>
                 <div
                     id="plano-distribuicao"
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.tbdetalhaplanodistribuicao, dadosHistorico.tbdetalhaplanodistribuicao)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.tbdetalhaplanodistribuicao,
+                        dadosHistorico.tbdetalhaplanodistribuicao
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">equalizer</i>Plano Distribui&ccedil;&atilde;o
                 </div>
@@ -352,7 +410,10 @@
             <li>
                 <div
                     id="custos-vinculados"
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.tbcustosvinculados, dadosHistorico.tbcustosvinculados)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.tbcustosvinculados,
+                        dadosHistorico.tbcustosvinculados
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">equalizer</i>Custos Vinculados
                 </div>
@@ -374,7 +435,10 @@
             <li>
                 <div
                     id="planilha-orcamentaria"
-                    :class="{'orange lighten-4': existe_diferenca(dadosAtuais.tbplanilhaproposta, dadosHistorico.tbplanilhaproposta)}"
+                    :class="{'orange lighten-4': existe_diferenca(
+                        dadosAtuais.tbplanilhaproposta,
+                        dadosHistorico.tbplanilhaproposta
+                    )}"
                     class="collapsible-header">
                     <i class="material-icons">attach_money</i>Planilha
                     or&ccedil;ament&aacute;ria
@@ -421,7 +485,20 @@ export default {
         Planilha,
         PropostaCustosVinculados,
     },
-    props: ['idpreprojeto', 'dadosAtuais', 'dadosHistorico'],
+    props: {
+        idpreprojeto: {
+            type: String,
+            default: '',
+        },
+        dadosAtuais: {
+            type: Object,
+            default: () => {},
+        },
+        dadosHistorico: {
+            type: Object,
+            default: () => {},
+        },
+    },
     mounted() {
         this.iniciarCollapsible();
         if (this.dadosHistorico !== 'undefined') {
@@ -438,18 +515,18 @@ export default {
         },
         mostrar_diferenca() {
             /* eslint-disable */
-            $(".alteracoes-proposta table tr").prettyTextDiff({
-                cleanup: true,
-                diffContainer: ".diff",
-                debug: false
-            });
-        }, iniciarCollapsible() {
-            // eslint-disable-next-line
-            $3('.collapsible').each(function () {
+                $(".alteracoes-proposta table tr").prettyTextDiff({
+                    cleanup: true,
+                    diffContainer: ".diff",
+                    debug: false
+                });
+            }, iniciarCollapsible() {
                 // eslint-disable-next-line
-                $3(this).collapsible();
-            });
-        },
-    }
-};
+                $3('.collapsible').each(function () {
+                    // eslint-disable-next-line
+                    $3(this).collapsible();
+                });
+            },
+        }
+    };
 </script>

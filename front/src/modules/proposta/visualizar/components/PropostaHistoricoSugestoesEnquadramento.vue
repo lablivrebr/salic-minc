@@ -14,21 +14,26 @@ export default {
     components: {
         slTabelaSimples,
     },
-    props: ['idpreprojeto'],
+    props: {
+        idpreprojeto: {
+            type: Number,
+            default: 0,
+        },
+    },
+    computed: {
+        ...mapGetters({
+            dado: 'proposta/historicoEnquadramento',
+        }),
+    },
     watch: {
         idpreprojeto(value) {
             this.buscarHistoricoEnquadramento(value);
         },
     },
     mounted() {
-        if (typeof this.idpreprojeto !== 'undefined') {
+        if (this.idpreprojeto !== 0) {
             this.buscarHistoricoEnquadramento(this.idpreprojeto);
         }
-    },
-    computed: {
-        ...mapGetters({
-            dado: 'proposta/historicoEnquadramento',
-        }),
     },
     methods: {
         ...mapActions({

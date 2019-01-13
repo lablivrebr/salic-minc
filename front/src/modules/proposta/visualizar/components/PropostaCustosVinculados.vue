@@ -1,33 +1,33 @@
 <template>
-    <div class="tabelas">
-        <div class="row">
-            <slTabelaSimples :dados="dados"/>
-        </div>
+  <div class="tabelas">
+    <div class="row">
+      <slTabelaSimples :dados="dados" />
     </div>
+  </div>
 </template>
 <script>
 import slTabelaSimples from '@/components/slTabelaSimples';
 
 export default {
-    name: 'PropostaCustosVinculados',
-    components: {
-        slTabelaSimples,
+  name: 'PropostaCustosVinculados',
+  components: {
+    slTabelaSimples,
+  },
+  props: ['arrayCustos'],
+  data() {
+    return {
+      dados: [],
+    };
+  },
+  watch: {
+    arrayCustos(value) {
+      this.dados = value;
     },
-    props: ['arrayCustos'],
-    data() {
-        return {
-            dados: [],
-        };
-    },
-    watch: {
-        arrayCustos(value) {
-            this.dados = value;
-        },
-    },
-    mounted() {
-        if (typeof this.arrayCustos !== 'undefined') {
-            this.dados = this.arrayCustos;
-        }
-    },
+  },
+  mounted() {
+    if (typeof this.arrayCustos !== 'undefined') {
+      this.dados = this.arrayCustos;
+    }
+  },
 };
 </script>

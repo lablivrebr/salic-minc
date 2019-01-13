@@ -11,14 +11,14 @@ import { store } from './config';
 Vue.config.productionTip = false;
 
 window.onload = () => {
-    /* eslint-disable-next-line */
+  /* eslint-disable-next-line */
     const main = new Vue({
-        el: '#container-vue',
-        store,
-        components: {
-            Proposta,
-            PropostaDiff,
-            PropostaProponente,
-        },
-    });
+    el: '#container-vue',
+    store,
+    components: {
+      Proposta,
+      PropostaDiff,
+      PropostaProponente,
+    },
+  });
 };

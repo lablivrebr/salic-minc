@@ -1,66 +1,75 @@
 <template>
-    <div>
-        <div v-if="loading">
-            <Carregando :text="'Carregando Diligências do Projeto'"/>
-        </div>
-        <v-flex v-else>
-            <v-expansion-panel
-                popout
-                focusable>
-                <v-expansion-panel-content class="elevation-1">
-                    <v-layout
-                        slot="header"
-                        class="primary--text">
-                        <v-icon class="mr-3 primary--text">perm_media</v-icon>
-                        Diligência Proposta ({{ dados.diligenciaProposta.length }})
-                    </v-layout>
-                    <v-card>
-                        <v-card-text>
-                            <VisualizarDiligenciaProposta
-                                :id-pronac="idPronac"
-                                :diligencias="dados.diligenciaProposta"
-                            />
-                        </v-card-text>
-                    </v-card>
-                </v-expansion-panel-content>
-
-                <v-expansion-panel-content class="elevation-1">
-                    <v-layout
-                        slot="header"
-                        class="primary--text">
-                        <v-icon class="mr-3 primary--text">perm_media</v-icon>
-                        Diligências da Adequação do Projeto ({{ dados.diligenciaAdequacao.length }})
-                    </v-layout>
-                    <v-card>
-                        <v-card-text>
-                            <VisualizarDiligenciaAdequacao
-                                :id-pronac="idPronac"
-                                :diligencias="dados.diligenciaAdequacao"
-                            />
-                        </v-card-text>
-                    </v-card>
-                </v-expansion-panel-content>
-
-                <v-expansion-panel-content class="elevation-1">
-                    <v-layout
-                        slot="header"
-                        class="primary--text">
-                        <v-icon class="mr-3 primary--text">perm_media</v-icon>
-                        Diligência Projeto ({{ dados.diligenciaProjeto.length }})
-                    </v-layout>
-                    <v-card>
-                        <v-card-text>
-                            <VisualizarDiligenciaProjeto
-                                :id-pronac="idPronac"
-                                :diligencias="dados.diligenciaProjeto"
-                            />
-                        </v-card-text>
-                    </v-card>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-flex>
+  <div>
+    <div v-if="loading">
+      <Carregando :text="'Carregando Diligências do Projeto'" />
     </div>
+    <v-flex v-else>
+      <v-expansion-panel
+        popout
+        focusable
+      >
+        <v-expansion-panel-content class="elevation-1">
+          <v-layout
+            slot="header"
+            class="primary--text"
+          >
+            <v-icon class="mr-3 primary--text">
+              perm_media
+            </v-icon>
+            Diligência Proposta ({{ dados.diligenciaProposta.length }})
+          </v-layout>
+          <v-card>
+            <v-card-text>
+              <VisualizarDiligenciaProposta
+                :id-pronac="idPronac"
+                :diligencias="dados.diligenciaProposta"
+              />
+            </v-card-text>
+          </v-card>
+        </v-expansion-panel-content>
 
+        <v-expansion-panel-content class="elevation-1">
+          <v-layout
+            slot="header"
+            class="primary--text"
+          >
+            <v-icon class="mr-3 primary--text">
+              perm_media
+            </v-icon>
+            Diligências da Adequação do Projeto ({{ dados.diligenciaAdequacao.length }})
+          </v-layout>
+          <v-card>
+            <v-card-text>
+              <VisualizarDiligenciaAdequacao
+                :id-pronac="idPronac"
+                :diligencias="dados.diligenciaAdequacao"
+              />
+            </v-card-text>
+          </v-card>
+        </v-expansion-panel-content>
+
+        <v-expansion-panel-content class="elevation-1">
+          <v-layout
+            slot="header"
+            class="primary--text"
+          >
+            <v-icon class="mr-3 primary--text">
+              perm_media
+            </v-icon>
+            Diligência Projeto ({{ dados.diligenciaProjeto.length }})
+          </v-layout>
+          <v-card>
+            <v-card-text>
+              <VisualizarDiligenciaProjeto
+                :id-pronac="idPronac"
+                :diligencias="dados.diligenciaProjeto"
+              />
+            </v-card-text>
+          </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-flex>
+  </div>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex';
@@ -70,40 +79,39 @@ import VisualizarDiligenciaAdequacao from './components/VisualizarDiligenciaAdeq
 import VisualizarDiligenciaProjeto from './components/VisualizarDiligenciaProjeto';
 
 export default {
-    name: 'DiligenciaProjeto',
-    components: {
-        Carregando,
-        VisualizarDiligenciaProposta,
-        VisualizarDiligenciaAdequacao,
-        VisualizarDiligenciaProjeto,
+  name: 'DiligenciaProjeto',
+  components: {
+    Carregando,
+    VisualizarDiligenciaProposta,
+    VisualizarDiligenciaAdequacao,
+    VisualizarDiligenciaProjeto,
+  },
+  data() {
+    return {
+      loading: true,
+      idPronac: {},
+    };
+  },
+  computed: {
+    ...mapGetters({
+      dadosProjeto: 'projeto/projeto',
+      dados: 'projeto/diligencia',
+    }),
+  },
+  watch: {
+    dados() {
+      this.loading = false;
     },
-    data() {
-        return {
-            loading: true,
-            idPronac: {},
-        };
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/diligencia',
-        }),
-    },
-    watch: {
-        dados() {
-            this.loading = false;
-        },
-    },
-    mounted() {
-        if (typeof this.dadosProjeto.idPronac !== 'undefined') {
-            this.buscarDiligencia(this.dadosProjeto.idPronac);
-        }
-    },
-    methods: {
-        ...mapActions({
-            buscarDiligencia: 'projeto/buscarDiligencia',
-        }),
-    },
+  },
+  mounted() {
+    if (typeof this.dadosProjeto.idPronac !== 'undefined') {
+      this.buscarDiligencia(this.dadosProjeto.idPronac);
+    }
+  },
+  methods: {
+    ...mapActions({
+      buscarDiligencia: 'projeto/buscarDiligencia',
+    }),
+  },
 };
 </script>
-

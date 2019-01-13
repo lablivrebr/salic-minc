@@ -7,15 +7,15 @@ import RotasFoo from '@/modules/foo/router';
 Vue.use(Router);
 
 const baseRoutes = [
-    {
-        path: '/',
-        name: 'Página Inicial',
-        component: PaginaInicial,
-    },
-    {
-        path: '*',
-        component: Pagina404,
-    },
+  {
+    path: '/',
+    name: 'Página Inicial',
+    component: PaginaInicial,
+  },
+  {
+    path: '*',
+    component: Pagina404,
+  },
 ];
 
 let routes = [];
@@ -23,5 +23,5 @@ routes = routes.concat(RotasFoo);
 routes = routes.concat(baseRoutes);
 
 export default new Router({
-    routes,
+  routes,
 });

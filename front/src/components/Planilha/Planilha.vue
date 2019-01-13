@@ -1,19 +1,22 @@
 <template>
-    <div
-        v-if="arrayPlanilha"
-        class="planilha-orcamentaria card">
-        <CollapsibleRecursivo :planilha="arrayPlanilha">
-            <template slot-scope="slotProps">
-                <slot :itens="slotProps.itens">
-                    <PlanilhaItensPadrao :table="slotProps.itens"/>
-                </slot>
-            </template>
-        </CollapsibleRecursivo>
-        <div class="card-action right-align">
-            <span><b>Valor total do projeto:</b> R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}</span>
-        </div>
+  <div
+    v-if="arrayPlanilha"
+    class="planilha-orcamentaria card"
+  >
+    <CollapsibleRecursivo :planilha="arrayPlanilha">
+      <template slot-scope="slotProps">
+        <slot :itens="slotProps.itens">
+          <PlanilhaItensPadrao :table="slotProps.itens" />
+        </slot>
+      </template>
+    </CollapsibleRecursivo>
+    <div class="card-action right-align">
+      <span><b>Valor total do projeto:</b> R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}</span>
     </div>
-    <div v-else>Nenhuma planilha encontrada</div>
+  </div>
+  <div v-else>
+    Nenhuma planilha encontrada
+  </div>
 </template>
 
 <script>
@@ -22,115 +25,112 @@ import PlanilhaConsolidacao from '@/components/Planilha/PlanilhaConsolidacao';
 import planilhas from '@/mixins/planilhas';
 
 const CollapsibleRecursivo = {
-    name: 'CollapsibleRecursivo',
-    props: {
-        planilha: {},
-        contador: {
-            default: 1,
-            type: Number,
-        },
+  name: 'CollapsibleRecursivo',
+  props: {
+    planilha: {},
+    contador: {
+      default: 1,
+      type: Number,
     },
-    mixins: [planilhas],
-    render(h) {
-        const self = this;
-        if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
-            return h('ul',
-                { class: 'collapsible no-margin', attrs: { 'data-collapsible': 'expandable' } },
-                Object.keys(this.planilha).map((key) => {
-                    if (self.isObject(self.planilha[key])) {
-                        return h('li', [
-                            h('div',
-                                { class: 'collapsible-header active' },
-                                [
-                                    h('i', { class: 'material-icons' }, [self.obterIconeHeader(self.contador)]),
-                                    h('div', key),
-                                    h('span', { class: 'badge' }, [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
-                                ],
-                            ),
-                            h('div',
-                                { class: 'collapsible-body no-padding' },
-                                [
-                                    h(CollapsibleRecursivo, {
-                                        props: {
-                                            planilha: self.planilha[key],
-                                            contador: self.contador + 1,
-                                        },
-                                        scopedSlots: { default: self.$scopedSlots.default },
-                                    }),
-                                    h(PlanilhaConsolidacao, {
-                                        props: {
-                                            planilha: self.planilha[key],
-                                        },
-                                    }),
-                                ],
-                            ),
-                        ]);
-                    }
-
-                    return true;
-                }),
-            );
-        } else if (self.$scopedSlots.default !== 'undefined') {
-            return h('div', { class: 'margin20 scroll-x' }, [
-                self.$scopedSlots.default({ itens: self.planilha.itens }),
+  },
+  mixins: [planilhas],
+  render(h) {
+    const self = this;
+    if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
+      return h('ul',
+        { class: 'collapsible no-margin', attrs: { 'data-collapsible': 'expandable' } },
+        Object.keys(this.planilha).map((key) => {
+          if (self.isObject(self.planilha[key])) {
+            return h('li', [
+              h('div',
+                { class: 'collapsible-header active' },
+                [
+                  h('i', { class: 'material-icons' }, [self.obterIconeHeader(self.contador)]),
+                  h('div', key),
+                  h('span', { class: 'badge' }, [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
+                ]),
+              h('div',
+                { class: 'collapsible-body no-padding' },
+                [
+                  h(CollapsibleRecursivo, {
+                    props: {
+                      planilha: self.planilha[key],
+                      contador: self.contador + 1,
+                    },
+                    scopedSlots: { default: self.$scopedSlots.default },
+                  }),
+                  h(PlanilhaConsolidacao, {
+                    props: {
+                      planilha: self.planilha[key],
+                    },
+                  }),
+                ]),
             ]);
-        }
-        return true;
+          }
+
+          return true;
+        }));
+    } if (self.$scopedSlots.default !== 'undefined') {
+      return h('div', { class: 'margin20 scroll-x' }, [
+        self.$scopedSlots.default({ itens: self.planilha.itens }),
+      ]);
+    }
+    return true;
+  },
+  methods: {
+    obterIconeHeader(tipo) {
+      let icone = '';
+      switch (tipo) {
+        case 1:
+          icone = 'beenhere';
+          break;
+        case 2:
+          icone = 'perm_media';
+          break;
+        case 3:
+          icone = 'label';
+          break;
+        case 4:
+          icone = 'place';
+          break;
+        default:
+          icone = '';
+      }
+      return icone;
     },
-    methods: {
-        obterIconeHeader(tipo) {
-            let icone = '';
-            switch (tipo) {
-            case 1:
-                icone = 'beenhere';
-                break;
-            case 2:
-                icone = 'perm_media';
-                break;
-            case 3:
-                icone = 'label';
-                break;
-            case 4:
-                icone = 'place';
-                break;
-            default:
-                icone = '';
-            }
-            return icone;
-        },
-    },
+  },
 };
 
 export default {
-    name: 'Planilha',
-    components: {
-        CollapsibleRecursivo,
-        PlanilhaItensPadrao,
+  name: 'Planilha',
+  components: {
+    CollapsibleRecursivo,
+    PlanilhaItensPadrao,
+  },
+  mixins: [planilhas],
+  props: {
+    arrayPlanilha: {},
+  },
+  watch: {
+    arrayPlanilha() {
+      this.$nextTick(() => {
+        this.iniciarCollapsible();
+      });
     },
-    mixins: [planilhas],
-    props: {
-        arrayPlanilha: {},
-    },
-    watch: {
-        arrayPlanilha() {
-            this.$nextTick(() => {
-                this.iniciarCollapsible();
-            });
-        },
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.iniciarCollapsible();
-        });
-    },
-    methods: {
-        iniciarCollapsible() {
-            // eslint-disable-next-line
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.iniciarCollapsible();
+    });
+  },
+  methods: {
+    iniciarCollapsible() {
+      // eslint-disable-next-line
                 $3(".collapsible").each(function () {
-                // eslint-disable-next-line
+        // eslint-disable-next-line
                     $3(this).collapsible();
-            });
-        },
+      });
     },
+  },
 };
 </script>

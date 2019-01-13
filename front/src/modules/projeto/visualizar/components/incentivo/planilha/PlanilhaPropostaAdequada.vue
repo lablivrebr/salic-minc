@@ -1,25 +1,31 @@
 <template>
-    <div id="planilha-proposta-original">
-        <Carregando
-            v-if="loading"
-            :text="'Procurando planilha'"/>
+  <div id="planilha-proposta-original">
+    <Carregando
+      v-if="loading"
+      :text="'Procurando planilha'"
+    />
 
-        <div v-if="Object.keys(planilha).length > 0">
+    <div v-if="Object.keys(planilha).length > 0">
+      <div class="right-align">
+        <router-link
+          :to="{ name: 'planilhaproposta', params: { idPronac: idPronac }}"
+          class="btn btn-primary"
+        >
+          <i class="material-icons left">
+            visibility
+          </i>Planilha Original
+        </router-link>
+      </div>
 
-            <div class="right-align">
-                <router-link
-                    :to="{ name: 'planilhaproposta', params: { idPronac: idPronac }}"
-                    class="btn btn-primary">
-                    <i class="material-icons left">visibility</i>Planilha Original
-                </router-link>
-            </div>
-
-            <Planilha :array-planilha="planilha"/>
-        </div>
-        <div
-            v-if="semResposta"
-            class="card-panel padding 20 center-align">{{ mensagem }}</div>
+      <Planilha :array-planilha="planilha" />
     </div>
+    <div
+      v-if="semResposta"
+      class="card-panel padding 20 center-align"
+    >
+      {{ mensagem }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -28,41 +34,41 @@ import Planilha from '@/components/Planilha/Planilha';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-    components: {
-        Carregando,
-        Planilha,
+  components: {
+    Carregando,
+    Planilha,
+  },
+  data() {
+    return {
+      loading: true,
+      semResposta: false,
+      mensagem: '',
+      idPronac: this.$route.params.idPronac,
+    };
+  },
+  watch: {
+    dadosProjeto(value) {
+      if (typeof value !== 'undefined') {
+        this.buscaPlanilhaAdequada(value.idPronac);
+      }
     },
-    data() {
-        return {
-            loading: true,
-            semResposta: false,
-            mensagem: '',
-            idPronac: this.$route.params.idPronac,
-        };
+    planilha() {
+      this.loading = false;
     },
-    watch: {
-        dadosProjeto(value) {
-            if (typeof value !== 'undefined') {
-                this.buscaPlanilhaAdequada(value.idPronac);
-            }
-        },
-        planilha() {
-            this.loading = false;
-        },
-    },
-    mounted() {
-        this.buscaPlanilhaAdequada(this.dadosProjeto.idPronac);
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            planilha: 'projeto/planilhaAdequada',
-        }),
-    },
-    methods: {
-        ...mapActions({
-            buscaPlanilhaAdequada: 'projeto/buscaPlanilhaAdequada',
-        }),
-    },
+  },
+  mounted() {
+    this.buscaPlanilhaAdequada(this.dadosProjeto.idPronac);
+  },
+  computed: {
+    ...mapGetters({
+      dadosProjeto: 'projeto/projeto',
+      planilha: 'projeto/planilhaAdequada',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      buscaPlanilhaAdequada: 'projeto/buscaPlanilhaAdequada',
+    }),
+  },
 };
 </script>

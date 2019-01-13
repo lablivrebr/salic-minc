@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <Carregando v-if="loading"/>
-        <div id="template-ajax"/>
-    </div>
+  <div>
+    <Carregando v-if="loading" />
+    <div id="template-ajax" />
+  </div>
 </template>
 
 <script>
@@ -35,16 +35,16 @@ export default {
             }
             /* eslint-disable-next-line */
                 let elmRetorno = $3("#template-ajax");
-            /* eslint-disable-next-line */
+      /* eslint-disable-next-line */
                 $3.ajax({
-                url: self.urlAjax,
-                success(data) {
-                    elmRetorno.html(data);
-                    self.loading = false;
-                },
-                type: 'post',
-            });
+        url: self.urlAjax,
+        success(data) {
+          elmRetorno.html(data);
+          self.loading = false;
         },
+        type: 'post',
+      });
     },
+  },
 };
 </script>

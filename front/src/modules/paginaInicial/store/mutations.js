@@ -1,11 +1,11 @@
 import * as types from './types';
 
 export const state = {
-    comunicados: [],
+  comunicados: [],
 };
 
 export const mutations = {
-    [types.SET_COMUNICADOS](state, comunicados) {
-        state.comunicados = comunicados;
-    },
+  [types.SET_COMUNICADOS](state, comunicados) {
+    state.comunicados = comunicados;
+  },
 };

@@ -6,14 +6,14 @@ Vue.use(Router);
 
 
 const routes = [
-    {
-        path: '/:idPreProjeto',
-        name: 'index',
-        component: Index,
-        meta: {
-            title: 'Inicio',
-        },
+  {
+    path: '/:idPreProjeto',
+    name: 'index',
+    component: Index,
+    meta: {
+      title: 'Inicio',
     },
+  },
 ];
 
 export default new Router({ routes });

@@ -1,11 +1,11 @@
 <template>
-    <div id="projeto">
-        <router-view/>
-    </div>
+  <div id="projeto">
+    <router-view />
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'Index',
+  name: 'Index',
 };
 </script>

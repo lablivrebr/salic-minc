@@ -5,6 +5,6 @@ import router from './router';
 sync(store, router);
 
 export {
-    store,
-    router,
+  store,
+  router,
 };

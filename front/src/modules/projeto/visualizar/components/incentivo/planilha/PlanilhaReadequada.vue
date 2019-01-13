@@ -1,20 +1,25 @@
 <template>
-    <div id="planilha-readequada">
-        <Carregando
-            v-if="loading"
-            :text="'Procurando planilha'"/>
+  <div id="planilha-readequada">
+    <Carregando
+      v-if="loading"
+      :text="'Procurando planilha'"
+    />
 
-        <Planilha
-            v-if="Object.keys(planilha).length > 0"
-            :array-planilha="planilha">
-            <template slot-scope="slotProps">
-                <PlanilhaItensReadequados :table="slotProps.itens"/>
-            </template>
-        </Planilha>
-        <div
-            v-if="semResposta"
-            class="card-panel padding 20 center-align">{{ mensagem }}</div>
+    <Planilha
+      v-if="Object.keys(planilha).length > 0"
+      :array-planilha="planilha"
+    >
+      <template slot-scope="slotProps">
+        <PlanilhaItensReadequados :table="slotProps.itens" />
+      </template>
+    </Planilha>
+    <div
+      v-if="semResposta"
+      class="card-panel padding 20 center-align"
+    >
+      {{ mensagem }}
     </div>
+  </div>
 </template>
 
 <script>
@@ -24,7 +29,7 @@ import PlanilhaItensReadequados from '@/components/Planilha/PlanilhaItensReadequ
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-    /* eslint-disable */
+  /* eslint-disable */
         name: 'PlanilhaPropostaReadequada',
         data: function () {
             return {

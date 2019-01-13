@@ -18,19 +18,19 @@ Vue.filter('date', dateFilter);
 const debug = process.env.NODE_ENV !== 'production' || process.env.NODE_ENV !== 'staging';
 
 export default new Vuex.Store({
-    modules: {
-        projeto,
-        foo,
-        modal,
-        layout,
-        avaliacaoResultados,
-        paginaInicial,
-        proposta,
-        autenticacao,
-        noticias,
-    },
-    getters: {
-        route: state => state.route,
-    },
-    strict: debug,
+  modules: {
+    projeto,
+    foo,
+    modal,
+    layout,
+    avaliacaoResultados,
+    paginaInicial,
+    proposta,
+    autenticacao,
+    noticias,
+  },
+  getters: {
+    route: state => state.route,
+  },
+  strict: debug,
 });

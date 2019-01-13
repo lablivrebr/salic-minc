@@ -142,6 +142,31 @@ Ao criar um novo módulo você deve:
     }
  ```
 
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Run your end-to-end tests
+```
+npm run test:e2e
+```
+
+### Run your unit tests
+```
+npm run test:unit
+```
+
+### Customizar configurações
+Ver [Referência de customização(em inglês)](https://cli.vuejs.org/config/).
+
+
 Se você ainda estiver com dúvidas, pergunte ao coleguinha e atualize este documento com a resposta. ;D
 
 ## Browser Support

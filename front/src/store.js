@@ -10,6 +10,7 @@ import paginaInicial from './modules/paginaInicial/store';
 import proposta from './modules/proposta/store';
 import autenticacao from './modules/autenticacao/store';
 import noticias from './modules/noticias/store';
+import parecer from './modules/parecer/store';
 import dateFilter from './filters/date';
 
 Vue.use(Vuex);
@@ -28,6 +29,7 @@ export default new Vuex.Store({
         proposta,
         autenticacao,
         noticias,
+        parecer,
     },
     getters: {
         route: state => state.route,

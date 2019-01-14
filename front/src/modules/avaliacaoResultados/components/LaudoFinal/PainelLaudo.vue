@@ -29,18 +29,14 @@
                     </template>
                 </v-tab>
                 <v-tab
-                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL"
+                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL ||
+                        getUsuario.grupo_ativo == Const.PERFIL_DIRETOR ||
+                    getUsuario.grupo_ativo == Const.PERFIL_SECRETARIO"
                     id="assinar"
                     href="#tab-1"
                 >
                     Assinar
                     <v-icon>done</v-icon>
-                </v-tab>
-                <v-tab
-                    id="emAssinatura"
-                    href="#tab-2">
-                    Em assinatura
-                    <v-icon>done_all</v-icon>
                 </v-tab>
                 <v-tab
                     v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL"
@@ -62,22 +58,13 @@
                     />
                 </v-tab-item>
                 <v-tab-item
-                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL"
+                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL || getUsuario.grupo_ativo == Const.PERFIL_DIRETOR || getUsuario.grupo_ativo == Const.PERFIL_SECRETARIO"
                     :value="'tab-1'"
                     :key="1"
                 >
                     <Laudo
                         :dados="getProjetosLaudoAssinar"
                         :estado="Const.ESTADO_LAUDO_FINALIZADO"
-                    />
-                </v-tab-item>
-                <v-tab-item
-                    :value="'tab-2'"
-                    :key="2"
-                >
-                    <Laudo
-                        :dados="getProjetosLaudoEmAssinatura"
-                        :estado="Const.ESTADO_AGUARDANDO_ASSINATURA_LAUDO"
                     />
                 </v-tab-item>
                 <v-tab-item
@@ -113,8 +100,7 @@ export default {
     },
     created() {
         this.obterProjetosLaudoFinal({ estadoId: 10 });
-        this.obterProjetosLaudoAssinar({ estadoId: 14 });
-        this.obterProjetosLaudoEmAssinatura({ estadoId: 11 });
+        this.obterProjetosLaudoAssinar(this.assinarPerfil());
         this.obterProjetosLaudoFinalizados({ estadoId: 12 });
         this.obterDadosTabelaTecnico({ estadoId: 11, idAgente: this.getUsuario.usu_codigo });
     },
@@ -123,9 +109,20 @@ export default {
             obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
             obterProjetosLaudoFinal: 'avaliacaoResultados/obterProjetosLaudoFinal',
             obterProjetosLaudoAssinar: 'avaliacaoResultados/obterProjetosLaudoAssinar',
-            obterProjetosLaudoEmAssinatura: 'avaliacaoResultados/obterProjetosLaudoEmAssinatura',
             obterProjetosLaudoFinalizados: 'avaliacaoResultados/obterProjetosLaudoFinalizados',
         }),
+        assinarPerfil() {
+            if (this.getUsuario.grupo_ativo === Const.PERFIL_COORDENADOR_GERAL) {
+                return { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO };
+            }
+            if (this.getUsuario.grupo_ativo === Const.PERFIL_DIRETOR) {
+                return { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO };
+            }
+            if (this.getUsuario.grupo_ativo === Const.PERFIL_SECRETARIO) {
+                return { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECCRETARIO_LAUDO };
+            }
+            return null;
+        },
     },
     computed: {
         ...mapGetters({

@@ -276,14 +276,6 @@ export const obterProjetosLaudoAssinar = ({ commit }, param) => {
         });
 };
 
-export const obterProjetosLaudoEmAssinatura = ({ commit }, param) => {
-    avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal(param)
-        .then((response) => {
-            const dadosTabela = response.data.data;
-            commit(types.SET_DADOS_PROJETOS_LAUDO_EM_ASSINATURA, dadosTabela);
-        });
-};
-
 export const obterProjetosLaudoFinalizados = ({ commit }, param) => {
     avaliacaoResultadosHelperAPI.obterProjetosLaudoFinal(param)
         .then((response) => {

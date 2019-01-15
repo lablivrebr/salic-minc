@@ -306,10 +306,7 @@ export default {
         Planilha,
     },
     props: {
-        idpreprojeto: {
-            type: String,
-            default: '',
-        },
+        idpreprojeto: '',
         proposta: {
             type: Object,
             default: () => {},
@@ -333,12 +330,21 @@ export default {
     },
     watch: {
         dadosProposta(value) {
+            console.log('dadosPropostasss', value);
             this.dados = value;
             this.loading = false;
         },
+        idpreprojeto(value) {
+            console.log('vai tomar no cu', value);
+            if (value !== '') {
+                this.buscarDadosProposta(value);
+            }
+        },
     },
     mounted() {
-        if (typeof this.idpreprojeto !== 'undefined' && typeof this.proposta === 'undefined') {
+        console.log('mounted', this.idpreprojeto);
+        if (this.idpreprojeto !== ''
+            && typeof this.proposta === 'undefined') {
             this.buscarDadosProposta(this.idpreprojeto);
             this.dados = this.dadosProposta;
         }
@@ -356,10 +362,10 @@ export default {
         }),
         iniciarCollapsible() {
             // eslint-disable-next-line
-            $3('.collapsible').each(function () {
-                // eslint-disable-next-line
-                $3(this).collapsible();
-            });
+            // $3('.collapsible').each(function () {
+            //     // eslint-disable-next-line
+            //     $3(this).collapsible();
+            // });
         },
     },
 };

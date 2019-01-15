@@ -166,6 +166,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 import { utils } from '@/mixins/utils';
 
 export default {
@@ -199,16 +200,14 @@ export default {
         fetch(id) {
             if (id) {
                 const self = this;
-                /* eslint-disable */
-                $3.ajax({
-                    url: '/agente/visualizar/obter-dados-proponente/idAgente/' + id
-                }).done(function (response) {
-                    self.proponente = response.data;
+                axios.get(`/agente/visualizar/obter-dados-proponente/idAgente/${id}`)
+                    .then((response) => {
+                        self.proponente = response.data.data;
 
-                    if (self.proponente && self.proponente.identificacao) {
-                        self.identificacao = self.proponente.identificacao;
-                    }
-                });
+                        if (self.proponente && self.proponente.identificacao) {
+                            self.identificacao = self.proponente.identificacao;
+                        }
+                    });
             }
         },
         label_tipo_pessoa(tipo) {

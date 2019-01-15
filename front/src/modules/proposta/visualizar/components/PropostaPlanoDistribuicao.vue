@@ -196,9 +196,9 @@ export default {
             },
             iniciarCollapsible() {
                 /* eslint-disable */
-                $3('.collapsible').each(function () {
-                    $3(this).collapsible();
-                });
+                // $3('.collapsible').each(function () {
+                //     $3(this).collapsible();
+                // });
             },
         },
     };

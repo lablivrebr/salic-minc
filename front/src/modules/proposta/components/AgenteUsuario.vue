@@ -20,9 +20,16 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     name: 'AgenteUsuario',
-    props: ['idusuario'],
+    props: {
+        idusuario: {
+            type: Number,
+            default: 0,
+        },
+    },
     data() {
         return {
             usuario: [],
@@ -42,14 +49,12 @@ export default {
         fetch(id) {
             if (id) {
                 const self = this;
-                /* eslint-disable */
-                $3.ajax({
-                    url: '/autenticacao/index/obter-dados-usuario/idUsuario/' + id
-                }).done(function (response) {
-                    self.usuario = response.data;
-                });
+                axios.get(`/autenticacao/index/obter-dados-usuario/idUsuario/${id}`)
+                    .then((response) => {
+                        self.usuario = response.data.data;
+                    });
             }
         },
     },
-}
+};
 </script>

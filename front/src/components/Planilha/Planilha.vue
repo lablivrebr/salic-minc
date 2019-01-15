@@ -123,10 +123,10 @@ export default {
     methods: {
         iniciarCollapsible() {
             // eslint-disable-next-line
-                $3(".collapsible").each(function () {
-                // eslint-disable-next-line
-                    $3(this).collapsible();
-            });
+            //     $3(".collapsible").each(function () {
+            //     // eslint-disable-next-line
+            //         $3(this).collapsible();
+            // });
         },
     },
 };

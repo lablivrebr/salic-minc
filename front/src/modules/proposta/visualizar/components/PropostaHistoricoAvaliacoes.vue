@@ -6,6 +6,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 import slTabelaSimples from '@/components/slTabelaSimples';
 
 export default {
@@ -33,14 +34,12 @@ export default {
         fetch(id) {
             if (id) {
                 const self = this;
-                /* eslint-disable */
-                $3.ajax({
-                    url: '/proposta/visualizar/obter-historico-avaliacoes/idPreProjeto/' + id
-                }).done(function (response) {
-                    self.dado = response.data;
-                });
+                axios.get(`/proposta/visualizar/obter-historico-avaliacoes/idPreProjeto/${id}`)
+                    .then((response) => {
+                        self.dado = response.data.data;
+                    });
             }
         },
-    }
+    },
 };
 </script>

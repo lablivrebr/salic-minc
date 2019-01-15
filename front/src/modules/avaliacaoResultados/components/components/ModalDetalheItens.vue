@@ -41,14 +41,14 @@ export default {
     name: 'ModalDetalheItens',
     components: { ListaDeComprovantes },
     props: {
-        item: String,
-        idPronac: String,
-        uf: String,
-        codigoCidade: Number,
-        codigoProduto: Number,
-        stItemAvaliado: String,
-        codigoEtapa: Number,
-        idPlanilhaItens: Number,
+        item: { type: String, default: '' },
+        idPronac: { type: String, default: '' },
+        uf: { type: String, default: '' },
+        codigoCidade: { type: Number, default: 0 },
+        codigoProduto: { type: Number, default: 0 },
+        stItemAvaliado: { type: String, default: '' },
+        codigoEtapa: { type: Number, default: 0 },
+        idPlanilhaItens: { type: Number, default: 0 },
     },
     data() {
         return {

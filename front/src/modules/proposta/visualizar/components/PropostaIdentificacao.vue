@@ -117,7 +117,10 @@ export default {
         utils,
     ],
     props: {
-        idpreprojeto: null,
+        idpreprojeto: {
+            type: null,
+            default: null,
+        },
         proposta: {
             type: Object,
             default() {
@@ -162,9 +165,9 @@ export default {
             }
         },
         formatar_data(date) {
-            date = moment(date).format('DD/MM/YYYY');
+            const dateValue = moment(date).format('DD/MM/YYYY');
 
-            return date;
+            return dateValue;
         },
         labelEsfera(esfera) {
             let string;

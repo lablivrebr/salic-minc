@@ -46,6 +46,11 @@ export default {
             permissao: true,
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+        }),
+    },
     watch: {
         $route(to, from) {
             /**
@@ -75,11 +80,6 @@ export default {
     methods: {
         ...mapActions({
             buscaProjeto: 'projeto/buscarProjetoCompleto',
-        }),
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
         }),
     },
 };

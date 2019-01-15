@@ -84,7 +84,10 @@ export default {
         },
     },
     props: {
-        dirigentes: {},
+        dirigentes: {
+            type: String,
+            default: '',
+        },
     },
 };
 </script>

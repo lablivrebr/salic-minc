@@ -58,9 +58,12 @@
                     />
                 </v-tab-item>
                 <v-tab-item
-                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL || getUsuario.grupo_ativo == Const.PERFIL_DIRETOR || getUsuario.grupo_ativo == Const.PERFIL_SECRETARIO"
+                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL ||
+                        getUsuario.grupo_ativo == Const.PERFIL_DIRETOR ||
+                    getUsuario.grupo_ativo == Const.PERFIL_SECRETARIO"
                     :value="'tab-1'"
                     :key="1"
+                    :estado="assinarPerfil().toString()"
                 >
                     <Laudo
                         :dados="getProjetosLaudoAssinar"

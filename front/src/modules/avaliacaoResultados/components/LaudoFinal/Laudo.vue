@@ -144,7 +144,7 @@ export default {
         VisualizarParecer,
     },
     props: {
-        dados: { type: String, default: '' }, estado: { type: String, default: '' },
+        dados: { type: Object, default: () => {} }, estado: { type: String, default: '' },
     },
     data() {
         return {
@@ -199,16 +199,16 @@ export default {
             getUsuario: 'autenticacao/getUsuario',
         }),
         atoAdministrativo() {
-            let ato = Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
+            let ato = this.Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
 
             if (
                 this.usuario
                     && (
-                        Const.PERFIL_DIRETOR === this.getUsuario.grupo_ativo
-                        || Const.PERFIL_SECRETARIO === this.getUsuario.grupo_ativo
+                        this.Const.PERFIL_DIRETOR === this.getUsuario.grupo_ativo
+                        || this.Const.PERFIL_SECRETARIO === this.getUsuario.grupo_ativo
                     )
             ) {
-                ato = Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
+                ato = this.Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
             }
 
             return ato;
@@ -227,22 +227,19 @@ export default {
             this.getLaudoFinal(id);
         },
         proximoEstado() {
-            let proximo = '';
-
-            switch (this.estado) {
-            case Const.ESTADO_ANALISE_LAUDO:
-                proximo = Const.ESTADO_ANALISE_PARECER;
-                break;
-            case Const.ESTADO_LAUDO_FINALIZADO:
-                proximo = Const.ESTADO_ANALISE_LAUDO;
-                break;
-            case Const.ESTADO_AGUARDANDO_ASSINATURA_LAUDO:
-                proximo = Const.ESTADO_ANALISE_LAUDO;
-                break;
-            case Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA:
-                proximo = Const.ESTADO_ANALISE_LAUDO;
-                break;
-            default:
+            let proximo;
+            console.info('alo', this.estado);
+            if (this.estado.toString() === this.Const.ESTADO_ANALISE_LAUDO.toString()) {
+                proximo = this.Const.ESTADO_ANALISE_PARECER;
+            } else if (this.estado.toString() === this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO.toString()) {
+                proximo = this.Const.ESTADO_ANALISE_LAUDO;
+            } else if (this.estado.toString() === this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO.toString()) {
+                proximo = this.Const.ESTADO_ANALISE_LAUDO;
+            } else if (this.estado.toString() === this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECCRETARIO_LAUDO.toString()) {
+                proximo = this.Const.ESTADO_ANALISE_LAUDO;
+            } else if (this.estado.toString() === this.Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA.toString()) {
+                proximo = this.Const.ESTADO_ANALISE_LAUDO;
+            } else {
                 proximo = '';
             }
             return proximo;

@@ -56,6 +56,9 @@ export default {
     components: {
         Carregando,
     },
+    filters: {
+        cnpjFilter,
+    },
     data() {
         return {
             search: '',
@@ -94,31 +97,26 @@ export default {
             ],
         };
     },
-    watch: {
-        dados() {
-            this.loading = false;
-        },
-    },
-
-    mounted() {
-        if (typeof this.dadosProjeto.idPronac !== 'undefined') {
-            this.buscarProvidenciaTomada(this.dadosProjeto.idPronac);
-        }
-    },
-
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
             dados: 'projeto/providenciaTomada',
         }),
     },
+    watch: {
+        dados() {
+            this.loading = false;
+        },
+    },
+    mounted() {
+        if (typeof this.dadosProjeto.idPronac !== 'undefined') {
+            this.buscarProvidenciaTomada(this.dadosProjeto.idPronac);
+        }
+    },
     methods: {
         ...mapActions({
             buscarProvidenciaTomada: 'projeto/buscarProvidenciaTomada',
         }),
-    },
-    filters: {
-        cnpjFilter,
     },
 };
 </script>

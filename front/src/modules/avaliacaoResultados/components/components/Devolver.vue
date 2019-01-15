@@ -33,11 +33,17 @@
             </v-card-title>
             <v-container grid-list-md>
                 <v-card-text class="subheading">
-                    <div v-if="tecnico !== undefined && tecnico !== null && tecnico !== '' && tecnico.nome !== 'sysLaudo'">
-                        Você deseja devolver o projeto '{{ pronac }} - {{ nomeProjeto }}' para análise do Tecnico: {{ tecnico.nome }}?
+                    <div
+                        v-if="tecnico !== undefined
+                            && tecnico !== null
+                            && tecnico !== ''
+                        && tecnico.nome !== 'sysLaudo'">
+                        Você deseja devolver o projeto '{{ pronac }} - {{ nomeProjeto }}'
+                        para análise do Tecnico: {{ tecnico.nome }}?
                     </div>
                     <div v-else>
-                        Você deseja devolver o projeto <b> {{ pronac }} - {{ nomeProjeto }}</b> para a etapa anterior?
+                        Você deseja devolver o projeto
+                        <b> {{ pronac }} - {{ nomeProjeto }}</b> para a etapa anterior?
                     </div>
                     <v-textarea
                         v-model="justificativa"
@@ -75,12 +81,12 @@ import { mapActions } from 'vuex';
 export default {
     name: 'Devolver',
     props: {
-        idPronac: String,
-        usuario: Object,
-        atual: String,
-        proximo: String,
-        nomeProjeto: String,
-        pronac: String,
+        idPronac: { type: String, default: '' },
+        usuario: { type: Object, default: () => {} },
+        atual: { type: String, default: '' },
+        proximo: { type: String, default: '' },
+        nomeProjeto: { type: String, default: '' },
+        pronac: { type: String, default: '' },
         idTipoDoAtoAdministrativo: {
             type: String,
             default: '',
@@ -88,7 +94,7 @@ export default {
                 return ['622', '623'].includes(value);
             },
         },
-        tecnico: Object,
+        tecnico: { type: Object, default: () => {} },
     },
     data() {
         return {

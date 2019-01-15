@@ -56,7 +56,20 @@ export default {
     components: {
         Carregando,
     },
-    props: ['idPronac'],
+    filters: {
+        formatarData(date) {
+            if (date.length === 0) {
+                return '-';
+            }
+            return moment(date).format('DD/MM/YYYY');
+        },
+    },
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             search: '',
@@ -97,6 +110,19 @@ export default {
             ],
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            documentosAnexados: 'projeto/documentosAnexados',
+        }),
+        indexItems() {
+            const currentItems = this.documentosAnexados.documentos;
+            return currentItems.map((item, index) => ({
+                id: index,
+                ...item,
+            }));
+        },
+    },
     watch: {
         dados(value) {
             this.informacoes = value.informacoes;
@@ -117,27 +143,6 @@ export default {
         ...mapActions({
             buscarDocumentosAnexados: 'projeto/buscarDocumentosAnexados',
         }),
-    },
-    filters: {
-        formatarData(date) {
-            if (date.length === 0) {
-                return '-';
-            }
-            return moment(date).format('DD/MM/YYYY');
-        },
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            documentosAnexados: 'projeto/documentosAnexados',
-        }),
-        indexItems() {
-            const currentItems = this.documentosAnexados.documentos;
-            return currentItems.map((item, index) => ({
-                id: index,
-                ...item,
-            }));
-        },
     },
 };
 </script>

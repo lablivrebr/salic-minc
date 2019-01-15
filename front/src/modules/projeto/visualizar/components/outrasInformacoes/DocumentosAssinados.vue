@@ -29,7 +29,6 @@
                             small
                             color="teal"
                             target="_blank"
-                            dark
                         >
                             <v-icon dark>search</v-icon>
                         </v-btn>
@@ -65,7 +64,12 @@ export default {
     components: {
         Carregando,
     },
-    props: ['idPronac'],
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             loading: true,
@@ -104,6 +108,12 @@ export default {
             ],
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            dados: 'projeto/documentosAssinados',
+        }),
+    },
     watch: {
         dados() {
             this.loading = false;
@@ -113,12 +123,6 @@ export default {
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             this.buscarDocumentosAssinados(this.dadosProjeto.idPronac);
         }
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/documentosAssinados',
-        }),
     },
     methods: {
         ...mapActions({

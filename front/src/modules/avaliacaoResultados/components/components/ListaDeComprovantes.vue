@@ -229,7 +229,7 @@ export default {
         },
     },
     props: {
-        comprovantes: { type: String, default: '' },
+        comprovantes: { type: Array, default: () => [] },
     },
     data() {
         return {
@@ -274,7 +274,7 @@ export default {
     },
     methods: {
         editarAvaliacao(props) {
-            // props.expanded = !props.expanded;
+            props.expanded = !props.expanded;
             Vue.set(this, 'itemEmEdicao', props.item);
         },
     },

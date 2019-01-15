@@ -13,7 +13,12 @@ export default {
     components: {
         slTabelaSimples,
     },
-    props: ['idpreprojeto'],
+    props: {
+        idpreprojeto: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             dado: [],

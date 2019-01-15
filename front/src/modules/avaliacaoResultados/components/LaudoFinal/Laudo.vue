@@ -143,7 +143,9 @@ export default {
         Devolver,
         VisualizarParecer,
     },
-    props: ['dados', 'estado'],
+    props: {
+        dados: { type: String, default: '' }, estado: { type: String, default: '' },
+    },
     data() {
         return {
             devolucaoLaudo: {

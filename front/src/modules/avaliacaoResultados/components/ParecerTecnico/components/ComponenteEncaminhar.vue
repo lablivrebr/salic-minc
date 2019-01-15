@@ -107,8 +107,14 @@ export default {
                 return value !== '';
             },
         },
-        nomeProjeto: String,
-        pronac: String,
+        nomeProjeto: {
+            type: String,
+            default: '',
+        },
+        pronac: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -121,6 +127,11 @@ export default {
             form: null,
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosDestinatarios: 'avaliacaoResultados/dadosDestinatarios',
+        }),
+    },
     watch: {
         dialog(val) {
             if (!val) {
@@ -129,11 +140,6 @@ export default {
                 this.obterDestinatarios();
             }
         },
-    },
-    computed: {
-        ...mapGetters({
-            dadosDestinatarios: 'avaliacaoResultados/dadosDestinatarios',
-        }),
     },
     methods: {
         ...mapActions({

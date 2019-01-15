@@ -22,7 +22,12 @@
 <script>
 export default {
     name: 'AgenteUsuario',
-    props: ['idusuario'],
+    props: {
+        idusuario: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             usuario: [],

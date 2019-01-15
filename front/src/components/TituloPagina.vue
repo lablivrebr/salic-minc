@@ -21,7 +21,9 @@
 <script>
 export default {
     name: 'TituloPagina',
-    props: ['titulo'],
+    props: {
+        titulo: { type: String, default: '' },
+    },
     computed: {
         existeHistorico() {
             return window.history.length > 1;

@@ -16,9 +16,9 @@
 <script>
 export default {
     name: 'VisualizarPlanilhaButtton',
-    props: [
-        'idPronac',
-    ],
+    props: {
+        idPronac: { type: String, default: '' },
+    },
     data() {
         return {
         };

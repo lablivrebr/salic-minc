@@ -22,7 +22,7 @@
                 :timeout="2000"
                 @input="fecharSnackbar"
             >
-                {{ this.getSnackbar.text }}
+                {{ getSnackbar.text }}
             </v-snackbar>
             <Rodape/>
         </v-app>
@@ -37,15 +37,11 @@ import SlNav from './components/SlNav';
 export default {
     name: 'Index',
     components: { SlNav, Rodape },
-    methods: {
-        ...mapActions({
-            setSnackbar: 'noticias/setDados',
-            setUsuario: 'autenticacao/usuarioLogado',
-            obterModoNoturno: 'layout/obterModoNoturno',
-        }),
-        fecharSnackbar() {
-            this.setSnackbar({ ativo: false });
-        },
+    data() {
+        return {
+            dark: false,
+            snackbar: false,
+        };
     },
     computed: {
         ...mapGetters({
@@ -64,11 +60,15 @@ export default {
         this.setUsuario();
         this.obterModoNoturno();
     },
-    data() {
-        return {
-            dark: false,
-            snackbar: false,
-        };
+    methods: {
+        ...mapActions({
+            setSnackbar: 'noticias/setDados',
+            setUsuario: 'autenticacao/usuarioLogado',
+            obterModoNoturno: 'layout/obterModoNoturno',
+        }),
+        fecharSnackbar() {
+            this.setSnackbar({ ativo: false });
+        },
     },
 };
 </script>

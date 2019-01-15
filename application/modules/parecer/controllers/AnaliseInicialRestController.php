@@ -38,9 +38,9 @@ class Parecer_AnaliseInicialRestController extends MinC_Controller_Rest_Abstract
     {
         try {
             $tramitacaoService = new AnaliseInicialService($this->getRequest(), $this->getResponse());
-            $resposta = $tramitacaoService->buscarTramitacaoProjetoProjeto();
+            $resposta = $tramitacaoService->analisar();
 
-            $this->RenderJsonResponse($resposta, 200);
+            $this->customRenderJsonResponse($resposta, 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

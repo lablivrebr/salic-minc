@@ -1,5 +1,6 @@
 <template>
-    <v-container>
+    <v-container
+        fluid>
         <v-layout
             row
             wrap>
@@ -69,7 +70,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-
 export default {
     name: 'ParecerListarView',
     data: () => ({
@@ -118,7 +118,6 @@ export default {
             return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
         },
     },
-
     watch: {
         dialog(val) {
             val || this.close();

@@ -8,3 +8,11 @@ export const obterProdutosParaAnalise = ({ commit }) => {
             commit(types.SET_PRODUTOS, data.items);
         });
 };
+
+export const obterProdutoParaAnalise = ({ commit }, params) => {
+    parecerHelperAPI.obterProdutoParaAnalise(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.SET_PRODUTO, data);
+        });
+};

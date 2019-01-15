@@ -7,13 +7,16 @@ export default [
         name: 'parecer-listar-view',
         component: ParecerListarView,
         meta: {
-            title: 'Proponente',
+            title: 'Produtos para análise',
         },
     },
     {
         path: '/parecer/analise-inicial/analisar/:id/:idPronac',
         component: ParecerAnalisarView,
         name: 'parecer-analisar-view',
+        meta: {
+            title: 'Análise inicial',
+        },
         // children: [
         //     {
         //         path: '',

@@ -1,38 +1,67 @@
 <template>
-    <div v-if="true">
-        <v-stepper v-model="e1">
+    <v-container
+        fluid>
+        <v-toolbar>
+            <v-btn
+                icon
+                class="hidden-xs-only"
+                @click="back()"
+            >
+                <v-icon>arrow_back</v-icon>
+            </v-btn>
+            <v-toolbar-title>
+                {{ $route.meta.title }} - Produto:
+                {{ produto.dsProduto }}
+            </v-toolbar-title>
+            <v-spacer/>
+            <v-chip
+                v-if="produto.stPrincipal === 1"
+                color="teal"
+                text-color="white">
+                Produto Principal
+            </v-chip>
+            <v-btn icon>
+                <v-icon>more_vert</v-icon>
+            </v-btn>
+        </v-toolbar>
+        <v-stepper v-model="currentStep">
             <v-stepper-header>
-                <template v-for="n in arraySteps">
+                <template v-for="step in arraySteps">
                     <v-stepper-step
-                        :complete="e1 > n.id"
-                        :key="`${n.id}-step`"
-                        :step="n.id"
+                        :complete="currentStep > step.id"
+                        :key="`${step.id}-step`"
+                        :step="step.id"
                         editable
                     >
-                        <component :is="n.componente"/>
+                        {{ step.name }}
                     </v-stepper-step>
 
                     <v-divider
-                        v-if="n.id !== Object.keys(arraySteps).length"
-                        :key="n.id"
+                        v-if="step.id !== Object.keys(arraySteps).length"
+                        :key="step.id"
                     />
                 </template>
             </v-stepper-header>
 
             <v-stepper-items>
                 <v-stepper-content
-                    v-for="n in arraySteps"
-                    :key="`${n.id}-content`"
-                    :step="n.id"
+                    v-for="step in arraySteps"
+                    :key="`${step.id}-content`"
+                    :step="step.id"
                 >
                     <v-card
                         class="mb-5"
-                        color="grey lighten-1"
-                        height="200px"
-                    >{{ n.componente }}</v-card>
+                    >
+                        {{ step.id }} - {{ currentStep }}
+                        <component
+                            :is="step.component"
+                            :produto="produto"
+                            :active="step.id === currentStep"
+                        />
+                    </v-card>
                     <v-btn
                         color="primary"
-                        @click="nextStep(n.id)"
+                        @click="nextStep(step.id)"
                     >
                         Continue
                     </v-btn>
@@ -42,6 +71,7 @@
 
                 <v-fab-transition>
                     <v-btn
+                        v-if="Object.keys(activeFab).length > 0"
                         :color="activeFab.color"
                         :key="activeFab.icon"
                         v-model="fab"
@@ -49,7 +79,7 @@
                         fab
                         fixed
                         bottom
-                        left
+                        right
                     >
                         <v-icon>{{ activeFab.icon }}</v-icon>
                         <v-icon>close</v-icon>
@@ -57,55 +87,17 @@
                 </v-fab-transition>
             </v-stepper-items>
         </v-stepper>
-    </div>
-    <div
-        v-else
-        id="lateral">
-        <v-tabs
-            slot="extension"
-            v-model="tabs"
-            fixed-tabs
-            color="transparent"
-        >
-            <v-tab href="#one">Análise de conteúdo</v-tab>
-            <v-tab href="#two">Análise de custos</v-tab>
-            <v-tab href="#three">Dados dos Produtos Secundários</v-tab>
-            <v-tabs-slider color="pink"/>
-        </v-tabs>
-        <v-tabs-items v-model="tabs">
-            <v-tab-item
-                v-for="content in ['one', 'two', 'three']"
-                :key="content"
-                :value="content"
-            >
-                <v-card
-                    height="300px"
-                    flat/>
-            </v-tab-item>
-        </v-tabs-items>
-        <v-fab-transition>
-            <v-btn
-                :color="activeFab.color"
-                :key="activeFab.icon"
-                v-model="fab"
-                dark
-                fab
-                fixed
-                bottom
-                left
-            >
-                <v-icon>{{ activeFab.icon }}</v-icon>
-                <v-icon>close</v-icon>
-            </v-btn>
-        </v-fab-transition>
-    </div>
+    </v-container>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 import AnaliseDeConteudo from '../components/AnaliseDeConteudo';
 import AnaliseDeCustos from '../components/AnaliseDeCustos';
 import ProdutosSecundarios from '../components/ProdutosSecundarios';
 import FinalizarAnalise from '../components/FinalizarAnalise';
+
 
 export default {
     name: 'ParecerAnalisarView',
@@ -116,28 +108,32 @@ export default {
         FinalizarAnalise,
     },
     data: () => ({
-        e1: 1,
+        currentStep: 1,
         steps: 4,
         arraySteps: [
             {
                 id: 1,
                 name: 'Análise de conteúdo',
-                componente: 'AnaliseDeConteudo',
+                hidden: false,
+                component: 'AnaliseDeConteudo',
             },
             {
                 id: 2,
                 name: 'Análise de custos',
-                componente: 'AnaliseDeCustos',
+                hidden: false,
+                component: 'AnaliseDeCustos',
             },
             {
                 id: 3,
                 name: 'Dados dos Produtos Secundários',
-                componente: 'ProdutosSecundarios',
+                hidden: false,
+                component: 'ProdutosSecundarios',
             },
             {
                 id: 4,
                 name: 'Finalizar análise',
-                componente: 'FinalizarAnalise',
+                hidden: false,
+                component: 'FinalizarAnalise',
             },
         ],
         fab: false,
@@ -145,8 +141,11 @@ export default {
         tabs: null,
     }),
     computed: {
+        ...mapGetters({
+            produto: 'parecer/getProduto',
+        }),
         activeFab() {
-            switch (this.el) {
+            switch (this.currentStep) {
             case 1: return { color: 'indigo', icon: 'share' };
             case 2: return { color: 'red', icon: 'edit' };
             case 3: return { color: 'green', icon: 'keyboard_arrow_up' };
@@ -155,34 +154,33 @@ export default {
         },
     },
     watch: {
-        steps(val) {
-            if (this.e1 > val) {
-                this.e1 = val;
+        arraySteps(val) {
+            const index = Object.keys(val).length;
+            if (this.currentStep > index) {
+                this.currentStep = index;
             }
         },
     },
+    mounted() {
+        this.obterProdutoParaAnalise({
+            id: this.$route.params.id,
+            idPronac: this.$route.params.idPronac,
+        });
+    },
     methods: {
+        ...mapActions({
+            obterProdutoParaAnalise: 'parecer/obterProdutoParaAnalise',
+        }),
         onInput(val) {
             this.steps = parseInt(val, 10);
         },
         nextStep(n) {
-            if (n === this.steps) {
-                this.e1 = 1;
-            } else {
-                this.e1 = n + 1;
-            }
+            this.currentStep = (n === this.steps) ? 1 : n + 1;
+        },
+        back() {
+            /* eslint-disable-next-line */
+            window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
         },
     },
 };
 </script>
-
-<style>
-    /* This is for documentation purposes and will not be needed in your application */
-    #lateral .v-speed-dial,
-    #lateral .v-btn--floating {
-        position: absolute;
-    }
-    #lateral .v-btn--floating {
-        margin: 0 0 16px 16px;
-    }
-</style>

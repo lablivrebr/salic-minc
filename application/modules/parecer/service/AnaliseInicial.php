@@ -64,6 +64,20 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
 
     public function analisar()
     {
+        $id = $this->request->getParam('id');
+        $idPronac = $this->request->getParam('idPronac');
+
+        $projeto = new \Projetos();
+        $resp = $projeto->buscaProjetosProdutosParaAnalise(
+            array(
+                'distribuirParecer.idProduto = ?' => $id,
+                'projeto.IdPRONAC = ?' => $idPronac,
+            )
+        )->current()->toArray();
+
+        $resp = \TratarArray::utf8EncodeArray($resp);
+
+        return $resp;
 
     }
 

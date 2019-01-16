@@ -1,6 +1,6 @@
 <template>
     <v-card id="create">
-        active: {{ active }}
+        active: {{ active }}  {{ analiseConteudo }}
         <v-fab-transition>
             <v-btn
                 v-if="active"
@@ -15,7 +15,7 @@
         </v-fab-transition>
 
         <Proposta
-            v-if="Object.keys(produto).length > 0"
+            v-if="Object.keys(analiseConteudo).length > 0"
             :idpreprojeto="produto.idProjeto"/>
 
         <v-dialog
@@ -99,6 +99,7 @@ import Proposta from '@/modules/proposta/visualizar/Proposta';
 import { validationMixin } from 'vuelidate';
 import { required, maxLength, email } from 'vuelidate/lib/validators';
 
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'AnaliseDeConteudo',
@@ -151,6 +152,9 @@ export default {
         };
     },
     computed: {
+        ...mapGetters({
+            analiseConteudo: 'parecer/getAnaliseConteudo',
+        }),
         checkboxErrors() {
             const errors = [];
             if (!this.$v.checkbox.$dirty) return errors;
@@ -178,7 +182,18 @@ export default {
             return errors;
         },
     },
+    watch: {
+        produto(val) {
+            this.obterAnaLiseConteudo({
+                id: val.idProduto,
+                idPronac: val.IdPRONAC,
+            });
+        },
+    },
     methods: {
+        ...mapActions({
+            obterAnaLiseConteudo: 'parecer/obterAnaLiseConteudo',
+        }),
         submit() {
             this.$v.$touch();
         },
@@ -197,12 +212,6 @@ export default {
     /* This is for documentation purposes and will not be needed in your application */
     #create {
         position: relative;
-    }
-    #create .v-btn--floating,
-    #create .v-speed-dial {
-        position: fixed;
-        top: 230px;
-        right: 5%;
     }
 
     #create .v-btn--floating {

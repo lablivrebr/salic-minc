@@ -16,3 +16,11 @@ export const obterProdutoParaAnalise = ({ commit }, params) => {
             commit(types.SET_PRODUTO, data);
         });
 };
+
+export const obterAnaLiseConteudo = ({ commit }, params) => {
+    parecerHelperAPI.obterAnaliseConteudo(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.SET_ANALISE_CONTEUDO, data);
+        });
+};

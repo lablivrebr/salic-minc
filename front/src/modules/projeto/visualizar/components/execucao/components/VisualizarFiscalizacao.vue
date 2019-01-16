@@ -67,15 +67,16 @@
                 <v-card>
                     <v-subheader class="primary justify-center">
                         <div>
-                            <h3 class="display-1 white--text font-weight-light">Oficializar Fiscalização</h3>
+                            <h3 class="display-1 white--text font-weight-light">
+                                Oficializar Fiscalização</h3>
                         </div>
                     </v-subheader>
                 </v-card>
                 <v-card>
                     <v-subheader class="justify-center">
                         <div>
-                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Datas /
-                            Demandante</h4>
+                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">
+                                Datas / Demandante</h4>
                         </div>
                     </v-subheader>
                     <v-container
@@ -122,8 +123,8 @@
                 <v-card>
                     <v-subheader class="justify-center">
                         <div>
-                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Identificação do
-                            Técnico</h4>
+                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">
+                                Identificação do Técnico</h4>
                         </div>
                     </v-subheader>
                     <v-container
@@ -157,8 +158,8 @@
                 <v-card>
                     <v-subheader class="primary justify-center">
                         <div>
-                            <h3 class="display-1 white--text font-weight-light">Fiscalização Concluída para
-                            Parecer</h3>
+                            <h3 class="display-1 white--text font-weight-light">
+                                Fiscalização Concluída para Parecer</h3>
                         </div>
                     </v-subheader>
                 </v-card>
@@ -209,8 +210,8 @@
                     <v-card v-if="parecer.stDtDeCorte == 1">
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Situação do
-                                Convênio na Realização da Fiscalização</h4>
+                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">
+                                    Situação do Convênio na Realização da Fiscalização</h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -246,7 +247,9 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Foi cumprido o prazo para entrega da prestação de contas?</b></p>
+                                    <p><b>
+                                        Foi cumprido o prazo para entrega da prestação de contas?
+                                        </b></p>
                                     <div v-html="parecer.stConvenioFiscalizacao.stCumpridoPrazo"/>
                                 </v-flex>
                             </v-layout>
@@ -255,8 +258,8 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Utilização de
-                                Recursos</h4>
+                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">
+                                    Utilização de Recursos</h4>
                             </div>
                         </v-subheader>
                         <v-container>

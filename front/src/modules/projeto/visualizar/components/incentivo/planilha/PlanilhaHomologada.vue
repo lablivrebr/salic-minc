@@ -36,6 +36,12 @@ export default {
             mensagem: '',
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            planilha: 'projeto/planilhaHomologada',
+        }),
+    },
     watch: {
         dadosProjeto(value) {
             this.buscaPlanilhaHomologada(value.idPronac);
@@ -46,12 +52,6 @@ export default {
     },
     created() {
         this.buscaPlanilhaHomologada(this.dadosProjeto.idPronac);
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            planilha: 'projeto/planilhaHomologada',
-        }),
     },
     methods: {
         ...mapActions({

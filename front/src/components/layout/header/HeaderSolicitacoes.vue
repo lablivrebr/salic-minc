@@ -120,16 +120,16 @@ export default {
         menuAtivo: false,
         loading: false,
     }),
-    watch: {
-        solicitacoes() {
-            this.loading = false;
-        },
-    },
     computed: {
         ...mapGetters({
             solicitacoes: 'layout/solicitacoes',
             quantidade: 'layout/quantidadeSolicitacoes',
         }),
+    },
+    watch: {
+        solicitacoes() {
+            this.loading = false;
+        },
     },
     methods: {
         ...mapActions({

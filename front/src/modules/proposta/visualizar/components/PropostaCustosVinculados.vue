@@ -13,7 +13,12 @@ export default {
     components: {
         slTabelaSimples,
     },
-    props: ['arrayCustos'],
+    props: {
+        arrayCustos: {
+            type: Array,
+            default: () => [],
+        },
+    },
     data() {
         return {
             dados: [],

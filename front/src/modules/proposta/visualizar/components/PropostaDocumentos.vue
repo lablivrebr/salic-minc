@@ -6,7 +6,8 @@
             <div class="card-content">
                 <h5>Documentos da Proposta</h5>
                 <table
-                    v-if="documentos.documentos_proposta && documentos.documentos_proposta.length > 0"
+                    v-if="documentos.documentos_proposta
+                    && documentos.documentos_proposta.length > 0"
                     class="bordered responsive-table">
                     <thead>
                         <tr>
@@ -23,7 +24,8 @@
                             <td>{{ documento.Data | formatarData }}</td>
                             <td>
                                 <a
-                                    :href="getUrl(documento.idDocumentosPreProjetos, documento.tpDoc)"
+                                    :href="getUrl(
+                                    documento.idDocumentosPreProjetos, documento.tpDoc)"
                                     title="Abrir arquivo">{{ documento.NoArquivo }}</a>
                             </td>
                         </tr>
@@ -37,7 +39,8 @@
             <div class="card-content">
                 <h5>Documentos do Proponente</h5>
                 <table
-                    v-if="documentos.documentos_proponente && documentos.documentos_proponente.length > 0"
+                    v-if="documentos.documentos_proponente
+                    && documentos.documentos_proponente.length > 0"
                     class="bordered responsive-table">
                     <thead>
                         <tr>
@@ -74,12 +77,20 @@ export default {
     name: 'PropostaDocumentos',
     mixins: [utils],
     props: {
-        proposta: Object,
+        proposta: {
+            type: Object,
+            default: () => {},
+        },
     },
     data() {
         return {
             documentos: {},
         };
+    },
+    computed: {
+        ...mapGetters({
+            docs: 'proposta/documentos',
+        }),
     },
     watch: {
         proposta(value) {
@@ -99,11 +110,6 @@ export default {
         } else if (Object.keys(this.proposta).length > 2 && this.proposta.idAgente) {
             this.buscaDocumentos(this.proposta);
         }
-    },
-    computed: {
-        ...mapGetters({
-            docs: 'proposta/documentos',
-        }),
     },
     methods: {
         ...mapActions({

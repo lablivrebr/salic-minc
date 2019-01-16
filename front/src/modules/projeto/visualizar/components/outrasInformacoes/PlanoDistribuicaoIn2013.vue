@@ -224,13 +224,21 @@ export default {
     components: {
         Carregando,
     },
-    props: ['idPronac'],
+    props: {
+        idPronac: { type: String, default: '' },
+    },
     data() {
         return {
             informacoes: {},
             loading: true,
             activeTab: -1,
         };
+    },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            dadosIn2013: 'projeto/planoDistribuicaoIn2013',
+        }),
     },
     watch: {
         dados(value) {
@@ -244,12 +252,6 @@ export default {
         if (typeof this.$route.params.idPronac !== 'undefined') {
             this.buscarPlanoDistribuicaoIn2013(this.dadosProjeto.idPronac);
         }
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dadosIn2013: 'projeto/planoDistribuicaoIn2013',
-        }),
     },
     methods: {
         ...mapActions({

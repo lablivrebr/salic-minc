@@ -86,7 +86,10 @@ export default {
     components: {
         Carregando,
     },
-    props: ['idPronac', 'diligencias'],
+    props: {
+        idPronac: { type: String, default: '' },
+        diligencias: { type: String, default: '' },
+    },
     data() {
         return {
             dialog: false,

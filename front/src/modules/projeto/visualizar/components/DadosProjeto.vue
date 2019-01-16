@@ -22,13 +22,13 @@ export default {
             componenteProjeto: '',
         };
     },
-    created() {
-        this.selecionarTipoComponente();
-    },
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
         }),
+    },
+    created() {
+        this.selecionarTipoComponente();
     },
     methods: {
         selecionarTipoComponente() {

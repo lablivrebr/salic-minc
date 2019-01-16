@@ -24,7 +24,9 @@
                             small
                             text-color="white">
                             <v-avatar>
-                                <v-icon>{{ props.item.stItemAvaliado | filtrarIconeSituacao }}</v-icon>
+                                <v-icon>
+                                    {{ props.item.stItemAvaliado | filtrarIconeSituacao }}
+                                </v-icon>
                             </v-avatar>
                             {{ props.item.stItemAvaliado | filtrarLabelSituacao }}
                         </v-chip>
@@ -146,10 +148,12 @@
                                             xs12
                                             sm12
                                             md12>
-                                            <b>Avaliação: </b> {{ itemEmEdicao.stItemAvaliado | filtrarLabelSituacao }}
+                                            <b>
+                                                Avaliação:
+                                            </b>
+                                            {{ itemEmEdicao.stItemAvaliado | filtrarLabelSituacao }}
                                         </v-flex>
                                         <v-flex
-                                            v-if="itemEmEdicao.dsOcorrenciaDoTecnico.length > 3"
                                             xs12
                                             sm12
                                             md12>
@@ -171,12 +175,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import moment from 'moment';
 import cnpjFilter from '@/filters/cnpj';
 import Carregando from '@/components/CarregandoVuetify';
 
 export default {
-    name: 'CardComprovantes',
+    name: 'ListaDeComprovantes',
     components: {
         Carregando,
     },
@@ -223,7 +228,9 @@ export default {
             return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
         },
     },
-    props: ['comprovantes'],
+    props: {
+        comprovantes: { type: Array, default: () => [] },
+    },
     data() {
         return {
             loading: true,
@@ -268,7 +275,7 @@ export default {
     methods: {
         editarAvaliacao(props) {
             props.expanded = !props.expanded;
-            this.itemEmEdicao = Object.assign({}, props.item);
+            Vue.set(this, 'itemEmEdicao', props.item);
         },
     },
 };

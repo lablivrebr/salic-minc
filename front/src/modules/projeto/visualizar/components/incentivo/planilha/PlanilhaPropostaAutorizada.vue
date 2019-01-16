@@ -36,6 +36,12 @@ export default {
             mensagem: '',
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            planilha: 'projeto/planilhaAutorizada',
+        }),
+    },
     watch: {
         dadosProjeto(value) {
             if (typeof value !== 'undefined') {
@@ -48,12 +54,6 @@ export default {
     },
     mounted() {
         this.buscaPlanilhaAutorizada(this.dadosProjeto.idPronac);
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            planilha: 'projeto/planilhaAutorizada',
-        }),
     },
     methods: {
         ...mapActions({

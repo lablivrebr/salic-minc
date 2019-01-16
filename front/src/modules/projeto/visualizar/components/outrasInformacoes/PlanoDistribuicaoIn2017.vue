@@ -214,12 +214,23 @@ export default {
         PropostaPlanoDistribuicao,
         DetalhamentoPlanoDistribuicao,
     },
-    props: ['idPronac'],
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             detalhamentos: [],
             loading: true,
         };
+    },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            dadosIn2017: 'projeto/planoDistribuicaoIn2017',
+        }),
     },
     watch: {
         dadosIn2017() {
@@ -234,12 +245,6 @@ export default {
         if (typeof this.dadosIn2017.tbdetalhaplanodistribuicao !== 'undefined') {
             this.detalhamentos = this.dadosIn2017.tbdetalhaplanodistribuicao;
         }
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dadosIn2017: 'projeto/planoDistribuicaoIn2017',
-        }),
     },
     methods: {
         ...mapActions({

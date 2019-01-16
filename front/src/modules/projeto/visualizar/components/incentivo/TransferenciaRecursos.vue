@@ -78,11 +78,13 @@ export default {
     mixins: [planilhas],
     props: {
         valor: {
-            String,
+            type: String,
+            default: '',
             required: true,
         },
         acao: {
-            String,
+            type: String,
+            default: '',
             required: true,
         },
     },
@@ -90,24 +92,6 @@ export default {
         return {
             somaValoresRecebidos: 0,
         };
-    },
-    methods: {
-        ...mapActions({
-            modalOpen: 'modal/modalOpen',
-            modalClose: 'modal/modalClose',
-            buscarTransferenciaRecursos: 'projeto/buscarTransferenciaRecursos',
-        }),
-        abrirModal(modalName) {
-            this.buscarTransferenciaRecursos(this.acao);
-            // eslint-disable-next-line
-                $3('#modalTemplate').modal('open');
-            this.modalOpen(modalName);
-        },
-        fecharModal() {
-            // eslint-disable-next-line
-                $3('#modalTemplate').modal('close');
-            this.modalClose();
-        },
     },
     computed: {
         ...mapGetters({
@@ -140,6 +124,24 @@ export default {
             });
 
             this.somaValoresRecebidos = somaValesRecebido;
+        },
+    },
+    methods: {
+        ...mapActions({
+            modalOpen: 'modal/modalOpen',
+            modalClose: 'modal/modalClose',
+            buscarTransferenciaRecursos: 'projeto/buscarTransferenciaRecursos',
+        }),
+        abrirModal(modalName) {
+            this.buscarTransferenciaRecursos(this.acao);
+            // eslint-disable-next-line
+                $3('#modalTemplate').modal('open');
+            this.modalOpen(modalName);
+        },
+        fecharModal() {
+            // eslint-disable-next-line
+                $3('#modalTemplate').modal('close');
+            this.modalClose();
         },
     },
 };

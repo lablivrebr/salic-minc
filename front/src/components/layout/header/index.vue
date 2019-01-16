@@ -49,6 +49,12 @@ export default {
             drawerRight: false,
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosMenu: 'layout/getDadosMenu',
+            statusSidebarDireita: 'layout/getStatusSidebarDireita',
+        }),
+    },
     watch: {
         statusSidebarDireita(value) {
             this.drawerRight = value;
@@ -60,12 +66,6 @@ export default {
     created() {
         this.buscarDadosMenu();
         this.buscarDadosLayout();
-    },
-    computed: {
-        ...mapGetters({
-            dadosMenu: 'layout/getDadosMenu',
-            statusSidebarDireita: 'layout/getStatusSidebarDireita',
-        }),
     },
     methods: {
         ...mapActions({

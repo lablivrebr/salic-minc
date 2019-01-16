@@ -37,7 +37,10 @@ export default {
     name: 'PropostaDetalhamentoConsolidacao',
     mixins: [utils],
     props: {
-        items: {},
+        items: {
+            type: Object,
+            default: () => {},
+        },
     },
     computed: {
         qtExemplaresTotal() {

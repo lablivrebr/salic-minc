@@ -13,7 +13,9 @@
             >
                 <v-icon>arrow_back</v-icon>
             </v-btn>
-            <v-toolbar-title>Planilha</v-toolbar-title>
+            <v-toolbar-title>
+                Planilha
+            </v-toolbar-title>
         </v-toolbar>
         <v-card>
             <v-card-title primary-title>
@@ -25,7 +27,13 @@
                     :value="true"
                     color="info"
                 >
-                    Existe Diligência para esse projeto. Acesse <a :href="'/proposta/diligenciar/listardiligenciaanalista/idPronac/' + idPronac">aqui</a>.
+                    Existe Diligência para esse projeto. Acesse
+                    <a
+                        :href="
+                            '/proposta/diligenciar/listardiligenciaanalista/idPronac/'
+                        + idPronac">
+                        aqui
+                    </a>.
                 </v-alert>
                 <v-alert
                     v-if="documento != 0"
@@ -41,17 +49,17 @@
                 >Projeto em analise.
                 </v-alert>
                 <div class="mt-4 mb-3">
-                    <div class="d-inline-block">
+                    <div class="d-inline-block text-xs-right">
                         <h4>Valor Aprovado</h4>
-                        {{ moeda(dadosProjeto.items.vlAprovado) }}
+                        R$ {{ dadosProjeto.items.vlAprovado | moedaMasc }}
                     </div>
-                    <div class="d-inline-block ml-5">
+                    <div class="d-inline-block ml-5 text-xs-right">
                         <h4>Valor Comprovado</h4>
-                        {{ moeda(dadosProjeto.items.vlComprovado) }}
+                        R$ {{ dadosProjeto.items.vlComprovado | moedaMasc }}
                     </div>
-                    <div class="d-inline-block ml-5">
+                    <div class="d-inline-block ml-5 text-xs-right">
                         <h4>Valor a Comprovar</h4>
-                        {{ moeda(dadosProjeto.items.vlTotalComprovar) }}
+                        R$ {{ dadosProjeto.items.vlTotalComprovar | moedaMasc }}
                     </div>
                 </div>
             </v-card-text>
@@ -148,7 +156,9 @@
                                                     <v-icon class="mr-3 blue--text">place</v-icon>
                                                     {{ cidade.cidade }}
                                                 </v-layout>
-                                                <template v-if="typeof cidade.itens !== 'undefined'">
+                                                <template
+                                                    v-if="typeof cidade.itens !== 'undefined'"
+                                                >
                                                     <v-tabs
                                                         slider-color="green"
                                                     >
@@ -171,13 +181,15 @@
                                                                 <template
                                                                     slot="items"
                                                                     slot-scope="props">
-                                                                    <td>{{ props.item.item }}</td>
-                                                                    <td>{{ (props.item.quantidade) }}</td>
-                                                                    <td>{{ (props.item.numeroOcorrencias) }}</td>
-                                                                    <td>{{ moeda(parseFloat(props.item.valor)) }}</td>
-                                                                    <td>{{ moeda(props.item.varlorAprovado) }}</td>
-                                                                    <td>{{ moeda(props.item.varlorComprovado) }}</td>
-                                                                    <td>{{ moeda(props.item.varlorAprovado - props.item.varlorComprovado) }}</td>
+                                                                    <td>
+                                                                        {{ props.item.item }}
+                                                                    </td>
+                                                                    <td class="text-xs-right">{{ (props.item.quantidade) }}</td>
+                                                                    <td class="text-xs-right">{{ (props.item.numeroOcorrencias) }}</td>
+                                                                    <td class="text-xs-right">{{ props.item.valor | moedaMasc }}</td>
+                                                                    <td class="text-xs-right">{{ props.item.varlorAprovado | moedaMasc }}</td>
+                                                                    <td class="text-xs-right">{{ props.item.varlorComprovado | moedaMasc }}</td>
+                                                                    <td class="text-xs-right">{{ (props.item.varlorAprovado - props.item.varlorComprovado) | moedaMasc }}</td>
                                                                     <td>
                                                                         <v-btn
                                                                             v-if="podeEditar(props.item.varlorComprovado)"
@@ -299,24 +311,34 @@
         </v-speed-dial>
     </v-container>
 </template>
+
 <script>
+import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 import ConsolidacaoAnalise from '../components/ConsolidacaoAnalise';
 import AnalisarItem from './AnalisarItem';
+import Moeda from '../../../../filters/money';
+
+Vue.filter('moedaMasc', Moeda);
 
 export default {
     name: 'Planilha',
+    components: {
+        ConsolidacaoAnalise,
+        AnalisarItem,
+        Carregando,
+    },
     data() {
         return {
             headers: [
                 { text: 'Item', value: 'item', sortable: false },
-                { text: 'Qtd', value: 'quantidade', sortable: false },
-                { text: 'Nº Ocorr.', value: 'numeroOcorrencias', sortable: false },
-                { text: 'Valor (R$)', value: 'valor', sortable: false },
-                { text: 'Vl. Aprovado (R$)', value: 'varlorAprovado', sortable: false },
-                { text: 'Vl. Comprovado (R$)', value: 'varlorComprovado', sortable: false },
-                { text: 'Vl. a Comprovar (R$)', value: 'valorAComprovar', sortable: false },
+                { text: 'Qtd', value: 'quantidade', sortable: false, align: 'right'},
+                { text: 'Nº Ocorr.', value: 'numeroOcorrencias', sortable: false, align: 'right' },
+                { text: 'Valor (R$)', value: 'valor', sortable: false, align: 'right' },
+                { text: 'Vl. Aprovado (R$)', value: 'varlorAprovado', sortable: false, align: 'right' },
+                { text: 'Vl. Comprovado (R$)', value: 'varlorComprovado', sortable: false, align: 'right' },
+                { text: 'Vl. a Comprovar (R$)', value: 'valorAComprovar', sortable: false, align: 'right' },
                 { text: '', value: 'comprovarItem', sortable: false },
             ],
             tabs: {
@@ -361,11 +383,6 @@ export default {
     mounted() {
         this.setPlanilha(this.idPronac);
         this.setProjetoAnalise(this.idPronac);
-    },
-    components: {
-        ConsolidacaoAnalise,
-        AnalisarItem,
-        Carregando,
     },
     methods: {
         ...mapActions({

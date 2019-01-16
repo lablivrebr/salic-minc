@@ -8,6 +8,8 @@
 <script>
 export default {
     name: 'SalicTextoSimples',
-    props: ['texto'],
+    props: {
+        texto: { type: String, default: '' },
+    },
 };
 </script>

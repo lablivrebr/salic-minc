@@ -33,11 +33,11 @@
 <script>
 export default {
     name: 'AssinarButton',
-    props: [
-        'idPronac',
-        'linkDiretoAssinatura',
-        'documento',
-    ],
+    props: {
+        idPronac: { type: String, default: '' },
+        linkDiretoAssinatura: { type: String, default: '' },
+        documento: { type: String, default: '' },
+    },
     data() {
         return {
         };

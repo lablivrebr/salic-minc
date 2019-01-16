@@ -58,7 +58,8 @@
                     />
                 </v-tab-item>
                 <v-tab-item
-                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL || getUsuario.grupo_ativo == Const.PERFIL_DIRETOR || getUsuario.grupo_ativo == Const.PERFIL_SECRETARIO"
+                    v-if="getUsuario.grupo_ativo == Const.PERFIL_COORDENADOR_GERAL
+                    || getUsuario.grupo_ativo == Const.PERFIL_DIRETOR || getUsuario.grupo_ativo == Const.PERFIL_SECRETARIO"
                     :value="'tab-1'"
                     :key="1"
                 >
@@ -98,6 +99,17 @@ export default {
             Const,
         };
     },
+    computed: {
+        ...mapGetters({
+            getProjetosLaudoFinal: 'avaliacaoResultados/getProjetosLaudoFinal',
+            getProjetosLaudoAssinar: 'avaliacaoResultados/getProjetosLaudoAssinar',
+            getProjetosLaudoEmAssinatura: 'avaliacaoResultados/getProjetosLaudoEmAssinatura',
+            getProjetosLaudoFinalizados: 'avaliacaoResultados/getProjetosLaudoFinalizados',
+            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
+            getUsuario: 'autenticacao/getUsuario',
+            route: 'route',
+        }),
+    },
     created() {
         this.obterProjetosLaudoFinal({ estadoId: 10 });
         this.obterProjetosLaudoAssinar(this.assinarPerfil());
@@ -123,17 +135,6 @@ export default {
             }
             return null;
         },
-    },
-    computed: {
-        ...mapGetters({
-            getProjetosLaudoFinal: 'avaliacaoResultados/getProjetosLaudoFinal',
-            getProjetosLaudoAssinar: 'avaliacaoResultados/getProjetosLaudoAssinar',
-            getProjetosLaudoEmAssinatura: 'avaliacaoResultados/getProjetosLaudoEmAssinatura',
-            getProjetosLaudoFinalizados: 'avaliacaoResultados/getProjetosLaudoFinalizados',
-            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
-            getUsuario: 'autenticacao/getUsuario',
-            route: 'route',
-        }),
     },
 };
 </script>

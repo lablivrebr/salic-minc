@@ -8,7 +8,7 @@
 <script>
 export default {
     name: 'SalicFormatarCpfCnpj',
-    props: ['cpf'],
+    props: { cpf: { type: String, default: '' } },
     computed: {
         cpfCnpjFormatado() {
             if (typeof this.cpf !== 'undefined') {
@@ -27,20 +27,20 @@ export default {
         },
         // formato: 999.999.999-99
         formatarCpf(v) {
-            v = v.replace(/\D/g, '');
-            v = v.replace(/(\d{3})(\d)/, '$1.$2');
-            v = v.replace(/(\d{3})(\d)/, '$1.$2');
-            v = v.replace(/(\d{3})(\d)/, '$1-$2');
-            return v;
+            let value = v.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1-$2');
+            return value;
         },
         // formato: 99.999.999/9999-99
         formatarCnpj(v) {
-            v = v.replace(/\D/g, '');
-            v = v.replace(/(\d{2})(\d)/, '$1.$2');
-            v = v.replace(/(\d{3})(\d)/, '$1.$2');
-            v = v.replace(/(\d{3})(\d)/, '$1/$2');
-            v = v.replace(/(\d{4})(\d)/, '$1-$2');
-            return v;
+            let value = v.replace(/\D/g, '');
+            value = value.replace(/(\d{2})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1/$2');
+            value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            return value;
         },
     },
 };

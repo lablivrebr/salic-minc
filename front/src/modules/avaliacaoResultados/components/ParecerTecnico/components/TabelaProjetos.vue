@@ -91,7 +91,11 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'TabelaProjetos',
-    props: ['dados', 'componentes', 'mostrarTecnico'],
+    props: {
+        dados: { type: String, default: '' },
+        componentes: { type: String, default: '' },
+        mostrarTecnico: { type: String, default: '' },
+    },
     data() {
         return {
             pagination: {
@@ -100,6 +104,25 @@ export default {
             selected: [],
             search: '',
         };
+    },
+    computed: {
+        ...mapGetters({
+            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
+            getProjetosFinalizados: 'avaliacaoResultados/getProjetosFinalizados',
+        }),
+        pages() {
+            if (this.pagination.rowsPerPage == null
+                || this.pagination.totalItems == null
+            ) return 0;
+            return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
+        },
+    },
+    watch: {
+        dadosTabelaTecnico() {
+            if (this.dados.items !== undefined) {
+                this.pagination.totalItems = this.dados.items.length;
+            }
+        },
     },
     methods: {
         ...mapActions({
@@ -151,25 +174,6 @@ export default {
             };
 
             return dados;
-        },
-    },
-    computed: {
-        ...mapGetters({
-            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
-            getProjetosFinalizados: 'avaliacaoResultados/getProjetosFinalizados',
-        }),
-        pages() {
-            if (this.pagination.rowsPerPage == null
-                || this.pagination.totalItems == null
-            ) return 0;
-            return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
-        },
-    },
-    watch: {
-        dadosTabelaTecnico() {
-            if (this.dados.items !== undefined) {
-                this.pagination.totalItems = this.dados.items.length;
-            }
         },
     },
 };

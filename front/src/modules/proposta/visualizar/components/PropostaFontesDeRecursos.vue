@@ -14,7 +14,17 @@ export default {
     components: {
         slTabelaSimples,
     },
-    props: ['idpreprojeto'],
+    props: {
+        idpreprojeto: {
+            type: null,
+            default: null,
+        },
+    },
+    computed: {
+        ...mapGetters({
+            dado: 'proposta/fontesDeRecursos',
+        }),
+    },
     watch: {
         idpreprojeto(value) {
             this.buscaFontesDeRecursos(value);
@@ -24,11 +34,6 @@ export default {
         if (typeof this.idpreprojeto !== 'undefined') {
             this.buscaFontesDeRecursos(this.idpreprojeto);
         }
-    },
-    computed: {
-        ...mapGetters({
-            dado: 'proposta/fontesDeRecursos',
-        }),
     },
     methods: {
         ...mapActions({

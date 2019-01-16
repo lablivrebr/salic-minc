@@ -41,7 +41,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'TramitacaoDocumento',
-    props: ['idPronac'],
+    props: { idPronac: { type: String, default: '' } },
     data() {
         return {
             search: '',
@@ -88,15 +88,15 @@ export default {
             ],
         };
     },
-    mounted() {
-        if (typeof this.idPronac !== 'undefined') {
-            this.buscarTramitacaoDocumento(this.idPronac);
-        }
-    },
     computed: {
         ...mapGetters({
             dados: 'projeto/tramitacaoDocumento',
         }),
+    },
+    mounted() {
+        if (typeof this.idPronac !== 'undefined') {
+            this.buscarTramitacaoDocumento(this.idPronac);
+        }
     },
     methods: {
         ...mapActions({

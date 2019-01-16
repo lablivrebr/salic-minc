@@ -20,8 +20,11 @@
 
 export default {
     name: 'AnalisarButton',
-    props: [
-        'idPronac',
-    ],
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+        },
+    },
 };
 </script>

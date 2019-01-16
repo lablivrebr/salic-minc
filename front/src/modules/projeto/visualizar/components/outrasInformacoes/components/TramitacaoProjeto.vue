@@ -36,7 +36,12 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'TramitacaoProjeto',
-    props: ['idPronac'],
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             search: '',
@@ -78,15 +83,15 @@ export default {
             ],
         };
     },
-    mounted() {
-        if (typeof this.idPronac !== 'undefined') {
-            this.buscarTramitacaoProjeto(this.idPronac);
-        }
-    },
     computed: {
         ...mapGetters({
             dados: 'projeto/tramitacaoProjeto',
         }),
+    },
+    mounted() {
+        if (typeof this.idPronac !== 'undefined') {
+            this.buscarTramitacaoProjeto(this.idPronac);
+        }
     },
     methods: {
         ...mapActions({

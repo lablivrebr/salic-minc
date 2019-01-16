@@ -84,15 +84,15 @@ export default {
             ],
         };
     },
-    mounted() {
-        if (typeof this.idPronac !== 'undefined') {
-            this.buscarUltimaTramitacao(this.idPronac);
-        }
-    },
     computed: {
         ...mapGetters({
             dados: 'projeto/ultimaTramitacao',
         }),
+    },
+    mounted() {
+        if (typeof this.idPronac !== 'undefined') {
+            this.buscarUltimaTramitacao(this.idPronac);
+        }
     },
     methods: {
         ...mapActions({

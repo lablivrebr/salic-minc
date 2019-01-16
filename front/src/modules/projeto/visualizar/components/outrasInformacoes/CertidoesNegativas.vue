@@ -86,6 +86,12 @@ export default {
             ],
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            dados: 'projeto/certidoesNegativas',
+        }),
+    },
     watch: {
         dados() {
             this.loading = false;
@@ -95,12 +101,6 @@ export default {
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             this.buscarCertidoesNegativas(this.dadosProjeto.idPronac);
         }
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/certidoesNegativas',
-        }),
     },
     methods: {
         ...mapActions({

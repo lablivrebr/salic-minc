@@ -128,6 +128,9 @@ import cnpjFilter from '@/filters/cnpj';
 
 export default {
     name: 'VisualizarParecer',
+    filters: {
+        cnpjFilter,
+    },
     props: ['idPronac', 'obj'],
     data() {
         return {
@@ -181,9 +184,6 @@ export default {
             }
             return status;
         },
-    },
-    filters: {
-        cnpjFilter,
     },
 };
 </script>

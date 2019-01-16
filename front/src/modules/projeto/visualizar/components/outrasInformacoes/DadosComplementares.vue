@@ -57,6 +57,12 @@ export default {
             loading: true,
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            dados: 'projeto/dadosComplementares',
+        }),
+    },
     watch: {
         dados() {
             this.loading = false;
@@ -66,12 +72,6 @@ export default {
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             this.buscarDadosComplementares(this.dadosProjeto.idPronac);
         }
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/dadosComplementares',
-        }),
     },
     methods: {
         ...mapActions({

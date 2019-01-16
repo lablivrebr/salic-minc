@@ -8,7 +8,8 @@
                 :key="index">
                 <div class="collapsible-header">
                     <i class="material-icons">place</i>
-                    Detalhamento - {{ detalhamento[0].DescricaoUf }} - {{ detalhamento[0].DescricaoMunicipio }}
+                    Detalhamento - {{ detalhamento[0].DescricaoUf }}
+                    - {{ detalhamento[0].DescricaoMunicipio }}
                 </div>
                 <div class="collapsible-body no-padding margin20 scroll-x">
                     <table>
@@ -38,10 +39,12 @@
                             <tr>
                                 <th class="right-align popular">Qtd. Inteira</th>
                                 <th class="right-align popular">Qtd. Meia</th>
-                                <th class="right-align popular">Pre&ccedil;o <br> Unit&aacute;rio</th>
+                                <th class="right-align popular">
+                                    Pre&ccedil;o <br> Unit&aacute;rio</th>
                                 <th class="right-align proponente">Qtd. Inteira</th>
                                 <th class="right-align proponente">Qtd. Meia</th>
-                                <th class="right-align proponente">Pre&ccedil;o <br> Unit&aacute;rio</th>
+                                <th class="right-align proponente">
+                                    Pre&ccedil;o <br> Unit&aacute;rio</th>
                             </tr>
                         </thead>
                         <tbody v-if="detalhamento.length > 0">
@@ -51,20 +54,24 @@
                                 <td>{{ item.dsProduto }}</td>
                                 <td class="right-align">{{ item.qtExemplares }}</td>
 
-                                <td class="right-align">{{ parseInt(item.qtGratuitaDivulgacao) +
-                                parseInt(item.qtGratuitaPatrocinador) + parseInt(item.qtGratuitaPopulacao) }}
+                                <td class="right-align">
+                                    {{ parseInt(item.qtGratuitaDivulgacao) +
+                                        parseInt(item.qtGratuitaPatrocinador) +
+                                    parseInt(item.qtGratuitaPopulacao) }}
                                 </td>
 
                                 <td class="right-align">{{ item.qtPopularIntegral }}</td>
                                 <td class="right-align">{{ item.qtPopularParcial }}</td>
-                                <td class="right-align">{{ item.vlUnitarioPopularIntegral | filtroFormatarParaReal }}</td>
-
+                                <td class="right-align">
+                                    {{ item.vlUnitarioPopularIntegral | filtroFormatarParaReal }}
+                                </td>
                                 <td class="right-align">{{ item.qtProponenteIntegral }}</td>
                                 <td class="right-align">{{ item.qtProponenteParcial }}</td>
-                                <td class="right-align">{{ item.vlUnitarioProponenteIntegral | filtroFormatarParaReal }}</td>
-
-                                <td class="right-align">{{ item.vlReceitaPrevista | filtroFormatarParaReal }}</td>
-
+                                <td class="right-align">
+                                    {{ item.vlUnitarioProponenteIntegral | filtroFormatarParaReal }}
+                                </td>
+                                <td class="right-align">
+                                    {{ item.vlReceitaPrevista | filtroFormatarParaReal }}</td>
                             </tr>
                         </tbody>
                         <PropostaDetalhamentoConsolidacao
@@ -85,9 +92,12 @@ export default {
         PropostaDetalhamentoConsolidacao,
     },
     mixins: [planilhas],
-    props: [
-        'arrayDetalhamentos',
-    ],
+    props: {
+        arrayDetalhamentos: {
+            type: Array,
+            default: () => [],
+        },
+    },
     data() {
         return {
             detalhamentos: [],

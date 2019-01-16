@@ -54,5 +54,6 @@ module.exports = {
             alignAttributesVertically: true
         }],
         "no-shadow": ["error", { "allow": ["state"] }],
+        "max-len": ["error", { "code": 150, "ignoreUrls": true }],
     }
 }

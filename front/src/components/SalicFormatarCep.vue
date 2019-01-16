@@ -8,7 +8,13 @@
 <script>
 export default {
     name: 'SalicFormatarCep',
-    props: ['cep'],
+    props: {
+
+        cep: {
+            type: String,
+            default: String,
+        },
+    },
     computed: {
         cepFormatado() {
             if (typeof this.cep !== 'undefined') {
@@ -27,10 +33,10 @@ export default {
         },
         // formato: 99.999.999
         adicionarMascaraCep(v) {
-            v = v.replace(/\D/g, '');
-            v = v.replace(/(\d{2})(\d)/, '$1.$2');
-            v = v.replace(/(\d{3})(\d)/, '$1-$2');
-            return v;
+            let value = v.replace(/\D/g, '');
+            value = value.replace(/(\d{2})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1-$2');
+            return value;
         },
     },
 };

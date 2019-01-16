@@ -146,7 +146,7 @@ export default {
         }),
         activeFab() {
             switch (this.currentStep) {
-            case 1: return { color: 'indigo', icon: 'share' };
+            // case 1: return { color: 'indigo', icon: 'share' };
             case 2: return { color: 'red', icon: 'edit' };
             case 3: return { color: 'green', icon: 'keyboard_arrow_up' };
             default: return {};

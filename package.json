@@ -112,6 +112,7 @@
     "vue": "^2.5.21",
     "vue-currency-filter": "^3.2.0",
     "vue-router": "^3.0.2",
+    "vuelidate": "^0.7.4",
     "vuetify": "^1.4.1",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"

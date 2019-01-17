@@ -1,6 +1,5 @@
 import * as parecerHelperAPI from '@/helpers/api/Parecer';
 import * as types from './types';
-import * as avaliacaoResultadosHelperAPI from '@/helpers/api/AvaliacaoResultados';
 
 export const obterProdutosParaAnalise = ({ commit }) => {
     parecerHelperAPI.obterProdutosParaAnalise()
@@ -49,4 +48,12 @@ export const salvarAnaLiseConteudo = async ({ commit }, avaliacao) => {
             throw new TypeError(e.response.data.message, 'salvarAnaliseConteudo', 10);
         });
     return valor;
+};
+
+export const obterPlanilhaParaAnalise = ({ commit }, params) => {
+    parecerHelperAPI.obterPlanilhaParaAnalise(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.SET_PLANILHA_PARECER, data);
+        });
 };

@@ -1,14 +1,14 @@
 <template>
     <div>
         <Planilha/>
-        <div id="planilha-homologada">
-            <Planilha
-                v-if="Object.keys(planilha).length > 0"
-                :array-planilha="planilha">
-                <template slot-scope="slotProps">
-                    <PlanilhaItensAnaliseTecnica :table="slotProps.itens"/>
-                </template>
-            </Planilha>
+        <div id="planilha-homologada"> {{ planilha }}
+            <!--<Planilha-->
+            <!--v-if="Object.keys(planilha).length > 0"-->
+            <!--:array-planilha="planilha">-->
+            <!--<template slot-scope="slotProps">-->
+            <!--<PlanilhaItensAnaliseTecnica :table="slotProps.itens"/>-->
+            <!--</template>-->
+            <!--</Planilha>-->
         </div>
 
         Análise de Custos
@@ -28,10 +28,10 @@ export default {
         PlanilhaItensAnaliseTecnica,
     },
     props: {
-        produto: {
-            type: Object,
-            default: () => {},
-        },
+        // produto: {
+        //     type: Object,
+        //     default: () => {},
+        // },
         active: {
             type: Boolean,
             default: false,
@@ -39,24 +39,36 @@ export default {
     },
     computed: {
         ...mapGetters({
-            planilha: 'projeto/planilhaAdequada',
+            planilha: 'parecer/getPlanilhaParecer',
+            produto: 'parecer/getProduto',
         }),
     },
     watch: {
         produto(value) {
             if (Object.keys(value).length > 0) {
-                this.buscaPlanilhaAdequada(value.IdPRONAC);
+                const params = {
+                    id: value.idProduto,
+                    idPronac: value.IdPRONAC,
+                    stPrincipal: value.stPrincipal,
+
+                };
+                this.obterPlanilhaParecer(params);
             }
         },
     },
     mounted() {
-        if (Object.keys(this.produto).length > 0) {
-            this.buscaPlanilhaAdequada(this.produto.IdPRONAC);
-        }
+        // if (Object.keys(this.produto).length > 0) {
+        //     const params = {
+        //         id: this.produto.idProduto,
+        //         idPronac: this.produto.IdPRONAC,
+        //         stPrincipal: this.produto.stPrincipal,
+        //     };
+        //     this.obterPlanilhaParecer(params);
+        // }
     },
     methods: {
         ...mapActions({
-            buscaPlanilhaAdequada: 'projeto/buscaPlanilhaAdequada',
+            obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
         }),
     },
 };

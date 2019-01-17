@@ -29,7 +29,7 @@
                 <template v-for="step in arraySteps">
                     <v-stepper-step
                         :complete="currentStep > step.id"
-                        :key="`${step.id}-step`"
+                        :key="`${step.path}-step`"
                         :step="step.id"
                         editable
                     >
@@ -46,17 +46,20 @@
             <v-stepper-items>
                 <v-stepper-content
                     v-for="step in arraySteps"
-                    :key="`${step.id}-content`"
+                    :key="`${step.path}-content`"
                     :step="step.id"
                 >
                     <v-card
                         class="mb-5"
                     >
-                        <component
-                            :is="step.component"
-                            :produto="produto"
-                            :active="step.id === currentStep"
-                        />
+                        <!--<component-->
+                        <!--:is="step.component"-->
+                        <!--:produto="produto"-->
+                        <!--:active="step.id === currentStep"-->
+                        <!--/>-->
+                        <keep-alive>
+                            <router-view/>
+                        </keep-alive>
                     </v-card>
                     <v-btn
                         color="primary"
@@ -115,24 +118,28 @@ export default {
                 name: 'Análise de conteúdo',
                 hidden: false,
                 component: 'AnaliseDeConteudo',
+                path: 'analise-conteudo',
             },
             {
                 id: 2,
                 name: 'Análise de custos',
                 hidden: false,
                 component: 'AnaliseDeCustos',
+                path: 'analise-de-custos',
             },
             {
                 id: 3,
                 name: 'Dados dos Produtos Secundários',
                 hidden: false,
                 component: 'ProdutosSecundarios',
+                path: 'produtos-secundarios',
             },
             {
                 id: 4,
                 name: 'Finalizar análise',
                 hidden: false,
                 component: 'FinalizarAnalise',
+                path: 'parecer-consolidacao',
             },
         ],
         fab: false,
@@ -153,14 +160,20 @@ export default {
         },
     },
     watch: {
+        currentStep(val) {
+            const currentIndex = val - 1;
+            this.$router.push({ name: this.arraySteps[currentIndex].path });
+        },
         arraySteps(val) {
             const index = Object.keys(val).length;
             if (this.currentStep > index) {
                 this.currentStep = index;
+                this.$router.push({ name: val.path });
             }
         },
     },
     mounted() {
+        console.log('mounted, produtos');
         this.obterProdutoParaAnalise({
             id: this.$route.params.id,
             idPronac: this.$route.params.idPronac,

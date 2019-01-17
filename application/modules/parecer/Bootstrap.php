@@ -16,6 +16,7 @@ class Parecer_Bootstrap extends Zend_Application_Module_Bootstrap
                 "parecer" => [
                     'analise-inicial-rest',
                     'analise-conteudo-rest',
+                    'analise-custo-rest',
                     'produto-rest',
                 ]
             ]

@@ -14,7 +14,7 @@
         </v-fab-transition>
 
         <Proposta
-            v-if="Object.keys(analiseConteudo).length > 0"
+            v-if="Object.keys(produto).length > 0"
             :idpreprojeto="produto.idProjeto"/>
 
         <v-dialog
@@ -118,10 +118,10 @@ export default {
     name: 'AnaliseDeConteudo',
     components: { Proposta, SalicEditorTexto },
     props: {
-        produto: {
-            type: Object,
-            default: () => {},
-        },
+        // produto: {
+        //     type: Object,
+        //     default: () => {},
+        // },
         active: {
             type: Boolean,
             default: false,
@@ -146,11 +146,11 @@ export default {
                 enable: false,
             },
             analiseConteudoEmEdicao: {
-                idAnaliseDeConteudo: null,
-                IdPRONAC: this.produto.IdPRONAC,
-                idProduto: this.idProduto,
-                ParecerFavoravel: true,
-                ParecerDeConteudo: '',
+                // idAnaliseDeConteudo: null,
+                // IdPRONAC: this.produto.IdPRONAC,
+                // idProduto: this.idProduto,
+                // ParecerFavoravel: true,
+                // ParecerDeConteudo: '',
             },
             rules: {
                 // required: v => !!v || 'Campo obrigatório',
@@ -162,14 +162,16 @@ export default {
     computed: {
         ...mapGetters({
             analiseConteudo: 'parecer/getAnaliseConteudo',
+            produto: 'parecer/getProduto',
         }),
     },
     watch: {
         produto(val) {
-            this.obterAnaLiseConteudo({
-                id: val.idProduto,
-                idPronac: val.IdPRONAC,
-            });
+            console.log('produtosss', val);
+            // this.obterAnaLiseConteudo({
+            //     id: val.idProduto,
+            //     idPronac: val.IdPRONAC,
+            // });
         },
         analiseConteudo(val) {
             this.analiseConteudoEmEdicao = Object.assign({}, val);

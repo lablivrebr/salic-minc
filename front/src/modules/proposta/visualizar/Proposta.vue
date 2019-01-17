@@ -335,14 +335,13 @@ export default {
             this.loading = false;
         },
         idpreprojeto(value) {
-            console.log('vai tomar no cu', value);
+            console.log('idPreProjeto', value);
             if (value !== '') {
                 this.buscarDadosProposta(value);
             }
         },
     },
     mounted() {
-        console.log('mounted', this.idpreprojeto);
         if (this.idpreprojeto !== ''
             && typeof this.proposta === 'undefined') {
             this.buscarDadosProposta(this.idpreprojeto);

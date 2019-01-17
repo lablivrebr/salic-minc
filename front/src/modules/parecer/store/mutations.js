@@ -4,6 +4,7 @@ export const state = {
     produtos: [],
     produto: {},
     analiseConteudo: {},
+    planilhaParecer: {},
 };
 
 export const mutations = {
@@ -15,5 +16,8 @@ export const mutations = {
     },
     [types.SET_ANALISE_CONTEUDO](state, analise) {
         state.analiseConteudo = analise;
+    },
+    [types.SET_PLANILHA_PARECER](state, analise) {
+        state.planilhaParecer = analise;
     },
 };

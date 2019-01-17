@@ -42,3 +42,15 @@ export const obterAnaliseConteudo = (params) => {
 };
 
 export const salvarAnaliseConteudo = params => api.postRequest('/parecer/analise-conteudo-rest/', buildData(params));
+
+export const obterPlanilhaParaAnalise = (params) => {
+    const module = '/parecer';
+    const controller = '/analise-custo-rest';
+    const id = `id/${params.id}`;
+    const idPronac = `idPronac/${params.idPronac}`;
+    const stPrincipal = `stPrincipal/${params.stPrincipal}`;
+
+    const queryParams = `/${id}/${idPronac}/${stPrincipal}`;
+
+    return api.getRequest(`${module}${controller}${queryParams}`);
+};

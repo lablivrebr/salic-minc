@@ -17,8 +17,6 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
     private $idUsuario;
     private $idOrgao;
 
-    const ID_ATO_ADMINISTRATIVO = \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ANALISE_INICIAL;
-
     function __construct($request, $response)
     {
         $this->request = $request;

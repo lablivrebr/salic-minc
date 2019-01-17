@@ -14,24 +14,28 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
      */
     private $response;
 
+    private $idUsuario;
+    private $idOrgao;
+
     const ID_ATO_ADMINISTRATIVO = \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ANALISE_INICIAL;
 
     function __construct($request, $response)
     {
         $this->request = $request;
         $this->response = $response;
+
+        $auth = \Zend_Auth::getInstance();
+        $this->idUsuario = $auth->getIdentity()->usu_codigo;
+
+        $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
+        $this->idOrgao = $GrupoAtivo->codOrgao;
     }
 
     public function index()
     {
-        $auth = \Zend_Auth::getInstance();
-        $idusuario = $auth->getIdentity()->usu_codigo;
-
-        $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
-        $idOrgao = $GrupoAtivo->codOrgao; //  ¿rg¿o ativo na sess¿o
 
         $UsuarioDAO = new \Autenticacao_Model_DbTable_Usuario();
-        $agente = $UsuarioDAO->getIdUsuario($idusuario);
+        $agente = $UsuarioDAO->getIdUsuario($this->idUsuario);
         $idAgenteParecerista = $agente['idagente'];
 
         if (empty($idAgenteParecerista)) {
@@ -92,7 +96,99 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
 
     public function salvar()
     {
+        $idAnaliseDeConteudo = $this->request->getParam('idAnaliseDeConteudo');
+        $idPronac = $this->request->getParam('IdPRONAC');
+        $idProduto = $this->request->getParam('idProduto');
+        $parecerFavoravel= $this->request->getParam('ParecerFavoravel');
+        $parecerDeConteudo = utf8_decode($this->request->getParam('ParecerDeConteudo'));
+        $stPrincipal = utf8_decode($this->request->getParam('stPrincipal'));
 
+        if (!$idPronac) {
+            throw new \Exception('Falta idPronac');
+        }
+
+        if (!$idProduto) {
+            throw new \Exception('Falta id do Produto');
+        }
+
+        if (strlen(trim($parecerDeConteudo)) == 0) {
+            throw new \Exception('Falta parecer de conte&uacute;do');
+        }
+
+        if (!$parecerFavoravel) {
+            $dadosZerarPlanilha = [
+                'idUnidade' => 1,
+                'Quantidade' => 0,
+                'Ocorrencia' => 0,
+                'ValorUnitario' => 0,
+                'QtdeDias' => 0,
+                'idUsuario' => $this->idUsuario,
+                'Justificativa' => ''
+            ];
+
+            $whereZerarPlanilha = [
+                'idPronac = ?' => $idPronac
+            ];
+
+            if (!$stPrincipal) {
+                $whereZerarPlanilha[ 'idProduto = ?'] = $idProduto;
+            }
+
+            $planilhaProjeto = new \PlanilhaProjeto();
+            $planilhaProjeto->alterar($dadosZerarPlanilha, $whereZerarPlanilha);
+        }
+
+        $dados = [
+            'idPronac' => $idPronac,
+            'idProduto' => $idProduto,
+            'Lei8313' => 0,
+            'Artigo3' => 0,
+            'IncisoArtigo3' => 0,
+            'AlineaArtigo3' => " ",
+            'Artigo18' => 0,
+            'AlineaArtigo18' => " ",
+            'Artigo26' => 0,
+            'Lei5761' => 0,
+            'Artigo27' => 0,
+            'IncisoArtigo27_I' => 0,
+            'IncisoArtigo27_II' => 0,
+            'IncisoArtigo27_III' => 0,
+            'IncisoArtigo27_IV' => 0,
+            'TipoParecer' => 1,
+            'ParecerFavoravel' => $parecerFavoravel,
+            'ParecerDeConteudo' => $parecerDeConteudo,
+            'idParecer' => null,
+            'idUsuario' => $this->idUsuario,
+        ];
+
+        $analisedeConteudoDAO = new \Analisedeconteudo();
+
+        if (empty($idAnaliseDeConteudo)) {
+            $analisedeConteudo = $analisedeConteudoDAO->dadosAnaliseconteudo(
+                false,
+                [
+                    'idProduto = ?' => $idProduto,
+                    'idPronac = ?' => $idPronac
+                ]
+            )->current();
+
+            if ($analisedeConteudo) {
+                $idAnaliseDeConteudo = $analisedeConteudo->idAnaliseDeConteudo;
+            }
+        }
+
+        if (empty($idAnaliseDeConteudo)) {
+            $idAnaliseDeConteudo = $analisedeConteudoDAO->insert($dados);
+        } else {
+            $where = [];
+            $where['idAnaliseDeConteudo = ?'] = $idAnaliseDeConteudo;
+            $where['idPRONAC = ?'] = $idPronac;
+            $where['idProduto = ?'] = $idProduto;
+            $analisedeConteudoDAO->update($dados, $where);
+        }
+
+        $dados['idAnaliseDeConteudo'] = $idAnaliseDeConteudo;
+
+        return $dados;
     }
-
 }

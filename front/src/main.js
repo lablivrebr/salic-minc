@@ -3,6 +3,7 @@
 // Vue.config.productionTip = false
 // import 'es6-promise/auto';
 import 'vuetify/dist/vuetify.min.css';
+import pt from 'vuetify/lib/locale/pt';
 import Vuetify from 'vuetify';
 import Vue from 'vue';
 import App from './App';
@@ -21,6 +22,10 @@ Vue.use(Vuetify, {
         warning: '#ffeb3b',
         info: '#2196f3',
         success: '#4caf50',
+    },
+    lang: {
+        locales: { pt },
+        current: 'pt',
     },
 });
 

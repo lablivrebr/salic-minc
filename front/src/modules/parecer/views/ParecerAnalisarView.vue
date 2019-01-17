@@ -52,7 +52,6 @@
                     <v-card
                         class="mb-5"
                     >
-                        {{ step.id }} - {{ currentStep }}
                         <component
                             :is="step.component"
                             :produto="produto"

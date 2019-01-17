@@ -23,6 +23,7 @@ class Analisedeconteudo extends MinC_Db_Table_Abstract
         $select->from(
                 $this,
                 array(
+                'IdPRONAC',
                 'idAnaliseDeConteudo',
                 'idProduto',
                 'Lei8313',

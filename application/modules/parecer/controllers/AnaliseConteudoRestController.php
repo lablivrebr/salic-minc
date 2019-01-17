@@ -7,6 +7,18 @@ class Parecer_AnaliseConteudoRestController extends MinC_Controller_Rest_Abstrac
 
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
+//        $profiles = [
+//            Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
+//            Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
+//            Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
+//        ];
+//
+//        $permissionsPerMethod  = [
+////            'index' => $profiles,
+////            'post' => $profiles
+//        ];
+//        $this->setProtectedMethodsProfilesPermission($permissionsPerMethod);
+//
         $this->setValidateUserIsLogged();
 
         parent::__construct($request, $response, $invokeArgs);
@@ -32,8 +44,8 @@ class Parecer_AnaliseConteudoRestController extends MinC_Controller_Rest_Abstrac
     public function getAction()
     {
         try {
-            $tramitacaoService = new AnaliseConteudo($this->getRequest(), $this->getResponse());
-            $resposta = $tramitacaoService->obter();
+            $analiseConteudoService = new AnaliseConteudo($this->getRequest(), $this->getResponse());
+            $resposta = $analiseConteudoService->obter();
 
             $this->customRenderJsonResponse($resposta, 200);
 
@@ -50,7 +62,25 @@ class Parecer_AnaliseConteudoRestController extends MinC_Controller_Rest_Abstrac
 
     public function postAction()
     {
-        $this->renderJsonResponse([], 201);
+        try {
+
+            $analiseConteudoService = new AnaliseConteudo($this->getRequest(), $this->getResponse());
+            $resposta = $analiseConteudoService->salvar();
+
+            $this->customRenderJsonResponse(
+                [
+                    'data' => $resposta,
+                    'message' => html_entity_decode('Avalia&ccedil;&atilde;o realizada com sucesso')
+                ], 200);
+
+        } catch (Exception $e) {
+            $this->customRenderJsonResponse(
+                [
+                    'code' => 500,
+                    'message' => html_entity_decode($e->getMessage())
+                ], 500);
+
+        }
     }
 
     public function putAction()

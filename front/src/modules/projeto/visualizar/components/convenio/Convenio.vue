@@ -28,7 +28,12 @@
                     <td v-if="dadosProjeto.CNPJ_CPF">
                         <a
                             v-if="!dadosProjeto.isProponente"
-                            :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + dadosProjeto.CNPJ_CPF">
+                            :href="
+                                '/default'+
+                                    '/relatorio'+
+                                    '/resultado-projeto'+
+                                    '?cnpfcpf=' + dadosProjeto.CNPJ_CPF
+                            ">
                             <SalicFormatarCpfCnpj :cpf="dadosProjeto.CNPJ_CPF"/>
                         </a>
                         <SalicFormatarCpfCnpj
@@ -194,7 +199,12 @@
                         class="right-align">
                         <b>
                             <a
-                                :href="'/default/consultardadosprojeto/dados-convenio?idPronac=' + dadosProjeto.idPronac"
+                                :href="
+                                    '/default'+
+                                        '/consultardadosprojeto'+
+                                        '/dados-convenio'+
+                                        '?idPronac=' + dadosProjeto.idPronac
+                                "
                                 style="color: blue !important;">
                                 <SalicFormatarValor :valor="dadosProjeto.vlTotalAprovado"/>
                             </a>

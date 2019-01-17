@@ -10,7 +10,11 @@
                     slot="header"
                     class="black--text">
                     <v-icon class="mr-3 black--text">place</v-icon>
-                    <span>Detalhamento - {{ detalhamento[0].DescricaoUf }} - {{ detalhamento[0].DescricaoMunicipio }}</span>
+                    <span>
+                        Detalhamento -
+                        {{ detalhamento[0].DescricaoUf }} -
+                        {{ detalhamento[0].DescricaoMunicipio }}
+                    </span>
                 </v-layout>
                 <v-card-title>
                     <v-layout
@@ -43,11 +47,13 @@
                         slot-scope="props">
                         <td class="text-xs-left">{{ props.item.dsProduto }}</td>
                         <td class="text-xs-right">{{ props.item.qtExemplares }}</td>
-
-                        <td class="text-xs-right">{{ parseInt(props.item.qtGratuitaDivulgacao) +
-                        parseInt(props.item.qtGratuitaPatrocinador) + parseInt(props.item.qtGratuitaPopulacao) }}
+                        <td class="text-xs-right">
+                            {{
+                                parseInt(props.item.qtGratuitaDivulgacao) +
+                                    parseInt(props.item.qtGratuitaPatrocinador) +
+                                    parseInt(props.item.qtGratuitaPopulacao)
+                            }}
                         </td>
-
                         <td class="text-xs-right">{{ props.item.qtPopularIntegral }}</td>
                         <td class="text-xs-right">{{ props.item.qtPopularParcial }}</td>
                         <td class="text-xs-right">{{ props.item.vlUnitarioPopularIntegral }}</td>
@@ -66,7 +72,12 @@
 <script>
 export default {
     name: 'DetalhamentoPlanoDistribuicao',
-    props: ['arrayDetalhamentos'],
+    props: {
+        arrayDetalhamentos: {
+            type: Array,
+            default: () => [],
+        },
+    },
     data() {
         return {
             detalhamentos: [],
@@ -84,7 +95,6 @@ export default {
                 {
                     text: 'DIST. GRATUITA',
                     align: 'center',
-                    // value: `${qtGratuitaDivulgacao}+${qtGratuitaPatrocinador}+${qtGratuitaPopulacao}`,
                     value: 'qtGratuitaDivulgacao + qtGratuitaPatrocinador + qtGratuitaPopulacao',
                 },
                 {
@@ -139,13 +149,12 @@ export default {
         montarVisualizacao(detalhamentos) {
             const novoDetalhamento = {};
             let i = 0;
-            let idMunicipio = '';
+            const idMunicipio = '';
 
             detalhamentos.forEach((element) => {
                 if (element.idMunicipio !== idMunicipio) {
                     novoDetalhamento[element.idMunicipio] = [];
                     i = 0;
-                    idMunicipio = element.idMunicipio;
                 }
 
                 novoDetalhamento[element.idMunicipio][i] = element;

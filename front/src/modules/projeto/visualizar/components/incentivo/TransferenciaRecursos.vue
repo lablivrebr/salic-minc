@@ -47,7 +47,9 @@
                             <td>{{ informacoesTransferencia.PronacRecebedor }}</td>
                             <td>{{ informacoesTransferencia.NomeProjetoRecedor }}</td>
                             <td>{{ informacoesTransferencia.dtRecebimento }}</td>
-                            <td>R${{ informacoesTransferencia.vlRecebido | filtroFormatarParaReal }}</td>
+                            <td>
+                                R${{ informacoesTransferencia.vlRecebido | filtroFormatarParaReal }}
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -55,7 +57,10 @@
                             <td colspan="1">Total</td>
                             <td
                                 style="text-align: right"
-                                colspan="5">R${{ somaValoresRecebidos | filtroFormatarParaReal }}</td>
+                                colspan="5"
+                            >
+                                R${{ somaValoresRecebidos | filtroFormatarParaReal }}
+                            </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -80,12 +85,10 @@ export default {
         valor: {
             type: String,
             default: '',
-            required: true,
         },
         acao: {
             type: String,
             default: '',
-            required: true,
         },
     },
     data() {

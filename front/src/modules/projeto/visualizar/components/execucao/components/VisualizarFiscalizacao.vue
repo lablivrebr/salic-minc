@@ -67,16 +67,22 @@
                 <v-card>
                     <v-subheader class="primary justify-center">
                         <div>
-                            <h3 class="display-1 white--text font-weight-light">
-                                Oficializar Fiscalização</h3>
+                            <h3
+                                class="display-1 white--text font-weight-light"
+                            >
+                                Oficializar Fiscalização
+                            </h3>
                         </div>
                     </v-subheader>
                 </v-card>
                 <v-card>
                     <v-subheader class="justify-center">
                         <div>
-                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">
-                                Datas / Demandante</h4>
+                            <h4
+                                class="display-1 grey--text text--darken-4 font-weight-light"
+                            >
+                                Datas / Demandante
+                            </h4>
                         </div>
                     </v-subheader>
                     <v-container
@@ -123,8 +129,11 @@
                 <v-card>
                     <v-subheader class="justify-center">
                         <div>
-                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">
-                                Identificação do Técnico</h4>
+                            <h4
+                                class="display-1 grey--text text--darken-4 font-weight-light"
+                            >
+                                Identificação do Técnico
+                            </h4>
                         </div>
                     </v-subheader>
                     <v-container
@@ -158,8 +167,11 @@
                 <v-card>
                     <v-subheader class="primary justify-center">
                         <div>
-                            <h3 class="display-1 white--text font-weight-light">
-                                Fiscalização Concluída para Parecer</h3>
+                            <h3
+                                class="display-1 white--text font-weight-light"
+                            >
+                                Fiscalização Concluída para Parecer
+                            </h3>
                         </div>
                     </v-subheader>
                 </v-card>
@@ -210,8 +222,11 @@
                     <v-card v-if="parecer.stDtDeCorte == 1">
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">
-                                    Situação do Convênio na Realização da Fiscalização</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Situação do Convênio na Realização da Fiscalização
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -230,7 +245,9 @@
                                     offset-xs1>
                                     <br>
                                     <p><b>Prestação de Contas Apresentada?</b></p>
-                                    <div v-html="parecer.stConvenioFiscalizacao.stPrestacaoContas"/>
+                                    <div
+                                        v-html="parecer.stConvenioFiscalizacao.stPrestacaoContas"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout>
@@ -247,9 +264,12 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>
-                                        Foi cumprido o prazo para entrega da prestação de contas?
-                                        </b></p>
+                                    <p>
+                                        <b>
+                                            Foi cumprido o prazo para
+                                            entrega da prestação de contas?
+                                        </b>
+                                    </p>
                                     <div v-html="parecer.stConvenioFiscalizacao.stCumpridoPrazo"/>
                                 </v-flex>
                             </v-layout>
@@ -258,8 +278,11 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">
-                                    Utilização de Recursos</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Utilização de Recursos
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -268,9 +291,16 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Foi apurado por unidade fiscalizadora ou auditora a aplicação irregular de
-                                    recursos?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stApuracaoUFiscalizacao"/>
+                                    <p>
+                                        <b>
+                                            Foi apurado por unidade fiscalizadora ou
+                                            auditora a aplicação irregular de
+                                            recursos?
+                                        </b>
+                                    </p>
+                                    <div
+                                        v-html="parecer.utilizacaoRecursos.stApuracaoUFiscalizacao"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout>
@@ -278,8 +308,18 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Comprovou a correta utilização dos recursos da contrapartida?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stComprovacaoUtilizacaoRecurso"/>
+                                    <p>
+                                        <b>
+                                            Comprovou a correta utilização
+                                            dos recursos da contrapartida?
+                                        </b>
+                                    </p>
+                                    <div
+                                        v-html="
+                                            parecer.utilizacaoRecursos.
+                                                stComprovacaoUtilizacaoRecurso
+                                        "
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout>
@@ -287,11 +327,27 @@
                                     xs10
                                     offset-xs1>
                                     <div v-if="parecer.stDtDeCorte == 0"><br>
-                                        <p><b>Há compatibilidade entre os recursos transferidos e a evolução do
-                                        projeto?</b></p></div>
+                                        <p>
+                                            <b>
+                                                Há compatibilidade entre os recursos
+                                                transferidos e a evolução do
+                                                projeto?
+                                            </b>
+                                        </p>
+                                    </div>
                                     <div v-else-if="parecer.stDtDeCorte == 1"><br>
-                                    <p><b>Há compatibilidade entre o desembolso e a evolução?</b></p></div>
-                                    <div v-html="parecer.utilizacaoRecursos.stCompatibilidadeDesembolsoEvo"/>
+                                        <p>
+                                            <b>
+                                                Há compatibilidade entre o desembolso e a evolução?
+                                            </b>
+                                        </p>
+                                    </div>
+                                    <div
+                                        v-html="
+                                            parecer.utilizacaoRecursos.
+                                                stCompatibilidadeDesembolsoEvo
+                                        "
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout>
@@ -299,8 +355,13 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Ocorreu despesas com multas, juros, taxas bancárias ou correção
-                                    monetária?</b></p>
+                                    <p>
+                                        <b>
+                                            Ocorreu despesas com multas, juros,
+                                            taxas bancárias ou correção
+                                            monetária?
+                                        </b>
+                                    </p>
                                     <div v-html="parecer.utilizacaoRecursos.stOcorreuDespesas"/>
                                 </v-flex>
                             </v-layout>
@@ -310,7 +371,12 @@
                                     offset-xs1>
                                     <br>
                                     <p><b>Ocorreu pagamento de servidor público?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stPagamentoServidorPublico"/>
+                                    <div
+                                        v-html="
+                                            parecer.utilizacaoRecursos.
+                                                stPagamentoServidorPublico
+                                        "
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout v-if="parecer.stDtDeCorte == 1">
@@ -319,7 +385,12 @@
                                     offset-xs1>
                                     <br>
                                     <p><b>Ocorreu despesa com taxa de administração?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stDespesaAdministracao"/>
+                                    <div
+                                        v-html="
+                                            parecer.utilizacaoRecursos.
+                                                stDespesaAdministracao
+                                        "
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout v-if="parecer.stDtDeCorte == 1">
@@ -327,9 +398,16 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Há transferência de recurso para clubes/associações ou outras entidades
-                                    congêneres?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stTransferenciaRecurso"/>
+                                    <p>
+                                        <b>
+                                            Há transferência de recurso para
+                                            clubes/associações ou outras entidades
+                                            congêneres?
+                                        </b>
+                                    </p>
+                                    <div
+                                        v-html="parecer.utilizacaoRecursos.stTransferenciaRecurso"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout v-if="parecer.stDtDeCorte == 1">
@@ -337,9 +415,16 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Há despesas com publicidade, salvo as de caráter educativo, informativo ou
-                                    de orientação social?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stDespesasPublicidade"/>
+                                    <p>
+                                        <b>
+                                            Há despesas com publicidade,
+                                            salvo as de caráter educativo,
+                                            informativo ou de orientação social?
+                                        </b>
+                                    </p>
+                                    <div
+                                        v-html="parecer.utilizacaoRecursos.stDespesasPublicidade"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout v-if="parecer.stDtDeCorte == 1">
@@ -356,10 +441,20 @@
                                     xs10
                                     offset-xs1>
                                     <div v-if="parecer.stDtDeCorte == 0"><br>
-                                        <p><b>Os recursos de contrapartida foram depositados na conta do
-                                        projeto?</b></p></div>
+                                        <p>
+                                            <b>
+                                                Os recursos de contrapartida
+                                                foram depositados na conta do projeto?
+                                            </b>
+                                        </p>
+                                    </div>
                                     <div v-else-if="parecer.stDtDeCorte == 1"><br>
-                                    <p><b>Não foram aplicados os recursos de contrapartida?</b></p></div>
+                                        <p>
+                                            <b>
+                                                Não foram aplicados os recursos de contrapartida?
+                                            </b>
+                                        </p>
+                                    </div>
                                     <div v-html="parecer.utilizacaoRecursos.stAplicadosRecursos"/>
                                 </v-flex>
                             </v-layout>
@@ -368,9 +463,18 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Ocorreu aplicação de recursos em outra finalidade que não a do objeto
-                                    pactuado?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stAplicacaoRecursosFinalidade"/>
+                                    <p>
+                                        <b>
+                                            Ocorreu aplicação de recursos
+                                            em outra finalidade que não a do objeto pactuado?
+                                        </b>
+                                    </p>
+                                    <div
+                                        v-html="
+                                            parecer.utilizacaoRecursos.
+                                                stAplicacaoRecursosFinalidade
+                                        "
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout v-if="parecer.stDtDeCorte == 0">
@@ -378,8 +482,13 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Os recursos captados estão sendo aplicados em conformidade com a
-                                    legislação vigente?</b></p>
+                                    <p>
+                                        <b>
+                                            Os recursos captados estão
+                                            sendo aplicados em conformidade com a
+                                            legislação vigente?
+                                        </b>
+                                    </p>
                                     <div v-html="parecer.utilizacaoRecursos.stRecursosCaptados"/>
                                 </v-flex>
                             </v-layout>
@@ -389,7 +498,9 @@
                                     offset-xs1>
                                     <br>
                                     <p><b>Ocorreu saldo após o encerramento do projeto?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stSaldoAposEncerramento"/>
+                                    <div
+                                        v-html="parecer.utilizacaoRecursos.stSaldoAposEncerramento"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout v-if="parecer.stDtDeCorte == 1">
@@ -398,7 +509,9 @@
                                     offset-xs1>
                                     <br>
                                     <p><b>O saldo verificado foi recolhido ao FNC?</b></p>
-                                    <div v-html="parecer.utilizacaoRecursos.stSaldoVerificacaoFNC"/>
+                                    <div
+                                        v-html="parecer.utilizacaoRecursos.stSaldoVerificacaoFNC"
+                                    />
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -406,8 +519,12 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Comprovantes
-                                Fiscais de Despesa</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Comprovantes
+                                    Fiscais de Despesa
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -416,11 +533,19 @@
                                     xs10
                                     offset-xs1>
                                     <div v-if="parecer.stDtDeCorte == 0"><br>
-                                        <p><b>O proponente/convenente tem mantido a documentação relativa ao projeto
-                                        em arquivo próprio?</b></p></div>
+                                        <p>
+                                            <b>
+                                                O proponente/convenente tem mantido
+                                                a documentação relativa ao projeto
+                                                em arquivo próprio?
+                                            </b>
+                                        </p>
+                                    </div>
                                     <div v-else-if="parecer.stDtDeCorte == 1"><br>
                                     <p><b>O processo está bem documentado?</b></p></div>
-                                    <div v-html="parecer.comprovantesDespesa.stProcessoDocumentado"/>
+                                    <div
+                                        v-html="parecer.comprovantesDespesa.stProcessoDocumentado"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout v-if="parecer.stDtDeCorte == 1">
@@ -429,7 +554,9 @@
                                     offset-xs1>
                                     <br>
                                     <p><b>A documentação está completa e arquivada?</b></p>
-                                    <div v-html="parecer.comprovantesDespesa.stDocumentacaoCompleta"/>
+                                    <div
+                                        v-html="parecer.comprovantesDespesa.stDocumentacaoCompleta"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout>
@@ -437,8 +564,14 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Guardam conformidade entre o executado e o aprovado?</b></p>
-                                    <div v-html="parecer.comprovantesDespesa.stConformidadeExecucao"/>
+                                    <p>
+                                        <b>
+                                            Guardam conformidade entre o executado e o aprovado?
+                                        </b>
+                                    </p>
+                                    <div
+                                        v-html="parecer.comprovantesDespesa.stConformidadeExecucao"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout>
@@ -446,9 +579,21 @@
                                     xs10
                                     offset-xs1>
                                     <div v-if="parecer.stDtDeCorte == 0"><br>
-                                    <p><b>Identificam o projeto com o número do Pronac/Convênio?</b></p></div>
+                                        <p>
+                                            <b>
+                                                Identificam o projeto com o
+                                                número do Pronac/Convênio?
+                                            </b>
+                                        </p>
+                                    </div>
                                     <div v-if="parecer.stDtDeCorte == 1"><br>
-                                    <p><b>Identificam o nome do projeto e o número do convênio?</b></p></div>
+                                        <p>
+                                            <b>
+                                                Identificam o nome do projeto
+                                                e o número do convênio?
+                                            </b>
+                                        </p>
+                                    </div>
                                     <div v-html="parecer.comprovantesDespesa.stIdentificaProjeto"/>
                                 </v-flex>
                             </v-layout>
@@ -466,7 +611,11 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Existem despesas posteriores ao prazo de vigência?</b></p>
+                                    <p>
+                                        <b>
+                                            Existem despesas posteriores ao prazo de vigência?
+                                        </b>
+                                    </p>
                                     <div v-html="parecer.comprovantesDespesa.stDespesaPosterior"/>
                                 </v-flex>
                             </v-layout>
@@ -475,7 +624,12 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>As despesas coincidem com as informadas na relação de pagamentos?</b></p>
+                                    <p>
+                                        <b>
+                                            As despesas coincidem com as
+                                            informadas na relação de pagamentos?
+                                        </b>
+                                    </p>
                                     <div v-html="parecer.comprovantesDespesa.stDespesaCoincidem"/>
                                 </v-flex>
                             </v-layout>
@@ -484,8 +638,15 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>As despesas estão devidamente relacionadas no extrato bancário?</b></p>
-                                    <div v-html="parecer.comprovantesDespesa.stDespesaRelacionada"/>
+                                    <p>
+                                        <b>
+                                            As despesas estão devidamente
+                                            relacionadas no extrato bancário?
+                                        </b>
+                                    </p>
+                                    <div
+                                        v-html="parecer.comprovantesDespesa.stDespesaRelacionada"
+                                    />
                                 </v-flex>
                             </v-layout>
                             <v-layout>
@@ -493,7 +654,12 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>Os comprovantes fiscais estão com o atesto do recebimento?</b></p>
+                                    <p>
+                                        <b>
+                                            Os comprovantes fiscais estão
+                                            com o atesto do recebimento?
+                                        </b>
+                                    </p>
                                     <div v-html="parecer.comprovantesDespesa.stComprovanteFiscal"/>
                                 </v-flex>
                             </v-layout>
@@ -502,7 +668,11 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Divulgação</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Divulgação
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -538,7 +708,11 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Execução</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Execução
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -556,7 +730,11 @@
                                     xs10
                                     offset-xs1>
                                     <br>
-                                    <p><b>As metas/etapas do Plano de Trabalho foram executadas integralmente?</b>
+                                    <p>
+                                        <b>
+                                            As metas/etapas do Plano de Trabalho
+                                            foram executadas integralmente?
+                                        </b>
                                     </p>
                                     <div v-html="parecer.execucao.stPlanoTrabalho"/>
                                 </v-flex>
@@ -566,7 +744,13 @@
                                     xs10
                                     offset-xs1>
                                     <div v-if="parecer.stDtDeCorte == 0"><br>
-                                    <p><b>O projeto está sendo executado de acordo com o aprovado?</b></p></div>
+                                        <p>
+                                            <b>
+                                                O projeto está sendo executado
+                                                de acordo com o aprovado?
+                                            </b>
+                                        </p>
+                                    </div>
                                     <div v-if="parecer.stDtDeCorte == 1"><br>
                                     <p><b>A execução respeitou o aprovado?</b></p></div>
                                     <div v-html="parecer.execucao.stExecucaoAprovado"/>
@@ -586,8 +770,12 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Empregos gerados
-                                em decorrência do projeto</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Empregos gerados
+                                    em decorrência do projeto
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -596,19 +784,28 @@
                                     xs4
                                     offset-xs1>
                                     <br>
-                                    <p><b>Diretos: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoDireto }}</p>
+                                    <p>
+                                        <b>Diretos: </b>
+                                        {{ parecer.empregosGeradosProjeto.qtEmpregoDireto }}
+                                    </p>
                                 </v-flex>
                                 <v-flex
                                     xs4
                                     offset-xs1>
                                     <br>
-                                    <p><b>Indiretos: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoIndireto }}</p>
+                                    <p>
+                                        <b>Indiretos: </b>
+                                        {{ parecer.empregosGeradosProjeto.qtEmpregoIndireto }}
+                                    </p>
                                 </v-flex>
                                 <v-flex
                                     xs4
                                     offset-xs1>
                                     <br>
-                                    <p><b>Total: </b>{{ parecer.empregosGeradosProjeto.qtEmpregoTotal }}</p>
+                                    <p>
+                                        <b>Total: </b>
+                                        {{ parecer.empregosGeradosProjeto.qtEmpregoTotal }}
+                                    </p>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -616,7 +813,11 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Evidências</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Evidências
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -632,25 +833,12 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Recomendações da
-                                Equipe</h4>
-                            </div>
-                        </v-subheader>
-                        <v-container>
-                            <v-layout>
-                                <v-flex
-                                    xs10
-                                    offset-xs1>
-                                    <div v-html="parecer.empregosGeradosProjeto.dsRecomendacaoEquipe"/>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card>
-                    <v-card>
-                        <v-subheader class="justify-center">
-                            <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Conclusão da
-                                Equipe</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Recomendações da
+                                    Equipe
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -659,7 +847,36 @@
                                     xs10
                                     offset-xs1>
                                     <div
-                                        v-if="parecer.empregosGeradosProjeto.dsConclusaoEquipe.length > 1"
+                                        v-html="
+                                            parecer.empregosGeradosProjeto.
+                                                dsRecomendacaoEquipe
+                                        "
+                                    />
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </v-card>
+                    <v-card>
+                        <v-subheader class="justify-center">
+                            <div>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Conclusão da
+                                    Equipe
+                                </h4>
+                            </div>
+                        </v-subheader>
+                        <v-container>
+                            <v-layout>
+                                <v-flex
+                                    xs10
+                                    offset-xs1>
+                                    <div
+                                        v-if="
+                                            parecer.empregosGeradosProjeto.
+                                                dsConclusaoEquipe.length > 1
+                                        "
                                         v-html="parecer.empregosGeradosProjeto.dsConclusaoEquipe"/>
                                     <div v-else>Não se Aplica.</div>
                                 </v-flex>
@@ -669,8 +886,12 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Parecer da
-                                Fiscalização</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Parecer da
+                                    Fiscalização
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -686,8 +907,12 @@
                     <v-card>
                         <v-subheader class="justify-center">
                             <div>
-                                <h4 class="display-1 grey--text text--darken-4 font-weight-light">Parecer do
-                                Coordenador</h4>
+                                <h4
+                                    class="display-1 grey--text text--darken-4 font-weight-light"
+                                >
+                                    Parecer do
+                                    Coordenador
+                                </h4>
                             </div>
                         </v-subheader>
                         <v-container>
@@ -704,7 +929,11 @@
                 <v-card>
                     <v-subheader class="justify-center">
                         <div>
-                            <h4 class="display-1 grey--text text--darken-4 font-weight-light">Anexos</h4>
+                            <h4
+                                class="display-1 grey--text text--darken-4 font-weight-light"
+                            >
+                                Anexos
+                            </h4>
                         </div>
                     </v-subheader>
                     <v-container
@@ -756,7 +985,16 @@ export default {
     components: {
         Carregando,
     },
-    props: ['dadosVisualizacao', 'dialog'],
+    props: {
+        dadosVisualizacao: {
+            type: Object,
+            default: () => {},
+        },
+        dialog: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             statusModal: false,

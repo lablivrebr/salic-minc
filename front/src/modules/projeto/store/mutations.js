@@ -29,7 +29,7 @@ export const state = {
     dadosReadequacoes: [],
     pedidoProrrogacao: [],
     dadosFiscalizacaoLista: [],
-    dadosFiscalizacaoVisualiza: [],
+    dadosFiscalizacaoVisualiza: {},
 };
 
 export const mutations = {

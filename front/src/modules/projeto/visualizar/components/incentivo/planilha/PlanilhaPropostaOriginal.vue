@@ -31,6 +31,12 @@ export default {
             mensagem: '',
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            planilha: 'projeto/planilhaOriginal',
+        }),
+    },
     watch: {
         dadosProjeto(value) {
             this.buscaPlanilhaOriginal(value.idPronac);
@@ -41,12 +47,6 @@ export default {
     },
     mounted() {
         this.buscaPlanilhaOriginal(this.dadosProjeto.idPronac);
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            planilha: 'projeto/planilhaOriginal',
-        }),
     },
     methods: {
         ...mapActions({

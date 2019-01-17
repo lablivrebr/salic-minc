@@ -37,7 +37,12 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'UltimaTramitacao',
-    props: ['idPronac'],
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             search: '',

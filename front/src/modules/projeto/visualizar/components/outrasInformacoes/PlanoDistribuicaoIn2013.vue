@@ -225,7 +225,10 @@ export default {
         Carregando,
     },
     props: {
-        idPronac: { type: String, default: '' },
+        idPronac: {
+            type: Number,
+            default: 0,
+        },
     },
     data() {
         return {

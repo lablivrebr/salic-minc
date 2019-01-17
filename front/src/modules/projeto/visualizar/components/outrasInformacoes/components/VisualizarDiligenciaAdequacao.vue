@@ -87,8 +87,14 @@ export default {
         Carregando,
     },
     props: {
-        idPronac: { type: String, default: '' },
-        diligencias: { type: String, default: '' },
+        idPronac: {
+            type: Number,
+            default: 0,
+        },
+        diligencias: {
+            type: Array,
+            default: () => [],
+        },
     },
     data() {
         return {
@@ -121,7 +127,7 @@ export default {
     },
     methods: {
         showItem(item) {
-            const idPronac = this.dadosProjeto.idPronac;
+            const { idPronac } = this.dadosProjeto;
             const valor = item.idAvaliarAdequacaoProjeto;
 
             this.buscarDiligenciaAdequacao({ idPronac, valor });

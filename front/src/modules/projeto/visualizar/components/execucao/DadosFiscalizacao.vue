@@ -98,6 +98,13 @@ export default {
             ],
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            dadosListagem: 'projeto/dadosFiscalizacaoLista',
+            dadosVisualizacao: 'projeto/dadosFiscalizacaoVisualiza',
+        }),
+    },
     watch: {
         dadosListagem() {
             this.loading = false;
@@ -108,16 +115,9 @@ export default {
             this.buscarDadosFiscalizacaoLista(this.dadosProjeto.idPronac);
         }
     },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dadosListagem: 'projeto/dadosFiscalizacaoLista',
-            dadosVisualizacao: 'projeto/dadosFiscalizacaoVisualiza',
-        }),
-    },
     methods: {
         showItem(idFiscalizacao) {
-            const idPronac = this.dadosProjeto.idPronac;
+            const { idPronac } = this.dadosProjeto;
 
             this.modalOpen(true);
             this.buscarDadosFiscalizacaoVisualiza({ idPronac, idFiscalizacao });

@@ -25,7 +25,9 @@
                     <template
                         slot="pageText"
                         slot-scope="props">
-                        Items {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+                        Items {{ props.pageStart }}
+                        - {{ props.pageStop }}
+                        de {{ props.itemsLength }}
                     </template>
                 </v-data-table>
             </v-card>
@@ -47,7 +49,12 @@ export default {
             return moment(date).format('DD/MM/YYYY');
         },
     },
-    props: ['idPronac'],
+    props: {
+        idPronac: {
+            type: Number,
+            default: 0,
+        },
+    },
     data() {
         return {
             loading: true,
@@ -75,11 +82,6 @@ export default {
             ],
         };
     },
-    mounted() {
-        if (typeof this.dadosProjeto.idPronac !== 'undefined') {
-            this.buscarDadosReadequacoes(this.dadosProjeto.idPronac);
-        }
-    },
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
@@ -90,6 +92,11 @@ export default {
         dados() {
             this.loading = false;
         },
+    },
+    mounted() {
+        if (typeof this.dadosProjeto.idPronac !== 'undefined') {
+            this.buscarDadosReadequacoes(this.dadosProjeto.idPronac);
+        }
     },
     methods: {
         ...mapActions({

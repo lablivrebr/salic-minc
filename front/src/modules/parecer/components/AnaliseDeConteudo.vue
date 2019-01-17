@@ -50,6 +50,11 @@
                 </v-toolbar>
                 <v-card-text>
                     <form>
+                        <vue-editor
+                            v-model="analiseConteudoEmEdicao.ParecerDeConteudo"
+                            :placeholder="'Texto do Documento *'"
+                            @text-change="validarCaracteresEditor($event)"
+                        />
                         <v-text-field
                             v-model="name"
                             :error-messages="nameErrors"
@@ -96,6 +101,8 @@
 
 <script>
 import Proposta from '@/modules/proposta/visualizar/Proposta';
+import SalicEditorTexto from '@/components/SalicEditorTexto';
+import { VueEditor } from 'vue2-editor';
 import { validationMixin } from 'vuelidate';
 import { required, maxLength, email } from 'vuelidate/lib/validators';
 
@@ -103,7 +110,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'AnaliseDeConteudo',
-    components: { Proposta },
+    components: { Proposta, SalicEditorTexto, VueEditor},
     mixins: [validationMixin],
     props: {
         produto: {
@@ -149,6 +156,29 @@ export default {
                 'Item 4',
             ],
             checkbox: false,
+            customToolbar: [
+                [{ font: [] }],
+                [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+                [{ size: ['small', false, 'large', 'huge'] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                [{ indent: '-1' }, { indent: '+1' }],
+                [{ color: [] }],
+            ],
+            editorParecerRules: {
+                show: false,
+                color: '',
+                backgroundColor: '',
+                msg: '',
+                enable: false,
+            },
+            analiseConteudoEmEdicao: {
+                idAnaliseDeConteudo: null,
+                idProduto: null,
+                ParecerFavoravel: true,
+                ParecerDeConteudo: '',
+            },
         };
     },
     computed: {
@@ -189,6 +219,9 @@ export default {
                 idPronac: val.IdPRONAC,
             });
         },
+        analiseConteudo(val) {
+            this.analiseConteudoEmEdicao = Object.assign({}, val);
+        },
     },
     methods: {
         ...mapActions({
@@ -203,6 +236,26 @@ export default {
             this.email = '';
             this.select = null;
             this.checkbox = false;
+        },
+        validarCaracteresEditor(e) {
+            if (e < 1) {
+                this.solicitacaoRules = {
+                    show: true,
+                    color: 'red--text',
+                    backgroundColor: { 'background-color': '#FFCDD2' },
+                    msg: 'A solicitação é obrigatória!',
+                    enable: false,
+                };
+            }
+            if (e > 0) {
+                this.solicitacaoRules = {
+                    show: false,
+                    color: '',
+                    backgroundColor: '',
+                    msg: '',
+                    enable: true,
+                };
+            }
         },
     },
 };

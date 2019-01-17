@@ -187,7 +187,10 @@ export default {
         utils,
     ],
     props: {
-        idagente: { type: String, default: '' },
+        idagente: {
+            type: [String, Number],
+            default: '',
+        },
     },
     data() {
         return {

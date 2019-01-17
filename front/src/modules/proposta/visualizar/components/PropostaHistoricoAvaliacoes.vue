@@ -16,7 +16,7 @@ export default {
     },
     props: {
         idpreprojeto: {
-            type: String,
+            type: [String, Number],
             default: '',
         },
     },

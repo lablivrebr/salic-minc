@@ -18,7 +18,7 @@
                         <td>
                             <v-btn
                                 :to="{
-                                    name: 'parecer-analisar-view',
+                                    name: 'analise-conteudo',
                                     params: {
                                         id: props.item.idProduto,
                                         idPronac: props.item.IdPRONAC,
@@ -38,7 +38,7 @@
                         <td class="justify-center layout px-0">
                             <v-btn
                                 :to="{
-                                    name: 'parecer-analisar-view',
+                                    name: 'analise-conteudo',
                                     params: {
                                         id: props.item.idProduto,
                                         idPronac: props.item.IdPRONAC,

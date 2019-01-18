@@ -17,6 +17,7 @@ class Parecer_Bootstrap extends Zend_Application_Module_Bootstrap
                     'analise-inicial-rest',
                     'analise-conteudo-rest',
                     'analise-custo-rest',
+                    'analise-produtos-secundarios-rest',
                     'produto-rest',
                 ]
             ]

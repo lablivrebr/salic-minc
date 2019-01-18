@@ -1,13 +1,13 @@
 <template>
     <div>
-        FinalizarAnalise
+        Consolidacao
     </div>
 </template>
 
 <script>
 
 export default {
-    name: 'FinalizarAnalise',
+    name: 'Consolidacao',
     props: {
         produto: {
             type: Object,

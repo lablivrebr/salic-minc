@@ -1,9 +1,10 @@
+import AnaliseDeConteudo from './components/AnaliseDeConteudo';
+import AnaliseDeCustos from './components/AnaliseDeCustos';
+import ProdutosSecundarios from './components/ProdutosSecundarios';
+import Consolidacao from './components/Consolidacao';
+
 const ParecerAnalisarView = () => import(/* webpackChunkName: "parecer-analisar-view" */ './views/ParecerAnalisarView');
-const ParecerListarView = () => import(/* webpackChunkName: "parecer-listar-view" */ './views/ParecerListarView')
-const AnaliseDeConteudo = () => import(/* webpackChunkName: "parecer-analise-conteudo" */ './components/AnaliseDeConteudo');
-const AnaliseDeCustos = () => import(/* webpackChunkName: "parecer-analise-custos" */ './components/AnaliseDeCustos');
-const ProdutosSecundarios = () => import(/* webpackChunkName: "parecer-produtos-secundarios" */ './components/ProdutosSecundarios');
-const Consolidacao = () => import(/* webpackChunkName: "parecer-consolidacao" */ './components/FinalizarAnalise');
+const ParecerListarView = () => import(/* webpackChunkName: "parecer-listar-view" */ './views/ParecerListarView');
 
 export default [
     {
@@ -17,14 +18,14 @@ export default [
     {
         path: '/parecer/analise-inicial/analisar/:id/:idPronac',
         component: ParecerAnalisarView,
-        meta: {
-            title: 'Análise inicial',
-        },
         children: [
             {
                 path: '',
                 name: 'analise-conteudo',
                 component: AnaliseDeConteudo,
+                meta: {
+                    title: 'Análise inicial',
+                },
             },
             {
                 path: 'custos',

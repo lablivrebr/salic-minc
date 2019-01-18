@@ -2,7 +2,6 @@
     <v-card id="create">
         <v-fab-transition>
             <v-btn
-                v-if="active"
                 v-model="fab"
                 color="blue darken-2"
                 dark
@@ -13,10 +12,11 @@
             </v-btn>
         </v-fab-transition>
 
-        <Proposta
-            v-if="Object.keys(produto).length > 0"
-            :idpreprojeto="produto.idProjeto"/>
-
+        <keep-alive>
+            <Proposta
+                v-if="Object.keys(produto).length > 0"
+                :idpreprojeto="produto.idProjeto"/>
+        </keep-alive>
         <v-dialog
             v-model="dialog"
             fullscreen
@@ -48,7 +48,7 @@
                     </v-toolbar-items>
                 </v-toolbar>
                 <v-card-text>
-                    <form
+                    <v-form
                         ref="form"
                         v-model="valid"
                         lazy-validation
@@ -101,7 +101,7 @@
                                 <v-icon>close</v-icon>
                             </v-btn>
                         </v-layout>
-                    </form>
+                    </v-form>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -145,16 +145,8 @@ export default {
                 msg: '',
                 enable: false,
             },
-            analiseConteudoEmEdicao: {
-                // idAnaliseDeConteudo: null,
-                // IdPRONAC: this.produto.IdPRONAC,
-                // idProduto: this.idProduto,
-                // ParecerFavoravel: true,
-                // ParecerDeConteudo: '',
-            },
+            analiseConteudoEmEdicao: {},
             rules: {
-                // required: v => !!v || 'Campo obrigatório',
-                // avaliacao: v => v !== '4' || 'Avaliação deve ser aprovado ou reprovado',
                 parecer: v => (!!v || this.$refs.stItemAvaliado.value !== '3') || 'Parecer é obrigatório',
             },
         };
@@ -166,16 +158,16 @@ export default {
         }),
     },
     watch: {
-        produto(val) {
-            console.log('produtosss', val);
-            // this.obterAnaLiseConteudo({
-            //     id: val.idProduto,
-            //     idPronac: val.IdPRONAC,
-            // });
-        },
         analiseConteudo(val) {
+            console.log('analise conteudo', val);
             this.analiseConteudoEmEdicao = Object.assign({}, val);
         },
+    },
+    mounted() {
+        this.obterAnaLiseConteudo({
+            id: this.$route.params.id,
+            idPronac: this.$route.params.idPronac,
+        });
     },
     methods: {
         ...mapActions({

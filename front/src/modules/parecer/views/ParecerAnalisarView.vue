@@ -10,7 +10,7 @@
                 <v-icon>arrow_back</v-icon>
             </v-btn>
             <v-toolbar-title>
-                {{ $route.meta.title }} - Produto:
+                Análise inicial - Produto:
                 {{ produto.dsProduto }}
             </v-toolbar-title>
             <v-spacer/>
@@ -52,13 +52,13 @@
                     <v-card
                         class="mb-5"
                     >
-                        <!--<component-->
-                        <!--:is="step.component"-->
-                        <!--:produto="produto"-->
-                        <!--:active="step.id === currentStep"-->
-                        <!--/>-->
+                        {{ step.id === currentStep }}
                         <keep-alive>
-                            <router-view/>
+                            <router-view
+                                v-if="step.id === currentStep"
+                                :is-active="true"
+                                class="view"
+                            />
                         </keep-alive>
                     </v-card>
                     <v-btn
@@ -95,23 +95,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import AnaliseDeConteudo from '../components/AnaliseDeConteudo';
-import AnaliseDeCustos from '../components/AnaliseDeCustos';
-import ProdutosSecundarios from '../components/ProdutosSecundarios';
-import FinalizarAnalise from '../components/FinalizarAnalise';
-
-
 export default {
     name: 'ParecerAnalisarView',
-    components: {
-        AnaliseDeConteudo,
-        AnaliseDeCustos,
-        ProdutosSecundarios,
-        FinalizarAnalise,
-    },
     data: () => ({
         currentStep: 1,
-        steps: 4,
         arraySteps: [
             {
                 id: 1,
@@ -160,24 +147,17 @@ export default {
         },
     },
     watch: {
-        currentStep(val) {
-            const currentIndex = val - 1;
-            this.$router.push({ name: this.arraySteps[currentIndex].path });
-        },
-        arraySteps(val) {
-            const index = Object.keys(val).length;
-            if (this.currentStep > index) {
-                this.currentStep = index;
-                this.$router.push({ name: val.path });
-            }
+        currentStep(val, old) {
+            console.log('watch', val, old);
+            this.$router.push({ name: this.getStepById(val).path });
         },
     },
-    mounted() {
-        console.log('mounted, produtos');
+    created() {
         this.obterProdutoParaAnalise({
             id: this.$route.params.id,
             idPronac: this.$route.params.idPronac,
         });
+        this.currentStep = this.arraySteps.find(element => element.path === this.$route.name).id;
     },
     methods: {
         ...mapActions({
@@ -190,8 +170,10 @@ export default {
             this.currentStep = (n === this.steps) ? 1 : n + 1;
         },
         back() {
-            /* eslint-disable-next-line */
-            window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+            this.$router.push({ name: 'parecer-listar-view' });
+        },
+        getStepById(id) {
+            return this.arraySteps.find(element => element.id === id);
         },
     },
 };

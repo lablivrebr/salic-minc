@@ -57,3 +57,11 @@ export const obterPlanilhaParaAnalise = ({ commit }, params) => {
             commit(types.SET_PLANILHA_PARECER, data);
         });
 };
+
+export const obterProdutosSecundarios = ({ commit }, params) => {
+    parecerHelperAPI.obterProdutosSecundarios(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.SET_PRODUTOS_SECUNDARIOS, data);
+        });
+};

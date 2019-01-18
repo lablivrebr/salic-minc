@@ -1,7 +1,8 @@
 <template>
     <div>
         <Planilha/>
-        <div id="planilha-homologada"> {{ planilha }}
+        <div id="planilha-homologada">
+            {{ planilha }}
             <!--<Planilha-->
             <!--v-if="Object.keys(planilha).length > 0"-->
             <!--:array-planilha="planilha">-->
@@ -41,10 +42,12 @@ export default {
         ...mapGetters({
             planilha: 'parecer/getPlanilhaParecer',
             produto: 'parecer/getProduto',
+            produtosSecundarios: 'parecer/getProdutosSecundarios',
         }),
     },
     watch: {
         produto(value) {
+            console.log('watch produto custos')
             if (Object.keys(value).length > 0) {
                 const params = {
                     id: value.idProduto,
@@ -56,15 +59,16 @@ export default {
             }
         },
     },
-    mounted() {
-        // if (Object.keys(this.produto).length > 0) {
-        //     const params = {
-        //         id: this.produto.idProduto,
-        //         idPronac: this.produto.IdPRONAC,
-        //         stPrincipal: this.produto.stPrincipal,
-        //     };
-        //     this.obterPlanilhaParecer(params);
-        // }
+    created() {
+        if (Object.keys(this.produto).length > 0) {
+            console.log('created custos');
+            const params = {
+                id: this.produto.idProduto,
+                idPronac: this.produto.IdPRONAC,
+                stPrincipal: this.produto.stPrincipal,
+            };
+            this.obterPlanilhaParecer(params);
+        }
     },
     methods: {
         ...mapActions({

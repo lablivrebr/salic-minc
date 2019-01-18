@@ -122,56 +122,41 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $idProduto = (int) $this->request->getParam('id');
         $idPronac = (int) $this->request->getParam('idPronac');
 
-        if(empty($idPronac))  {
+        if(empty($idPronac) || empty($idProduto)) {
             throw new \Exception("Dados obrigat&oacute;rios n&atilde;o informados");
         }
 
+        $dadosWhere = [];
         $dadosWhere["t.stEstado = ?"] = 0;
-        $dadosWhere["t.TipoAnalise in (?)"] = array(1, 3);
+//        $dadosWhere["t.TipoAnalise in (?)"] = array(1, 3);
         $dadosWhere["p.Situacao IN ('B11', 'B14')"] = '';
         $dadosWhere["p.IdPRONAC = ?"] = $idPronac;
-        $dadosWhere["t.stPrincipal = ?"] = 0;
+//        $dadosWhere["t.stPrincipal = ?"] = 0;
+//        $dadosWhere["t.stPrincipal = ?"] = 0;
+        $dadosWhere["t.idProduto <> ?"] = $idProduto;
         $tbDistribuirParecer = new \tbDistribuirParecer();
-        $produtosEmAnalise = $tbDistribuirParecer->dadosParaDistribuirSecundarios($dadosWhere);
+        $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuirSecundarios($dadosWhere)->toArray();
 
-        $dadosWhere["t.DtDistribuicao is not null"] = '';
-        $dadosWhere["t.DtDevolucao is null"] = '';
-        $SecundariosAtivos = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere);
-        $pscount = count($SecundariosAtivos);
+//        $dadosWhere["t.DtDistribuicao is not null"] = '';
+//        $dadosWhere["t.DtDevolucao is null"] = '';
+//        $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere)->toArray();
+//        $pscount = count($SecundariosAtivos);
 
-        $i = 1;
-        foreach ($Secundarios as $ps) {
-            $wherePS['PAP.idPRONAC = ?'] = $ps->IdPRONAC;
-            $wherePS['PAP.idProduto = ?'] = $ps->idProduto;
-            $PlanilhaDAO = new \PlanilhaProjeto();
-            $valorSugerido = $PlanilhaDAO->somaDadosPlanilha($wherePS);
+//        $i = 1;
+//        foreach ($outrosProdutos as $ps) {
+//            $wherePS['PAP.idPRONAC = ?'] = $ps->IdPRONAC;
+//            $wherePS['PAP.idProduto = ?'] = $ps->idProduto;
+//            $PlanilhaDAO = new \PlanilhaProjeto();
+//            $valorSugerido = $PlanilhaDAO->somaDadosPlanilha($wherePS);
+//
+//            $produtosSecundarios[$i]['IdPRONAC'] = $ps->IdPRONAC;
+//            $produtosSecundarios[$i]['idProduto'] = $ps->idProduto;
+//            $produtosSecundarios[$i]['stPrincipal'] = $ps->stPrincipal;
+//            $produtosSecundarios[$i]['Produto'] = $ps->Produto;
+//            $i++;
+//        }
 
-            $produtosSecundarios[$i]['IdPRONAC'] = $ps->IdPRONAC;
-            $produtosSecundarios[$i]['idProduto'] = $ps->idProduto;
-            $produtosSecundarios[$i]['stPrincipal'] = $ps->stPrincipal;
-            $produtosSecundarios[$i]['Produto'] = $ps->Produto;
-            $i++;
-        }
 
-        $this->view->produtosSecundarios = $Secundarios;
-        // $this->view->produtosSecundarios = $produtosSecundarios;
-        $this->view->produtosSecundariosEmAnalise = $pscount;
-
-        /** Verificar se o Produto principal j� foi dado a consolida��o ********************/
-        $consolidado = 'N';
-        $enquadramentoDAO = new Admissibilidade_Model_Enquadramento();
-        $buscaEnquadramento = $enquadramentoDAO->buscarDados($idPronac, null, false);
-        $countEnquadramentoP = count($buscaEnquadramento);
-
-        $parecerDAO = new Parecer();
-        $whereParecer['idPRONAC = ?'] = $idPronac;
-        $buscaParecer = $parecerDAO->buscar($whereParecer)->toArray();
-        $countParecerP = count($buscaParecer);
-        /***********************************************************************************/
-        if (($countEnquadramentoP != 0) && ($countParecerP != 0)) {
-            $consolidado = 'S';
-        }
-
-        return ;
+        return $outrosProdutos;
     }
 }

@@ -29,7 +29,9 @@
                             :cpf="dadosProjeto.CgcCPf"/></span>
                         <a
                             v-else
-                            :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + dadosProjeto.CgcCPf">
+                            :href="
+                                '/default/relatorio/resultado-projeto?cnpfcpf='+
+                            dadosProjeto.CgcCPf">
                             <SalicFormatarCpfCnpj :cpf="dadosProjeto.CgcCPf"/>
                         </a>
                     </td>
@@ -174,25 +176,33 @@
                 </tr>
                 <tr>
                     <td
-                        :class="[ isDataExpirada(dadosProjeto.DtFimCaptacao) ? 'orange-text' : 'green-text' ]"
+                        :class="
+                            [ isDataExpirada(dadosProjeto.DtFimCaptacao)
+                        ? 'orange-text' : 'green-text' ]"
                         align="center"
                         class="bold destacar-celula text-darken-2"
                     >{{ dadosProjeto.DtInicioCaptacao | formatarData }}
                     </td>
                     <td
-                        :class="[ isDataExpirada(dadosProjeto.DtFimCaptacao) ? 'orange-text' : 'green-text' ]"
+                        :class="
+                            [ isDataExpirada(dadosProjeto.DtFimCaptacao)
+                        ? 'orange-text' : 'green-text' ]"
                         align="center"
                         class="bold destacar-celula text-darken-2"
                     >{{ dadosProjeto.DtFimCaptacao | formatarData }}
                     </td>
                     <td
-                        :class="[ isDataExpirada(dadosProjeto.DtFimExecucao) ? 'orange-text' : 'green-text' ]"
+                        :class="
+                            [ isDataExpirada(dadosProjeto.DtFimExecucao)
+                        ? 'orange-text' : 'green-text' ]"
                         align="center"
                         class="bold destacar-celula text-darken-2"
                     >{{ dadosProjeto.DtInicioExecucao | formatarData }}
                     </td>
                     <td
-                        :class="[ isDataExpirada(dadosProjeto.DtFimExecucao) ? 'orange-text' : 'green-text' ]"
+                        :class="
+                            [ isDataExpirada(dadosProjeto.DtFimExecucao)
+                        ? 'orange-text' : 'green-text' ]"
                         align="center"
                         class="bold destacar-celula text-darken-2"
                     >{{ dadosProjeto.DtFimExecucao | formatarData }}
@@ -304,8 +314,11 @@
                 <div
                     style="background-color: #EF5350"
                     class="darken-2 padding10 white-text">
-                    A T E N &Ccedil; &Atilde; O: Projeto em an&aacute;lise pela Comiss&atilde;o Nacional
-                    de Incentivo &agrave; Cultura-CNIC. Aguardar resultado da avalia&ccedil;&atilde;o.
+                    A T E N &Ccedil; &Atilde; O:
+                    Projeto em an&aacute;lise
+                    pela Comiss&atilde;o Nacional
+                    de Incentivo &agrave; Cultura-CNIC.
+                    Aguardar resultado da avalia&ccedil;&atilde;o.
                 </div>
             </div>
             <table
@@ -453,6 +466,11 @@ export default {
             emAnaliseNaCNIC: false,
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+        }),
+    },
     watch: {
         dadosProjeto(value) {
             if (Object.keys(value).length > 0) {
@@ -466,38 +484,12 @@ export default {
             this.loading = false;
         }
     },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-        }),
-    },
     methods: {
         isDataExpirada(date) {
             return moment()
                 .diff(date, 'days') > 0;
         },
 
-    },
-    filters: {
-        formatarData(date) {
-            if (date.length === 0) {
-                return '-';
-            }
-            return moment(date)
-                .format('DD/MM/YYYY');
-        },
-        formatarAgencia(agencia) {
-            // formato: 9999-9
-            if (agencia.length === 5) {
-                agencia = agencia.replace(/(\d{4})(\S)/, '$1-$2');
-            }
-            return agencia;
-        },
-        formatarConta(conta) {
-            // formato: 99999-9 ou 99999-x
-            const regex = /^(0+)(\d+)(\S{1})$/;
-            return conta.replace(regex, '$2-$3');
-        },
     },
 };
 </script>

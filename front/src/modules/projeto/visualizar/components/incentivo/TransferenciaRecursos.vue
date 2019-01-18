@@ -47,7 +47,9 @@
                             <td>{{ informacoesTransferencia.PronacRecebedor }}</td>
                             <td>{{ informacoesTransferencia.NomeProjetoRecedor }}</td>
                             <td>{{ informacoesTransferencia.dtRecebimento }}</td>
-                            <td>R${{ informacoesTransferencia.vlRecebido | filtroFormatarParaReal }}</td>
+                            <td>
+                                R${{ informacoesTransferencia.vlRecebido | filtroFormatarParaReal }}
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -55,7 +57,10 @@
                             <td colspan="1">Total</td>
                             <td
                                 style="text-align: right"
-                                colspan="5">R${{ somaValoresRecebidos | filtroFormatarParaReal }}</td>
+                                colspan="5"
+                            >
+                                R${{ somaValoresRecebidos | filtroFormatarParaReal }}
+                            </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -78,36 +83,18 @@ export default {
     mixins: [planilhas],
     props: {
         valor: {
-            String,
-            required: true,
+            type: String,
+            default: '',
         },
         acao: {
-            String,
-            required: true,
+            type: String,
+            default: '',
         },
     },
     data() {
         return {
             somaValoresRecebidos: 0,
         };
-    },
-    methods: {
-        ...mapActions({
-            modalOpen: 'modal/modalOpen',
-            modalClose: 'modal/modalClose',
-            buscarTransferenciaRecursos: 'projeto/buscarTransferenciaRecursos',
-        }),
-        abrirModal(modalName) {
-            this.buscarTransferenciaRecursos(this.acao);
-            // eslint-disable-next-line
-                $3('#modalTemplate').modal('open');
-            this.modalOpen(modalName);
-        },
-        fecharModal() {
-            // eslint-disable-next-line
-                $3('#modalTemplate').modal('close');
-            this.modalClose();
-        },
     },
     computed: {
         ...mapGetters({
@@ -140,6 +127,24 @@ export default {
             });
 
             this.somaValoresRecebidos = somaValesRecebido;
+        },
+    },
+    methods: {
+        ...mapActions({
+            modalOpen: 'modal/modalOpen',
+            modalClose: 'modal/modalClose',
+            buscarTransferenciaRecursos: 'projeto/buscarTransferenciaRecursos',
+        }),
+        abrirModal(modalName) {
+            this.buscarTransferenciaRecursos(this.acao);
+            // eslint-disable-next-line
+                $3('#modalTemplate').modal('open');
+            this.modalOpen(modalName);
+        },
+        fecharModal() {
+            // eslint-disable-next-line
+                $3('#modalTemplate').modal('close');
+            this.modalClose();
         },
     },
 };

@@ -4,8 +4,6 @@
             :headers="headers"
             :items="diligencias"
             class="elevation-1"
-            rows-per-page-text="Items por Página"
-            no-data-text="Nenhum dado encontrado"
         >
             <template
                 slot="items"
@@ -103,7 +101,10 @@
                             </v-layout>
                         </div>
 
-                        <div v-if="dadosDiligencia.arquivos && Object.keys(dadosDiligencia.arquivos).length > 0">
+                        <div
+                            v-if="dadosDiligencia.arquivos
+                            && Object.keys(dadosDiligencia.arquivos).length > 0"
+                        >
                             <v-flex
                                 lg12
                                 dark
@@ -175,7 +176,16 @@ export default {
     components: {
         Carregando,
     },
-    props: ['idPronac', 'diligencias'],
+    props: {
+        idPronac: {
+            type: Number,
+            default: 0,
+        },
+        diligencias: {
+            type: Array,
+            default: () => [],
+        },
+    },
     data() {
         return {
             dialog: false,
@@ -230,7 +240,7 @@ export default {
     },
     methods: {
         showItem(item) {
-            const idPronac = this.dadosProjeto.idPronac;
+            const { idPronac } = this.dadosProjeto;
             const valor = item.idDiligencia;
 
             this.buscarDiligenciaProjeto({ idPronac, valor });

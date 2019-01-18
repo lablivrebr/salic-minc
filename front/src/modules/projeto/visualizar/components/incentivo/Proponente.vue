@@ -58,6 +58,12 @@ export default {
             loading: true,
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProponente: 'projeto/proponente',
+            dadosProjeto: 'projeto/projeto',
+        }),
+    },
     watch: {
         dadosProponente() {
             if (Object.keys(this.dadosProponente).length > 0) {
@@ -75,12 +81,6 @@ export default {
     methods: {
         ...mapActions({
             buscaProponente: 'projeto/buscaProponente',
-        }),
-    },
-    computed: {
-        ...mapGetters({
-            dadosProponente: 'projeto/proponente',
-            dadosProjeto: 'projeto/projeto',
         }),
     },
 };

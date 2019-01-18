@@ -12,8 +12,6 @@
                     :headers="headersLocalRealizacao"
                     :items="dados.localRealizacoes"
                     class="elevation-1 container-fluid"
-                    rows-per-page-text="Items por Página"
-                    no-data-text="Nenhum dado encontrado"
                 >
                     <template
                         slot="items"
@@ -33,8 +31,9 @@
                     <template
                         slot="pageText"
                         slot-scope="props">
-                        Items {{ props.pageStart }} -
-                        {{ props.pageStop }} de {{ props.itemsLength }}
+                        Items {{ props.pageStart }}
+                        - {{ props.pageStop }}
+                        de {{ props.itemsLength }}
                     </template>
                 </v-data-table>
             </v-card>
@@ -63,8 +62,9 @@
                     <template
                         slot="pageText"
                         slot-scope="props">
-                        Items {{ props.pageStart }} -
-                        {{ props.pageStop }} de {{ props.itemsLength }}
+                        Items {{ props.pageStart }}
+                        - {{ props.pageStop }}
+                        de {{ props.itemsLength }}
                     </template>
                 </v-data-table>
             </v-card>

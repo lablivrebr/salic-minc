@@ -12,8 +12,6 @@
                 :rows-per-page-items="[10, 25, 50, {'text': 'Todos', value: -1}]"
                 item-key="id"
                 class="elevation-1"
-                rows-per-page-text="Items por Página"
-                no-data-text="Nenhum dado encontrado"
             >
                 <template
                     slot="items"
@@ -23,18 +21,20 @@
                     <td class="text-xs-right">{{ props.item.Data | formatarData }}</td>
                     <td class="text-xs-left">{{ props.item.Descricao }}</td>
                     <td class="text-xs-left">
-                        <a
-                            slot="activator"
+                        <v-btn
                             :loading="parseInt(props.item.id) === loadingButton"
-                            :href="`/consultardadosprojeto/abrir-documentos-anexados?id=${props.item.idArquivo}&tipo=${props.item.AgenteDoc}&idPronac=${dadosProjeto.idPronac}`"
+                            :href="`/consultardadosprojeto`+
+                                `/abrir-documentos-anexados`+
+                                `?id=${props.item.idArquivo}`+
+                                `&tipo=${props.item.AgenteDoc}`+
+                            `&idPronac=${dadosProjeto.idPronac}`"
                             style="text-decoration: none"
-                            @click.native="loadingButton = parseInt(props.item.id)"
-
+                            round
+                            small
+                            @click="loadingButton = parseInt(props.item.id)"
                         >
-                            <v-btn
-                                round
-                                small>{{ props.item.NoArquivo }}</v-btn>
-                        </a>
+                            {{ props.item.NoArquivo }}
+                        </v-btn>
                     </td>
                 </template>
                 <template
@@ -66,8 +66,8 @@ export default {
     },
     props: {
         idPronac: {
-            type: String,
-            default: '',
+            type: Number,
+            default: 0,
         },
     },
     data() {
@@ -131,7 +131,7 @@ export default {
             this.loading = false;
         },
         loadingButton() {
-            setTimeout(() => (this.loadingButton = -1), 2000);
+            setTimeout(() => { this.loadingButton = -1; }, 2000);
         },
     },
     mounted() {

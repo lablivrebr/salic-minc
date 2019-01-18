@@ -25,6 +25,16 @@ import MarcasAnexadas from './visualizar/components/execucao/MarcasAnexadas';
 import DadosReadequacoes from './visualizar/components/execucao/DadosReadequacoes';
 import PedidoProrrogacao from './visualizar/components/execucao/PedidoProrrogacao';
 import DadosFiscalizacao from './visualizar/components/execucao/DadosFiscalizacao';
+import ContasBancarias from './visualizar/components/dadosBancarios/ContasBancarias';
+import ConciliacaoBancaria from './visualizar/components/dadosBancarios/ConciliacaoBancaria';
+import InconsistenciaBancaria from './visualizar/components/dadosBancarios/InconsistenciaBancaria';
+import Liberacao from './visualizar/components/dadosBancarios/Liberacao';
+import SaldoContas from './visualizar/components/dadosBancarios/SaldoContas';
+import ExtratosBancarios from './visualizar/components/dadosBancarios/ExtratosBancarios';
+import ExtratosBancariosConsolidado from './visualizar/components/dadosBancarios/ExtratosBancariosConsolidado';
+import DepositoEquivocado from './visualizar/components/dadosBancarios/DepositoEquivocado';
+import Captacao from './visualizar/components/dadosBancarios/Captacao';
+import DevolucoesIncentivador from './visualizar/components/dadosBancarios/DevolucoesIncentivador';
 
 Vue.use(Router);
 
@@ -253,6 +263,86 @@ const routes = [
                 component: DadosFiscalizacao,
                 meta: {
                     title: 'Dados Fiscalização',
+                },
+            },
+            {
+                path: 'contas-bancarias',
+                name: 'ContasBancarias',
+                component: ContasBancarias,
+                meta: {
+                    title: 'Contas Bancárias',
+                },
+            },
+            {
+                path: 'conciliacao-bancaria',
+                name: 'ConciliacaoBancaria',
+                component: ConciliacaoBancaria,
+                meta: {
+                    title: 'Conciliação Bancária',
+                },
+            },
+            {
+                path: 'inconsistencia-bancaria',
+                name: 'InconsistenciaBancaria',
+                component: InconsistenciaBancaria,
+                meta: {
+                    title: 'Inconsistência Bancária',
+                },
+            },
+            {
+                path: 'liberacao',
+                name: 'Liberecao',
+                component: Liberacao,
+                meta: {
+                    title: 'Liberação',
+                },
+            },
+            {
+                path: 'saldo-contas',
+                name: 'SaldoContas',
+                component: SaldoContas,
+                meta: {
+                    title: 'Saldo das Contas',
+                },
+            },
+            {
+                path: 'extratos-bancarios',
+                name: 'ExtratosBancarios',
+                component: ExtratosBancarios,
+                meta: {
+                    title: 'Extratos Bancários',
+                },
+            },
+            {
+                path: 'extratos-bancarios-consolidado',
+                name: 'ExtratosBancariosConsolidado',
+                component: ExtratosBancariosConsolidado,
+                meta: {
+                    title: 'Extratos Bancários Consolidado',
+                },
+            },
+            {
+                path: 'deposito-equivocado',
+                name: 'DepositoEquivocado',
+                component: DepositoEquivocado,
+                meta: {
+                    title: 'Depósito Equivocado',
+                },
+            },
+            {
+                path: 'captacao',
+                name: 'Captacao',
+                component: Captacao,
+                meta: {
+                    title: 'Captação',
+                },
+            },
+            {
+                path: 'devolucoes-incentivador',
+                name: 'DevolucoesIncentivador',
+                component: DevolucoesIncentivador,
+                meta: {
+                    title: 'Devoluções do Incentivador',
                 },
             },
         ],

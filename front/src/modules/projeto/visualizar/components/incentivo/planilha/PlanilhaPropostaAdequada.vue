@@ -40,6 +40,12 @@ export default {
             idPronac: this.$route.params.idPronac,
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            planilha: 'projeto/planilhaAdequada',
+        }),
+    },
     watch: {
         dadosProjeto(value) {
             if (typeof value !== 'undefined') {
@@ -52,12 +58,6 @@ export default {
     },
     mounted() {
         this.buscaPlanilhaAdequada(this.dadosProjeto.idPronac);
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            planilha: 'projeto/planilhaAdequada',
-        }),
     },
     methods: {
         ...mapActions({

@@ -9,8 +9,6 @@
             :search="search"
             :pagination.sync="pagination"
             class="elevation-1"
-            rows-per-page-text="Items por Página"
-            no-data-text="Nenhum dado encontrado"
         >
             <template
                 slot="items"
@@ -22,7 +20,11 @@
                     <v-tooltip left>
                         <v-btn
                             slot="activator"
-                            :href="`/assinatura/index/visualizar-documento-assinado/idPronac/${props.item.IdPRONAC}?idDocumentoAssinatura=${props.item.idDocumentoAssinatura}`"
+                            :href="
+                                `/assinatura/index`+
+                                    `/visualizar-documento-assinado`+
+                                    `/idPronac/${props.item.IdPRONAC}`+
+                            `?idDocumentoAssinatura=${props.item.idDocumentoAssinatura}`"
                             style="text-decoration: none"
                             fab
                             dark
@@ -66,8 +68,8 @@ export default {
     },
     props: {
         idPronac: {
-            type: String,
-            default: '',
+            type: Number,
+            default: 0,
         },
     },
     data() {

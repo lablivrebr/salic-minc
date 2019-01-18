@@ -12,8 +12,6 @@
                 :items="dados"
                 :rows-per-page-items="[10, 25, 50, {'text': 'Todos', value: -1}]"
                 class="elevation-1 container-fluid mb-2"
-                rows-per-page-text="Items por Página"
-                no-data-text="Nenhum dado encontrado"
             >
                 <template
                     slot="items"
@@ -56,7 +54,12 @@ export default {
             return moment(date).format('DD/MM/YYYY');
         },
     },
-    props: ['idPronac'],
+    props: {
+        idPronac: {
+            type: Number,
+            default: 0,
+        },
+    },
     data() {
         return {
             loading: true,
@@ -101,26 +104,26 @@ export default {
             ],
         };
     },
-    mounted() {
-        if (typeof this.dadosProjeto.idPronac !== 'undefined') {
-            this.buscarPedidoProrrogacao(this.dadosProjeto.idPronac);
-        }
-    },
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
             dados: 'projeto/pedidoProrrogacao',
         }),
     },
-    methods: {
-        ...mapActions({
-            buscarPedidoProrrogacao: 'projeto/buscarPedidoProrrogacao',
-        }),
-    },
     watch: {
         dados() {
             this.loading = false;
         },
+    },
+    mounted() {
+        if (typeof this.dadosProjeto.idPronac !== 'undefined') {
+            this.buscarPedidoProrrogacao(this.dadosProjeto.idPronac);
+        }
+    },
+    methods: {
+        ...mapActions({
+            buscarPedidoProrrogacao: 'projeto/buscarPedidoProrrogacao',
+        }),
     },
 };
 </script>

@@ -33,7 +33,12 @@
                     <td v-if="dadosProponente.dados.CNPJCPF">
                         <a
                             v-if="!dadosProponente.dados.isProponente"
-                            :href="'/default/relatorio/resultado-projeto?cnpfcpf=' + dadosProponente.dados.CNPJCPF">
+                            :href="
+                                '/default'+
+                                    '/relatorio'+
+                                    '/resultado-projeto'+
+                                    '?cnpfcpf=' + dadosProponente.dados.CNPJCPF
+                            ">
                             <SalicFormatarCpfCnpj :cpf="dadosProponente.dados.CNPJCPF" />
                         </a>
                         <SalicFormatarCpfCnpj
@@ -125,16 +130,24 @@
                         <td><b>Fins Lucrativos</b></td>
                     </tr>
                     <tr>
-                        <td v-if="dadosProponente.dados.Natureza">{{ dadosProponente.dados.Natureza }}</td>
+                        <td v-if="dadosProponente.dados.Natureza">
+                            {{ dadosProponente.dados.Natureza }}
+                        </td>
                         <td v-else>Dado não informado!</td>
 
-                        <td v-if="dadosProponente.dados.Esfera">{{ dadosProponente.dados.Esfera }}</td>
+                        <td v-if="dadosProponente.dados.Esfera">
+                            {{ dadosProponente.dados.Esfera }}
+                        </td>
                         <td v-else>Dado não informado!</td>
 
-                        <td v-if="dadosProponente.dados.Administracao">{{ dadosProponente.dados.Administracao }}</td>
+                        <td v-if="dadosProponente.dados.Administracao">
+                            {{ dadosProponente.dados.Administracao }}
+                        </td>
                         <td v-else>Dado não informado!</td>
 
-                        <td v-if="dadosProponente.dados.Utilidade">{{ dadosProponente.dados.Utilidade }}</td>
+                        <td v-if="dadosProponente.dados.Utilidade">
+                            {{ dadosProponente.dados.Utilidade }}
+                        </td>
                         <td v-else>Dado não informado!</td>
                     </tr>
                 </table>
@@ -167,6 +180,12 @@ export default {
             loading: true,
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosProponente: 'projeto/proponente',
+            dadosProjeto: 'projeto/projeto',
+        }),
+    },
     watch: {
         dadosProponente() {
             if (Object.keys(this.dadosProponente).length > 0) {
@@ -184,12 +203,6 @@ export default {
     methods: {
         ...mapActions({
             buscaProponente: 'projeto/buscaProponente',
-        }),
-    },
-    computed: {
-        ...mapGetters({
-            dadosProponente: 'projeto/proponente',
-            dadosProjeto: 'projeto/projeto',
         }),
     },
 };

@@ -4,8 +4,6 @@
             :headers="headers"
             :items="diligencias"
             class="elevation-1"
-            rows-per-page-text="Items por Página"
-            no-data-text="Nenhum dado encontrado"
         >
             <template
                 slot="items"
@@ -86,7 +84,16 @@ export default {
     components: {
         Carregando,
     },
-    props: ['idPronac', 'diligencias'],
+    props: {
+        idPronac: {
+            type: Number,
+            default: 0,
+        },
+        diligencias: {
+            type: Array,
+            default: () => [],
+        },
+    },
     data() {
         return {
             dialog: false,
@@ -118,7 +125,7 @@ export default {
     },
     methods: {
         showItem(item) {
-            const idPronac = this.dadosProjeto.idPronac;
+            const { idPronac } = this.dadosProjeto;
             const valor = item.idAvaliarAdequacaoProjeto;
 
             this.buscarDiligenciaAdequacao({ idPronac, valor });

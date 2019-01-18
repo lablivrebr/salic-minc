@@ -162,6 +162,12 @@ import ListaDeComprovantes from '@/modules/avaliacaoResultados/components/compon
 export default {
     name: 'AnalisarItem',
     components: { ListaDeComprovantes },
+    filters: {
+        moeda: (moedaString) => {
+            const moeda = Number(moedaString);
+            return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        },
+    },
     props: [
         'item',
         'descricaoProduto',
@@ -271,12 +277,6 @@ export default {
                 idmunicipio: this.idmunicipio,
                 idPlanilhaItem: this.item.idPlanilhaItens,
             });
-        },
-    },
-    filters: {
-        moeda: (moedaString) => {
-            const moeda = Number(moedaString);
-            return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
         },
     },
 };

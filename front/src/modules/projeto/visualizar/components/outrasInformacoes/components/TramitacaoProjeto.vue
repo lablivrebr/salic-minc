@@ -8,8 +8,6 @@
                 :headers="headers"
                 :items="dados"
                 class="elevation-1 container-fluid mb-2"
-                rows-per-page-text="Items por Página"
-                no-data-text="Nenhum dado encontrado"
             >
                 <template
                     slot="items"
@@ -36,7 +34,12 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'TramitacaoProjeto',
-    props: ['idPronac'],
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             search: '',
@@ -78,15 +81,15 @@ export default {
             ],
         };
     },
-    mounted() {
-        if (typeof this.idPronac !== 'undefined') {
-            this.buscarTramitacaoProjeto(this.idPronac);
-        }
-    },
     computed: {
         ...mapGetters({
             dados: 'projeto/tramitacaoProjeto',
         }),
+    },
+    mounted() {
+        if (typeof this.idPronac !== 'undefined') {
+            this.buscarTramitacaoProjeto(this.idPronac);
+        }
     },
     methods: {
         ...mapActions({

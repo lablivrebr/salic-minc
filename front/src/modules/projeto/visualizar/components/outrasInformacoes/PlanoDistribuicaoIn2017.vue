@@ -193,7 +193,9 @@
                                 </v-layout>
                             </v-card-text>
                             <DetalhamentoPlanoDistribuicao
-                                :array-detalhamentos="detalhamentosByID(dadosIn2017.tbdetalhaplanodistribuicao, produto.idPlanoDistribuicao)"/>
+                                :array-detalhamentos="
+                                    detalhamentosByID(dadosIn2017.tbdetalhaplanodistribuicao,
+                                                      produto.idPlanoDistribuicao)"/>
                         </v-card>
                     </v-container>
                 </v-expansion-panel-content>
@@ -216,8 +218,8 @@ export default {
     },
     props: {
         idPronac: {
-            type: String,
-            default: '',
+            type: Number,
+            default: 0,
         },
     },
     data() {

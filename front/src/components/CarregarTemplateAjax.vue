@@ -14,7 +14,10 @@ export default {
         Carregando,
     },
     props: {
-        urlAjax: '',
+        urlAjax: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {

@@ -22,7 +22,12 @@ export default {
         TramitacaoProjeto,
         TramitacaoDocumento,
     },
-    props: { idPronac: { type: String, default: '' } },
+    props: {
+        idPronac: {
+            type: Number,
+            default: 0,
+        },
+    },
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',

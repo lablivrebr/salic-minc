@@ -69,12 +69,14 @@
                 <td class="right-align destaque-texto-primary">
                     <b>
                         <router-link
-                            v-if="dadosProjeto.vlTotalAutorizado > 0 && parseInt(dadosProjeto.idNormativo) > 6"
+                            v-if="dadosProjeto.vlTotalAutorizado > 0
+                            && parseInt(dadosProjeto.idNormativo) > 6"
                             :to="{ name: 'planilhaautorizada', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlTotalAutorizado"/>
                         </router-link>
                         <router-link
-                            v-else-if="dadosProjeto.vlTotalAutorizado > 0 && parseInt(dadosProjeto.idNormativo) <= 6"
+                            v-else-if="dadosProjeto.vlTotalAutorizado > 0
+                            && parseInt(dadosProjeto.idNormativo) <= 6"
                             :to="{ name: 'planilhaaprovada', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlTotalAutorizado"/>
                         </router-link>
@@ -94,7 +96,8 @@
                     align="center"
                     colspan="3">
                     <b>
-                        3 - Planilha Adequada &agrave; realidade de execu&ccedil;&atilde;o pelo proponente
+                        3 - Planilha Adequada &agrave;
+                        realidade de execu&ccedil;&atilde;o pelo proponente
                     </b>
                     {{ mensagemPlanilhaAtiva('planilha-adequada') }}
                 </td>
@@ -228,7 +231,13 @@
             <tr>
                 <td class="right-align destaque-texto-primary destacar-celula">
                     <b>
-                        <a :href="'/default/consultardadosprojeto/dados-bancarios-captacao?idPronac=' + idPronac">
+                        <a
+                            :href="
+                                '/default'+
+                                    '/consultardadosprojeto'+
+                                    '/dados-bancarios-captacao'+
+                            '?idPronac=' + idPronac"
+                        >
                             <SalicFormatarValor :valor="dadosProjeto.vlCaptado"/>
                         </a>
                     </b>
@@ -258,7 +267,12 @@
                 </b></td>
                 <td class="right-align destaque-texto-primary">
                     <b>
-                        <a :href="'/default/consultardadosprojeto/dados-bancarios-captacao?idPronac=' + idPronac">
+                        <a
+                            :href="
+                                '/default'+
+                                    '/consultardadosprojeto'+
+                                    '/dados-bancarios-captacao'+
+                            '?idPronac=' + idPronac">
                             <SalicFormatarValor :valor="dadosProjeto.PercentualCaptado"/>
                         </a>
                     </b>
@@ -302,7 +316,8 @@
                 </td>
                 <td class="right-align destaque-texto-primary">
                     <b>
-                        <router-link :to="{ name: 'relacaodepagamentos', params: { idPronac: idPronac }}">
+                        <router-link
+                            :to="{ name: 'relacaodepagamentos', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.PercentualComprovado"/>
                         </router-link>
                     </b>
@@ -323,8 +338,14 @@ export default {
     },
     mixins: [utils],
     props: {
-        dadosProjeto: {},
-        idPronac: 0,
+        dadosProjeto: {
+            type: Object,
+            default: () => {},
+        },
+        idPronac: {
+            type: String,
+            default: '',
+        },
     },
     methods: {
         obterPlanilhaAtiva() {

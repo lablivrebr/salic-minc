@@ -53,7 +53,10 @@ export default {
         SalicFormatarCpfCnpj,
     },
     props: {
-        projeto: {},
+        projeto: {
+            type: Object,
+            default: () => {},
+        },
     },
 };
 </script>

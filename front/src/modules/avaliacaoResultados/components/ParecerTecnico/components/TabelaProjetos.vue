@@ -176,24 +176,5 @@ export default {
             return dados;
         },
     },
-    computed: {
-        ...mapGetters({
-            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
-            getProjetosFinalizados: 'avaliacaoResultados/getProjetosFinalizados',
-        }),
-        pages() {
-            if (this.pagination.rowsPerPage == null
-                || this.pagination.totalItems == null
-            ) return 0;
-            return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage);
-        },
-    },
-    watch: {
-        dadosTabelaTecnico() {
-            if (this.dados.items !== undefined) {
-                this.pagination.totalItems = this.dados.items.length;
-            }
-        },
-    },
 };
 </script>

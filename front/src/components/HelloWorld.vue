@@ -7,7 +7,12 @@
 <script>
 export default {
     name: 'TituloPagina',
-    props: ['titulo'],
+    props: {
+        titulo: {
+            type: String,
+            default: '',
+        },
+    },
     methods: {
         voltar() {
             /* eslint-disable-next-line */

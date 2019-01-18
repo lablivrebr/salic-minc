@@ -473,6 +473,101 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
         }
 
+        #dados bancario
+        if (in_array($this->permissoesMenu['FaseDoProjeto'], array('2', '3', '4', '5')) || !$this->usuarioExterno || $this->debug) {
+
+            $menu['dadosbancarios'] = [
+                'id' => 'DadosBancarios',
+                'label' => 'Dados Banc&aacute;rios',
+                'title' => 'Menu Dados Banc&aacute;rios',
+                'link' => '',
+                'ajax' => false,
+                'icon' => 'attach_money',
+                'submenu' => '',
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Contas Banc&aacute;rias',
+                'title' => 'Ir para Contas Banc&aacute;rias',
+                'link' => "/projeto/#/{$idPronacHash}/contas-bancarias",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Libera&ccedil;&atilde;o',
+                'title' => 'Ir para Libera&ccedil;&atilde;o',
+                'link' => "/projeto/#/{$idPronacHash}/liberacao",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Capta&ccedil;&atilde;o',
+                'title' => 'Ir para Capta&ccedil;&atilde;o',
+                'link' => "/projeto/#/{$idPronacHash}/captacao",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Extrato Banc&aacute;rio',
+                'title' => 'Ir para Extrato Banc&aacute;rio',
+                'link' => "/projeto/#/{$idPronacHash}/extratos-bancarios",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Extrato Banc&aacute;rio Consolidado',
+                'title' => 'Ir para Extrato Banc&aacute;rio Consolidado',
+                'link' => "/projeto/#/{$idPronacHash}/extratos-bancarios-consolidado",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Concilia&ccedil;&atilde;o Banc&aacute;ria',
+                'title' => 'Ir para Concilia&ccedil;&atilde;o Banc&aacute;ria',
+                'link' => "/projeto/#/{$idPronacHash}/conciliacao-bancaria",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Saldo das Contas',
+                'title' => 'Ir para Saldo das Contas',
+                'link' => "/projeto/#/{$idPronacHash}/saldo-contas",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Dep&oacute;sito Equivocado',
+                'title' => 'Ir para Dep&oacute;sito Equivocado',
+                'link' => "/projeto/#/{$idPronacHash}/deposito-equivocado",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Inconsist&ecirc;ncias Banc&aacute;rias',
+                'title' => 'Ir para Inconsist&ecirc;ncias Banc&aacute;rias',
+                'link' => "/projeto/#/{$idPronacHash}/inconsistencia-bancaria",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Devolu&ccedil;&otilde;es do Incentivador',
+                'title' => 'Ir para Devolu&ccedil;&otilde;es do Incentivador',
+                'link' => "/projeto/#/{$idPronacHash}/devolucoes-incentivador",
+                'ajax' => false,
+                'grupo' => []
+            ];
+        }
+
         # Prestação de contas
         if ($this->permissoesMenu['PrestacaoContas'] || !$this->usuarioExterno || $this->debug) {
             $menu['prestacaodecontas'] = [

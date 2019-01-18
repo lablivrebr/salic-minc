@@ -24,8 +24,6 @@
                         :headers="headers"
                         :items="dadoAgrupado"
                         class="elevation-1"
-                        rows-per-page-text="Items por Página"
-                        no-data-text="Nenhum dado encontrado"
                     >
                         <template
                             slot="items"
@@ -33,14 +31,14 @@
                             <td class="text-xs-left">
                                 {{ (props.item.stAtendimento === 'I') ? 'Rejeitado' : 'Recebido' }}
                             </td>
-                            <td class="text-xs-right">
+                            <td class="text-xs-center pl-5">
                                 {{ props.item.dtSolicitacao | formatarData }}
                             </td>
                             <td
                                 class="text-xs-left"
-                                v-html="props.item.dsAvaliacao"/>
-                            <td class="text-xs-right">
-                                {{ props.item.dtAvaliacao | formatarData }}
+                                v-html="props.item.dsEncaminhamento"/>
+                            <td class="text-xs-center pl-5">
+                                {{ props.item.dtAvaliador | formatarData }}
                             </td>
                             <td class="text-xs-center">
                                 <v-tooltip bottom>
@@ -60,7 +58,8 @@
                             slot="pageText"
                             slot-scope="props">
                             Items {{ props.pageStart }} -
-                            {{ props.pageStop }} de {{ props.itemsLength }}
+                            {{ props.pageStop }} de
+                            {{ props.itemsLength }}
                         </template>
                     </v-data-table>
                 </v-expansion-panel-content>
@@ -296,7 +295,12 @@ export default {
             return icone;
         },
     },
-    props: ['idPronac'],
+    props: {
+        idPronac: {
+            type: Number,
+            default: 0,
+        },
+    },
     data() {
         return {
             readequacao: {},
@@ -305,7 +309,7 @@ export default {
             gruposReadequacao: {},
             headers: [
                 {
-                    text: 'SITUAÇÃO',
+                    text: 'PROTOCOLO',
                     align: 'left',
                     value: 'stAtendimento',
                 },
@@ -315,14 +319,14 @@ export default {
                     value: 'dtSolicitacao',
                 },
                 {
-                    text: 'DESCRIÇÃO DA AVALIAÇÃO',
+                    text: 'SITUAÇÃO',
                     align: 'left',
-                    value: 'dsAvaliacao',
+                    value: 'dsEncaminhamento',
                 },
                 {
                     text: 'DT. AVALIAÇÃO',
                     align: 'center',
-                    value: 'dtAvaliacao',
+                    value: 'dtAvaliador',
                 },
                 {
                     text: 'VISUALIZAR',
@@ -339,6 +343,10 @@ export default {
         }),
     },
     watch: {
+        dadosProjeto(value) {
+            this.loading = true;
+            this.buscarDadosReadequacoes(value.idPronac);
+        },
         dados() {
             this.loading = false;
             this.gruposReadequacao = this.obterGrupoReadequacoes();
@@ -363,15 +371,18 @@ export default {
         },
         obterGrupoReadequacoes() {
             const gruposReadequacao = {};
-            for (const indiceDadosReadequacao in this.dados.dadosReadequacoes) {
-                const tipoReadequacao = this.dados.dadosReadequacoes[indiceDadosReadequacao].tipoReadequacao;
-                if (gruposReadequacao[tipoReadequacao] == null || gruposReadequacao[tipoReadequacao].length < 1) {
+            const { dadosReadequacoes } = this.dados;
+
+            dadosReadequacoes.forEach((readequacao) => {
+                const { tipoReadequacao } = readequacao;
+                if (gruposReadequacao[tipoReadequacao] == null
+                    || gruposReadequacao[tipoReadequacao].length < 1) {
                     gruposReadequacao[tipoReadequacao] = [];
                 }
                 gruposReadequacao[tipoReadequacao].push(
-                    this.dados.dadosReadequacoes[indiceDadosReadequacao]
+                    readequacao,
                 );
-            }
+            });
 
             return gruposReadequacao;
         },

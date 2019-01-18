@@ -1,4 +1,9 @@
 import moment from 'moment';
+import numeral from 'numeral';
+import 'numeral/locales';
+
+numeral.locale('pt-br');
+numeral.defaultFormat('0,0.00');
 
 /* eslint-disable */
 export const utils = {
@@ -75,7 +80,7 @@ export const utils = {
     },
     filters: {
         formatarData(date) {
-            if (date && date.length === 0) {
+            if (date && date.length === 0 || date === null) {
                 return '-';
             }
             return moment(date)
@@ -90,8 +95,11 @@ export const utils = {
         },
         formatarConta(conta) {
             // formato: 99999-9
-            conta = parseInt(conta);
-            return conta.toString().replace(/(\d)(\d{1})$/, '$1-$2');
+            return conta.toString().replace(/^\d{6}(.+)(\w{1})$/, "$1-$2");
+        },
+        filtroFormatarParaReal(value) {
+            const parsedValue = parseFloat(value);
+            return numeral(parsedValue).format('0,0.00');
         },
     },
-}
+};

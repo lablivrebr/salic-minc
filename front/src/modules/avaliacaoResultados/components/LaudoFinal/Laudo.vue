@@ -47,9 +47,12 @@
                         :proximo="proximoEstado()"
                         :nome-projeto="props.item.NomeProjeto"
                         :pronac="props.item.PRONAC"
-                        :id-tipo-do-ato-administrativo="atoAdministrativo"
+                        :id-tipo-do-ato-administrativo="atoAdministrativo(estado)"
                         :usuario="getUsuario"
-                        :tecnico="devolucaoLaudo"
+                        :tecnico="{
+                            idAgente: props.item.usu_codigo,
+                            nome: props.item.usu_nome,
+                        }"
                     />
                 </td>
                 <td
@@ -148,10 +151,6 @@ export default {
     },
     data() {
         return {
-            devolucaoLaudo: {
-                idAgente: 0,
-                nome: 'sysLaudo',
-            },
             pagination: {
                 rowsPerPage: 10,
             },
@@ -198,21 +197,6 @@ export default {
         ...mapGetters({
             getUsuario: 'autenticacao/getUsuario',
         }),
-        atoAdministrativo() {
-            let ato = this.Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
-
-            if (
-                this.usuario
-                    && (
-                        this.Const.PERFIL_DIRETOR === this.getUsuario.grupo_ativo
-                        || this.Const.PERFIL_SECRETARIO === this.getUsuario.grupo_ativo
-                    )
-            ) {
-                ato = this.Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
-            }
-
-            return ato;
-        },
         usuario() {
             return (this.getUsuario !== undefined && Object.keys(this.getUsuario).length > 0);
         },
@@ -222,22 +206,33 @@ export default {
             requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
             getLaudoFinal: 'avaliacaoResultados/getLaudoFinal',
         }),
+        atoAdministrativo(estado) {
+            let ato = this.Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
+
+            if (estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO
+            || estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO
+            || estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECRETARIO_LAUDO
+            ) {
+                ato = this.Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
+            }
+
+            return ato;
+        },
         sincState(id) {
             this.requestEmissaoParecer(id);
             this.getLaudoFinal(id);
         },
         proximoEstado() {
             let proximo;
-            console.info('alo', this.estado);
-            if (this.estado.toString() === this.Const.ESTADO_ANALISE_LAUDO.toString()) {
+            if (this.estado === this.Const.ESTADO_ANALISE_LAUDO) {
                 proximo = this.Const.ESTADO_ANALISE_PARECER;
-            } else if (this.estado.toString() === this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO.toString()) {
+            } else if (this.estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO) {
                 proximo = this.Const.ESTADO_ANALISE_LAUDO;
-            } else if (this.estado.toString() === this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO.toString()) {
+            } else if (this.estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO) {
                 proximo = this.Const.ESTADO_ANALISE_LAUDO;
-            } else if (this.estado.toString() === this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECCRETARIO_LAUDO.toString()) {
+            } else if (this.estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECRETARIO_LAUDO) {
                 proximo = this.Const.ESTADO_ANALISE_LAUDO;
-            } else if (this.estado.toString() === this.Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA.toString()) {
+            } else if (this.estado === this.Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA) {
                 proximo = this.Const.ESTADO_ANALISE_LAUDO;
             } else {
                 proximo = '';

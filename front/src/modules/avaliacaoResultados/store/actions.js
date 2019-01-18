@@ -26,7 +26,6 @@ export const getDadosEmissaoParecer = ({ commit }, param) => {
         avaliacaoResultadosHelperAPI.parecerConsolidacao(param)
             .then((response) => {
                 const data = response.data.data.items;
-
                 commit(types.GET_PROPONENTE, data.proponente);
                 commit(types.GET_PROJETO, data.projeto);
                 commit(types.GET_PARECER, data.parecer);

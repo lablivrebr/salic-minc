@@ -63,11 +63,10 @@
                     getUsuario.grupo_ativo == Const.PERFIL_SECRETARIO"
                     :value="'tab-1'"
                     :key="1"
-                    :estado="assinarPerfil().toString()"
                 >
                     <Laudo
                         :dados="getProjetosLaudoAssinar"
-                        :estado="Const.ESTADO_LAUDO_FINALIZADO"
+                        :estado="assinarPerfil().toString()"
                     />
                 </v-tab-item>
                 <v-tab-item
@@ -101,42 +100,39 @@ export default {
             Const,
         };
     },
-    created() {
-        this.obterProjetosLaudoFinal({ estadoId: 10 });
-        this.obterProjetosLaudoAssinar(this.assinarPerfil());
-        this.obterProjetosLaudoFinalizados({ estadoId: 12 });
-        this.obterDadosTabelaTecnico({ estadoId: 11, idAgente: this.getUsuario.usu_codigo });
-    },
-    methods: {
-        ...mapActions({
-            obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
-            obterProjetosLaudoFinal: 'avaliacaoResultados/obterProjetosLaudoFinal',
-            obterProjetosLaudoAssinar: 'avaliacaoResultados/obterProjetosLaudoAssinar',
-            obterProjetosLaudoFinalizados: 'avaliacaoResultados/obterProjetosLaudoFinalizados',
-        }),
-        assinarPerfil() {
-            if (this.getUsuario.grupo_ativo === Const.PERFIL_COORDENADOR_GERAL) {
-                return { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO };
-            }
-            if (this.getUsuario.grupo_ativo === Const.PERFIL_DIRETOR) {
-                return { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO };
-            }
-            if (this.getUsuario.grupo_ativo === Const.PERFIL_SECRETARIO) {
-                return { estadoId: this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECCRETARIO_LAUDO };
-            }
-            return null;
-        },
-    },
     computed: {
         ...mapGetters({
             getProjetosLaudoFinal: 'avaliacaoResultados/getProjetosLaudoFinal',
             getProjetosLaudoAssinar: 'avaliacaoResultados/getProjetosLaudoAssinar',
             getProjetosLaudoEmAssinatura: 'avaliacaoResultados/getProjetosLaudoEmAssinatura',
             getProjetosLaudoFinalizados: 'avaliacaoResultados/getProjetosLaudoFinalizados',
-            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
             getUsuario: 'autenticacao/getUsuario',
             route: 'route',
         }),
+    },
+    created() {
+        this.obterProjetosLaudoFinal({ estadoId: 10 });
+        this.obterProjetosLaudoAssinar({ estadoId: this.assinarPerfil() });
+        this.obterProjetosLaudoFinalizados({ estadoId: 12 });
+    },
+    methods: {
+        ...mapActions({
+            obterProjetosLaudoFinal: 'avaliacaoResultados/obterProjetosLaudoFinal',
+            obterProjetosLaudoAssinar: 'avaliacaoResultados/obterProjetosLaudoAssinar',
+            obterProjetosLaudoFinalizados: 'avaliacaoResultados/obterProjetosLaudoFinalizados',
+        }),
+        assinarPerfil() {
+            if (this.getUsuario.grupo_ativo === Const.PERFIL_COORDENADOR_GERAL) {
+                return this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO;
+            }
+            if (this.getUsuario.grupo_ativo === Const.PERFIL_DIRETOR) {
+                return this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO;
+            }
+            if (this.getUsuario.grupo_ativo === Const.PERFIL_SECRETARIO) {
+                return this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECRETARIO_LAUDO;
+            }
+            return null;
+        },
     },
 };
 </script>

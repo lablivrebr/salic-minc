@@ -92,9 +92,9 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'TabelaProjetos',
     props: {
-        dados: { type: String, default: '' },
-        componentes: { type: String, default: '' },
-        mostrarTecnico: { type: String, default: '' },
+        dados: { type: Object, default: () => {} },
+        componentes: { type: Object, default: () => {} },
+        mostrarTecnico: { type: Boolean, default: () => false },
     },
     data() {
         return {

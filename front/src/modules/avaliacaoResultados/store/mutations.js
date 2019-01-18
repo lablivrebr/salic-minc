@@ -30,7 +30,7 @@ export const state = {
     dadosItemComprovacao: {},
     projetosParaDistribuir: {},
     getProjetosAssinatura: [],
-    getProjetosLaudoFinal: [],
+    getProjetosLaudoFinal: {},
     getProjetosLaudoAssinar: {},
     getProjetosLaudoEmAssinatura: {},
     getProjetosLaudoFinalizados: {},

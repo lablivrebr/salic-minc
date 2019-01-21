@@ -244,9 +244,9 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex';
-import moment from 'moment';
 import Carregando from '@/components/CarregandoVuetify';
 import ReadequacoesDevolvidas from './components/ReadequacoesDevolvidas';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'DadosReadequacoes',
@@ -255,12 +255,6 @@ export default {
         ReadequacoesDevolvidas,
     },
     filters: {
-        formatarData(date) {
-            if (date != null && date.length === 0) {
-                return '-';
-            }
-            return moment(date).format('DD/MM/YYYY');
-        },
         filtrarIcone(tipo) {
             let icone = '';
             switch (tipo) {
@@ -295,6 +289,7 @@ export default {
             return icone;
         },
     },
+    mixins: [utils],
     props: {
         idPronac: {
             type: Number,
@@ -376,7 +371,7 @@ export default {
             dadosReadequacoes.forEach((readequacao) => {
                 const { tipoReadequacao } = readequacao;
                 if (gruposReadequacao[tipoReadequacao] == null
-                    || gruposReadequacao[tipoReadequacao].length < 1) {
+                        || gruposReadequacao[tipoReadequacao].length < 1) {
                     gruposReadequacao[tipoReadequacao] = [];
                 }
                 gruposReadequacao[tipoReadequacao].push(

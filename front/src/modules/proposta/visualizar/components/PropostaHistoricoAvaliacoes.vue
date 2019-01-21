@@ -1,19 +1,29 @@
 <template>
     <div class="tabelas">
-        <div class="row">
-            <slTabelaSimples :dados="dado"/>
-        </div>
+        <v-data-table
+            :headers="headers"
+            :items="dado"
+            class="elevation-1"
+        >
+            <template
+                slot="items"
+                slot-scope="props">
+                <td>{{ props.item.Tipo }}</td>
+                <td class="text-xs-right">{{ props.item.DtAvaliacao | formatarData }}</td>
+                <td
+                    class="text-xs-justify"
+                    v-html="props.item.Avaliacao"/>
+            </template>
+        </v-data-table>
     </div>
 </template>
 <script>
 import axios from 'axios';
-import slTabelaSimples from '@/components/slTabelaSimples';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'PropostaHistoricoAvaliacoes',
-    components: {
-        slTabelaSimples,
-    },
+    mixins: [utils],
     props: {
         idpreprojeto: {
             type: [String, Number],
@@ -23,6 +33,15 @@ export default {
     data() {
         return {
             dado: [],
+            headers: [
+                {
+                    text: 'Tipo',
+                    align: 'left',
+                    value: 'Tipo',
+                },
+                { text: 'Dt. Avaliação', value: 'DtAvaliacao' },
+                { text: 'Avaliação', value: 'Avaliacao' },
+            ],
         };
     },
     watch: {

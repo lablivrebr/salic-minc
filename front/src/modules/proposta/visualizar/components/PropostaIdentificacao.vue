@@ -169,9 +169,7 @@ export default {
     components: {
         STextoSimples,
     },
-    mixins: [
-        utils,
-    ],
+    mixins: [utils],
     props: {
         idpreprojeto: {
             type: null,

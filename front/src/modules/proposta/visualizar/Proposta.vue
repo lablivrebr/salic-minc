@@ -18,7 +18,7 @@
                         Proposta - {{ idpreprojeto }} - {{ dados.NomeProjeto }}
                     </span>
                 </div>
-                <PropostaIdentificacao
+                <proposta-identificacao
                     :idpreprojeto="idpreprojeto"
                     :proposta="dados"/>
             </v-expansion-panel-content>
@@ -26,8 +26,8 @@
                 <div slot="header"><i class="material-icons">history</i>
                     Hist&oacute;rico de avalia&ccedil;&otilde;es
                 </div>
-                <div class="pa-3">
-                    <PropostaHistoricoAvaliacoes
+                <div class="pa-4">
+                    <proposta-historico-avaliacoes
                         :idpreprojeto="dados.idPreProjeto"
                         :proposta="dados"
                     />
@@ -39,8 +39,8 @@
                 </div>
                 <div
                     v-if="dados"
-                    class="pa-3">
-                    <PropostaHistoricoSugestoesEnquadramento
+                    class="pa-4">
+                    <proposta-historico-sugestoes-enquadramento
                         :idpreprojeto="dados.idPreProjeto"
                     />
                 </div>
@@ -52,7 +52,7 @@
                 <div
                     v-if="dados"
                     class="pa-3">
-                    <PropostaHistoricoSolicitacoes
+                    <proposta-historico-solicitacoes
                         :idpreprojeto="dados.idPreProjeto"
                     />
                 </div>

@@ -488,6 +488,22 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
 
             $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Capta&ccedil;&atilde;o',
+                'title' => 'Ir para Capta&ccedil;&atilde;o',
+                'link' => "/projeto/#/{$idPronacHash}/captacao",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Concilia&ccedil;&atilde;o Banc&aacute;ria',
+                'title' => 'Ir para Concilia&ccedil;&atilde;o Banc&aacute;ria',
+                'link' => "/projeto/#/{$idPronacHash}/conciliacao-bancaria",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
                 'label' => 'Contas Banc&aacute;rias',
                 'title' => 'Ir para Contas Banc&aacute;rias',
                 'link' => "/projeto/#/{$idPronacHash}/contas-bancarias",
@@ -496,17 +512,9 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
 
             $menu['dadosbancarios']['submenu'][] = [
-                'label' => 'Libera&ccedil;&atilde;o',
-                'title' => 'Ir para Libera&ccedil;&atilde;o',
-                'link' => "/projeto/#/{$idPronacHash}/liberacao",
-                'ajax' => false,
-                'grupo' => []
-            ];
-
-            $menu['dadosbancarios']['submenu'][] = [
-                'label' => 'Capta&ccedil;&atilde;o',
-                'title' => 'Ir para Capta&ccedil;&atilde;o',
-                'link' => "/projeto/#/{$idPronacHash}/captacao",
+                'label' => 'Devolu&ccedil;&otilde;es',
+                'title' => 'Ir para Devolu&ccedil;&otilde;es',
+                'link' => "/projeto/#/{$idPronacHash}/devolucoes",
                 'ajax' => false,
                 'grupo' => []
             ];
@@ -528,22 +536,6 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
 
             $menu['dadosbancarios']['submenu'][] = [
-                'label' => 'Concilia&ccedil;&atilde;o Banc&aacute;ria',
-                'title' => 'Ir para Concilia&ccedil;&atilde;o Banc&aacute;ria',
-                'link' => "/projeto/#/{$idPronacHash}/conciliacao-bancaria",
-                'ajax' => false,
-                'grupo' => []
-            ];
-
-            $menu['dadosbancarios']['submenu'][] = [
-                'label' => 'Saldo das Contas',
-                'title' => 'Ir para Saldo das Contas',
-                'link' => "/projeto/#/{$idPronacHash}/saldo-contas",
-                'ajax' => false,
-                'grupo' => []
-            ];
-
-            $menu['dadosbancarios']['submenu'][] = [
                 'label' => 'Inconsist&ecirc;ncias Banc&aacute;rias',
                 'title' => 'Ir para Inconsist&ecirc;ncias Banc&aacute;rias',
                 'link' => "/projeto/#/{$idPronacHash}/inconsistencia-bancaria",
@@ -552,9 +544,17 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
 
             $menu['dadosbancarios']['submenu'][] = [
-                'label' => 'Devolu&ccedil;&otilde;es',
-                'title' => 'Ir para Devolu&ccedil;&otilde;es',
-                'link' => "/projeto/#/{$idPronacHash}/devolucoes",
+                'label' => 'Libera&ccedil;&atilde;o',
+                'title' => 'Ir para Libera&ccedil;&atilde;o',
+                'link' => "/projeto/#/{$idPronacHash}/liberacao",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Saldo das Contas',
+                'title' => 'Ir para Saldo das Contas',
+                'link' => "/projeto/#/{$idPronacHash}/saldo-contas",
                 'ajax' => false,
                 'grupo' => []
             ];

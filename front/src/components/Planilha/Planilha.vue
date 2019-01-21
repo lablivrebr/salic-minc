@@ -9,7 +9,7 @@
                 </slot>
             </template>
         </s-collapsible-recursivo>
-        <div class="right-align">
+        <div class="text-xs-right pa-3">
             <span><b>Valor total do projeto:</b> R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}</span>
         </div>
     </div>
@@ -35,7 +35,7 @@ const SCollapsibleRecursivo = {
         const self = this;
         if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
             return h('VExpansionPanel',
-                { props: { expand: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: '' },
+                { props: { expand: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: 'elevation-1' },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
                         return h('VExpansionPanelContent',
@@ -85,7 +85,7 @@ const SCollapsibleRecursivo = {
                     return true;
                 }));
         } if (self.$scopedSlots.default !== 'undefined') {
-            return h('div', { class: 'margin20 scroll-x' }, [
+            return h('div', { class: 'scroll-x pa-2 elevation-1', style: { border: '1px solid #ddd' } }, [
                 self.$scopedSlots.default({ itens: self.planilha.itens }),
             ]);
         }
@@ -152,9 +152,12 @@ export default {
 </script>
 
 <style>
-    .v-expansion-panel__header {
-        padding: 5px 10px !important;
+    .planilha-orcamentaria > ul > li > .v-expansion-panel__header {
         border-top: 1px solid #ddd;
+    }
+    .v-expansion-panel__header {
+        padding: 10px !important;
+        border-bottom: 1px solid #ddd;
         border-left: 1px solid #ddd;
         border-right: 1px solid #ddd;
     }

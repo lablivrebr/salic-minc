@@ -1,52 +1,49 @@
 <template>
     <div class="itens">
-        <table class="bordered">
-            <thead>
-                <tr>
-                    <th class="center-align">#</th>
-                    <th class="left-align">Item</th>
-                    <th class="left-align">Unidade</th>
-                    <th class="center-align">Dias</th>
-                    <th class="center-align">Qtde</th>
-                    <th class="center-align">Ocor.</th>
-                    <th class="right-align">Vl. Unit&aacute;rio</th>
-                    <th class="right-align">Vl. Solicitado</th>
-                    <th class="center-align">Justificativa</th>
-                </tr>
-            </thead>
-            <tbody>
+        <v-data-table
+            :headers="headers"
+            :items="table"
+            :rows-per-page-items="[-1]"
+            class="elevation-1"
+            hide-actions
+        >
+            <template
+                slot="items"
+                slot-scope="props">
                 <tr
-                    v-for="row of table"
-                    v-if="isObject(row)"
-                    :key="row.idPlanilhaProposta"
-                    :class="definirClasseItem(row)">
-                    <td class="center-align">{{ row.Seq }}</td>
-                    <td class="left-align">{{ row.Item }}</td>
-                    <td class="center-align">{{ row.Unidade }}</td>
-                    <td class="center-align">{{ row.QtdeDias }}</td>
-                    <td class="center-align">{{ row.Quantidade }}</td>
-                    <td class="center-align">{{ row.Ocorrencia }}</td>
-                    <td class="right-align">{{ row.vlUnitario | filtroFormatarParaReal }}</td>
-                    <td class="right-align">{{ row.vlSolicitado | filtroFormatarParaReal }}</td>
+                    :class="definirClasseItem(props.item)"
+                >
+                    <td class="text-xs-center">{{ props.item.Seq }}</td>
+                    <td class="text-xs-left">{{ props.item.Item }}</td>
+                    <td class="text-xs-center">{{ props.item.UnidadeProjeto }}</td>
+                    <td class="text-xs-center">{{ props.item.diasprop }}</td>
+                    <td class="text-xs-center">{{ props.item.quantidadeprop }}</td>
+                    <td class="text-xs-center">{{ props.item.ocorrenciaprop }}</td>
+                    <td class="text-xs-right">{{ props.item.valorUnitarioprop | filtroFormatarParaReal }}</td>
+                    <td class="text-xs-right">{{ props.item.VlSolicitado | filtroFormatarParaReal }}</td>
                     <td
-                        class="justify"
+                        class="text-xs-justify"
                         width="30%"
-                        v-html="row.JustProponente"/>
+                        v-html="props.item.justificitivaproponente"/>
+                    <td class="text-xs-right">{{ props.item.VlSugeridoParecerista | filtroFormatarParaReal }}</td>
+                    <td
+                        class="text-xs-justify"
+                        width="30%"
+                        v-html="props.item.dsJustificativaParecerista"/>
                 </tr>
-            </tbody>
-            <tfoot
-                v-if="table && Object.keys(table).length > 0"
-                style="opacity: 0.5">
-                <tr>
+            </template>
+            <template slot="footer">
+                <tr
+                    v-if="table && Object.keys(table).length > 0"
+                    style="opacity: 0.5">
                     <td colspan="7"><b>Totais</b></td>
-                    <td class="right-align">
-                        <b>{{ obterValorSolicitadoTotal(table) }}</b>
-                    </td>
-                    <td class="right-align"/>
+                    <td class="text-xs-right"><b>{{ obterValorSolicitadoTotal(table) }}</b></td>
+                    <td/>
+                    <td class="text-xs-right"><b>{{ obterValorSugeridoTotal(table) }}</b></td>
+                    <td colspan="2"/>
                 </tr>
-            </tfoot>
-
-        </table>
+            </template>
+        </v-data-table>
     </div>
 </template>
 
@@ -58,8 +55,25 @@ export default {
     props: {
         table: {
             type: Array,
-            default: () => [],
+            required: true,
         },
+    },
+    data() {
+        return {
+            headers: [
+                { text: '#', align: 'center', value: 'Seq' },
+                { text: 'Item', align: 'left', value: 'Item' },
+                { text: 'Unidade', align: 'left', value: 'UnidadeProjeto' },
+                { text: 'Dias', align: 'center', value: 'diasprop' },
+                { text: 'Qtde', align: 'center', value: 'quantidadeprop' },
+                { text: 'Ocor.', align: 'center', value: 'ocorrenciaprop' },
+                { text: 'Vl. Unitário', align: 'right', value: 'valorUnitarioprop' },
+                { text: 'Vl. Solicitado', align: 'right', value: 'VlSolicitado' },
+                { text: 'Just. Proponente', align: 'left', value: 'justificitivaproponente' },
+                { text: 'Valor Sugerido', align: 'left', value: 'VlSugeridoParecerista' },
+                { text: 'Just. Parecerista', align: 'left', value: 'dsJustificativaParecerista' },
+            ],
+        };
     },
 };
 </script>

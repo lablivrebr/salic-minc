@@ -28,7 +28,7 @@ class Mensagem
         $listarTudo = $this->request->getParam('listarTudo', null);
 
         if (strlen($idPronac) > 7) {
-            $idPronac = Seguranca::dencrypt($idPronac);
+            $idPronac = \Seguranca::dencrypt($idPronac);
         }
 
         $where = [];
@@ -46,8 +46,8 @@ class Mensagem
         foreach ($solicitacoes as $key => $solicitacao) {
             $solicitacoes[$key]['dtSolicitacao'] = $solicitacao['dtSolicitacao'];
             $solicitacoes[$key]['dtResposta'] = $solicitacao['dtResposta'];
-            $solicitacoes[$key]['dsSolicitacao'] = $this->removerHtmlTags($solicitacao['dsSolicitacao']);
-            $solicitacoes[$key]['dsResposta'] = $this->removerHtmlTags($solicitacao['dsResposta']);
+            $solicitacoes[$key]['dsSolicitacao'] = $this->stringReplace($solicitacao['dsSolicitacao']);
+            $solicitacoes[$key]['dsResposta'] = $this->stringReplace($solicitacao['dsResposta']);
         }
 
         array_walk($solicitacoes, function (&$value) {
@@ -56,12 +56,6 @@ class Mensagem
         });
 
         return $solicitacoes;
-    }
-
-    private function removerHtmlTags($string)
-    {
-        $result = strip_tags($string);
-        return $this->stringReplace($string);
     }
 
     private function stringReplace($string)

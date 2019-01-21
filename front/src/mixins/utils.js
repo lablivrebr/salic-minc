@@ -1,5 +1,5 @@
 import moment from 'moment';
-
+import cnpjFilter from '@/filters/cnpj';
 /* eslint-disable */
 export const utils = {
     methods: {
@@ -127,6 +127,21 @@ export const utils = {
             }
 
             return string;
-        }
+        },
+        formatarCpfOuCnpj(value) {
+            if(typeof value === 'undefined') {
+                return '';
+            }
+            return cnpjFilter(value);
+        },
+        formatarTipoPessoa(tipo) {
+            let string = 'Pessoa F\xEDsica';
+
+            if (tipo === '1') {
+                string = 'Pessoa Jur\xEDdica';
+            }
+
+            return string;
+        },
     },
 }

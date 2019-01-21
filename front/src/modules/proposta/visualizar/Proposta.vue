@@ -51,7 +51,7 @@
                 </div>
                 <div
                     v-if="dados"
-                    class="pa-3">
+                    class="pa-4">
                     <proposta-historico-solicitacoes
                         :idpreprojeto="dados.idPreProjeto"
                     />

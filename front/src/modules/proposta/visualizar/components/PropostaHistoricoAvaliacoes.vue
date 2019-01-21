@@ -1,21 +1,19 @@
 <template>
-    <div class="tabelas">
-        <v-data-table
-            :headers="headers"
-            :items="dado"
-            class="elevation-1"
-        >
-            <template
-                slot="items"
-                slot-scope="props">
-                <td>{{ props.item.Tipo }}</td>
-                <td class="text-xs-right">{{ props.item.DtAvaliacao | formatarData }}</td>
-                <td
-                    class="text-xs-justify"
-                    v-html="props.item.Avaliacao"/>
-            </template>
-        </v-data-table>
-    </div>
+    <v-data-table
+        :headers="headers"
+        :items="dado"
+        class="elevation-1"
+    >
+        <template
+            slot="items"
+            slot-scope="props">
+            <td>{{ props.item.Tipo }}</td>
+            <td class="text-xs-right">{{ props.item.DtAvaliacao | formatarData }}</td>
+            <td
+                class="text-xs-justify"
+                v-html="props.item.Avaliacao"/>
+        </template>
+    </v-data-table>
 </template>
 <script>
 import axios from 'axios';

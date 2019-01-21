@@ -3,13 +3,13 @@
         <Planilha/>
         <div id="planilha-homologada">
             {{ planilha }}
-            <!--<Planilha-->
-            <!--v-if="Object.keys(planilha).length > 0"-->
-            <!--:array-planilha="planilha">-->
-            <!--<template slot-scope="slotProps">-->
-            <!--<PlanilhaItensAnaliseTecnica :table="slotProps.itens"/>-->
-            <!--</template>-->
-            <!--</Planilha>-->
+            <Planilha
+                v-if="Object.keys(planilha).length > 0"
+                :array-planilha="planilha">
+                <template slot-scope="slotProps">
+                    <PlanilhaItensAnaliseTecnica :table="slotProps.itens"/>
+                </template>
+            </Planilha>
         </div>
 
         Análise de Custos
@@ -29,10 +29,6 @@ export default {
         PlanilhaItensAnaliseTecnica,
     },
     props: {
-        // produto: {
-        //     type: Object,
-        //     default: () => {},
-        // },
         active: {
             type: Boolean,
             default: false,
@@ -42,12 +38,11 @@ export default {
         ...mapGetters({
             planilha: 'parecer/getPlanilhaParecer',
             produto: 'parecer/getProduto',
-            produtosSecundarios: 'parecer/getProdutosSecundarios',
         }),
     },
     watch: {
         produto(value) {
-            console.log('watch produto custos')
+            console.log('watch produto custos');
             if (Object.keys(value).length > 0) {
                 const params = {
                     id: value.idProduto,

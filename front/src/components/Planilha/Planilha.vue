@@ -2,13 +2,13 @@
     <div
         v-if="arrayPlanilha"
         class="planilha-orcamentaria card">
-        <CollapsibleRecursivo :planilha="arrayPlanilha">
+        <s-collapsible-recursivo :planilha="arrayPlanilha">
             <template slot-scope="slotProps">
                 <slot :itens="slotProps.itens">
-                    <PlanilhaItensPadrao :table="slotProps.itens"/>
+                    <s-planilha-itens-padrao :table="slotProps.itens"/>
                 </slot>
             </template>
-        </CollapsibleRecursivo>
+        </s-collapsible-recursivo>
         <div class="card-action right-align">
             <span><b>Valor total do projeto:</b> R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}</span>
         </div>
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import PlanilhaItensPadrao from '@/components/Planilha/PlanilhaItensPadrao';
-import PlanilhaConsolidacao from '@/components/Planilha/PlanilhaConsolidacao';
-import planilhas from '@/mixins/planilhas';
+import SPlanilhaItensPadrao from '@/components/Planilha/PlanilhaItensPadrao';
+import SPlanilhaConsolidacao from '@/components/Planilha/PlanilhaConsolidacao';
+import MixinsPlanilhas from '@/mixins/planilhas';
 
-const CollapsibleRecursivo = {
-    name: 'CollapsibleRecursivo',
+const SCollapsibleRecursivo = {
+    name: 'SCollapsibleRecursivo',
     props: {
         planilha: {},
         contador: {
@@ -30,33 +30,41 @@ const CollapsibleRecursivo = {
             type: Number,
         },
     },
-    mixins: [planilhas],
+    mixins: [MixinsPlanilhas],
     render(h) {
         const self = this;
         if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
-            return h('ul',
-                { class: 'collapsible no-margin', attrs: { 'data-collapsible': 'expandable' } },
+            return h('VExpansionPanel',
+                { props: { expand: true, focusable: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: 'pl-2 elevation-0"' },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
-                        return h('li', [
-                            h('div',
-                                { class: 'collapsible-header active' },
+                        return h('VExpansionPanelContent', [
+                            h('VLayout',
+                                {
+                                    props: {
+                                        row: true,
+                                        'justify-space-between': true,
+                                    },
+                                    class: 'collapsible-headers activss',
+                                    slot: 'header',
+                                },
                                 [
                                     h('i', { class: 'material-icons' }, [self.obterIconeHeader(self.contador)]),
-                                    h('div', key),
-                                    h('span', { class: 'badge' }, [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
+                                    h('span', key),
+                                    h('VSpacer'),
+                                    h('VChip', { class: 'badgessss' }, [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
                                 ]),
                             h('div',
                                 { class: 'collapsible-body no-padding' },
                                 [
-                                    h(CollapsibleRecursivo, {
+                                    h(SCollapsibleRecursivo, {
                                         props: {
                                             planilha: self.planilha[key],
                                             contador: self.contador + 1,
                                         },
                                         scopedSlots: { default: self.$scopedSlots.default },
                                     }),
-                                    h(PlanilhaConsolidacao, {
+                                    h(SPlanilhaConsolidacao, {
                                         props: {
                                             planilha: self.planilha[key],
                                         },
@@ -101,10 +109,10 @@ const CollapsibleRecursivo = {
 export default {
     name: 'Planilha',
     components: {
-        CollapsibleRecursivo,
-        PlanilhaItensPadrao,
+        SCollapsibleRecursivo,
+        SPlanilhaItensPadrao,
     },
-    mixins: [planilhas],
+    mixins: [MixinsPlanilhas],
     props: {
         arrayPlanilha: {},
     },

@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="arrayPlanilha"
-        class="planilha-orcamentaria card">
+        class="planilha-orcamentaria">
         <s-collapsible-recursivo :planilha="arrayPlanilha">
             <template slot-scope="slotProps">
                 <slot :itens="slotProps.itens">
@@ -9,7 +9,7 @@
                 </slot>
             </template>
         </s-collapsible-recursivo>
-        <div class="card-action right-align">
+        <div class="right-align">
             <span><b>Valor total do projeto:</b> R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}</span>
         </div>
     </div>
@@ -35,44 +35,53 @@ const SCollapsibleRecursivo = {
         const self = this;
         if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
             return h('VExpansionPanel',
-                { props: { expand: true, focusable: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: 'pl-2 elevation-0"' },
+                { props: { expand: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: '' },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
-                        return h('VExpansionPanelContent', [
-                            h('VLayout',
-                                {
-                                    props: {
-                                        row: true,
-                                        'justify-space-between': true,
+                        return h('VExpansionPanelContent',
+                            [
+                                h('VLayout',
+                                    {
+                                        props: {
+                                            row: true,
+                                            'justify-space-between': true,
+                                        },
+                                        slot: 'header',
+                                        style: { color: self.obterCorHeader(self.contador) },
                                     },
-                                    class: 'collapsible-headers activss',
-                                    slot: 'header',
-                                },
-                                [
-                                    h('i', { class: 'material-icons' }, [self.obterIconeHeader(self.contador)]),
-                                    h('span', key),
-                                    h('VSpacer'),
-                                    h('VChip', { class: 'badgessss' }, [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
-                                ]),
-                            h('div',
-                                { class: 'collapsible-body no-padding' },
-                                [
-                                    h(SCollapsibleRecursivo, {
-                                        props: {
-                                            planilha: self.planilha[key],
-                                            contador: self.contador + 1,
-                                        },
-                                        scopedSlots: { default: self.$scopedSlots.default },
-                                    }),
-                                    h(SPlanilhaConsolidacao, {
-                                        props: {
-                                            planilha: self.planilha[key],
-                                        },
-                                    }),
-                                ]),
-                        ]);
+                                    [
+                                        h('i', { class: `material-icons mt-2 pl-${self.contador * 1 + 1}` }, [self.obterIconeHeader(self.contador)]),
+                                        h('span', { class: 'ml-2 mt-2' }, key),
+                                        h('VSpacer'),
+                                        h('VChip',
+                                            {
+                                                class: '',
+                                                attrs: {
+                                                    outline: 'outline',
+                                                    label: 'label',
+                                                    color: '#565555',
+                                                },
+                                            },
+                                            [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
+                                    ]),
+                                h('div',
+                                    { class: '' },
+                                    [
+                                        h(SCollapsibleRecursivo, {
+                                            props: {
+                                                planilha: self.planilha[key],
+                                                contador: self.contador + 1,
+                                            },
+                                            scopedSlots: { default: self.$scopedSlots.default },
+                                        }),
+                                        h(SPlanilhaConsolidacao, {
+                                            props: {
+                                                planilha: self.planilha[key],
+                                            },
+                                        }),
+                                    ]),
+                            ]);
                     }
-
                     return true;
                 }));
         } if (self.$scopedSlots.default !== 'undefined') {
@@ -103,6 +112,26 @@ const SCollapsibleRecursivo = {
             }
             return icone;
         },
+        obterCorHeader(tipo) {
+            let cor = '';
+            switch (tipo) {
+            case 1:
+                cor = '#F44336';
+                break;
+            case 2:
+                cor = '#4CAF50';
+                break;
+            case 3:
+                cor = '#ff9800';
+                break;
+            case 4:
+                cor = '#2196F3';
+                break;
+            default:
+                cor = '';
+            }
+            return cor;
+        },
     },
 };
 
@@ -114,28 +143,19 @@ export default {
     },
     mixins: [MixinsPlanilhas],
     props: {
-        arrayPlanilha: {},
-    },
-    watch: {
-        arrayPlanilha() {
-            this.$nextTick(() => {
-                this.iniciarCollapsible();
-            });
-        },
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.iniciarCollapsible();
-        });
-    },
-    methods: {
-        iniciarCollapsible() {
-            // eslint-disable-next-line
-            //     $3(".collapsible").each(function () {
-            //     // eslint-disable-next-line
-            //         $3(this).collapsible();
-            // });
+        arrayPlanilha: {
+            type: Object,
+            default: () => {},
         },
     },
 };
 </script>
+
+<style>
+    .v-expansion-panel__header {
+        padding: 5px 10px !important;
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+</style>

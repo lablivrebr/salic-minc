@@ -116,7 +116,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
             $produto = !empty($item['idProduto'])
                 ? $item['Produto']
-                : html_entity_decode('Administra&ccedil;&atilde;o do Projeto');
+                : html_entity_decode('Administração do Projeto');
 
             $fonte = $item['FonteRecurso'];
             $etapa = $item['Etapa'];

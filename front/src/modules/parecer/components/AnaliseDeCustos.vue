@@ -1,8 +1,6 @@
 <template>
     <div>
-        <Planilha/>
         <div id="planilha-homologada">
-            {{ planilha }}
             <Planilha
                 v-if="Object.keys(planilha).length > 0"
                 :array-planilha="planilha">
@@ -11,8 +9,6 @@
                 </template>
             </Planilha>
         </div>
-
-        Análise de Custos
     </div>
 </template>
 

@@ -544,14 +544,6 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
 
             $menu['dadosbancarios']['submenu'][] = [
-                'label' => 'Dep&oacute;sito Equivocado',
-                'title' => 'Ir para Dep&oacute;sito Equivocado',
-                'link' => "/projeto/#/{$idPronacHash}/deposito-equivocado",
-                'ajax' => false,
-                'grupo' => []
-            ];
-
-            $menu['dadosbancarios']['submenu'][] = [
                 'label' => 'Inconsist&ecirc;ncias Banc&aacute;rias',
                 'title' => 'Ir para Inconsist&ecirc;ncias Banc&aacute;rias',
                 'link' => "/projeto/#/{$idPronacHash}/inconsistencia-bancaria",
@@ -560,9 +552,9 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
 
             $menu['dadosbancarios']['submenu'][] = [
-                'label' => 'Devolu&ccedil;&otilde;es do Incentivador',
-                'title' => 'Ir para Devolu&ccedil;&otilde;es do Incentivador',
-                'link' => "/projeto/#/{$idPronacHash}/devolucoes-incentivador",
+                'label' => 'Devolu&ccedil;&otilde;es',
+                'title' => 'Ir para Devolu&ccedil;&otilde;es',
+                'link' => "/projeto/#/{$idPronacHash}/devolucoes",
                 'ajax' => false,
                 'grupo' => []
             ];

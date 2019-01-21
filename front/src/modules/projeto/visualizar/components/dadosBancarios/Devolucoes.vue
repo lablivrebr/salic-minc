@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="loading">
-            <Carregando :text="'Devoluções do Incentivador'"/>
+            <Carregando :text="'Devoluções'"/>
         </div>
         <div v-else>
             <v-card>
@@ -27,8 +27,11 @@
                         <td
                             class="text-xs-left"
                             v-html="props.item.Nome"/>
-                        <td class="text-xs-center pl-5">
-                            {{ props.item.dtCredito | formatarData }}
+                        <td class="text-xs-left">
+                            {{ props.item.CNPJCPF | cnpjFilter }}
+                        </td>
+                        <td class="text-xs-left">
+                            {{ props.item.Descricao }}
                         </td>
                         <td class="text-xs-center pl-5">
                             {{ props.item.dtLote | formatarData }}
@@ -55,20 +58,23 @@ import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 import { utils } from '@/mixins/utils';
 import FiltroData from './components/FiltroData';
+import cnpjFilter from '@/filters/cnpj';
 
 export default {
-    name: 'DevolucoesIncentivador',
+    name: 'Devolucoes',
     components: {
         Carregando,
         FiltroData,
+    },
+    filters: {
+        cnpjFilter,
     },
     mixins: [utils],
     data() {
         return {
             search: '',
             pagination: {
-                sortBy: 'dtLote',
-                descending: true,
+                sortBy: 'fat',
             },
             selected: [],
             loading: true,
@@ -79,9 +85,14 @@ export default {
                     value: 'Nome',
                 },
                 {
-                    text: 'DT. CRÉDITO',
-                    align: 'center',
-                    value: 'dtCredito',
+                    text: 'CNPJ',
+                    align: 'left',
+                    value: 'CNPJCPF',
+                },
+                {
+                    text: 'DESCRIÇÃO',
+                    align: 'left',
+                    value: 'Descricao',
                 },
                 {
                     text: 'DT. DEVOLUÇÃO',

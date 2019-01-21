@@ -100,9 +100,8 @@
             "Application\\Modules\\DadosBancarios\\Service\\SaldoContas\\": "./application/modules/dados-bancarios/service/",
             "Application\\Modules\\DadosBancarios\\Service\\ExtratosBancarios\\": "./application/modules/dados-bancarios/service/",
             "Application\\Modules\\DadosBancarios\\Service\\ExtratosBancariosConsolidado\\": "./application/modules/dados-bancarios/service/",
-            "Application\\Modules\\DadosBancarios\\Service\\DepositoEquivocado\\": "./application/modules/dados-bancarios/service/",
             "Application\\Modules\\DadosBancarios\\Service\\Captacao\\": "./application/modules/dados-bancarios/service/",
-            "Application\\Modules\\DadosBancarios\\Service\\DevolucoesIncentivador\\": "./application/modules/dados-bancarios/service/"
+            "Application\\Modules\\DadosBancarios\\Service\\Devolucoes\\": "./application/modules/dados-bancarios/service/"
         }
     },
     "archive": {

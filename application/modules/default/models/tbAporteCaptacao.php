@@ -136,30 +136,32 @@ class tbAporteCaptacao extends MinC_Db_Table_Abstract
     /**
      *
      */
-    public function devolucoesDoIncentivador(array $where, $dbg = false)
+    public function devolucoesDoIncentivador(array $where, $order = array(), $dbg = false)
     {
         $select = $this->select()->setIntegrityCheck(false);
         $select->from($this->_name, [
             'idPronac',
-            'vlDeposito',
+            'nrLote',
             'dtLote',
-            "dtCredito" => new Zend_Db_Expr("CASE WHEN dtCredito = '1969-12-31' THEN null ELSE dtCredito END")
+            'vlDeposito',
+            'CNPJCPF',
         ]);
         $select->joinInner(
             [
-                'i' => 'Interessado'
+                'b' => 'Interessado'
             ],
-            'tbAporteCaptacao.CNPJCPF = i.CgcCPf',
+            'tbAporteCaptacao.CNPJCPF = b.CgcCPf',
             [
                 'Nome'
             ],
             'SAC.dbo'
         );
-        $select->joinInner(array('a' => 'agentes'), 'a.CNPJCPf = i.CgcCPf', array('*'), 'Agentes.dbo');
-        $select->where('idVerificacao = ?', Verificacao::DEVOLUCAO_FUNDO_NACIONAL_CULTURA);
+        $select->joinInner(array('c' => 'Verificacao'), 'c.idVerificacao = tbaportecaptacao.idVerificacao', array('Descricao'), 'SAC.dbo');
         foreach ($where as $key => $value) {
             $select->where($key, $value);
         }
+
+        $select->order($order);
 
         if ($dbg) {
             xd($select->assemble());

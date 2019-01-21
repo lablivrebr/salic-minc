@@ -1,8 +1,8 @@
 <?php
 
-namespace Application\Modules\DadosBancarios\Service\DevolucoesIncentivador;
+namespace Application\Modules\DadosBancarios\Service\Devolucoes;
 
-class DevolucoesIncentivador
+class Devolucoes
 {
     /**
      * @var \Zend_Controller_Request_Abstract $request
@@ -41,7 +41,7 @@ class DevolucoesIncentivador
                 $where["dtLote BETWEEN '$di' AND '$df'"] = '';
             }
 
-            $result = $devolucoesIncentivador->pesquisarDevolucoesIncentivador($where)->toArray();
+            $result = $devolucoesIncentivador->devolucoesDoIncentivador($where, ['dtLote DESC'])->toArray();
 
             return $result;
         }

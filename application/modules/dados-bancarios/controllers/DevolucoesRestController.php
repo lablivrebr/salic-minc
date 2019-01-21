@@ -1,8 +1,8 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\DepositoEquivocado\DepositoEquivocado as DepositoEquivocadoService;
+use Application\Modules\DadosBancarios\Service\Devolucoes\Devolucoes as DevolucoesService;
 
-class DadosBancarios_DepositoEquivocadoRestController extends MinC_Controller_Rest_Abstract
+class DadosBancarios_DevolucoesRestController extends MinC_Controller_Rest_Abstract
 {
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
@@ -14,8 +14,8 @@ class DadosBancarios_DepositoEquivocadoRestController extends MinC_Controller_Re
     public function indexAction()
     {
         try {
-            $depositoEquivocado = new DepositoEquivocadoService($this->getRequest(), $this->getResponse());
-            $resposta = $depositoEquivocado->buscarDepositosEquivocados();
+            $devolucoesIncentivador = new DevolucoesService($this->getRequest(), $this->getResponse());
+            $resposta = $devolucoesIncentivador->buscarDevolucoesIncentivador();
             $resposta = \TratarArray::utf8EncodeArray($resposta);
 
             $this->renderJsonResponse($resposta, 200);
@@ -34,7 +34,7 @@ class DadosBancarios_DepositoEquivocadoRestController extends MinC_Controller_Re
 
     public function getAction()
     {
-        $this->renderJsonResponse(200);
+
     }
 
     public function postAction()

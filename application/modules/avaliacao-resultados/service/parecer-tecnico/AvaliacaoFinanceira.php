@@ -47,8 +47,8 @@ class AvaliacaoFinanceira
 
         $vwVisualizarparecer = new \AvaliacaoResultados_Model_DbTable_CumprimentoObjeto();
         $dadosObjetoParecer = $vwVisualizarparecer->buscarObjeto($this->request->idPronac);
-        $dadosObjetoParecer = $dadosObjetoParecer->dsManifestacaoObjeto ? $dadosObjetoParecer : null;
         $dadosObjetoParecer->dsParecerDeCumprimentoDoObjeto = utf8_encode($dadosObjetoParecer->dsParecerDeCumprimentoDoObjeto);
+        $dadosObjetoParecer = $dadosObjetoParecer->dsManifestacaoObjeto ? $dadosObjetoParecer : null;
 
         return [
             'consolidacaoComprovantes' => $dadosAvaliacaoFinanceira,

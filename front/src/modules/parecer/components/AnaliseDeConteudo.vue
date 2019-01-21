@@ -1,7 +1,8 @@
 <template>
-    <v-card id="create">
+    <v-card>
         <v-fab-transition>
             <v-btn
+                id="btn-editar-parecer"
                 v-model="fab"
                 color="blue darken-2"
                 dark
@@ -232,11 +233,8 @@ export default {
 
 <style>
     /* This is for documentation purposes and will not be needed in your application */
-    #create {
-        position: relative;
-    }
 
-    #create .v-btn--floating {
+    #btn-editar-parecer {
         position: fixed;
         top: 230px;
         right: 5%;

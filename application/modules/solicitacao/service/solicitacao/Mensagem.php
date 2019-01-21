@@ -44,11 +44,8 @@ class Mensagem
         $solicitacoes = $obterSolicitacoes->obterSolicitacoes($where)->toArray();
 
         foreach ($solicitacoes as $key => $solicitacao) {
-            $objDateTimeSolicitacao = new \DateTime($solicitacao['dtSolicitacao']);
-            $objDateTimeResposta = new \DateTime($solicitacao['dtResposta']);
-
-            $solicitacoes[$key]['dtSolicitacao'] = $objDateTimeSolicitacao->format('d/m/Y H:i:s');
-            $solicitacoes[$key]['dtResposta'] = $objDateTimeResposta->format('d/m/Y H:i:s');
+            $solicitacoes[$key]['dtSolicitacao'] = $solicitacao['dtSolicitacao'];
+            $solicitacoes[$key]['dtResposta'] = $solicitacao['dtResposta'];
             $solicitacoes[$key]['dsSolicitacao'] = $this->removerHtmlTags($solicitacao['dsSolicitacao']);
             $solicitacoes[$key]['dsResposta'] = $this->removerHtmlTags($solicitacao['dsResposta']);
         }
@@ -64,7 +61,7 @@ class Mensagem
     private function removerHtmlTags($string)
     {
         $result = strip_tags($string);
-        return $this->stringReplace($result);
+        return $this->stringReplace($string);
     }
 
     private function stringReplace($string)

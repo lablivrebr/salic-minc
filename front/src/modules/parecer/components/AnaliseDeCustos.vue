@@ -1,28 +1,31 @@
 <template>
     <div>
-        <div id="planilha-homologada">
-            <Planilha
-                v-if="Object.keys(planilha).length > 0"
-                :array-planilha="planilha">
-                <template slot-scope="slotProps">
-                    <PlanilhaItensAnaliseTecnica :table="slotProps.itens"/>
-                </template>
-            </Planilha>
-        </div>
+        <s-planilha
+            v-if="Object.keys(planilha).length > 0"
+            :array-planilha="planilha">
+            <template slot-scope="slotProps">
+                <s-planilha-itens-analise-tecnica :table="slotProps.itens"/>
+            </template>
+        </s-planilha>
+        <s-carregando
+            v-else
+            :text="'Carregando Planilha'"/>
     </div>
 </template>
 
 <script>
 
 import { mapActions, mapGetters } from 'vuex';
-import Planilha from '@/components/Planilha/Planilha';
-import PlanilhaItensAnaliseTecnica from './PlanilhaItensAnaliseTecnica';
+import SPlanilha from '@/components/Planilha/Planilha';
+import SPlanilhaItensAnaliseTecnica from './PlanilhaItensAnaliseTecnica';
+import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'AnaliseDeCustos',
     components: {
-        Planilha,
-        PlanilhaItensAnaliseTecnica,
+        SPlanilha,
+        SPlanilhaItensAnaliseTecnica,
+        SCarregando,
     },
     props: {
         active: {

@@ -35,7 +35,7 @@ const SCollapsibleRecursivo = {
         const self = this;
         if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
             return h('VExpansionPanel',
-                { props: { expand: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: 'elevation-1' },
+                { props: { expand: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: '' },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
                         return h('VExpansionPanelContent',

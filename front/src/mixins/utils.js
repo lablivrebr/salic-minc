@@ -93,5 +93,40 @@ export const utils = {
             conta = parseInt(conta);
             return conta.toString().replace(/(\d)(\d{1})$/, '$1-$2');
         },
+        formatarLabelSimOuNao(valor) {
+            if (valor === 1 || valor === '1') {
+                return 'Sim';
+            }
+            return 'N\xE3o';
+        },
+        formatarLabelMecanismo(valor) {
+            switch (valor) {
+                case '1':
+                case 1:
+                    return 'Mecenato';
+                default:
+                    return 'Inv\xE1lido';
+            }
+        },
+        formatarLabelEsfera(esfera) {
+            let string;
+
+            switch (esfera) {
+                case '1':
+                    string = 'Municipal';
+                    break;
+                case '2':
+                    string = 'Estadual';
+                    break;
+                case '3':
+                    string = 'Federal';
+                    break;
+                default:
+                    string = 'N\xE3o informada';
+                    break;
+            }
+
+            return string;
+        }
     },
 }

@@ -32,7 +32,7 @@
                         :key="`${step.path}-step`"
                         :step="step.id"
                         editable
-                    />
+                    >{{ step.name }}</v-stepper-step>
                     <v-divider
                         v-if="step.id !== Object.keys(arraySteps).length"
                         :key="step.id"

@@ -13,7 +13,7 @@
         </v-fab-transition>
 
         <keep-alive>
-            <Proposta
+            <s-proposta
                 v-if="Object.keys(produto).length > 0"
                 :idpreprojeto="produto.idProjeto"/>
         </keep-alive>
@@ -68,7 +68,7 @@
                                 sm12
                                 md12>
                                 <p><b>Parecer de Conteúdo do Produto</b></p>
-                                <salic-editor-texto
+                                <s-editor-texto
                                     v-model="analiseConteudoEmEdicao.ParecerDeConteudo"
                                     :placeholder="'Parecer técnico sobre o conteúdo do produto'"
                                 />
@@ -109,19 +109,15 @@
 </template>
 
 <script>
-import Proposta from '@/modules/proposta/visualizar/Proposta';
-import SalicEditorTexto from '@/components/SalicEditorTexto';
+import SProposta from '@/modules/proposta/visualizar/Proposta';
+import SEditorTexto from '@/components/SalicEditorTexto';
 
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'AnaliseDeConteudo',
-    components: { Proposta, SalicEditorTexto },
+    components: { SProposta, SEditorTexto },
     props: {
-        // produto: {
-        //     type: Object,
-        //     default: () => {},
-        // },
         active: {
             type: Boolean,
             default: false,
@@ -188,9 +184,9 @@ export default {
             );
 
             this.loadingButton = true;
-            this.salvarAnaliseConteudo(analise).then((response) => {
+            this.salvarAnaliseConteudo(analise).then(() => {
                 this.loadingButton = false;
-            }).catch((e) => {
+            }).catch(() => {
                 this.loadingButton = false;
             });
 
@@ -244,6 +240,7 @@ export default {
         position: fixed;
         top: 230px;
         right: 5%;
+        z-index: 201;
     }
 
      #parecer-conteudo {

@@ -49,7 +49,7 @@
                             :is="c"
                             :link-direto-assinatura="true"
                             :documento="props.item.idDocumentoAssinatura"
-                            :id-pronac="props.item.IdPRONAC"
+                            :id-pronac="props.item.IdPRONAC.toString()"
                             :pronac="props.item.PRONAC"
                             :nome-projeto="props.item.NomeProjeto"
                             :atual="componentes.atual"
@@ -92,9 +92,9 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'TabelaProjetos',
     props: {
-        dados: { type: String, default: '' },
-        componentes: { type: String, default: '' },
-        mostrarTecnico: { type: String, default: '' },
+        dados: { type: Object, default: () => {} },
+        componentes: { type: Object, default: () => {} },
+        mostrarTecnico: { type: Boolean, default: false },
     },
     data() {
         return {

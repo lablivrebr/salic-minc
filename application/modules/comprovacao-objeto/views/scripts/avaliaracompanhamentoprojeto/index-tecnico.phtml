@@ -129,32 +129,34 @@
                         </td>
                         <td align="center">
                             <?php
+                            if (!empty($dp->idDocumentoAssinatura)) :
                                 $urlDespacho = array(
-                                    'module' => 'comprovacao-objeto',
-                                    'controller'=>'avaliaracompanhamentoprojeto',
-                                    'action'=>'visualizar-despachos-ajax',
+                                    'module' => 'assinatura',
+                                    'controller' => 'documentos-devolvidos',
+                                    'action' => 'visualizar-ajax',
                                     'idPronac' => $dp->IdPRONAC
                                 );
-                            ?>
-                            <a data-ajax-modal="<?php echo $this->url($urlDespacho); ?>"
-                               href="javascript:void(0);"
-                               style="margin-bottom:5px;"
-                               class="btn waves-effect waves-light tooltipped small white-text"
-                               data-tooltip="Visualizar despacho"
-                               data-ajax-modal-full="true"
-                            ><i class="material-icons">library_books</i>
-                            </a>
+                                ?>
+                                <a data-ajax-modal="<?php echo $this->url($urlDespacho); ?>"
+                                   href="javascript:void(0);"
+                                   style="margin-bottom:5px;"
+                                   class="btn waves-effect waves-light tooltipped  small white-text"
+                                   data-tooltip="Visualizar despacho"
+                                   data-ajax-modal-full="true"
+                                ><i class="material-icons">library_books</i>
+                                </a>
+                            <?php endif; ?>
 
-                            <a id="btn_avaliar"
+                            <a
                                style="margin-bottom:5px;"
                                class="btn waves-effect waves-light tooltipped small white-text btn-primary"
                                onclick="avaliarRelatorio('<?php echo $dp->IdPRONAC; ?>')"
                                data-tooltip="Avaliar Objeto">
                                 <i class="material-icons">gavel</i>
                             </a>
-                            <a id="devolverPedido"
+                            <a
                                style="margin-bottom:5px;"
-                               class="btn waves-effect waves-light tooltipped small white-text btn-danger"
+                               class="devolverPedido btn waves-effect waves-light tooltipped small white-text btn-danger"
                                pronac="<?= $dp->IdPRONAC; ?>"
                                data-tooltip="Devolver  para o Coordenador">
                                 <i class="material-icons">undo</i>
@@ -231,7 +233,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#devolverPedido').click(function () {
+        $('.devolverPedido').click(function () {
             var pronac = $(this).attr('pronac');
 
             $("#pergunta").dialog("destroy");

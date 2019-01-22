@@ -13,7 +13,7 @@
                 slot-scope="props">
                 <tr
                     style="cursor: pointer"
-                    @click="editarAvaliacao(props)">
+                    @click=" props.expanded = editarAvaliacao(props) ">
                     <td>{{ props.item.fornecedor.nome }}</td>
                     <td>{{ props.item.tpDocumento }}</td>
                     <td class="text-xs-right">{{ props.item.dtPagamento | formatarData }}</td>
@@ -274,8 +274,8 @@ export default {
     },
     methods: {
         editarAvaliacao(props) {
-            props.expanded = !props.expanded;
             Vue.set(this, 'itemEmEdicao', props.item);
+            return !props.expanded;
         },
     },
 };

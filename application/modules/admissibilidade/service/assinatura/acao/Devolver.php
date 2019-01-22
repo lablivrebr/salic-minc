@@ -9,6 +9,13 @@ class Devolver implements IAcaoDevolver
     public function executar(\MinC\Assinatura\Model\Assinatura $assinatura)
     {
         $modeloTbAssinatura = $assinatura->modeloTbAssinatura;
+        $modeloTbMotivoDevolucao = $assinatura->modeloTbMotivoDevolucao;
+
+        $objTbDepacho = new \Proposta_Model_DbTable_TbDespacho();
+        $objTbDepacho->devolverProjetoEncaminhadoParaAssinatura(
+            $modeloTbAssinatura->getIdPronac(),
+            $modeloTbMotivoDevolucao->getDsMotivoDevolucao()
+        );
 
         $objTbProjetos = new \Projeto_Model_DbTable_Projetos();
         $projeto = $objTbProjetos->findBy(['IdPRONAC' => $modeloTbAssinatura->getIdPronac()]);

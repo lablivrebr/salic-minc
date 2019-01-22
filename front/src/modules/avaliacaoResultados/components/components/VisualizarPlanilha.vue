@@ -184,7 +184,7 @@
                 </v-expansion-panel>
             </v-card>
             <ModalDetalheItens
-                :id-pronac="idPronac"
+                :id-pronac="idPronac.toString()"
                 :uf="itemEmVisualizacao.Uf"
                 :codigo-cidade="itemEmVisualizacao.cdCidade"
                 :codigo-produto="itemEmVisualizacao.cdProduto"
@@ -208,6 +208,12 @@ import AnalisarItem from '../ParecerTecnico/AnalisarItem';
 
 export default {
     name: 'Painel',
+    components: {
+        ModalDetalheItens,
+        ConsolidacaoAnalise,
+        AnalisarItem,
+        Carregando,
+    },
     data() {
         return {
             headers: [
@@ -238,12 +244,12 @@ export default {
             return this.getProjetoAnalise.data;
         },
         documento() {
-            let documento = this.getProjetoAnalise.data.items.documento;
+            let { documento } = this.getProjetoAnalise.data.items;
             documento = documento !== null ? this.getProjetoAnalise.data.items.documento : 0;
             return documento;
         },
         estado() {
-            let estado = this.getProjetoAnalise.data.items.estado;
+            let { estado } = this.getProjetoAnalise.data.items;
             estado = (estado !== null) ? this.getProjetoAnalise.data.items.estado : 0;
             return estado;
         },
@@ -259,12 +265,6 @@ export default {
     mounted() {
         this.setPlanilha(this.idPronac);
         this.setProjetoAnalise(this.idPronac);
-    },
-    components: {
-        ModalDetalheItens,
-        ConsolidacaoAnalise,
-        AnalisarItem,
-        Carregando,
     },
     methods: {
         ...mapActions({

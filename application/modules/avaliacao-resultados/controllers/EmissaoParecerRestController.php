@@ -35,7 +35,6 @@ class AvaliacaoResultados_EmissaoParecerRestController extends MinC_Controller_R
         }
 
         $avaliacaoFinanceiraService = new AvaliacaoFinanceiraService($this->getRequest(), $this->getResponse());
-
         $resposta = $avaliacaoFinanceiraService->buscarDadosProjeto();
         $this->renderJsonResponse(\TratarArray::utf8EncodeArray($resposta), 200);
     }

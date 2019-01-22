@@ -83,4 +83,48 @@ class Proposta_Model_DbTable_TbDetalhaPlanoDistribuicao extends MinC_Db_Table_Ab
             throw $e;
         }
     }
+
+    public function updateLocalizacaoDetalhamento($novoIdUF, $novoIdMunicipio, $idProjeto, $idUf, $idMunicipio)
+    {
+        $query = "UPDATE tbDetalhaPlanoDistribuicao 
+            SET tbDetalhaPlanoDistribuicao.idUF = ?, tbDetalhaPlanoDistribuicao.idMunicipio = ?
+            FROM sac.dbo.tbDetalhaPlanoDistribuicao AS tbDetalhaPlanoDistribuicao 
+            INNER JOIN  sac.dbo.PlanoDistribuicaoProduto AS PlanoDistribuicaoProduto 
+            ON PlanoDistribuicaoProduto.idPlanoDistribuicao = tbDetalhaPlanoDistribuicao.idPlanoDistribuicao
+            WHERE PlanoDistribuicaoProduto.idProjeto = ? 
+            AND tbDetalhaPlanoDistribuicao.idUF = ? 
+            AND tbDetalhaPlanoDistribuicao.idMunicipio = ?";
+
+        $bind = [
+            $novoIdUF,
+            $novoIdMunicipio,
+            $idProjeto,
+            $idUf,
+            $idMunicipio
+        ];
+
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $stmt = $db->query($query, $bind);
+        return $stmt->fetch();
+    }
+
+    public function deleteDetalhamentoByLocalizacao($idProjeto, $idUf, $idMunicipio)
+    {
+        $query = "DELETE tbDetalhaPlanoDistribuicao
+            FROM sac.dbo.tbDetalhaPlanoDistribuicao AS tbDetalhaPlanoDistribuicao
+            INNER JOIN sac.dbo.PlanoDistribuicaoProduto AS PlanoDistribuicaoProduto
+            ON PlanoDistribuicaoProduto.idPlanoDistribuicao = tbDetalhaPlanoDistribuicao.idPlanoDistribuicao
+            WHERE PlanoDistribuicaoProduto.idProjeto = ? 
+            AND tbDetalhaPlanoDistribuicao.idUF = ?
+            AND tbDetalhaPlanoDistribuicao.idMunicipio = ?";
+
+        $bind = [
+            $idProjeto,
+            $idUf,
+            $idMunicipio
+        ];
+
+        $db = Zend_Db_Table::getDefaultAdapter();
+        return $db->query($query, $bind);
+    }
 }

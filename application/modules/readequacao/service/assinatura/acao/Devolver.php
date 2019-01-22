@@ -48,6 +48,7 @@ class Devolver implements IAcaoDevolver
                 break;               
             case \Autenticacao_Model_Grupos::DIRETOR_DEPARTAMENTO:
                 $siEncaminhamento = \Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_DEVOLVIDA_AO_COORDENADOR_PELO_DIRETOR;
+                break;
             case \Autenticacao_Model_Grupos::SECRETARIO:
                 $siEncaminhamento = \Readequacao_Model_tbTipoEncaminhamento::SI_ENCAMINHAMENTO_SOLICITACAO_DEVOLVIDA_AO_COORDENADOR_PELO_SECRETARIO;
                 break;

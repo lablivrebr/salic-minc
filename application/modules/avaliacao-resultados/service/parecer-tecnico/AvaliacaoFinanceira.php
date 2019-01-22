@@ -45,9 +45,10 @@ class AvaliacaoFinanceira
         $dadosParecer = $tbAvaliacaoFinanceira->findBy($where);
         $dadosParecer = ($dadosParecer) ?: new \stdClass();
 
-        $vwVisualizarparecer = new \AvaliacaoResultados_Model_DbTable_vwVisualizarParecerDeAvaliacaoDeResultado();
-        $dadosObjetoParecer = $vwVisualizarparecer->buscarObjetoParecerAvaliacaoResultado($this->request->idPronac);
-        $dadosObjetoParecer = $dadosObjetoParecer ? $dadosObjetoParecer->toArray() : null;
+        $vwVisualizarparecer = new \AvaliacaoResultados_Model_DbTable_CumprimentoObjeto();
+        $dadosObjetoParecer = $vwVisualizarparecer->buscarObjeto($this->request->idPronac);
+        $dadosObjetoParecer->dsParecerDeCumprimentoDoObjeto = utf8_encode($dadosObjetoParecer->dsParecerDeCumprimentoDoObjeto);
+        $dadosObjetoParecer = $dadosObjetoParecer->dsManifestacaoObjeto ? $dadosObjetoParecer : null;
 
         return [
             'consolidacaoComprovantes' => $dadosAvaliacaoFinanceira,

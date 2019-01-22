@@ -44,6 +44,17 @@
                 </v-btn>
                 <v-toolbar-title>Avaliação de Resultados - Visualizar Parecer</v-toolbar-title>
             </v-toolbar>
+
+            <v-container v-if="parecerObjeto === null">
+                <v-alert
+                    :value="true"
+                    type="warning"
+                    class="black--text"
+                >
+                    Avaliação do cumprimento do objeto não encontrada!
+                </v-alert>
+            </v-container>
+
             <v-container grid-list-sm>
                 <v-layout
                     row
@@ -64,8 +75,12 @@
                 </v-layout>
                 <v-divider/>
             </v-container>
-            <h2 class="text-sm-center">Parecer de avaliação do cumprimento do objeto</h2>
-            <v-container grid-list-sm>
+
+            <v-container
+                v-if="parecerObjeto !== null"
+                grid-list-sm>
+                <h2 class="text-sm-center">Parecer de avaliação do cumprimento do objeto</h2>
+
                 <v-layout
                     wrap
                     align-center>
@@ -89,7 +104,7 @@
                 </v-layout>
                 <v-divider/>
             </v-container>
-            <div v-if="parecerTecnico !== undefined && parecerTecnico.idPronac === idPronac">
+            <div v-if="parecerTecnico !== undefined">
                 <h2 class="text-sm-center">Parecer técnico de avaliação financeira</h2>
                 <v-container grid-list-sm>
                     <v-layout
@@ -131,7 +146,16 @@ export default {
     filters: {
         cnpjFilter,
     },
-    props: ['idPronac', 'obj'],
+    props: {
+        idPronac: {
+            type: [Number, String],
+            required: true,
+        },
+        obj: {
+            type: Object,
+            default: () => {},
+        },
+    },
     data() {
         return {
             dialog: false,

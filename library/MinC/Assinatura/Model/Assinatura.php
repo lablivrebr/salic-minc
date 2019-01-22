@@ -9,7 +9,7 @@ use Mockery\Exception;
  *
  * @var \Assinatura_Model_TbAssinatura $modeloTbAssinatura
  * @var \Assinatura_Model_TbAtoAdministrativo $modeloTbAtoAdministrativo
- * @var \Proposta_Model_TbDespacho $modeloTbDespacho
+ * @var \Assinatura_Model_TbMotivoDevolucao $modeloTbMotivoDevolucao
  * @var \Assinatura_Model_DbTable_TbAssinatura $dbTableTbAssinatura
  */
 class Assinatura implements IModel
@@ -25,7 +25,7 @@ class Assinatura implements IModel
 
     public $modeloTbAssinatura;
     public $modeloTbAtoAdministrativo;
-    public $modeloTbDespacho;
+    public $modeloTbMotivoDevolucao;
     public $modeloTbDocumentoAssinatura;
     public $dbTableTbAssinatura;
 
@@ -34,8 +34,7 @@ class Assinatura implements IModel
         $this->modeloTbAssinatura = new \Assinatura_Model_TbAssinatura($dadosModelo);
         $this->modeloTbAtoAdministrativo = new \Assinatura_Model_TbAtoAdministrativo($dadosModelo);
 
-        $dadosModelo['Tipo'] = $dadosModelo['idTipoDoAto'];
-        $this->modeloTbDespacho = new \Proposta_Model_TbDespacho($dadosModelo);
+        $this->modeloTbMotivoDevolucao = new \Assinatura_Model_TbMotivoDevolucao($dadosModelo);
 
         $this->modeloTbDocumentoAssinatura = new \Assinatura_Model_TbDocumentoAssinatura($dadosModelo);
         if($this->modeloTbAssinatura->getIdPronac() && $this->modeloTbAtoAdministrativo->getIdTipoDoAto()) {

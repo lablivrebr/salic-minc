@@ -26,7 +26,6 @@ export const getDadosEmissaoParecer = ({ commit }, param) => {
         avaliacaoResultadosHelperAPI.parecerConsolidacao(param)
             .then((response) => {
                 const data = response.data.data.items;
-
                 commit(types.GET_PROPONENTE, data.proponente);
                 commit(types.GET_PROJETO, data.projeto);
                 commit(types.GET_PARECER, data.parecer);
@@ -67,7 +66,7 @@ export const obterDadosTabelaTecnico = ({ commit }, params) => {
     commit(types.PROJETOS_AVALIACAO_TECNICA, {});
     avaliacaoResultadosHelperAPI.obterDadosTabelaTecnico(params)
         .then((response) => {
-            const data = response.data.data;
+            const { data } = response.data;
             data.items.forEach((a, index) => {
                 avaliacaoResultadosHelperAPI.listarDiligencias(a.idPronac).then(
                     (resp) => {

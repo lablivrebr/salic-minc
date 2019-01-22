@@ -81,11 +81,22 @@ export default {
     components: {
         ModalTemplate,
     },
-    props: [
-        'idPronac',
-        'pronac',
-        'nomeProjeto',
-    ],
+    filters: {
+        formatarData(value) {
+            const date = new Date(value);
+
+            return date.toLocaleString(['pt-BR'], {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
+        },
+    },
+    props: {
+        idPronac: { type: String, default: '' },
+        pronac: { type: String, default: '' },
+        nomeProjeto: { type: String, default: '' },
+    },
     data() {
         return {
             projetoHeaders: [
@@ -131,6 +142,9 @@ export default {
             dialog: false,
         };
     },
+    computed: mapGetters({
+        dadosHistoricoEncaminhamento: 'avaliacaoResultados/dadosHistoricoEncaminhamento',
+    }),
     watch: {
         dialog(val) {
             if (val) {
@@ -142,20 +156,6 @@ export default {
         ...mapActions({
             obterHistoricoEncaminhamento: 'avaliacaoResultados/obterHistoricoEncaminhamento',
         }),
-    },
-    computed: mapGetters({
-        dadosHistoricoEncaminhamento: 'avaliacaoResultados/dadosHistoricoEncaminhamento',
-    }),
-    filters: {
-        formatarData(value) {
-            const date = new Date(value);
-
-            return date.toLocaleString(['pt-BR'], {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-            });
-        },
     },
 };
 </script>

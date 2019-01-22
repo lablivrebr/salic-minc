@@ -151,6 +151,17 @@ $arrMenu['assinatura']['menu'][] = array(
 );
 
 $arrMenu['assinatura']['menu'][] = array(
+    'url' => $this->url(
+        array(
+            'module' => 'assinatura',
+            'controller' => 'documentos-devolvidos',
+            'action' => 'listar'
+        ), '', true),
+    'title' => 'Ir para Listar documentos devolvidos',
+    'label' => 'Listar Documentos Devolvidos'
+);
+
+$arrMenu['assinatura']['menu'][] = array(
     'grupo' => array(97),
     'url' => $this->url(
         array(

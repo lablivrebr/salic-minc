@@ -34,7 +34,9 @@
                                             <div class="headline"><b>Projeto:</b>
                                                 {{ projeto.AnoProjeto }}{{ projeto.Sequencial }} - {{ projeto.NomeProjeto }}
                                             </div>
-                                            <span class="black--text"><b>Proponente:</b> {{ proponente.CgcCpf | cnpjFilter }} - {{ proponente.Nome }}</span>
+                                            <span class="black--text"><b>Proponente:</b>
+                                                {{ proponente.CgcCpf | cnpjFilter }} - {{ proponente.Nome }}
+                                            </span>
                                         </div>
                                     </v-container>
                                 </v-card-title>
@@ -130,6 +132,9 @@ export default {
     components: {
         EditorTexto,
     },
+    filters: {
+        cnpjFilter,
+    },
     data() {
         return {
             tipo: true,
@@ -148,6 +153,17 @@ export default {
             ],
             laudoFinalData: {},
         };
+    },
+    computed: {
+        ...mapGetters({
+            modalVisible: 'modal/default',
+            proponente: 'avaliacaoResultados/proponente',
+            projeto: 'avaliacaoResultados/projeto',
+            parecerLaudoFinal: 'avaliacaoResultados/getParecerLaudoFinal',
+        }),
+    },
+    mounted() {
+        this.validarLaudo();
     },
     methods: {
         ...mapActions({
@@ -236,20 +252,6 @@ export default {
             this.laudoFinalData.dsLaudoFinal = e;
             this.validarLaudo(e);
         },
-    },
-    computed: {
-        ...mapGetters({
-            modalVisible: 'modal/default',
-            proponente: 'avaliacaoResultados/proponente',
-            projeto: 'avaliacaoResultados/projeto',
-            parecerLaudoFinal: 'avaliacaoResultados/getParecerLaudoFinal',
-        }),
-    },
-    mounted() {
-        this.validarLaudo();
-    },
-    filters: {
-        cnpjFilter,
     },
 };
 </script>

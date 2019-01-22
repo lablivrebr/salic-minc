@@ -204,6 +204,20 @@ export default {
             CONST: '',
         };
     },
+    computed: {
+        ...mapGetters({
+            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
+            getProjetosFinalizados: 'avaliacaoResultados/getProjetosFinalizados',
+            getProjetosAssinar: 'avaliacaoResultados/getProjetosAssinar',
+            getProjetosEmAssinatura: 'avaliacaoResultados/getProjetosEmAssinatura',
+            getProjetosHistorico: 'avaliacaoResultados/getProjetosHistorico',
+            getProjetosParaDistribuir: 'avaliacaoResultados/getProjetosParaDistribuir',
+            getUsuario: 'autenticacao/getUsuario',
+            getProjetosAssinarCoordenador: 'avaliacaoResultados/getProjetosAssinarCoordenador',
+            getProjetosAssinarCoordenadorGeral: 'avaliacaoResultados/getProjetosAssinarCoordenadorGeral',
+            route: 'route',
+        }),
+    },
     created() {
         this.CONST = CONST;
 
@@ -253,20 +267,6 @@ export default {
             distribuir: 'avaliacaoResultados/projetosParaDistribuir',
             projetosAssinarCoordenador: 'avaliacaoResultados/projetosAssinarCoordenador',
             projetosAssinarCoordenadorGeral: 'avaliacaoResultados/projetosAssinarCoordenadorGeral',
-        }),
-    },
-    computed: {
-        ...mapGetters({
-            dadosTabelaTecnico: 'avaliacaoResultados/dadosTabelaTecnico',
-            getProjetosFinalizados: 'avaliacaoResultados/getProjetosFinalizados',
-            getProjetosAssinar: 'avaliacaoResultados/getProjetosAssinar',
-            getProjetosEmAssinatura: 'avaliacaoResultados/getProjetosEmAssinatura',
-            getProjetosHistorico: 'avaliacaoResultados/getProjetosHistorico',
-            getProjetosParaDistribuir: 'avaliacaoResultados/getProjetosParaDistribuir',
-            getUsuario: 'autenticacao/getUsuario',
-            getProjetosAssinarCoordenador: 'avaliacaoResultados/getProjetosAssinarCoordenador',
-            getProjetosAssinarCoordenadorGeral: 'avaliacaoResultados/getProjetosAssinarCoordenadorGeral',
-            route: 'route',
         }),
     },
 };

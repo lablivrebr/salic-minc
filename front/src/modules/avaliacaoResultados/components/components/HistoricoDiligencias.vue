@@ -191,7 +191,7 @@ export default {
     components: {
         Carregando,
     },
-    props: { obj: Object },
+    props: { obj: { type: Object, default: () => {} } },
     data() {
         return {
             dialog: false,
@@ -243,6 +243,18 @@ export default {
             ],
             arrow: true,
         };
+    },
+    computed: {
+        ...mapGetters({
+            diligencias: 'avaliacaoResultados/diligenciasHistorico',
+        }),
+
+        sortByDate() {
+            return _.orderBy(this.diligencias.items, 'dataSolicitacao', 'desc');
+        },
+    },
+    updated() {
+        this.setInfo();
     },
     methods: {
         ...mapActions({
@@ -368,18 +380,6 @@ export default {
             }
             return this.info;
         },
-    },
-    computed: {
-        ...mapGetters({
-            diligencias: 'avaliacaoResultados/diligenciasHistorico',
-        }),
-
-        sortByDate() {
-            return _.orderBy(this.diligencias.items, 'dataSolicitacao', 'desc');
-        },
-    },
-    updated() {
-        this.setInfo();
     },
 };
 </script>

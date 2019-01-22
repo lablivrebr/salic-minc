@@ -96,29 +96,34 @@ class Admissibilidade_EnquadramentoAssinaturaController extends Assinatura_Gener
     public function devolverProjetoAction()
     {
         $this->validarPerfis();
-        $get = Zend_Registry::get('get');
+        $get = $this->_request->getParams();
         try {
-            if (!filter_input(INPUT_GET, 'IdPRONAC')) {
-                throw new Exception("Identificador do projeto é necessário para acessar essa funcionalidade.");
+            if (empty($get['IdPRONAC'])) {
+                throw new Exception("Identificador do projeto &eacute; necess&aacute;rio para acessar essa funcionalidade.");
+            }
+
+            if (empty($get['idDocumentoAssinatura'])) {
+                throw new Exception("Identificador do documento &eacute; necess&aacute;rio para acessar essa funcionalidade.");
             }
 
             $objTbProjetos = new Projeto_Model_DbTable_Projetos();
 
             $this->view->projeto = $objTbProjetos->findBy(array(
-                'IdPRONAC' => $get->IdPRONAC
+                'IdPRONAC' => $get['IdPRONAC']
             ));
 
             $post = $this->getRequest()->getPost();
             if ($post) {
                 if (!$post['motivoDevolucao']) {
-                    throw new Exception("Campo 'Motivação da Devolução para nova avaliação' não informado.");
+                    throw new Exception("Campo 'Motiva&ccedil;&atilde;o da Devolu&ccedil;&atilde;o para nova avalia&ccedil;&atilde;o' n&atilde;o informado.");
                 }
 
                 $assinaturaService = new \MinC\Assinatura\Servico\Assinatura(
                     [
-                        'Despacho' => $post['motivoDevolucao'],
+                        'dsMotivoDevolucao' => $post['motivoDevolucao'],
+                        'idDocumentoAssinatura' => $post['idDocumentoAssinatura'],
                         'idTipoDoAto' => $this->idTipoDoAtoAdministrativo,
-                        'idPronac' => $get->IdPRONAC,
+                        'idPronac' => $get['IdPRONAC'],
                         'idPerfilDoAssinante' => $this->grupoAtivo->codGrupo
                     ]
                 );
@@ -129,11 +134,12 @@ class Admissibilidade_EnquadramentoAssinaturaController extends Assinatura_Gener
 
             $objModelDocumentoAssinatura = new Assinatura_Model_DbTable_TbDocumentoAssinatura();
             $this->view->abertoParaDevolucao = $objModelDocumentoAssinatura->isProjetoDisponivelParaAssinatura(
-                $get->IdPRONAC,
+                $get['IdPRONAC'],
                 $this->idTipoDoAtoAdministrativo
             );
 
-            $this->view->IdPRONAC = $get->IdPRONAC;
+            $this->view->IdPRONAC = $get['IdPRONAC'];
+            $this->view->idDocumentoAssinatura = $get['idDocumentoAssinatura'];
 
             $mapperArea = new Agente_Model_AreaMapper();
             $this->view->areaCultural = $mapperArea->findBy(array(
@@ -155,7 +161,10 @@ class Admissibilidade_EnquadramentoAssinaturaController extends Assinatura_Gener
 
             $this->view->titulo = "Devolver";
         } catch (Exception $objException) {
-            parent::message($objException->getMessage(), "/{$this->moduleName}/enquadramento-assinatura/devolver-projeto?IdPRONAC={$get->IdPRONAC}");
+            parent::message(
+                $objException->getMessage(),
+                "/{$this->moduleName}/enquadramento-assinatura/devolver-projeto/IdPRONAC/{$get['IdPRONAC']}/idDocumentoAssinatura/{$get['idDocumentoAssinatura']}"
+            );
         }
     }
 

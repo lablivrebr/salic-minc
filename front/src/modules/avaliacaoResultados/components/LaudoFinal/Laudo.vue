@@ -47,9 +47,12 @@
                         :proximo="proximoEstado()"
                         :nome-projeto="props.item.NomeProjeto"
                         :pronac="props.item.PRONAC"
-                        :id-tipo-do-ato-administrativo="atoAdministrativo"
+                        :id-tipo-do-ato-administrativo="atoAdministrativo(estado)"
                         :usuario="getUsuario"
-                        :tecnico="devolucaoLaudo"
+                        :tecnico="{
+                            idAgente: props.item.usu_codigo,
+                            nome: props.item.usu_nome,
+                        }"
                     />
                 </td>
                 <td
@@ -144,14 +147,10 @@ export default {
         VisualizarParecer,
     },
     props: {
-        dados: { type: String, default: '' }, estado: { type: String, default: '' },
+        dados: { type: Object, default: () => {} }, estado: { type: String, default: '' },
     },
     data() {
         return {
-            devolucaoLaudo: {
-                idAgente: 0,
-                nome: 'sysLaudo',
-            },
             pagination: {
                 rowsPerPage: 10,
             },
@@ -198,21 +197,6 @@ export default {
         ...mapGetters({
             getUsuario: 'autenticacao/getUsuario',
         }),
-        atoAdministrativo() {
-            let ato = Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
-
-            if (
-                this.usuario
-                    && (
-                        Const.PERFIL_DIRETOR === this.getUsuario.grupo_ativo
-                        || Const.PERFIL_SECRETARIO === this.getUsuario.grupo_ativo
-                    )
-            ) {
-                ato = Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
-            }
-
-            return ato;
-        },
         usuario() {
             return (this.getUsuario !== undefined && Object.keys(this.getUsuario).length > 0);
         },
@@ -222,27 +206,35 @@ export default {
             requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
             getLaudoFinal: 'avaliacaoResultados/getLaudoFinal',
         }),
+        atoAdministrativo(estado) {
+            let ato = this.Const.ATO_ADMINISTRATIVO_PARECER_TECNICO;
+
+            if (estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO
+            || estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO
+            || estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECRETARIO_LAUDO
+            ) {
+                ato = this.Const.ATO_ADMINISTRATIVO_LAUDO_FINAL;
+            }
+
+            return ato;
+        },
         sincState(id) {
             this.requestEmissaoParecer(id);
             this.getLaudoFinal(id);
         },
         proximoEstado() {
-            let proximo = '';
-
-            switch (this.estado) {
-            case Const.ESTADO_ANALISE_LAUDO:
-                proximo = Const.ESTADO_ANALISE_PARECER;
-                break;
-            case Const.ESTADO_LAUDO_FINALIZADO:
-                proximo = Const.ESTADO_ANALISE_LAUDO;
-                break;
-            case Const.ESTADO_AGUARDANDO_ASSINATURA_LAUDO:
-                proximo = Const.ESTADO_ANALISE_LAUDO;
-                break;
-            case Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA:
-                proximo = Const.ESTADO_ANALISE_LAUDO;
-                break;
-            default:
+            let proximo;
+            if (this.estado === this.Const.ESTADO_ANALISE_LAUDO) {
+                proximo = this.Const.ESTADO_ANALISE_PARECER;
+            } else if (this.estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO) {
+                proximo = this.Const.ESTADO_ANALISE_LAUDO;
+            } else if (this.estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO) {
+                proximo = this.Const.ESTADO_ANALISE_LAUDO;
+            } else if (this.estado === this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECRETARIO_LAUDO) {
+                proximo = this.Const.ESTADO_ANALISE_LAUDO;
+            } else if (this.estado === this.Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA) {
+                proximo = this.Const.ESTADO_ANALISE_LAUDO;
+            } else {
                 proximo = '';
             }
             return proximo;

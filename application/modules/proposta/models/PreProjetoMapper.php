@@ -132,9 +132,8 @@ class Proposta_Model_PreProjetoMapper extends MinC_Db_Mapper
             $newArray = [];
 
             foreach ($proposta['tbcustosvinculados'] as $key => $dado) {
-                $objDateTime = new DateTime($dado['dtCadastro']);
                 $newArray[$key]['item'] = $dado['item'];
-                $newArray[$key]['dtCadastro'] = $objDateTime->format('d/m/Y');
+                $newArray[$key]['dtCadastro'] = $dado['dtCadastro'];
                 $newArray[$key]['pcCalculo'] = $dado['pcCalculo'] . '%';
             }
 

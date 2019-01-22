@@ -4,19 +4,21 @@
         <v-card-title
             primary
             class="title">Custos vinculados</v-card-title>
-        <v-data-table
-            :headers="headers"
-            :items="dados.lines"
-            class="elevation-1"
-        >
-            <template
-                slot="items"
-                slot-scope="props">
-                <td>{{ props.item.item }}</td>
-                <td>{{ props.item.dtCadastro | formatarData }}</td>
-                <td>{{ props.item.pcCalculo }}</td>
-            </template>
-        </v-data-table>
+        <v-card-text>
+            <v-data-table
+                :headers="headers"
+                :items="dados.lines"
+                class="elevation-1"
+            >
+                <template
+                    slot="items"
+                    slot-scope="props">
+                    <td>{{ props.item.item }}</td>
+                    <td>{{ props.item.dtCadastro | formatarData }}</td>
+                    <td class="text-xs-right">{{ props.item.pcCalculo }}</td>
+                </template>
+            </v-data-table>
+        </v-card-text>
     </v-card>
 </template>
 <script>
@@ -41,7 +43,7 @@ export default {
             headers: [
                 { text: 'Item', value: 'item' },
                 { text: 'Data', value: 'dtCadastro' },
-                { text: 'Percentual', value: 'pcCalculo' },
+                { text: 'Percentual', align: 'center', value: 'pcCalculo' },
             ],
         };
     },

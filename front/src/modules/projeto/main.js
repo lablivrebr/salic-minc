@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 // Vue.config.productionTip = false
 import Vue from 'vue';
+import pt from 'vuetify/lib/locale/pt';
 import Vuetify from 'vuetify';
 import Index from './Index';
 import {
@@ -18,6 +19,10 @@ Vue.use(Vuetify, {
         warning: '#ffeb3b',
         info: '#2196f3',
         success: '#4caf50',
+    },
+    lang: {
+        locales: { pt },
+        current: 'pt',
     },
 });
 Vue.config.productionTip = false;

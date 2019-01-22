@@ -4,6 +4,7 @@
             :headers="headers"
             :items="table"
             :rows-per-page-items="[-1]"
+            item-key="idPlanilhaProjeto"
             class="elevation-1"
             hide-actions
         >
@@ -12,6 +13,8 @@
                 slot-scope="props">
                 <tr
                     :class="definirClasseItem(props.item)"
+                    style="cursor: pointer"
+                    @click="props.expanded = editarItem(props)"
                 >
                     <td class="text-xs-center">{{ props.item.Seq }}</td>
                     <td class="text-xs-left">{{ props.item.Item }}</td>
@@ -31,6 +34,94 @@
                         width="30%"
                         v-html="props.item.dsJustificativaParecerista"/>
                 </tr>
+            </template>
+            <template
+                slot="expand"
+                slot-scope="props">
+                <v-card flat>
+                    <v-card-text>
+                        <v-form v-model="valid">
+                            <v-container>
+                                <v-layout>
+                                    <v-flex
+                                        xs12
+                                        md4
+                                    >
+                                        <v-text-field
+                                            v-model="itemEmEdicao.Item"
+                                            :counter="10"
+                                            label="First name"
+                                            required
+                                        />
+                                    </v-flex>
+
+                                    <v-flex
+                                        xs12
+                                        md4
+                                    >
+                                        <v-text-field
+                                            v-model="itemEmEdicao.UnidadeProjeto"
+                                            :rules="nameRules"
+                                            :counter="10"
+                                            label="Last name"
+                                            required
+                                        />
+                                    </v-flex>
+
+                                    <v-flex
+                                        xs12
+                                        md4
+                                    >
+                                        <v-text-field
+                                            v-model="email"
+                                            :rules="emailRules"
+                                            label="E-mail"
+                                            required
+                                        />
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row>
+                                    <v-flex
+                                        xs12
+                                        md4
+                                    >
+                                        <v-text-field
+                                            v-model="itemEmEdicao.Item"
+                                            :counter="10"
+                                            label="First name"
+                                            required
+                                        />
+                                    </v-flex>
+
+                                    <v-flex
+                                        xs12
+                                        md4
+                                    >
+                                        <v-text-field
+                                            v-model="itemEmEdicao.UnidadeProjeto"
+                                            :rules="nameRules"
+                                            :counter="10"
+                                            label="Last name"
+                                            required
+                                        />
+                                    </v-flex>
+
+                                    <v-flex
+                                        xs12
+                                        md4
+                                    >
+                                        <v-textarea
+                                            v-model="itemEmEdicao.dsJustificativaParecerista"
+                                            name="input-7-1"
+                                            label="Default style"
+                                            hint="Hint text"
+                                        />
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                        </v-form>
+                    </v-card-text>
+                </v-card>
             </template>
             <template slot="footer">
                 <tr
@@ -60,6 +151,8 @@ export default {
     },
     data() {
         return {
+            valid: false,
+            expand: false,
             headers: [
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
@@ -73,7 +166,25 @@ export default {
                 { text: 'Valor Sugerido', align: 'left', value: 'VlSugeridoParecerista' },
                 { text: 'Just. Parecerista', align: 'left', value: 'dsJustificativaParecerista' },
             ],
+            itemEmEdicao: {},
+            firstname: '',
+            lastname: '',
+            nameRules: [
+                v => !!v || 'Name is required',
+                v => v.length <= 10 || 'Name must be less than 10 characters',
+            ],
+            email: '',
+            emailRules: [
+                v => !!v || 'E-mail is required',
+                v => /.+@.+/.test(v) || 'E-mail must be valid',
+            ],
         };
+    },
+    methods: {
+        editarItem(props) {
+            this.$set(this, 'itemEmEdicao', props.item);
+            return !props.expanded;
+        },
     },
 };
 </script>

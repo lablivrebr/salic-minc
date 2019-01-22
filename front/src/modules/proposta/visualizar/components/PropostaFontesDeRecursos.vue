@@ -30,7 +30,7 @@ export default {
     name: 'PropostaFontesDeRecursos',
     props: {
         idpreprojeto: {
-            type: Number,
+            type: [Number, String],
             default: null,
         },
     },

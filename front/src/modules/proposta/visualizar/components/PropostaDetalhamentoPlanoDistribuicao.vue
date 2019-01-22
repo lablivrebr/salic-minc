@@ -6,7 +6,8 @@
             row
             wrap>
             <v-expansion-panel
-                :value="1">
+                :value="[1]"
+                expand>
                 <v-expansion-panel-content
                     v-for="( detalhamento, index ) in detalhamentos"
                     :key="index">
@@ -134,18 +135,10 @@ export default {
     },
     mounted() {
         if (typeof this.arrayDetalhamentos !== 'undefined') {
-            this.iniciarCollapsible();
             this.detalhamentos = this.montarVisualizacao(this.arrayDetalhamentos);
         }
     },
     methods: {
-        iniciarCollapsible() {
-            // eslint-disable-next-line
-            // $3('.detalhamento-plano-distribuicao .collapsible').each(function () {
-            //     // eslint-disable-next-line
-            //     $3(this).collapsible();
-            // });
-        },
         montarVisualizacao(detalhamentos) {
             const novoDetalhamento = {};
             let i = 0;

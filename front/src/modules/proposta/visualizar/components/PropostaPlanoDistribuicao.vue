@@ -14,7 +14,8 @@
                     <b>Aguarde! Carregando....</b>
                 </div>
                 <v-expansion-panel
-                    :value="1">
+                    :value="[1]"
+                    expand>
                     <v-expansion-panel-content
                         v-for="(produto, index) of produtos"
                         :key="index"
@@ -223,8 +224,6 @@ export default {
         if (typeof this.arrayDetalhamentos !== 'undefined') {
             this.detalhamentos = this.arrayDetalhamentos;
         }
-
-        this.iniciarCollapsible();
     },
     methods: {
         detalhamentosByID(lista, id) {
@@ -241,18 +240,6 @@ export default {
                     return novaLista;
                 }
                 return lista;
-            },
-            label_sim_ou_nao(valor) {
-                if (valor === 1) {
-                    return 'Sim';
-                }
-                return 'N\xE3o';
-            },
-            iniciarCollapsible() {
-                /* eslint-disable */
-                // $3('.collapsible').each(function () {
-                //     $3(this).collapsible();
-                // });
             },
         },
     };

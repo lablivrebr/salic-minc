@@ -7,7 +7,7 @@
         <v-card-text>
             <v-data-table
                 :headers="headers"
-                :items="dados.lines"
+                :items="dados"
                 class="elevation-1"
             >
                 <template
@@ -33,8 +33,8 @@ export default {
     mixins: [utils],
     props: {
         arrayCustos: {
-            type: Object,
-            default: () => {},
+            type: Array,
+            default: () => [],
         },
     },
     data() {

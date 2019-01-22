@@ -137,16 +137,7 @@ class Proposta_Model_PreProjetoMapper extends MinC_Db_Mapper
                 $newArray[$key]['pcCalculo'] = $dado['pcCalculo'] . '%';
             }
 
-            $custosVinculados = [];
-            $custosVinculados['class'] = 'bordered striped';
-            $custosVinculados['lines'] = $newArray;
-            $custosVinculados['cols'] = [
-                'item' => ['name' => 'Item'],
-                'dtCadastro' => ['name' => 'Data', 'class' => 'valig'],
-                'pcCalculo' => ['name' => 'Percentual']
-            ];
-
-            $proposta['tbcustosvinculados'] = $custosVinculados;
+            $proposta['tbcustosvinculados'] = $newArray;
         }
 
         $proposta['tbplanilhaproposta'] = $this->montarPlanilhaProposta(

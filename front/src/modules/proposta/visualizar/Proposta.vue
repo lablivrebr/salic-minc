@@ -340,20 +340,11 @@ export default {
             this.dados = this.proposta;
             this.loading = false;
         }
-
-        this.iniciarCollapsible();
     },
     methods: {
         ...mapActions({
             buscarDadosProposta: 'proposta/buscarDadosProposta',
         }),
-        iniciarCollapsible() {
-            // eslint-disable-next-line
-            // $3('.collapsible').each(function () {
-            //     // eslint-disable-next-line
-            //     $3(this).collapsible();
-            // });
-        },
     },
 };
 </script>

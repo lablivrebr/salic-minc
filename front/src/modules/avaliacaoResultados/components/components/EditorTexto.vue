@@ -17,7 +17,7 @@ export default {
     components: {
         VueEditor,
     },
-    props: { value: String },
+    props: { value: { type: String, default: '' } },
     data() {
         return {
             editor: '',

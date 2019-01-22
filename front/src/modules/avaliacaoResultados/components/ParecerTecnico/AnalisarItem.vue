@@ -168,18 +168,18 @@ export default {
             return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
         },
     },
-    props: [
-        'item',
-        'descricaoProduto',
-        'descricaoEtapa',
-        'idPronac',
-        'uf',
-        'produto',
-        'idmunicipio',
-        'etapa',
-        'cdProduto',
-        'cdUf',
-    ],
+    props: {
+        item: { type: Object, default: () => {} },
+        descricaoProduto: { type: String, default: '' },
+        descricaoEtapa: { type: String, default: '' },
+        idPronac: { type: String, default: '' },
+        uf: { type: String, default: '' },
+        produto: { type: Number, default: 0 },
+        idmunicipio: { type: Number, default: 0 },
+        etapa: { type: Number, default: 0 },
+        cdProduto: { type: Number, default: 0 },
+        cdUf: { type: Number, default: 0 },
+    },
     data() {
         return {
             comprovantesIsLoading: false,
@@ -232,9 +232,9 @@ export default {
             if (!this.$refs.form.validate()) {
                 return false;
             }
-            avaliacao = Object.assign({}, avaliacao);
+            const avaliando = Object.assign({}, avaliacao);
             this.loading = true;
-            this.salvarAvaliacaoComprovante(avaliacao).then((response) => {
+            this.salvarAvaliacaoComprovante(avaliando).then((response) => {
                 this.snackbarTexto = response.message;
                 this.snackbarAlerta = true;
                 this.loading = false;

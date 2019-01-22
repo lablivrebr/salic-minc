@@ -56,24 +56,13 @@ class HistoricoEncaminhamento implements \MinC\Servico\IServicoRestZend
             $produto = $item['Produto'];
             $unidade = $item['Unidade'];
             $observacao = $item['Observacao'];
-            $objDateTimeDtEnvio = ' ';
-            $objDateTimeDtRetorno = ' ';
-
-            if (!empty($item['DtEnvio'])) {
-                $objDateTimeDtEnvio = new \DateTime($item['DtEnvio']);
-                $objDateTimeDtEnvio = $objDateTimeDtEnvio->format('d/m/Y');
-            }
-            if (!empty($item['DtRetorno'])) {
-                $objDateTimeDtRetorno = new \DateTime($item['DtRetorno']);
-                $objDateTimeDtRetorno = $objDateTimeDtRetorno->format('d/m/Y');
-            }
 
             $result[] = [
                 'Produto' => $produto,
                 'Unidade' => $unidade,
                 'Observacao' => $observacao,
-                'DtEnvio' => $objDateTimeDtEnvio,
-                'DtRetorno' => $objDateTimeDtRetorno,
+                'DtEnvio' => $item['DtEnvio'],
+                'DtRetorno' => $item['DtRetorno'],
                 'qtDias' => $item['qtDias']
             ];
 

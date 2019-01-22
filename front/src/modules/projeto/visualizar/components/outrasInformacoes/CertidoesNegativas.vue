@@ -5,6 +5,7 @@
         </div>
         <div v-else-if="dados.certidoes">
             <v-data-table
+                :pagination.sync="pagination"
                 :headers="headers"
                 :items="dados.certidoes"
                 class="elevation-1 container-fluid"
@@ -15,8 +16,8 @@
                     <td
                         class="text-xs-left"
                         v-html="props.item.dsCertidao"/>
-                    <td class="text-xs-right">{{ props.item.DtEmissao }}</td>
-                    <td class="text-xs-right">{{ props.item.DtValidade }}</td>
+                    <td class="text-xs-center pl-5">{{ props.item.DtEmissao | formatarData }}</td>
+                    <td class="text-xs-center pl-5">{{ props.item.DtValidade | formatarData }}</td>
                     <td class="text-xs-right">{{ props.item.Pronac }}</td>
                     <td
                         v-if="props.item.Situacao"
@@ -41,17 +42,20 @@
 
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'CertidoesNegativas',
     components: {
         Carregando,
     },
+    mixins: [utils],
     data() {
         return {
             search: '',
             pagination: {
-                sortBy: 'fat',
+                sortBy: 'DtEmissao',
+                descending: true,
             },
             selected: [],
             loading: true,

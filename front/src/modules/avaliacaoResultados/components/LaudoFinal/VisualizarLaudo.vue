@@ -77,6 +77,9 @@ import { mapGetters } from 'vuex';
 import cnpjFilter from '@/filters/cnpj';
 
 export default {
+    filters: {
+        cnpjFilter,
+    },
     data() {
         return {
             dialog: true,
@@ -88,9 +91,6 @@ export default {
             projeto: 'avaliacaoResultados/projeto',
             parecerLaudoFinal: 'avaliacaoResultados/getParecerLaudoFinal',
         }),
-    },
-    filters: {
-        cnpjFilter,
     },
 };
 </script>

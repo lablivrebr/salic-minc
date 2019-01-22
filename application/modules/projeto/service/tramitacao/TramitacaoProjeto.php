@@ -45,22 +45,10 @@ class TramitacaoProjeto implements \MinC\Servico\IServicoRestZend
         $resultArray = [];
         foreach ($tramitacoes as $tramitacao) {
             $meDespacho = $tramitacao['meDespacho'];
-            $objDateTimeDtTramitacaoEnvio = ' ';
-            $objDateTimedtTramitacaoRecebida = ' ';
-
-            if (!empty($tramitacao['dtTramitacaoEnvio'])) {
-                $objDateTimeDtTramitacaoEnvio = new \DateTime($tramitacao['dtTramitacaoEnvio']);
-                $objDateTimeDtTramitacaoEnvio = $objDateTimeDtTramitacaoEnvio->format('d/m/Y');
-            }
-
-            if (!empty($tramitacao['dtTramitacaoRecebida'])) {
-                $objDateTimedtTramitacaoRecebida = new \DateTime($tramitacao['dtTramitacaoRecebida']);
-                $objDateTimedtTramitacaoRecebida = $objDateTimedtTramitacaoRecebida->format('d/m/Y');
-            }
 
             $resultArray[] = [
-                'dtTramitacaoEnvio' => $objDateTimeDtTramitacaoEnvio,
-                'dtTramitacaoRecebida' => $objDateTimedtTramitacaoRecebida,
+                'dtTramitacaoEnvio' => $tramitacao['dtTramitacaoEnvio'],
+                'dtTramitacaoRecebida' => $tramitacao['dtTramitacaoRecebida'],
                 'Situacao' => $tramitacao['Situacao'],
                 'Origem' => $tramitacao['Origem'],
                 'Destino' => $tramitacao['Destino'],

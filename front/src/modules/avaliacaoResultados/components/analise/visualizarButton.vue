@@ -20,8 +20,11 @@
 <script>
 export default {
     name: 'VisualizarButton',
-    props: [
-        'idPronac',
-    ],
+    props: {
+        idPronac: {
+            type: String,
+            default: '',
+        },
+    },
 };
 </script>

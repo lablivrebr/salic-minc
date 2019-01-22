@@ -189,7 +189,9 @@
                                                                     <td class="text-xs-right">{{ props.item.valor | moedaMasc }}</td>
                                                                     <td class="text-xs-right">{{ props.item.varlorAprovado | moedaMasc }}</td>
                                                                     <td class="text-xs-right">{{ props.item.varlorComprovado | moedaMasc }}</td>
-                                                                    <td class="text-xs-right">{{ (props.item.varlorAprovado - props.item.varlorComprovado) | moedaMasc }}</td>
+                                                                    <td class="text-xs-right">
+                                                                        {{ (props.item.varlorAprovado - props.item.varlorComprovado) | moedaMasc }}
+                                                                    </td>
                                                                     <td>
                                                                         <v-btn
                                                                             v-if="podeEditar(props.item.varlorComprovado)"
@@ -333,12 +335,24 @@ export default {
         return {
             headers: [
                 { text: 'Item', value: 'item', sortable: false },
-                { text: 'Qtd', value: 'quantidade', sortable: false, align: 'right'},
-                { text: 'Nº Ocorr.', value: 'numeroOcorrencias', sortable: false, align: 'right' },
-                { text: 'Valor (R$)', value: 'valor', sortable: false, align: 'right' },
-                { text: 'Vl. Aprovado (R$)', value: 'varlorAprovado', sortable: false, align: 'right' },
-                { text: 'Vl. Comprovado (R$)', value: 'varlorComprovado', sortable: false, align: 'right' },
-                { text: 'Vl. a Comprovar (R$)', value: 'valorAComprovar', sortable: false, align: 'right' },
+                {
+                    text: 'Qtd', value: 'quantidade', sortable: false, align: 'right',
+                },
+                {
+                    text: 'Nº Ocorr.', value: 'numeroOcorrencias', sortable: false, align: 'right',
+                },
+                {
+                    text: 'Valor (R$)', value: 'valor', sortable: false, align: 'right',
+                },
+                {
+                    text: 'Vl. Aprovado (R$)', value: 'varlorAprovado', sortable: false, align: 'right',
+                },
+                {
+                    text: 'Vl. Comprovado (R$)', value: 'varlorComprovado', sortable: false, align: 'right',
+                },
+                {
+                    text: 'Vl. a Comprovar (R$)', value: 'valorAComprovar', sortable: false, align: 'right',
+                },
                 { text: '', value: 'comprovarItem', sortable: false },
             ],
             tabs: {
@@ -365,12 +379,12 @@ export default {
             return {};
         },
         documento() {
-            let documento = this.getProjetoAnalise.data.items.documento;
+            let { documento } = this.getProjetoAnalise.data.items;
             documento = documento !== null ? this.getProjetoAnalise.data.items.documento : 0;
             return documento;
         },
         estado() {
-            let estado = this.getProjetoAnalise.data.items.estado;
+            let { estado } = this.getProjetoAnalise.data.items;
             estado = (estado !== null) ? this.getProjetoAnalise.data.items.estado : 0;
             return estado;
         },

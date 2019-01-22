@@ -40,21 +40,11 @@ class CertidoesNegativas implements \MinC\Servico\IServicoRestZend
         foreach ($resultado as $item) {
             $dsCertidao = $item['dsCertidao'];
             $situacao = $item['Situacao'];
-            $objDateTimeDtEmissao = ' ';
-            $objDateTimeDtValidade = ' ';
-
-            if (!empty($item['DtEmissao'])) {
-                $objDateTimeDtEmissao = new \DateTime($item['DtEmissao']);
-                $objDateTimeDtEmissao = $objDateTimeDtEmissao->format('d/m/Y');
-            }
-
-            if (!empty($item['DtValidade'])) {
-                $objDateTimeDtValidade = new \DateTime($item['DtValidade']);
-                $objDateTimeDtValidade = $objDateTimeDtValidade->format('d/m/Y');
-            }
+            $objDateTimeDtEmissao = $item['DtEmissao'];
+            $objDateTimeDtValidade = $item['DtValidade'];
 
             if ($item['DtValidade'] == '1900-01-01 00:00:00') {
-                $objDateTimeDtValidade = ' - ';
+                $objDateTimeDtValidade = null;
             }
 
             $itemArray = [

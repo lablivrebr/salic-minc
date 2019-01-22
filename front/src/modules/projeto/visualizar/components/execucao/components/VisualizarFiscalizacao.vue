@@ -93,13 +93,13 @@
                                 xs6
                                 offset-xs2>
                                 <p><b>Dt. Inicio</b></p>
-                                {{ dado.dtInicio }} <br>
+                                {{ dado.dtInicio | formatarData }} <br>
                             </v-flex>
                             <v-flex
                                 xs6
                                 offset-xs2>
                                 <p><b>Dt. Fim</b></p>
-                                {{ dado.dtFim }} <br>
+                                {{ dado.dtFim | formatarData }} <br>
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -118,10 +118,7 @@
                                 offset-xs2>
                                 <br>
                                 <p><b>Data de Resposta</b></p>
-                                <p v-if="dado.dtResposta.length > 1"> {{ dado.dtResposta }} </p>
-                                <p
-                                    v-else-if="dado.dtResposta.length == 1"
-                                    class="justify-center"> - </p>
+                                <p> {{ dado.dtResposta | formatarData }} </p>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -979,6 +976,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'VisualizarFiscalizacao',
@@ -995,6 +993,7 @@ export default {
             default: false,
         },
     },
+    mixins: [utils],
     data() {
         return {
             statusModal: false,

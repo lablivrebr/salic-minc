@@ -71,8 +71,8 @@ export default {
     name: 'ConsolidacaoAnalise',
     components: { Carregando },
     props: {
-        idPronac: String,
-        nomeProjeto: String,
+        idPronac: { type: String, default: '' },
+        nomeProjeto: { type: String, default: '' },
     },
     data() {
         return {

@@ -49,7 +49,7 @@
                             :is="c"
                             :link-direto-assinatura="true"
                             :documento="props.item.idDocumentoAssinatura"
-                            :id-pronac="props.item.IdPRONAC"
+                            :id-pronac="props.item.IdPRONAC.toString()"
                             :pronac="props.item.PRONAC"
                             :nome-projeto="props.item.NomeProjeto"
                             :atual="componentes.atual"
@@ -94,7 +94,7 @@ export default {
     props: {
         dados: { type: Object, default: () => {} },
         componentes: { type: Object, default: () => {} },
-        mostrarTecnico: { type: Boolean, default: () => false },
+        mostrarTecnico: { type: Boolean, default: false },
     },
     data() {
         return {

@@ -66,7 +66,7 @@ export const obterDadosTabelaTecnico = ({ commit }, params) => {
     commit(types.PROJETOS_AVALIACAO_TECNICA, {});
     avaliacaoResultadosHelperAPI.obterDadosTabelaTecnico(params)
         .then((response) => {
-            const data = response.data.data;
+            const { data } = response.data;
             data.items.forEach((a, index) => {
                 avaliacaoResultadosHelperAPI.listarDiligencias(a.idPronac).then(
                     (resp) => {

@@ -54,12 +54,11 @@ class DiligenciaAdequacao implements \MinC\Servico\IServicoRestZend
     private function obterDiligenciaAdequacaoProjeto($diligencia)
     {
             $dsAvaliacao = $diligencia['dsAvaliacao'];
-            $objDateTimeDtAvaliacao = new \DateTime($diligencia['dtAvaliacao']);
 
             $resultArray = [
                 'idAvaliarAdequacaoProjeto' => $diligencia['idAvaliarAdequacaoProjeto'],
                 'dsAvaliacao' => $dsAvaliacao,
-                'dtAvaliacao' => $objDateTimeDtAvaliacao->format('d/m/Y'),
+                'dtAvaliacao' => $diligencia['dtAvaliacao'],
             ];
 
         return $resultArray;

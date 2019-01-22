@@ -1,6 +1,7 @@
 <template>
     <div>
         <v-data-table
+            :pagination.sync="pagination"
             :headers="headers"
             :items="diligencias"
             class="elevation-1"
@@ -10,7 +11,7 @@
             <template
                 slot="items"
                 slot-scope="props">
-                <td class="text-xs-right">{{ props.item.dtAvaliacao }}</td>
+                <td class="text-xs-center pl-5">{{ props.item.dtAvaliacao | formatarData }}</td>
                 <td
                     class="text-xs-left"
                     v-html="props.item.tipoDiligencia"/>
@@ -80,6 +81,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'VisualizarDiligenciaAdequacao',
@@ -87,18 +89,20 @@ export default {
         Carregando,
     },
     props: {
-        idPronac: {
-            type: Number,
-            default: 0,
-        },
         diligencias: {
             type: Array,
             default: () => [],
         },
     },
+    mixins: [utils],
     data() {
         return {
             dialog: false,
+            pagination: {
+                rowsPerPage: 10,
+                sortBy: 'dtAvaliacao',
+                descending: true,
+            },
             headers: [
                 {
                     text: 'DATA DA AVALIAÇÃO',

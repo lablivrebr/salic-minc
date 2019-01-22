@@ -49,14 +49,9 @@ class ProvidenciaTomada implements \MinC\Servico\IServicoRestZend
         foreach ($providenciaTomada as $providencia) {
             $ProvidenciaTomada = $providencia['ProvidenciaTomada'];
             $usuario = $providencia['usuario'];
-            $objDateTimeDtSituacao = ' ';
-
-            if (!empty($providencia['DtSituacao'])) {
-                $objDateTimeDtSituacao = new \DateTime($providencia['DtSituacao']);
-                $objDateTimeDtSituacao = $objDateTimeDtSituacao->format('d/m/Y');
-            }
+            
             $resultArray[] = [
-                'DtSituacao' => $objDateTimeDtSituacao,
+                'DtSituacao' => $providencia['DtSituacao'],
                 'Situacao' => $providencia['Situacao'],
                 'ProvidenciaTomada' => $ProvidenciaTomada,
                 'cnpjcpf' => $providencia['cnpjcpf'],

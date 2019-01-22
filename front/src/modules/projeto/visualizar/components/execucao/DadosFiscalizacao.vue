@@ -5,6 +5,7 @@
         </div>
         <div v-else-if="dadosListagem">
             <v-data-table
+                :pagination.sync="pagination"
                 :headers="headers"
                 :items="dadosListagem"
                 class="elevation-1 container-fluid"
@@ -15,10 +16,8 @@
                 <template
                     slot="items"
                     slot-scope="props">
-                    <td
-                        class="text-xs-center"
-                        v-html="props.item.dtInicio"/>
-                    <td class="text-xs-center">{{ props.item.dtFim }}</td>
+                    <td class="text-xs-center pl-5">{{ props.item.dtInicio | formatarData }}</td>
+                    <td class="text-xs-center pl-5">{{ props.item.dtFim | formatarData }}</td>
                     <td class="text-xs-left">{{ props.item.cpfTecnico | cnpjFilter }}</td>
                     <td class="text-xs-left">{{ props.item.nmTecnico }}</td>
                     <td class="text-xs-center">
@@ -54,6 +53,7 @@ import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 import cnpjFilter from '@/filters/cnpj';
 import VisualizarFiscalizacao from './components/VisualizarFiscalizacao';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'DadosFiscalizacao',
@@ -64,10 +64,16 @@ export default {
         VisualizarFiscalizacao,
         Carregando,
     },
+    mixins: [utils],
     data() {
         return {
             dialog: false,
             loading: true,
+            pagination: {
+                rowsPerPage: 10,
+                sortBy: 'dtInicio',
+                descending: true,
+            },
             headers: [
                 {
                     text: 'DT. INÍCIO',

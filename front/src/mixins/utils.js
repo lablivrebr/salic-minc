@@ -1,5 +1,6 @@
 import moment from 'moment';
 import cnpjFilter from '@/filters/cnpj';
+import moneyFilter from '@/filters/money';
 /* eslint-disable */
 export const utils = {
     methods: {
@@ -144,6 +145,7 @@ export const utils = {
             return string;
         },
         formatarCep(v) {
+
             if (v.length !== 8) {
                 return '';
             }
@@ -152,6 +154,10 @@ export const utils = {
             value = value.replace(/(\d{2})(\d)/, '$1.$2');
             value = value.replace(/(\d{3})(\d)/, '$1-$2');
             return value;
+        },
+        formatarParaReal(v) {
+            return moneyFilter(v);
         }
+
     },
 }

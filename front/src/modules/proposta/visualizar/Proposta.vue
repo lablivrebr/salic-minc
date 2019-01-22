@@ -202,12 +202,10 @@
                     slot="header"><i class="material-icons">equalizer</i>Plano
                     Distribui&ccedil;&atilde;o
                 </div>
-                <div class="pa-3">
-                    <PropostaPlanoDistribuicao
-                        :array-produtos="dados.planodistribuicaoproduto"
-                        :array-detalhamentos="dados.tbdetalhaplanodistribuicao"
-                    />
-                </div>
+                <PropostaPlanoDistribuicao
+                    :array-produtos="dados.planodistribuicaoproduto"
+                    :array-detalhamentos="dados.tbdetalhaplanodistribuicao"
+                />
             </v-expansion-panel-content>
             <v-expansion-panel-content>
                 <div slot="header"><i class="material-icons">history</i>

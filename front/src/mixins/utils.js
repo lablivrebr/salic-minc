@@ -143,5 +143,15 @@ export const utils = {
 
             return string;
         },
+        formatarCep(v) {
+            if (v.length !== 8) {
+                return '';
+            }
+
+            let value = v.replace(/\D/g, '');
+            value = value.replace(/(\d{2})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1-$2');
+            return value;
+        }
     },
 }

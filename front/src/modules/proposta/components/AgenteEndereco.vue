@@ -15,12 +15,12 @@
                 <td>{{ props.item.tipoendereco }}</td>
                 <td>{{ props.item.dstipologradouro }}</td>
                 <td>{{ props.item.logradouro }}</td>
-                <td>{{ props.item.numero }}</td>
+                <td class="text-xs-right">{{ props.item.numero }}</td>
                 <td>{{ props.item.complemento }}</td>
                 <td>{{ props.item.bairro }}</td>
                 <td>{{ props.item.municipio }}</td>
-                <td>{{ props.item.uf }}</td>
-                <td>{{ props.item.cep }}</td>
+                <td class="text-xs-center">{{ props.item.uf }}</td>
+                <td>{{ props.item.cep | formatarCep }}</td>
             </template>
         </v-data-table>
     </v-card>
@@ -43,11 +43,11 @@ export default {
                 { text: 'Tipo de Endereço', value: 'tipoendereco' },
                 { text: 'Tipo do Logradouro', value: 'dstipologradouro' },
                 { text: 'Logradouro', value: 'logradouro' },
-                { text: 'Número', value: 'numero' },
+                { text: 'Número', align: 'center', value: 'numero' },
                 { text: 'Complemento', value: 'complemento' },
                 { text: 'Bairro', value: 'bairro' },
                 { text: 'Cidade', value: 'municipio' },
-                { text: 'UF', value: 'uf' },
+                { text: 'UF', align: 'center', value: 'uf' },
                 { text: 'Cep', value: 'cep' },
             ],
         };

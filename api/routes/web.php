@@ -14,13 +14,23 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
-$router->get('/v1/graphql', function () use ($router) {
-ini_set('display_errors', true);
-error_reporting(E_ALL ^E_NOTICE);
-echo '<pre>';
-$results = DB::select("SELECT top 1 * FROM controledeacesso.dbo.sgcacesso");
-    print_r($results);die;
-    $results = $router->app('db')->select("SELECT * FROM controledeacesso.dbo.sgcacesso");
-echo '<pre>';print_r($results);die;
-    return $router->app->version();
+
+$router->group(['middleware' => 'jwt'], function () use ($router) {
+    $router->get(
+        'user',
+        [
+            'uses' => 'AuthController@user'
+        ]
+    );
 });
+
+/* $router->get('/v1/graphql', function () use ($router) { */
+/* ini_set('display_errors', true); */
+/* error_reporting(E_ALL ^E_NOTICE); */
+/* echo '<pre>'; */
+/* $results = DB::select("SELECT top 1 * FROM controledeacesso.dbo.sgcacesso"); */
+/*     print_r($results);die; */
+/*     $results = $router->app('db')->select("SELECT * FROM controledeacesso.dbo.sgcacesso"); */
+/* echo '<pre>';print_r($results);die; */
+/*     return $router->app->version(); */
+/* }); */

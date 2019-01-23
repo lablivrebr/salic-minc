@@ -16,9 +16,13 @@
             <v-spacer/>
             <v-chip
                 v-if="produto.stPrincipal === 1"
-                color="teal"
-                text-color="white">
+                color="teal lighten-5">
                 Produto Principal
+            </v-chip>
+            <v-chip
+                v-else
+                color="blue-grey lighten-5">
+                Produto Secundário
             </v-chip>
             <v-btn icon>
                 <v-icon>more_vert</v-icon>

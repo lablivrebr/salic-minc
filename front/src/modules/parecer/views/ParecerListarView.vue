@@ -22,6 +22,7 @@
                                     params: {
                                         id: props.item.idProduto,
                                         idPronac: props.item.IdPRONAC,
+                                        produtoPrincipal: props.item.stPrincipal,
                                     }
                                 }"
                                 flat
@@ -42,6 +43,7 @@
                                     params: {
                                         id: props.item.idProduto,
                                         idPronac: props.item.IdPRONAC,
+                                        produtoPrincipal: props.item.stPrincipal,
                                     }
                                 }"
                                 flat

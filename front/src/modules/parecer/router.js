@@ -16,7 +16,7 @@ export default [
         },
     },
     {
-        path: '/parecer/analise-inicial/analisar/:id/:idPronac',
+        path: '/parecer/analise-inicial/analisar/:id/:idPronac/:produtoPrincipal',
         component: ParecerAnalisarView,
         children: [
             {

@@ -18,6 +18,12 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
     private $idOrgao;
     private $idGrupo;
 
+    const ETAPAS_NAO_EDITAVEIS = [
+        \Proposta_Model_TbPlanilhaEtapa::CUSTOS_ADMINISTRATIVOS,
+        \Proposta_Model_TbPlanilhaEtapa::CUSTOS_VINCULADOS,
+        \Proposta_Model_TbPlanilhaEtapa::CAPTACAO_DE_RECURSOS,
+    ];
+
     function __construct($request, $response)
     {
         $this->request = $request;
@@ -75,15 +81,13 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         } else {
             $where = array(
                 'PPJ.IdPRONAC = ?' => $idPronac,
-                'PPJ.IdProduto = ?' => $idProduto,
+//                'PPJ.IdProduto = ?' => $idProduto,
                 'PD.Descricao is not null' => null
             );
         }
 
         $planilha = $PlanilhaDAO->buscarAnaliseCustos($where)->toArray();
 
-
-        /* Analise de conteudo */
         $analisedeConteudoDAO = new \Analisedeconteudo();
         $analisedeConteudo = $analisedeConteudoDAO->dadosAnaliseconteudo(
             false,
@@ -93,11 +97,11 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             )
         );
 
-        $planilhaTratada  = $this->montarPlanilha($planilha, $analisedeConteudo);
+        $planilhaTratada  = $this->montarPlanilha($planilha, $analisedeConteudo, $stPrincipal);
         $itensCusto = array('fonte' => array(), 'totalSolicitado' => 0, 'totalSugerido' => 0);
         $cont = true;
 
-        $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idProduto, $idPronac);
+        $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idProduto, $idPronac) && $analisedeConteudo[0]->ParecerFavoravel == 1;
 
         $resp = \TratarArray::utf8EncodeArray($planilhaTratada);
 
@@ -105,14 +109,18 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
     }
 
-    public function montarPlanilha($planilhaOrcamentaria, $analisedeConteudo)
+    public function montarPlanilha($planilhaOrcamentaria, $analisedeConteudo, $stPrincipal)
     {
         $planilha = array();
-        $count = 0;
-        $i = 1;
+        $i = 0;
 
         foreach ($planilhaOrcamentaria as $item) {
             $row = $item;
+            $i++;
+
+            if (!$this->isVisualizarProdutoItem($item, $analisedeConteudo, $stPrincipal)) {
+                continue;
+            }
 
             $produto = !empty($item['idProduto'])
                 ? $item['Produto']
@@ -123,58 +131,49 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             $regiao = $item['UF'] . ' - ' . $item['Cidade'];
 
             $row["Seq"] = $i;
-//            $row["idPlanilhaProjeto"] = $item['idPlanilhaProjeto'];
-//            $row["IdPRONAC"] = $item['IdPRONAC'];
-//            $row["idPlanilhaProposta"] = $item['idPlanilhaProposta'];
-//            $row["Item"] = $item['Item'];
-//            $row["Unidade"] = $item['DescricaoUnidade'];
-//            $row["idUnidade"] = $item['idUnidade'];
-//            $row["UnidadeProposta"] = $item['UnidadeProjeto'];
-//            $row["UnidadeProjeto"] = $item['UnidadeProjeto'];
-//            $row['FonteRecurso'] = $item['FonteRecurso'];
-//            $row['Cidade'] = $item['Cidade'];
-//            $row['UF'] = $item['UF'];
-//            $row['idEtapa'] = $item['idEtapa'];
-//            $row['Etapa'] = $item['Etapa'];
-//            $row['Ocorrencia'] = $item['Ocorrencia'];
-//            $row['Quantidade'] = $item['Quantidade'];
-//            $row['QtdeDias'] = $item['QtdeDias'];
-//            $row['vlUnitario'] = $item['ValorUnitario'];
-//            $row["vlSolicitado"] = $item['Quantidade'] * $item['Ocorrencia'] * $item['ValorUnitario'];
-//            $row['JustProponente'] = $item['dsJustificativa'];
-//            $row['stCustoPraticado'] = $item['custopraticado'];
-//            $row['VlSugeridoParecerista'] = $item['VlSugeridoParecerista'];
+            $row['isDisponivelParaAnalise'] = $this->isItemDisponivelParaAnalise($item) ;
 
-            // So pode alterar se for incentivo fiscal - FonteRecurso = 109
-//            if (($analisedeConteudo[0]->ParecerFavoravel == 1) && ($val->idEtapa != 4)) {
-//                if ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA) {
-//                    $planilha[$fonte][$val->FonteRecurso][$produto][$val->idEtapa . ' - ' . $val->Etapa][$val->UF . ' - ' . $val->Cidade]['itens'][$val->idPlanilhaProjeto]['Item'] = "<a href='javascript:void(0);' onclick='javascript:AlterarItem({$val->idPlanilhaProjeto},{$idPronac},{$idProduto},{$stPrincipal})'>{$val->Item}</a>";
-//                } elseif ($this->idGrupo == \Autenticacao_Model_Grupos::COORDENADOR_DE_PARECER) {
-//                    $planilha[$fonte][$val->FonteRecurso][$produto][$val->idEtapa . ' - ' . $val->Etapa][$val->UF . ' - ' . $val->Cidade]['itens'][$val->idPlanilhaProjeto]['Item'] = $val->Item;
-//                }
-//            } elseif (($analisedeConteudo[0]->ParecerFavoravel == 1) && ($stPrincipal == 1)) {
-//                if ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA) {
-//                    $planilha[$fonte][$val->FonteRecurso][$produto][$val->idEtapa . ' - ' . $val->Etapa][$val->UF . ' - ' . $val->Cidade]['itens'][$val->idPlanilhaProjeto]['Item'] = "<a href='javascript:void(0);' onclick='javascript:AlterarItem({$val->idPlanilhaProjeto},{$idPronac},{$idProduto},{$stPrincipal})'>{$val->Item}</a>";
-//                } elseif ($this->idGrupo == \Autenticacao_Model_Grupos::COORDENADOR_DE_PARECER) {
-//                    $planilha[$fonte][$val->FonteRecurso][$produto][$val->idEtapa . ' - ' . $val->Etapa][$val->UF . ' - ' . $val->Cidade]['itens'][$val->idPlanilhaProjeto]['Item'] = $val->Item;
-//                }
-//            } else {
-//                $planilha[$fonte][$produto][$etapa][$regiao]['itens'][$val->idPlanilhaProjeto]['Item'] = "{$val->Item}";
-//            }
-
+            $planilha['total'] += $row["vlSolicitado"];
             $planilha[$fonte]['total'] += $row["VlSolicitado"];
+            $planilha[$fonte]['totalSugerido'] += $row["VlSugeridoParecerista"];
             $planilha[$fonte][$produto]['total'] += $row["VlSolicitado"];
+            $planilha[$fonte][$produto]['totalSugerido'] += $row["VlSugeridoParecerista"];
             $planilha[$fonte][$produto][$etapa]['total'] += $row["VlSolicitado"];
+            $planilha[$fonte][$produto][$etapa]['totalSugerido'] += $row["VlSugeridoParecerista"];
             $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $row["VlSolicitado"];
+            $planilha[$fonte][$produto][$etapa][$regiao]['totalSugerido'] += $row["VlSugeridoParecerista"];
             $planilha[$fonte][$produto][$etapa][$regiao]['itens'][] = $row;
-
-            $planilha['total'] += $item["vlSolicitado"];
-
-            $count++;
-            $i++;
         }
 
         return $planilha;
+    }
+
+    private function isVisualizarProdutoItem($item, $analisedeConteudo, $stPrincipal) {
+        $idProdutoAnalise = $analisedeConteudo[0]->idProduto;
+
+        if (empty($item['idProduto']) && $stPrincipal == 1) {
+            return true;
+        }
+
+
+        if($item['idProduto'] == $idProdutoAnalise) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isItemDisponivelParaAnalise($item) {
+
+        if (in_array($item['idEtapa'], self::ETAPAS_NAO_EDITAVEIS)) {
+            return false;
+        }
+
+        if ($this->idGrupo != \Autenticacao_Model_Grupos::PARECERISTA) {
+            return false;
+        }
+
+        return true;
     }
 
     public function salvar()

@@ -686,7 +686,7 @@ class Proposta_Model_DbTable_TbPlanilhaProposta extends MinC_Db_Table_Abstract
             $sql->where('pp.fonterecurso = ?', $fonte);
         }
 
-        $sql->order(array('DescricaoRecurso', 'DescricaoProduto DESC', 'OrdemEtapa ASC', 'DescricaoUf', 'DescricaoItem'));
+        $sql->order(array('DescricaoRecurso', 'DescricaoProduto DESC', 'OrdemEtapa ASC', 'DescricaoUf', 'DescricaoItem ASC'));
 
         $db->setFetchMode(Zend_DB::FETCH_ASSOC);
 

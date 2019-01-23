@@ -42,79 +42,85 @@
                     <v-card-text>
                         <v-form v-model="valid">
                             <v-container>
-                                <v-layout>
+                                <v-layout row>
                                     <v-flex
                                         xs12
-                                        md4
+                                        md2
+                                    >
+                                        <v-select
+                                            v-model="select"
+                                            :items="unidades"
+                                            label="Unidade"
+                                            item-text="Descricao"
+                                            item-value="idUnidade"
+                                            return-object
+                                        />
+                                    </v-flex>
+                                    <v-flex
+                                        xs12
+                                        md1
                                     >
                                         <v-text-field
-                                            v-model="itemEmEdicao.Item"
-                                            :counter="10"
-                                            label="First name"
+                                            v-model="itemEmEdicao.diasparc"
+                                            label="Dias"
                                             required
                                         />
                                     </v-flex>
-
                                     <v-flex
                                         xs12
-                                        md4
+                                        md1
                                     >
                                         <v-text-field
-                                            v-model="itemEmEdicao.UnidadeProjeto"
-                                            :rules="nameRules"
-                                            :counter="10"
-                                            label="Last name"
+                                            v-model="itemEmEdicao.quantidadeparc"
+                                            label="Qtd."
                                             required
                                         />
                                     </v-flex>
-
                                     <v-flex
                                         xs12
-                                        md4
+                                        md2
                                     >
                                         <v-text-field
-                                            v-model="email"
-                                            :rules="emailRules"
-                                            label="E-mail"
+                                            v-model="itemEmEdicao.ocorrenciaparc"
+                                            label="Ocorrência"
                                             required
+                                        />
+                                    </v-flex>
+                                    <v-flex
+                                        xs12
+                                        md2
+                                    >    <SalicInputValor
+                                        v-model="itemEmEdicao.valorUnitarioparc"
+                                        label="Vl. Unitário"
+                                        required
+                                    />
+                                        <v-text-field
+                                            v-model="itemEmEdicao.valorUnitarioparc"
+                                            label="Vl. Unitário"
+                                            mask="###.###.###,##"
+                                            required
+                                        />
+                                    </v-flex>
+                                    <v-flex
+                                        xs12
+                                        md2
+                                    >
+                                        <v-text-field
+                                            :value="valorSugerido"
+                                            label="Vl. Sugerido"
+                                            mask="###.###.###,##"
+                                            disabled
                                         />
                                     </v-flex>
                                 </v-layout>
                                 <v-layout row>
                                     <v-flex
                                         xs12
-                                        md4
-                                    >
-                                        <v-text-field
-                                            v-model="itemEmEdicao.Item"
-                                            :counter="10"
-                                            label="First name"
-                                            required
-                                        />
-                                    </v-flex>
-
-                                    <v-flex
-                                        xs12
-                                        md4
-                                    >
-                                        <v-text-field
-                                            v-model="itemEmEdicao.UnidadeProjeto"
-                                            :rules="nameRules"
-                                            :counter="10"
-                                            label="Last name"
-                                            required
-                                        />
-                                    </v-flex>
-
-                                    <v-flex
-                                        xs12
-                                        md4
-                                    >
+                                        md12>
                                         <v-textarea
                                             v-model="itemEmEdicao.dsJustificativaParecerista"
+                                            label="Justificativa"
                                             name="input-7-1"
-                                            label="Default style"
-                                            hint="Hint text"
                                         />
                                     </v-flex>
                                 </v-layout>
@@ -140,8 +146,11 @@
 
 <script>
 import planilhas from '@/mixins/planilhas';
+import { mapActions, mapGetters } from 'vuex';
+import SalicInputValor from '@/components/SalicInputValor';
 
 export default {
+    components: { SalicInputValor },
     mixins: [planilhas],
     props: {
         table: {
@@ -178,11 +187,34 @@ export default {
                 v => !!v || 'E-mail is required',
                 v => /.+@.+/.test(v) || 'E-mail must be valid',
             ],
+            select: {},
         };
+    },
+    computed: {
+        ...mapGetters({
+            unidades: 'planilha/obterUnidades',
+        }),
+        valorSugerido() {
+            return (this.itemEmEdicao.valorUnitarioparc
+                * this.itemEmEdicao.ocorrenciaparc
+                * this.itemEmEdicao.quantidadeparc
+            );
+        },
+    },
+    watch: {
+        select(value) {
+            this.itemEmEdicao.idUnidade = value.idUnidade;
+            this.itemEmEdicao.UnidadeProjeto = value.Descricao;
+        },
+        valorSugerido(val) {
+            this.itemEmEdicao.VlSugeridoParecerista = val;
+        },
     },
     methods: {
         editarItem(props) {
-            this.$set(this, 'itemEmEdicao', props.item);
+            // this.$set(this, 'itemEmEdicao', props.item);
+            this.itemEmEdicao = Object.assign({}, props.item);
+            this.select = { idUnidade: this.itemEmEdicao.idUnidade, Sigla: '', Descricao: this.itemEmEdicao.UnidadeProjeto };
             return !props.expanded;
         },
     },

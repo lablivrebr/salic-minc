@@ -50,23 +50,25 @@ export default {
 
                 };
                 this.obterPlanilhaParecer(params);
+                this.obterUnidades();
             }
         },
     },
     created() {
         if (Object.keys(this.produto).length > 0) {
-            console.log('created custos');
             const params = {
                 id: this.produto.idProduto,
                 idPronac: this.produto.IdPRONAC,
                 stPrincipal: this.produto.stPrincipal,
             };
             this.obterPlanilhaParecer(params);
+            this.obterUnidades();
         }
     },
     methods: {
         ...mapActions({
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
+            obterUnidades: 'planilha/obterUnidadesPlanilha',
         }),
     },
 };

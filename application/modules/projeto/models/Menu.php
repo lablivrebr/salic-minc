@@ -431,14 +431,6 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             if (in_array($this->permissoesMenu['FaseDoProjeto'], array('2', '3', '4', '5')) || !$this->usuarioExterno || $this->debug) {
 
                 $menu['execucao']['submenu'][] = [
-                    'label' => 'Dados banc&aacute;rios',
-                    'title' => 'Ir para Dados banc&aacute;rios',
-                    'link' => '/default/consultardadosprojeto/dados-bancarios/?idPronac=' . $idPronacHash,
-                    'ajax' => false,
-                    'grupo' => []
-                ];
-
-                $menu['execucao']['submenu'][] = [
                     'label' => 'Dados da fiscaliza&ccedil;&atilde;o',
                     'title' => 'Ir para Dados da fiscaliza&ccedil;&atilde;o',
                     'link' => "/projeto/#/{$idPronacHash}/dados-fiscalizacao",
@@ -570,22 +562,6 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
                 'ajax' => false,
                 'icon' => 'list_alt',
                 'submenu' => '',
-                'grupo' => []
-            ];
-
-            $menu['prestacaodecontas']['submenu'][] = [
-                'label' => 'Extrato Banc&aacute;rio',
-                'title' => 'Ir para Extrato Banc&aacute;rio',
-                'link' => '/default/consultardadosprojeto/extratos-bancarios/?idPronac=' . $idPronacHash,
-                'ajax' => false,
-                'grupo' => []
-            ];
-
-            $menu['prestacaodecontas']['submenu'][] = [
-                'label' => 'Concilia&ccedil;&atilde;o Banc&aacute;ria',
-                'title' => 'Ir para Concilia&ccedil;&atilde;o Banc&aacute;ria',
-                'link' => '/default/consultardadosprojeto/conciliacao-bancaria/?idPronac=' . $idPronacHash,
-                'ajax' => false,
                 'grupo' => []
             ];
 

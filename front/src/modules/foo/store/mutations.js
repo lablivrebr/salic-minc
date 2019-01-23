@@ -16,7 +16,7 @@ export const mutations = {
         state.dadosTabela.push(registro);
     },
     [types.ATUALIZAR_REGISTRO_TABELA](state, registro) {
-        const dadosTabela = state.dadosTabela;
+        const { dadosTabela } = state;
 
         dadosTabela.forEach((value, index) => {
             if (registro.Codigo === value.Codigo) {
@@ -25,7 +25,7 @@ export const mutations = {
         });
     },
     [types.REMOVER_REGISTRO](state, registro) {
-        const dadosTabela = state.dadosTabela;
+        const { dadosTabela } = state;
 
         dadosTabela.forEach((value, index) => {
             if (registro.Codigo === value.Codigo) {

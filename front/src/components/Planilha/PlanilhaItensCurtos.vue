@@ -57,7 +57,10 @@ export default {
         SalicFormatarValor,
     },
     props: {
-        table: {},
+        table: {
+            type: Array,
+            default: () => [],
+        },
     },
     data() {
         return {

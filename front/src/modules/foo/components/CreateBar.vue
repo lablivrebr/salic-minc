@@ -49,6 +49,9 @@ export default {
             DadoNr: '',
         };
     },
+    computed: mapGetters({
+        modalVisible: 'modal/default',
+    }),
     methods: {
         ...mapActions({
             criarRegistro: 'foo/criarRegistro',
@@ -64,8 +67,5 @@ export default {
             this.DadoNr = '';
         },
     },
-    computed: mapGetters({
-        modalVisible: 'modal/default',
-    }),
 };
 </script>

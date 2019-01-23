@@ -39,7 +39,10 @@
 
 export default {
     props: {
-        natureza: {},
+        natureza: {
+            type: Object,
+            default: () => {},
+        },
     },
 };
 </script>

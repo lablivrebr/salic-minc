@@ -105,7 +105,6 @@ export default {
         }),
         nomeUsuarioCompleto() {
             if (Object.keys(this.usuario).length > 0) {
-                this.loadingUsuario = false;
                 return this.usuario.usu_nome;
             }
             return '';
@@ -124,6 +123,11 @@ export default {
         },
     },
     watch: {
+        usuario(value) {
+            if (Object.keys(value).length > 0) {
+                this.loadingUsuario = false;
+            }
+        },
         isModoNoturno(value) {
             this.switchModoNoturno = value;
         },

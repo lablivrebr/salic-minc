@@ -47,13 +47,13 @@ export default {
         CreateBar,
         UpdateBar,
     },
-    created() {
-        this.obterDadosTabela();
-    },
     computed: {
         ...mapGetters({
             dadosTabela: 'foo/dadosTabela',
         }),
+    },
+    created() {
+        this.obterDadosTabela();
     },
     methods: {
         ...mapActions({
@@ -62,7 +62,7 @@ export default {
             removerRegistro: 'foo/removerRegistro',
         }),
         confirmationRemove(registro) {
-            const currentConfirm = confirm;
+            const currentConfirm = window.confirm;
             const trueResponse = currentConfirm('Deseja removerr esse registro?');
 
             if (trueResponse) {

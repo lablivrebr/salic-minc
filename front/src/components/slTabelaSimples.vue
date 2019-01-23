@@ -66,7 +66,10 @@
 export default {
     name: 'SlTableEasy',
     props: {
-        dados: null,
+        dados: {
+            type: Object,
+            default: () => {},
+        },
         thead: {
             type: Boolean,
             default: true,

@@ -148,6 +148,8 @@ export default {
                 if (element.idMunicipio !== idMunicipio) {
                     novoDetalhamento[element.idMunicipio] = [];
                     i = 0;
+                    // TODO ajustar lint
+                    // eslint-disable-next-line
                     idMunicipio = element.idMunicipio;
                 }
 

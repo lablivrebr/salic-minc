@@ -28,6 +28,7 @@ module.exports = {
         avaliacao_resultados: './src/modules/avaliacaoResultados/main.js',
         proposta: './src/modules/proposta/main.js',
         projeto: './src/modules/projeto/main.js',
+        autenticacao: './src/modules/autenticacao/main.js',
     },
     output: {
         path: config.build.assetsRoot,

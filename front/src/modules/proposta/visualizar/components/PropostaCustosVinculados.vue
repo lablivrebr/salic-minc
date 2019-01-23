@@ -33,8 +33,8 @@ export default {
     mixins: [utils],
     props: {
         arrayCustos: {
-            type: Array,
-            default: () => [],
+            type: Object,
+            default: () => {},
         },
     },
     data() {

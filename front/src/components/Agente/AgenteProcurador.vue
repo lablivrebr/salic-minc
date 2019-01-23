@@ -39,7 +39,10 @@ export default {
         SalicFormatarCpfCnpj,
     },
     props: {
-        procuradores: {},
+        procuradores: {
+            type: Object,
+            default: () => {},
+        },
     },
 };
 </script>

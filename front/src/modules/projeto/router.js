@@ -25,11 +25,14 @@ import MarcasAnexadas from './visualizar/components/execucao/MarcasAnexadas';
 import DadosReadequacoes from './visualizar/components/execucao/DadosReadequacoes';
 import PedidoProrrogacao from './visualizar/components/execucao/PedidoProrrogacao';
 import DadosFiscalizacao from './visualizar/components/execucao/DadosFiscalizacao';
+// import retirados do webpackChunkName
+import DadosProjeto from './visualizar/components/DadosProjeto';
+import Proponente from './visualizar/components/incentivo/Proponente';
 
 Vue.use(Router);
 
-const DadosProjeto = () => import(/* webpackChunkName: "dados-projeto" */ './visualizar/components/DadosProjeto');
-const Proponente = () => import(/* webpackChunkName: "proponente" */ './visualizar/components/incentivo/Proponente');
+// const DadosProjeto = () => import(/* webpackChunkName: "dados-projeto" */ './visualizar/components/DadosProjeto');
+// const Proponente = () => import(/* webpackChunkName: "proponente" */ './visualizar/components/incentivo/Proponente');
 
 const templateAjax = {
     template: '<div id="conteudo"></div>',

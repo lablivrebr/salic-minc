@@ -35,7 +35,10 @@ import { utils } from '@/mixins/utils';
 export default {
     mixins: [utils],
     props: {
-        telefones: {},
+        telefones: {
+            type: Object,
+            default: () => {},
+        },
     },
 };
 </script>

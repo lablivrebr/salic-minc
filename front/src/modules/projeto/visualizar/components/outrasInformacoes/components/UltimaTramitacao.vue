@@ -39,13 +39,13 @@ import { utils } from '@/mixins/utils';
 
 export default {
     name: 'UltimaTramitacao',
+    mixins: [utils],
     props: {
         idPronac: {
             type: String,
             default: '',
         },
     },
-    mixins: [utils],
     data() {
         return {
             search: '',

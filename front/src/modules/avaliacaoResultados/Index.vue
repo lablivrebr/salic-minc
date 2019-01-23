@@ -55,6 +55,9 @@ export default {
             this.snackbar = val.ativo;
         },
     },
+    created() {
+        this.recoverAction();
+    },
     mounted() {
         this.setSnackbar({ ativo: false, color: 'success' });
         this.setUsuario();
@@ -65,6 +68,7 @@ export default {
             setSnackbar: 'noticias/setDados',
             setUsuario: 'autenticacao/usuarioLogado',
             obterModoNoturno: 'layout/obterModoNoturno',
+            recoverAction: 'autenticacao/recoverAction',
         }),
         fecharSnackbar() {
             this.setSnackbar({ ativo: false });

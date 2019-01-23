@@ -43,7 +43,10 @@
 export default {
     name: 'HeaderMenuPrincipalToolbar',
     props: {
-        dadosMenu: {},
+        dadosMenu: {
+            type: Object,
+            default: () => {},
+        },
     },
 };
 </script>

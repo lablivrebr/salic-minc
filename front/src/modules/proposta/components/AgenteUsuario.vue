@@ -24,8 +24,8 @@ export default {
     name: 'AgenteUsuario',
     props: {
         idusuario: {
-            type: String,
-            default: '',
+            type: Number,
+            default: 0,
         },
     },
     data() {

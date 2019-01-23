@@ -57,7 +57,7 @@ export const atualizarStatusSidebarDireita = ({ commit }, status) => {
 export const buscarDadosMenu = ({ commit }) => {
     layoutHelperAPI.buscarDadosMenu()
         .then((response) => {
-            const data = response.data;
+            const { data } = response;
             const dadosTabela = data.data;
             commit(types.SET_MENU_PRINCIPAL, dadosTabela);
         });

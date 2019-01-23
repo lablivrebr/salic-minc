@@ -983,6 +983,7 @@ export default {
     components: {
         Carregando,
     },
+    mixins: [utils],
     props: {
         dadosVisualizacao: {
             type: Object,
@@ -993,7 +994,6 @@ export default {
             default: false,
         },
     },
-    mixins: [utils],
     data() {
         return {
             statusModal: false,

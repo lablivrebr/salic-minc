@@ -1,8 +1,9 @@
 export default (value) => {
+    let data = '';
     if (value) {
-        value = value.trim();
+        data = value.trim();
     }
-    const currentValue = value;
+    const currentValue = data;
 
     if (currentValue.length > 11) {
         return currentValue.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');

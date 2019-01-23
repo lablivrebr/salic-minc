@@ -20,6 +20,19 @@
 <script>
 export default {
     name: 'SalicMensagemErro',
-    props: ['texto', 'urlRetorno', 'msgUrlRetorno'],
+    props: {
+        texto: {
+            type: String,
+            default: '',
+        },
+        urlRetorno: {
+            type: String,
+            default: '',
+        },
+        msgUrlRetorno: {
+            type: String,
+            default: '',
+        },
+    },
 };
 </script>

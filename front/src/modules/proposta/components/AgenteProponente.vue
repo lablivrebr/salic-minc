@@ -186,7 +186,7 @@ export default {
         utils,
     ],
     props: {
-        idagente: { type: String, default: '' },
+        idagente: { type: Number, default: 0 },
     },
     data() {
         return {

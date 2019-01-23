@@ -38,8 +38,8 @@ export default {
     mixins: [utils],
     props: {
         items: {
-            type: Object,
-            default: () => {},
+            type: Array,
+            default: () => [],
         },
     },
     computed: {

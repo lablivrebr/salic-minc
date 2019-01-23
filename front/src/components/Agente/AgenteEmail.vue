@@ -27,7 +27,10 @@
 
 export default{
     props: {
-        emails: {},
+        emails: {
+            type: Object,
+            default: () => {},
+        },
     },
 };
 </script>

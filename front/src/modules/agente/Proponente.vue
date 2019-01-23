@@ -189,7 +189,16 @@ export default {
         Carregando,
         SalicFormatarCpfCnpj,
     },
-    props: ['id', 'cpf'],
+    props: {
+        id: {
+            type: Number,
+            default: 0,
+        },
+        cpf: {
+            type: String,
+            default: '',
+        },
+    },
     data() {
         return {
             proponente: [],

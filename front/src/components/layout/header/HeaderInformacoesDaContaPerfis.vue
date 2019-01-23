@@ -58,9 +58,6 @@ export default {
             loadingPerfis: true,
         };
     },
-    created() {
-        this.buscarPerfisDisponiveis();
-    },
     computed: {
         ...mapGetters({
             perfis: 'layout/perfisDisponiveis',
@@ -72,16 +69,25 @@ export default {
             }
             const grupoAtivo = this.usuario.grupo_ativo;
             const orgaoAtivo = this.usuario.orgao_ativo;
-            const perfil = this.perfis.map((perfil) => {
-                if (parseInt(perfil.gru_codigo, 10) === parseInt(grupoAtivo, 10)
-                        && parseInt(perfil.uog_orgao, 10) === parseInt(orgaoAtivo, 10)) {
-                    return perfil;
+            const perfil = this.perfis.map((value) => {
+                if (parseInt(value.gru_codigo, 10) === parseInt(grupoAtivo, 10)
+                        && parseInt(value.uog_orgao, 10) === parseInt(orgaoAtivo, 10)) {
+                    return value;
                 }
                 return false;
             }).filter(value => (value !== false))[0];
-            this.loadingPerfis = false;
             return perfil || {};
         },
+    },
+    watch: {
+        usuario(value) {
+            if (Object.keys(value).length > 0) {
+                this.loadingPerfis = false;
+            }
+        },
+    },
+    created() {
+        this.buscarPerfisDisponiveis();
     },
     methods: {
         ...mapActions({

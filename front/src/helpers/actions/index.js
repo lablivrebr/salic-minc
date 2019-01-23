@@ -1,7 +1,7 @@
 export default(response) => {
-    const data = response.data;
+    const { data } = response;
     const currentData = data.data;
-    const items = currentData.items;
+    const { items } = currentData;
 
     return items;
 };

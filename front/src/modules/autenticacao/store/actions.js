@@ -4,7 +4,7 @@ import * as types from './types';
 export const usuarioLogado = ({ commit }) => {
     helperAPI.usuarioLogado()
         .then((response) => {
-            const data = response.data;
+            const { data } = response;
             commit(types.SET_USUARIO_LOGADO, data.data.items);
         });
 };

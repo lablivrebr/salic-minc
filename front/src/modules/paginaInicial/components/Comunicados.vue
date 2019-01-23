@@ -36,9 +36,6 @@ export default {
             rowsPerPage: 1,
         },
     }),
-    created() {
-        this.obterComunicados();
-    },
     computed: {
         ...mapGetters({
             comunicados: 'paginaInicial/obterComunicados',
@@ -46,6 +43,9 @@ export default {
         pages() {
             return this.comunicados.length;
         },
+    },
+    created() {
+        this.obterComunicados();
     },
     methods: {
         ...mapActions({

@@ -43,7 +43,12 @@ export default {
     components: {
         ModalTemplate,
     },
-    props: ['registroAtivo'],
+    props: {
+        registroAtivo: {
+            type: Object,
+            default: () => {},
+        },
+    },
     data() {
         return {
             currentRegistro: {
@@ -51,6 +56,12 @@ export default {
                 DadoNr: '',
             },
         };
+    },
+    computed: {
+        ...mapGetters({
+            registro: 'foo/registro',
+            modalVisible: 'modal/default',
+        }),
     },
     methods: {
         ...mapActions({
@@ -74,12 +85,6 @@ export default {
             $3('#modalTemplate').modal('close');
             this.modalClose();
         },
-    },
-    computed: {
-        ...mapGetters({
-            registro: 'foo/registro',
-            modalVisible: 'modal/default',
-        }),
     },
 };
 </script>

@@ -48,7 +48,10 @@ export default {
         SalicFormatarCep,
     },
     props: {
-        enderecos: {},
+        enderecos: {
+            type: Object,
+            default: () => {},
+        },
     },
 };
 </script>

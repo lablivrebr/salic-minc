@@ -71,7 +71,10 @@ import planilhas from '@/mixins/planilhas';
 export default {
     mixins: [planilhas],
     props: {
-        table: {},
+        table: {
+            type: Array,
+            default: () => [],
+        },
     },
 };
 </script>

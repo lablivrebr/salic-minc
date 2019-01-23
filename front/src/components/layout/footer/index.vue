@@ -76,7 +76,6 @@ import { mapGetters } from 'vuex';
 export default {
     name: 'SlFoot',
     components: {},
-    props: [],
     data() {
         return {};
     },

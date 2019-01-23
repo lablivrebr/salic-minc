@@ -106,7 +106,10 @@ export default {
     },
     mixins: [planilhas],
     props: {
-        arrayPlanilha: {},
+        arrayPlanilha: {
+            type: Object,
+            default: () => {},
+        },
     },
     watch: {
         arrayPlanilha() {

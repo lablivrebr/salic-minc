@@ -47,13 +47,13 @@ import { utils } from '@/mixins/utils';
 
 export default {
     name: 'TramitacaoDocumento',
+    mixins: [utils],
     props: {
         idPronac: {
             type: String,
             default: '',
         },
     },
-    mixins: [utils],
     data() {
         return {
             search: '',

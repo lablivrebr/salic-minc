@@ -1,272 +1,259 @@
 <template>
-    <div>
-        <div
-            v-if="dados"
-            class="proposta">
-            <div
-                v-if="loading"
-                class="row">
-                <Carregando :text="'Carregando proposta'"/>
-            </div>
-            <ul
-                v-show="!loading"
-                class="collapsible"
-                data-collapsible="expandable">
-                <li>
-                    <div class="collapsible-header">
-                        <i class="material-icons">assignment</i>
-                        <span v-if="dados.PRONAC">
-                            Projeto - {{ dados.PRONAC }} - {{ dados.NomeProjeto }}
-                        </span>
-                        <span v-else>
-                            Proposta - {{ idpreprojeto }} - {{ dados.NomeProjeto }}
-                        </span>
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <div class="row">
-                            <div class="col s12 m12 l12 scroll">
-                                <PropostaIdentificacao
-                                    :idpreprojeto="idpreprojeto"
-                                    :proposta="dados"/>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>
-                        Hist&oacute;rico de avalia&ccedil;&otilde;es
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <PropostaHistoricoAvaliacoes
-                            :idpreprojeto="dados.idPreProjeto"
-                            :proposta="dados"
-                        />
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>
-                        Hist&oacute;rico de sugest&otilde;es de enquadramento
-                    </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <PropostaHistoricoSugestoesEnquadramento
-                            :idpreprojeto="dados.idPreProjeto"
-                        />
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>
-                        Hist&oacute;rico de solicita&ccedil;&otilde;es
-                    </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <PropostaHistoricoSolicitacoes
-                            :idpreprojeto="dados.idPreProjeto"
-                        />
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header">
-                        <i class="material-icons">person</i>
-                        Proponente
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <AgenteProponente :idagente="dados.idAgente"/>
-                        <AgenteUsuario :idusuario="dados.idUsuario"/>
-                    </div>
-                </li>
+    <div
+        v-if="dados"
+        class="proposta">
+        <Carregando
+            v-if="loading"
+            :text="'Carregando proposta'"/>
+        <v-expansion-panel
+            v-show="!loading"
+            focusable>
+            <v-expansion-panel-content>
+                <div slot="header">
+                    <i class="material-icons">assignment</i>
+                    <span v-if="dados.PRONAC">
+                        Projeto - {{ dados.PRONAC }} - {{ dados.NomeProjeto }}
+                    </span>
+                    <span v-else>
+                        Proposta - {{ idpreprojeto }} - {{ dados.NomeProjeto }}
+                    </span>
+                </div>
+                <proposta-identificacao
+                    :idpreprojeto="idpreprojeto"
+                    :proposta="dados"/>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">history</i>
+                    Hist&oacute;rico de avalia&ccedil;&otilde;es
+                </div>
+                <div class="pa-4">
+                    <proposta-historico-avaliacoes
+                        :idpreprojeto="dados.idPreProjeto"
+                        :proposta="dados"
+                    />
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">history</i>
+                    Hist&oacute;rico de sugest&otilde;es de enquadramento
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-4">
+                    <proposta-historico-sugestoes-enquadramento
+                        :idpreprojeto="dados.idPreProjeto"
+                    />
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">history</i>
+                    Hist&oacute;rico de solicita&ccedil;&otilde;es
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-4">
+                    <proposta-historico-solicitacoes
+                        :idpreprojeto="dados.idPreProjeto"
+                    />
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header">
+                    <i class="material-icons">person</i>
+                    Proponente
+                </div>
+                <div class="pa-3">
+                    <AgenteProponente :idagente="dados.idAgente"/>
+                    <AgenteUsuario :idusuario="dados.idUsuario"/>
+                </div>
+            </v-expansion-panel-content>
 
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Ficha t&eacute;cnica
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Ficha t&eacute;cnica
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.FichaTecnica"/>
                     </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.FichaTecnica"/>
-                        </div>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Resumo
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.ResumoDoProjeto"/>
                     </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Resumo
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Objetivos
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.Objetivos"/>
                     </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.ResumoDoProjeto"/>
-                        </div>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Etapa de Trabalho
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.EtapaDeTrabalho"/>
                     </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Objetivos
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Acessibilidade
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.Acessibilidade"/>
                     </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.Objetivos"/>
-                        </div>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Especifica&ccedil;&otilde;es t&eacute;cnicas do produto
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.EspecificacaoTecnica"/>
                     </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Etapa de Trabalho
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Sinopse de Obra
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.Sinopse"/>
                     </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.EtapaDeTrabalho"/>
-                        </div>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Democratiza&ccedil;&atilde;o de Acesso
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.DemocratizacaoDeAcesso"/>
                     </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Acessibilidade
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Justificativa
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.Justificativa"/>
                     </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.Acessibilidade"/>
-                        </div>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">subject</i>
+                    Descri&ccedil;&atilde;o de Atividades
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <div class="card padding20">
+                        <SalicTextoSimples :texto="dados.DescricaoAtividade"/>
                     </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Especifica&ccedil;&otilde;es t&eacute;cnicas do produto
-                    </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.EspecificacaoTecnica"/>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Sinopse de Obra
-                    </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.Sinopse"/>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Democratiza&ccedil;&atilde;o de Acesso
-                    </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.DemocratizacaoDeAcesso"/>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Justificativa
-                    </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.Justificativa"/>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>
-                        Descri&ccedil;&atilde;o de Atividades
-                    </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <div class="card padding20">
-                            <SalicTextoSimples :texto="dados.DescricaoAtividade"/>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">attachment</i>
-                        Documentos anexados
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <PropostaDocumentos :proposta="dados"/>
-                    </div>
-                </li>
-                <li>
-                    <div
-                        id="plano-distribuicao"
-                        class="collapsible-header"><i class="material-icons">equalizer</i>Plano
-                        Distribui&ccedil;&atilde;o
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <PropostaPlanoDistribuicao
-                            :array-produtos="dados.planodistribuicaoproduto"
-                            :array-detalhamentos="dados.tbdetalhaplanodistribuicao"
-                        />
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">history</i>
-                        Fonte de Recurso
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <PropostaFontesDeRecursos
-                            :idpreprojeto="idpreprojeto"/>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">place</i>
-                        Local de realiza&ccedil;&atilde;o/Deslocamento
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <PropostaLocalRealizacaoDeslocamento :proposta="dados"/>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">attach_money</i>
-                        Custos Vinculados
-                    </div>
-                    <div
-                        v-if="dados"
-                        class="collapsible-body padding20">
-                        <PropostaCustosVinculados
-                            :array-custos="dados.tbcustosvinculados"
-                        />
-                    </div>
-                </li>
-                <li>
-                    <div
-                        id="planilha-orcamentaria"
-                        class="collapsible-header"><i class="material-icons">attach_money</i>
-                        Planilha or&ccedil;ament&aacute;ria
-                    </div>
-                    <div class="collapsible-body padding20">
-                        <Planilha
-                            :array-planilha="dados.tbplanilhaproposta"
-                        />
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div
-            v-else
-            class="center-align">
-            <div class="padding20 card-panel">Opa! Proposta n&atilde;o encontrada...</div>
-        </div>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">attachment</i>
+                    Documentos anexados
+                </div>
+                <div class="pa-3">
+                    <PropostaDocumentos :proposta="dados"/>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div
+                    id="plano-distribuicao"
+                    slot="header"><i class="material-icons">equalizer</i>Plano
+                    Distribui&ccedil;&atilde;o
+                </div>
+                <PropostaPlanoDistribuicao
+                    :array-produtos="dados.planodistribuicaoproduto"
+                    :array-detalhamentos="dados.tbdetalhaplanodistribuicao"
+                />
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">history</i>
+                    Fonte de Recurso
+                </div>
+                <div class="pa-3">
+                    <PropostaFontesDeRecursos
+                        :idpreprojeto="idpreprojeto"/>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">place</i>
+                    Local de realiza&ccedil;&atilde;o/Deslocamento
+                </div>
+                <div class="pa-3">
+                    <PropostaLocalRealizacaoDeslocamento :proposta="dados"/>
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header"><i class="material-icons">attach_money</i>
+                    Custos Vinculados
+                </div>
+                <div
+                    v-if="dados"
+                    class="pa-3">
+                    <PropostaCustosVinculados
+                        :array-custos="dados.tbcustosvinculados"
+                    />
+                </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div
+                    id="planilha-orcamentaria"
+                    slot="header"><i class="material-icons">attach_money</i>
+                    Planilha or&ccedil;ament&aacute;ria
+                </div>
+                <div class="pa-3">
+                    <Planilha
+                        :array-planilha="dados.tbplanilhaproposta"
+                    />
+                </div>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+    </div>
+    <div
+        v-else
+        class="center-align">
+        <div class="padding20 card-panel">Opa! Proposta n&atilde;o encontrada...</div>
     </div>
 </template>
 
@@ -274,7 +261,7 @@
 
 import { mapActions, mapGetters } from 'vuex';
 import Planilha from '@/components/Planilha/Planilha';
-import Carregando from '@/components/Carregando';
+import Carregando from '@/components/CarregandoVuetify';
 import SalicTextoSimples from '@/components/SalicTextoSimples';
 import PropostaIdentificacao from './components/PropostaIdentificacao';
 import PropostaHistoricoAvaliacoes from './components/PropostaHistoricoAvaliacoes';
@@ -308,7 +295,7 @@ export default {
     },
     props: {
         idpreprojeto: {
-            type: String,
+            type: [String, Number],
             default: '',
         },
         proposta: {
@@ -337,9 +324,15 @@ export default {
             this.dados = value;
             this.loading = false;
         },
+        idpreprojeto(value) {
+            if (value !== '') {
+                this.buscarDadosProposta(value);
+            }
+        },
     },
     mounted() {
-        if (typeof this.idpreprojeto !== 'undefined' && typeof this.proposta === 'undefined') {
+        if (this.idpreprojeto !== ''
+            && typeof this.proposta === 'undefined') {
             this.buscarDadosProposta(this.idpreprojeto);
             this.dados = this.dadosProposta;
         }
@@ -348,20 +341,11 @@ export default {
             this.dados = this.proposta;
             this.loading = false;
         }
-
-        this.iniciarCollapsible();
     },
     methods: {
         ...mapActions({
             buscarDadosProposta: 'proposta/buscarDadosProposta',
         }),
-        iniciarCollapsible() {
-            // eslint-disable-next-line
-            $3('.collapsible').each(function () {
-                // eslint-disable-next-line
-                $3(this).collapsible();
-            });
-        },
     },
 };
 </script>

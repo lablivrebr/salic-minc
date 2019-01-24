@@ -1,4 +1,7 @@
 import numeral from 'numeral';
+
+import moneyFilter from '@/filters/money';
+
 import moment from 'moment';
 import 'numeral/locales';
 
@@ -73,7 +76,7 @@ export default {
     filters: {
         filtroFormatarParaReal(value) {
             const parsedValue = parseFloat(value);
-            return numeral(parsedValue).format('0,0.00');
+            return moneyFilter(parsedValue);
         },
         formatarData(value) {
             if (value) {

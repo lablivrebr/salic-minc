@@ -1,15 +1,15 @@
 <template>
     <div
         v-if="arrayPlanilha"
-        class="planilha-orcamentaria card">
-        <CollapsibleRecursivo :planilha="arrayPlanilha">
+        class="planilha-orcamentaria">
+        <s-collapsible-recursivo :planilha="arrayPlanilha">
             <template slot-scope="slotProps">
                 <slot :itens="slotProps.itens">
-                    <PlanilhaItensPadrao :table="slotProps.itens"/>
+                    <s-planilha-itens-padrao :table="slotProps.itens"/>
                 </slot>
             </template>
-        </CollapsibleRecursivo>
-        <div class="card-action right-align">
+        </s-collapsible-recursivo>
+        <div class="text-xs-right pa-3">
             <span><b>Valor total do projeto:</b> R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}</span>
         </div>
     </div>
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import PlanilhaItensPadrao from '@/components/Planilha/PlanilhaItensPadrao';
-import PlanilhaConsolidacao from '@/components/Planilha/PlanilhaConsolidacao';
-import planilhas from '@/mixins/planilhas';
+import SPlanilhaItensPadrao from '@/components/Planilha/PlanilhaItensPadrao';
+import SPlanilhaConsolidacao from '@/components/Planilha/PlanilhaConsolidacao';
+import MixinsPlanilhas from '@/mixins/planilhas';
 
-const CollapsibleRecursivo = {
-    name: 'CollapsibleRecursivo',
+const SCollapsibleRecursivo = {
+    name: 'SCollapsibleRecursivo',
     props: {
         planilha: {},
         contador: {
@@ -30,45 +30,63 @@ const CollapsibleRecursivo = {
             type: Number,
         },
     },
-    mixins: [planilhas],
+    mixins: [MixinsPlanilhas],
     render(h) {
         const self = this;
         if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
-            return h('ul',
-                { class: 'collapsible no-margin', attrs: { 'data-collapsible': 'expandable' } },
+            return h('VExpansionPanel',
+                { props: { expand: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: '' },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
-                        return h('li', [
-                            h('div',
-                                { class: 'collapsible-header active' },
-                                [
-                                    h('i', { class: 'material-icons' }, [self.obterIconeHeader(self.contador)]),
-                                    h('div', key),
-                                    h('span', { class: 'badge' }, [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
-                                ]),
-                            h('div',
-                                { class: 'collapsible-body no-padding' },
-                                [
-                                    h(CollapsibleRecursivo, {
+                        const badgeHeader = self.planilha[key].total ? h('VChip',
+                            {
+                                class: '',
+                                attrs: {
+                                    outline: 'outline',
+                                    label: 'label',
+                                    color: '#565555',
+                                },
+                            },
+                            [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]) : '';
+                        return h('VExpansionPanelContent',
+                            [
+                                h('VLayout',
+                                    {
                                         props: {
-                                            planilha: self.planilha[key],
-                                            contador: self.contador + 1,
+                                            row: true,
+                                            'justify-space-between': true,
                                         },
-                                        scopedSlots: { default: self.$scopedSlots.default },
-                                    }),
-                                    h(PlanilhaConsolidacao, {
-                                        props: {
-                                            planilha: self.planilha[key],
-                                        },
-                                    }),
-                                ]),
-                        ]);
+                                        slot: 'header',
+                                        style: { color: self.obterCorHeader(self.contador) },
+                                    },
+                                    [
+                                        h('i', { class: `material-icons mt-2 pl-${self.contador * 1 + 1}` }, [self.obterIconeHeader(self.contador)]),
+                                        h('span', { class: 'ml-2 mt-2' }, key),
+                                        h('VSpacer'),
+                                        badgeHeader,
+                                    ]),
+                                h('div',
+                                    { class: '' },
+                                    [
+                                        h(SCollapsibleRecursivo, {
+                                            props: {
+                                                planilha: self.planilha[key],
+                                                contador: self.contador + 1,
+                                            },
+                                            scopedSlots: { default: self.$scopedSlots.default },
+                                        }),
+                                        h(SPlanilhaConsolidacao, {
+                                            props: {
+                                                planilha: self.planilha[key],
+                                            },
+                                        }),
+                                    ]),
+                            ]);
                     }
-
                     return true;
                 }));
         } if (self.$scopedSlots.default !== 'undefined') {
-            return h('div', { class: 'margin20 scroll-x' }, [
+            return h('div', { class: 'scroll-x pa-2 elevation-1', style: { border: '1px solid #ddd' } }, [
                 self.$scopedSlots.default({ itens: self.planilha.itens }),
             ]);
         }
@@ -95,42 +113,53 @@ const CollapsibleRecursivo = {
             }
             return icone;
         },
+        obterCorHeader(tipo) {
+            let cor = '';
+            switch (tipo) {
+            case 1:
+                cor = '#F44336';
+                break;
+            case 2:
+                cor = '#4CAF50';
+                break;
+            case 3:
+                cor = '#ff9800';
+                break;
+            case 4:
+                cor = '#2196F3';
+                break;
+            default:
+                cor = '';
+            }
+            return cor;
+        },
     },
 };
 
 export default {
     name: 'Planilha',
     components: {
-        CollapsibleRecursivo,
-        PlanilhaItensPadrao,
+        SCollapsibleRecursivo,
+        SPlanilhaItensPadrao,
     },
-    mixins: [planilhas],
+    mixins: [MixinsPlanilhas],
     props: {
         arrayPlanilha: {
             type: Object,
             default: () => {},
         },
     },
-    watch: {
-        arrayPlanilha() {
-            this.$nextTick(() => {
-                this.iniciarCollapsible();
-            });
-        },
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.iniciarCollapsible();
-        });
-    },
-    methods: {
-        iniciarCollapsible() {
-            // eslint-disable-next-line
-                $3(".collapsible").each(function () {
-                // eslint-disable-next-line
-                    $3(this).collapsible();
-            });
-        },
-    },
 };
 </script>
+
+<style>
+    .planilha-orcamentaria > ul > li > .v-expansion-panel__header {
+        border-top: 1px solid #ddd;
+    }
+    .v-expansion-panel__header {
+        padding: 10px !important;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+</style>

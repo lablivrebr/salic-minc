@@ -61,13 +61,13 @@ export default {
     components: {
         Carregando,
     },
+    mixins: [utils],
     props: {
         idPronac: {
             type: Number,
             default: 0,
         },
     },
-    mixins: [utils],
     data() {
         return {
             search: '',

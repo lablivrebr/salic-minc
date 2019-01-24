@@ -34,11 +34,14 @@ import ExtratosBancarios from './visualizar/components/dadosBancarios/ExtratosBa
 import ExtratosBancariosConsolidado from './visualizar/components/dadosBancarios/ExtratosBancariosConsolidado';
 import Captacao from './visualizar/components/dadosBancarios/Captacao';
 import Devolucoes from './visualizar/components/dadosBancarios/Devolucoes';
+// import retirados do webpackChunkName
+import DadosProjeto from './visualizar/components/DadosProjeto';
+import Proponente from './visualizar/components/incentivo/Proponente';
 
 Vue.use(Router);
 
-const DadosProjeto = () => import(/* webpackChunkName: "dados-projeto" */ './visualizar/components/DadosProjeto');
-const Proponente = () => import(/* webpackChunkName: "proponente" */ './visualizar/components/incentivo/Proponente');
+// const DadosProjeto = () => import(/* webpackChunkName: "dados-projeto" */ './visualizar/components/DadosProjeto');
+// const Proponente = () => import(/* webpackChunkName: "proponente" */ './visualizar/components/incentivo/Proponente');
 
 const templateAjax = {
     template: '<div id="conteudo"></div>',

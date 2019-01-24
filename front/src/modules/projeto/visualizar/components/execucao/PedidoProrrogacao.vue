@@ -39,7 +39,6 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import moment from 'moment';
 import Carregando from '@/components/CarregandoVuetify';
 import { utils } from '@/mixins/utils';
 
@@ -48,13 +47,13 @@ export default {
     components: {
         Carregando,
     },
+    mixins: [utils],
     props: {
         idPronac: {
             type: Number,
             default: 0,
         },
     },
-    mixins: [utils],
     data() {
         return {
             loading: true,

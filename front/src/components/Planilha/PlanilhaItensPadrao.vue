@@ -1,52 +1,44 @@
 <template>
     <div class="itens">
-        <table class="bordered">
-            <thead>
-                <tr>
-                    <th class="center-align">#</th>
-                    <th class="left-align">Item</th>
-                    <th class="left-align">Unidade</th>
-                    <th class="center-align">Dias</th>
-                    <th class="center-align">Qtde</th>
-                    <th class="center-align">Ocor.</th>
-                    <th class="right-align">Vl. Unit&aacute;rio</th>
-                    <th class="right-align">Vl. Solicitado</th>
-                    <th class="center-align">Justificativa</th>
-                </tr>
-            </thead>
-            <tbody>
+        <v-data-table
+            :headers="headers"
+            :items="table"
+            :rows-per-page-items="[-1]"
+            class="elevation-1"
+            hide-actions
+        >
+            <template
+                slot="items"
+                slot-scope="props">
                 <tr
-                    v-for="row of table"
-                    v-if="isObject(row)"
-                    :key="row.idPlanilhaProposta"
-                    :class="definirClasseItem(row)">
-                    <td class="center-align">{{ row.Seq }}</td>
-                    <td class="left-align">{{ row.Item }}</td>
-                    <td class="center-align">{{ row.Unidade }}</td>
-                    <td class="center-align">{{ row.QtdeDias }}</td>
-                    <td class="center-align">{{ row.Quantidade }}</td>
-                    <td class="center-align">{{ row.Ocorrencia }}</td>
-                    <td class="right-align">{{ row.vlUnitario | filtroFormatarParaReal }}</td>
-                    <td class="right-align">{{ row.vlSolicitado | filtroFormatarParaReal }}</td>
+                    :class="definirClasseItem(props.item)"
+                >
+                    <td class="text-xs-center">{{ props.item.Seq }}</td>
+                    <td class="text-xs-left">{{ props.item.Item }}</td>
+                    <td class="text-xs-center">{{ props.item.Unidade }}</td>
+                    <td class="text-xs-center">{{ props.item.QtdeDias }}</td>
+                    <td class="text-xs-center">{{ props.item.Quantidade }}</td>
+                    <td class="text-xs-center">{{ props.item.Ocorrencia }}</td>
+                    <td class="text-xs-right">{{ props.item.vlUnitario | filtroFormatarParaReal }}</td>
+                    <td class="text-xs-right">{{ props.item.vlSolicitado | filtroFormatarParaReal }}</td>
                     <td
-                        class="justify"
+                        class="text-xs-justify"
                         width="30%"
-                        v-html="row.JustProponente"/>
+                        v-html="props.item.JustProponente"/>
                 </tr>
-            </tbody>
-            <tfoot
-                v-if="table && Object.keys(table).length > 0"
-                style="opacity: 0.5">
-                <tr>
+            </template>
+            <template slot="footer">
+                <tr
+                    v-if="table && Object.keys(table).length > 0"
+                    style="opacity: 0.5">
                     <td colspan="7"><b>Totais</b></td>
-                    <td class="right-align">
+                    <td class="text-xs-right">
                         <b>{{ obterValorSolicitadoTotal(table) }}</b>
                     </td>
-                    <td class="right-align"/>
+                    <td class="text-xs-right"/>
                 </tr>
-            </tfoot>
-
-        </table>
+            </template>
+        </v-data-table>
     </div>
 </template>
 
@@ -58,8 +50,23 @@ export default {
     props: {
         table: {
             type: Array,
-            default: () => [],
+            required: true,
         },
+    },
+    data() {
+        return {
+            headers: [
+                { text: '#', align: 'center', value: 'Seq' },
+                { text: 'Item', align: 'left', value: 'Item' },
+                { text: 'Unidade', align: 'left', value: 'Unidade' },
+                { text: 'Dias', align: 'center', value: 'QtdeDias' },
+                { text: 'Qtde', align: 'center', value: 'Quantidade' },
+                { text: 'Ocor.', align: 'center', value: 'Ocorrencia' },
+                { text: 'Vl. Unitário', align: 'right', value: 'vlUnitario' },
+                { text: 'Vl. Solicitado', align: 'right', value: 'vlSolicitado' },
+                { text: 'Justificativa', align: 'left', value: 'JustProponente' },
+            ],
+        };
     },
 };
 </script>

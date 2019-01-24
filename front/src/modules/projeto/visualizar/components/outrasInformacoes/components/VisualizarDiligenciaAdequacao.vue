@@ -86,13 +86,13 @@ export default {
     components: {
         Carregando,
     },
+    mixins: [utils],
     props: {
         diligencias: {
             type: Array,
             default: () => [],
         },
     },
-    mixins: [utils],
     data() {
         return {
             dialog: false,

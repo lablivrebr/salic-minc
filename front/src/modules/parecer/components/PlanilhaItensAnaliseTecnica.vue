@@ -23,7 +23,14 @@
                     @click="props.expanded = editarItem(props)"
                 >
                     <td class="text-xs-center">{{ props.item.Seq }}</td>
-                    <td class="text-xs-left">{{ props.item.Item }}</td>
+                    <td class="text-xs-left">
+                        <a
+                            v-if="props.item.isDisponivelParaAnalise===true"
+                            href="javascript:void(0);">
+                            {{ props.item.Item }}
+                        </a>
+                        <span v-else>{{ props.item.Item }}</span>
+                    </td>
                     <td class="text-xs-center">{{ props.item.UnidadeProposta }}</td>
                     <td class="text-xs-center">{{ props.item.diasprop }}</td>
                     <td class="text-xs-center">{{ props.item.quantidadeprop }}</td>

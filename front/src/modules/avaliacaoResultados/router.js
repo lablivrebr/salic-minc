@@ -12,10 +12,19 @@ import Laudo from './components/LaudoFinal/PainelLaudo';
 import AnalisarItem from './components/ParecerTecnico/AnalisarItem';
 import VisualizarParecer from './components/components/VisualizarParecer';
 import VisualizarLaudo from './components/LaudoFinal/VisualizarLaudo';
+import Comprovante from './components/ParecerTecnico/Comprovante';
 
 Vue.use(Router);
 
 const routes = [
+    {
+        path: '/comprovante/:id',
+        name: 'Comprovante',
+        component: Comprovante,
+        meta: {
+            title: 'Comprovante',
+        }
+    },
     {
         path: '/emitir-parecer/:id',
         name: 'EmitirEditar',

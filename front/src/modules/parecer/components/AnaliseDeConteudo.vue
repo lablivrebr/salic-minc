@@ -1,17 +1,20 @@
 <template>
-    <v-card>
-        <v-fab-transition>
+    <v-card @keyup.alt.67="dialog = !dialog">
+        <v-snackbar
+            :value="!dialog"
+            :timeout="0"
+            color="cyan darken-2"
+        >
             <v-btn
-                id="btn-editar-parecer"
-                v-model="fab"
-                color="blue darken-2"
                 dark
-                fab
+                flat
+                large
                 @click="dialog = !dialog"
             >
-                <v-icon>edit</v-icon>
+                <v-icon class="mr-2">edit</v-icon>
+                Editar parecer
             </v-btn>
-        </v-fab-transition>
+        </v-snackbar>
 
         <keep-alive>
             <s-proposta

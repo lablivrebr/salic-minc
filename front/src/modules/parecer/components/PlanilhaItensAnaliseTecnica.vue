@@ -15,15 +15,16 @@
                 indeterminate/>
             <template
                 slot="items"
-                slot-scope="props">
+                slot-scope="props"
+            >
                 <tr
-                    :class="definirClasseItem(props.item)"
-                    style="cursor: pointer"
+                    :class="obterClasseItem(props.item)"
+                    :style="obterEstiloItem(props.item)"
                     @click="props.expanded = editarItem(props)"
                 >
                     <td class="text-xs-center">{{ props.item.Seq }}</td>
                     <td class="text-xs-left">{{ props.item.Item }}</td>
-                    <td class="text-xs-center">{{ props.item.UnidadeProjeto }}</td>
+                    <td class="text-xs-center">{{ props.item.UnidadeProposta }}</td>
                     <td class="text-xs-center">{{ props.item.diasprop }}</td>
                     <td class="text-xs-center">{{ props.item.quantidadeprop }}</td>
                     <td class="text-xs-center">{{ props.item.ocorrenciaprop }}</td>
@@ -197,7 +198,7 @@ export default {
             headers: [
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
-                { text: 'Unidade', align: 'left', value: 'UnidadeProjeto' },
+                { text: 'Unidade', align: 'left', value: 'UnidadeProposta' },
                 { text: 'Dias', align: 'center', value: 'diasprop' },
                 { text: 'Qtde', align: 'center', value: 'quantidadeprop' },
                 { text: 'Ocor.', align: 'center', value: 'ocorrenciaprop' },
@@ -237,6 +238,10 @@ export default {
         }),
         editarItem(props) {
             // this.$set(this, 'itemEmEdicao', props.item);
+            if (props.item.isDisponivelParaAnalise === false) {
+                return false;
+            }
+
             this.itemEmEdicao = Object.assign({}, props.item);
             this.select = { idUnidade: this.itemEmEdicao.idUnidade, Sigla: '', Descricao: this.itemEmEdicao.UnidadeProjeto };
             return !props.expanded;
@@ -254,6 +259,37 @@ export default {
             });
 
             return true;
+        },
+        isLinhaAlterada(row) {
+            const a1 = [
+                row.Unidade,
+                row.VlSolicitado,
+                row.ocorrenciaprop,
+                row.quantidadeprop,
+                row.diasprop,
+                row.valorUnitarioprop,
+            ];
+            const a2 = [
+                row.idUnidade,
+                row.VlSugeridoParecerista,
+                row.ocorrenciaparc,
+                row.quantidadeparc,
+                row.diasparc,
+                row.valorUnitarioparc,
+            ];
+            return JSON.stringify(a1) !== JSON.stringify(a2);
+        },
+        obterClasseItem(row) {
+            return {
+                'blue lighten-5': this.isLinhaAlterada(row),
+                'grey lighten-3 grey--text text--darken-3': row.isDisponivelParaAnalise === false,
+                ...this.definirClasseItem(row),
+            };
+        },
+        obterEstiloItem(row) {
+            return {
+                cursor: row.isDisponivelParaAnalise === false ? 'not-allowed' : 'pointer',
+            };
         },
     },
 };

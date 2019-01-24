@@ -257,6 +257,7 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
                 'PP.Quantidade AS quantidadeprop',
                 'PP.Ocorrencia AS ocorrenciaprop',
                 'PP.ValorUnitario AS valorUnitarioprop',
+                'PP.Unidade',
                 'PP.QtdeDias AS diasprop',
                 'PP.idPlanilhaProposta',
                 'PP.stCustoPraticado AS stCustoPraticado',

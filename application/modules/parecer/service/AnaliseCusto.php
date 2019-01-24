@@ -81,7 +81,6 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         } else {
             $where = array(
                 'PPJ.IdPRONAC = ?' => $idPronac,
-//                'PPJ.IdProduto = ?' => $idProduto,
                 'PD.Descricao is not null' => null
             );
         }
@@ -96,14 +95,10 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
                 'idProduto = ?' => $idProduto
             )
         );
-
-        $planilhaTratada  = $this->montarPlanilha($planilha, $analisedeConteudo, $stPrincipal);
-        $itensCusto = array('fonte' => array(), 'totalSolicitado' => 0, 'totalSugerido' => 0);
-        $cont = true;
-
+        $planilha = \TratarArray::utf8EncodeArray($planilha);
+        $planilhaMontada  = $this->montarPlanilha($planilha, $analisedeConteudo, $stPrincipal);
+        $resp = $planilhaMontada;
         $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idProduto, $idPronac) && $analisedeConteudo[0]->ParecerFavoravel == 1;
-
-        $resp = \TratarArray::utf8EncodeArray($planilhaTratada);
 
         return $resp;
 
@@ -124,7 +119,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
             $produto = !empty($item['idProduto'])
                 ? $item['Produto']
-                : html_entity_decode('Administração do Projeto');
+                : html_entity_decode('Administra&ccedil;&atilde;o do Projeto');
 
             $fonte = $item['FonteRecurso'];
             $etapa = $item['Etapa'];
@@ -134,14 +129,14 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             $row['isDisponivelParaAnalise'] = $this->isItemDisponivelParaAnalise($item) ;
 
             $planilha['total'] += $row["vlSolicitado"];
-            $planilha[$fonte]['total'] += $row["VlSolicitado"];
-            $planilha[$fonte]['totalSugerido'] += $row["VlSugeridoParecerista"];
-            $planilha[$fonte][$produto]['total'] += $row["VlSolicitado"];
-            $planilha[$fonte][$produto]['totalSugerido'] += $row["VlSugeridoParecerista"];
-            $planilha[$fonte][$produto][$etapa]['total'] += $row["VlSolicitado"];
-            $planilha[$fonte][$produto][$etapa]['totalSugerido'] += $row["VlSugeridoParecerista"];
-            $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $row["VlSolicitado"];
-            $planilha[$fonte][$produto][$etapa][$regiao]['totalSugerido'] += $row["VlSugeridoParecerista"];
+//            $planilha[$fonte]['total'] += $row["VlSolicitado"];
+//            $planilha[$fonte]['totalSugerido'] += $row["VlSugeridoParecerista"];
+//            $planilha[$fonte][$produto]['total'] += $row["VlSolicitado"];
+//            $planilha[$fonte][$produto]['totalSugerido'] += $row["VlSugeridoParecerista"];
+//            $planilha[$fonte][$produto][$etapa]['total'] += $row["VlSolicitado"];
+//            $planilha[$fonte][$produto][$etapa]['totalSugerido'] += $row["VlSugeridoParecerista"];
+//            $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $row["VlSolicitado"];
+//            $planilha[$fonte][$produto][$etapa][$regiao]['totalSugerido'] += $row["VlSugeridoParecerista"];
             $planilha[$fonte][$produto][$etapa][$regiao]['itens'][] = $row;
         }
 
@@ -178,26 +173,39 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
     public function salvar()
     {
-        $idAnaliseDeConteudo = $this->request->getParam('idAnaliseDeConteudo');
-        $idPronac = $this->request->getParam('IdPRONAC');
-        $idProduto = $this->request->getParam('idProduto');
-        $parecerFavoravel= $this->request->getParam('ParecerFavoravel');
-        $parecerDeConteudo = utf8_decode($this->request->getParam('ParecerDeConteudo'));
-        $stPrincipal = utf8_decode($this->request->getParam('stPrincipal'));
+        $params = $this->request->getParams();
 
-        if (!$idPronac) {
-            throw new \Exception('Falta idPronac');
+        unset($params['module']);
+        unset($params['controller']);
+        unset($params['action']);
+
+        if (!$params['idPlanilhaProjeto']) {
+            throw new \Exception('Falta id do item');
         }
 
-        if (!$idProduto) {
-            throw new \Exception('Falta id do Produto');
+        if (strlen(trim($params['dsJustificativaParecerista'])) < 11) {
+            throw new \Exception('Parecer incompleto ou n&atilde;o informado');
         }
 
-        if (strlen(trim($parecerDeConteudo)) == 0) {
-            throw new \Exception('Falta parecer de conte&uacute;do');
+        if ($params['VlSugeridoParecerista'] > $params['VlSolicitado'] ) {
+            throw new \Exception('Valor sugerido não pode ser maior que o solicitado');
         }
 
+        $dados = [
+            'idUnidade'=> $params['idUnidade'],
+            'Quantidade'=> $params['quantidadeparc'],
+            'Ocorrencia'=> $params['ocorrenciaparc'],
+            'ValorUnitario'=> $params['valorUnitarioparc'],
+            'QtdeDias'=> $params['diasparc'],
+            'Justificativa'=> utf8_decode($params['dsJustificativaParecerista']),
+            'idUsuario'=> $this->idUsuario,
+        ];
 
-        return [];
+        $where = ['idPlanilhaProjeto = ?' => $params['idPlanilhaProjeto']];
+        $planilhaProjeto = new \PlanilhaProjeto();
+        $planilhaProjeto->alterar($dados, $where);
+
+        return $params;
     }
+
 }

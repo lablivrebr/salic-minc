@@ -817,6 +817,8 @@ class AnalisarprojetoparecerController extends MinC_Controller_Action_Abstract
 
         $planilhaProjeto = new PlanilhaProjeto();
 
+
+
         $projetos = new Projetos();
         if ($projetos->verificarIN2017($idPronac)) {
             $this->verificarAssinatura($idPronac);

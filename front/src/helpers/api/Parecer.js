@@ -66,3 +66,4 @@ export const obterProdutosSecundarios = (params) => {
     return api.getRequest(`${module}${controller}${queryParams}`);
 };
 
+export const salvarAvaliacaoItem = params => api.postRequest('/parecer/analise-custo-rest/', buildData(params));

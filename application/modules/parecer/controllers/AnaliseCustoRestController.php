@@ -44,8 +44,8 @@ class Parecer_AnaliseCustoRestController extends MinC_Controller_Rest_Abstract
     public function getAction()
     {
         try {
-            $analiseConteudoService = new AnaliseCusto($this->getRequest(), $this->getResponse());
-            $resposta = $analiseConteudoService->obter();
+            $analiseCustoService = new AnaliseCusto($this->getRequest(), $this->getResponse());
+            $resposta = $analiseCustoService->obter();
 
             $this->customRenderJsonResponse($resposta, 200);
 
@@ -64,8 +64,8 @@ class Parecer_AnaliseCustoRestController extends MinC_Controller_Rest_Abstract
     {
         try {
 
-            $analiseConteudoService = new AnaliseCusto($this->getRequest(), $this->getResponse());
-//            $resposta = $analiseConteudoService->salvar();
+            $analiseCustoService = new AnaliseCusto($this->getRequest(), $this->getResponse());
+            $resposta = $analiseCustoService->salvar();
 
             $this->customRenderJsonResponse(
                 [

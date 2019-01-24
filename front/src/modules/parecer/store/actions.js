@@ -44,7 +44,7 @@ export const salvarAnaLiseConteudo = async ({ commit }, avaliacao) => {
                     color: 'error',
                     text: e.response.data.message,
                 },
-                { root: true })
+                { root: true });
             throw new TypeError(e.response.data.message, 'salvarAnaliseConteudo', 10);
         });
     return valor;
@@ -64,4 +64,30 @@ export const obterProdutosSecundarios = ({ commit }, params) => {
             const { data } = response;
             commit(types.SET_PRODUTOS_SECUNDARIOS, data);
         });
+};
+
+export const salvarAvaliacaoItem = async ({ commit }, avaliacao) => {
+    const valor = await parecerHelperAPI.salvarAvaliacaoItem(avaliacao)
+        .then((response) => {
+            console.log('response', avaliacao, response);
+            commit(types.UPDATE_ITEM_PLANILHA, avaliacao);
+            commit('noticias/SET_DADOS',
+                {
+                    ativo: true,
+                    color: 'success',
+                    text: response.data.message,
+                },
+                { root: true });
+            return response.data;
+        }).catch((e) => {
+            commit('noticias/SET_DADOS',
+                {
+                    ativo: true,
+                    color: 'error',
+                    text: e.response.data.message,
+                },
+                { root: true });
+            throw new TypeError(e.response.data.message, 'salvarAnaliseItem', 10);
+        });
+    return valor;
 };

@@ -38,6 +38,16 @@ const SCollapsibleRecursivo = {
                 { props: { expand: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: '' },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
+                        const badgeHeader = self.planilha[key].total ? h('VChip',
+                            {
+                                class: '',
+                                attrs: {
+                                    outline: 'outline',
+                                    label: 'label',
+                                    color: '#565555',
+                                },
+                            },
+                            [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]) : '';
                         return h('VExpansionPanelContent',
                             [
                                 h('VLayout',
@@ -53,16 +63,7 @@ const SCollapsibleRecursivo = {
                                         h('i', { class: `material-icons mt-2 pl-${self.contador * 1 + 1}` }, [self.obterIconeHeader(self.contador)]),
                                         h('span', { class: 'ml-2 mt-2' }, key),
                                         h('VSpacer'),
-                                        h('VChip',
-                                            {
-                                                class: '',
-                                                attrs: {
-                                                    outline: 'outline',
-                                                    label: 'label',
-                                                    color: '#565555',
-                                                },
-                                            },
-                                            [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]),
+                                        badgeHeader,
                                     ]),
                                 h('div',
                                     { class: '' },

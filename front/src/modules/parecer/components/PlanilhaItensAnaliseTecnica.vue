@@ -4,10 +4,15 @@
             :headers="headers"
             :items="table"
             :rows-per-page-items="[-1]"
+            :loading="loading"
             item-key="idPlanilhaProjeto"
             class="elevation-1"
             hide-actions
         >
+            <v-progress-linear
+                slot="progress"
+                color="blue"
+                indeterminate/>
             <template
                 slot="items"
                 slot-scope="props">
@@ -38,96 +43,122 @@
             <template
                 slot="expand"
                 slot-scope="props">
-                <v-card flat>
-                    <v-card-text>
-                        <v-form v-model="valid">
-                            <v-container>
-                                <v-layout row>
-                                    <v-flex
-                                        xs12
-                                        md2
-                                    >
-                                        <v-select
-                                            v-model="select"
-                                            :items="unidades"
-                                            label="Unidade"
-                                            item-text="Descricao"
-                                            item-value="idUnidade"
-                                            return-object
-                                        />
-                                    </v-flex>
-                                    <v-flex
-                                        xs12
-                                        md1
-                                    >
-                                        <v-text-field
-                                            v-model="itemEmEdicao.diasparc"
-                                            label="Dias"
-                                            required
-                                        />
-                                    </v-flex>
-                                    <v-flex
-                                        xs12
-                                        md1
-                                    >
-                                        <v-text-field
-                                            v-model="itemEmEdicao.quantidadeparc"
-                                            label="Qtd."
-                                            required
-                                        />
-                                    </v-flex>
-                                    <v-flex
-                                        xs12
-                                        md2
-                                    >
-                                        <v-text-field
-                                            v-model="itemEmEdicao.ocorrenciaparc"
-                                            label="Ocorrência"
-                                            required
-                                        />
-                                    </v-flex>
-                                    <v-flex
-                                        xs12
-                                        md2
-                                    >    <SalicInputValor
-                                        v-model="itemEmEdicao.valorUnitarioparc"
-                                        label="Vl. Unitário"
-                                        required
-                                    />
-                                        <v-text-field
+                <v-layout
+                    row
+                    justify-center
+                    class="blue-grey lighten-5 pa-2">
+                    <v-card>
+                        <v-card-title class="py-1">
+                            <h3>Editando item: {{ itemEmEdicao.Item }} </h3>
+                        </v-card-title>
+                        <v-divider/>
+                        <v-card-text>
+                            <v-form
+                                ref="form"
+                                v-model="valid"
+                                lazy-validation>
+                                <v-container fluid>
+                                    <v-layout
+                                        row
+                                        wrap>
+                                        <v-flex
+                                            xs12
+                                            md2
+                                        >
+                                            <v-select
+                                                v-model="select"
+                                                :items="unidades"
+                                                label="Unidade"
+                                                item-text="Descricao"
+                                                item-value="idUnidade"
+                                                return-object
+                                            />
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md1
+                                        >
+                                            <v-text-field
+                                                v-model="itemEmEdicao.diasparc"
+                                                label="Dias"
+                                                required
+                                            />
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md1
+                                        >
+                                            <v-text-field
+                                                v-model="itemEmEdicao.quantidadeparc"
+                                                label="Qtd."
+                                                required
+                                            />
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md2
+                                        >
+                                            <v-text-field
+                                                v-model="itemEmEdicao.ocorrenciaparc"
+                                                label="Ocorrência"
+                                                required
+                                            />
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md2
+                                        >    <SalicInputValor
                                             v-model="itemEmEdicao.valorUnitarioparc"
-                                            label="Vl. Unitário"
-                                            mask="###.###.###,##"
+                                            label="Vl. Unitário (R$)"
                                             required
                                         />
-                                    </v-flex>
-                                    <v-flex
-                                        xs12
-                                        md2
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md2
+                                        >
+                                            <v-text-field
+                                                :value="valorSugerido | filtroFormatarParaReal"
+                                                label="Vl. Sugerido"
+                                                readonly
+                                            />
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout
+                                        row
+                                        wrap>
+                                        <v-flex
+                                            xs10
+                                            md10>
+                                            <v-textarea
+                                                v-model="itemEmEdicao.dsJustificativaParecerista"
+                                                label="Justificativa para alterar o item"
+                                                name="justificativa"
+                                                counter="500"
+                                            />
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                                <v-container
+                                    grid-list-xs
+                                    text-xs-center
+                                    ma-0
+                                    pa-0>
+                                    <v-btn
+                                        :disabled="!valid"
+                                        :loading="loading"
+                                        @click="salvarAvaliacao(itemEmEdicao)"
                                     >
-                                        <v-text-field
-                                            :value="valorSugerido"
-                                            label="Vl. Sugerido"
-                                            mask="###.###.###,##"
-                                            disabled
-                                        />
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout row>
-                                    <v-flex
-                                        xs12
-                                        md12>
-                                        <v-textarea
-                                            v-model="itemEmEdicao.dsJustificativaParecerista"
-                                            label="Justificativa"
-                                            name="input-7-1"
-                                        />
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                        </v-form>
-                    </v-card-text>
-                </v-card>
+                                        <v-icon
+                                            left
+                                            dark>save</v-icon>
+                                        Salvar
+                                    </v-btn>
+                                </v-container>
+                            </v-form>
+                        </v-card-text>
+                    </v-card>
+                </v-layout>
             </template>
             <template slot="footer">
                 <tr
@@ -162,6 +193,7 @@ export default {
         return {
             valid: false,
             expand: false,
+            loading: false,
             headers: [
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
@@ -176,17 +208,6 @@ export default {
                 { text: 'Just. Parecerista', align: 'left', value: 'dsJustificativaParecerista' },
             ],
             itemEmEdicao: {},
-            firstname: '',
-            lastname: '',
-            nameRules: [
-                v => !!v || 'Name is required',
-                v => v.length <= 10 || 'Name must be less than 10 characters',
-            ],
-            email: '',
-            emailRules: [
-                v => !!v || 'E-mail is required',
-                v => /.+@.+/.test(v) || 'E-mail must be valid',
-            ],
             select: {},
         };
     },
@@ -211,11 +232,28 @@ export default {
         },
     },
     methods: {
+        ...mapActions({
+            salvarAvaliacaoItem: 'parecer/salvarAvaliacaoItem',
+        }),
         editarItem(props) {
             // this.$set(this, 'itemEmEdicao', props.item);
             this.itemEmEdicao = Object.assign({}, props.item);
             this.select = { idUnidade: this.itemEmEdicao.idUnidade, Sigla: '', Descricao: this.itemEmEdicao.UnidadeProjeto };
             return !props.expanded;
+        },
+        salvarAvaliacao(avaliacao) {
+            if (!this.$refs.form.validate()) {
+                return false;
+            }
+
+            this.loading = true;
+            this.salvarAvaliacaoItem(avaliacao).then(() => {
+                this.loading = false;
+            }).catch(() => {
+                this.loading = false;
+            });
+
+            return true;
         },
     },
 };

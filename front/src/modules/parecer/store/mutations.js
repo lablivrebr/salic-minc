@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import Vue from 'vue';
 import * as types from './types';
 
 export const state = {

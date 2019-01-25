@@ -1,102 +1,109 @@
 <template>
     <v-container
         fluid>
-        <v-toolbar>
-            <v-btn
-                icon
-                class="hidden-xs-only"
-                @click="back()"
-            >
-                <v-icon>arrow_back</v-icon>
-            </v-btn>
-            <v-toolbar-title>
-                Análise inicial - Produto:
-                {{ produto.dsProduto }}
-            </v-toolbar-title>
-            <v-spacer/>
-            <v-chip
-                v-if="produto.stPrincipal === 1"
-                color="teal lighten-5">
-                Produto Principal
-            </v-chip>
-            <v-chip
-                v-else
-                color="blue-grey lighten-5">
-                Produto Secundário
-            </v-chip>
-            <v-btn icon>
-                <v-icon>more_vert</v-icon>
-            </v-btn>
-        </v-toolbar>
-        <v-stepper v-model="currentStep">
-            <v-stepper-header>
-                <template v-for="step in arraySteps">
-                    <v-stepper-step
-                        :complete="currentStep > step.id"
-                        :key="`${step.path}-step`"
-                        :step="step.id"
-                        editable
-                    >{{ step.name }}</v-stepper-step>
-                    <v-divider
-                        v-if="step.id !== Object.keys(arraySteps).length"
-                        :key="step.id"
-                    />
-                </template>
-            </v-stepper-header>
-
-            <v-stepper-items>
-                <v-stepper-content
-                    v-for="step in arraySteps"
-                    :key="`${step.path}-content`"
-                    :step="step.id"
+        <s-carregando
+            v-if="Object.keys(produto).length === 0"
+            :text="'Carregando produto'"/>
+        <template v-else>
+            <v-toolbar>
+                <v-btn
+                    icon
+                    class="hidden-xs-only"
+                    @click="back()"
                 >
-                    <v-card
-                        class="mb-5"
-                    >
-                        <keep-alive>
-                            <router-view
-                                v-if="step.id === currentStep"
-                                :is-active="true"
-                                class="view"
-                            />
-                        </keep-alive>
-                    </v-card>
-                    <v-btn
-                        color="primary"
-                        @click="nextStep(step.id)"
-                    >
-                        Continue
-                    </v-btn>
+                    <v-icon>arrow_back</v-icon>
+                </v-btn>
+                <v-toolbar-title>
+                    Análise inicial - Produto:
+                    {{ produto.dsProduto }}
+                </v-toolbar-title>
+                <v-spacer/>
+                <v-chip
+                    v-if="produto.stPrincipal === 1"
+                    color="teal lighten-5">
+                    Produto Principal
+                </v-chip>
+                <v-chip
+                    v-else
+                    color="blue-grey lighten-5">
+                    Produto Secundário
+                </v-chip>
+                <v-btn icon>
+                    <v-icon>more_vert</v-icon>
+                </v-btn>
+            </v-toolbar>
+            <v-stepper v-model="currentStep">
+                <v-stepper-header>
+                    <template v-for="step in arraySteps">
+                        <v-stepper-step
+                            :complete="currentStep > step.id"
+                            :key="`${step.path}-step`"
+                            :step="step.id"
+                            editable
+                        >{{ step.name }}</v-stepper-step>
+                        <v-divider
+                            v-if="step.id !== Object.keys(arraySteps).length"
+                            :key="step.id"
+                        />
+                    </template>
+                </v-stepper-header>
 
-                    <v-btn flat>Cancel</v-btn>
-                </v-stepper-content>
-
-                <v-fab-transition>
-                    <v-btn
-                        v-if="Object.keys(activeFab).length > 0"
-                        :color="activeFab.color"
-                        :key="activeFab.icon"
-                        v-model="fab"
-                        dark
-                        fab
-                        fixed
-                        bottom
-                        right
+                <v-stepper-items>
+                    <v-stepper-content
+                        v-for="step in arraySteps"
+                        :key="`${step.path}-content`"
+                        :step="step.id"
                     >
-                        <v-icon>{{ activeFab.icon }}</v-icon>
-                        <v-icon>close</v-icon>
-                    </v-btn>
-                </v-fab-transition>
-            </v-stepper-items>
-        </v-stepper>
+                        <v-card
+                            class="mb-5"
+                        >
+                            <keep-alive>
+                                <router-view
+                                    v-if="step.id === currentStep"
+                                    :is-active="true"
+                                    class="view"
+                                />
+                            </keep-alive>
+                        </v-card>
+                        <v-btn
+                            color="primary"
+                            @click="nextStep(step.id)"
+                        >
+                            Continue
+                        </v-btn>
+
+                        <v-btn flat>Cancel</v-btn>
+                    </v-stepper-content>
+
+                    <v-fab-transition>
+                        <v-btn
+                            v-if="Object.keys(activeFab).length > 0"
+                            :color="activeFab.color"
+                            :key="activeFab.icon"
+                            v-model="fab"
+                            dark
+                            fab
+                            fixed
+                            bottom
+                            right
+                        >
+                            <v-icon>{{ activeFab.icon }}</v-icon>
+                            <v-icon>close</v-icon>
+                        </v-btn>
+                    </v-fab-transition>
+                </v-stepper-items>
+            </v-stepper>
+        </template>
     </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'ParecerAnalisarView',
+    components: { SCarregando },
     data: () => ({
         currentStep: 1,
         arraySteps: [

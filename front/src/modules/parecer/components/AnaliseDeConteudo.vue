@@ -1,7 +1,10 @@
 <template>
     <v-card @keyup.alt.67="dialog = !dialog">
+        <s-carregando
+            v-if="loading"
+            :text="'Carregando conteúdo'"/>
         <v-snackbar
-            :value="!dialog"
+            :value="!dialog && !loading"
             :timeout="0"
             color="cyan darken-2"
         >
@@ -18,6 +21,7 @@
 
         <keep-alive>
             <s-proposta
+                v-show="!loading"
                 v-if="Object.keys(produto).length > 0"
                 :idpreprojeto="produto.idProjeto"/>
         </keep-alive>
@@ -27,6 +31,7 @@
             hide-overlay
             transition="dialog-bottom-transition"
             scrollable
+            @keydown.esc="dialog = false"
         >
             <v-card tile>
                 <v-toolbar
@@ -115,12 +120,13 @@
 <script>
 import SProposta from '@/modules/proposta/visualizar/Proposta';
 import SEditorTexto from '@/components/SalicEditorTexto';
+import SCarregando from '@/components/CarregandoVuetify';
 
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'AnaliseDeConteudo',
-    components: { SProposta, SEditorTexto },
+    components: { SProposta, SEditorTexto, SCarregando },
     props: {
         active: {
             type: Boolean,
@@ -130,6 +136,7 @@ export default {
     data() {
         return {
             loadingButton: false,
+            loading: true,
             valid: false,
             dialog: false,
             overlay: true,
@@ -159,8 +166,11 @@ export default {
     },
     watch: {
         analiseConteudo(val) {
-            console.log('analise conteudo', val);
             this.analiseConteudoEmEdicao = Object.assign({}, val);
+
+            if (Object.keys(val).length > 0) {
+                this.loading = false;
+            }
         },
     },
     mounted() {
@@ -235,8 +245,6 @@ export default {
 </script>
 
 <style>
-    /* This is for documentation purposes and will not be needed in your application */
-
     #btn-editar-parecer {
         position: fixed;
         top: 230px;

@@ -4862,7 +4862,7 @@ class Projetos extends MinC_Db_Table_Abstract
                     'DtDistribuicao',
                     'stDiligenciado',
                     'DtDevolucao',
-                    'DtEnvio' => new Zend_Db_Expr('CONVERT(CHAR(10), DtEnvio, 103)'),
+                    'DtEnvio',
                     'idAgenteParecerista',
                 ),
                 $this->_schema

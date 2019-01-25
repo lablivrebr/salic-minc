@@ -15,6 +15,8 @@
                     <template
                         slot="items"
                         slot-scope="props">
+                        <td>{{ props.item.PRONAC }}</td>
+                        <td>{{ props.item.NomeProjeto }}</td>
                         <td>
                             <v-btn
                                 :to="{
@@ -25,17 +27,16 @@
                                         produtoPrincipal: props.item.stPrincipal,
                                     }
                                 }"
-                                flat
+                                small
+                                round
                                 class="mr-2">
                                 {{ props.item.dsProduto }}
                             </v-btn>
                         </td>
-                        <td>{{ props.item.PRONAC }}</td>
-                        <td>{{ props.item.NomeProjeto }}</td>
-                        <td class="text-xs-right">{{ props.item.DtDistribuicao }}</td>
+                        <td class="text-xs-right">{{ props.item.stPrincipal }}</td>
+                        <td class="text-xs-right">{{ props.item.DtDistribuicao | formatarData }}</td>
                         <td class="text-xs-right">{{ props.item.stDiligenciado }}</td>
-                        <td class="text-xs-right">{{ props.item.DtEnvio }}</td>
-                        <td class="text-xs-right">{{ props.item.DtEnvio }}</td>
+                        <td class="text-xs-right">{{ props.item.DtEnvio | formatarData }}</td>
                         <td class="justify-center layout px-0">
                             <v-btn
                                 :to="{
@@ -51,13 +52,6 @@
                                 class="mr-2">
                                 <v-icon>edit</v-icon>
                             </v-btn>
-
-                            <v-icon
-                                small
-                                @click="deleteItem(props.item)"
-                            >
-                                delete
-                            </v-icon>
                         </td>
                     </template>
                     <template slot="no-data">
@@ -71,22 +65,23 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'ParecerListarView',
+    mixins: [utils],
     data: () => ({
-        dialog: false,
         headers: [
-            {
-                text: 'Produto',
-                align: 'left',
-                value: 'dsProduto',
-            },
             { text: 'Pronac', value: 'PRONAC' },
             {
                 text: 'Nome do Projeto',
                 align: 'left',
                 value: 'NomeProjeto',
+            },
+            {
+                text: 'Produto',
+                align: 'left',
+                value: 'dsProduto',
             },
             { text: 'Tipo Produto', value: 'stPrincipal' },
             { text: 'Data de Recebimento', value: 'DtDistribuicao' },
@@ -95,35 +90,13 @@ export default {
             { text: 'Ações', value: 'idProduto', sortable: false },
         ],
         produtos: [],
-        editedIndex: -1,
-        editedItem: {
-            name: '',
-            calories: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
-        },
-        defaultItem: {
-            name: '',
-            calories: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
-        },
     }),
-
     computed: {
         ...mapGetters({
             obterProdutos: 'parecer/getProdutos',
         }),
-        formTitle() {
-            return this.editedIndex === -1 ? 'New Item' : 'Edit Item';
-        },
     },
     watch: {
-        dialog(val) {
-            val || this.close();
-        },
         obterProdutos(val) {
             this.produtos = val;
         },
@@ -139,32 +112,6 @@ export default {
         }),
         initialize() {
             this.produtos = [];
-        },
-
-        editItem(item) {
-            this.editedIndex = this.produtos.indexOf(item);
-            this.editedItem = Object.assign({}, item);
-            this.dialog = true;
-        },
-        deleteItem(item) {
-            const index = this.produtos.indexOf(item);
-            confirm('Are you sure you want to delete this item?') && this.produtos.splice(index, 1);
-        },
-
-        close() {
-            this.dialog = false;
-            setTimeout(() => {
-                this.editedItem = Object.assign({}, this.defaultItem);
-                this.editedIndex = -1;
-            }, 300);
-        },
-        save() {
-            if (this.editedIndex > -1) {
-                Object.assign(this.produtos[this.editedIndex], this.editedItem);
-            } else {
-                this.produtos.push(this.editedItem);
-            }
-            this.close();
         },
     },
 };

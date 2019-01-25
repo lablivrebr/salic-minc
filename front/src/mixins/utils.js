@@ -1,24 +1,26 @@
 import moment from 'moment';
 import cnpjFilter from '@/filters/cnpj';
 import moneyFilter from '@/filters/money';
-/* eslint-disable */
+
 export const utils = {
     methods: {
-        mensagemSucesso: function (msg) {
+        mensagemSucesso(msg) {
+            // eslint-disable-next-line
             Materialize.toast(msg, 8000, 'green white-text');
         },
-        mensagemErro: function (msg) {
+        mensagemErro(msg) {
+            // eslint-disable-next-line
             Materialize.toast(msg, 8000, 'red darken-1 white-text');
         },
-        mensagemAlerta: function (msg) {
+        mensagemAlerta(msg) {
+            // eslint-disable-next-line
             Materialize.toast(msg, 8000, 'mensagem1 orange darken-3 white-text');
         },
-        formatarValor: function (valor) {
-            valor = parseFloat(valor);
-            return moneyFilter(valor);
+        formatarValor(valor) {
+            return moneyFilter(parseFloat(valor));
         },
-        label_sim_ou_nao: function (valor) {
-            if (valor == 1) {
+        label_sim_ou_nao(valor) {
+            if (valor === 1 || valor === '1') {
                 return 'Sim';
             }
 
@@ -30,7 +32,7 @@ export const utils = {
     },
     filters: {
         formatarData(date) {
-            if (date && date.length === 0 || date === null) {
+            if ((date && date.length === 0) || (date === null)) {
                 return '-';
             }
             return moment(date)
@@ -39,7 +41,7 @@ export const utils = {
         formatarAgencia(agencia) {
             // formato: 9999-9
             if (agencia && agencia.length === 5) {
-                agencia = agencia.replace(/(\d{4})(\d)/, '$1-$2');
+                return agencia.replace(/(\d{4})(\d)/, '$1-$2');
             }
             return agencia;
         },
@@ -55,35 +57,35 @@ export const utils = {
         },
         formatarLabelMecanismo(valor) {
             switch (valor) {
-                case '1':
-                case 1:
-                    return 'Mecenato';
-                default:
-                    return 'Inv\xE1lido';
+            case '1':
+            case 1:
+                return 'Mecenato';
+            default:
+                return 'Inv\xE1lido';
             }
         },
         formatarLabelEsfera(esfera) {
             let string;
 
             switch (esfera) {
-                case '1':
-                    string = 'Municipal';
-                    break;
-                case '2':
-                    string = 'Estadual';
-                    break;
-                case '3':
-                    string = 'Federal';
-                    break;
-                default:
-                    string = 'N\xE3o informada';
-                    break;
+            case '1':
+                string = 'Municipal';
+                break;
+            case '2':
+                string = 'Estadual';
+                break;
+            case '3':
+                string = 'Federal';
+                break;
+            default:
+                string = 'N\xE3o informada';
+                break;
             }
 
             return string;
         },
         formatarCpfOuCnpj(value) {
-            if(typeof value === 'undefined') {
+            if (typeof value === 'undefined') {
                 return '';
             }
             return cnpjFilter(value);
@@ -98,7 +100,6 @@ export const utils = {
             return string;
         },
         formatarCep(v) {
-
             if (v.length !== 8) {
                 return '';
             }

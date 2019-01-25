@@ -110,10 +110,15 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
 
         $grupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $codOrgao = $grupoAtivo->codOrgao;
+
         $objOrgao = new \Orgaos();
-        $view->nomeOrgao = $objOrgao->pesquisarNomeOrgao($codOrgao)[0]['NomeOrgao'];
+        $resultOrgao = $objOrgao->pesquisarNomeOrgao($codOrgao);
+        $view->nomeOrgao = $resultOrgao[0]['NomeOrgao'];
+        $view->orgaoSuperior = $resultOrgao[0]['Superior'];
+        
         $objProjeto = new \Projeto_Model_DbTable_Projetos();
         $view->projeto = $objProjeto->findBy(array('IdPRONAC' => $this->idPronac));
+        
         $objAgentes = new \Agente_Model_DbTable_Agentes();
         $dadosAgente = $objAgentes->buscarFornecedor(array('a.CNPJCPF = ?' => $view->projeto['CgcCpf']));
         $arrayDadosAgente = $dadosAgente->current();

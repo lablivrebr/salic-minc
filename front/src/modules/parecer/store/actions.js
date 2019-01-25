@@ -2,6 +2,7 @@ import * as parecerHelperAPI from '@/helpers/api/Parecer';
 import * as types from './types';
 
 export const obterProdutosParaAnalise = ({ commit }) => {
+    commit(types.SET_PRODUTOS, []);
     parecerHelperAPI.obterProdutosParaAnalise()
         .then((response) => {
             const { data } = response;
@@ -10,6 +11,7 @@ export const obterProdutosParaAnalise = ({ commit }) => {
 };
 
 export const obterProdutoParaAnalise = ({ commit }, params) => {
+    commit(types.SET_PRODUTO, {});
     parecerHelperAPI.obterProdutoParaAnalise(params)
         .then((response) => {
             const { data } = response;
@@ -18,6 +20,7 @@ export const obterProdutoParaAnalise = ({ commit }, params) => {
 };
 
 export const obterAnaLiseConteudo = ({ commit }, params) => {
+    commit(types.SET_ANALISE_CONTEUDO, {});
     parecerHelperAPI.obterAnaliseConteudo(params)
         .then((response) => {
             const { data } = response;
@@ -51,6 +54,7 @@ export const salvarAnaLiseConteudo = async ({ commit }, avaliacao) => {
 };
 
 export const obterPlanilhaParaAnalise = ({ commit }, params) => {
+    commit(types.SET_PLANILHA_PARECER, {});
     parecerHelperAPI.obterPlanilhaParaAnalise(params)
         .then((response) => {
             const { data } = response;
@@ -59,6 +63,7 @@ export const obterPlanilhaParaAnalise = ({ commit }, params) => {
 };
 
 export const obterProdutosSecundarios = ({ commit }, params) => {
+    commit(types.SET_PRODUTOS_SECUNDARIOS, []);
     parecerHelperAPI.obterProdutosSecundarios(params)
         .then((response) => {
             const { data } = response;

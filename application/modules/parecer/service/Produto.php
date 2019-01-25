@@ -28,7 +28,7 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $idusuario = $auth->getIdentity()->usu_codigo;
 
         $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
-        $idOrgao = $GrupoAtivo->codOrgao; //  ¿rg¿o ativo na sess¿o
+        $idOrgao = $GrupoAtivo->codOrgao;
 
         $UsuarioDAO = new \Autenticacao_Model_DbTable_Usuario();
         $agente = $UsuarioDAO->getIdUsuario($idusuario);

@@ -48,6 +48,12 @@ class Produto implements \MinC\Servico\IServicoRestZend
             )
         )->toArray();
 
+        foreach ($resp as &$produto) {
+            $produto['stDiligencia'] = $this->definirStatusDiligencia($produto);
+            $produto['diasEmDiligencia'] = $this->obterTempoDiligencia($produto);
+            $produto['diasEmAvaliacao'] = $this->obterTempoRestanteDeAvaliacao($produto);
+        }
+
         $resp = \TratarArray::utf8EncodeArray($resp);
 
         $objTbAtoAdministrativo = new \Assinatura_Model_DbTable_TbAtoAdministrativo();
@@ -57,7 +63,7 @@ class Produto implements \MinC\Servico\IServicoRestZend
         );
 
         return [
-            'quantidadeAssinaturas' =>  $quantidadeAssinaturas,
+            'quantidadeAssinaturas' => $quantidadeAssinaturas,
             'data' => $resp
         ];
     }
@@ -117,12 +123,61 @@ class Produto implements \MinC\Servico\IServicoRestZend
         return true;
     }
 
+    private function definirStatusDiligencia($produto)
+    {
+        $diligencia = 0;
+        if ($produto['DtSolicitacao'] && $produto['DtResposta'] == NULL) {
+            $diligencia = 1;
+        } else if ($produto['DtSolicitacao'] && $produto['DtResposta'] != NULL) {
+            $diligencia = 2;
+        } else if ($produto['DtSolicitacao']
+            && round(\data::CompararDatas($produto['DtDistribuicao'])) > $produto['tempoFimDiligencia']) {
+            $diligencia = 3;
+        }
+
+        return $diligencia;
+    }
+
+    private function obterTempoRestanteDeAvaliacao($produto)
+    {
+        switch ($produto['stDiligencia']) {
+            case 1:
+                $tempoRestante = round(\data::CompararDatas($produto['DtDistribuicao'], $produto['DtSolicitacao']));
+                break;
+            case 2:
+                $tempoRestante = round(\data::CompararDatas($produto['DtResposta']));
+                break;
+            case 3:
+                $tempoRestante = round(\data::CompararDatas($produto['DtResposta']));
+                break;
+            default:
+                $tempoRestante = round(\data::CompararDatas($produto['DtDistribuicao']));
+                break;
+        }
+
+        return $tempoRestante;
+    }
+
+    private function obterTempoDiligencia($produto)
+    {
+        switch ($produto['stDiligencia']) {
+            case 1:
+                $tempoDiligencia = round(\data::CompararDatas($produto['DtSolicitacao']));
+                break;
+            default:
+                $tempoDiligencia = 0;
+                break;
+        }
+
+        return $tempoDiligencia;
+    }
+
     public function obterProdutoSecundario()
     {
-        $idProduto = (int) $this->request->getParam('id');
-        $idPronac = (int) $this->request->getParam('idPronac');
+        $idProduto = (int)$this->request->getParam('id');
+        $idPronac = (int)$this->request->getParam('idPronac');
 
-        if(empty($idPronac) || empty($idProduto)) {
+        if (empty($idPronac) || empty($idProduto)) {
             throw new \Exception("Dados obrigat&oacute;rios n&atilde;o informados");
         }
 

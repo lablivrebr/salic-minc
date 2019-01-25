@@ -167,7 +167,6 @@ export default {
     watch: {
         analiseConteudo(val) {
             this.analiseConteudoEmEdicao = Object.assign({}, val);
-
             if (Object.keys(val).length > 0) {
                 this.loading = false;
             }

@@ -7,6 +7,16 @@ class Parecer_AnaliseProdutosSecundariosRestController extends MinC_Controller_R
 
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
+        $profiles = [
+            Autenticacao_Model_Grupos::PARECERISTA,
+            Autenticacao_Model_Grupos::COORDENADOR_DE_PARECER,
+        ];
+
+        $permissionsPerMethod  = [
+            '*' => $profiles,
+        ];
+
+        $this->setProtectedMethodsProfilesPermission($permissionsPerMethod);
         $this->setValidateUserIsLogged();
 
         parent::__construct($request, $response, $invokeArgs);

@@ -82,6 +82,7 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
             ]
         )->current();
 
+        xd($analisedeConteudo);
         $resp = count($analisedeConteudo) > 0 ? $analisedeConteudo->toArray() : [];
         $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idProduto, $idPronac)
             && count($analisedeConteudo) > 0;

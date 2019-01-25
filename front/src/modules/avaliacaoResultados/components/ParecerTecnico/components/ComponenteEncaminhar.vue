@@ -130,6 +130,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosDestinatarios: 'avaliacaoResultados/dadosDestinatarios',
+            usuarioLogado: 'autenticacao/getUsuario',
         }),
     },
     watch: {
@@ -137,7 +138,8 @@ export default {
             if (!val) {
                 this.$refs.form.reset();
             } else {
-                this.obterDestinatarios();
+                const orgaoSuperior = this.$store.getters['autenticacao/getUsuario'].usu_org_max_superior;
+                this.obterDestinatarios(orgaoSuperior);
             }
         },
     },

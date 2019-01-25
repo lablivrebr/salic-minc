@@ -53,8 +53,10 @@ export const mockAvaliacaDesempenho = ({ commit }) => {
     commit(types.MOCK_AVALIACAO_RESULTADOS);
 };
 
-export const obterDestinatarios = ({ commit }) => {
-    avaliacaoResultadosHelperAPI.obterDestinatarios()
+export const obterDestinatarios = ({ commit }, params) => {
+    console.log(params);
+
+    avaliacaoResultadosHelperAPI.obterDestinatarios(params)
         .then((response) => {
             const { data } = response;
             const destinatariosEncaminhamento = data.data;

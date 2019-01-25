@@ -41,11 +41,17 @@
                         <v-subheader>
                             Informações do encaminhamento
                         </v-subheader>
-                        <v-list-tile>
+                        <v-list-tile v-if="usuarioLogado.usu_org_max_superior === '251' ">
                             <v-list-tile-action>
                                 <v-icon color="green">group</v-icon>
                             </v-list-tile-action>
                             SEFIC/DEIPC/CGARE
+                        </v-list-tile>
+                        <v-list-tile v-if="usuarioLogado.usu_org_max_superior === '160' ">
+                            <v-list-tile-action>
+                                <v-icon color="green">group</v-icon>
+                            </v-list-tile-action>
+                            SAV/CGAV/CEP
                         </v-list-tile>
                         <v-select
                             v-model="destinatarioEncaminhamento"

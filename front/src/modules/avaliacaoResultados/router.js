@@ -23,7 +23,7 @@ const routes = [
         component: Comprovante,
         meta: {
             title: 'Comprovante',
-        }
+        },
     },
     {
         path: '/emitir-parecer/:id',

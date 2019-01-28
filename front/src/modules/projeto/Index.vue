@@ -1,5 +1,8 @@
 <template>
-    <div id="projeto">
+    <div
+        id="projeto"
+        class="template-vuetify"
+    >
         <router-view/>
     </div>
 </template>

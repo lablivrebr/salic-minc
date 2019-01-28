@@ -24,8 +24,6 @@
                         :headers="headers"
                         :items="dadoAgrupado"
                         class="elevation-1"
-                        rows-per-page-text="Items por Página"
-                        no-data-text="Nenhum dado encontrado"
                     >
                         <template
                             slot="items"
@@ -33,14 +31,14 @@
                             <td class="text-xs-left">
                                 {{ (props.item.stAtendimento === 'I') ? 'Rejeitado' : 'Recebido' }}
                             </td>
-                            <td class="text-xs-right">
+                            <td class="text-xs-center pl-5">
                                 {{ props.item.dtSolicitacao | formatarData }}
                             </td>
                             <td
                                 class="text-xs-left"
-                                v-html="props.item.dsAvaliacao"/>
-                            <td class="text-xs-right">
-                                {{ props.item.dtAvaliacao | formatarData }}
+                                v-html="props.item.dsEncaminhamento"/>
+                            <td class="text-xs-center pl-5">
+                                {{ props.item.dtAvaliador | formatarData }}
                             </td>
                             <td class="text-xs-center">
                                 <v-tooltip bottom>
@@ -246,9 +244,9 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex';
-import moment from 'moment';
 import Carregando from '@/components/CarregandoVuetify';
 import ReadequacoesDevolvidas from './components/ReadequacoesDevolvidas';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'DadosReadequacoes',
@@ -256,66 +254,7 @@ export default {
         Carregando,
         ReadequacoesDevolvidas,
     },
-    props: ['idPronac'],
-    data() {
-        return {
-            readequacao: {},
-            dialog: false,
-            loading: true,
-            gruposReadequacao: {},
-            headers: [
-                {
-                    text: 'SITUAÇÃO',
-                    align: 'left',
-                    value: 'stAtendimento',
-                },
-                {
-                    text: 'DT. SOLICITAÇÃO',
-                    align: 'center',
-                    value: 'dtSolicitacao',
-                },
-                {
-                    text: 'DESCRIÇÃO DA AVALIAÇÃO',
-                    align: 'left',
-                    value: 'dsAvaliacao',
-                },
-                {
-                    text: 'DT. AVALIAÇÃO',
-                    align: 'center',
-                    value: 'dtAvaliacao',
-                },
-                {
-                    text: 'VISUALIZAR',
-                    align: 'center',
-                    value: 'dsAvaliacao',
-                },
-            ],
-        };
-    },
-    mounted() {
-        if (typeof this.dadosProjeto.idPronac !== 'undefined') {
-            this.buscarDadosReadequacoes(this.dadosProjeto.idPronac);
-        }
-    },
-    computed: {
-        ...mapGetters({
-            dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/dadosReadequacoes',
-        }),
-    },
-    watch: {
-        dados() {
-            this.loading = false;
-            this.gruposReadequacao = this.obterGrupoReadequacoes();
-        },
-    },
     filters: {
-        formatarData(date) {
-            if (date != null && date.length === 0) {
-                return '-';
-            }
-            return moment(date).format('DD/MM/YYYY');
-        },
         filtrarIcone(tipo) {
             let icone = '';
             switch (tipo) {
@@ -350,6 +289,7 @@ export default {
             return icone;
         },
     },
+    mixins: [utils],
     props: {
         idPronac: {
             type: Number,
@@ -364,7 +304,7 @@ export default {
             gruposReadequacao: {},
             headers: [
                 {
-                    text: 'SITUAÇÃO',
+                    text: 'PROTOCOLO',
                     align: 'left',
                     value: 'stAtendimento',
                 },
@@ -374,14 +314,14 @@ export default {
                     value: 'dtSolicitacao',
                 },
                 {
-                    text: 'DESCRIÇÃO DA AVALIAÇÃO',
+                    text: 'SITUAÇÃO',
                     align: 'left',
-                    value: 'dsAvaliacao',
+                    value: 'dsEncaminhamento',
                 },
                 {
                     text: 'DT. AVALIAÇÃO',
                     align: 'center',
-                    value: 'dtAvaliacao',
+                    value: 'dtAvaliador',
                 },
                 {
                     text: 'VISUALIZAR',
@@ -398,6 +338,10 @@ export default {
         }),
     },
     watch: {
+        dadosProjeto(value) {
+            this.loading = true;
+            this.buscarDadosReadequacoes(value.idPronac);
+        },
         dados() {
             this.loading = false;
             this.gruposReadequacao = this.obterGrupoReadequacoes();
@@ -427,7 +371,7 @@ export default {
             dadosReadequacoes.forEach((readequacao) => {
                 const { tipoReadequacao } = readequacao;
                 if (gruposReadequacao[tipoReadequacao] == null
-                    || gruposReadequacao[tipoReadequacao].length < 1) {
+                        || gruposReadequacao[tipoReadequacao].length < 1) {
                     gruposReadequacao[tipoReadequacao] = [];
                 }
                 gruposReadequacao[tipoReadequacao].push(

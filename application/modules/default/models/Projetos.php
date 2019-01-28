@@ -2922,7 +2922,7 @@ class Projetos extends MinC_Db_Table_Abstract
         $slct = $this->select();
         $slct->setIntegrityCheck(false);
 
-        $slct->from(array("a" => "vwUsuariosOrgaosGrupos"), array("usu_codigo", "usu_nome"), "TABELAS.dbo");
+        $slct->from(array("a" => "vwUsuariosOrgaosGrupos"), array("usu_codigo", "usu_nome", "org_superior"), "TABELAS.dbo");
         $slct->where("gru_codigo = ? ", $idGrupo);
         $slct->where("uog_orgao = ? ", $idOrgaoDestino);
         $slct->where("uog_status = ? ", 1);

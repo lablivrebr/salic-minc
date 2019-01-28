@@ -9,8 +9,6 @@
             :search="search"
             :pagination.sync="pagination"
             class="elevation-1"
-            rows-per-page-text="Items por Página"
-            no-data-text="Nenhum dado encontrado"
         >
             <template
                 slot="items"

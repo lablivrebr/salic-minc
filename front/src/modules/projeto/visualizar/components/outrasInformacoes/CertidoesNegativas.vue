@@ -9,8 +9,6 @@
                 :headers="headers"
                 :items="dados.certidoes"
                 class="elevation-1 container-fluid"
-                rows-per-page-text="Items por Página"
-                no-data-text="Nenhum dado encontrado"
             >
                 <template
                     slot="items"

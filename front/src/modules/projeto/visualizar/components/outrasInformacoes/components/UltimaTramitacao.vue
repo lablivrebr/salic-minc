@@ -9,8 +9,6 @@
                 :headers="headers"
                 :items="dados"
                 class="elevation-1 container-fluid mb-2"
-                rows-per-page-text="Items por Página"
-                no-data-text="Nenhum dado encontrado"
             >
                 <template
                     slot="items"

@@ -1372,6 +1372,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/dados-bancarios/service/ContasBancarias.php
+     * application/modules/dados-bancarios/controllers/ContasBancariasRestController.php
+     */
     public function dadosBancariosAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -1394,6 +1399,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/dados-bancarios/service/Liberacao.php
+     */
     public function dadosBancariosLiberacaoAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -1416,6 +1426,10 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/dados-bancarios/service/Captacao.php
+     */
     public function dadosBancariosCaptacaoAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -4976,6 +4990,8 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
     }
 
     /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     *
      *
      */
     public function devolucoesDoIncentivadorAction()
@@ -5005,6 +5021,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $this->view->dataDevolucaoFim = $this->getRequest()->getParam('dtDevolucaoFim');
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     *
+     *
+     */
     public function extratosBancariosAction()
     {
         $params = $this->_request->getParams();
@@ -5216,6 +5237,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     *
+     *
+     */
     public function conciliacaoBancariaAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -5384,6 +5410,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/projeto/service/certidoes-negativas/CertidoesNegativas.php
+     *
+     */
     public function inconsistenciaBancariaAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -5552,6 +5583,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de RestControllers e Service >
+     * application/modules/dados-bancarios/controllers/ExtratosBancariosConsolidadoRestController.php
+     * application/modules/dados-bancarios/service/ExtratosBancariosConsolidado.php
+     */
     public function extratoContaMovimentoConsolidadoAction()
     {
         $params = $this->_request->getParams();
@@ -5740,6 +5776,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/dados-bancarios/service/SaldoContas.php
+     * application/modules/dados-bancarios/controllers/SaldoContasRestController.php
+     */
     public function extratoDeSaldoBancarioAction()
     {
         $idPronac = $this->_request->getParam("idPronac");

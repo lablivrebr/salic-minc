@@ -38,8 +38,6 @@
                     :headers="headers"
                     :items="detalhamento"
                     class="elevation-1 container-fluid"
-                    rows-per-page-text="Items por Página"
-                    no-data-text="Nenhum dado encontrado"
                     hide-actions
                 >
                     <template

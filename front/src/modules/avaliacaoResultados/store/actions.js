@@ -54,8 +54,6 @@ export const mockAvaliacaDesempenho = ({ commit }) => {
 };
 
 export const obterDestinatarios = ({ commit }, params) => {
-    console.log(params);
-
     avaliacaoResultadosHelperAPI.obterDestinatarios(params)
         .then((response) => {
             const { data } = response;

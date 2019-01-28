@@ -292,7 +292,12 @@ export const buscarExtratosBancarios = (params) => {
     const controller = '/extratos-bancarios-rest';
     const metodo = '/index';
     const path = `${modulo}${controller}${metodo}`;
-    const queryParams = `?idPronac=${params.idPronac}&dtLancamento=${params.dtLancamento}&dtLancamentoFim=${params.dtLancamentoFim}&tpConta=${params.tpConta}`;
+    const idPronac = `idPronac=${params.idPronac}`;
+    const dtLancamento = `dtLancamento=${params.dtLancamento}`;
+    const dtLancamentoFim = `dtLancamentoFim=${params.dtLancamentoFim}`;
+    const tpConta = `tpConta=${params.tpConta}`;
+
+    const queryParams = `?${idPronac}&${dtLancamento}&${dtLancamentoFim}&${tpConta}`;
     return api.getRequest(path, queryParams);
 };
 

@@ -58,18 +58,17 @@
 
             </v-card-actions>
         </v-card>
-        <template v-if="Object.keys(planilha).length > 0">
+        <template v-if="Object.keys(dadosComprovacao).length > 0">
             <v-card
                 class="mt-3"
                 flat>
                 <!-- PRODUTO -->
                 <v-expansion-panel
-                    :v-if="getPlanilha != undefined && Object.keys(getPlanilha)"
-                    :value="expandir(getPlanilha)"
+                    :value="expandir(getDadosComprovacao)"
                     expand
                 >
                     <v-expansion-panel-content
-                        v-for="(produto,i) in getPlanilha"
+                        v-for="(produto,i) in getDadosComprovacao"
                         :key="i"
                     >
                         <v-layout
@@ -126,55 +125,42 @@
                                                     <v-icon class="mr-3 blue--text">place</v-icon>
                                                     {{ cidade.cidade }}
                                                 </v-layout>
-                                                <!-- <template v-if="typeof cidade.itens !== 'undefined'">
-                                                    <v-tabs
-                                                        slider-color="green"
+                                                <template v-if="typeof cidade.itens !== 'undefined'">
+                                                    <v-data-table
+                                                        :headers="headers"
+                                                        :items="Object.values(cidade.itens)"
+                                                        hide-actions
                                                     >
-                                                        <v-tab
-                                                            v-for="tab in Object.keys(cidade.itens)"
-                                                            :key="tab"
-                                                            ripple>{{ tabs[tab] }}
-                                                        </v-tab>
-                                                        <v-tab-item
-                                                            v-for="(item, index) in cidade.itens"
-                                                            :key="index">
-                                                            <v-data-table
-                                                                :headers="headers"
-                                                                :items="Object.values(item)"
-                                                                hide-actions
-                                                            >
-                                                                <template
-                                                                    slot="items"
-                                                                    slot-scope="props">
-                                                                    <td>{{ props.item.item }}</td>
-                                                                    <td>{{ moeda(props.item.varlorAprovado) }}</td>
-                                                                    <td>{{ moeda(props.item.varlorComprovado) }}</td>
-                                                                    <td>{{ moeda(props.item.varlorAprovado -
-                                                                    props.item.varlorComprovado) }}
-                                                                    </td>
-                                                                    <td>
-                                                                        <v-btn
-                                                                            slot="activator"
-                                                                            color="teal"
-                                                                            dark
-                                                                            @click="visualizarComprovantes(
-                                                                                uf.Uf,
-                                                                                cidade.cdCidade,
-                                                                                produto.cdProduto,
-                                                                                props.item.stItemAvaliado,
-                                                                                etapa.cdEtapa,
-                                                                                props.item.idPlanilhaItens,
-                                                                                props.item.item,
-                                                                            )"
-                                                                        >
-                                                                            <v-icon dark>attach_money</v-icon>
-                                                                        </v-btn>
-                                                                    </td>
-                                                                </template>
-                                                            </v-data-table>
-                                                        </v-tab-item>
-                                                    </v-tabs>
-                                                </template> -->
+                                                        <template
+                                                            slot="items"
+                                                            slot-scope="props">
+                                                            <td>{{ props.item.item }}</td>
+                                                            <td>{{ moeda(props.item.varlorAprovado) }}</td>
+                                                            <td>{{ moeda(props.item.varlorComprovado) }}</td>
+                                                            <td>{{ moeda(props.item.varlorAprovado -
+                                                            props.item.varlorComprovado) }}
+                                                            </td>
+                                                            <td>
+                                                                <v-btn
+                                                                    slot="activator"
+                                                                    color="teal"
+                                                                    dark
+                                                                    @click="visualizarComprovantes(
+                                                                        uf.Uf,
+                                                                        cidade.cdCidade,
+                                                                        produto.cdProduto,
+                                                                        props.item.stItemAvaliado,
+                                                                        etapa.cdEtapa,
+                                                                        props.item.idPlanilhaItens,
+                                                                        props.item.item,
+                                                                    )"
+                                                                >
+                                                                    <v-icon dark>attach_money</v-icon>
+                                                                </v-btn>
+                                                            </td>
+                                                        </template>
+                                                    </v-data-table>
+                                                </template>
                                             </v-expansion-panel-content>
                                         </v-expansion-panel>
                                     </v-expansion-panel-content>
@@ -184,7 +170,7 @@
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-card>
-            <ModalDetalheItens
+            <!-- <ModalDetalheItens
                 :id-pronac="idPronac.toString()"
                 :uf="itemEmVisualizacao.Uf"
                 :codigo-cidade="itemEmVisualizacao.cdCidade"
@@ -193,7 +179,7 @@
                 :codigo-etapa="itemEmVisualizacao.cdEtapa"
                 :id-planilha-itens="itemEmVisualizacao.idPlanilhaItens"
                 :item="itemEmVisualizacao.item "
-            />
+            /> -->
         </template>
         <carregando
             v-else
@@ -203,16 +189,16 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
-import ModalDetalheItens from '../components/ModalDetalheItens';
-import ConsolidacaoAnalise from '../components/ConsolidacaoAnalise';
-import AnalisarItem from './AnalisarItem';
+// import ModalDetalheItens from '../components/ModalDetalheItens';
+// import ConsolidacaoAnalise from '../components/ConsolidacaoAnalise';
+// import AnalisarItem from './AnalisarItem';
 
 export default {
     name: 'Painel',
     components: {
-        ModalDetalheItens,
-        ConsolidacaoAnalise,
-        AnalisarItem,
+        // ModalDetalheItens,
+        // ConsolidacaoAnalise,
+        // AnalisarItem,
         Carregando,
     },
     data() {
@@ -237,43 +223,30 @@ export default {
     },
     computed: {
         ...mapGetters({
-            getPlanilha: 'avaliacaoResultados/planilha',
+            getDadosComprovacao: 'avaliacaoResultados/getDadosComprovacao',
             getProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
-            isModalVisible: 'modal/default',
         }),
         dadosProjeto() {
             return this.getProjetoAnalise.data;
         },
-        documento() {
-            let { documento } = this.getProjetoAnalise.data.items;
-            documento = documento !== null ? this.getProjetoAnalise.data.items.documento : 0;
-            return documento;
-        },
-        estado() {
-            let { estado } = this.getProjetoAnalise.data.items;
-            estado = (estado !== null) ? this.getProjetoAnalise.data.items.estado : 0;
-            return estado;
-        },
-        planilha() {
-            let planilha = this.getPlanilha;
-            planilha = (planilha !== null && Object.keys(planilha).length) ? this.getPlanilha : 0;
-            return planilha;
-        },
         getPronac() {
             return parseInt(this.idPronac, 10);
         },
+        dadosComprovacao() {
+            const dadosComprovacao = this.getDadosComprovacao || {};
+            return dadosComprovacao;
+        },
     },
     mounted() {
-        this.setPlanilha(this.idPronac);
+        this.setDadosComprovacao(this.idPronac);
         this.setProjetoAnalise(this.idPronac);
     },
     methods: {
         ...mapActions({
-            setPlanilha: 'avaliacaoResultados/planilha',
+            setDadosComprovacao: 'avaliacaoResultados/getDadosComprovacao',
             setProjetoAnalise: 'avaliacaoResultados/projetoAnalise',
             modalOpen: 'modal/modalOpen',
             modalClose: 'modal/modalClose',
-            // buscarDetalhamentoItens: 'avaliacaoResultados/buscarDetalhamentoItens',
         }),
         moeda: (moedaString) => {
             const moeda = Number(moedaString);
@@ -307,25 +280,6 @@ export default {
                 arr.push(true);
             }
             return arr;
-        },
-        codigoStItemAvaliado(stItemAvaliado) {
-            let response = null;
-
-            switch (stItemAvaliado) {
-            case 'AVALIADO':
-                response = '1';
-                break;
-            case 'IMPUGNADOS':
-                response = '3';
-                break;
-            case 'AGUARDANDO ANÁLISE':
-                response = '4';
-                break;
-            default:
-                response = '';
-            }
-
-            return response;
         },
     },
 };

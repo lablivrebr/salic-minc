@@ -15,6 +15,7 @@
                     <v-divider/>
                     <v-card-text>
                         <v-data-table
+                            v-if="produtos.length > 0"
                             :headers="headers"
                             :items="produtos"
                             :rows-per-page-items="[15, 35, 50, {'text': 'Todos', value: -1}]"
@@ -24,119 +25,24 @@
                             <template
                                 slot="items"
                                 slot-scope="props">
-                                <tr
-                                    @click="props.expanded = !props.expanded"
-                                >
-                                    <td>
-                                        <v-tooltip
-                                            bottom>
-                                            <v-btn
-                                                slot="activator"
-                                                :href="`/projeto/#/${props.item.IdPRONAC}`"
-                                                small
-                                                round
-                                                class="mr-2">
-                                                {{ props.item.PRONAC }}
-                                            </v-btn>
-                                            <span>Consultar projeto {{ props.item.NomeProjeto }}</span>
-                                        </v-tooltip>
-                                    </td>
-                                    <td>{{ props.item.NomeProjeto }}</td>
-                                    <td>
-                                        <v-tooltip bottom>
-                                            <v-btn
-                                                slot="activator"
-                                                :to="{
-                                                    name: 'analise-conteudo',
-                                                    params: {
-                                                        id: props.item.idProduto,
-                                                        idPronac: props.item.IdPRONAC,
-                                                        produtoPrincipal: props.item.stPrincipal,
-                                                    }
-                                                }"
-                                                small
-                                                round
-                                                color="primary"
-                                                dark
-                                                class="mr-2">
-                                                {{ props.item.dsProduto }}
-                                            </v-btn>
-                                            <span>Clique para análisar o produto {{ props.item.dsProduto }}</span>
-                                        </v-tooltip>
-                                    </td>
-                                    <td class="text-xs-center">
-                                        <v-tooltip
-                                            v-if="props.item.stPrincipal === 1"
-                                            bottom>
-                                            <v-btn
-                                                slot="activator"
-                                                :to="{
-                                                    name: 'analise-conteudo',
-                                                    params: {
-                                                        id: props.item.idProduto,
-                                                        idPronac: props.item.IdPRONAC,
-                                                        produtoPrincipal: props.item.stPrincipal,
-                                                    }
-                                                }"
-                                                icon
-                                            >
-                                                <v-icon
-                                                    round
-                                                    color="orange">looks_one</v-icon>
-                                            </v-btn>
-                                            <span>Produto principal</span>
-                                        </v-tooltip>
-                                        <v-tooltip
-                                            v-else
-                                            bottom>
-                                            <v-btn
-                                                slot="activator"
-                                                :to="{
-                                                    name: 'analise-conteudo',
-                                                    params: {
-                                                        id: props.item.idProduto,
-                                                        idPronac: props.item.IdPRONAC,
-                                                        produtoPrincipal: props.item.stPrincipal,
-                                                    }
-                                                }"
-                                                icon
-                                            >
-                                                <v-icon
-                                                    color="grey">looks_two</v-icon>
-                                            </v-btn>
-                                            <span>Produto secundário</span>
-                                        </v-tooltip>
-                                    </td>
-                                    <td class="text-xs-right">{{ props.item.DtDistribuicao | formatarData }}</td>
-                                    <td class="text-xs-center">
-                                        <v-tooltip
-                                            bottom>
-                                            <v-btn
-                                                slot="activator"
-                                                :href="obterUrlDiligencia(props.item)"
-                                                :color="obterConfigDiligencia(props.item).cor"
-                                                target="_blank"
-                                                dark
-                                                icon
-                                                small
-                                            >
-                                                <v-badge
-                                                    :value="props.item.diasEmDiligencia > 0"
-                                                    color="grey lighten-1"
-                                                    overlap
-                                                    left>
-                                                    <span slot="badge">{{ props.item.diasEmDiligencia }}</span>
-                                                    <v-icon
-                                                        :color="obterConfigDiligencia(props.item).corIcone">
-                                                        notification_important
-                                                    </v-icon>
-                                                </v-badge>
-                                            </v-btn>
-                                            <span> {{ obterConfigDiligencia(props.item).texto }} </span>
-                                        </v-tooltip>
-                                    </td>
-                                    <td class="justify-center layout px-0">
+                                <td>
+                                    <v-tooltip
+                                        bottom>
+                                        <a
+                                            slot="activator"
+                                            :href="`/projeto/#/${props.item.IdPRONAC}`"
+                                            target="_blank"
+                                            class="mr-2">
+                                            {{ props.item.PRONAC }}
+                                        </a>
+                                        <span>Consultar projeto {{ props.item.NomeProjeto }}</span>
+                                    </v-tooltip>
+                                </td>
+                                <td>{{ props.item.NomeProjeto }}</td>
+                                <td>
+                                    <v-tooltip bottom>
                                         <v-btn
+                                            slot="activator"
                                             :to="{
                                                 name: 'analise-conteudo',
                                                 params: {
@@ -145,13 +51,88 @@
                                                     produtoPrincipal: props.item.stPrincipal,
                                                 }
                                             }"
+                                            small
+                                            round
+                                            class="mr-2">
+                                            {{ props.item.dsProduto }}
+                                        </v-btn>
+                                        <span>Clique para análisar o produto {{ props.item.dsProduto }}</span>
+                                    </v-tooltip>
+                                </td>
+                                <td class="text-xs-center">
+                                    <v-tooltip
+                                        v-if="props.item.stPrincipal === 1"
+                                        bottom>
+                                        <v-icon
+                                            slot="activator"
+                                            round
+                                        >looks_one</v-icon>
+                                        <span>Produto principal</span>
+                                    </v-tooltip>
+                                    <v-tooltip
+                                        v-else
+                                        bottom>
+                                        <v-icon
+                                            slot="activator"
+                                            color="grey">looks_two</v-icon>
+                                        <span>Produto secundário</span>
+                                    </v-tooltip>
+                                </td>
+                                <td class="text-xs-right">{{ props.item.DtDistribuicao | formatarData }}</td>
+                                <td class="text-xs-center">
+                                    <v-tooltip
+                                        bottom>
+                                        <v-btn
+                                            slot="activator"
+                                            :href="obterUrlDiligencia(props.item)"
+                                            :color="obterConfigDiligencia(props.item).cor"
+                                            target="_blank"
+                                            icon
+                                            small
+                                        >
+                                            <v-badge
+                                                :value="props.item.diasEmDiligencia > 0"
+                                                color="grey lighten-1"
+                                                overlap
+                                                left>
+                                                <span slot="badge">{{ props.item.diasEmDiligencia }}</span>
+                                                <v-icon
+                                                    :color="obterConfigDiligencia(props.item).corIcone">
+                                                    notification_important
+                                                </v-icon>
+                                            </v-badge>
+                                        </v-btn>
+                                        <span> {{ obterConfigDiligencia(props.item).texto }} </span>
+                                    </v-tooltip>
+                                </td>
+                                <td class="justify-center layout px-0">
+                                    <v-tooltip
+                                        bottom>
+                                        <v-btn
+                                            slot="activator"
+                                            :href="obterUrlHistorico(props.item)"
                                             flat
                                             icon
                                             class="mr-2">
-                                            <v-icon>edit</v-icon>
+                                            <v-icon
+                                            >history</v-icon>
                                         </v-btn>
-                                    </td>
-                                </tr>
+                                        <span>Visualizar histórico de distribuição deste produto</span>
+                                    </v-tooltip>
+                                    <v-tooltip
+                                        bottom>
+                                        <v-btn
+                                            slot="activator"
+                                            :href="obterUrlDeclararImpedimento(props.item)"
+                                            flat
+                                            icon
+                                            class="mr-2">
+                                            <v-icon
+                                            >voice_over_off</v-icon>
+                                        </v-btn>
+                                        <span>Declarar impedimento para análise deste produto</span>
+                                    </v-tooltip>
+                                </td>
                             </template>
                             <template
                                 slot="expand"
@@ -160,7 +141,7 @@
                                     row
                                     justify-center
                                     class="blue-grey lighten-5 pa-2">
-                                    <v-card-flex xs12>
+                                    <v-flex xs12>
                                         <v-card>
                                             <v-card-text>
                                                 <v-container fluid>
@@ -192,13 +173,16 @@
                                                 </v-container>
                                             </v-card-text>
                                         </v-card>
-                                    </v-card-flex>
+                                    </v-flex>
                                 </v-layout>
                             </template>
                             <template slot="no-data">
                                 <div class="text-xs-center">Sem dados</div>
                             </template>
                         </v-data-table>
+                        <s-carregando
+                            v-else
+                            :text="'Carregando lista de produtos'" />
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -209,9 +193,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { utils } from '@/mixins/utils';
+import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'ParecerListarView',
+    components: { SCarregando },
     mixins: [utils],
     data: () => ({
         headers: [
@@ -226,7 +212,7 @@ export default {
                 value: 'NomeProjeto',
             },
             {
-                text: 'Produto',
+                text: 'Produto para análise',
                 align: 'left',
                 value: 'dsProduto',
             },
@@ -237,10 +223,13 @@ export default {
             },
             { text: 'Dt. de Recebimento', value: 'DtDistribuicao', width: '2' },
             { text: 'Diligência', width: '2', value: 'stDiligencia' },
-            { text: 'Ações', value: 'idProduto', sortable: false },
+            {
+                text: 'Ações', align: 'center', value: 'idProduto', sortable: false,
+            },
         ],
         produtos: [],
         expand: false,
+        loading: true,
     }),
     computed: {
         ...mapGetters({
@@ -264,6 +253,23 @@ export default {
         initialize() {
             this.produtos = [];
         },
+        obterUrlHistorico(produto) {
+            const url = '/analisarprojetoparecer/historico';
+            const idPronac = `idPronac/${produto.IdPRONAC}`;
+            const idProduto = `idProduto/${produto.idProduto}`;
+            const situacao = `stPrincipal/${produto.stPrincipal}`;
+            const params = `${idPronac}/${idProduto}/${situacao}`;
+            return `${url}/${params}`;
+        },
+        obterUrlDeclararImpedimento(produto) {
+            const url = '/analisarprojetoparecer/devolver-parecer';
+            const idPronac = `idPronac=${produto.IdPRONAC}`;
+            const idProduto = `idProduto=${produto.idProduto}`;
+            const situacao = `situacao=${produto.situacao}`;
+            const idDistribuirParecer = `idD=${produto.idDistribuirParecer}`;
+            const params = `${idPronac}&${idProduto}&${situacao}&${idDistribuirParecer}`;
+            return `${url}?${params}`;
+        },
         obterUrlDiligencia(produto) {
             const url = '/proposta/diligenciar/listardiligenciaanalista';
             const idPronac = `idPronac=${produto.IdPRONAC}`;
@@ -285,8 +291,8 @@ export default {
                 break;
             case 2:
                 diligencia = {
-                    cor: 'cyan lighten-3',
-                    corIcone: 'cyan darken-4',
+                    cor: 'green lighten-3',
+                    corIcone: 'green darken-4',
                     texto: 'Diligencia respondida',
                 };
                 break;
@@ -299,9 +305,9 @@ export default {
                 break;
             default:
                 diligencia = {
-                    cor: 'green lighten-3',
-                    corIcone: 'green darken-4',
-                    texto: 'A Diligenciar',
+                    cor: 'grey lighten-3',
+                    corIcone: 'grey darken-4',
+                    texto: 'Diligenciar proponente',
                 };
                 break;
             }

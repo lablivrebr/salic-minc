@@ -113,7 +113,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             $row = $item;
             $i++;
 
-            if (!$this->isVisualizarProdutoItem($item, $analisedeConteudo, $stPrincipal)) {
+            if (!$this->isItemDisponivelParaVisualizacao($item, $analisedeConteudo, $stPrincipal)) {
                 continue;
             }
 
@@ -143,7 +143,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         return $planilha;
     }
 
-    private function isVisualizarProdutoItem($item, $analisedeConteudo, $stPrincipal) {
+    private function isItemDisponivelParaVisualizacao($item, $analisedeConteudo, $stPrincipal) {
         $idProdutoAnalise = $analisedeConteudo[0]->idProduto;
 
         if (empty($item['idProduto']) && $stPrincipal == 1) {

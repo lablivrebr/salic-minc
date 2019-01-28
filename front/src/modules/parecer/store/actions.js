@@ -96,3 +96,19 @@ export const salvarAvaliacaoItem = async ({ commit }, avaliacao) => {
         });
     return valor;
 };
+
+export const obterAnaliseConteudoSecundario = ({ commit }, params) => {
+    parecerHelperAPI.obterAnaliseConteudo(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.SET_ANALISE_CONTEUDO_SECUNDARIO, data);
+        });
+};
+
+export const obterPlanilhaProdutoSecundario = ({ commit }, params) => {
+    parecerHelperAPI.obterPlanilhaParaAnalise(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.SET_PLANILHA_SECUNDARIO, data);
+        });
+};

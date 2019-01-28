@@ -172,7 +172,7 @@ class Produto implements \MinC\Servico\IServicoRestZend
         return $tempoDiligencia;
     }
 
-    public function obterProdutoSecundario()
+    public function obterOutrosProdutosDoProjeto()
     {
         $idProduto = (int)$this->request->getParam('id');
         $idPronac = (int)$this->request->getParam('idPronac');

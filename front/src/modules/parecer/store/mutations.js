@@ -6,6 +6,8 @@ export const state = {
     analiseConteudo: {},
     planilhaParecer: {},
     produtosSecundarios: [],
+    planilhaSecundario: {},
+    analiseConteudoSecundario: {},
 };
 
 export const mutations = {
@@ -23,6 +25,12 @@ export const mutations = {
     },
     [types.SET_PRODUTOS_SECUNDARIOS](state, produtos) {
         state.produtosSecundarios = produtos;
+    },
+    [types.SET_ANALISE_CONTEUDO_SECUNDARIO](state, analise) {
+        state.analiseConteudoSecundario = analise;
+    },
+    [types.SET_PLANILHA_SECUNDARIO](state, planilha) {
+        state.planilhaSecundario = planilha;
     },
     [types.UPDATE_ITEM_PLANILHA](state, params) {
         const produto = params.idProduto !== 0 ? params.Produto : 'Administração do Projeto';

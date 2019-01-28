@@ -47,7 +47,7 @@ class Parecer_AnaliseProdutosSecundariosRestController extends MinC_Controller_R
     {
         try {
             $tramitacaoService = new Produto($this->getRequest(), $this->getResponse());
-            $resposta = $tramitacaoService->obterProdutoSecundario();
+            $resposta = $tramitacaoService->obterOutrosProdutosDoProjeto();
 
             $resposta = \TratarArray::utf8EncodeArray($resposta);
 

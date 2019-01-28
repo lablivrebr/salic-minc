@@ -29,8 +29,8 @@ class Parecer_ProdutoRestController extends MinC_Controller_Rest_Abstract
             $resposta = $tramitacaoService->listar();
 
             $this->customRenderJsonResponse([
-                'quantidadeAssinaturas' =>  $resposta['quantidadeAssinaturas'],
-                'items' => $resposta['data'],
+                'quantidadeAssinaturas' =>  0,
+                'items' => [],
             ], 200);
 
         } catch (Exception $objException) {

@@ -123,7 +123,7 @@ export default {
             },
             {
                 id: 3,
-                name: 'Dados dos Produtos Secundários',
+                name: 'Outros produtos do projeto',
                 hidden: false,
                 component: 'ProdutosSecundarios',
                 path: 'produtos-secundarios',
@@ -146,7 +146,6 @@ export default {
         }),
         activeFab() {
             switch (this.currentStep) {
-            // case 1: return { color: 'indigo', icon: 'share' };
             case 2: return { color: 'red', icon: 'edit' };
             case 3: return { color: 'green', icon: 'keyboard_arrow_up' };
             default: return {};
@@ -154,9 +153,19 @@ export default {
         },
     },
     watch: {
-        currentStep(val, old) {
-            console.log('watch', val, old);
+        currentStep(val) {
             this.$router.push({ name: this.getStepById(val).path });
+        },
+        produto(val) {
+            if (Object.keys(val).length > 0) {
+                if (val.quantidadeProdutos === 1) {
+                    this.deleteStepByPath('produtos-secundarios');
+                }
+
+                if (val.stPrincipal !== 1) {
+                    this.deleteStepByPath('parecer-consolidacao');
+                }
+            }
         },
     },
     created() {
@@ -170,17 +179,20 @@ export default {
         ...mapActions({
             obterProdutoParaAnalise: 'parecer/obterProdutoParaAnalise',
         }),
-        onInput(val) {
-            this.steps = parseInt(val, 10);
-        },
         nextStep(n) {
-            this.currentStep = (n === this.steps) ? 1 : n + 1;
+            this.currentStep = (n === Object.keys(this.arraySteps).length) ? 1 : n + 1;
         },
         back() {
             this.$router.push({ name: 'parecer-listar-view' });
         },
         getStepById(id) {
             return this.arraySteps.find(element => element.id === id);
+        },
+        getIndexStep(path) {
+            return this.arraySteps.findIndex(element => element.path === path);
+        },
+        deleteStepByPath(path) {
+            this.arraySteps.splice(this.getIndexStep(path), 1);
         },
     },
 };

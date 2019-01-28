@@ -57,7 +57,7 @@ export const obterPlanilhaParaAnalise = (params) => {
 
 export const obterProdutosSecundarios = (params) => {
     const module = '/parecer';
-    const controller = '/analise-produtos-secundarios-rest';
+    const controller = '/produtos-secundarios-rest';
     const idProduto = `id/${params.idProduto}`;
     const idPronac = `idPronac/${params.idPronac}`;
 
@@ -67,3 +67,14 @@ export const obterProdutosSecundarios = (params) => {
 };
 
 export const salvarAvaliacaoItem = params => api.postRequest('/parecer/analise-custo-rest/', buildData(params));
+
+export const obterAnaliseConsolidacao = (params) => {
+    const module = '/parecer';
+    const controller = '/analise-consolidacao-rest';
+    const id = `id/${params.id}`;
+    const idPronac = `idPronac/${params.idPronac}`;
+
+    const queryParams = `/${id}/${idPronac}`;
+
+    return api.getRequest(`${module}${controller}${queryParams}`);
+};

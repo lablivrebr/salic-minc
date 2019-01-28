@@ -2,7 +2,7 @@
 
 use Application\Modules\Parecer\Service\Produto as Produto;
 
-class Parecer_AnaliseProdutosSecundariosRestController extends MinC_Controller_Rest_Abstract
+class Parecer_ProdutosSecundariosRestController extends MinC_Controller_Rest_Abstract
 {
 
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())

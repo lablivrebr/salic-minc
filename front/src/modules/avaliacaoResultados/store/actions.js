@@ -381,3 +381,11 @@ export const alterarAvaliacaoComprovante = ({ commit }, params) => {
 };
 
 export const alterarPlanilha = ({ commit }, params) => commit(types.ALTERAR_PLANILHA, params);
+
+export const getDadosComprovacao = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.dadosComprovacao(params)
+        .then((response) => {
+            const dadosComprovacaoFinanceira = response.data;
+            commit(types.GET_DADOS_COMPROVACAO, dadosComprovacaoFinanceira);
+        });
+};

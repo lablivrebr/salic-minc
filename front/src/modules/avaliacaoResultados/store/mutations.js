@@ -45,6 +45,7 @@ export const state = {
     comprovantes: [],
     projetosAssinarCoordenador: {},
     projetosAssinarCoordenadorGeral: {},
+    dadosComprovacao: {},
 };
 
 export const mutations = {
@@ -234,5 +235,8 @@ export const mutations = {
             }
             Vue.set(copiaState[tipo], params.idPlanilhaItem, copiaItem);
         });
+    },
+    [types.GET_DADOS_COMPROVACAO](state, dados) {
+        state.dadosComprovacao = dados;
     },
 };

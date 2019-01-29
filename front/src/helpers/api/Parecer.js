@@ -78,3 +78,5 @@ export const obterAnaliseConsolidacao = (params) => {
 
     return api.getRequest(`${module}${controller}${queryParams}`);
 };
+
+export const salvarAnaliseConsolidacao = params => api.postRequest('/parecer/analise-consolidacao-rest/', buildData(params));

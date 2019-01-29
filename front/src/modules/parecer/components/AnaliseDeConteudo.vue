@@ -76,19 +76,19 @@
                                 xs12
                                 sm12
                                 md12>
-                                <p><b>Parecer de Conteúdo do Produto</b></p>
-                                <s-editor-texto
-                                    v-model="analiseConteudoEmEdicao.ParecerDeConteudo"
-                                    :placeholder="'Parecer técnico sobre o conteúdo do produto'"
-                                />
+                                <v-switch
+                                    :label="`Parecer Favorável?: ${labelSimOuNao(analiseConteudoEmEdicao.ParecerFavoravel)}`"
+                                    v-model="analiseConteudoEmEdicao.ParecerFavoravel"/>
                             </v-flex>
                             <v-flex
                                 xs12
                                 sm12
                                 md12>
-                                <v-switch
-                                    :label="`Parecer Favorável?: ${labelSimOuNao(analiseConteudoEmEdicao.ParecerFavoravel)}`"
-                                    v-model="analiseConteudoEmEdicao.ParecerFavoravel"/>
+                                <p><b>Parecer de Conteúdo do Produto</b></p>
+                                <s-editor-texto
+                                    v-model="analiseConteudoEmEdicao.ParecerDeConteudo"
+                                    :placeholder="'Parecer técnico sobre o conteúdo do produto'"
+                                />
                             </v-flex>
                         </v-layout>
                         <v-subheader class="pa-0">
@@ -172,15 +172,14 @@ export default {
             }
         },
     },
-    mounted() {
-        this.obterAnaLiseConteudo({
-            id: this.$route.params.id,
-            idPronac: this.$route.params.idPronac,
-        });
+    created() {
+        if (Object.keys(this.analiseConteudo).length > 0) {
+            this.analiseConteudoEmEdicao = Object.assign({}, this.analiseConteudo);
+            this.loading = false;
+        }
     },
     methods: {
         ...mapActions({
-            obterAnaLiseConteudo: 'parecer/obterAnaLiseConteudo',
             salvarAnaliseConteudo: 'parecer/salvarAnaLiseConteudo',
         }),
         submit() {

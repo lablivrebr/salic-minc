@@ -162,7 +162,7 @@ export default {
         ...mapGetters({
             produtosSecundarios: 'parecer/getProdutosSecundarios',
             analiseConteudo: 'parecer/getAnaliseConteudoSecundario',
-            planilha: 'parecer/getplanilhaSecundario',
+            planilha: 'parecer/getPlanilhaSecundario',
         }),
     },
     created() {

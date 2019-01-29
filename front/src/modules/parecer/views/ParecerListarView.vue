@@ -53,7 +53,7 @@
                                             }"
                                             small
                                             round
-                                            class="mr-2">
+                                            color="primary">
                                             {{ props.item.dsProduto }}
                                         </v-btn>
                                         <span>Clique para análisar o produto {{ props.item.dsProduto }}</span>

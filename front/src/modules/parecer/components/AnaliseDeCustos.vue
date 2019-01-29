@@ -4,7 +4,7 @@
             v-if="Object.keys(planilha).length > 0"
             :array-planilha="planilha">
             <template slot-scope="slotProps">
-                <s-planilha-itens-analise-tecnica :table="slotProps.itens"/>
+                <s-planilha-itens-analise-inicial :table="slotProps.itens"/>
             </template>
         </s-planilha>
         <s-carregando
@@ -17,14 +17,14 @@
 
 import { mapActions, mapGetters } from 'vuex';
 import SPlanilha from '@/components/Planilha/Planilha';
-import SPlanilhaItensAnaliseTecnica from './PlanilhaItensAnaliseTecnica';
+import SPlanilhaItensAnaliseInicial from './PlanilhaItensAnaliseInicial';
 import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'AnaliseDeCustos',
     components: {
         SPlanilha,
-        SPlanilhaItensAnaliseTecnica,
+        SPlanilhaItensAnaliseInicial,
         SCarregando,
     },
     props: {

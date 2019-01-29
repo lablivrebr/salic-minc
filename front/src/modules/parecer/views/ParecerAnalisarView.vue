@@ -32,15 +32,24 @@
                     <v-icon>more_vert</v-icon>
                 </v-btn>
             </v-toolbar>
-            <v-stepper v-model="currentStep">
+            <v-stepper
+                v-model="currentStep"
+                non-linear
+            >
                 <v-stepper-header>
                     <template v-for="step in arraySteps">
                         <v-stepper-step
-                            :complete="currentStep > step.id"
                             :key="`${step.path}-step`"
                             :step="step.id"
-                            editable
-                        >{{ step.name }}</v-stepper-step>
+                            :editable="step.editable"
+                            :complete="step.complete"
+                            :rules="step.rules"
+                        >
+                            {{ step.name }}
+                            <small v-if="step.message">
+                                {{ step.message }}
+                            </small>
+                        </v-stepper-step>
                         <v-divider
                             v-if="step.id !== Object.keys(arraySteps).length"
                             :key="step.id"
@@ -69,10 +78,8 @@
                             color="primary"
                             @click="nextStep(step.id)"
                         >
-                            Continue
+                            Próximo
                         </v-btn>
-
-                        <v-btn flat>Cancel</v-btn>
                     </v-stepper-content>
 
                     <v-fab-transition>
@@ -110,30 +117,46 @@ export default {
             {
                 id: 1,
                 name: 'Análise de conteúdo',
+                message: '',
                 hidden: false,
                 component: 'AnaliseDeConteudo',
                 path: 'analise-conteudo',
+                complete: false,
+                editable: true,
+                rules: [() => true],
             },
             {
                 id: 2,
                 name: 'Análise de custos',
+                message: '',
                 hidden: false,
                 component: 'AnaliseDeCustos',
                 path: 'analise-de-custos',
+                complete: false,
+                editable: true,
+                rules: [() => true],
             },
             {
                 id: 3,
                 name: 'Outros produtos do projeto',
+                message: '',
                 hidden: false,
                 component: 'ProdutosSecundarios',
                 path: 'produtos-secundarios',
+                complete: false,
+                editable: true,
+                rules: [() => true],
             },
             {
                 id: 4,
                 name: 'Finalizar análise',
+                message: '',
                 hidden: false,
                 component: 'FinalizarAnalise',
                 path: 'parecer-consolidacao',
+                complete: false,
+                editable: true,
+                rules: [() => true],
             },
         ],
         fab: false,
@@ -143,6 +166,7 @@ export default {
     computed: {
         ...mapGetters({
             produto: 'parecer/getProduto',
+            analiseConteudo: 'parecer/getAnaliseConteudo',
         }),
         activeFab() {
             switch (this.currentStep) {
@@ -156,16 +180,11 @@ export default {
         currentStep(val) {
             this.$router.push({ name: this.getStepById(val).path });
         },
-        produto(val) {
-            if (Object.keys(val).length > 0) {
-                if (val.quantidadeProdutos === 1) {
-                    this.deleteStepByPath('produtos-secundarios');
-                }
-
-                if (val.stPrincipal !== 1) {
-                    this.deleteStepByPath('parecer-consolidacao');
-                }
-            }
+        produto() {
+            this.removerSteps();
+        },
+        analiseConteudo() {
+            this.validarSteps();
         },
     },
     created() {
@@ -174,10 +193,15 @@ export default {
             idPronac: this.$route.params.idPronac,
         });
         this.currentStep = this.arraySteps.find(element => element.path === this.$route.name).id;
+        this.obterAnaLiseConteudo({
+            id: this.$route.params.id,
+            idPronac: this.$route.params.idPronac,
+        });
     },
     methods: {
         ...mapActions({
             obterProdutoParaAnalise: 'parecer/obterProdutoParaAnalise',
+            obterAnaLiseConteudo: 'parecer/obterAnaLiseConteudo',
         }),
         nextStep(n) {
             this.currentStep = (n === Object.keys(this.arraySteps).length) ? 1 : n + 1;
@@ -193,6 +217,41 @@ export default {
         },
         deleteStepByPath(path) {
             this.arraySteps.splice(this.getIndexStep(path), 1);
+        },
+        setStepCompleteStatus(id, val = true) {
+            this.$set(this.getStepById(id), 'complete', val);
+        },
+        setStepEditableStatus(id, val = false) {
+            this.$set(this.getStepById(id), 'editable', val);
+        },
+        setStepMessage(id, msg) {
+            this.$set(this.getStepById(id), 'message', msg);
+        },
+        setStepRules(id, rules) {
+            this.$set(this.getStepById(id), 'rules', rules);
+        },
+        removerSteps() {
+            if (Object.keys(this.produto).length > 0) {
+                if (this.produto.quantidadeProdutos === 1) {
+                    this.deleteStepByPath('produtos-secundarios');
+                }
+                if (this.produto.stPrincipal !== 1) {
+                    this.deleteStepByPath('parecer-consolidacao');
+                }
+            }
+        },
+        validarSteps() {
+            if (Object.keys(this.analiseConteudo).length > 0) {
+                this.setStepEditableStatus(2, true);
+                this.setStepMessage(2, '');
+                this.setStepRules(2, [() => true]);
+                if (this.analiseConteudo.ParecerFavoravel !== true
+                    && this.analiseConteudo.ParecerFavoravel !== 1) {
+                    this.setStepEditableStatus(2, false);
+                    this.setStepMessage(2, 'Não disponível! Parecer não favorável');
+                    this.setStepRules(2, [() => false]);
+                }
+            }
         },
     },
 };

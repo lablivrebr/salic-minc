@@ -62,7 +62,7 @@ class Parecer_AnaliseConsolidacaoRestController extends MinC_Controller_Rest_Abs
     {
         try {
 
-            $analiseConteudoService = new AnaliseConteudo($this->getRequest(), $this->getResponse());
+            $analiseConteudoService = new ConsolidacaoParecer($this->getRequest(), $this->getResponse());
             $resposta = $analiseConteudoService->salvar();
 
             $this->customRenderJsonResponse(

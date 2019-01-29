@@ -7,6 +7,7 @@
             :text="'Carregando proposta'"/>
         <v-expansion-panel
             v-show="!loading"
+            expand
             focusable>
             <v-expansion-panel-content>
                 <div slot="header">

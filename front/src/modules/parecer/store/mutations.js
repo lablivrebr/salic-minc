@@ -8,6 +8,7 @@ export const state = {
     produtosSecundarios: [],
     planilhaSecundario: {},
     analiseConteudoSecundario: {},
+    consolidacao: {},
 };
 
 export const mutations = {
@@ -31,6 +32,9 @@ export const mutations = {
     },
     [types.SET_PLANILHA_SECUNDARIO](state, planilha) {
         state.planilhaSecundario = planilha;
+    },
+    [types.SET_CONSOLIDACAO](state, dados) {
+        state.consolidacao = dados;
     },
     [types.UPDATE_ITEM_PLANILHA](state, params) {
         const produto = params.idProduto !== 0 ? params.Produto : 'Administração do Projeto';

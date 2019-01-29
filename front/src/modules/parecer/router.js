@@ -1,7 +1,7 @@
 import AnaliseDeConteudo from './components/AnaliseDeConteudo';
 import AnaliseDeCustos from './components/AnaliseDeCustos';
 import ProdutosSecundarios from './components/ProdutosSecundarios';
-import Consolidacao from './components/Consolidacao';
+import AnaliseConsolidacao from './components/AnaliseConsolidacao';
 
 const ParecerAnalisarView = () => import(/* webpackChunkName: "parecer-analisar-view" */ './views/ParecerAnalisarView');
 const ParecerListarView = () => import(/* webpackChunkName: "parecer-listar-view" */ './views/ParecerListarView');
@@ -40,7 +40,7 @@ export default [
             {
                 path: 'consolidacao',
                 name: 'parecer-consolidacao',
-                component: Consolidacao,
+                component: AnaliseConsolidacao,
             },
         ],
     },

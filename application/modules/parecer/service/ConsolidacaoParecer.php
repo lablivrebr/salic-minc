@@ -32,7 +32,7 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
         $parecerDAO = new \Parecer();
         $whereParecer = [];
         $whereParecer['idPRONAC = ?'] = $idPronac;
-        $buscaParecer = $parecerDAO->buscar($whereParecer)->toArray();
+        $buscaParecer = $parecerDAO->buscar($whereParecer)->current()->toArray();
         $countParecerP = count($buscaParecer);
         if ($countParecerP != 0) {
             $produtoPrincipalConsolidado = 'S';
@@ -40,7 +40,7 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
 
         $resp = [];
         $resp['consolidado'] = $produtoPrincipalConsolidado;
-        $resp['consolidacao'] = $buscaParecer;
+        $resp['parecer'] = $buscaParecer;
 
         $resp = \TratarArray::utf8EncodeArray($resp);
 
@@ -49,6 +49,7 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
 
     public function salvar()
     {
+        throw new \Exception("Em desenvolvimento ...");
 
     }
 

@@ -74,7 +74,6 @@ export const obterProdutosSecundarios = ({ commit }, params) => {
 export const salvarAvaliacaoItem = async ({ commit }, avaliacao) => {
     const valor = await parecerHelperAPI.salvarAvaliacaoItem(avaliacao)
         .then((response) => {
-            console.log('response', avaliacao, response);
             commit(types.UPDATE_ITEM_PLANILHA, avaliacao);
             commit('noticias/SET_DADOS',
                 {
@@ -111,4 +110,37 @@ export const obterPlanilhaProdutoSecundario = ({ commit }, params) => {
             const { data } = response;
             commit(types.SET_PLANILHA_SECUNDARIO, data);
         });
+};
+
+export const obterConsolidacao = ({ commit }, params) => {
+    parecerHelperAPI.obterAnaliseConsolidacao(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.SET_CONSOLIDACAO, data);
+        });
+};
+
+export const salvarAnaliseConsolidacao = async ({ commit }, avaliacao) => {
+    const valor = await parecerHelperAPI.salvarAnaliseConsolidacao(avaliacao)
+        .then((response) => {
+            commit(types.SET_CONSOLIDACAO, avaliacao);
+            commit('noticias/SET_DADOS',
+                {
+                    ativo: true,
+                    color: 'success',
+                    text: 'Salvo com sucesso!',
+                },
+                { root: true });
+            return response.data;
+        }).catch((e) => {
+            commit('noticias/SET_DADOS',
+                {
+                    ativo: true,
+                    color: 'error',
+                    text: e.response.data.message,
+                },
+                { root: true });
+            throw new TypeError(e.response.data.message, 'salvarAnaliseConsolidacao', 10);
+        });
+    return valor;
 };

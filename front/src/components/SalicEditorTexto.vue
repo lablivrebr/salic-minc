@@ -39,11 +39,14 @@ export default {
     },
     watch: {
         value(val) {
-            this.editor = val;
+            this.editor = val.trim();
         },
         editor(val) {
             this.$emit('editor-texto-counter', val.replace(/(<([^>]+)>)/ig, '').length);
         },
+    },
+    mounted() {
+        this.editor = this.value.trim();
     },
     methods: {
         enviar(e) {

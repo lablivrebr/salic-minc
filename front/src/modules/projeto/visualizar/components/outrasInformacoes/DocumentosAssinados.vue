@@ -116,7 +116,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/documentosAssinados',
+            dados: 'outrasInformacoes/documentosAssinados',
         }),
     },
     watch: {
@@ -131,7 +131,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarDocumentosAssinados: 'projeto/buscarDocumentosAssinados',
+            buscarDocumentosAssinados: 'outrasInformacoes/buscarDocumentosAssinados',
         }),
     },
 };

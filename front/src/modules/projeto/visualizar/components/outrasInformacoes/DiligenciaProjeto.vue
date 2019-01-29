@@ -86,7 +86,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/diligencia',
+            dados: 'outrasInformacoes/diligencia',
         }),
     },
     watch: {
@@ -101,7 +101,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarDiligencia: 'projeto/buscarDiligencia',
+            buscarDiligencia: 'outrasInformacoes/buscarDiligencia',
         }),
     },
 };

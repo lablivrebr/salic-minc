@@ -192,7 +192,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosInconsistencia: 'projeto/inconsistenciaBancaria',
+            dadosInconsistencia: 'dadosBancarios/inconsistenciaBancaria',
         }),
     },
     watch: {
@@ -232,7 +232,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarInconsistenciaBancaria: 'projeto/buscarInconsistenciaBancaria',
+            buscarInconsistenciaBancaria: 'dadosBancarios/buscarInconsistenciaBancaria',
         }),
         filtrarData(response) {
             const params = {

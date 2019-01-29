@@ -103,7 +103,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            dados: 'projeto/tramitacaoDocumento',
+            dados: 'outrasInformacoes/tramitacaoDocumento',
         }),
     },
     mounted() {
@@ -113,7 +113,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarTramitacaoDocumento: 'projeto/buscarTramitacaoDocumento',
+            buscarTramitacaoDocumento: 'outrasInformacoes/buscarTramitacaoDocumento',
         }),
     },
 };

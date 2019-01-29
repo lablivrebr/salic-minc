@@ -91,7 +91,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/certidoesNegativas',
+            dados: 'outrasInformacoes/certidoesNegativas',
         }),
     },
     watch: {
@@ -106,7 +106,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarCertidoesNegativas: 'projeto/buscarCertidoesNegativas',
+            buscarCertidoesNegativas: 'outrasInformacoes/buscarCertidoesNegativas',
         }),
     },
 };

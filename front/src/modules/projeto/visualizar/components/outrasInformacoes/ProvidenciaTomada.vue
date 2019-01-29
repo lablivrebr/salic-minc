@@ -101,7 +101,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/providenciaTomada',
+            dados: 'outrasInformacoes/providenciaTomada',
         }),
     },
     watch: {
@@ -116,7 +116,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarProvidenciaTomada: 'projeto/buscarProvidenciaTomada',
+            buscarProvidenciaTomada: 'outrasInformacoes/buscarProvidenciaTomada',
         }),
     },
 };

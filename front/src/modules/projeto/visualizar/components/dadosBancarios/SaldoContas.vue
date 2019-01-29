@@ -171,7 +171,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosSaldo: 'projeto/saldoContas',
+            dadosSaldo: 'dadosBancarios/saldoContas',
         }),
     },
     watch: {
@@ -199,7 +199,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarSaldoContas: 'projeto/buscarSaldoContas',
+            buscarSaldoContas: 'dadosBancarios/buscarSaldoContas',
         }),
         print() {
             this.d.print(this.$el, this.cssText);

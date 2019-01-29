@@ -39,8 +39,8 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
             if (is_object($rsProjeto) && count($rsProjeto) > 0) {
                 $tblProposta = new \Proposta_Model_DbTable_PreProjeto();
                 $rsProposta = $tblProposta->buscar(array('idPreProjeto=?'=>$rsProjeto->idProjeto))->current();
-                $tbCustosVinculadosMapper = new \Proposta_Model_TbCustosVinculadosMapper();
-                $itensCustosVinculados = $tbCustosVinculadosMapper->obterCustosVinculados($rsProjeto->idProjeto);
+                $tbCustosVinculadosMapper = new \Proposta_Model_DbTable_TbCustosVinculados();
+                $itensCustosVinculados = $tbCustosVinculadosMapper->buscarCustosVinculados(['idProjeto = ?' => $rsProjeto->idProjeto]);
             }
         }
 
@@ -59,11 +59,11 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
 
     private function montaArrayCustosVinculados($itensCustosVinculados) {
         foreach ($itensCustosVinculados as $item) {
-            $descricao = $item['Descricao'];
 
             $CustosVinculadosArray[] = [
-                'Descricao' => $descricao,
-                'Percentual' => $item['percentualProponente'],
+                'Descricao' => $item['item'],
+                'Percentual' => $item['pcCalculo'],
+                'dtCadastro' => $item['dtCadastro']
             ];
 
         }

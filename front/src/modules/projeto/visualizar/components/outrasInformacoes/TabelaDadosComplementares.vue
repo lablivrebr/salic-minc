@@ -50,6 +50,7 @@ import { utils } from '@/mixins/utils';
 
 export default {
     name: 'TabelaDadosComplementares',
+    mixins: [utils],
     props: {
         dadoComplementar: {
             type: String,
@@ -64,7 +65,6 @@ export default {
             default: () => [],
         },
     },
-    mixins: [utils],
     data() {
         return {
             pagination: {

@@ -32,7 +32,7 @@ export const utils = {
     },
     filters: {
         formatarData(date) {
-            if ((date && date.length === 0) || (date === null)) {
+            if ((date && date.length === 0) || date === null) {
                 return '-';
             }
             return moment(date)
@@ -47,8 +47,7 @@ export const utils = {
         },
         formatarConta(conta) {
             // formato: 99999-9
-            const contaInt = parseInt(conta, 10);
-            return contaInt.toString().replace(/(\d)(\d{1})$/, '$1-$2');
+            return conta.toString().replace(/^\d{6}(.+)(\w{1})$/, '$1-$2');
         },
         formatarLabelSimOuNao(valor) {
             if (valor === 1 || valor === '1') {
@@ -112,6 +111,10 @@ export const utils = {
         },
         formatarParaReal(v) {
             return moneyFilter(v);
+        },
+        filtroFormatarParaReal(v) {
+            const parsedValue = parseFloat(v);
+            return moneyFilter(parsedValue);
         },
     },
 };

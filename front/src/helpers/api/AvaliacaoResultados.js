@@ -45,7 +45,7 @@ export const projetoAnalise = params => api.getRequest(`/avaliacao-resultados/pr
 
 export const consolidacaoAnalise = params => api.getRequest(`/prestacao-contas/visualizar-projeto/dados-projeto?idPronac=${params}`);
 
-export const obterDestinatarios = () => api.getRequest('/avaliacao-resultados/tecnicos');
+export const obterDestinatarios = params => api.getRequest(`/avaliacao-resultados/tecnicos/${params}`);
 
 export const alterarEstado = params => api.postRequest('/avaliacao-resultados/estado/', buildData(params));
 

@@ -93,7 +93,16 @@
             "Application\\Modules\\Execucao\\Service\\MarcasAnexadas\\": "./application/modules/execucao/service/",
             "Application\\Modules\\Execucao\\Service\\Fiscalizacao\\": "./application/modules/execucao/service/",
             "Application\\Modules\\Execucao\\Service\\DadosReadequacoes\\": "./application/modules/execucao/service/",
-            "Application\\Modules\\Execucao\\Service\\PedidoProrrogacao\\": "./application/modules/execucao/service/"
+            "Application\\Modules\\Execucao\\Service\\PedidoProrrogacao\\": "./application/modules/execucao/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\ContasBancarias\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\ConciliacaoBancaria\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\InconsistenciaBancaria\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\Liberacao\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\SaldoContas\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\ExtratosBancarios\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\ExtratosBancariosConsolidado\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\Captacao\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\Devolucoes\\": "./application/modules/dados-bancarios/service/"
         }
     },
     "archive": {

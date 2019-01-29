@@ -12,8 +12,6 @@
                 :rows-per-page-items="[10, 25, 50, {'text': 'Todos', value: -1}]"
                 item-key="id"
                 class="elevation-1"
-                rows-per-page-text="Items por Página"
-                no-data-text="Nenhum dado encontrado"
             >
                 <template
                     slot="items"

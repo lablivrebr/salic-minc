@@ -1,4 +1,5 @@
 <?php
+
 class Projeto_Bootstrap extends Zend_Application_Module_Bootstrap
 {
     public function _initPath()
@@ -21,7 +22,7 @@ class Projeto_Bootstrap extends Zend_Application_Module_Bootstrap
                 ]
             ]
         );
-    
+
         $nomeConjuntoDeRotas = 'restProjeto';
         $frontController->getRouter()->addRoute(
             $nomeConjuntoDeRotas,

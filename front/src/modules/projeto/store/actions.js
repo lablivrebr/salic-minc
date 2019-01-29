@@ -256,3 +256,75 @@ export const buscarDadosFiscalizacaoVisualiza = ({ commit }, value) => {
             commit(types.SET_DADOS_FISCALIZACAO_VISUALIZA, data);
         });
 };
+
+export const buscarContasBancarias = ({ commit }, idPronac) => {
+    projetoHelperAPI.buscarContasBancarias(idPronac)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_CONTAS_BANCARIAS, data);
+        });
+};
+
+export const buscarConciliacaoBancaria = ({ commit }, params) => {
+    projetoHelperAPI.buscarConciliacaoBancaria(params)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_CONCILIACAO_BANCARIA, data);
+        });
+};
+
+export const buscarInconsistenciaBancaria = ({ commit }, params) => {
+    projetoHelperAPI.buscarInconsistenciaBancaria(params)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_INCONSISTENCIA_BANCARIA, data);
+        });
+};
+
+export const buscarLiberacao = ({ commit }, idPronac) => {
+    projetoHelperAPI.buscarLiberacao(idPronac)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_LIBERACAO, data);
+        });
+};
+
+export const buscarSaldoContas = ({ commit }, idPronac) => {
+    projetoHelperAPI.buscarSaldoContas(idPronac)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_SALDO_CONTAS, data);
+        });
+};
+
+export const buscarExtratosBancarios = ({ commit }, params) => {
+    projetoHelperAPI.buscarExtratosBancarios(params)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_EXTRATOS_BANCARIOS, data);
+        });
+};
+
+export const buscarExtratosBancariosConsolidado = ({ commit }, idPronac) => {
+    projetoHelperAPI.buscarExtratosBancariosConsolidado(idPronac)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_EXTRATOS_BANCARIOS_CONSOLIDADO, data);
+        });
+};
+
+export const buscarCaptacao = ({ commit }, params) => {
+    projetoHelperAPI.buscarCaptacao(params)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_CAPTACAO, data);
+        });
+};
+
+export const buscarDevolucoesIncentivador = ({ commit }, params) => {
+    projetoHelperAPI.buscarDevolucoesIncentivador(params)
+        .then((response) => {
+            const data = response.data.data.items;
+            commit(types.SET_DEVOLUCOES_INCENTIVADOR, data);
+        });
+};

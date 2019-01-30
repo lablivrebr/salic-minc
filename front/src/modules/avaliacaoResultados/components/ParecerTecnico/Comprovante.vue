@@ -216,8 +216,8 @@ export default {
         },
         porcentagemComprovada() {
             const valorComprovado = parseFloat(this.dadosProjeto.items.vlComprovado);
-            const valorAComprovar = parseFloat(this.dadosProjeto.items.vlTotalComprovar);
-            const porcentagem = valorComprovado * 100 / valorAComprovar;
+            const valorAprovado = parseFloat(this.dadosProjeto.items.vlAprovado);
+            const porcentagem = valorComprovado * 100 / valorAprovado;
             return Math.round(porcentagem);
         },
     },

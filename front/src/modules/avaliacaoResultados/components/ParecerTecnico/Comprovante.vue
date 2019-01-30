@@ -21,41 +21,41 @@
                 <h2>{{ dadosProjeto.items.pronac }} &#45; {{ dadosProjeto.items.nomeProjeto }}</h2>
             </v-card-title>
             <v-card-text>
-                <!-- <p v-if="dadosProjeto.items.diligencia">Existe Diligência para esse projeto. Acesse <a
-                    :href="'/proposta/diligenciar/listardiligenciaanalista/idPronac/' + idPronac">aqui</a>.</p>
-                <p v-else-if="documento != 0">Existe Documento para assinar nesse projeto.</p>
-                <p v-else-if="estado.estadoId == 5">Projeto em analise.</p>
-                <p v-else>Sem Observações.</p> -->
-                <div class="mt-3 mb-3">
-                    <div class="d-inline-block">
+                <div class="my-3">
+                    <v-progress-circular
+                        :value="porcentagemComprovada"
+                        color="success"
+                        rotate="270"
+                        size="125"
+                        width="15"
+                        class="d-inline-block ml-3"
+                    >
+                        {{ porcentagemComprovada }}%
+                    </v-progress-circular>
+                    <div class="d-inline-block ml-5">
                         <h4>Valor Aprovado</h4>
                         {{ moeda(dadosProjeto.items.vlAprovado) }}
                     </div>
                     <div class="d-inline-block ml-5">
+                        <v-icon color="success">label</v-icon>
                         <h4>Valor Comprovado</h4>
                         {{ moeda(dadosProjeto.items.vlComprovado) }}
                     </div>
                     <div class="d-inline-block ml-5">
+                        <v-icon color="#e6e6e6">label</v-icon>
                         <h4>Valor a Comprovar</h4>
                         {{ moeda(dadosProjeto.items.vlTotalComprovar) }}
                     </div>
                 </div>
             </v-card-text>
             <v-card-actions>
-
                 <v-btn
                     :href="'/consultardadosprojeto/index?idPronac=' + idPronac"
                     color="success"
                     target="_blank"
-                    class="mr-2"
+                    class="ml-1"
                 >VER PROJETO
                 </v-btn>
-
-                <!-- <consolidacao-analise
-                    :id-pronac="idPronac"
-                    :nome-projeto="dadosProjeto.items.nomeProjeto"
-                /> -->
-
             </v-card-actions>
         </v-card>
         <template v-if="Object.keys(dadosComprovacao).length > 0">
@@ -170,16 +170,6 @@
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-card>
-            <!-- <ModalDetalheItens
-                :id-pronac="idPronac.toString()"
-                :uf="itemEmVisualizacao.Uf"
-                :codigo-cidade="itemEmVisualizacao.cdCidade"
-                :codigo-produto="itemEmVisualizacao.cdProduto"
-                :st-item-avaliado="itemEmVisualizacao.stItemAvaliado"
-                :codigo-etapa="itemEmVisualizacao.cdEtapa"
-                :id-planilha-itens="itemEmVisualizacao.idPlanilhaItens"
-                :item="itemEmVisualizacao.item "
-            /> -->
         </template>
         <carregando
             v-else
@@ -189,16 +179,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
-// import ModalDetalheItens from '../components/ModalDetalheItens';
-// import ConsolidacaoAnalise from '../components/ConsolidacaoAnalise';
-// import AnalisarItem from './AnalisarItem';
 
 export default {
     name: 'Painel',
     components: {
-        // ModalDetalheItens,
-        // ConsolidacaoAnalise,
-        // AnalisarItem,
         Carregando,
     },
     data() {
@@ -210,12 +194,6 @@ export default {
                 { text: 'Valor a Comprovar', value: 'valorAComprovar', sortable: false },
                 { text: '', value: 'comprovarItem', sortable: false },
             ],
-            // tabs: {
-            //     1: 'AVALIADO',
-            //     3: 'IMPUGNADOS',
-            //     4: 'AGUARDANDO ANÁLISE',
-            //     todos: 'TODOS',
-            // },
             fab: false,
             idPronac: this.$route.params.id,
             itemEmVisualizacao: {},
@@ -235,6 +213,12 @@ export default {
         dadosComprovacao() {
             const dadosComprovacao = this.getDadosComprovacao || {};
             return dadosComprovacao;
+        },
+        porcentagemComprovada() {
+            const valorComprovado = parseFloat(this.dadosProjeto.items.vlComprovado);
+            const valorAComprovar = parseFloat(this.dadosProjeto.items.vlTotalComprovar);
+            const porcentagem = valorComprovado * 100 / valorAComprovar;
+            return Math.round(porcentagem);
         },
     },
     mounted() {

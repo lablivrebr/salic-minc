@@ -339,6 +339,9 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
                 const devolverProjetoData = response.data;
                 commit(types.SET_DEVOLVER_PROJETO, devolverProjetoData);
                 dispatch('projetosAssinarCoordenador', { estadoid: 9 });
+                dispatch('projetosFinalizados', projetosFinalizadosEstatos);
+                dispatch('obterDadosTabelaTecnico', projetosTecnico);
+                dispatch('obterProjetosLaudoFinal', { estadoId: '10' });
             });
     } if (params.idTipoDoAtoAdministrativo === '623' && params.proximo === '10') {
         avaliacaoResultadosHelperAPI.alterarEstado(params)
@@ -346,11 +349,9 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
                 const devolverProjetoData = response.data;
                 commit(types.SET_DEVOLVER_PROJETO, devolverProjetoData);
                 dispatch('obterProjetosLaudoAssinar', laudoDevolver);
+                dispatch('obterProjetosLaudoFinal', { estadoId: '10' });
             });
     }
-    dispatch('projetosFinalizados', projetosFinalizadosEstatos);
-    dispatch('obterDadosTabelaTecnico', projetosTecnico);
-    dispatch('obterProjetosLaudoFinal', { estadoId: '10' });
 
     return null;
 };

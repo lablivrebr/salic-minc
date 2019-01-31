@@ -170,7 +170,7 @@
                                             Item exclu&iacute;do
                                                 <img src="<?php echo $this->baseUrl(); ?>/public/img/refresh.gif" style="cursor: pointer;" class="restaurarItem" tipo="<?php echo $planilha['tpAcao']; ?>" idPlanilha="<?php echo $planilha['idPlanilhaAprovacao']; ?>" title="<?php echo 'restaurar item'; ?>"/>
                                             <?php } else { ?>
-                                                <?php if(empty($planilha['vlComprovado'])){ ?>
+                                                <?php if(empty($planilha['vlComprovado']) && $planilha['idEtapa'] != (PlanilhaEtapa::ETAPA_CUSTOS_VINCULADOS || PlanilhaEtapa::ETAPA_CAPTACAO_RECURSOS)){ ?>
                                                 <input type="button" class="btn_excluir excluirItemPlanilha" title="Solicitar exclusão de item" idPlanilhaAprovacao="<?php echo $planilha['idPlanilhaAprovacao']; ?>">
                                             <?php } } ?>
                                         <?php } else { ?>

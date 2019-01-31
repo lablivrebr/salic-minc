@@ -20,7 +20,7 @@
              resizable: false,
              title: 'Alerta!',
              width:360,
-             height:170,
+             height:200,
              modal: true,
              buttons : {
 		 'N\xE3o' : function(){
@@ -940,6 +940,10 @@
                 <td><?php echo $this->projeto->NomeProjeto; ?></td>
             </tr>
         </table>
+
+        <?php if ($this->mensagemCustosVinculados != ""): ?>
+        <div class="yellow accent-4" style="padding:7px"><?php echo $this->mensagemCustosVinculados; ?></div>
+        <?php endif; ?>
 
         <table class="tabela btnIncluir <?php if (count($this->readequacao) > 0) : ?>sumir<?php endif; ?>">
             <tr>

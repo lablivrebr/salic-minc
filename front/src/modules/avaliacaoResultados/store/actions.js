@@ -333,14 +333,14 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
         };
     }
 
-    if (params.idTipoDoAtoAdministrativo, params.proximo === '622', '5') {
+    if (params.idTipoDoAtoAdministrativo === '622' && params.proximo === '5') {
         avaliacaoResultadosHelperAPI.alterarEstado(params)
             .then((response) => {
                 const devolverProjetoData = response.data;
                 commit(types.SET_DEVOLVER_PROJETO, devolverProjetoData);
                 dispatch('projetosAssinarCoordenador', { estadoid: 9 });
             });
-    } if (params.idTipoDoAtoAdministrativo, params.proximo === '623', '10') {
+    } if (params.idTipoDoAtoAdministrativo === '623' && params.proximo === '10') {
         avaliacaoResultadosHelperAPI.alterarEstado(params)
             .then((response) => {
                 const devolverProjetoData = response.data;

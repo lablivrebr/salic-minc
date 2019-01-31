@@ -302,7 +302,6 @@ export const buscarComprovantes = ({ commit }, params) => {
 };
 
 export const devolverProjeto = ({ commit, dispatch }, params) => {
-    console.info(params);
     commit(types.SET_DADOS_PROJETOS_FINALIZADOS, {});
     commit(types.SYNC_PROJETOS_ASSINAR_COORDENADOR, {});
     commit(types.PROJETOS_AVALIACAO_TECNICA, {});
@@ -310,8 +309,6 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
     let projetosTecnico = {};
     let projetosFinalizadosEstatos = {};
     const laudoDevolver = { estadoId: params.atual };
-
-    // params.idTipoDoAtoAdministrativo == 622 ou 623
 
     if (
         parseInt(params.usuario.grupo_ativo, 10) === 125
@@ -356,7 +353,13 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
                 dispatch('obterProjetosLaudoFinal', { estadoId: '10' });
                 dispatch('obterProjetosLaudoAssinar', laudoDevolver);
             });
+    default:
+        dispatch('projetosFinalizados', projetosFinalizadosEstatos);
+        dispatch('obterDadosTabelaTecnico', projetosTecnico);
+        dispatch('obterProjetosLaudoFinal', { estadoId: '10' });
+        break;
     }
+    return null;
 };
 
 export const projetosAssinarCoordenador = ({ commit }) => {

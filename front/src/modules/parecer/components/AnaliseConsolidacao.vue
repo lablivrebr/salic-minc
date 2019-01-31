@@ -56,11 +56,6 @@
                     <v-icon>save</v-icon>
                     Salvar
                 </v-btn>
-                <v-btn
-                    @click="dialog = false">
-                    Fechar
-                    <v-icon>close</v-icon>
-                </v-btn>
             </v-layout>
         </v-form>
     </div>
@@ -94,7 +89,12 @@ export default {
                 msg: '',
                 enable: false,
             },
-            consolidacaoEmEdicao: {},
+            consolidacaoEmEdicao: {
+                IdPRONAC: this.$route.params.idPronac,
+                idProduto: this.$route.params.id,
+                ParecerFavoravel: '2',
+                ResumoParecer: '',
+            },
             rules: {
                 parecer: v => (!!v || this.$refs.stItemAvaliado.value !== '3') || 'Parecer é obrigatório',
             },
@@ -108,8 +108,9 @@ export default {
     },
     watch: {
         consolidacao(val) {
-            console.log('valll', val);
-            this.consolidacaoEmEdicao = Object.assign({}, val.parecer);
+            if (Object.keys(val).length > 0) {
+                this.consolidacaoEmEdicao = Object.assign({}, val);
+            }
         },
     },
     created() {

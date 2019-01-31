@@ -1,9 +1,9 @@
 <template>
-    <v-card class="elevation-0">
+    <div>
         <v-data-table
             :headers="headers"
             :items="produtosSecundarios"
-            class="elevation-1"
+            class="elevation-0"
             item-key="idDistribuirParecer"
         >
             <template
@@ -120,7 +120,7 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
-    </v-card>
+    </div>
 </template>
 
 <script>

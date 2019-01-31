@@ -65,6 +65,7 @@
                     >
                         <v-card
                             class="mb-5"
+                            elevation="0"
                         >
                             <keep-alive>
                                 <router-view
@@ -118,8 +119,6 @@ export default {
                 id: 1,
                 name: 'Análise de conteúdo',
                 message: '',
-                hidden: false,
-                component: 'AnaliseDeConteudo',
                 path: 'analise-conteudo',
                 complete: false,
                 editable: true,
@@ -129,8 +128,6 @@ export default {
                 id: 2,
                 name: 'Análise de custos',
                 message: '',
-                hidden: false,
-                component: 'AnaliseDeCustos',
                 path: 'analise-de-custos',
                 complete: false,
                 editable: true,
@@ -140,8 +137,6 @@ export default {
                 id: 3,
                 name: 'Outros produtos do projeto',
                 message: '',
-                hidden: false,
-                component: 'ProdutosSecundarios',
                 path: 'produtos-secundarios',
                 complete: false,
                 editable: true,
@@ -149,10 +144,8 @@ export default {
             },
             {
                 id: 4,
-                name: 'Finalizar análise',
+                name: 'Consolidação',
                 message: '',
-                hidden: false,
-                component: 'FinalizarAnalise',
                 path: 'parecer-consolidacao',
                 complete: false,
                 editable: true,

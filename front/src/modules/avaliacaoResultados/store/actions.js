@@ -333,12 +333,15 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
         };
     }
 
+    console.info(params);
+
     if (params.idTipoDoAtoAdministrativo === '622' && params.proximo === '5') {
         avaliacaoResultadosHelperAPI.alterarEstado(params)
             .then((response) => {
                 const devolverProjetoData = response.data;
                 commit(types.SET_DEVOLVER_PROJETO, devolverProjetoData);
                 dispatch('projetosAssinarCoordenador', { estadoid: 9 });
+                dispatch('projetosAssinarCoordenadorGeral', { estadoid: 15 });
                 dispatch('projetosFinalizados', projetosFinalizadosEstatos);
                 dispatch('obterDadosTabelaTecnico', projetosTecnico);
                 dispatch('obterProjetosLaudoFinal', { estadoId: '10' });

@@ -63,7 +63,7 @@ export default {
         },
         definirClasseItem(row) {
             return {
-                'orange lighten-2': row.stCustoPraticado === true || row.stCustoPraticado === '1' || row.stCustoPraticado === 1,
+                'orange lighten-4': row.stCustoPraticado === true || row.stCustoPraticado === '1' || row.stCustoPraticado === 1,
                 'linha-incluida': row.tpAcao === 'I',
                 'linha-excluida': row.tpAcao === 'E',
                 'linha-atualizada': row.tpAcao === 'A',

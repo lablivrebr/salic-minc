@@ -116,5 +116,12 @@ export const utils = {
             const parsedValue = parseFloat(v);
             return moneyFilter(parsedValue);
         },
+        filtroDiminuirTexto(value, size = 150) {
+            if (value === null || value.length < size) {
+                return value;
+            }
+
+            return value.replace(/(<([^>]+)>)/ig, '').slice(0, size).concat('...');
+        },
     },
 };

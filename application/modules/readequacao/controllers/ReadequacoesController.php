@@ -1945,7 +1945,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $mensagemCustosVinculados = "";
         if ($this->isProjetoTransicaoIn2017($dados->idPronac)) {
             // fazer a comparacao com a data
-            $mensagemCustosVinculados = "<div align='center'><strong>ATEN&Ccedil;&Atilde;O:</strong><br/> Projetos adequados &agrave; realidade de execu&ccedil;&atilde;o at&eacute; a data de <strong>26/10/2018</strong> ter&atilde;o seus custos vinculados e de remunera&ccedil;&atilde;o de capta&ccedil;&atilde;o de recursos recalculados no momento em que for realizada uma readequa&ccedil;&atilde;o.</div>";
+            $mensagemCustosVinculados = "<div align='center'><strong>ATEN&Ccedil;&Atilde;O:</strong><br/> Projetos adequados &agrave; realidade de execu&ccedil;&atilde;o at&eacute; a data de <strong>16/10/2018</strong> ter&atilde;o seus custos vinculados e de remunera&ccedil;&atilde;o de capta&ccedil;&atilde;o de recursos recalculados no momento em que for realizada uma readequa&ccedil;&atilde;o.</div>";
         }
         $this->view->mensagemCustosVinculados = $mensagemCustosVinculados;
         
@@ -2956,7 +2956,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         
         if (!empty($dtAvaliacaoAdequacao)) {
             $dataMin = '2017-01-01';
-            $dataMax = '2018-27-10';
+            $dataMax = '2018-17-10';
 
             preg_match('/(\d{4}\-\d{2}\-\d{2})/', $dtAvaliacaoAdequacao[0]->computed, $date_match);
             $diaAvaliacao = $date_match[0];

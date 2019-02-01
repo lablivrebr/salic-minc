@@ -182,7 +182,7 @@ export default {
             },
             listaAcoesCoordenador: {
                 usuario: this.getUsuario,
-                atual: '',
+                atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
                 proximo: '',
                 acoes: [
                     Diligencias,
@@ -194,7 +194,7 @@ export default {
             },
             listaAcoesAssinarCoordenadorGeral: {
                 usuario: this.getUsuario,
-                atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_PARECER,
+                atual: CONST.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_PARECER,
                 proximo: CONST.ESTADO_ANALISE_PARECER,
                 idTipoDoAtoAdministrativo: CONST.ATO_ADMINISTRATIVO_PARECER_TECNICO,
                 acoes: [Diligencias, Historico, AssinarButton, Devolver, VisualizarPlanilhaButtton, VisualizarParecer],

@@ -12,7 +12,7 @@
             slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
                 <td
-                    class="text-xs-left">{{ props.item.dsSolicitacao | filtroResumoSolicitacao }} ...</td>
+                    class="text-xs-left">{{ props.item.dsSolicitacao | filtroDiminuirTexto(150) }} ...</td>
                 <td class="text-xs-left">{{ props.item.dsEncaminhamento }}</td>
                 <td>{{ props.item.dtSolicitacao | formatarData }}</td>
                 <td>{{ props.item.dtResposta | formatarData }}</td>

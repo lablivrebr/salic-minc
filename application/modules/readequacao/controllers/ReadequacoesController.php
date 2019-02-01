@@ -495,20 +495,51 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $idPronac,
         $idReadequacao
     ) {
-        $propostaTbCustosVinculados = new Proposta_Model_TbCustosVinculadosMapper();
-        $custosVinculados = $propostaTbCustosVinculados->obterCustosVinculadosReadequacao($idPronac);
+
+        $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+        $tipoReadequacao = $tbPlanilhaAprovacao->calculaSaldoReadequacaoBaseDeCusto($idPronac);
         
-        foreach ($custosVinculados as $item) {
-            $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
-            $editarItem = $tbPlanilhaAprovacao->buscar([
-                'idPronac = ?' => $idPronac,
-                'idPlanilhaItem = ?' => $item['idPlanilhaItens'],
-                'idReadequacao = ?' => $idReadequacao
-            ])->current();
+        if (in_array($tipoReadequacao, ['COMPLEMENTACAO', 'REDUCAO'])) {
+            $propostaTbCustosVinculados = new Proposta_Model_TbCustosVinculadosMapper();
+            $custosVinculados = $propostaTbCustosVinculados->obterCustosVinculadosReadequacao($idPronac);
+        
+            foreach ($custosVinculados as $item) {
+                $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+                $editarItem = $tbPlanilhaAprovacao->buscar([
+                    'idPronac = ?' => $idPronac,
+                    'idPlanilhaItem = ?' => $item['idPlanilhaItens'],
+                    'idReadequacao = ?' => $idReadequacao
+                ])->current();
             
-            $editarItem->vlUnitario = $item['valorUnitario'];
-            $editarItem->tpAcao = 'A';
-            $editarItem->save();
+                $editarItem->vlUnitario = $item['valorUnitario'];
+                $editarItem->tpAcao = 'A';
+                $editarItem->save();
+            }
+        } else if ($tipoReadequacao == 'REMANEJAMENTO') {
+                $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+                
+                $itensOriginais = $tbPlanilhaAprovacao->buscar([
+                    'idPronac = ?' => $idPronac,
+                    'idEtapa IN (?)' => [
+                        PlanilhaEtapa::ETAPA_CUSTOS_VINCULADOS,
+                        PlanilhaEtapa::ETAPA_CAPTACAO_RECURSOS
+                    ],
+                    'stAtivo = ?' => 'S'
+                ]);
+                
+                foreach ($itensOriginais as $itemOriginal) {
+                    $editarItem = $tbPlanilhaAprovacao->buscar([
+                        'idPronac = ?' => $idPronac,
+                        'idPlanilhaItem = ?' => $itemOriginal['idPlanilhaItem'],
+                        'idReadequacao = ?' => $idReadequacao
+                    ])->current();
+                    
+                    $editarItem->vlUnitario = $itemOriginal['vlUnitario'];
+                    $editarItem->tpAcao = 'N';
+                    $editarItem->save();
+                }
+        } else {
+            return;
         }
     }
 

@@ -981,4 +981,55 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
         }
         return $result;
     }
+
+    public function calculaSaldoReadequacaoBaseDeCusto($idPronac)
+    {
+
+        $baseDeCusto = [
+            PlanilhaEtapa::ETAPA_PRE_PRODUCAO_PREPARACAO,
+            PlanilhaEtapa::ETAPA_PRODUCAO_EXECUCAO,
+            PlanilhaEtapa::ETAPA_POS_PRODUCAO,
+            PlanilhaEtapa::ETAPA_ASSESORIA_CONTABIL_JURIDICA,
+            PlanilhaEtapa::ETAPA_RECOLHIMENTOS
+        ];
+
+        $tbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
+        $idReadequacao = $tbReadequacao->buscarIdReadequacaoAtiva(
+            $idPronac,
+            Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
+        );
+        
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(
+            ['a' => $this->_name],
+            [new Zend_Db_Expr('ROUND(SUM(a.qtItem*a.nrOcorrencia*a.vlUnitario), 2) AS Total')]
+        );
+        $select->where('a.IdPRONAC = ?', $idPronac);
+        $select->where('a.idReadequacao = ?', $idReadequacao);
+        $select->where('a.idEtapa IN(?)', $baseDeCusto);
+        $select->where('a.stAtivo = ?', 'N');
+        
+        $somaPlanilhaReadequada = $this->fetchRow($select)['Total'];
+
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(
+            ['a' => $this->_name],
+            [new Zend_Db_Expr('ROUND(SUM(a.qtItem*a.nrOcorrencia*a.vlUnitario), 2) AS Total')]
+        );
+        $select->where('a.IdPRONAC = ?', $idPronac);
+        $select->where('a.idEtapa IN(?)', $baseDeCusto);
+        $select->where('a.stAtivo = ?', 'S');
+        
+        $somaPlanilhaAtiva = $this->fetchRow($select)['Total'];
+        
+        if ($somaPlanilhaReadequada > $somaPlanilhaAtiva) {
+            return "COMPLEMENTACAO";
+        } else if ($somaPlanilhaReadequada == $somaPlanilhaAtiva) {
+            return "REMANEJAMENTO";
+        } else if ($somaPlanilhaReadequada < $somaPlanilhaAtiva) {
+            return "REDUCAO";
+        }
+    }
 }

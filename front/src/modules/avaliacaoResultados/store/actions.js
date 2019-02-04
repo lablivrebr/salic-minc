@@ -339,6 +339,7 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
                 const devolverProjetoData = response.data;
                 commit(types.SET_DEVOLVER_PROJETO, devolverProjetoData);
                 dispatch('projetosAssinarCoordenador', { estadoid: 9 });
+                dispatch('projetosAssinarCoordenadorGeral', { estadoid: 15 });
                 dispatch('projetosFinalizados', projetosFinalizadosEstatos);
                 dispatch('obterDadosTabelaTecnico', projetosTecnico);
                 dispatch('obterProjetosLaudoFinal', { estadoId: '10' });

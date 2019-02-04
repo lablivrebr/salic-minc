@@ -56,11 +56,6 @@
                         class="text-xs-justify"
                         width="30%"
                         v-html="$options.filters.filtroDiminuirTexto(props.item.dsJustificativaParecerista, 40)"/>
-                    <td class="text-xs-right">{{ props.item.VlSolicitado | filtroFormatarParaReal }}</td>
-                    <td
-                        class="text-xs-justify"
-                        width="30%"
-                        v-html="$options.filters.filtroDiminuirTexto(props.item.justificitivaproponente, 40)"/>
                 </tr>
             </template>
             <template
@@ -259,10 +254,8 @@
                     v-if="table && Object.keys(table).length > 0"
                     style="opacity: 0.5">
                     <td colspan="7"><b>Totais</b></td>
-                    <td class="text-xs-right"><b>{{ obterValorSolicitadoTotal(table) }}</b></td>
+                    <td class="text-xs-right"><b>{{ obterValorSugeridoTotalParecer(table) | formatarParaReal }}</b></td>
                     <td/>
-                    <td class="text-xs-right"><b>{{ obterValorSugeridoTotal(table) }}</b></td>
-                    <td colspan="2"/>
                 </tr>
             </template>
         </v-data-table>
@@ -270,14 +263,15 @@
 </template>
 
 <script>
-import planilhas from '@/mixins/planilhas';
+import MxPlanilhas from '@/mixins/planilhas';
+import MxPlanilhaParecer from '../mixins/planilhaParecer';
 import { utils } from '@/mixins/utils';
 import { mapActions, mapGetters } from 'vuex';
 import SalicInputValor from '@/components/SalicInputValor';
 
 export default {
     components: { SalicInputValor },
-    mixins: [planilhas, utils],
+    mixins: [MxPlanilhas, MxPlanilhaParecer, utils],
     props: {
         table: {
             type: Array,
@@ -299,8 +293,6 @@ export default {
                 { text: 'Vl. Unitário', align: 'right', value: 'valorUnitarioparc' },
                 { text: 'Valor Sugerido', align: 'left', value: 'VlSugeridoParecerista' },
                 { text: 'Just. Parecerista', align: 'left', value: 'dsJustificativaParecerista' },
-                { text: 'Vl. Solicitado', align: 'right', value: 'VlSolicitado' },
-                { text: 'Just. Proponente', align: 'left', value: 'justificitivaproponente' },
             ],
             itemEmEdicao: {},
             select: {},
@@ -354,41 +346,10 @@ export default {
 
             return true;
         },
-        isLinhaAlterada(row) {
-            const a1 = [
-                row.Unidade,
-                row.VlSolicitado,
-                row.ocorrenciaprop,
-                row.quantidadeprop,
-                row.diasprop,
-                row.valorUnitarioprop,
-            ];
-            const a2 = [
-                row.idUnidade,
-                row.VlSugeridoParecerista,
-                row.ocorrenciaparc,
-                row.quantidadeparc,
-                row.diasparc,
-                row.valorUnitarioparc,
-            ];
-            return JSON.stringify(a1) !== JSON.stringify(a2);
-        },
-        obterClasseItem(row) {
-            return {
-                'blue lighten-5': this.isLinhaAlterada(row),
-                'grey lighten-3 grey--text text--darken-3': row.isDisponivelParaAnalise === false,
-                ...this.definirClasseItem(row),
-            };
-        },
-        obterEstiloItem(row) {
-            return {
-                cursor: row.isDisponivelParaAnalise === false ? 'not-allowed' : 'pointer',
-            };
-        },
         validarLinha(row) {
             const isCustoPraticado = (row.stCustoPraticado === true || row.stCustoPraticado === '1' || row.stCustoPraticado === 1);
 
-            if (isCustoPraticado && row.dsJustificativaParecerista.length < 3) {
+            if (isCustoPraticado && (row.dsJustificativaParecerista === null || row.dsJustificativaParecerista.length < 3)) {
                 return {
                     valid: false,
                     message: 'Proponente ultrapassou a mediana, altere o valor solicitado ou justifique o valor solicitado',

@@ -3,6 +3,7 @@
 // Vue.config.productionTip = false
 import Vue from 'vue';
 import Vuetify from 'vuetify';
+import pt from 'vuetify/lib/locale/pt';
 import Index from './Index';
 import {
     store,

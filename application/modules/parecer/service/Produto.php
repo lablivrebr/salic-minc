@@ -214,4 +214,18 @@ class Produto implements \MinC\Servico\IServicoRestZend
 
         return $outrosProdutos;
     }
+
+    private function isProdutoSecundarioEmAnalise($idPronac)
+    {
+        $dadosWhereSA["t.stEstado = ?"] = 0;
+        $dadosWhereSA["t.FecharAnalise = ?"] = 0;
+        $dadosWhereSA["t.TipoAnalise = ?"] = 3;
+        $dadosWhereSA["p.Situacao IN ('B11', 'B14')"] = '';
+        $dadosWhereSA["p.IdPRONAC = ?"] = $idPronac;
+        $dadosWhereSA["t.stPrincipal = ?"] = 0;
+        $dadosWhereSA["t.DtDevolucao is null"] = '';
+
+        $tbDistribuirParecer = new \tbDistribuirParecer();
+        return ($tbDistribuirParecer->dadosParaDistribuir($dadosWhereSA)->count() > 0);
+    }
 }

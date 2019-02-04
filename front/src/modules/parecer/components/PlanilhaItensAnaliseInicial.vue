@@ -22,7 +22,22 @@
                     :style="obterEstiloItem(props.item)"
                     @click="props.expanded = editarItem(props)"
                 >
-                    <td class="text-xs-center">{{ props.item.Seq }}</td>
+                    <td class="text-xs-center">
+                        <v-tooltip
+                            v-if="validarLinha(props.item).valid === false"
+                            bottom>
+                            <v-badge
+                                slot="activator"
+                                left
+                                color="red"
+                            >
+                                <span slot="badge">!</span>
+                                {{ props.item.Seq }}
+                            </v-badge>
+                            <span> {{ validarLinha(props.item).message }}</span>
+                        </v-tooltip>
+                        <span v-else> {{ props.item.Seq }} </span>
+                    </td>
                     <td class="text-xs-left">
                         <a
                             v-if="props.item.isDisponivelParaAnalise===true"
@@ -31,21 +46,21 @@
                         </a>
                         <span v-else>{{ props.item.Item }}</span>
                     </td>
-                    <td class="text-xs-center">{{ props.item.UnidadeProposta }}</td>
-                    <td class="text-xs-center">{{ props.item.diasprop }}</td>
-                    <td class="text-xs-center">{{ props.item.quantidadeprop }}</td>
-                    <td class="text-xs-center">{{ props.item.ocorrenciaprop }}</td>
-                    <td class="text-xs-right">{{ props.item.valorUnitarioprop | filtroFormatarParaReal }}</td>
-                    <td class="text-xs-right">{{ props.item.VlSolicitado | filtroFormatarParaReal }}</td>
-                    <td
-                        class="text-xs-justify"
-                        width="30%"
-                        v-html="props.item.justificitivaproponente"/>
+                    <td class="text-xs-center">{{ props.item.UnidadeProjeto }}</td>
+                    <td class="text-xs-center">{{ props.item.diasparc }}</td>
+                    <td class="text-xs-center">{{ props.item.quantidadeparc }}</td>
+                    <td class="text-xs-center">{{ props.item.ocorrenciaparc }}</td>
+                    <td class="text-xs-right">{{ props.item.valorUnitarioparc | filtroFormatarParaReal }}</td>
                     <td class="text-xs-right">{{ props.item.VlSugeridoParecerista | filtroFormatarParaReal }}</td>
                     <td
                         class="text-xs-justify"
                         width="30%"
-                        v-html="props.item.dsJustificativaParecerista"/>
+                        v-html="$options.filters.filtroDiminuirTexto(props.item.dsJustificativaParecerista, 40)"/>
+                    <td class="text-xs-right">{{ props.item.VlSolicitado | filtroFormatarParaReal }}</td>
+                    <td
+                        class="text-xs-justify"
+                        width="30%"
+                        v-html="$options.filters.filtroDiminuirTexto(props.item.justificitivaproponente, 40)"/>
                 </tr>
             </template>
             <template
@@ -68,7 +83,76 @@
                                 <v-container fluid>
                                     <v-layout
                                         row
+                                        wrap
+                                        style="background: #f3f3f3"
+                                    >
+                                        <v-flex
+                                            xs12
+                                            md12
+                                        >
+                                            <h3>Valores Solicitados</h3>
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md2
+                                        >
+                                            <b>Unidade</b>
+                                            <div>{{ itemEmEdicao.UnidadeProposta }}</div>
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md1
+                                        >
+                                            <b>Dias</b>
+                                            <div>{{ itemEmEdicao.diasprop }}</div>
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md1
+                                        >
+                                            <b>Qtd.</b>
+                                            <div>{{ itemEmEdicao.quantidadeprop }}</div>
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md2
+                                        >
+                                            <b>Ocorrência</b>
+                                            <div>{{ itemEmEdicao.ocorrenciaprop }}</div>
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md2
+                                        >
+                                            <b>Vl. Unitário (R$)</b>
+                                            <div>{{ itemEmEdicao.valorUnitarioprop | filtroFormatarParaReal }}</div>
+                                        </v-flex>
+                                        <v-flex
+                                            xs12
+                                            md2
+                                        >
+                                            <b>Vl. Solicitado (R$)</b>
+                                            <div>{{ itemEmEdicao.VlSolicitado | filtroFormatarParaReal }}</div>
+                                        </v-flex>
+                                        <v-flex
+                                            xs10
+                                            md10>
+                                            <b>Justificativa</b>
+                                            <div
+                                                v-html="itemEmEdicao.justificitivaproponente"
+                                            />
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-divider class="mb-3"/>
+                                    <v-layout
+                                        row
                                         wrap>
+                                        <v-flex
+                                            xs12
+                                            md12
+                                        >
+                                            <h3>Valores parecerista</h3>
+                                        </v-flex>
                                         <v-flex
                                             xs12
                                             md2
@@ -155,6 +239,8 @@
                                     <v-btn
                                         :disabled="!valid"
                                         :loading="loading"
+                                        color="primary"
+                                        dark
                                         @click="salvarAvaliacao(itemEmEdicao)"
                                     >
                                         <v-icon
@@ -185,12 +271,13 @@
 
 <script>
 import planilhas from '@/mixins/planilhas';
+import { utils } from '@/mixins/utils';
 import { mapActions, mapGetters } from 'vuex';
 import SalicInputValor from '@/components/SalicInputValor';
 
 export default {
     components: { SalicInputValor },
-    mixins: [planilhas],
+    mixins: [planilhas, utils],
     props: {
         table: {
             type: Array,
@@ -205,15 +292,15 @@ export default {
             headers: [
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
-                { text: 'Unidade', align: 'left', value: 'UnidadeProposta' },
-                { text: 'Dias', align: 'center', value: 'diasprop' },
-                { text: 'Qtde', align: 'center', value: 'quantidadeprop' },
-                { text: 'Ocor.', align: 'center', value: 'ocorrenciaprop' },
-                { text: 'Vl. Unitário', align: 'right', value: 'valorUnitarioprop' },
-                { text: 'Vl. Solicitado', align: 'right', value: 'VlSolicitado' },
-                { text: 'Just. Proponente', align: 'left', value: 'justificitivaproponente' },
+                { text: 'Unidade', align: 'left', value: 'UnidadeProjeto' },
+                { text: 'Dias', align: 'center', value: 'diasparc' },
+                { text: 'Qtde', align: 'center', value: 'quantidadeparc' },
+                { text: 'Ocor.', align: 'center', value: 'ocorrenciaparc' },
+                { text: 'Vl. Unitário', align: 'right', value: 'valorUnitarioparc' },
                 { text: 'Valor Sugerido', align: 'left', value: 'VlSugeridoParecerista' },
                 { text: 'Just. Parecerista', align: 'left', value: 'dsJustificativaParecerista' },
+                { text: 'Vl. Solicitado', align: 'right', value: 'VlSolicitado' },
+                { text: 'Just. Proponente', align: 'left', value: 'justificitivaproponente' },
             ],
             itemEmEdicao: {},
             select: {},
@@ -296,6 +383,20 @@ export default {
         obterEstiloItem(row) {
             return {
                 cursor: row.isDisponivelParaAnalise === false ? 'not-allowed' : 'pointer',
+            };
+        },
+        validarLinha(row) {
+            const isCustoPraticado = (row.stCustoPraticado === true || row.stCustoPraticado === '1' || row.stCustoPraticado === 1);
+
+            if (isCustoPraticado && row.dsJustificativaParecerista.length < 3) {
+                return {
+                    valid: false,
+                    message: 'Proponente ultrapassou a mediana, altere o valor solicitado ou justifique o valor solicitado',
+                };
+            }
+
+            return {
+                valid: true,
             };
         },
     },

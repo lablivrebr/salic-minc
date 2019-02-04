@@ -11,13 +11,17 @@ axios.interceptors.request.use((config) => {
     return conf;
 }, err => Promise.reject(err));
 
+let instance = {};
 /* global test, dev */
+if (process.env.NODE_ENV !== 'production') {
+    const API_ENDPOINT = process.env.API === 'test' ? test.API_ENDPOINT : dev.API_ENDPOINT;
 
-const API_ENDPOINT = process.env.API === 'test' ? test.API_ENDPOINT : dev.API_ENDPOINT;
-
-const instance = axios.create({
-    baseURL: API_ENDPOINT,
-});
+    instance = axios.create({
+        baseURL: API_ENDPOINT,
+    });
+} else {
+    instance = axios.create({});
+}
 
 export const getRequest = (path, queryParams = '') => instance.get(`${path}${queryParams}`);
 

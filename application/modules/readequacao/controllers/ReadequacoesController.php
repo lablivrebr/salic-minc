@@ -510,10 +510,28 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                     'idPlanilhaItem = ?' => $item['idPlanilhaItens'],
                     'idReadequacao = ?' => $idReadequacao
                 ])->current();
-            
-                $editarItem->vlUnitario = $item['valorUnitario'];
-                $editarItem->tpAcao = 'A';
-                $editarItem->save();
+
+                $itemOriginal = $tbPlanilhaAprovacao->buscar([
+                    'idPronac = ?' => $idPronac,
+                    'idPlanilhaItem = ?' => $item['idPlanilhaItens'],
+                    'stAtivo = ?' => 'S'
+                ])->current();                
+
+                if ($itemOriginal->vlUnitario != $item['valorUnitario']) {
+                    $editarItem->vlUnitario = $item['valorUnitario'];
+                    $editarItem->tpAcao = 'A';
+
+                    $diferenca = $item['valorUnitario'] - $itemOriginal->vlUnitario;
+                    if ($diferenca > 0) {
+                        $editarItem->dsJustificativa = "Adi&ccedil;&atilde;o de R$ " . number_format($diferenca, 2);
+                    } else if ($diferenca < 0) {
+                        $editarItem->dsJustificativa = "Redu&ccedil;&atilde;o de R$ " . number_format($diferenca, 2);
+                    }
+                    $editarItem->save();
+                } else {
+                    $editarItem->tpAcao = 'N';
+                    $editarItem->save();
+                }
             }
         } else if ($tipoReadequacao == 'REMANEJAMENTO') {
                 $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();

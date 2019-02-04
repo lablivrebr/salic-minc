@@ -303,10 +303,23 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
             );
             
-            $this->atualizaCustosVinculados(
+            $atualizarCustosVinculados = $this->atualizarCustosVinculados(
                 $idPronac,
                 $idReadequacao
             );
+            
+            if ($atualizarCustosVinculados['erro']) {
+                $this->reverterAlteracaoItem(
+                    $idPronac,
+                    $idReadequacao,
+                    $itemTipoPlanilha['idPlanilhaItem']
+                );
+                
+                $this->_helper->json([
+                    'resposta' => false,
+                    'mensagem' => $atualizarCustosVinculados['mensagem']
+                ]);
+            }
             
             $this->_helper->json(array('resposta' => true));
         } else {
@@ -377,7 +390,6 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $dadosInclusao['dsItem'] = '';
             $dadosInclusao['idUnidade'] = $this->_request->getParam("newUnidade");
             $dadosInclusao['qtItem'] = $this->_request->getParam("newQuantidade");
-            $_POST['newQuantidade'];
             $dadosInclusao['nrOcorrencia'] = $this->_request->getParam("newOcorrencia");
             $dadosInclusao['vlUnitario'] = $newValorUnitario;
             $dadosInclusao['qtDias'] = $this->_request->getParam("newDias");
@@ -396,7 +408,23 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $insert = $tbPlanilhaAprovacao->inserir($dadosInclusao);
 
             if ($insert) {
-                $this->atualizaCustosVinculados($idPronac, $idReadequacao);
+                $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+                    $idPronac,
+                    $idReadequacao
+                );
+                if ($atualizarCustosVinculados['erro']) {
+                    $this->reverterAlteracaoItem(
+                        $idPronac,
+                        $idReadequacao,
+                        $dadosInclusao['idPlanilhaItem']
+                    );
+
+                    $this->_helper->json([
+                        'resposta' => false,
+                        'mensagem' => $atualizarCustosVinculados['mensagem']
+                    ]);
+                }
+                
                 $this->_helper->json(['resposta' => true]);
             } else {
                 $this->_helper->json(['resposta' => false]);
@@ -482,20 +510,37 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
         );
         
-        $this->atualizaCustosVinculados(
+        $atualizarCustosVinculados = $this->atualizarCustosVinculados(
             $idPronac,
             $idReadequacao
         );
+        
+        if ($atualizarCustosVinculados['erro']) {
+            $this->reverterAlteracaoItem(
+                $idPronac,
+                $idReadequacao,
+                $editarItem->idPlanilhaItem
+            );
+
+            $this->_helper->json([
+                'resposta' => false,
+                'mensagem' => $atualizarCustosVinculados['mensagem']
+            ]);            
+        }
         
         $this->_helper->json(array('resposta' => true, 'msg' => 'Dados salvos com sucesso!'));
         $this->_helper->viewRenderer->setNoRender(true);
     }
 
-    public function atualizaCustosVinculados(
+    public function atualizarCustosVinculados(
         $idPronac,
         $idReadequacao
     ) {
-
+        $retorno = [
+            'mensagem' => 'Custos vinculados atualizados!',
+            'erro' => false
+        ];
+        
         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
         $tipoReadequacao = $tbPlanilhaAprovacao->calculaSaldoReadequacaoBaseDeCusto($idPronac);
         
@@ -517,6 +562,16 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                     'stAtivo = ?' => 'S'
                 ])->current();                
 
+                $comprovantePagamentoxxPlanilhaAprovacao = new PrestacaoContas_Model_ComprovantePagamentoxPlanilhaAprovacao();
+                
+                $valorComprovado = $comprovantePagamentoxxPlanilhaAprovacao->valorComprovadoPorItem($idPronac, $item['idPlanilhaItens']);
+                if ($valorComprovado > $item['valorUnitario']) {
+                    
+                    $retorno['mensagem'] = "Somente ser&aacute; permitido reduzir ou excluir itens or&ccedil;ament&aacute;rios caso tal a&ccedil;&atilde;o n&atilde;o afete negativamente os custos vinculados abaixo de valores j&aacute; comprovados.";
+                    $retorno['erro'] = true;
+                    return $retorno;
+                }
+                    
                 if ($itemOriginal->vlUnitario != $item['valorUnitario']) {
                     $editarItem->vlUnitario = $item['valorUnitario'];
                     $editarItem->tpAcao = 'A';
@@ -557,8 +612,10 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                     $editarItem->save();
                 }
         } else {
-            return;
+            $retorno['erro'] = true;
         }
+
+        return $retorno;
     }
 
     /*
@@ -574,11 +631,6 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
         $editarItem = $tbPlanilhaAprovacao->buscar(array('idPlanilhaAprovacao=?' => $_POST['idPlanilha']))->current();
 
-        $this->atualizaCustosVinculados(
-            $editarItem['IdPRONAC'],
-            $editarItem['idReadequacao']
-        );
-        
         //$editarItem->idAgente = $idAgente;
         if ($editarItem->tpAcao == 'E') {
             $editarItem->tpAcao = 'N';
@@ -605,11 +657,52 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $editarItem->tpAcao = 'N';
         }
         $editarItem->save();
+
+        $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+            $editarItem->IdPRONAC,
+            $editarItem->idReadequacao
+        );
+
+        if ($atualizarCustosVinculados['erro']) {
+            $this->reverterAlteracaoItem(
+                $idPronac,
+                $editarItem->idReadequacao,
+                $editarItem->idPlanilhaItem
+            );
+            $urlCallback = "readequacao/readequacoes/planilha-orcamentaria/?idPronac=" . Seguranca::encrypt($idPronac);
+            parent::message($atualizarCustosVinculados['mensagem'], $urlCallback, "ERROR");
+        }
         
         $this->_helper->json(array('resposta' => true, 'msg' => 'Dados salvos com sucesso!'));
         $this->_helper->viewRenderer->setNoRender(true);
     }
 
+
+    public function reverterAlteracaoItem(
+        $idPronac,
+        $idReadequacao,
+        $idPlanilhaItem
+    ) {
+        $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+                
+        $itemOriginal = $tbPlanilhaAprovacao->buscar([
+            'idPronac = ?' => $idPronac,
+            'idPlanilhaItem = ?' => $idPlanilhaItem,
+            'stAtivo = ?' => 'S'
+        ])->current();
+        
+        $itemAlterado = $tbPlanilhaAprovacao->buscar([
+            'idPronac = ?' => $idPronac,
+            'idPlanilhaItem = ?' => $idPlanilhaItem,
+            'idReadequacao = ?' => $idReadequacao
+        ])->current();                
+        
+        $itemAlterado->vlUnitario = $itemOriginal->vlUnitario;
+        $itemAlterado->qtItem = $itemOriginal->qtItem;
+        $itemAlterado->nrOcorrencia = $itemOriginal->nrOcorrencia;
+        $itemAlterado->save();
+    }
+    
     /*
      * Criada em 18/03/2014
      * @author: Jefferson Alessandro - jeffersonassilva@gmail.com

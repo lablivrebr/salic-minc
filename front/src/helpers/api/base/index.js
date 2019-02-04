@@ -11,10 +11,18 @@ axios.interceptors.request.use((config) => {
     return conf;
 }, err => Promise.reject(err));
 
-export const getRequest = (path, queryParams = '') => axios.get(`${path}${queryParams}`);
+/* global test, dev */
 
-export const postRequest = (path, data) => axios.post(path, data);
+const API_ENDPOINT = process.env.API === 'test' ? test.API_ENDPOINT : dev.API_ENDPOINT;
 
-export const putRequest = (path, bodyFormData, id) => axios.post(`${path}/${id}`, bodyFormData);
+const instance = axios.create({
+    baseURL: API_ENDPOINT,
+});
 
-export const deleteRequest = (path, id) => axios.delete(`${path}/${id}`);
+export const getRequest = (path, queryParams = '') => instance.get(`${path}${queryParams}`);
+
+export const postRequest = (path, data) => instance.post(path, data);
+
+export const putRequest = (path, bodyFormData, id) => instance.post(`${path}/${id}`, bodyFormData);
+
+export const deleteRequest = (path, id) => instance.delete(`${path}/${id}`);

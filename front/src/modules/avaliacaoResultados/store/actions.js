@@ -333,8 +333,6 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
         };
     }
 
-    console.info(params);
-
     if (params.idTipoDoAtoAdministrativo === '622' && params.proximo === '5') {
         avaliacaoResultadosHelperAPI.alterarEstado(params)
             .then((response) => {

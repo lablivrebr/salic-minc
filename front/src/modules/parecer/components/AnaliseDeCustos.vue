@@ -1,15 +1,34 @@
 <template>
     <div>
-        <s-planilha
-            v-if="Object.keys(planilha).length > 0"
-            :array-planilha="planilha">
-            <template slot-scope="slotProps">
-                <s-planilha-itens-analise-inicial :table="slotProps.itens"/>
-            </template>
-        </s-planilha>
-        <s-carregando
-            v-else
-            :text="'Carregando Planilha'"/>
+        <v-layout row>
+            <v-flex
+                xs12
+                sm12
+                md6>
+                <s-planilha
+                    v-if="Object.keys(planilha).length > 0"
+                    :array-planilha="planilha">
+                    <template slot-scope="slotProps">
+                        <s-planilha-itens-comparacao :table="slotProps.itens"/>
+                    </template>
+                </s-planilha>
+            </v-flex>
+            <v-flex
+                xs12
+                sm12
+                md6>
+                <s-planilha
+                    v-if="Object.keys(planilha).length > 0"
+                    :array-planilha="planilha">
+                    <template slot-scope="slotProps">
+                        <s-planilha-itens-analise-inicial :table="slotProps.itens"/>
+                    </template>
+                </s-planilha>
+                <s-carregando
+                    v-else
+                    :text="'Carregando Planilha'"/>
+            </v-flex>
+        </v-layout>
     </div>
 </template>
 
@@ -18,11 +37,13 @@
 import { mapActions, mapGetters } from 'vuex';
 import SPlanilha from '@/components/Planilha/Planilha';
 import SPlanilhaItensAnaliseInicial from './PlanilhaItensAnaliseInicial';
+import SPlanilhaItensComparacao from './PlanilhaItensComparacao';
 import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'AnaliseDeCustos',
     components: {
+        SPlanilhaItensComparacao,
         SPlanilha,
         SPlanilhaItensAnaliseInicial,
         SCarregando,

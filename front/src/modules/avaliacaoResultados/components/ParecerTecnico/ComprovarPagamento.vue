@@ -20,25 +20,25 @@
             </v-card-title>
             <v-card-text>
                 <div class="my-3">
-                    <div class="d-inline-block text-xs-right">
+                    <div class="d-inline-block mr-5">
                         <h4>Data Início da Execução</h4>
-                        {{ dadosProjeto.dtInicioExecucao | dataMasc }}
+                        <p class="text-xs-left">{{ dadosProjeto.dtInicioExecucao | dataMasc }}</p>
                     </div>
-                    <div class="d-inline-block ml-5 text-xs-right">
+                    <div class="d-inline-block mr-5">
                         <h4>Data Final da Execução</h4>
-                        {{ dadosProjeto.dtFimExecucao | dataMasc }}
+                        <p class="text-xs-left">{{ dadosProjeto.dtFimExecucao | dataMasc }}</p>
                     </div>
-                    <div class="d-inline-block ml-5 text-xs-right">
+                    <div class="d-inline-block mr-5">
                         <h4>Valor Aprovado</h4>
-                        R$ {{ dadosProjeto.vlAprovado | moedaMasc }}
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlAprovado | moedaMasc }}</p>
                     </div>
-                    <div class="d-inline-block ml-5 text-xs-right">
+                    <div class="d-inline-block mr-5">
                         <h4>Valor Comprovado</h4>
-                        R$ {{ dadosProjeto.vlComprovado | moedaMasc }}
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovado | moedaMasc }}</p>
                     </div>
-                    <div class="d-inline-block ml-5 text-xs-right">
+                    <div class="d-inline-block">
                         <h4>Valor a Comprovar</h4>
-                        R$ {{ dadosProjeto.vlComprovar | moedaMasc }}
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovar | moedaMasc }}</p>
                     </div>
                 </div>
             </v-card-text>
@@ -51,6 +51,48 @@
                     dark
                 >VER PROJETO</v-btn>
             </v-card-actions>
+        </v-card>
+
+        <v-card class="mt-3">
+            <v-card-title primary-title>
+                <h2>Item: {{ dadosItem.Item }}</h2>
+            </v-card-title>
+            <v-card-text>
+                <div class="my-3">
+                    <div class="d-inline-block mr-5">
+                        <h4>Produto</h4>
+                        <p class="text-xs-left">{{ dadosItem.Produto }}</p>
+                    </div>
+                    <div class="d-inline-block mr-5">
+                        <h4>Etapa</h4>
+                        <p class="text-xs-left">{{ dadosItem.Etapa }}</p>
+                    </div>
+                    <div class="d-inline-block mr-5">
+                        <h4>UF</h4>
+                        <p class="text-xs-left">{{ dadosItem.uf }}</p>
+                    </div>
+                    <div class="d-inline-block mr-5">
+                        <h4>Cidade</h4>
+                        <p class="text-xs-left">{{ dadosItem.cidade }}</p>
+                    </div>
+                    <div class="d-inline-block mr-5">
+                        <h4>Itens de Custo</h4>
+                        <p class="text-xs-left">{{ dadosItem.Item }}</p>
+                    </div>
+                    <div class="d-inline-block mr-5">
+                        <h4>Aprovado</h4>
+                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado | moedaMasc }}</p>
+                    </div>
+                    <div class="d-inline-block mr-5">
+                        <h4>Total Comprovado</h4>
+                        <p class="text-xs-left">R$ {{ dadosItem.vlComprovado | moedaMasc }}</p>
+                    </div>
+                    <div class="d-inline-block">
+                        <h4>Faltando Comprovar</h4>
+                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado - dadosItem.vlComprovado | moedaMasc }}</p>
+                    </div>
+                </div>
+            </v-card-text>
         </v-card>
 
     </v-container>
@@ -79,22 +121,45 @@ export default {
     data() {
         return {
             idPronac: this.$route.params.id,
+            // idUf: this.$route.params.idUf,
+            uf: this.$route.params.uf,
+            produto: this.$route.params.produto,
+            cidade: this.$route.params.cidade,
+            etapa: this.$route.params.etapa,
+            // idPlanilhaAprovacao: this.$route.params.idPlanilha,
+            idPlanilhaItens: this.$route.params.idItens,
         };
     },
     computed: {
         ...mapGetters({
             getDadosProjeto: 'avaliacaoResultados/getDadosProjeto',
+            getDadosItem: 'avaliacaoResultados/getDadosItem',
         }),
         dadosProjeto() {
             return this.getDadosProjeto;
         },
+        dadosItemParams() {
+            return {
+                idPronac: this.idPronac,
+                uf: this.uf,
+                etapa: this.etapa,
+                cidade: this.cidade,
+                produto: this.produto,
+                idPlanilhaItens: this.idPlanilhaItens,
+            };
+        },
+        dadosItem() {
+            return this.getDadosItem;
+        },
     },
     mounted() {
         this.setDadosProjeto(this.idPronac);
+        this.setDadosItem(this.dadosItemParams);
     },
     methods: {
         ...mapActions({
             setDadosProjeto: 'avaliacaoResultados/getDadosProjeto',
+            setDadosItem: 'avaliacaoResultados/getDadosItem',
         }),
     },
 };

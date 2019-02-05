@@ -15,7 +15,7 @@
                     :expand-all="expandAll"
                 >
                     <template slot-scope="slotProps">
-                        <s-planilha-itens-comparacao :table="slotProps.itens"/>
+                        <s-planilha-itens-visualizar-solicitado :table="slotProps.itens"/>
                     </template>
                 </s-planilha>
             </div>
@@ -96,7 +96,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import SPlanilha from '@/components/Planilha/Planilha';
 import SPlanilhaItensAnaliseInicial from './PlanilhaItensAnaliseInicial';
-import SPlanilhaItensComparacao from './PlanilhaItensComparacao';
+import SPlanilhaItensVisualizarSolicitado from './PlanilhaItensVisualizarSolicitado';
 import SCarregando from '@/components/CarregandoVuetify';
 import ResizePanel from '@/components/resize-panel/ResizeSplitPane';
 
@@ -104,7 +104,7 @@ export default {
     name: 'AnaliseDeCustos',
     components: {
         ResizePanel,
-        SPlanilhaItensComparacao,
+        SPlanilhaItensVisualizarSolicitado,
         SPlanilha,
         SPlanilhaItensAnaliseInicial,
         SCarregando,

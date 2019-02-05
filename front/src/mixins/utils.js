@@ -29,6 +29,24 @@ export const utils = {
         isDataExpirada(date) {
             return moment().diff(date, 'days') > 0;
         },
+        converterParaMoedaAmericana(valor) {
+            if (!valor) {
+                return 0;
+            }
+
+            let novoValor = String(valor);
+            novoValor = novoValor.replace(/\./g, '');
+            // eslint-disable-next-line
+            novoValor = novoValor.replace(/\,/g, '.');
+            novoValor = parseFloat(novoValor);
+            novoValor = novoValor.toFixed(2);
+            // eslint-disable-next-line
+            if (isNaN(novoValor)) {
+                novoValor = 0;
+            }
+
+            return novoValor;
+        },
     },
     filters: {
         formatarData(date) {

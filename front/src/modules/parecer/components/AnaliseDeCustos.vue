@@ -29,6 +29,9 @@
                 </s-planilha>
             </div>
         </PaneRs>
+        <s-carregando
+            v-else
+            :text="'Carregando Planilha'"/>
 
         <v-fab-transition>
             <v-tooltip

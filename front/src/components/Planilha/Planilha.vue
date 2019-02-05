@@ -2,15 +2,22 @@
     <div
         v-if="arrayPlanilha"
         class="planilha-orcamentaria">
-        <s-collapsible-recursivo :planilha="arrayPlanilha">
+        <s-collapsible-recursivo
+            :planilha="arrayPlanilha"
+            :panel="panel"
+        >
             <template slot-scope="slotProps">
                 <slot :itens="slotProps.itens">
                     <s-planilha-itens-padrao :table="slotProps.itens"/>
                 </slot>
             </template>
         </s-collapsible-recursivo>
-        <div class="text-xs-right pa-3">
-            <span><b>Valor total do projeto:</b> R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}</span>
+        <div
+            v-if="arrayPlanilha.total"
+            class="text-xs-right pa-3">
+            <span><b>Valor total do projeto:</b>
+                R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}
+            </span>
         </div>
     </div>
     <div v-else>Nenhuma planilha encontrada</div>
@@ -19,7 +26,7 @@
 <script>
 import SPlanilhaItensPadrao from '@/components/Planilha/PlanilhaItensPadrao';
 import SPlanilhaConsolidacao from '@/components/Planilha/PlanilhaConsolidacao';
-import MixinsPlanilhas from '@/mixins/planilhas';
+import MxPlanilhas from '@/mixins/planilhas';
 
 const SCollapsibleRecursivo = {
     name: 'SCollapsibleRecursivo',
@@ -29,13 +36,46 @@ const SCollapsibleRecursivo = {
             default: 1,
             type: Number,
         },
+        panel: {
+            type: Array,
+            default: () => [1, 1, 1],
+        },
     },
-    mixins: [MixinsPlanilhas],
+    data() {
+        return {
+            headers: [
+                {
+                    id: 1,
+                    icon: 'beenhere',
+                    color: '#F44336',
+                },
+                {
+                    id: 2,
+                    icon: 'perm_media',
+                    color: '#4CAF50',
+                },
+                {
+                    id: 3,
+                    icon: 'label',
+                    color: '#ff9800',
+                },
+                {
+                    id: 4,
+                    icon: 'place',
+                    color: '#2196F3',
+                },
+            ],
+        };
+    },
+    mounted() {
+        console.log('panel', this.panel);
+    },
+    mixins: [MxPlanilhas],
     render(h) {
         const self = this;
         if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
             return h('VExpansionPanel',
-                { props: { expand: true, value: [1, 1, 1] }, attrs: { expand: 'expand' }, class: '' },
+                { props: { expand: true, value: self.panel }, attrs: { expand: 'expand' } },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
                         const badgeHeader = self.planilha[key].total ? h('VChip',
@@ -57,10 +97,12 @@ const SCollapsibleRecursivo = {
                                             'justify-space-between': true,
                                         },
                                         slot: 'header',
-                                        style: { color: self.obterCorHeader(self.contador) },
+                                        style: { color: self.getHeader(self.contador).color },
                                     },
                                     [
-                                        h('i', { class: `material-icons mt-2 pl-${self.contador * 1 + 1}` }, [self.obterIconeHeader(self.contador)]),
+                                        h('i',
+                                            { class: `material-icons mt-2 pl-${self.contador * 1 + 1}` },
+                                            [self.getHeader(self.contador).icon]),
                                         h('span', { class: 'ml-2 mt-2' }, key),
                                         h('VSpacer'),
                                         badgeHeader,
@@ -93,45 +135,8 @@ const SCollapsibleRecursivo = {
         return true;
     },
     methods: {
-        obterIconeHeader(tipo) {
-            let icone = '';
-            switch (tipo) {
-            case 1:
-                icone = 'beenhere';
-                break;
-            case 2:
-                icone = 'perm_media';
-                break;
-            case 3:
-                icone = 'label';
-                break;
-            case 4:
-                icone = 'place';
-                break;
-            default:
-                icone = '';
-            }
-            return icone;
-        },
-        obterCorHeader(tipo) {
-            let cor = '';
-            switch (tipo) {
-            case 1:
-                cor = '#F44336';
-                break;
-            case 2:
-                cor = '#4CAF50';
-                break;
-            case 3:
-                cor = '#ff9800';
-                break;
-            case 4:
-                cor = '#2196F3';
-                break;
-            default:
-                cor = '';
-            }
-            return cor;
+        getHeader(id) {
+            return this.headers.find(element => element.id === id);
         },
     },
 };
@@ -142,12 +147,24 @@ export default {
         SCollapsibleRecursivo,
         SPlanilhaItensPadrao,
     },
-    mixins: [MixinsPlanilhas],
+    mixins: [MxPlanilhas],
     props: {
         arrayPlanilha: {
             type: Object,
             default: () => {},
         },
+        expand: {
+            type: Array,
+            default: () => [],
+        },
+    },
+    data() {
+        return {
+            panel: [2, 1, 1],
+        };
+    },
+    mounted() {
+        console.log(this.expand.length, this.panel);
     },
 };
 </script>

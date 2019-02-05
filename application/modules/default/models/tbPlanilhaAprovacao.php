@@ -1009,6 +1009,8 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
         $select->where('a.idReadequacao = ?', $idReadequacao);
         $select->where('a.idEtapa IN(?)', $baseDeCusto);
         $select->where('a.stAtivo = ?', 'N');
+        $select->where('a.tpAcao != ?', 'E');
+        $select->where('a.nrFonteRecurso = ?', Mecanismo::INCENTIVO_FISCAL_FEDERAL);
         
         $somaPlanilhaReadequada = $this->fetchRow($select)['Total'];
 
@@ -1021,6 +1023,7 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
         $select->where('a.IdPRONAC = ?', $idPronac);
         $select->where('a.idEtapa IN(?)', $baseDeCusto);
         $select->where('a.stAtivo = ?', 'S');
+        $select->where('a.nrFonteRecurso = ?', Mecanismo::INCENTIVO_FISCAL_FEDERAL);
         
         $somaPlanilhaAtiva = $this->fetchRow($select)['Total'];
         

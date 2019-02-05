@@ -13,10 +13,19 @@ import AnalisarItem from './components/ParecerTecnico/AnalisarItem';
 import VisualizarParecer from './components/components/VisualizarParecer';
 import VisualizarLaudo from './components/LaudoFinal/VisualizarLaudo';
 import Comprovante from './components/ParecerTecnico/Comprovante';
+import ComprovarPagamento from './components/ParecerTecnico/ComprovarPagamento';
 
 Vue.use(Router);
 
 const routes = [
+    {
+        path: '/comprovar-pagamento/:id',
+        name: 'ComprovarPagamento',
+        component: ComprovarPagamento,
+        meta: {
+            title: 'Comprovar Pagamento',
+        },
+    },
     {
         path: '/comprovante/:id',
         name: 'Comprovante',

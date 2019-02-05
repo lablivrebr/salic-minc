@@ -573,13 +573,8 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 if ($itemOriginal->vlUnitario != $item['valorUnitario']) {
                     $editarItem->vlUnitario = $item['valorUnitario'];
                     $editarItem->tpAcao = 'A';
+                    $editarItem->dsJustificativa = "Recalculo autom&aacute;tico com base no percentual solicitado pelo proponente ao enviar a proposta ao MinC.";
 
-                    $diferenca = $item['valorUnitario'] - $itemOriginal->vlUnitario;
-                    if ($diferenca > 0) {
-                        $editarItem->dsJustificativa = "Adi&ccedil;&atilde;o de R$ " . number_format($diferenca, 2);
-                    } else if ($diferenca < 0) {
-                        $editarItem->dsJustificativa = "Redu&ccedil;&atilde;o de R$ " . number_format($diferenca, 2);
-                    }
                     $editarItem->save();
                 } else {
                     $editarItem->tpAcao = 'N';

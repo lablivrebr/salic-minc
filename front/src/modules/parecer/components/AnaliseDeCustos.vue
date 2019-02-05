@@ -1,59 +1,93 @@
 <template>
     <div @keydown.esc="compararPlanilha = false">
-        <PaneRs
+        <resize-panel
             v-if="Object.keys(planilha).length > 0"
             :allow-resize="true"
             :size="size"
             units="percents"
             split-to="columns"
         >
-
             <div
                 v-if="compararPlanilha === true"
                 slot="firstPane">
                 <s-planilha
-                    :array-planilha="planilha">
+                    :array-planilha="planilha"
+                    :expand-all="expandAll"
+                >
                     <template slot-scope="slotProps">
                         <s-planilha-itens-comparacao :table="slotProps.itens"/>
                     </template>
                 </s-planilha>
             </div>
-
             <div
                 slot="secondPane">
                 <s-planilha
-                    :array-planilha="planilha">
+                    :array-planilha="planilha"
+                    :expand-all="expandAll"
+                >
                     <template slot-scope="slotProps">
                         <s-planilha-itens-analise-inicial :table="slotProps.itens"/>
                     </template>
                 </s-planilha>
             </div>
-        </PaneRs>
+        </resize-panel>
         <s-carregando
             v-else
             :text="'Carregando Planilha'"/>
-
-        <v-fab-transition>
+        <v-speed-dial
+            v-if="active && Object.keys(planilha).length > 0"
+            v-model="fab"
+            bottom
+            right
+            direction="top"
+            open-on-hover
+            transition="slide-y-reverse-transition"
+            fixed
+        >
+            <v-btn
+                slot="activator"
+                v-model="fab"
+                color="red darken-2"
+                dark
+                fab
+            >
+                <v-icon>add</v-icon>
+                <v-icon>close</v-icon>
+            </v-btn>
             <v-tooltip
-                v-if="active && Object.keys(planilha).length > 0"
                 left>
                 <v-btn
                     slot="activator"
-                    v-model="compararPlanilha"
+                    fab
+                    dark
+                    small
+                    color="green"
+                    @click="expandAll = !expandAll"
+                >
+                    <v-icon v-if="expandAll">grid_off</v-icon>
+                    <v-icon v-else>grid_on</v-icon>
+                </v-btn>
+                <span
+                    v-if="expandAll"
+                    medium>Esconder itens da planilha</span>
+                <span
+                    v-else
+                    medium>Mostrar itens da planilha</span>
+            </v-tooltip>
+            <v-tooltip left>
+                <v-btn
+                    slot="activator"
                     color="teal"
                     dark
+                    small
                     fab
-                    fixed
-                    bottom
-                    right
                     @click="compararPlanilha = !compararPlanilha"
                 >
-                    <v-icon>vertical_split</v-icon>
-                    <v-icon>reorder</v-icon>
+                    <v-icon medium>vertical_split</v-icon>
                 </v-btn>
                 <span>Comparar planilha</span>
             </v-tooltip>
-        </v-fab-transition>
+        </v-speed-dial>
     </div>
 </template>
 
@@ -64,12 +98,12 @@ import SPlanilha from '@/components/Planilha/Planilha';
 import SPlanilhaItensAnaliseInicial from './PlanilhaItensAnaliseInicial';
 import SPlanilhaItensComparacao from './PlanilhaItensComparacao';
 import SCarregando from '@/components/CarregandoVuetify';
-import PaneRs from '@/components/resize-panel/ResizeSplitPane';
+import ResizePanel from '@/components/resize-panel/ResizeSplitPane';
 
 export default {
     name: 'AnaliseDeCustos',
     components: {
-        PaneRs,
+        ResizePanel,
         SPlanilhaItensComparacao,
         SPlanilha,
         SPlanilhaItensAnaliseInicial,
@@ -79,6 +113,8 @@ export default {
         return {
             compararPlanilha: false,
             size: 50,
+            expandAll: true,
+            fab: false,
         };
     },
     computed: {

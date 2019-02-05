@@ -4,7 +4,8 @@
         class="planilha-orcamentaria">
         <s-collapsible-recursivo
             :planilha="arrayPlanilha"
-            :panel="panel"
+            :headers="headers"
+            :expand-all="expandAll"
         >
             <template slot-scope="slotProps">
                 <slot :itens="slotProps.itens">
@@ -36,51 +37,25 @@ const SCollapsibleRecursivo = {
             default: 1,
             type: Number,
         },
-        panel: {
+        headers: {
             type: Array,
-            default: () => [1, 1, 1],
+            required: true,
         },
-    },
-    data() {
-        return {
-            headers: [
-                {
-                    id: 1,
-                    icon: 'beenhere',
-                    color: '#F44336',
-                },
-                {
-                    id: 2,
-                    icon: 'perm_media',
-                    color: '#4CAF50',
-                },
-                {
-                    id: 3,
-                    icon: 'label',
-                    color: '#ff9800',
-                },
-                {
-                    id: 4,
-                    icon: 'place',
-                    color: '#2196F3',
-                },
-            ],
-        };
-    },
-    mounted() {
-        console.log('panel', this.panel);
+        expandAll: {
+            type: Boolean,
+            required: true,
+        },
     },
     mixins: [MxPlanilhas],
     render(h) {
         const self = this;
         if (this.isObject(self.planilha) && typeof self.planilha.itens === 'undefined') {
             return h('VExpansionPanel',
-                { props: { expand: true, value: self.panel }, attrs: { expand: 'expand' } },
+                { props: { value: self.toggleExpand(this.planilha, self.contador) }, attrs: { expand: 'expand' } },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
                         const badgeHeader = self.planilha[key].total ? h('VChip',
                             {
-                                class: '',
                                 attrs: {
                                     outline: 'outline',
                                     label: 'label',
@@ -108,12 +83,13 @@ const SCollapsibleRecursivo = {
                                         badgeHeader,
                                     ]),
                                 h('div',
-                                    { class: '' },
                                     [
                                         h(SCollapsibleRecursivo, {
                                             props: {
                                                 planilha: self.planilha[key],
                                                 contador: self.contador + 1,
+                                                headers: self.headers,
+                                                expandAll: self.expandAll,
                                             },
                                             scopedSlots: { default: self.$scopedSlots.default },
                                         }),
@@ -138,6 +114,14 @@ const SCollapsibleRecursivo = {
         getHeader(id) {
             return this.headers.find(element => element.id === id);
         },
+        toggleExpand(table, contador) {
+            const lastItem = this.headers.slice(-1)[0];
+            if (this.expandAll !== true && lastItem.id === contador) {
+                return [];
+            }
+
+            return [...Object.keys(table)].map(() => true);
+        },
     },
 };
 
@@ -153,18 +137,36 @@ export default {
             type: Object,
             default: () => {},
         },
-        expand: {
+        headers: {
             type: Array,
-            default: () => [],
+            default: () => [
+                {
+                    id: 1,
+                    icon: 'beenhere',
+                    color: '#F44336',
+                },
+                {
+                    id: 2,
+                    icon: 'perm_media',
+                    color: '#4CAF50',
+                },
+                {
+                    id: 3,
+                    icon: 'label',
+                    color: '#ff9800',
+                },
+                {
+                    id: 4,
+                    icon: 'place',
+                    color: '#2196F3',
+                },
+
+            ],
         },
-    },
-    data() {
-        return {
-            panel: [2, 1, 1],
-        };
-    },
-    mounted() {
-        console.log(this.expand.length, this.panel);
+        expandAll: {
+            type: Boolean,
+            default: true,
+        },
     },
 };
 </script>

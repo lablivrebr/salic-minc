@@ -17,7 +17,10 @@
                 slot="items"
                 slot-scope="props"
             >
-                <tr>
+                <tr
+                    :class="obterClasseItem(props.item)"
+                    :style="obterEstiloItem(props.item)"
+                >
                     <td class="text-xs-center">{{ props.item.Seq }}</td>
                     <td class="text-xs-left">{{ props.item.Item }}</td>
                     <td class="text-xs-center">{{ props.item.UnidadeProposta }}</td>
@@ -26,10 +29,6 @@
                     <td class="text-xs-center">{{ props.item.ocorrenciaprop }}</td>
                     <td class="text-xs-right">{{ props.item.valorUnitarioprop | filtroFormatarParaReal }}</td>
                     <td class="text-xs-right">{{ props.item.VlSolicitado | filtroFormatarParaReal }}</td>
-                    <td
-                        class="text-xs-justify"
-                        width="30%"
-                        v-html="$options.filters.filtroDiminuirTexto(props.item.justificitivaproponente, 40)"/>
                 </tr>
             </template>
             <template slot="footer">
@@ -37,10 +36,7 @@
                     v-if="table && Object.keys(table).length > 0"
                     style="opacity: 0.5">
                     <td colspan="7"><b>Totais</b></td>
-                    <td class="text-xs-right"><b>{{ obterValorSolicitadoTotal(table) }}</b></td>
-                    <td/>
-                    <td class="text-xs-right"><b>{{ obterValorSugeridoTotal(table) }}</b></td>
-                    <td colspan="3"/>
+                    <td class="text-xs-right"><b>{{ obterValorSolicitadoTotalParecer(table) | formatarParaReal }}</b></td>
                 </tr>
             </template>
         </v-data-table>
@@ -75,7 +71,6 @@ export default {
                 { text: 'Ocor.', align: 'center', value: 'ocorrenciaprop' },
                 { text: 'Vl. Unitário', align: 'right', value: 'valorUnitarioprop' },
                 { text: 'Vl. Solicitado', align: 'right', value: 'VlSolicitado' },
-                { text: 'Just. Proponente', align: 'left', value: 'justificitivaproponente' },
             ],
             itemEmEdicao: {},
             select: {},

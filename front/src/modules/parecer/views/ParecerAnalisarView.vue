@@ -82,23 +82,6 @@
                             Próximo
                         </v-btn>
                     </v-stepper-content>
-
-                    <v-fab-transition>
-                        <v-btn
-                            v-if="Object.keys(activeFab).length > 0"
-                            :color="activeFab.color"
-                            :key="activeFab.icon"
-                            v-model="fab"
-                            dark
-                            fab
-                            fixed
-                            bottom
-                            right
-                        >
-                            <v-icon>{{ activeFab.icon }}</v-icon>
-                            <v-icon>close</v-icon>
-                        </v-btn>
-                    </v-fab-transition>
                 </v-stepper-items>
             </v-stepper>
         </template>

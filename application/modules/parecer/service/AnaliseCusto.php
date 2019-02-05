@@ -186,8 +186,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         if (strlen(trim($params['dsJustificativaParecerista'])) < 11) {
             throw new \Exception('Parecer incompleto ou n&atilde;o informado');
         }
-
-        if ($params['VlSugeridoParecerista'] > $params['VlSolicitado'] ) {
+        if (round($params['VlSugeridoParecerista'], 2) > round($params['VlSolicitado'], 2)) {
             throw new \Exception('Valor sugerido não pode ser maior que o solicitado');
         }
 

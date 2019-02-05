@@ -547,7 +547,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         if (in_array($tipoReadequacao, ['COMPLEMENTACAO', 'REDUCAO'])) {
             $propostaTbCustosVinculados = new Proposta_Model_TbCustosVinculadosMapper();
             $custosVinculados = $propostaTbCustosVinculados->obterCustosVinculadosReadequacao($idPronac);
-        
+            
             foreach ($custosVinculados as $item) {
                 $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
                 $editarItem = $tbPlanilhaAprovacao->buscar([
@@ -556,12 +556,10 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                     'idReadequacao = ?' => $idReadequacao
                 ])->current();
 
-                $itemOriginal = $tbPlanilhaAprovacao->buscar([
-                    'idPronac = ?' => $idPronac,
-                    'idPlanilhaItem = ?' => $item['idPlanilhaItens'],
-                    'stAtivo = ?' => 'S'
-                ])->current();                
-
+                if (!$editarItem) {
+                    continue;
+                }
+                
                 $comprovantePagamentoxxPlanilhaAprovacao = new PrestacaoContas_Model_ComprovantePagamentoxPlanilhaAprovacao();
                 
                 $valorComprovado = $comprovantePagamentoxxPlanilhaAprovacao->valorComprovadoPorItem($idPronac, $item['idPlanilhaItens']);
@@ -571,7 +569,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                     $retorno['erro'] = true;
                     return $retorno;
                 }
-                    
+                
                 if ($itemOriginal->vlUnitario != $item['valorUnitario']) {
                     $editarItem->vlUnitario = $item['valorUnitario'];
                     $editarItem->tpAcao = 'A';
@@ -657,7 +655,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $editarItem->tpAcao = 'N';
         }
         $editarItem->save();
-
+        
         $atualizarCustosVinculados = $this->atualizarCustosVinculados(
             $editarItem->IdPRONAC,
             $editarItem->idReadequacao
@@ -665,12 +663,14 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
 
         if ($atualizarCustosVinculados['erro']) {
             $this->reverterAlteracaoItem(
-                $idPronac,
+                $editarItem->IdPRONAC,
                 $editarItem->idReadequacao,
                 $editarItem->idPlanilhaItem
             );
-            $urlCallback = "readequacao/readequacoes/planilha-orcamentaria/?idPronac=" . Seguranca::encrypt($idPronac);
-            parent::message($atualizarCustosVinculados['mensagem'], $urlCallback, "ERROR");
+            $this->_helper->json([
+                'resposta' => false,
+                'mensagem' => $atualizarCustosVinculados['mensagem']
+            ]);
         }
         
         $this->_helper->json(array('resposta' => true, 'msg' => 'Dados salvos com sucesso!'));

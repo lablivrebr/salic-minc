@@ -184,7 +184,10 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
         ];
 
         foreach ($itensEmReadequacao as $item) {
-            if (in_array($item->idEtapa, $etapasSomaDivulgacaoAdministracao) && $item->tpAcao != 'E') {
+            if (in_array($item->idEtapa, $etapasSomaDivulgacaoAdministracao)
+                && $item->tpAcao != 'E'
+                && $item->nrFonteRecurso == Mecanismo::INCENTIVO_FISCAL_FEDERAL
+            ) {
                 $totalParaDivulgacaoAdministracao += $item->vlUnitario * $item->qtItem * $item->nrOcorrencia;
             }
         }

@@ -185,7 +185,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosExtratosBancarios: 'projeto/extratosBancarios',
+            dadosExtratosBancarios: 'dadosBancarios/extratosBancarios',
         }),
     },
     watch: {
@@ -228,7 +228,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarExtratosBancarios: 'projeto/buscarExtratosBancarios',
+            buscarExtratosBancarios: 'dadosBancarios/buscarExtratosBancarios',
         }),
         filtrarData(response) {
             const params = {

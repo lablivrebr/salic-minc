@@ -60,7 +60,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/dadosComplementares',
+            dados: 'outrasInformacoes/dadosComplementares',
         }),
     },
     watch: {
@@ -75,7 +75,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarDadosComplementares: 'projeto/buscarDadosComplementares',
+            buscarDadosComplementares: 'outrasInformacoes/buscarDadosComplementares',
         }),
     },
 };

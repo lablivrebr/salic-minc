@@ -137,7 +137,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosConta: 'projeto/contasBancarias',
+            dadosConta: 'dadosBancarios/contasBancarias',
         }),
     },
     watch: {
@@ -156,7 +156,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarContasBancarias: 'projeto/buscarContasBancarias',
+            buscarContasBancarias: 'dadosBancarios/buscarContasBancarias',
         }),
     },
 };

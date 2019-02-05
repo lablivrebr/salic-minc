@@ -87,7 +87,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            dados: 'projeto/tramitacaoProjeto',
+            dados: 'outrasInformacoes/tramitacaoProjeto',
         }),
     },
     mounted() {
@@ -97,7 +97,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarTramitacaoProjeto: 'projeto/buscarTramitacaoProjeto',
+            buscarTramitacaoProjeto: 'outrasInformacoes/buscarTramitacaoProjeto',
         }),
     },
 };

@@ -102,7 +102,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/pedidoProrrogacao',
+            dados: 'execucao/pedidoProrrogacao',
         }),
     },
     watch: {
@@ -117,7 +117,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarPedidoProrrogacao: 'projeto/buscarPedidoProrrogacao',
+            buscarPedidoProrrogacao: 'execucao/buscarPedidoProrrogacao',
         }),
     },
 };

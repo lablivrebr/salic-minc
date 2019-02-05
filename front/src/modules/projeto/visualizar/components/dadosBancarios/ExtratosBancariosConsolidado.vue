@@ -167,7 +167,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosExtratosConsolidado: 'projeto/extratosBancariosConsolidado',
+            dadosExtratosConsolidado: 'dadosBancarios/extratosBancariosConsolidado',
         }),
     },
     watch: {
@@ -197,7 +197,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarExtratosBancariosConsolidado: 'projeto/buscarExtratosBancariosConsolidado',
+            buscarExtratosBancariosConsolidado: 'dadosBancarios/buscarExtratosBancariosConsolidado',
         }),
         print() {
             this.d.print(this.$el, this.cssText);

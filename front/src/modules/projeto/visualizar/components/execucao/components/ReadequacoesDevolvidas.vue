@@ -85,7 +85,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosReadequacao: 'projeto/dadosReadequacoes',
+            dadosReadequacao: 'execucao/dadosReadequacoes',
         }),
     },
     watch: {
@@ -100,7 +100,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarDadosReadequacoes: 'projeto/buscarDadosReadequacoes',
+            buscarDadosReadequacoes: 'execucao/buscarDadosReadequacoes',
         }),
     },
 };

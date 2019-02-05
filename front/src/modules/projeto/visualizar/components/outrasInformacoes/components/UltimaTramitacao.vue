@@ -93,7 +93,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            dados: 'projeto/ultimaTramitacao',
+            dados: 'outrasInformacoes/ultimaTramitacao',
         }),
     },
     mounted() {
@@ -103,7 +103,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarUltimaTramitacao: 'projeto/buscarUltimaTramitacao',
+            buscarUltimaTramitacao: 'outrasInformacoes/buscarUltimaTramitacao',
         }),
     },
 };

@@ -231,7 +231,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosIn2017: 'projeto/planoDistribuicaoIn2017',
+            dadosIn2017: 'outrasInformacoes/planoDistribuicaoIn2017',
         }),
     },
     watch: {
@@ -250,7 +250,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarPlanoDistribuicaoIn2017: 'projeto/buscarPlanoDistribuicaoIn2017',
+            buscarPlanoDistribuicaoIn2017: 'outrasInformacoes/buscarPlanoDistribuicaoIn2017',
         }),
         label_sim_ou_nao(valor) {
             if (valor === 1) {

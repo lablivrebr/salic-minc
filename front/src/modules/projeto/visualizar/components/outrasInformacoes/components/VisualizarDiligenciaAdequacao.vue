@@ -124,7 +124,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosDiligencia: 'projeto/diligenciaAdequacao',
+            dadosDiligencia: 'outrasInformacoes/diligenciaAdequacao',
         }),
     },
     methods: {
@@ -136,7 +136,7 @@ export default {
             this.dialog = true;
         },
         ...mapActions({
-            buscarDiligenciaAdequacao: 'projeto/buscarDiligenciaAdequacao',
+            buscarDiligenciaAdequacao: 'outrasInformacoes/buscarDiligenciaAdequacao',
         }),
     },
 };

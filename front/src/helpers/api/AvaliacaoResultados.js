@@ -127,3 +127,5 @@ export const projetosPorEstado = (params) => {
 export const salvarAvaliacaoComprovante = params => api.postRequest('/avaliacao-resultados/avaliacao-comprovante/', buildData(params));
 
 export const dadosComprovacao = params => api.getRequest(`/prestacao-contas/pagamento/planilha-pagamento/idpronac/${params}`);
+
+export const dadosProjeto = params => api.getRequest(`/prestacao-contas/pagamento/planilha-dados-projeto/idpronac/${params}`);

@@ -403,3 +403,11 @@ export const getDadosComprovacao = ({ commit }, params) => {
             commit(types.GET_DADOS_COMPROVACAO, dadosComprovacaoFinanceira);
         });
 };
+
+export const getDadosProjeto = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.dadosProjeto(params)
+        .then((response) => {
+            const dadosProjeto = response.data;
+            commit(types.GET_DADOS_PROJETO, dadosProjeto);
+        });
+};

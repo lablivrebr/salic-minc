@@ -62,8 +62,8 @@
                 slot="expand"
                 slot-scope="props">
                 <v-layout
-                    row
-                    justify-center
+                    wrap
+                    column
                     class="blue-grey lighten-5 pa-2">
                     <v-card>
                         <v-card-title class="py-1">
@@ -71,6 +71,12 @@
                         </v-card-title>
                         <v-divider/>
                         <v-card-text>
+                            <v-alert
+                                :value="messageAlert.length > 0"
+                                type="warning"
+                            >
+                                {{ messageAlert }}
+                            </v-alert>
                             <v-form
                                 ref="form"
                                 v-model="valid"
@@ -167,6 +173,8 @@
                                         >
                                             <v-text-field
                                                 v-model="itemEmEdicao.diasparc"
+                                                :rules="[rules.required, rules.maiorQueZero]"
+                                                type="number"
                                                 label="Dias"
                                                 required
                                             />
@@ -177,6 +185,8 @@
                                         >
                                             <v-text-field
                                                 v-model="itemEmEdicao.quantidadeparc"
+                                                :rules="[rules.required, rules.maiorQueZero]"
+                                                type="number"
                                                 label="Qtd."
                                                 required
                                             />
@@ -187,6 +197,8 @@
                                         >
                                             <v-text-field
                                                 v-model="itemEmEdicao.ocorrenciaparc"
+                                                :rules="[rules.required, rules.maiorQueZero]"
+                                                type="number"
                                                 label="Ocorrência"
                                                 required
                                             />
@@ -196,8 +208,8 @@
                                             md2
                                         >    <SalicInputValor
                                             v-model="itemEmEdicao.valorUnitarioparc"
+                                            :rules="[rules.required, rules.maiorQueZero]"
                                             label="Vl. Unitário (R$)"
-                                            required
                                         />
                                         </v-flex>
                                         <v-flex
@@ -206,6 +218,7 @@
                                         >
                                             <v-text-field
                                                 :value="valorSugerido | filtroFormatarParaReal"
+                                                :rules="valorSugeridoRules"
                                                 label="Vl. Sugerido"
                                                 readonly
                                             />
@@ -219,6 +232,7 @@
                                             md10>
                                             <v-textarea
                                                 v-model="itemEmEdicao.dsJustificativaParecerista"
+                                                :rules="justificativaRules"
                                                 label="Justificativa para alterar o item"
                                                 name="justificativa"
                                                 counter="500"
@@ -235,7 +249,6 @@
                                         :disabled="!valid"
                                         :loading="loading"
                                         color="primary"
-                                        dark
                                         @click="salvarAvaliacao(itemEmEdicao)"
                                     >
                                         <v-icon
@@ -283,6 +296,9 @@ export default {
             valid: false,
             expand: false,
             loading: false,
+            maxChars: 500,
+            minChars: 10,
+            messageAlert: '',
             headers: [
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
@@ -294,8 +310,18 @@ export default {
                 { text: 'Valor Sugerido', align: 'left', value: 'VlSugeridoParecerista' },
                 { text: 'Just. Parecerista', align: 'left', value: 'dsJustificativaParecerista' },
             ],
-            itemEmEdicao: {},
+            itemEmEdicao: {
+                VlSugeridoParecerista: '',
+                ocorrenciaparc: 0,
+                quantidadeparc: 0,
+                valorUnitarioparc: 0,
+                diasparc: 0,
+            },
             select: {},
+            rules: {
+                required: v => !!v || 'Campo obrigatório',
+                maiorQueZero: v => this.converterParaMoedaAmericana(v) >= 0 || 'Não pode ser menor que zero',
+            },
         };
     },
     computed: {
@@ -308,8 +334,30 @@ export default {
                 * this.itemEmEdicao.quantidadeparc
             );
         },
+        valorSugeridoRules() {
+            return [v => (!!v && this.valorSugerido) <= this.itemEmEdicao.VlSolicitado
+                || 'O valor sugerido não pode ser maior que o valor solicitado.'];
+        },
+        justificativaRules() {
+            const rules = [];
+            rules.push(v => !!v || 'Justificativa &eacute; obrigat&oacute;ria');
+            rules.push(v => v.length <= this.maxChars || `O parecer não pode ultrapassar ${this.maxChars} caracteres`);
+            rules.push(v => v.length >= this.minChars || `O parecer deve ter no mínimo ${this.minChars} caracteres`);
+            return rules;
+        },
     },
     watch: {
+        itemEmEdicao: {
+            handler(val) {
+                const validacao = this.validarLinha(val);
+                this.messageAlert = '';
+                if (validacao.valid === false) {
+                    console.log('validooooo');
+                    this.messageAlert = validacao.message;
+                }
+            },
+            deep: true,
+        },
         select(value) {
             this.itemEmEdicao.idUnidade = value.idUnidade;
             this.itemEmEdicao.UnidadeProjeto = value.Descricao;
@@ -323,13 +371,18 @@ export default {
             salvarAvaliacaoItem: 'parecer/salvarAvaliacaoItem',
         }),
         editarItem(props) {
-            // this.$set(this, 'itemEmEdicao', props.item);
             if (props.item.isDisponivelParaAnalise === false) {
                 return false;
             }
 
+            // this.$set(this, 'itemEmEdicao', props.item);
             this.itemEmEdicao = Object.assign({}, props.item);
-            this.select = { idUnidade: this.itemEmEdicao.idUnidade, Sigla: '', Descricao: this.itemEmEdicao.UnidadeProjeto };
+            this.select = {
+                idUnidade: this.itemEmEdicao.idUnidade,
+                Descricao: this.itemEmEdicao.UnidadeProjeto,
+                Sigla: '',
+            };
+
             return !props.expanded;
         },
         salvarAvaliacao(avaliacao) {
@@ -347,18 +400,23 @@ export default {
             return true;
         },
         validarLinha(row) {
-            const isCustoPraticado = (row.stCustoPraticado === true || row.stCustoPraticado === '1' || row.stCustoPraticado === 1);
+            const isCustoPraticado = (row.stCustoPraticado === true
+                || row.stCustoPraticado === '1'
+                || row.stCustoPraticado === 1);
+            let validacao = {
+                valid: true,
+                message: '',
+            };
 
-            if (isCustoPraticado && (row.dsJustificativaParecerista === null || row.dsJustificativaParecerista.length < 3)) {
-                return {
+            if (isCustoPraticado && (row.dsJustificativaParecerista === null
+                || row.dsJustificativaParecerista.length < this.minChars)) {
+                validacao = {
                     valid: false,
                     message: 'Proponente ultrapassou a mediana, altere o valor solicitado ou justifique o valor solicitado',
                 };
             }
 
-            return {
-                valid: true,
-            };
+            return validacao;
         },
     },
 };

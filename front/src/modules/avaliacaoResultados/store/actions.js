@@ -411,3 +411,11 @@ export const getDadosProjeto = ({ commit }, params) => {
             commit(types.GET_DADOS_PROJETO, dadosProjeto);
         });
 };
+
+export const getDadosItem = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.dadosItem(params)
+        .then((response) => {
+            const dadosItem = response.data;
+            commit(types.GET_DADOS_ITEM, dadosItem);
+        });
+};

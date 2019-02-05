@@ -47,6 +47,7 @@ export const state = {
     projetosAssinarCoordenadorGeral: {},
     dadosComprovacao: {},
     dadosProjeto: {},
+    dadosItem: {},
 };
 
 export const mutations = {
@@ -242,5 +243,8 @@ export const mutations = {
     },
     [types.GET_DADOS_PROJETO](state, dados) {
         state.dadosProjeto = dados;
+    },
+    [types.GET_DADOS_ITEM](state, dados) {
+        state.dadosItem = dados;
     },
 };

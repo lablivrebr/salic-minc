@@ -129,3 +129,21 @@ export const salvarAvaliacaoComprovante = params => api.postRequest('/avaliacao-
 export const dadosComprovacao = params => api.getRequest(`/prestacao-contas/pagamento/planilha-pagamento/idpronac/${params}`);
 
 export const dadosProjeto = params => api.getRequest(`/prestacao-contas/pagamento/planilha-dados-projeto/idpronac/${params}`);
+
+export const dadosItem = (params) => {
+    const modulo = '/prestacao-contas';
+    const controller = '/pagamento';
+    const action = '/item';
+
+    const idPronac = `/idpronac/${params.idPronac}`;
+    const uf = `/uf/${params.uf}`;
+    const produto = `/produto/${params.produto}`;
+    const cidade = `/cidade/${params.cidade}`;
+    const etapa = `/etapa/${params.etapa}`;
+    const idPlanilhaItens = `/idPlanilhaItens/${params.idPlanilhaItens}`;
+
+    const url = modulo + controller + action;
+    const queryParams = `${idPronac}${uf}${etapa}${cidade}${produto}${idPlanilhaItens}`;
+
+    return api.getRequest(url + queryParams);
+};

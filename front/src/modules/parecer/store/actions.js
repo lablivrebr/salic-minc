@@ -71,7 +71,7 @@ export const obterProdutosSecundarios = ({ commit }, params) => {
         });
 };
 
-export const salvarAvaliacaoItem = async ({ commit }, avaliacao) => {
+export const salvarAvaliacaoItem = async ({ commit, dispatch }, avaliacao) => {
     const valor = await parecerHelperAPI.salvarAvaliacaoItem(avaliacao)
         .then((response) => {
             commit(types.UPDATE_ITEM_PLANILHA, avaliacao);
@@ -82,6 +82,7 @@ export const salvarAvaliacaoItem = async ({ commit }, avaliacao) => {
                     text: response.data.message,
                 },
                 { root: true });
+            dispatch('atualizarCustosVinculados', response.data.data.custosVinculados);
             return response.data;
         }).catch((e) => {
             commit('noticias/SET_DADOS',
@@ -94,6 +95,12 @@ export const salvarAvaliacaoItem = async ({ commit }, avaliacao) => {
             throw new TypeError(e.response.data.message, 'salvarAnaliseItem', 10);
         });
     return valor;
+};
+
+export const atualizarCustosVinculados = ({ commit }, data) => {
+    data.forEach((item) => {
+        commit(types.UPDATE_ITEM_PLANILHA, item);
+    });
 };
 
 export const obterAnaliseConteudoSecundario = ({ commit }, params) => {

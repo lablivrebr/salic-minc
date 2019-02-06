@@ -240,7 +240,7 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
             'PPJ.idUnidade',
             'PPJ.idEtapa',
                 new Zend_Db_Expr('(PPJ.Quantidade * PPJ.Ocorrencia * PPJ.ValorUnitario) AS VlSugeridoParecerista'),
-                new Zend_Db_Expr('CAST(PPJ.Justificativa as TEXT) as dsJustificativaParecerista'),
+                new Zend_Db_Expr('ISNULL(CAST(PPJ.Justificativa as TEXT), \'\') as dsJustificativaParecerista'),
             'PPJ.Quantidade AS quantidadeparc',
             'PPJ.Ocorrencia AS ocorrenciaparc',
             'PPJ.ValorUnitario AS valorUnitarioparc',

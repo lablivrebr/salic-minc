@@ -463,6 +463,10 @@
                     </tr>
                 </table>
 
+                <?php if ($this->mensagemCustosVinculados != ""): ?>
+                <div class="yellow accent-4" style="padding:7px"><?php echo $this->mensagemCustosVinculados; ?></div>
+                <?php endif; ?>
+
                 <table class="tabela">
                     <tr>
                         <td><input type="button" name="grid1" id="g1_1" class="btn_adicionar" title="Expandir"/>DADOS DA

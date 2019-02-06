@@ -67,36 +67,39 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
     public function obter()
     {
-        $idProduto = (int) $this->request->getParam('id');
-        $idPronac = (int) $this->request->getParam('idPronac');
-        $stPrincipal = (int) $this->request->getParam('stPrincipal');
+        $idProduto = (int)$this->request->getParam('id');
+        $idPronac = (int)$this->request->getParam('idPronac');
+        $stPrincipal = (int)$this->request->getParam('stPrincipal');
 
-        if(empty($idProduto) || empty($idPronac))  {
+        if (empty($idProduto) || empty($idPronac)) {
             throw new \Exception("Dados obrigat&oacute;rios n&atilde;o informados");
         }
 
-        $PlanilhaDAO = new \PlanilhaProjeto();
+        $where = [
+            'PPJ.IdPRONAC = ?' => $idPronac,
+            'PD.Descricao is not null' => null
+        ];
+
         if ($stPrincipal == 1) {
-            $where = array('PPJ.IdPRONAC = ?' => $idPronac, 'PPJ.IdProduto in (0, ?)' => $idProduto);
-        } else {
-            $where = array(
+            $where = [
                 'PPJ.IdPRONAC = ?' => $idPronac,
-                'PD.Descricao is not null' => null
-            );
+                'PPJ.IdProduto in (0, ?)' => $idProduto
+            ];
         }
 
+        $PlanilhaDAO = new \PlanilhaProjeto();
         $planilha = $PlanilhaDAO->buscarAnaliseCustos($where)->toArray();
 
         $analisedeConteudoDAO = new \Analisedeconteudo();
         $analisedeConteudo = $analisedeConteudoDAO->dadosAnaliseconteudo(
             false,
-            array(
+            [
                 'idPronac = ?' => $idPronac,
                 'idProduto = ?' => $idProduto
-            )
+            ]
         );
         $planilha = \TratarArray::utf8EncodeArray($planilha);
-        $planilhaMontada  = $this->montarPlanilha($planilha, $analisedeConteudo, $stPrincipal);
+        $planilhaMontada = $this->montarPlanilha($planilha, $analisedeConteudo, $stPrincipal);
         $resp = $planilhaMontada;
         $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idProduto, $idPronac) && $analisedeConteudo[0]->ParecerFavoravel == 1;
 
@@ -126,7 +129,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             $regiao = $item['UF'] . ' - ' . $item['Cidade'];
 
             $row["Seq"] = $i;
-            $row['isDisponivelParaAnalise'] = $this->isItemDisponivelParaAnalise($item) ;
+            $row['isDisponivelParaAnalise'] = $this->isItemDisponivelParaAnalise($item);
 
             $planilha['total'] += $row["vlSolicitado"];
 //            $planilha[$fonte]['total'] += $row["VlSolicitado"];
@@ -143,7 +146,8 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         return $planilha;
     }
 
-    private function isItemDisponivelParaVisualizacao($item, $analisedeConteudo, $stPrincipal) {
+    private function isItemDisponivelParaVisualizacao($item, $analisedeConteudo, $stPrincipal)
+    {
         $idProdutoAnalise = $analisedeConteudo[0]->idProduto;
 
         if (empty($item['idProduto']) && $stPrincipal == 1) {
@@ -151,14 +155,15 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         }
 
 
-        if($item['idProduto'] == $idProdutoAnalise) {
+        if ($item['idProduto'] == $idProdutoAnalise) {
             return true;
         }
 
         return false;
     }
 
-    private function isItemDisponivelParaAnalise($item) {
+    private function isItemDisponivelParaAnalise($item)
+    {
 
         if (in_array($item['idEtapa'], self::ETAPAS_NAO_EDITAVEIS)) {
             return false;
@@ -183,6 +188,10 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             throw new \Exception('Falta id do item');
         }
 
+        if (!$params['IdPRONAC']) {
+            throw new \Exception('Falta id do projeto');
+        }
+
         if (strlen(trim($params['dsJustificativaParecerista'])) < 11) {
             throw new \Exception('Parecer incompleto ou n&atilde;o informado');
         }
@@ -191,20 +200,37 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         }
 
         $dados = [
-            'idUnidade'=> $params['idUnidade'],
-            'Quantidade'=> $params['quantidadeparc'],
-            'Ocorrencia'=> $params['ocorrenciaparc'],
-            'ValorUnitario'=> $params['valorUnitarioparc'],
-            'QtdeDias'=> $params['diasparc'],
-            'Justificativa'=> utf8_decode($params['dsJustificativaParecerista']),
-            'idUsuario'=> $this->idUsuario,
+            'idUnidade' => $params['idUnidade'],
+            'Quantidade' => $params['quantidadeparc'],
+            'Ocorrencia' => $params['ocorrenciaparc'],
+            'ValorUnitario' => $params['valorUnitarioparc'],
+            'QtdeDias' => $params['diasparc'],
+            'Justificativa' => utf8_decode($params['dsJustificativaParecerista']),
+            'idUsuario' => $this->idUsuario,
         ];
 
         $where = ['idPlanilhaProjeto = ?' => $params['idPlanilhaProjeto']];
         $planilhaProjeto = new \PlanilhaProjeto();
         $planilhaProjeto->alterar($dados, $where);
 
-        return $params;
+        $tbPlanilhaProjetoMapper = new \Planilha_Model_TbPlanilhaProjetoMapper();
+        $tbPlanilhaProjetoMapper->atualizarCustosVinculadosDaTbPlanilhaProjeto($params['IdPRONAC']);
+
+        $where = [
+            'PPJ.IdPRONAC = ?' => $params['IdPRONAC'],
+            'PPJ.idEtapa in (?)' => [
+                \Proposta_Model_TbPlanilhaEtapa::CUSTOS_VINCULADOS,
+                \Proposta_Model_TbPlanilhaEtapa::CAPTACAO_DE_RECURSOS,
+            ]
+        ];
+
+        $PlanilhaDAO = new \PlanilhaProjeto();
+        $itensCustosVinculados = $PlanilhaDAO->buscarAnaliseCustos($where)->toArray();
+
+        return [
+            'item' => $params,
+            'custosVinculados' => $itensCustosVinculados
+        ];
     }
 
 }

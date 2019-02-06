@@ -159,7 +159,7 @@
                                             md2
                                         >
                                             <v-select
-                                                v-model="select"
+                                                v-model="comboUnidade"
                                                 :items="unidades"
                                                 label="Unidade"
                                                 item-text="Descricao"
@@ -173,7 +173,7 @@
                                         >
                                             <v-text-field
                                                 v-model="itemEmEdicao.diasparc"
-                                                :rules="[rules.required, rules.maiorQueZero]"
+                                                :rules="[rules.required, rules.menorQueZero]"
                                                 type="number"
                                                 label="Dias"
                                                 required
@@ -185,7 +185,7 @@
                                         >
                                             <v-text-field
                                                 v-model="itemEmEdicao.quantidadeparc"
-                                                :rules="[rules.required, rules.maiorQueZero]"
+                                                :rules="[rules.required, rules.menorQueZero]"
                                                 type="number"
                                                 label="Qtd."
                                                 required
@@ -197,7 +197,7 @@
                                         >
                                             <v-text-field
                                                 v-model="itemEmEdicao.ocorrenciaparc"
-                                                :rules="[rules.required, rules.maiorQueZero]"
+                                                :rules="[rules.required, rules.menorQueZero]"
                                                 type="number"
                                                 label="Ocorrência"
                                                 required
@@ -208,7 +208,7 @@
                                             md2
                                         >    <SalicInputValor
                                             v-model="itemEmEdicao.valorUnitarioparc"
-                                            :rules="[rules.required, rules.maiorQueZero]"
+                                            :rules="[rules.required, rules.menorQueZero]"
                                             label="Vl. Unitário (R$)"
                                         />
                                         </v-flex>
@@ -317,10 +317,10 @@ export default {
                 valorUnitarioparc: 0,
                 diasparc: 0,
             },
-            select: {},
+            comboUnidade: {},
             rules: {
                 required: v => !!v || 'Campo obrigatório',
-                maiorQueZero: v => this.converterParaMoedaAmericana(v) >= 0 || 'Não pode ser menor que zero',
+                menorQueZero: v => this.converterParaMoedaAmericana(v) >= 0 || 'Não pode ser menor que zero',
             },
         };
     },
@@ -352,13 +352,12 @@ export default {
                 const validacao = this.validarLinha(val);
                 this.messageAlert = '';
                 if (validacao.valid === false) {
-                    console.log('validooooo');
                     this.messageAlert = validacao.message;
                 }
             },
             deep: true,
         },
-        select(value) {
+        comboUnidade(value) {
             this.itemEmEdicao.idUnidade = value.idUnidade;
             this.itemEmEdicao.UnidadeProjeto = value.Descricao;
         },
@@ -375,9 +374,8 @@ export default {
                 return false;
             }
 
-            // this.$set(this, 'itemEmEdicao', props.item);
-            this.itemEmEdicao = Object.assign({}, props.item);
-            this.select = {
+            this.itemEmEdicao = Object.assign(this.itemEmEdicao, props.item);
+            this.comboUnidade = {
                 idUnidade: this.itemEmEdicao.idUnidade,
                 Descricao: this.itemEmEdicao.UnidadeProjeto,
                 Sigla: '',

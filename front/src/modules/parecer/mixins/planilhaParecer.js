@@ -24,7 +24,7 @@ export default {
         },
         obterClasseItem(row) {
             return {
-                'red lighten-5': this.isLinhaAlterada(row),
+                'light-blue lighten-5': this.isLinhaAlterada(row),
                 'grey lighten-3 grey--text text--darken-3': row.isDisponivelParaAnalise === false,
                 ...this.definirClasseItem(row),
             };

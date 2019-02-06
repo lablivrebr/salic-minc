@@ -4,8 +4,8 @@ export const state = {
     marcasAnexadas: [],
     dadosReadequacoes: [],
     pedidoProrrogacao: [],
-    dadosFiscalizacaoLista: [],
-    dadosFiscalizacaoVisualiza: [],
+    dadosFiscalizacaoLista: {},
+    dadosFiscalizacaoVisualiza: {},
 };
 
 export const mutations = {

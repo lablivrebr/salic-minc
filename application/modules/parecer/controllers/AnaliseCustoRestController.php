@@ -67,7 +67,7 @@ class Parecer_AnaliseCustoRestController extends MinC_Controller_Rest_Abstract
 
             $this->customRenderJsonResponse(
                 [
-                    'data' => $resposta,
+                    'data' => \TratarArray::utf8EncodeArray($resposta),
                     'message' => html_entity_decode('Avalia&ccedil;&atilde;o realizada com sucesso')
                 ], 200);
 

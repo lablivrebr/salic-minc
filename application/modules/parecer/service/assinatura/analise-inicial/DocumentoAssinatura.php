@@ -112,8 +112,8 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
         $codOrgao = $grupoAtivo->codOrgao;
 
         $objOrgao = new \Orgaos();
-        $resultOrgao = $objOrgao->pesquisarNomeOrgao($codOrgao);
-        $view->nomeOrgao = $resultOrgao[0]['NomeOrgao'];
+        $resultOrgao = $objOrgao->codigoOrgaoSuperior($codOrgao);
+        $view->nomeOrgao = $resultOrgao[0]['Sigla'];
         $view->orgaoSuperior = $resultOrgao[0]['Superior'];
         
         $objProjeto = new \Projeto_Model_DbTable_Projetos();

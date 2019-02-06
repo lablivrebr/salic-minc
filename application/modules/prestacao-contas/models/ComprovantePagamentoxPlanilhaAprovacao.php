@@ -102,4 +102,39 @@ class PrestacaoContas_Model_ComprovantePagamentoxPlanilhaAprovacao extends MinC_
             throw new Exception('Comprova��o de pagamento do item acima do valor aprovado.');
         }
     }
+
+    public function valorComprovadoPorItem($idPronac, $idPlanilhaItem)
+    {
+        $select = $this->select()->setIntegrityCheck(false);
+        $select->from(
+            ['cpxpa' => $this->_name],
+            ['vlComprovado' => new Zend_Db_Expr('sum(vlComprovado)')],
+            $this->_schema
+        );
+
+        $select->joinInner(
+            ['cp' => 'tbComprovantePagamento'],
+            'cpxpa.idComprovantePagamento = cp.idComprovantePagamento',
+            '',
+            $this->_schema
+        );
+
+        $select->joinInner(
+            ['pa' => 'tbPlanilhaAprovacao'],
+            'cpxpa.idPlanilhaAprovacao = pa.idPlanilhaAprovacao',
+            '',
+            'sac.dbo'
+        );
+
+        $select->where('pa.idPronac = ?', $idPronac);
+        $select->where('pa.idPlanilhaItem = ?', $idPlanilhaItem);
+        $select->group('idPlanilhaItem');
+
+        $result = $this->fetchRow($select);
+        
+        if (!empty($result)) {
+            return $result['vlComprovado'];
+        }
+        return false;        
+    }
 }

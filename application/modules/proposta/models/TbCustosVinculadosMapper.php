@@ -184,7 +184,10 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
         ];
 
         foreach ($itensEmReadequacao as $item) {
-            if (in_array($item->idEtapa, $etapasSomaDivulgacaoAdministracao) && $item->tpAcao != 'E') {
+            if (in_array($item->idEtapa, $etapasSomaDivulgacaoAdministracao)
+                && $item->tpAcao != 'E'
+                && $item->nrFonteRecurso == Mecanismo::INCENTIVO_FISCAL_FEDERAL
+            ) {
                 $totalParaDivulgacaoAdministracao += $item->vlUnitario * $item->qtItem * $item->nrOcorrencia;
             }
         }
@@ -235,7 +238,7 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
         $tbPlanilhaProposta = new Proposta_Model_DbTable_TbPlanilhaProposta();
         $valorDoProjeto = $tbPlanilhaProposta->somarPlanilhaPropostaPorEtapa(
             $idPreProjeto,
-            Mecanismo::INCENTIVO_FISCAL,
+            Mecanismo::INCENTIVO_FISCAL_FEDERAL,
             null,
             [
                 'idPlanilhaEtapa in (?)' => [
@@ -314,7 +317,7 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                 'TipoDespesa' => '0',
                 'TipoPessoa' => '0',
                 'contraPartida' => '0',
-                'FonteRecurso' => Mecanismo::INCENTIVO_FISCAL,
+                'FonteRecurso' => Mecanismo::INCENTIVO_FISCAL_FEDERAL,
                 'UfDespesa' => $item['idUF'],
                 'MunicipioDespesa' => $item['idMunicipio'],
                 'dsJustificativa' => '',

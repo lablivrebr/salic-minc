@@ -296,6 +296,31 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
 
         if ($exclusaoLogica) {
             //$jsonEncode = json_encode($dadosPlanilha);
+
+            $tbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
+            $idReadequacao = $tbReadequacao->buscarIdReadequacaoAtiva(
+                $idPronac,
+                Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
+            );
+            
+            $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+                $idPronac,
+                $idReadequacao
+            );
+            
+            if ($atualizarCustosVinculados['erro']) {
+                $this->reverterAlteracaoItem(
+                    $idPronac,
+                    $idReadequacao,
+                    $itemTipoPlanilha['idPlanilhaItem']
+                );
+                
+                $this->_helper->json([
+                    'resposta' => false,
+                    'mensagem' => $atualizarCustosVinculados['mensagem']
+                ]);
+            }
+            
             $this->_helper->json(array('resposta' => true));
         } else {
             $this->_helper->json(array('resposta' => false));
@@ -333,6 +358,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $idEtapa = $this->_request->getParam("newEtapa");
         $idPlanilhaItem = $this->_request->getParam("newItem");
         $idMunicipioDespesa = $this->_request->getParam("newMunicipio");
+        $idReadequacao = $this->_request->getParam("idReadequacao");
 
         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
         $existeItemSemelhante = $tbPlanilhaAprovacao->itemJaAdicionado(
@@ -364,7 +390,6 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $dadosInclusao['dsItem'] = '';
             $dadosInclusao['idUnidade'] = $this->_request->getParam("newUnidade");
             $dadosInclusao['qtItem'] = $this->_request->getParam("newQuantidade");
-            $_POST['newQuantidade'];
             $dadosInclusao['nrOcorrencia'] = $this->_request->getParam("newOcorrencia");
             $dadosInclusao['vlUnitario'] = $newValorUnitario;
             $dadosInclusao['qtDias'] = $this->_request->getParam("newDias");
@@ -378,11 +403,28 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $dadosInclusao['idAgente'] = $idAgente;
             $dadosInclusao['stAtivo'] = 'N';
             $dadosInclusao['tpAcao'] = 'I';
-            $dadosInclusao['idReadequacao'] = $this->_request->getParam("idReadequacao");
+            $dadosInclusao['idReadequacao'] = $idReadequacao;
 
             $insert = $tbPlanilhaAprovacao->inserir($dadosInclusao);
 
             if ($insert) {
+                $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+                    $idPronac,
+                    $idReadequacao
+                );
+                if ($atualizarCustosVinculados['erro']) {
+                    $this->reverterAlteracaoItem(
+                        $idPronac,
+                        $idReadequacao,
+                        $dadosInclusao['idPlanilhaItem']
+                    );
+
+                    $this->_helper->json([
+                        'resposta' => false,
+                        'mensagem' => $atualizarCustosVinculados['mensagem']
+                    ]);
+                }
+                
                 $this->_helper->json(['resposta' => true]);
             } else {
                 $this->_helper->json(['resposta' => false]);
@@ -462,8 +504,111 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
 //        $editarItem->idAgente = $auth->getIdentity()->IdUsuario;
         $editarItem->save();
 
+        $tbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
+        $idReadequacao = $tbReadequacao->buscarIdReadequacaoAtiva(
+            $idPronac,
+            Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
+        );
+        
+        $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+            $idPronac,
+            $idReadequacao
+        );
+        
+        if ($atualizarCustosVinculados['erro']) {
+            $this->reverterAlteracaoItem(
+                $idPronac,
+                $idReadequacao,
+                $editarItem->idPlanilhaItem
+            );
+
+            $this->_helper->json([
+                'resposta' => false,
+                'mensagem' => $atualizarCustosVinculados['mensagem']
+            ]);            
+        }
+        
         $this->_helper->json(array('resposta' => true, 'msg' => 'Dados salvos com sucesso!'));
         $this->_helper->viewRenderer->setNoRender(true);
+    }
+
+    public function atualizarCustosVinculados(
+        $idPronac,
+        $idReadequacao
+    ) {
+        $retorno = [
+            'mensagem' => 'Custos vinculados atualizados!',
+            'erro' => false
+        ];
+        
+        $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+        $tipoReadequacao = $tbPlanilhaAprovacao->calculaSaldoReadequacaoBaseDeCusto($idPronac);
+        
+        if (in_array($tipoReadequacao, ['COMPLEMENTACAO', 'REDUCAO'])) {
+            $propostaTbCustosVinculados = new Proposta_Model_TbCustosVinculadosMapper();
+            $custosVinculados = $propostaTbCustosVinculados->obterCustosVinculadosReadequacao($idPronac);
+            
+            foreach ($custosVinculados as $item) {
+                $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+                $editarItem = $tbPlanilhaAprovacao->buscar([
+                    'idPronac = ?' => $idPronac,
+                    'idPlanilhaItem = ?' => $item['idPlanilhaItens'],
+                    'idReadequacao = ?' => $idReadequacao
+                ])->current();
+
+                if (!$editarItem) {
+                    continue;
+                }
+                
+                $comprovantePagamentoxxPlanilhaAprovacao = new PrestacaoContas_Model_ComprovantePagamentoxPlanilhaAprovacao();
+                
+                $valorComprovado = $comprovantePagamentoxxPlanilhaAprovacao->valorComprovadoPorItem($idPronac, $item['idPlanilhaItens']);
+                if ($valorComprovado > $item['valorUnitario']) {
+                    
+                    $retorno['mensagem'] = "Somente ser&aacute; permitido reduzir ou excluir itens or&ccedil;ament&aacute;rios caso tal a&ccedil;&atilde;o n&atilde;o afete negativamente os custos vinculados abaixo de valores j&aacute; comprovados.";
+                    $retorno['erro'] = true;
+                    return $retorno;
+                }
+                
+                if ($itemOriginal->vlUnitario != $item['valorUnitario']) {
+                    $editarItem->vlUnitario = $item['valorUnitario'];
+                    $editarItem->tpAcao = 'A';
+                    $editarItem->dsJustificativa = "Recalculo autom&aacute;tico com base no percentual solicitado pelo proponente ao enviar a proposta ao MinC.";
+
+                    $editarItem->save();
+                } else {
+                    $editarItem->tpAcao = 'N';
+                    $editarItem->save();
+                }
+            }
+        } else if ($tipoReadequacao == 'REMANEJAMENTO') {
+                $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+                
+                $itensOriginais = $tbPlanilhaAprovacao->buscar([
+                    'idPronac = ?' => $idPronac,
+                    'idEtapa IN (?)' => [
+                        PlanilhaEtapa::ETAPA_CUSTOS_VINCULADOS,
+                        PlanilhaEtapa::ETAPA_CAPTACAO_RECURSOS
+                    ],
+                    'stAtivo = ?' => 'S'
+                ]);
+                
+                foreach ($itensOriginais as $itemOriginal) {
+                    $editarItem = $tbPlanilhaAprovacao->buscar([
+                        'idPronac = ?' => $idPronac,
+                        'idPlanilhaItem = ?' => $itemOriginal['idPlanilhaItem'],
+                        'idReadequacao = ?' => $idReadequacao
+                    ])->current();
+                    
+                    $editarItem->vlUnitario = $itemOriginal['vlUnitario'];
+                    $editarItem->tpAcao = 'N';
+                    $editarItem->save();
+                }
+        } else {
+            $retorno['erro'] = true;
+        }
+
+        return $retorno;
     }
 
     /*
@@ -475,9 +620,10 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
     {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender();
-
+        
         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
         $editarItem = $tbPlanilhaAprovacao->buscar(array('idPlanilhaAprovacao=?' => $_POST['idPlanilha']))->current();
+
         //$editarItem->idAgente = $idAgente;
         if ($editarItem->tpAcao == 'E') {
             $editarItem->tpAcao = 'N';
@@ -504,11 +650,54 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $editarItem->tpAcao = 'N';
         }
         $editarItem->save();
+        
+        $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+            $editarItem->IdPRONAC,
+            $editarItem->idReadequacao
+        );
 
+        if ($atualizarCustosVinculados['erro']) {
+            $this->reverterAlteracaoItem(
+                $editarItem->IdPRONAC,
+                $editarItem->idReadequacao,
+                $editarItem->idPlanilhaItem
+            );
+            $this->_helper->json([
+                'resposta' => false,
+                'mensagem' => $atualizarCustosVinculados['mensagem']
+            ]);
+        }
+        
         $this->_helper->json(array('resposta' => true, 'msg' => 'Dados salvos com sucesso!'));
         $this->_helper->viewRenderer->setNoRender(true);
     }
 
+
+    public function reverterAlteracaoItem(
+        $idPronac,
+        $idReadequacao,
+        $idPlanilhaItem
+    ) {
+        $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
+                
+        $itemOriginal = $tbPlanilhaAprovacao->buscar([
+            'idPronac = ?' => $idPronac,
+            'idPlanilhaItem = ?' => $idPlanilhaItem,
+            'stAtivo = ?' => 'S'
+        ])->current();
+        
+        $itemAlterado = $tbPlanilhaAprovacao->buscar([
+            'idPronac = ?' => $idPronac,
+            'idPlanilhaItem = ?' => $idPlanilhaItem,
+            'idReadequacao = ?' => $idReadequacao
+        ])->current();                
+        
+        $itemAlterado->vlUnitario = $itemOriginal->vlUnitario;
+        $itemAlterado->qtItem = $itemOriginal->qtItem;
+        $itemAlterado->nrOcorrencia = $itemOriginal->nrOcorrencia;
+        $itemAlterado->save();
+    }
+    
     /*
      * Criada em 18/03/2014
      * @author: Jefferson Alessandro - jeffersonassilva@gmail.com
@@ -1859,12 +2048,13 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $p = $Projetos->buscarProjetoXProponente(array('idPronac = ?' => $dados->idPronac))->current();
         $this->view->projeto = $p;
 
-//        $d = array();
-//        $d['ProvidenciaTomada'] = 'Readequa&ccedil;&atilde;o enviada para avalia&ccedil;&atilde;o t&eacute;cnica.';
-//        $d['dtSituacao'] = new Zend_Db_Expr('GETDATE()');
-//        $where = "IdPRONAC = $dados->idPronac";
-//        $Projetos->update($d, $where);
-
+        $mensagemCustosVinculados = "";
+        if ($this->isProjetoTransicaoIn2017($dados->idPronac)) {
+            // fazer a comparacao com a data
+            $mensagemCustosVinculados = "<div align='center'><strong>ATEN&Ccedil;&Atilde;O:</strong><br/> Projetos adequados &agrave; realidade de execu&ccedil;&atilde;o at&eacute; a data de <strong>16/10/2018</strong> ter&atilde;o seus custos vinculados e de remunera&ccedil;&atilde;o de capta&ccedil;&atilde;o de recursos recalculados no momento em que for realizada uma readequa&ccedil;&atilde;o.</div>";
+        }
+        $this->view->mensagemCustosVinculados = $mensagemCustosVinculados;
+        
         $TbPlanilhaUnidade = new Proposta_Model_DbTable_TbPlanilhaUnidade();
         $buscarUnidade = $TbPlanilhaUnidade->buscarUnidade();
         $this->view->Unidade = $buscarUnidade;
@@ -2865,6 +3055,27 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
     }
 
 
+    public function isProjetoTransicaoIn2017($idPronac)
+    {
+        $fnDtAvaliacaoAdequacao = new fnDtAvaliacaoAdequacao();
+        $dtAvaliacaoAdequacao = $fnDtAvaliacaoAdequacao->getDtAvaliacaoAdequacao($idPronac);
+        
+        if (!empty($dtAvaliacaoAdequacao)) {
+            $dataMin = '2017-01-01';
+            $dataMax = '2018-17-10';
+
+            preg_match('/(\d{4}\-\d{2}\-\d{2})/', $dtAvaliacaoAdequacao[0]->computed, $date_match);
+            $diaAvaliacao = $date_match[0];
+            
+            if ($diaAvaliacao > $dataMin &&
+                $diaAvaliacao < $dataMax) {
+            
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /*
      * Página de criação de planilha orçamentária
      * Criada em 02/06/2016
@@ -2891,6 +3102,13 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $cpf = $proj->buscarProponenteProjeto($idPronac);
         $cpf = $cpf->CgcCpf;
         $idUsuarioLogado = $auth->getIdentity()->IdUsuario;
+
+        $mensagemCustosVinculados = "";
+        if ($this->isProjetoTransicaoIn2017($idPronac)) {
+            // fazer a comparacao com a data
+            $mensagemCustosVinculados = "<div align='center'><strong>ATEN&Ccedil;&Atilde;O:</strong><br/> Projetos adequados &agrave; realidade de execu&ccedil;&atilde;o at&eacute; a data de <strong>26/10/2018</strong> ter&atilde;o seus custos vinculados e de remunera&ccedil;&atilde;o de capta&ccedil;&atilde;o de recursos recalculados no momento em que for realizada uma readequa&ccedil;&atilde;o.</div>";
+        }
+        $this->view->mensagemCustosVinculados = $mensagemCustosVinculados;
 
         $links = new fnLiberarLinks();
         $linksXpermissao = $links->links(2, $cpf, $idUsuarioLogado, $idPronac);

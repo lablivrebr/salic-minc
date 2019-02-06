@@ -97,16 +97,17 @@ export const buscarComprovantes = (params) => {
     const modulo = '/prestacao-contas';
     const controller = '/comprovante-pagamento';
 
-    const uf = `uf=${params.uf}`;
     const idPronac = `idPronac=${params.idPronac}`;
     const idPlanilhaItem = `idPlanilhaItem=${params.idPlanilhaItens}`;
     const produto = `produto=${params.codigoProduto}`;
+    const uf = `uf=${params.uf}`;
     const idMunicipio = `idmunicipio=${params.codigoCidade}`;
-    const etapa = `etapa=${params.codigoEtapa}`;
     const stItemAvaliado = `stItemAvaliado=${params.stItemAvaliado}`;
+    const etapa = `etapa=${params.codigoEtapa}`;
+    const tipo = `tipo=${params.tipo === 'internacional' ? 'internacional' : 'nacional'}`;
 
     const url = `${modulo}${controller}`;
-    const queryParams = `?${idPronac}&${idPlanilhaItem}&${produto}&${uf}&${idMunicipio}&${stItemAvaliado}&${etapa}`;
+    const queryParams = `?${idPronac}&${idPlanilhaItem}&${produto}&${uf}&${idMunicipio}&${stItemAvaliado}&${etapa}&${tipo}`;
 
     return api.getRequest(url + queryParams);
 };

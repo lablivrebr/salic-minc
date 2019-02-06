@@ -3,7 +3,7 @@
         <v-toolbar>
             <!-- Verificar o caminho de volta -->
             <v-btn
-                :to="{ name: 'Painel'}"
+                :to="{ name: 'Comprovante', params: { id: idPronac }}"
                 icon
                 class="hidden-xs-only"
             >
@@ -121,13 +121,13 @@ export default {
     data() {
         return {
             idPronac: this.$route.params.id,
-            // idUf: this.$route.params.idUf,
+            idUf: this.$route.params.idUf,
             uf: this.$route.params.uf,
             produto: this.$route.params.produto,
             cidade: this.$route.params.cidade,
             etapa: this.$route.params.etapa,
-            // idPlanilhaAprovacao: this.$route.params.idPlanilha,
-            idPlanilhaItens: this.$route.params.idItens,
+            idPlanilhaAprovacao: this.$route.params.idPlanilhaAprovacao,
+            idPlanilhaItens: this.$route.params.idPlanilhaItens,
         };
     },
     computed: {

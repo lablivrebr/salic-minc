@@ -6,14 +6,14 @@
         v-else
         fluid>
         <v-toolbar>
-            <!-- Verificar o destino do retorno -->
+            <!-- Verificar o destino do retorno
             <v-btn
                 :to="{ name: 'Painel'}"
                 icon
                 class="hidden-xs-only"
             >
                 <v-icon>arrow_back</v-icon>
-            </v-btn>
+            </v-btn> -->
             <v-toolbar-title>Prestação de Contas: Comprovação Financeira</v-toolbar-title>
         </v-toolbar>
         <v-card>
@@ -142,18 +142,21 @@
                                                             </td>
                                                             <td>
                                                                 <v-btn
-                                                                    slot="activator"
+                                                                    :to="{
+                                                                        name: 'ComprovarPagamento',
+                                                                        params: {
+                                                                            idpronac: idPronac,
+                                                                            idUf: uf.cdUF,
+                                                                            uf: uf.Uf,
+                                                                            produto: produto.cdProduto,
+                                                                            cidade: cidade.cdCidade,
+                                                                            etapa: etapa.cdEtapa,
+                                                                            idPlanilhaAprovacao: props.item.idPlanilhaAprovacao,
+                                                                            idPlanilhaItens: props.item.idPlanilhaItens,
+                                                                        }
+                                                                    }"
                                                                     color="teal"
                                                                     dark
-                                                                    @click="visualizarComprovantes(
-                                                                        uf.Uf,
-                                                                        cidade.cdCidade,
-                                                                        produto.cdProduto,
-                                                                        props.item.stItemAvaliado,
-                                                                        etapa.cdEtapa,
-                                                                        props.item.idPlanilhaItens,
-                                                                        props.item.item,
-                                                                    )"
                                                                 >
                                                                     <v-icon dark>attach_money</v-icon>
                                                                 </v-btn>
@@ -235,27 +238,6 @@ export default {
         moeda: (moedaString) => {
             const moeda = Number(moedaString);
             return moeda.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-        },
-        visualizarComprovantes(
-            Uf,
-            cdCidade,
-            cdProduto,
-            stItemAvaliado,
-            cdEtapa,
-            idPlanilhaItens,
-            item,
-        ) {
-            this.itemEmVisualizacao = {
-                Uf,
-                cdCidade,
-                cdProduto,
-                stItemAvaliado,
-                cdEtapa,
-                idPlanilhaItens,
-                item,
-            };
-
-            this.modalOpen('visualizar-comprovantes');
         },
         expandir(obj) {
             const arr = [];

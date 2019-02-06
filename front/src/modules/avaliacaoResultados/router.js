@@ -19,7 +19,7 @@ Vue.use(Router);
 
 const routes = [
     {
-        path: '/comprovar-pagamento/idpronac/:id/idUf/:idUf/uf/:uf/produto/:produto/cidade/:cidade/etapa/:etapa/idPlanilhaAprovacao/:idPlanilha/idPlanilhaItens/:idItens',
+        path: '/comprovar-pagamento/idpronac/:id/idUf/:idUf/uf/:uf/produto/:produto/cidade/:cidade/etapa/:etapa/idPlanilhaAprovacao/:idPlanilhaAprovacao/idPlanilhaItens/:idPlanilhaItens',
         name: 'ComprovarPagamento',
         component: ComprovarPagamento,
         meta: {

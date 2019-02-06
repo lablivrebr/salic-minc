@@ -334,7 +334,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/dadosReadequacoes',
+            dados: 'execucao/dadosReadequacoes',
         }),
     },
     watch: {
@@ -354,7 +354,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarDadosReadequacoes: 'projeto/buscarDadosReadequacoes',
+            buscarDadosReadequacoes: 'execucao/buscarDadosReadequacoes',
         }),
         showItem(item) {
             this.readequacao = item;

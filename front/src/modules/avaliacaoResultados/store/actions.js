@@ -308,6 +308,7 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
 
     let projetosTecnico = {};
     let projetosFinalizadosEstatos = {};
+    const laudoDevolver = { estadoId: params.atual };
 
     if (
         parseInt(params.usuario.grupo_ativo, 10) === 125
@@ -332,15 +333,28 @@ export const devolverProjeto = ({ commit, dispatch }, params) => {
         };
     }
 
-    avaliacaoResultadosHelperAPI.alterarEstado(params)
-        .then((response) => {
-            const devolverProjetoData = response.data;
-            commit(types.SET_DEVOLVER_PROJETO, devolverProjetoData);
+    if (params.idTipoDoAtoAdministrativo === '622' && params.proximo === '5') {
+        avaliacaoResultadosHelperAPI.alterarEstado(params)
+            .then((response) => {
+                const devolverProjetoData = response.data;
+                commit(types.SET_DEVOLVER_PROJETO, devolverProjetoData);
+                dispatch('projetosAssinarCoordenador', { estadoid: 9 });
+                dispatch('projetosAssinarCoordenadorGeral', { estadoid: 15 });
+                dispatch('projetosFinalizados', projetosFinalizadosEstatos);
+                dispatch('obterDadosTabelaTecnico', projetosTecnico);
+                dispatch('obterProjetosLaudoFinal', { estadoId: '10' });
+            });
+    } if (params.idTipoDoAtoAdministrativo === '623' && params.proximo === '10') {
+        avaliacaoResultadosHelperAPI.alterarEstado(params)
+            .then((response) => {
+                const devolverProjetoData = response.data;
+                commit(types.SET_DEVOLVER_PROJETO, devolverProjetoData);
+                dispatch('obterProjetosLaudoAssinar', laudoDevolver);
+                dispatch('obterProjetosLaudoFinal', { estadoId: '10' });
+            });
+    }
 
-            dispatch('projetosFinalizados', projetosFinalizadosEstatos);
-            dispatch('projetosAssinarCoordenador', { estadoid: 9 });
-            dispatch('obterDadosTabelaTecnico', projetosTecnico);
-        });
+    return null;
 };
 
 export const projetosAssinarCoordenador = ({ commit }) => {

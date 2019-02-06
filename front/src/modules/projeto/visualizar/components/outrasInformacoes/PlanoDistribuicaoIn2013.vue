@@ -240,7 +240,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosIn2013: 'projeto/planoDistribuicaoIn2013',
+            dadosIn2013: 'outrasInformacoes/planoDistribuicaoIn2013',
         }),
     },
     watch: {
@@ -258,7 +258,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarPlanoDistribuicaoIn2013: 'projeto/buscarPlanoDistribuicaoIn2013',
+            buscarPlanoDistribuicaoIn2013: 'outrasInformacoes/buscarPlanoDistribuicaoIn2013',
         }),
         setActiveTab(index) {
             if (this.activeTab === index) {

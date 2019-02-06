@@ -106,7 +106,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/marcasAnexadas',
+            dados: 'execucao/marcasAnexadas',
         }),
     },
     watch: {
@@ -124,7 +124,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarMarcasAnexadas: 'projeto/buscarMarcasAnexadas',
+            buscarMarcasAnexadas: 'execucao/buscarMarcasAnexadas',
         }),
     },
 };

@@ -74,7 +74,7 @@
                     </v-btn>
                 </td>
                 <td
-                    v-if="estado == Const.ESTADO_LAUDO_FINALIZADO"
+                    v-if="liberarAssinatura(estado)"
                     class="text-xs-center">
                     <v-btn
                         id="assinarLaudo"
@@ -92,8 +92,7 @@
                     </v-btn>
                 </td>
                 <td
-                    v-if="estado == Const.ESTADO_AGUARDANDO_ASSINATURA_LAUDO ||
-                    estado == Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA"
+                    v-if="estado == Const.ESTADO_AVALIACAO_RESULTADOS_FINALIZADA"
                     class="text-xs-center"
                 >
                     <v-btn
@@ -238,6 +237,18 @@ export default {
                 proximo = '';
             }
             return proximo;
+        },
+        liberarAssinatura(estado) {
+            switch (estado) {
+            case this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO:
+                return true;
+            case this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO:
+                return true;
+            case this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECRETARIO_LAUDO:
+                return true;
+            default:
+                return false;
+            }
         },
     },
 };

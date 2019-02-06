@@ -195,7 +195,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosConciliacao: 'projeto/conciliacaoBancaria',
+            dadosConciliacao: 'dadosBancarios/conciliacaoBancaria',
         }),
     },
     watch: {
@@ -235,7 +235,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarConciliacaoBancaria: 'projeto/buscarConciliacaoBancaria',
+            buscarConciliacaoBancaria: 'dadosBancarios/buscarConciliacaoBancaria',
         }),
         filtrarData(response) {
             const params = {

@@ -122,13 +122,13 @@ export default {
             obterProjetosLaudoFinalizados: 'avaliacaoResultados/obterProjetosLaudoFinalizados',
         }),
         assinarPerfil() {
-            if (this.getUsuario.grupo_ativo === Const.PERFIL_COORDENADOR_GERAL) {
+            if (this.getUsuario.grupo_ativo === this.Const.PERFIL_COORDENADOR_GERAL) {
                 return this.Const.ESTADO_AGUARDANDO_ASSINATURA_COORDENADOR_GERAL_LAUDO;
             }
-            if (this.getUsuario.grupo_ativo === Const.PERFIL_DIRETOR) {
+            if (this.getUsuario.grupo_ativo === this.Const.PERFIL_DIRETOR) {
                 return this.Const.ESTADO_AGUARDANDO_ASSINATURA_DIRETOR_LAUDO;
             }
-            if (this.getUsuario.grupo_ativo === Const.PERFIL_SECRETARIO) {
+            if (this.getUsuario.grupo_ativo === this.Const.PERFIL_SECRETARIO) {
                 return this.Const.ESTADO_AGUARDANDO_ASSINATURA_SECRETARIO_LAUDO;
             }
             return null;

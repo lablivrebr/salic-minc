@@ -105,8 +105,8 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosListagem: 'projeto/dadosFiscalizacaoLista',
-            dadosVisualizacao: 'projeto/dadosFiscalizacaoVisualiza',
+            dadosListagem: 'execucao/dadosFiscalizacaoLista',
+            dadosVisualizacao: 'execucao/dadosFiscalizacaoVisualiza',
         }),
     },
     watch: {
@@ -127,8 +127,8 @@ export default {
             this.buscarDadosFiscalizacaoVisualiza({ idPronac, idFiscalizacao });
         },
         ...mapActions({
-            buscarDadosFiscalizacaoLista: 'projeto/buscarDadosFiscalizacaoLista',
-            buscarDadosFiscalizacaoVisualiza: 'projeto/buscarDadosFiscalizacaoVisualiza',
+            buscarDadosFiscalizacaoLista: 'execucao/buscarDadosFiscalizacaoLista',
+            buscarDadosFiscalizacaoVisualiza: 'execucao/buscarDadosFiscalizacaoVisualiza',
             modalOpen: 'modal/modalOpen',
         }),
     },

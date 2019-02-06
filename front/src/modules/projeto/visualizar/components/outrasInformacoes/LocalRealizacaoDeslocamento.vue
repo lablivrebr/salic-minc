@@ -139,7 +139,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/localRealizacaoDeslocamento',
+            dados: 'outrasInformacoes/localRealizacaoDeslocamento',
         }),
     },
     watch: {
@@ -154,7 +154,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarLocalRealizacaoDeslocamento: 'projeto/buscarLocalRealizacaoDeslocamento',
+            buscarLocalRealizacaoDeslocamento: 'outrasInformacoes/buscarLocalRealizacaoDeslocamento',
         }),
     },
 };

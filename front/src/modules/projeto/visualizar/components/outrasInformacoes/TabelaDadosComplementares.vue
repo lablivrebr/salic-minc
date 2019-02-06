@@ -17,33 +17,20 @@
                         <td>{{ dsDadoComplementar }}</td>
                     </div>
                     <div v-else-if="custosVinculados">
-                        <v-container grid-list-md>
-                            <v-layout
-                                justify-space-around
-                                row
-                                wrap>
-                                <v-flex xs6>
-                                    <b>ITEM</b>
-                                </v-flex>
-                                <v-flex xs2>
-                                    <b>PERCENTUAL</b>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout
-                                v-for="(custosVinculado, index) in custosVinculados"
-                                :key="index"
-                                justify-space-around
-                                align-center
-                                row
-                            >
-                                <v-flex xs6>
-                                    <td>{{ custosVinculado.Descricao }}</td>
-                                </v-flex>
-                                <v-flex xs2>
-                                    <td>{{ custosVinculado.Percentual }}</td>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
+                        <v-data-table
+                            :pagination.sync="pagination"
+                            :headers="headers"
+                            :items="custosVinculados"
+                            class="elevation-1 container-fluid"
+                        >
+                            <template
+                                slot="items"
+                                slot-scope="props">
+                                <td class="text-xs-left">{{ props.item.Descricao }}</td>
+                                <td class="text-xs-center pl-5">{{ props.item.Percentual }}</td>
+                                <td class="text-xs-center pl-5">{{ props.item.dtCadastro | formatarData }}</td>
+                            </template>
+                        </v-data-table>
                     </div>
                     <div v-else>
                         <v-data-table
@@ -59,8 +46,11 @@
 </template>
 
 <script>
+import { utils } from '@/mixins/utils';
+
 export default {
     name: 'TabelaDadosComplementares',
+    mixins: [utils],
     props: {
         dadoComplementar: {
             type: String,
@@ -74,6 +64,31 @@ export default {
             type: Array,
             default: () => [],
         },
+    },
+    data() {
+        return {
+            pagination: {
+                sortBy: 'dtCadastro',
+                descending: true,
+            },
+            headers: [
+                {
+                    text: 'ITEM',
+                    align: 'left',
+                    value: 'Descricao',
+                },
+                {
+                    text: 'PERCENTUAL',
+                    align: 'center',
+                    value: 'Percentual',
+                },
+                {
+                    text: 'DATA',
+                    align: 'center',
+                    value: 'dtCadastro',
+                },
+            ],
+        };
     },
 };
 </script>

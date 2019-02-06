@@ -202,7 +202,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosCaptacao: 'projeto/captacao',
+            dadosCaptacao: 'dadosBancarios/captacao',
         }),
     },
     watch: {
@@ -243,7 +243,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarCaptacao: 'projeto/buscarCaptacao',
+            buscarCaptacao: 'dadosBancarios/buscarCaptacao',
         }),
         filtrarData(response) {
             const params = {

@@ -12,6 +12,9 @@ import autenticacao from './modules/autenticacao/store';
 import noticias from './modules/noticias/store';
 import parecer from './modules/parecer/store';
 import planilha from './modules/planilha/store';
+import dadosBancarios from './modules/dadosBancarios/store';
+import execucao from './modules/execucao/store';
+import outrasInformacoes from './modules/outrasInformacoes/store';
 import dateFilter from './filters/date';
 
 Vue.use(Vuex);
@@ -32,6 +35,9 @@ export default new Vuex.Store({
         noticias,
         parecer,
         planilha,
+        dadosBancarios,
+        execucao,
+        outrasInformacoes,
     },
     getters: {
         route: state => state.route,

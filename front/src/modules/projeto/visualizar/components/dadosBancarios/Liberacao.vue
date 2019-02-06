@@ -81,7 +81,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosLiberacao: 'projeto/liberacao',
+            dadosLiberacao: 'dadosBancarios/liberacao',
         }),
     },
     watch: {
@@ -100,7 +100,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarLiberacao: 'projeto/buscarLiberacao',
+            buscarLiberacao: 'dadosBancarios/buscarLiberacao',
         }),
     },
 };

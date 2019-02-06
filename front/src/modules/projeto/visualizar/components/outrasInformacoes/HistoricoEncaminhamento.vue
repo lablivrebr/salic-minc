@@ -90,7 +90,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dados: 'projeto/historicoEncaminhamento',
+            dados: 'outrasInformacoes/historicoEncaminhamento',
         }),
     },
     watch: {
@@ -105,7 +105,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarHistoricoEncaminhamento: 'projeto/buscarHistoricoEncaminhamento',
+            buscarHistoricoEncaminhamento: 'outrasInformacoes/buscarHistoricoEncaminhamento',
         }),
     },
 };

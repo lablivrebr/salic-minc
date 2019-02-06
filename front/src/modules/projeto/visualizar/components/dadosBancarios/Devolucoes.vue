@@ -110,7 +110,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosDevolucoesIncentivador: 'projeto/devolucoesIncentivador',
+            dadosDevolucoesIncentivador: 'dadosBancarios/devolucoesIncentivador',
         }),
     },
     watch: {
@@ -139,7 +139,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarDevolucoesIncentivador: 'projeto/buscarDevolucoesIncentivador',
+            buscarDevolucoesIncentivador: 'dadosBancarios/buscarDevolucoesIncentivador',
         }),
         filtrarData(response) {
             const params = {

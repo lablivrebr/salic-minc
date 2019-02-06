@@ -239,7 +239,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            dadosDiligencia: 'projeto/diligenciaProjeto',
+            dadosDiligencia: 'outrasInformacoes/diligenciaProjeto',
         }),
     },
     methods: {
@@ -251,7 +251,7 @@ export default {
             this.dialog = true;
         },
         ...mapActions({
-            buscarDiligenciaProjeto: 'projeto/buscarDiligenciaProjeto',
+            buscarDiligenciaProjeto: 'outrasInformacoes/buscarDiligenciaProjeto',
         }),
     },
 };

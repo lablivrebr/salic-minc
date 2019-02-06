@@ -107,7 +107,7 @@ export default {
     computed: {
         ...mapGetters({
             dadosProjeto: 'projeto/projeto',
-            documentosAnexados: 'projeto/documentosAnexados',
+            documentosAnexados: 'outrasInformacoes/documentosAnexados',
         }),
         indexItems() {
             const currentItems = this.documentosAnexados.documentos;
@@ -135,7 +135,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            buscarDocumentosAnexados: 'projeto/buscarDocumentosAnexados',
+            buscarDocumentosAnexados: 'outrasInformacoes/buscarDocumentosAnexados',
         }),
     },
 };

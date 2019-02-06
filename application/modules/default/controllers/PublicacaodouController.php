@@ -872,7 +872,13 @@ class PublicacaoDouController extends MinC_Controller_Action_Abstract
         } else {
             $portaria = PublicacaoDouDAO::ProjetoPortariaGerarRTF($_POST['nrportaria'], $orgaoSuperior);
         }
+
+        // fazendo parse da portaria tirando 0 a esquerda
+        preg_match('/(\d*)\/(\d*)/i', $portaria[0]->PortariaAprovacao, $output_array);
+        $this->view->PortariaAprovacao = (int) $output_array[1] . '/' . $output_array[2];
+
         $this->view->portaria = $portaria;
+
     }
 
     public function imprimirTabelaPortariaAction()

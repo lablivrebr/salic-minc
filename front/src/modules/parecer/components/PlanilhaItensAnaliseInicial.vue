@@ -53,7 +53,7 @@
                     <td class="text-xs-right">{{ props.item.valorUnitarioparc | filtroFormatarParaReal }}</td>
                     <td class="text-xs-right">{{ props.item.VlSugeridoParecerista | filtroFormatarParaReal }}</td>
                     <td
-                        class="text-xs-justify"
+                        class="text-xs-left"
                         width="30%"
                         v-html="$options.filters.filtroDiminuirTexto(props.item.dsJustificativaParecerista, 40)"/>
                 </tr>

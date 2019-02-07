@@ -1,5 +1,6 @@
 import * as parecerHelperAPI from '@/helpers/api/Parecer';
 import * as types from './types';
+import _ from 'lodash';
 
 export const obterProdutosParaAnalise = ({ commit }) => {
     commit(types.SET_PRODUTOS, []);
@@ -58,7 +59,7 @@ export const obterPlanilhaParaAnalise = ({ commit }, params) => {
     parecerHelperAPI.obterPlanilhaParaAnalise(params)
         .then((response) => {
             const { data } = response;
-            commit(types.SET_PLANILHA_PARECER, data);
+            commit(types.SET_PLANILHA_PARECER, data.items);
         });
 };
 
@@ -105,33 +106,79 @@ export const atualizarCustosVinculados = ({ commit }, data) => {
 };
 
 export const recalcularTotaisPlanilha = ({ state, commit }) => {
-    // data.forEach((item) => {
-    //     commit(types.UPDATE_ITEM_PLANILHA, item);
-    // });
-    function calcularPlanilhaRecursivo(plan) {
-        console.log('teste');
-        if (typeof plan === 'object' && typeof plan.itens === 'undefined') {
-            console.log('teste2', plan);
-            Object.keys(plan).map((key) => {
-                console.log('teste3');
-                if (typeof plan[key] === 'object') {
-                    console.log('chamar novamente2', plan[key]);
-                    calcularPlanilhaRecursivo(plan[key]);
-                }
-                return true;
-            });
-        }
-
-        if (plan.itens) {
-            console.log('itenss');
-            plan.itens.forEach((item) => {
-                console.log('chamandooooo', item);
-            });
-        }
-        return true;
-    }
-    calcularPlanilhaRecursivo(state.planilhaParecer);
+    // const planilha = obterPlanilhaZerada(state.planilhaParecer);
+    // function calcularPlanilhaRecursivo(plan) {
+    //     if (typeof plan === 'object' && typeof plan.itens === 'undefined') {
+    //         Object.keys(plan).map((key) => {
+    //             if (typeof plan[key] === 'object') {
+    //                 calcularPlanilhaRecursivo(plan[key]);
+    //             }
+    //             return true;
+    //         });
+    //     }
+    //
+    //     if (plan.itens) {
+    //         plan.itens.forEach((item) => {
+    //             const fonte = item.FonteRecurso;
+    //             const produto = item.idProduto !== 0 ? item.Produto : 'Administração do Projeto';
+    //             const etapa = item.Etapa;
+    //             const regiao = `${item.UF} - ${item.Cidade}`;
+    //
+    //             planilha.total += item.VlSolicitado;
+    //             planilha.totalSugerido += item.VlSugeridoParecerista;
+    //             planilha[fonte].total += item.VlSolicitado;
+    //             planilha[fonte].totalSugerido += item.VlSugeridoParecerista;
+    //             planilha[fonte][produto].total += item.VlSolicitado;
+    //             planilha[fonte][produto].totalSugerido += item.VlSugeridoParecerista;
+    //             planilha[fonte][produto][etapa].total += item.VlSolicitado;
+    //             planilha[fonte][produto][etapa].totalSugerido += item.VlSugeridoParecerista;
+    //             planilha[fonte][produto][etapa][regiao].total += item.VlSolicitado;
+    //             planilha[fonte][produto][etapa][regiao].totalSugerido += item.VlSugeridoParecerista;
+    //         });
+    //     }
+    //     return true;
+    // }
+    // calcularPlanilhaRecursivo(state.planilhaParecer);
+    // commit(types.SET_PLANILHA_PARECER, planilha);
+    // console.log('planilhaaa', planilha);
 };
+
+function obterPlanilhaZerada(novaPlanilha) {
+    // const planilha = novaPlanilha;
+    // function calcularPlanilhaRecursivo(plan) {
+    //     if (typeof plan === 'object' && typeof plan.itens === 'undefined') {
+    //         Object.keys(plan).map((key) => {
+    //             if (typeof plan[key] === 'object') {
+    //                 calcularPlanilhaRecursivo(plan[key]);
+    //             }
+    //             return true;
+    //         });
+    //     }
+    //
+    //     if (plan.itens) {
+    //         plan.itens.forEach((item) => {
+    //             const fonte = item.FonteRecurso;
+    //             const produto = item.idProduto !== 0 ? item.Produto : 'Administração do Projeto';
+    //             const etapa = item.Etapa;
+    //             const regiao = `${item.UF} - ${item.Cidade}`;
+    //
+    //             planilha.total = 0;
+    //             planilha.totalSugerido = 0;
+    //             planilha[fonte].total = 0;
+    //             planilha[fonte].totalSugerido = 0;
+    //             planilha[fonte][produto].total = 0;
+    //             planilha[fonte][produto].totalSugerido = 0;
+    //             planilha[fonte][produto][etapa].total = 0;
+    //             planilha[fonte][produto][etapa].totalSugerido = 0;
+    //             planilha[fonte][produto][etapa][regiao].total = 0;
+    //             planilha[fonte][produto][etapa][regiao].totalSugerido = 0;
+    //         });
+    //     }
+    //     return true;
+    // }
+    // calcularPlanilhaRecursivo(novaPlanilha);
+    // return planilha;
+}
 
 
 export const obterAnaliseConteudoSecundario = ({ commit }, params) => {

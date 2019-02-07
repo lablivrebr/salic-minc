@@ -2,8 +2,10 @@
     <div
         v-if="arrayPlanilha"
         class="planilha-orcamentaria">
+        {{ planilhaMontada }}
         <s-collapsible-recursivo
-            :planilha="arrayPlanilha"
+            v-if="false"
+            :planilha="planilhaMontada"
             :headers="headers"
             :expand-all="expandAll"
         >
@@ -43,6 +45,7 @@
 import SPlanilhaItensPadrao from '@/components/Planilha/PlanilhaItensPadrao';
 import SPlanilhaConsolidacao from '@/components/Planilha/PlanilhaConsolidacao';
 import MxPlanilhas from '@/mixins/planilhas';
+import _ from 'lodash';
 
 const SCollapsibleRecursivo = {
     name: 'SCollapsibleRecursivo',
@@ -155,8 +158,8 @@ export default {
     mixins: [MxPlanilhas],
     props: {
         arrayPlanilha: {
-            type: Object,
-            default: () => {},
+            type: Array,
+            default: () => [],
         },
         headers: {
             type: Array,
@@ -181,12 +184,50 @@ export default {
                     icon: 'place',
                     color: '#2196F3',
                 },
+                {
+                    id: 5,
+                    icon: 'place',
+                    color: '#2196F3',
+                },
 
             ],
         },
         expandAll: {
             type: Boolean,
             default: true,
+        },
+    },
+    computed: {
+        planilhaMontada() {
+            const planilha = _.cloneDeep(this.arrayPlanilha);
+            const groupBy = function (xs, chaves) {
+                return xs.reduce((rv, x) => {
+                    let i = 0;
+                    function recursivo(p, x, keys) {
+                        const key = keys[i];
+                        i += 1;
+                        if (keys[keys.length - 1] !== key) {
+                            (p[x[key]] = Object.assign({}, p[x[key]]) || []);
+                            recursivo(p[x[key]], x, keys);
+                        } else {
+                            (p[x[key]] = p[x[key]] || []).push(x);
+                        }
+                        return p;
+                    }
+
+                    return recursivo(rv, x, chaves);
+                    // (rv[x[a]] = rv[x[a]]|| []);
+                    // (rv[x[a]][x[b]] = rv[x[a]][x[b]] || []);
+                    // (rv[x[a]][x[b]][x[c]] = rv[x[a]][x[b]][x[c]] || []);
+                    // (rv[x[a]][x[b]][x[c]][x[d]] = rv[x[a]][x[b]][x[c]][x[d]] || []).push(x);
+                }, {});
+            };
+            return groupBy(planilha, ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade']);
+        },
+    },
+    watch: {
+        planilhaMontada(val) {
+            console.log('planilha', val);
         },
     },
 };

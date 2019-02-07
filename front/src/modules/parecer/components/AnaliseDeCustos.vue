@@ -1,5 +1,92 @@
 <template>
     <div @keydown.esc="compararPlanilha = false">
+        <v-container
+            grid-list-md
+            text-xs-center>
+            <v-layout
+                row
+                wrap>
+                <v-flex xs6>
+                    <v-card
+                        class="mx-auto mb-2"
+                        max-width="600"
+                    >
+                        <v-toolbar
+                            card
+                            dense
+                        >
+                            <v-toolbar-title>
+                                <span class="subheading">SOLICITADO</span>
+                            </v-toolbar-title>
+                            <v-spacer/>
+                            <v-btn
+                                icon
+                                @click="show = !show">
+                                <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                            </v-btn>
+                        </v-toolbar>
+
+                        <v-card-text>
+                            <v-layout
+                                justify-space-between
+                            >
+                                <v-flex text-xs-left>
+                                    <span class="subheading font-weight-light mr-1">R$</span>
+                                    <span
+                                        class="display-2 font-weight-light"
+                                    >{{ calculos.totalSolicitado | filtroFormatarParaReal }}</span>
+                                </v-flex>
+                            </v-layout>
+                        </v-card-text>
+                        <v-slide-y-transition>
+                            <v-card-text v-show="show">
+                               {{ calculos }}
+                            </v-card-text>
+                        </v-slide-y-transition>
+                    </v-card>
+                </v-flex>
+                <v-flex xs6>
+                    <v-card
+                        class="mx-auto mb-2"
+                        max-width="600"
+                    >
+                        <v-toolbar
+                            card
+                            dense
+                        >
+                            <v-toolbar-title>
+                                <span class="subheading">SUGERIDO</span>
+                            </v-toolbar-title>
+                            <v-spacer/>
+                            <v-btn
+                                icon
+                                @click="show = !show">
+                                <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                            </v-btn>
+                        </v-toolbar>
+
+                        <v-card-text>
+                            <v-layout
+                                justify-space-between
+                            >
+                                <v-flex text-xs-left>
+                                    <span class="subheading font-weight-light mr-1">R$</span>
+                                    <span
+                                        class="display-2 font-weight-light"
+                                    >{{ calculos.totalSugerido | filtroFormatarParaReal }}</span>
+                                </v-flex>
+                            </v-layout>
+                        </v-card-text>
+                        <v-slide-y-transition>
+                            <v-card-text v-show="show">
+                                {{ calculos }}
+                            </v-card-text>
+                        </v-slide-y-transition>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+
         <resize-panel
             v-if="Object.keys(planilha).length > 0"
             :allow-resize="true"
@@ -99,6 +186,14 @@ import SPlanilhaItensAnaliseInicial from './PlanilhaItensAnaliseInicial';
 import SPlanilhaItensVisualizarSolicitado from './PlanilhaItensVisualizarSolicitado';
 import SCarregando from '@/components/CarregandoVuetify';
 import ResizePanel from '@/components/resize-panel/ResizeSplitPane';
+import MxPlanilha from '@/mixins/planilhas';
+
+const dataDefaults = {
+    calculos: {
+        totalSolicitado: 0,
+        totalSugerido: 0,
+    },
+};
 
 export default {
     name: 'AnaliseDeCustos',
@@ -109,12 +204,15 @@ export default {
         SPlanilhaItensAnaliseInicial,
         SCarregando,
     },
+    mixins: [MxPlanilha],
     data() {
         return {
             compararPlanilha: false,
             size: 50,
             expandAll: true,
             fab: false,
+            calculos: dataDefaults.calculos,
+            show: false,
         };
     },
     computed: {
@@ -139,6 +237,15 @@ export default {
                 this.obterUnidades();
             }
         },
+        planilha: {
+            handler(val) {
+                if (Object.keys(val).length > 0) {
+                    this.calculos = Object.assign({}, this.$options.data().calculos);
+                    this.calcularPlanilhaRecursivo(val);
+                }
+            },
+            deep: true,
+        },
     },
     created() {
         if (Object.keys(this.produto).length > 0) {
@@ -156,6 +263,69 @@ export default {
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
             obterUnidades: 'planilha/obterUnidadesPlanilha',
         }),
+        calcularPlanilhaRecursivo(planilha) {
+            const self = this;
+
+
+            if (this.isObject(planilha) && typeof planilha.itens === 'undefined') {
+                Object.keys(planilha).map((key) => {
+                    if (self.isObject(planilha[key])) {
+                        console.log('chamar novamente', this.calculos, planilha[key]);
+
+                        // this.calculos.key.totalSugerido = 0;
+                        // this.calculos.key.totalSolicitado = 0;
+                        this.calcularPlanilhaRecursivo(planilha[key]);
+                    }
+                    return true;
+                });
+            }
+
+            /**
+             * A) Total solicitado para o projeto: R$ 461.623,13
+             B) Total solicitado para Captação de Recursos: 9,49% de C (R$ 40.029,38)
+             C) A – B: R$ 421.593,75
+             D) Total solicitado de Custos Vinculados: R$ 81.018,75
+             E) C – D: R$ 340.575,00
+
+             F) Percentual solicitado para Custos de Administração: 4,76% (R$ 16.203,75)
+             G) Percentual solicitado para Divulgação: 19% (R$ 64.815,00)
+
+             H) Total sugerido para aprovação no projeto: R$ 411.168,87
+             I) Total sugerido para Captação de recursos: 9,49% de J (R$ 35.654,27)
+             J) H - I: R$ 375.514,60
+             K) Total sugerido para Custos Vinculados: R$ 72.163,60
+             L) J – K: R$ 303.351,00
+
+             M) Percentual sugerido para Custos de Administração: 4,76% (R$ 14.432,72)
+             N) Percentual sugerido para Divulgação: 19% (R$ 57.730,88)
+
+
+             */
+
+            console.log('for para itens', planilha.itens, planilha);
+            if (planilha.itens) {
+                planilha.itens.forEach((item) => {
+                    if (!this.calculos[item.FonteRecurso]) {
+                        const obj = { [item.FonteRecurso]: 0 };
+                        Object.assign(this.calculos, obj);
+                    }
+                    if (!this.calculos[item.Etapa]) {
+                        const obj = { [item.Etapa]: 0 };
+                        Object.assign(this.calculos, obj);
+                    }
+                    if (!this.calculos[item.Produto]) {
+                        const obj = { [item.Produto]: 0 };
+                        Object.assign(this.calculos, obj);
+                    }
+                    this.calculos[item.FonteRecurso] += item.VlSugeridoParecerista;
+                    this.calculos[item.Etapa] += item.VlSugeridoParecerista;
+                    this.calculos[item.Produto] += item.VlSugeridoParecerista;
+                    this.calculos.totalSugerido += item.VlSugeridoParecerista;
+                    this.calculos.totalSolicitado += item.VlSolicitado;
+                });
+            }
+            return true;
+        },
     },
 };
 </script>

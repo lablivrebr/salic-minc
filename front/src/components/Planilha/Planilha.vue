@@ -7,6 +7,21 @@
             :headers="headers"
             :expand-all="expandAll"
         >
+            <template
+                slot="badge"
+                slot-scope="slotProps">
+                <slot
+                    :planilha="slotProps.planilha"
+                    name="badge">
+                    <VChip
+                        v-if="slotProps.planilha.total"
+                        outline="outline"
+                        label="label"
+                        color="#565555">
+                        R$ {{ formatarParaReal(slotProps.planilha.total) }}
+                    </VChip>
+                </slot>
+            </template>
             <template slot-scope="slotProps">
                 <slot :itens="slotProps.itens">
                     <s-planilha-itens-padrao :table="slotProps.itens"/>
@@ -54,15 +69,18 @@ const SCollapsibleRecursivo = {
                 { props: { value: self.toggleExpand(this.planilha, self.contador) }, attrs: { expand: 'expand' } },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
-                        const badgeHeader = self.planilha[key].total ? h('VChip',
-                            {
-                                attrs: {
-                                    outline: 'outline',
-                                    label: 'label',
-                                    color: '#565555',
-                                },
-                            },
-                            [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]) : '';
+                        const badgeHeader = (self.$scopedSlots.badge)
+                            ? self.$scopedSlots.badge({ planilha: self.planilha[key] }) : '';
+
+                        // const badgeHeader = self.planilha[key].total ? h('VChip',
+                        //     {
+                        //         attrs: {
+                        //             outline: 'outline',
+                        //             label: 'label',
+                        //             color: '#565555',
+                        //         },
+                        //     },
+                        //     [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]) : '';
                         return h('VExpansionPanelContent',
                             [
                                 h('VLayout',
@@ -91,7 +109,10 @@ const SCollapsibleRecursivo = {
                                                 headers: self.headers,
                                                 expandAll: self.expandAll,
                                             },
-                                            scopedSlots: { default: self.$scopedSlots.default },
+                                            scopedSlots: {
+                                                badge: self.$scopedSlots.badge,
+                                                default: self.$scopedSlots.default,
+                                            },
                                         }),
                                         h(SPlanilhaConsolidacao, {
                                             props: {

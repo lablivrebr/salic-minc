@@ -83,6 +83,7 @@ export const salvarAvaliacaoItem = async ({ commit, dispatch }, avaliacao) => {
                 },
                 { root: true });
             dispatch('atualizarCustosVinculados', response.data.data.custosVinculados);
+            dispatch('recalcularTotaisPlanilha');
             return response.data;
         }).catch((e) => {
             commit('noticias/SET_DADOS',
@@ -102,6 +103,36 @@ export const atualizarCustosVinculados = ({ commit }, data) => {
         commit(types.UPDATE_ITEM_PLANILHA, item);
     });
 };
+
+export const recalcularTotaisPlanilha = ({ state, commit }) => {
+    // data.forEach((item) => {
+    //     commit(types.UPDATE_ITEM_PLANILHA, item);
+    // });
+    function calcularPlanilhaRecursivo(plan) {
+        console.log('teste');
+        if (typeof plan === 'object' && typeof plan.itens === 'undefined') {
+            console.log('teste2', plan);
+            Object.keys(plan).map((key) => {
+                console.log('teste3');
+                if (typeof plan[key] === 'object') {
+                    console.log('chamar novamente2', plan[key]);
+                    calcularPlanilhaRecursivo(plan[key]);
+                }
+                return true;
+            });
+        }
+
+        if (plan.itens) {
+            console.log('itenss');
+            plan.itens.forEach((item) => {
+                console.log('chamandooooo', item);
+            });
+        }
+        return true;
+    }
+    calcularPlanilhaRecursivo(state.planilhaParecer);
+};
+
 
 export const obterAnaliseConteudoSecundario = ({ commit }, params) => {
     parecerHelperAPI.obterAnaliseConteudo(params)

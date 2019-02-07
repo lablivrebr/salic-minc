@@ -112,6 +112,17 @@
                     :array-planilha="planilha"
                     :expand-all="expandAll"
                 >
+                    <template
+                        slot="badge"
+                        slot-scope="slotProps">
+                        <VChip
+                            v-if="slotProps.planilha.totalSugerido"
+                            outline="outline"
+                            label="label"
+                            color="#565555">
+                            R$ {{ formatarParaReal(slotProps.planilha.totalSugerido) }}
+                        </VChip>
+                    </template>
                     <template slot-scope="slotProps">
                         <s-planilha-itens-analise-inicial :table="slotProps.itens"/>
                     </template>
@@ -192,6 +203,9 @@ const dataDefaults = {
     calculos: {
         totalSolicitado: 0,
         totalSugerido: 0,
+        fontes: {},
+        produtos: {},
+        etapas: {},
     },
 };
 
@@ -265,44 +279,14 @@ export default {
         }),
         calcularPlanilhaRecursivo(planilha) {
             const self = this;
-
-
             if (this.isObject(planilha) && typeof planilha.itens === 'undefined') {
                 Object.keys(planilha).map((key) => {
                     if (self.isObject(planilha[key])) {
-                        console.log('chamar novamente', this.calculos, planilha[key]);
-
-                        // this.calculos.key.totalSugerido = 0;
-                        // this.calculos.key.totalSolicitado = 0;
                         this.calcularPlanilhaRecursivo(planilha[key]);
                     }
                     return true;
                 });
             }
-
-            /**
-             * A) Total solicitado para o projeto: R$ 461.623,13
-             B) Total solicitado para Captação de Recursos: 9,49% de C (R$ 40.029,38)
-             C) A – B: R$ 421.593,75
-             D) Total solicitado de Custos Vinculados: R$ 81.018,75
-             E) C – D: R$ 340.575,00
-
-             F) Percentual solicitado para Custos de Administração: 4,76% (R$ 16.203,75)
-             G) Percentual solicitado para Divulgação: 19% (R$ 64.815,00)
-
-             H) Total sugerido para aprovação no projeto: R$ 411.168,87
-             I) Total sugerido para Captação de recursos: 9,49% de J (R$ 35.654,27)
-             J) H - I: R$ 375.514,60
-             K) Total sugerido para Custos Vinculados: R$ 72.163,60
-             L) J – K: R$ 303.351,00
-
-             M) Percentual sugerido para Custos de Administração: 4,76% (R$ 14.432,72)
-             N) Percentual sugerido para Divulgação: 19% (R$ 57.730,88)
-
-
-             */
-
-            console.log('for para itens', planilha.itens, planilha);
             if (planilha.itens) {
                 planilha.itens.forEach((item) => {
                     if (!this.calculos[item.FonteRecurso]) {

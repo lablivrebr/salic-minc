@@ -130,16 +130,17 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
             $row["Seq"] = $i;
             $row['isDisponivelParaAnalise'] = $this->isItemDisponivelParaAnalise($item);
-
-            $planilha['total'] += $row["vlSolicitado"];
-//            $planilha[$fonte]['total'] += $row["VlSolicitado"];
-//            $planilha[$fonte]['totalSugerido'] += $row["VlSugeridoParecerista"];
-//            $planilha[$fonte][$produto]['total'] += $row["VlSolicitado"];
-//            $planilha[$fonte][$produto]['totalSugerido'] += $row["VlSugeridoParecerista"];
-//            $planilha[$fonte][$produto][$etapa]['total'] += $row["VlSolicitado"];
-//            $planilha[$fonte][$produto][$etapa]['totalSugerido'] += $row["VlSugeridoParecerista"];
-//            $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $row["VlSolicitado"];
-//            $planilha[$fonte][$produto][$etapa][$regiao]['totalSugerido'] += $row["VlSugeridoParecerista"];
+            $row['Produto'] = $produto;
+            $planilha['total'] += $row["VlSolicitado"];
+            $planilha['totalSugerido'] += $row["VlSugeridoParecerista"];
+            $planilha[$fonte]['total'] += $row["VlSolicitado"];
+            $planilha[$fonte]['totalSugerido'] += $row["VlSugeridoParecerista"];
+            $planilha[$fonte][$produto]['total'] += $row["VlSolicitado"];
+            $planilha[$fonte][$produto]['totalSugerido'] += $row["VlSugeridoParecerista"];
+            $planilha[$fonte][$produto][$etapa]['total'] += $row["VlSolicitado"];
+            $planilha[$fonte][$produto][$etapa]['totalSugerido'] += $row["VlSugeridoParecerista"];
+            $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $row["VlSolicitado"];
+            $planilha[$fonte][$produto][$etapa][$regiao]['totalSugerido'] += $row["VlSugeridoParecerista"];
             $planilha[$fonte][$produto][$etapa][$regiao]['itens'][] = $row;
         }
 

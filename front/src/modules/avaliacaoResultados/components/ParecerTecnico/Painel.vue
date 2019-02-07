@@ -5,6 +5,7 @@
         </v-subheader>
         <v-card>
             <v-tabs
+                v-model="$route.meta.tab"
                 centered
                 color="primary"
                 dark
@@ -12,8 +13,48 @@
             >
                 <v-tabs-slider color="deep-orange accent-3"/>
                 <v-tab
+                    href="#tab-6"
+                    @click="r('/painel/dashboard')"
+                >
+                    Dashboard
+                    <v-icon>assignment_ind</v-icon>
+                </v-tab>
+                <v-tab-item
+                    :value="'tab-6'"
+                    :key="6"
+                >
+                    <v-card
+                        flat
+                        class="pa-2"
+                    >
+                        <v-layout
+                            align-center
+                            justify-space-around
+                            row
+                            fill-height
+                        >
+                            <v-card
+                                v-for="(dashboad, index) in dashboardItens"
+                                :key="index"
+                                max-width="400"
+                            >
+                                <v-card-title>
+                                    <span class="title font-weight-light">{{ index }}</span>
+                                </v-card-title>
+
+                                <v-card-text class="headline font-weight-bold ">
+                                    <p class="display-3 text-xs-center">
+                                        <a :href="dashboad.url">{{ dashboad.valor }}</a>
+                                    </p>
+                                </v-card-text>
+                            </v-card>
+                        </v-layout>
+                    </v-card>
+                </v-tab-item>
+                <v-tab
                     v-if="getUsuario.grupo_ativo == 125"
                     href="#tab-0"
+                    @click="r('/painel/distribuir')"
                 >
                     <template v-if="Object.keys(getProjetosParaDistribuir).length == 0">
                         <v-progress-circular
@@ -27,7 +68,10 @@
                         <v-icon>assignment_ind</v-icon>
                     </template>
                 </v-tab>
-                <v-tab href="#tab-1">
+                <v-tab
+                    href="#tab-1"
+                    @click="r('/painel/aba-em-analise')"
+                >
                     <template v-if="Object.keys(dadosTabelaTecnico).length == 0">
                         <v-progress-circular
                             indeterminate
@@ -41,7 +85,10 @@
                     </template>
                 </v-tab>
 
-                <v-tab href="#tab-2">
+                <v-tab
+                    href="#tab-2"
+                    @click="r('/painel/assinar')"
+                >
                     <template v-if="Object.keys(getProjetosFinalizados).length == 0">
                         <v-progress-circular
                             indeterminate
@@ -55,7 +102,10 @@
                     </template>
                 </v-tab>
 
-                <v-tab href="#tab-4">
+                <v-tab
+                    href="#tab-4"
+                    @click="r('/painel/historico')"
+                >
                     <template v-if="Object.keys(getProjetosHistorico).length == 0">
                         <v-progress-circular
                             indeterminate
@@ -167,6 +217,8 @@ export default {
     },
     data() {
         return {
+            tabActive: null,
+            dashboardItens: {},
             projetoAnaliseDados: { code: 300, items: [] },
             listaAcoesTecnico: {
                 atual: '',
@@ -216,7 +268,22 @@ export default {
             getProjetosAssinarCoordenador: 'avaliacaoResultados/getProjetosAssinarCoordenador',
             getProjetosAssinarCoordenadorGeral: 'avaliacaoResultados/getProjetosAssinarCoordenadorGeral',
             route: 'route',
+            getDashboard: 'avaliacaoResultados/getDashboardQuantidade',
         }),
+    },
+    watch: {
+        $route: {
+            deep: true,
+            handler() {
+                this.tabActive = this.$route.meta.tab;
+            },
+        },
+        getDashboard: {
+            deep: true,
+            handler(val) {
+                this.dashboardItens = val.items;
+            },
+        },
     },
     created() {
         this.CONST = CONST;
@@ -247,6 +314,7 @@ export default {
             };
         }
 
+        this.setDashboard();
         this.distribuir();
         this.obterDadosTabelaTecnico(projetosTecnico);
         this.projetosFinalizados(projetosFinalizados);
@@ -267,7 +335,14 @@ export default {
             distribuir: 'avaliacaoResultados/projetosParaDistribuir',
             projetosAssinarCoordenador: 'avaliacaoResultados/projetosAssinarCoordenador',
             projetosAssinarCoordenadorGeral: 'avaliacaoResultados/projetosAssinarCoordenadorGeral',
+            setDashboard: 'avaliacaoResultados/dashboardQuantidades',
         }),
+        r(val) {
+            this.$router.push(val);
+        },
+        dashboard() {
+            return (typeof this.getDashboard !== 'undefined' && Object.keys(this.getDashboard).length > 0) ? this.getDashboard.items : {};
+        },
     },
 };
 </script>

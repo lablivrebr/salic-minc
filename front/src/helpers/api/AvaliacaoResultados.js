@@ -148,3 +148,5 @@ export const dadosItem = (params) => {
 
     return api.getRequest(url + queryParams);
 };
+
+export const dashboardQuantidade = () => api.getRequest('/avaliacao-resultados/dashboard');

@@ -419,3 +419,13 @@ export const getDadosItem = ({ commit }, params) => {
             commit(types.GET_DADOS_ITEM, dadosItem);
         });
 };
+
+export const dashboardQuantidades = ({ commit }) => {
+    avaliacaoResultadosHelperAPI.dashboardQuantidade()
+        .then((response) => {
+            const { data } = response.data;
+            commit(types.DASHBOARD_QUANTIDADE, data);
+        }).catch((e) => {
+            throw new TypeError(e.response.data.message, 'error', 10);
+        });
+};

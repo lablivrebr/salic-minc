@@ -250,7 +250,8 @@ Vue.component('planilha-orcamentaria-alterar-item', {
                     ValorUnitario: self.dadosPlanilhaEditavel.ValorUnitario,
                     QtdeDias: self.dadosPlanilhaEditavel.QtdeDias,
                     Justificativa: self.dadosPlanilhaEditavel.Justificativa,
-                    valorSolicitado: self.dadosPlanilhaAtiva.TotalSolicitado
+                    valorSolicitado: self.dadosPlanilhaAtiva.TotalSolicitado,
+                    nrFonteRecurso: self.dadosPlanilhaAtiva.nrFonteRecurso
                 }
 	    }).done(function() {
 		self.$emit('atualizarItem');

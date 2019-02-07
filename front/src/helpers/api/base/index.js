@@ -12,9 +12,9 @@ axios.interceptors.request.use((config) => {
 }, err => Promise.reject(err));
 
 let instance = {};
-/* global test, dev */
+/* global test */
 if (process.env.NODE_ENV !== 'production') {
-    const API_ENDPOINT = process.env.API === 'test' ? test.API_ENDPOINT : dev.API_ENDPOINT;
+    const API_ENDPOINT = process.env.API === 'test' ? test.API_ENDPOINT : '';
 
     instance = axios.create({
         baseURL: API_ENDPOINT,

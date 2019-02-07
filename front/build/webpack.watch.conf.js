@@ -55,7 +55,6 @@ const watchWebpackConfig = merge(baseWebpackConfig, {
             'API',
         ]),
         new webpack.DefinePlugin({
-            'dev': require('../config/dev.env'),
             'test': require('../config/test.env'),
         }),
         new MiniCssExtractPlugin({

@@ -48,6 +48,7 @@ export const state = {
     dadosComprovacao: {},
     dadosProjeto: {},
     dadosItem: {},
+    dashboard: {},
 };
 
 export const mutations = {
@@ -246,5 +247,8 @@ export const mutations = {
     },
     [types.GET_DADOS_ITEM](state, dados) {
         state.dadosItem = dados;
+    },
+    [types.DASHBOARD_QUANTIDADE](state, dados) {
+        state.dashboard = dados;
     },
 };

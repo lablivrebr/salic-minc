@@ -2,7 +2,6 @@
     <div
         v-if="arrayPlanilha"
         class="planilha-orcamentaria">
-        {{ planilhaMontada }}
         <s-collapsible-recursivo
             :planilha="planilhaMontada"
             :headers="headers"
@@ -44,15 +43,17 @@
 import SPlanilhaItensPadrao from '@/components/Planilha/PlanilhaItensPadrao';
 import SPlanilhaConsolidacao from '@/components/Planilha/PlanilhaConsolidacao';
 import MxPlanilhas from '@/mixins/planilhas';
-import _ from 'lodash';
 
 const SCollapsibleRecursivo = {
     name: 'SCollapsibleRecursivo',
     props: {
-        planilha: {},
+        planilha: {
+            type: Object,
+            default: () => {},
+        },
         contador: {
-            default: 1,
             type: Number,
+            default: 1,
         },
         headers: {
             type: Array,
@@ -147,7 +148,7 @@ export default {
     mixins: [MxPlanilhas],
     props: {
         arrayPlanilha: {
-            type: Array,
+            type: [Array],
             default: () => [],
         },
         headers: {
@@ -180,6 +181,14 @@ export default {
                 },
             ],
         },
+        agrupamentos: {
+            type: Array,
+            default: () => ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade'],
+        },
+        totais: {
+            type: Array,
+            default: () => ['VlSolicitado', 'VlSugeridoParecerista'],
+        },
         expandAll: {
             type: Boolean,
             default: true,
@@ -187,34 +196,38 @@ export default {
     },
     computed: {
         planilhaMontada() {
-            const planilha = _.cloneDeep(this.arrayPlanilha);
-            const groupBy = function (xs, chaves) {
-                return xs.reduce((rv, x) => {
-                    let i = 0;
-                    function recursivo(p, x, keys) {
-                        const key = keys[i];
-                        i += 1;
-                        (p[x[key]] = p[x[key]] || Object.assign({}, p[x[key]]) || {});
-                        if (keys[keys.length - 1] !== key) {
-                            recursivo(p[x[key]], x, keys);
-                        } else {
-                            (p[x[key]] = p[x[key]].itens || Object.assign({}, { itens: [] }));
-                            console.log('p12321', p[x[key]], p);
-                        }
-                        console.info('plani', p);
-                        return p;
+            if (!this.arrayPlanilha) {
+                return {};
+            }
+
+            const self = this;
+            /* eslint-disable no-param-reassign */
+            const groupBy = (plan, chaves) => plan.reduce((rv, x) => {
+                let i = 0;
+                function agruparItens(p, item, keys) {
+                    const key = keys[i];
+                    i += 1;
+                    (p[item[key]] = p[item[key]] || Object.assign({}, p[item[key]]) || {});
+
+                    const plen = self.totais.length;
+                    for (let y = 0; y < plen; y += 1) {
+                        const b = self.totais[y];
+                        p[item[key]] = Object.assign(p[item[key]], { [b]: (p[item[key]][b] + x[b]) || x[b] });
                     }
-                    return recursivo(rv, x, chaves);
-                }, {});
-            };
-            const pl1 = groupBy(planilha, ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade']);
-            console.info('teste', pl1);
-            return pl1;
-        },
-    },
-    watch: {
-        planilhaMontada(val) {
-            console.log('planilha', val);
+
+                    if (keys[keys.length - 1] === key) {
+                        if (!p[item[key]].itens) {
+                            (p[item[key]] = Object.assign(p[item[key]], { itens: [] }));
+                        }
+                        p[item[key]].itens.push(x);
+                    } else {
+                        agruparItens(p[item[key]], item, keys);
+                    }
+                    return p;
+                }
+                return agruparItens(rv, x, chaves);
+            }, {});
+            return groupBy(this.arrayPlanilha, this.agrupamentos);
         },
     },
 };

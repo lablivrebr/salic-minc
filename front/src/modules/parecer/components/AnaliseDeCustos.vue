@@ -40,7 +40,7 @@
                         </v-card-text>
                         <v-slide-y-transition>
                             <v-card-text v-show="show">
-                               {{ calculos }}
+                                {{ calculos }}
                             </v-card-text>
                         </v-slide-y-transition>
                     </v-card>
@@ -101,6 +101,17 @@
                     :array-planilha="planilha"
                     :expand-all="expandAll"
                 >
+                    <template
+                        slot="badge"
+                        slot-scope="slotProps">
+                        <VChip
+                            v-if="slotProps.planilha.VlSolicitado"
+                            outline="outline"
+                            label="label"
+                            color="#565555">
+                            R$ {{ formatarParaReal(slotProps.planilha.VlSolicitado) }}
+                        </VChip>
+                    </template>
                     <template slot-scope="slotProps">
                         <s-planilha-itens-visualizar-solicitado :table="slotProps.itens"/>
                     </template>
@@ -116,11 +127,11 @@
                         slot="badge"
                         slot-scope="slotProps">
                         <VChip
-                            v-if="slotProps.planilha.totalSugerido"
+                            v-if="slotProps.planilha.VlSugeridoParecerista"
                             outline="outline"
                             label="label"
                             color="#565555">
-                            R$ {{ formatarParaReal(slotProps.planilha.totalSugerido) }}
+                            R$ {{ formatarParaReal(slotProps.planilha.VlSugeridoParecerista) }}
                         </VChip>
                     </template>
                     <template slot-scope="slotProps">
@@ -278,36 +289,29 @@ export default {
             obterUnidades: 'planilha/obterUnidadesPlanilha',
         }),
         calcularPlanilhaRecursivo(planilha) {
-            const self = this;
-            if (this.isObject(planilha) && typeof planilha.itens === 'undefined') {
-                Object.keys(planilha).map((key) => {
-                    if (self.isObject(planilha[key])) {
-                        this.calcularPlanilhaRecursivo(planilha[key]);
-                    }
-                    return true;
-                });
+            if (!planilha) {
+                return {};
             }
-            if (planilha.itens) {
-                planilha.itens.forEach((item) => {
-                    if (!this.calculos[item.FonteRecurso]) {
-                        const obj = { [item.FonteRecurso]: 0 };
-                        Object.assign(this.calculos, obj);
-                    }
-                    if (!this.calculos[item.Etapa]) {
-                        const obj = { [item.Etapa]: 0 };
-                        Object.assign(this.calculos, obj);
-                    }
-                    if (!this.calculos[item.Produto]) {
-                        const obj = { [item.Produto]: 0 };
-                        Object.assign(this.calculos, obj);
-                    }
-                    this.calculos[item.FonteRecurso] += item.VlSugeridoParecerista;
-                    this.calculos[item.Etapa] += item.VlSugeridoParecerista;
-                    this.calculos[item.Produto] += item.VlSugeridoParecerista;
-                    this.calculos.totalSugerido += item.VlSugeridoParecerista;
-                    this.calculos.totalSolicitado += item.VlSolicitado;
-                });
-            }
+
+            planilha.forEach((item) => {
+                if (!this.calculos[item.FonteRecurso]) {
+                    const obj = { [item.FonteRecurso]: 0 };
+                    Object.assign(this.calculos, obj);
+                }
+                if (!this.calculos[item.Etapa]) {
+                    const obj = { [item.Etapa]: 0 };
+                    Object.assign(this.calculos, obj);
+                }
+                if (!this.calculos[item.Produto]) {
+                    const obj = { [item.Produto]: 0 };
+                    Object.assign(this.calculos, obj);
+                }
+                // this.calculos[item.FonteRecurso] += item.VlSugeridoParecerista;
+                // this.calculos[item.Etapa] += item.VlSugeridoParecerista;
+                // this.calculos[item.Produto] += item.VlSugeridoParecerista;
+                this.calculos.totalSugerido += item.VlSugeridoParecerista;
+                this.calculos.totalSolicitado += item.VlSolicitado;
+            });
             return true;
         },
     },

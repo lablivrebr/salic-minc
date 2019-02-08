@@ -184,7 +184,7 @@ import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 
 export default {
-    name: 'Painel',
+    name: 'PlanilhaComprovacao',
     components: {
         Carregando,
     },

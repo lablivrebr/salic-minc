@@ -12,7 +12,7 @@ import Laudo from './components/LaudoFinal/PainelLaudo';
 import AnalisarItem from './components/ParecerTecnico/AnalisarItem';
 import VisualizarParecer from './components/components/VisualizarParecer';
 import VisualizarLaudo from './components/LaudoFinal/VisualizarLaudo';
-import Comprovante from './components/Comprovacao/Comprovante';
+import PlanilhaComprovacao from './components/Comprovacao/PlanilhaComprovacao';
 import ComprovarPagamento from './components/Comprovacao/ComprovarPagamento';
 
 Vue.use(Router);
@@ -27,11 +27,11 @@ const routes = [
         },
     },
     {
-        path: '/comprovante/:id',
-        name: 'Comprovante',
-        component: Comprovante,
+        path: '/planilha-comprovacao/:id',
+        name: 'PlanilhaComprovacao',
+        component: PlanilhaComprovacao,
         meta: {
-            title: 'Comprovante',
+            title: 'PlanilhaComprovacao',
         },
     },
     {

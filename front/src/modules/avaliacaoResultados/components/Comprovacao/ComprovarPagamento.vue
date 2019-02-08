@@ -3,7 +3,7 @@
         <v-toolbar>
             <!-- Verificar o caminho de volta -->
             <v-btn
-                :to="{ name: 'Comprovante', params: { id: idPronac }}"
+                :to="{ name: 'PlanilhaComprovacao', params: { id: idPronac }}"
                 icon
                 class="hidden-xs-only"
             >
@@ -14,7 +14,7 @@
             </v-toolbar-title>
         </v-toolbar>
 
-        <v-card>
+        <v-card v-if="dadosProjeto.NomeProjeto">
             <v-card-title primary-title>
                 <h2>{{ dadosProjeto.Pronac }} &#45; {{ dadosProjeto.NomeProjeto }}</h2>
             </v-card-title>
@@ -22,23 +22,23 @@
                 <div class="my-3">
                     <div class="d-inline-block mr-5">
                         <h4>Data Início da Execução</h4>
-                        <p class="text-xs-left">{{ dadosProjeto.dtInicioExecucao | dataMasc }}</p>
+                        <p class="text-xs-left">{{ dadosProjeto.dtInicioExecucao | dataMasck }}</p>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Data Final da Execução</h4>
-                        <p class="text-xs-left">{{ dadosProjeto.dtFimExecucao | dataMasc }}</p>
+                        <p class="text-xs-left">{{ dadosProjeto.dtFimExecucao | dataMasck }}</p>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Valor Aprovado</h4>
-                        <p class="text-xs-left">R$ {{ dadosProjeto.vlAprovado | moedaMasc }}</p>
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlAprovado | moedaMasck }}</p>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Valor Comprovado</h4>
-                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovado | moedaMasc }}</p>
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovado | moedaMasck }}</p>
                     </div>
                     <div class="d-inline-block">
                         <h4>Valor a Comprovar</h4>
-                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovar | moedaMasc }}</p>
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovar | moedaMasck }}</p>
                     </div>
                 </div>
             </v-card-text>
@@ -61,7 +61,9 @@
                 <div class="my-3">
                     <div class="d-inline-block mr-5">
                         <h4>Produto</h4>
-                        <p class="text-xs-left">{{ dadosItem.Produto }}</p>
+                        <p
+                            class="text-xs-left"
+                            v-html="dadosItem.Produto"/>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Etapa</h4>
@@ -81,15 +83,15 @@
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Aprovado</h4>
-                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado | moedaMasc }}</p>
+                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado | moedaMasck }}</p>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Total Comprovado</h4>
-                        <p class="text-xs-left">R$ {{ dadosItem.vlComprovado | moedaMasc }}</p>
+                        <p class="text-xs-left">R$ {{ dadosItem.vlComprovado | moedaMasck }}</p>
                     </div>
                     <div class="d-inline-block">
                         <h4>Faltando Comprovar</h4>
-                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado - dadosItem.vlComprovado | moedaMasc }}</p>
+                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado - dadosItem.vlComprovado | moedaMasck }}</p>
                     </div>
                 </div>
             </v-card-text>
@@ -103,12 +105,12 @@ import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import Moeda from '../../../../filters/money';
 
-Vue.filter('moedaMasc', Moeda);
+Vue.filter('moedaMasck', Moeda);
 
 export default {
     name: 'ComprovarPagamento',
     filters: {
-        dataMasc(data) {
+        dataMasck(data) {
             const dataFormatada = data.replace(/-/g, '/');
             const date = new Date(dataFormatada);
             return date.toLocaleString(['pt-BR'], {

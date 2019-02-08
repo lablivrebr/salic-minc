@@ -103,7 +103,8 @@ if($this->tipoPublicacao == 'prorrogacao') {
         </p>
         <p class="saltoLinha">
             Art. 2.&ordm; - Esta portaria entra em vigor na data de sua publica&ccedil;&atilde;o.
-        id="assinatura">##ASS ' . htmlentities(utf8_encode($this->nome)) . '</p>
+        </p>
+        <p id="assinatura">##ASS ' . htmlentities(utf8_encode($this->nome)) . '</p>
     ';
 } else if($this->tipoPublicacao == 'aprovacaoPrestacao') {
     $relatorio .= '
@@ -306,8 +307,8 @@ if($this->tipoPublicacao == 'readequacao') {
         $iniciocaptacao        = $portaria->DataInicio;
         $fimcaptacao           = $portaria->DataFim;
         $resumoprojeto         = $portaria->ResumoProjeto;
-        $areaprojeto           = strtoupper(strtr($portaria->Area ,"áéíóúâêôãõàèìòùç","ÁÉÍÓÚÂÊÔÃÕÀÈÌÒÙÇ"));
-        $areaprojetoCodigo     = strtoupper(strtr($portaria->AreaCodigo ,"áéíóúâêôãõàèìòùç","ÁÉÍÓÚÂÊÔÃÕÀÈÌÒÙÇ"));
+        $areaprojeto           = strtoupper(strtr($portaria->Area ,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
+        $areaprojetoCodigo     = strtoupper(strtr($portaria->AreaCodigo ,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
         $situacaoprojeto       = $portaria->Situacao;
         $artigo                = $portaria->Artigo;
         $PortariaAprovacao     = $portaria->PortariaAprovacao;
@@ -402,8 +403,8 @@ if($this->tipoPublicacao == 'readequacao') {
         $iniciocaptacao = $portaria->DataInicio;
         $fimcaptacao = $portaria->DataFim;
         $resumoprojeto = $portaria->ResumoProjeto;
-        $areaprojeto = strtoupper(strtr($portaria->Area ,"áéíóúâêôãõàèìòùç","ÁÉÍÓÚÂÊÔÃÕÀÈÌÒÙÇ"));
-        $areaprojetoCodigo = strtoupper(strtr($portaria->AreaCodigo ,"áéíóúâêôãõàèìòùç","ÁÉÍÓÚÂÊÔÃÕÀÈÌÒÙÇ"));
+        $areaprojeto = strtoupper(strtr($portaria->Area ,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
+        $areaprojetoCodigo = strtoupper(strtr($portaria->AreaCodigo ,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
         $situacaoprojeto = $portaria->Situacao;
         $artigo = $portaria->Artigo;
         $PortariaAprovacao = $portaria->PortariaAprovacao;

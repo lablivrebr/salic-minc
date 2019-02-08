@@ -1,6 +1,6 @@
 FROM php:7.0-apache
 
-VOLUME ["/var/www"]
+#VOLUME ["/var/www"]
 
 RUN apt-get update
 
@@ -48,6 +48,7 @@ RUN a2ensite site.conf
 RUN a2dissite 000-default.conf
 RUN a2enmod rewrite
 RUN a2enmod headers
+RUN cd /var/www/salic && composer install --prefer-source --no-interaction
 
 COPY ./docker/salic-web/actions/docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]

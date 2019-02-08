@@ -395,3 +395,13 @@ export const alterarAvaliacaoComprovante = ({ commit }, params) => {
 };
 
 export const alterarPlanilha = ({ commit }, params) => commit(types.ALTERAR_PLANILHA, params);
+
+export const dashboardQuantidades = ({ commit }) => {
+    avaliacaoResultadosHelperAPI.dashboardQuantidade()
+        .then((response) => {
+            const { data } = response.data;
+            commit(types.DASHBOARD_QUANTIDADE, data);
+        }).catch((e) => {
+            throw new TypeError(e.response.data.message, 'error', 10);
+        });
+};

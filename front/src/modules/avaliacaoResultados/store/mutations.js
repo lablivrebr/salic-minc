@@ -45,6 +45,7 @@ export const state = {
     comprovantes: [],
     projetosAssinarCoordenador: {},
     projetosAssinarCoordenadorGeral: {},
+    dashboard: {},
 };
 
 export const mutations = {
@@ -234,5 +235,8 @@ export const mutations = {
             }
             Vue.set(copiaState[tipo], params.idPlanilhaItem, copiaItem);
         });
+    },
+    [types.DASHBOARD_QUANTIDADE](state, dados) {
+        state.dashboard = dados;
     },
 };

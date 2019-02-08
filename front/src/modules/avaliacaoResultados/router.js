@@ -105,6 +105,51 @@ const routes = [
         },
     },
     {
+        path: '/painel/aba-em-analise',
+        name: 'Painel_Aba_Em_Avaliacao',
+        component: Painel,
+        meta: {
+            title: 'Avaliação de Resultados: Parecer Técnico',
+            tab: 'tab-1',
+        },
+    },
+    {
+        path: '/painel/dashboard',
+        name: 'Painel_Aba_Em_Dashboard',
+        component: Painel,
+        meta: {
+            title: 'Avaliação de Resultados: Parecer Técnico',
+            tab: 'tab-6',
+        },
+    },
+    {
+        path: '/painel/assinar',
+        name: 'painel_aba_assinar',
+        component: Painel,
+        meta: {
+            title: 'Avaliação de Resultados: Parecer Técnico',
+            tab: 'tab-2',
+        },
+    },
+    {
+        path: '/painel/historico',
+        name: 'painel_aba_historico',
+        component: Painel,
+        meta: {
+            title: 'Avaliação de Resultados: Parecer Técnico',
+            tab: 'tab-4',
+        },
+    },
+    {
+        path: '/painel/distribuir',
+        name: 'painel_aba_distribuir',
+        component: Painel,
+        meta: {
+            title: 'Avaliação de Resultados: Parecer Técnico',
+            tab: 'tab-0',
+        },
+    },
+    {
         path: '*',
         name: 'Painel',
         component: Painel,

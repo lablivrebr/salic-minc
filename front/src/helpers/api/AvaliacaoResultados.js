@@ -125,3 +125,5 @@ export const projetosPorEstado = (params) => {
 };
 
 export const salvarAvaliacaoComprovante = params => api.postRequest('/avaliacao-resultados/avaliacao-comprovante/', buildData(params));
+
+export const dashboardQuantidade = () => api.getRequest('/avaliacao-resultados/dashboard');

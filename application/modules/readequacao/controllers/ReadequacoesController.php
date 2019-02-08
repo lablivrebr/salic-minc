@@ -501,7 +501,6 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $editarItem->tpAcao = 'A';
         }
 
-//        $editarItem->idAgente = $auth->getIdentity()->IdUsuario;
         $editarItem->save();
 
         $tbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();

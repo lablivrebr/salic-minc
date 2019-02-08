@@ -3,16 +3,18 @@
         <div v-if="loading">
             <Carregando :text="'Carregando Dados Complementares do Projeto'"/>
         </div>
-        <div v-else-if="dados.Proposta && dados.CustosVinculados">
+        <div v-else-if="dados.Proposta || dados.CustosVinculados">
             <TabelaDadosComplementares
                 :ds-dado-complementar="dados.Proposta.Objetivos"
                 dado-complementar="Objetivos"/>
             <TabelaDadosComplementares
                 :ds-dado-complementar="dados.Proposta.Justificativa"
                 dado-complementar="Justificativa"/>
-            <TabelaDadosComplementares
-                :custos-vinculados="dados.CustosVinculados"
-                dado-complementar="Custos Vinculados"/>
+            <div v-if="dados.CustosVinculados">
+                <TabelaDadosComplementares
+                    :custos-vinculados="dados.CustosVinculados"
+                    dado-complementar="Custos Vinculados"/>
+            </div>
             <TabelaDadosComplementares
                 :ds-dado-complementar="dados.Proposta.Acessibilidade"
                 dado-complementar="Acessibilidade"/>

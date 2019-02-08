@@ -4,7 +4,6 @@
         class="planilha-orcamentaria">
         {{ planilhaMontada }}
         <s-collapsible-recursivo
-            v-if="false"
             :planilha="planilhaMontada"
             :headers="headers"
             :expand-all="expandAll"
@@ -74,16 +73,6 @@ const SCollapsibleRecursivo = {
                     if (self.isObject(self.planilha[key])) {
                         const badgeHeader = (self.$scopedSlots.badge)
                             ? self.$scopedSlots.badge({ planilha: self.planilha[key] }) : '';
-
-                        // const badgeHeader = self.planilha[key].total ? h('VChip',
-                        //     {
-                        //         attrs: {
-                        //             outline: 'outline',
-                        //             label: 'label',
-                        //             color: '#565555',
-                        //         },
-                        //     },
-                        //     [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]) : '';
                         return h('VExpansionPanelContent',
                             [
                                 h('VLayout',
@@ -97,7 +86,7 @@ const SCollapsibleRecursivo = {
                                     },
                                     [
                                         h('i',
-                                            { class: `material-icons mt-2 pl-${self.contador * 1 + 1}` },
+                                            { class: `material-icons mt-2 pl-${self.contador * 1}` },
                                             [self.getHeader(self.contador).icon]),
                                         h('span', { class: 'ml-2 mt-2' }, key),
                                         h('VSpacer'),
@@ -186,10 +175,9 @@ export default {
                 },
                 {
                     id: 5,
-                    icon: 'place',
+                    icon: 'location_city',
                     color: '#2196F3',
                 },
-
             ],
         },
         expandAll: {
@@ -206,23 +194,22 @@ export default {
                     function recursivo(p, x, keys) {
                         const key = keys[i];
                         i += 1;
+                        (p[x[key]] = p[x[key]] || Object.assign({}, p[x[key]]) || {});
                         if (keys[keys.length - 1] !== key) {
-                            (p[x[key]] = Object.assign({}, p[x[key]]) || []);
                             recursivo(p[x[key]], x, keys);
                         } else {
-                            (p[x[key]] = p[x[key]] || []).push(x);
+                            (p[x[key]] = p[x[key]].itens || Object.assign({}, { itens: [] }));
+                            console.log('p12321', p[x[key]], p);
                         }
+                        console.info('plani', p);
                         return p;
                     }
-
                     return recursivo(rv, x, chaves);
-                    // (rv[x[a]] = rv[x[a]]|| []);
-                    // (rv[x[a]][x[b]] = rv[x[a]][x[b]] || []);
-                    // (rv[x[a]][x[b]][x[c]] = rv[x[a]][x[b]][x[c]] || []);
-                    // (rv[x[a]][x[b]][x[c]][x[d]] = rv[x[a]][x[b]][x[c]][x[d]] || []).push(x);
                 }, {});
             };
-            return groupBy(planilha, ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade']);
+            const pl1 = groupBy(planilha, ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade']);
+            console.info('teste', pl1);
+            return pl1;
         },
     },
     watch: {

@@ -54,6 +54,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
+                    'vue-style-loader',
                     'css-loader',
                     'postcss-loader',
                     'sass-loader',

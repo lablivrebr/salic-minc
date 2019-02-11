@@ -2,10 +2,12 @@
     <div @keydown.esc="compararPlanilha = false">
         <v-container
             grid-list-md
-            text-xs-center>
+            text-xs-center
+        >
             <v-layout
                 row
-                wrap>
+                wrap
+            >
                 <v-flex xs6>
                     <v-card
                         class="mx-auto mb-2"
@@ -16,14 +18,11 @@
                             dense
                         >
                             <v-toolbar-title>
-                                <span class="subheading">SOLICITADO</span>
+                                <span class="subheading">
+                                    SOLICITADO
+                                </span>
                             </v-toolbar-title>
-                            <v-spacer/>
-                            <v-btn
-                                icon
-                                @click="show = !show">
-                                <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                            </v-btn>
+                            <v-spacer />
                         </v-toolbar>
 
                         <v-card-text>
@@ -31,18 +30,17 @@
                                 justify-space-between
                             >
                                 <v-flex text-xs-left>
-                                    <span class="subheading font-weight-light mr-1">R$</span>
+                                    <span class="subheading font-weight-light mr-1">
+                                        R$
+                                    </span>
                                     <span
                                         class="display-2 font-weight-light"
-                                    >{{ calculos.totalSolicitado | filtroFormatarParaReal }}</span>
+                                    >
+                                        {{ calculos.totalSolicitado | filtroFormatarParaReal }}
+                                    </span>
                                 </v-flex>
                             </v-layout>
                         </v-card-text>
-                        <v-slide-y-transition>
-                            <v-card-text v-show="show">
-                               {{ calculos }}
-                            </v-card-text>
-                        </v-slide-y-transition>
                     </v-card>
                 </v-flex>
                 <v-flex xs6>
@@ -55,14 +53,11 @@
                             dense
                         >
                             <v-toolbar-title>
-                                <span class="subheading">SUGERIDO</span>
+                                <span class="subheading">
+                                    SUGERIDO
+                                </span>
                             </v-toolbar-title>
-                            <v-spacer/>
-                            <v-btn
-                                icon
-                                @click="show = !show">
-                                <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                            </v-btn>
+                            <v-spacer />
                         </v-toolbar>
 
                         <v-card-text>
@@ -70,18 +65,17 @@
                                 justify-space-between
                             >
                                 <v-flex text-xs-left>
-                                    <span class="subheading font-weight-light mr-1">R$</span>
+                                    <span class="subheading font-weight-light mr-1">
+                                        R$
+                                    </span>
                                     <span
                                         class="display-2 font-weight-light"
-                                    >{{ calculos.totalSugerido | filtroFormatarParaReal }}</span>
+                                    >
+                                        {{ calculos.totalSugerido | filtroFormatarParaReal }}
+                                    </span>
                                 </v-flex>
                             </v-layout>
                         </v-card-text>
-                        <v-slide-y-transition>
-                            <v-card-text v-show="show">
-                                {{ calculos }}
-                            </v-card-text>
-                        </v-slide-y-transition>
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -96,31 +90,63 @@
         >
             <div
                 v-if="compararPlanilha === true"
-                slot="firstPane">
+                slot="firstPane"
+            >
                 <s-planilha
                     :array-planilha="planilha"
                     :expand-all="expandAll"
+                    :agrupamentos="agrupamentos"
+                    :totais="totaisPlanilha"
                 >
+                    <template
+                        slot="badge"
+                        slot-scope="slotProps"
+                    >
+                        <VChip
+                            v-if="slotProps.planilha.VlSolicitado"
+                            outline="outline"
+                            label="label"
+                            color="#565555"
+                        >
+                            R$ {{ formatarParaReal(slotProps.planilha.VlSolicitado) }}
+                        </VChip>
+                    </template>
                     <template slot-scope="slotProps">
-                        <s-planilha-itens-visualizar-solicitado :table="slotProps.itens"/>
+                        <s-planilha-itens-visualizar-solicitado :table="slotProps.itens" />
                     </template>
                 </s-planilha>
             </div>
             <div
-                slot="secondPane">
+                slot="secondPane"
+            >
                 <s-planilha
                     :array-planilha="planilha"
                     :expand-all="expandAll"
+                    :agrupamentos="agrupamentos"
+                    :totais="totaisPlanilha"
                 >
+                    <template
+                        slot="badge"
+                        slot-scope="slotProps"
+                    >
+                        <v-chip
+                            outline="outline"
+                            label="label"
+                            color="#565555"
+                        >
+                            R$ {{ formatarParaReal(slotProps.planilha.VlSugeridoParecerista) }}
+                        </v-chip>
+                    </template>
                     <template slot-scope="slotProps">
-                        <s-planilha-itens-analise-inicial :table="slotProps.itens"/>
+                        <s-planilha-itens-analise-inicial :table="slotProps.itens" />
                     </template>
                 </s-planilha>
             </div>
         </resize-panel>
         <s-carregando
             v-else
-            :text="'Carregando Planilha'"/>
+            :text="'Carregando Planilha'"
+        />
         <v-speed-dial
             v-if="active && Object.keys(planilha).length > 0"
             v-model="fab"
@@ -142,7 +168,8 @@
                 <v-icon>close</v-icon>
             </v-btn>
             <v-tooltip
-                left>
+                left
+            >
                 <v-btn
                     slot="activator"
                     fab
@@ -151,15 +178,25 @@
                     color="green"
                     @click="expandAll = !expandAll"
                 >
-                    <v-icon v-if="expandAll">grid_off</v-icon>
-                    <v-icon v-else>grid_on</v-icon>
+                    <v-icon v-if="expandAll">
+                        grid_off
+                    </v-icon>
+                    <v-icon v-else>
+                        grid_on
+                    </v-icon>
                 </v-btn>
                 <span
                     v-if="expandAll"
-                    medium>Esconder itens da planilha</span>
+                    medium
+                >
+                    Esconder itens da planilha
+                </span>
                 <span
                     v-else
-                    medium>Mostrar itens da planilha</span>
+                    medium
+                >
+                    Mostrar itens da planilha
+                </span>
             </v-tooltip>
             <v-tooltip left>
                 <v-btn
@@ -170,7 +207,9 @@
                     fab
                     @click="compararPlanilha = !compararPlanilha"
                 >
-                    <v-icon medium>vertical_split</v-icon>
+                    <v-icon medium>
+                        vertical_split
+                    </v-icon>
                 </v-btn>
                 <span>Comparar planilha</span>
             </v-tooltip>
@@ -192,6 +231,9 @@ const dataDefaults = {
     calculos: {
         totalSolicitado: 0,
         totalSugerido: 0,
+        fontes: {},
+        produtos: {},
+        etapas: {},
     },
 };
 
@@ -213,6 +255,17 @@ export default {
             fab: false,
             calculos: dataDefaults.calculos,
             show: false,
+            totaisPlanilha: [
+                {
+                    label: 'Valor Sugerido',
+                    column: 'VlSugeridoParecerista',
+                },
+                {
+                    label: 'Valor Solicitado',
+                    column: 'VlSolicitado',
+                },
+            ],
+            agrupamentos: ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade'],
         };
     },
     computed: {
@@ -241,7 +294,7 @@ export default {
             handler(val) {
                 if (Object.keys(val).length > 0) {
                     this.calculos = Object.assign({}, this.$options.data().calculos);
-                    this.calcularPlanilhaRecursivo(val);
+                    this.calcularTotais(val);
                 }
             },
             deep: true,
@@ -263,67 +316,15 @@ export default {
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
             obterUnidades: 'planilha/obterUnidadesPlanilha',
         }),
-        calcularPlanilhaRecursivo(planilha) {
-            const self = this;
-
-
-            if (this.isObject(planilha) && typeof planilha.itens === 'undefined') {
-                Object.keys(planilha).map((key) => {
-                    if (self.isObject(planilha[key])) {
-                        console.log('chamar novamente', this.calculos, planilha[key]);
-
-                        // this.calculos.key.totalSugerido = 0;
-                        // this.calculos.key.totalSolicitado = 0;
-                        this.calcularPlanilhaRecursivo(planilha[key]);
-                    }
-                    return true;
-                });
+        calcularTotais(planilha) {
+            if (!planilha) {
+                return {};
             }
 
-            /**
-             * A) Total solicitado para o projeto: R$ 461.623,13
-             B) Total solicitado para Captação de Recursos: 9,49% de C (R$ 40.029,38)
-             C) A – B: R$ 421.593,75
-             D) Total solicitado de Custos Vinculados: R$ 81.018,75
-             E) C – D: R$ 340.575,00
-
-             F) Percentual solicitado para Custos de Administração: 4,76% (R$ 16.203,75)
-             G) Percentual solicitado para Divulgação: 19% (R$ 64.815,00)
-
-             H) Total sugerido para aprovação no projeto: R$ 411.168,87
-             I) Total sugerido para Captação de recursos: 9,49% de J (R$ 35.654,27)
-             J) H - I: R$ 375.514,60
-             K) Total sugerido para Custos Vinculados: R$ 72.163,60
-             L) J – K: R$ 303.351,00
-
-             M) Percentual sugerido para Custos de Administração: 4,76% (R$ 14.432,72)
-             N) Percentual sugerido para Divulgação: 19% (R$ 57.730,88)
-
-
-             */
-
-            console.log('for para itens', planilha.itens, planilha);
-            if (planilha.itens) {
-                planilha.itens.forEach((item) => {
-                    if (!this.calculos[item.FonteRecurso]) {
-                        const obj = { [item.FonteRecurso]: 0 };
-                        Object.assign(this.calculos, obj);
-                    }
-                    if (!this.calculos[item.Etapa]) {
-                        const obj = { [item.Etapa]: 0 };
-                        Object.assign(this.calculos, obj);
-                    }
-                    if (!this.calculos[item.Produto]) {
-                        const obj = { [item.Produto]: 0 };
-                        Object.assign(this.calculos, obj);
-                    }
-                    this.calculos[item.FonteRecurso] += item.VlSugeridoParecerista;
-                    this.calculos[item.Etapa] += item.VlSugeridoParecerista;
-                    this.calculos[item.Produto] += item.VlSugeridoParecerista;
-                    this.calculos.totalSugerido += item.VlSugeridoParecerista;
-                    this.calculos.totalSolicitado += item.VlSolicitado;
-                });
-            }
+            planilha.forEach((item) => {
+                this.calculos.totalSugerido += item.VlSugeridoParecerista;
+                this.calculos.totalSolicitado += item.VlSolicitado;
+            });
             return true;
         },
     },

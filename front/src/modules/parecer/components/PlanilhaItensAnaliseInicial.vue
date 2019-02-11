@@ -12,7 +12,8 @@
             <v-progress-linear
                 slot="progress"
                 color="blue"
-                indeterminate/>
+                indeterminate
+            />
             <template
                 slot="items"
                 slot-scope="props"
@@ -25,51 +26,73 @@
                     <td class="text-xs-center">
                         <v-tooltip
                             v-if="validarLinha(props.item).valid === false"
-                            bottom>
+                            bottom
+                        >
                             <v-badge
                                 slot="activator"
                                 left
                                 color="red"
                             >
-                                <span slot="badge">!</span>
+                                <span slot="badge">
+                                    !
+                                </span>
                                 {{ props.item.Seq }}
                             </v-badge>
                             <span> {{ validarLinha(props.item).message }}</span>
                         </v-tooltip>
-                        <span v-else> {{ props.item.Seq }} </span>
+                        <span v-else>
+                            {{ props.item.Seq }}
+                        </span>
                     </td>
                     <td class="text-xs-left">
                         <a
                             v-if="props.item.isDisponivelParaAnalise===true"
-                            href="javascript:void(0);">
+                            href="javascript:void(0);"
+                        >
                             {{ props.item.Item }}
                         </a>
-                        <span v-else>{{ props.item.Item }}</span>
+                        <span v-else>
+                            {{ props.item.Item }}
+                        </span>
                     </td>
-                    <td class="text-xs-center">{{ props.item.UnidadeProjeto }}</td>
-                    <td class="text-xs-center">{{ props.item.diasparc }}</td>
-                    <td class="text-xs-center">{{ props.item.quantidadeparc }}</td>
-                    <td class="text-xs-center">{{ props.item.ocorrenciaparc }}</td>
-                    <td class="text-xs-right">{{ props.item.valorUnitarioparc | filtroFormatarParaReal }}</td>
-                    <td class="text-xs-right">{{ props.item.VlSugeridoParecerista | filtroFormatarParaReal }}</td>
+                    <td class="text-xs-center">
+                        {{ props.item.UnidadeProjeto }}
+                    </td>
+                    <td class="text-xs-center">
+                        {{ props.item.diasparc }}
+                    </td>
+                    <td class="text-xs-center">
+                        {{ props.item.quantidadeparc }}
+                    </td>
+                    <td class="text-xs-center">
+                        {{ props.item.ocorrenciaparc }}
+                    </td>
+                    <td class="text-xs-right">
+                        {{ props.item.valorUnitarioparc | filtroFormatarParaReal }}
+                    </td>
+                    <td class="text-xs-right">
+                        {{ props.item.VlSugeridoParecerista | filtroFormatarParaReal }}
+                    </td>
                     <td
                         class="text-xs-left"
                         width="30%"
-                        v-html="$options.filters.filtroDiminuirTexto(props.item.dsJustificativaParecerista, 40)"/>
+                        v-html="$options.filters.filtroDiminuirTexto(props.item.dsJustificativaParecerista, 40)"
+                    />
                 </tr>
             </template>
             <template
                 slot="expand"
-                slot-scope="props">
+            >
                 <v-layout
                     wrap
                     column
-                    class="blue-grey lighten-5 pa-2">
+                    class="blue-grey lighten-5 pa-2"
+                >
                     <v-card>
                         <v-card-title class="py-1">
                             <h3>Editando item: {{ itemEmEdicao.Item }} </h3>
                         </v-card-title>
-                        <v-divider/>
+                        <v-divider />
                         <v-card-text>
                             <v-alert
                                 :value="messageAlert.length > 0"
@@ -80,7 +103,8 @@
                             <v-form
                                 ref="form"
                                 v-model="valid"
-                                lazy-validation>
+                                lazy-validation
+                            >
                                 <v-container fluid>
                                     <v-layout
                                         row
@@ -137,17 +161,19 @@
                                         </v-flex>
                                         <v-flex
                                             xs10
-                                            md10>
+                                            md10
+                                        >
                                             <b>Justificativa</b>
                                             <div
                                                 v-html="itemEmEdicao.justificitivaproponente"
                                             />
                                         </v-flex>
                                     </v-layout>
-                                    <v-divider class="mb-3"/>
+                                    <v-divider class="mb-3" />
                                     <v-layout
                                         row
-                                        wrap>
+                                        wrap
+                                    >
                                         <v-flex
                                             xs12
                                             md12
@@ -206,11 +232,12 @@
                                         <v-flex
                                             xs12
                                             md2
-                                        >    <SalicInputValor
-                                            v-model="itemEmEdicao.valorUnitarioparc"
-                                            :rules="[rules.required, rules.menorQueZero]"
-                                            label="Vl. Unitário (R$)"
-                                        />
+                                        >
+                                            <SalicInputValor
+                                                v-model="itemEmEdicao.valorUnitarioparc"
+                                                :rules="[rules.required, rules.menorQueZero]"
+                                                label="Vl. Unitário (R$)"
+                                            />
                                         </v-flex>
                                         <v-flex
                                             xs12
@@ -226,10 +253,12 @@
                                     </v-layout>
                                     <v-layout
                                         row
-                                        wrap>
+                                        wrap
+                                    >
                                         <v-flex
                                             xs10
-                                            md10>
+                                            md10
+                                        >
                                             <v-textarea
                                                 v-model="itemEmEdicao.dsJustificativaParecerista"
                                                 :rules="justificativaRules"
@@ -244,7 +273,8 @@
                                     grid-list-xs
                                     text-xs-center
                                     ma-0
-                                    pa-0>
+                                    pa-0
+                                >
                                     <v-btn
                                         :disabled="!valid"
                                         :loading="loading"
@@ -253,7 +283,10 @@
                                     >
                                         <v-icon
                                             left
-                                            dark>save</v-icon>
+                                            dark
+                                        >
+                                            save
+                                        </v-icon>
                                         Salvar
                                     </v-btn>
                                 </v-container>
@@ -265,10 +298,15 @@
             <template slot="footer">
                 <tr
                     v-if="table && Object.keys(table).length > 0"
-                    style="opacity: 0.5">
-                    <td colspan="7"><b>Totais</b></td>
-                    <td class="text-xs-right"><b>{{ obterValorSugeridoTotalParecer(table) | formatarParaReal }}</b></td>
-                    <td/>
+                    style="opacity: 0.5"
+                >
+                    <td colspan="7">
+                        <b>Totais</b>
+                    </td>
+                    <td class="text-xs-right">
+                        <b>{{ obterValorSugeridoTotalParecer(table) | formatarParaReal }}</b>
+                    </td>
+                    <td />
                 </tr>
             </template>
         </v-data-table>

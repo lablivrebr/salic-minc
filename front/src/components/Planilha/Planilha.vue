@@ -1,27 +1,67 @@
 <template>
     <div
-        v-if="arrayPlanilha"
-        class="planilha-orcamentaria">
+        v-if="arrayPlanilha.length > 0"
+        class="planilha-orcamentaria"
+    >
+        <slot
+            :planilha-montada="planilhaMontada"
+            :totais="totaisProjeto"
+            :array-planilha="arrayPlanilha"
+            name="header"
+        />
         <s-collapsible-recursivo
-            :planilha="arrayPlanilha"
+            :planilha="planilhaMontada"
             :headers="headers"
             :expand-all="expandAll"
         >
+            <template
+                slot="badge"
+                slot-scope="slotProps"
+            >
+                <slot
+                    :planilha="slotProps.planilha"
+                    name="badge"
+                >
+                    <v-chip
+                        v-if="slotProps.planilha.vlSolicitado"
+                        outline="outline"
+                        label="label"
+                        color="#565555"
+                    >
+                        R$ {{ formatarParaReal(slotProps.planilha.vlSolicitado) }}
+                    </v-chip>
+                </slot>
+            </template>
             <template slot-scope="slotProps">
                 <slot :itens="slotProps.itens">
-                    <s-planilha-itens-padrao :table="slotProps.itens"/>
+                    <s-planilha-itens-padrao :table="slotProps.itens" />
                 </slot>
             </template>
         </s-collapsible-recursivo>
-        <div
-            v-if="arrayPlanilha.total"
-            class="text-xs-right pa-3">
-            <span><b>Valor total do projeto:</b>
-                R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}
-            </span>
-        </div>
+        <slot
+            :planilha-montada="planilhaMontada"
+            :totais="totaisProjeto"
+            :array-planilha="arrayPlanilha"
+            name="footer"
+        >
+            <div
+                v-for="(total, key) in totaisProjeto"
+                :key="key"
+                class="text-xs-right pa-3"
+            >
+                <span>
+                    <b>{{ total.label }} total:</b>
+                    R$ {{ total.value| filtroFormatarParaReal }}
+                </span>
+            </div>
+        </slot>
     </div>
-    <div v-else>Nenhuma planilha encontrada</div>
+    <div
+        v-else
+        class="text-xs-center"
+    >
+        Nenhuma planilha encontrada
+    </div>
 </template>
 
 <script>
@@ -32,10 +72,13 @@ import MxPlanilhas from '@/mixins/planilhas';
 const SCollapsibleRecursivo = {
     name: 'SCollapsibleRecursivo',
     props: {
-        planilha: {},
+        planilha: {
+            type: Object,
+            default: () => {},
+        },
         contador: {
-            default: 1,
             type: Number,
+            default: 1,
         },
         headers: {
             type: Array,
@@ -54,15 +97,8 @@ const SCollapsibleRecursivo = {
                 { props: { value: self.toggleExpand(this.planilha, self.contador) }, attrs: { expand: 'expand' } },
                 Object.keys(this.planilha).map((key) => {
                     if (self.isObject(self.planilha[key])) {
-                        const badgeHeader = self.planilha[key].total ? h('VChip',
-                            {
-                                attrs: {
-                                    outline: 'outline',
-                                    label: 'label',
-                                    color: '#565555',
-                                },
-                            },
-                            [`R$ ${self.formatarParaReal(self.planilha[key].total)} `]) : '';
+                        const badgeHeader = (self.$scopedSlots.badge)
+                            ? self.$scopedSlots.badge({ planilha: self.planilha[key] }) : '';
                         return h('VExpansionPanelContent',
                             [
                                 h('VLayout',
@@ -76,7 +112,7 @@ const SCollapsibleRecursivo = {
                                     },
                                     [
                                         h('i',
-                                            { class: `material-icons mt-2 pl-${self.contador * 1 + 1}` },
+                                            { class: `material-icons mt-2 pl-${self.contador * 1}` },
                                             [self.getHeader(self.contador).icon]),
                                         h('span', { class: 'ml-2 mt-2' }, key),
                                         h('VSpacer'),
@@ -91,7 +127,10 @@ const SCollapsibleRecursivo = {
                                                 headers: self.headers,
                                                 expandAll: self.expandAll,
                                             },
-                                            scopedSlots: { default: self.$scopedSlots.default },
+                                            scopedSlots: {
+                                                badge: self.$scopedSlots.badge,
+                                                default: self.$scopedSlots.default,
+                                            },
                                         }),
                                         h(SPlanilhaConsolidacao, {
                                             props: {
@@ -134,8 +173,8 @@ export default {
     mixins: [MxPlanilhas],
     props: {
         arrayPlanilha: {
-            type: Object,
-            default: () => {},
+            type: [Array],
+            default: () => [],
         },
         headers: {
             type: Array,
@@ -160,12 +199,82 @@ export default {
                     icon: 'place',
                     color: '#2196F3',
                 },
-
+                {
+                    id: 5,
+                    icon: 'location_city',
+                    color: '#2196F3',
+                },
+            ],
+        },
+        agrupamentos: {
+            type: Array,
+            default: () => ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Municipio'],
+        },
+        totais: {
+            type: Array,
+            default: () => [
+                {
+                    label: 'Vl. Solicitado',
+                    column: 'vlSolicitado',
+                },
             ],
         },
         expandAll: {
             type: Boolean,
             default: true,
+        },
+    },
+    computed: {
+        planilhaMontada() {
+            if (this.arrayPlanilha.length === 0) {
+                return {};
+            }
+
+            const self = this;
+            /* eslint-disable no-param-reassign */
+            const groupBy = (planilha, agrupamentos) => planilha.reduce((prev, item) => {
+                let i = 0;
+                function agruparItens(colunas) {
+                    const key = agrupamentos[i];
+                    i += 1;
+                    (colunas[item[key]] = colunas[item[key]] || Object.assign({}, colunas[item[key]]) || {});
+                    const isItemExcluido = item.tpAcao && item.tpAcao === 'E';
+                    // calculando os totais
+                    const qtdTotais = self.totais.length;
+                    if (!isItemExcluido) {
+                        for (let y = 0; y < qtdTotais; y += 1) {
+                            const b = self.totais[y].column;
+                            colunas[item[key]] = Object.assign(colunas[item[key]], { [b]: (colunas[item[key]][b] + item[b]) || item[b] });
+                        }
+                    }
+
+                    if (agrupamentos[agrupamentos.length - 1] === key) {
+                        if (!colunas[item[key]].itens) {
+                            (colunas[item[key]] = Object.assign(colunas[item[key]], { itens: [] }));
+                        }
+                        colunas[item[key]].itens.push(item);
+                    } else {
+                        agruparItens(colunas[item[key]], item, agrupamentos);
+                    }
+                    return colunas;
+                }
+                return agruparItens(prev);
+            }, {});
+            return groupBy(this.arrayPlanilha, this.agrupamentos);
+        },
+        totaisProjeto() {
+            const self = this;
+            if (Object.keys(self.planilhaMontada).length === 0) {
+                return {};
+            }
+            return Object.keys(self.planilhaMontada).reduce((prev, key) => {
+                self.totais.forEach((current) => {
+                    const a = current.column;
+                    prev[a] = (prev[a] || { ...current, value: 0 });
+                    prev[a].value += self.planilhaMontada[key][a];
+                });
+                return prev;
+            }, {});
         },
     },
 };

@@ -4,9 +4,9 @@ export const state = {
     produtos: [],
     produto: {},
     analiseConteudo: {},
-    planilhaParecer: {},
+    planilhaParecer: [],
     produtosSecundarios: [],
-    planilhaSecundario: {},
+    planilhaSecundario: [],
     analiseConteudoSecundario: {},
     consolidacao: {},
 };
@@ -37,16 +37,9 @@ export const mutations = {
         state.consolidacao = dados;
     },
     [types.UPDATE_ITEM_PLANILHA](state, params) {
-        const produto = params.idProduto !== 0 ? params.Produto : 'Administração do Projeto';
-        const fonte = params.FonteRecurso;
-        const etapa = params.Etapa;
-        const regiao = `${params.UF} - ${params.Cidade}`;
-
-        const items = state.planilhaParecer[fonte][produto][etapa][regiao].itens;
-
-        const index = items.findIndex(
+        const index = state.planilhaParecer.findIndex(
             item => item.idPlanilhaProjeto === params.idPlanilhaProjeto,
         );
-        Object.assign(items[index], params);
+        Object.assign(state.planilhaParecer[index], params);
     },
 };

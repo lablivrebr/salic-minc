@@ -311,7 +311,7 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
                 array('FED' => 'UF'),
             new Zend_Db_Expr('PPJ.UFDespesa = FED.idUF'),
             array(
-            'FED.Sigla as UF'
+            'FED.Descricao as UF'
                 ),
             'Agentes.dbo'
         );

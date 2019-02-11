@@ -100,7 +100,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         );
         $planilha = \TratarArray::utf8EncodeArray($planilha);
         $planilhaMontada = $this->montarPlanilha($planilha, $analisedeConteudo, $stPrincipal);
-        $resp = $planilhaMontada;
+        $resp['items'] = $planilhaMontada;
         $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idProduto, $idPronac) && $analisedeConteudo[0]->ParecerFavoravel == 1;
 
         return $resp;
@@ -130,8 +130,10 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
             $row["Seq"] = $i;
             $row['isDisponivelParaAnalise'] = $this->isItemDisponivelParaAnalise($item);
-
-            $planilha['total'] += $row["vlSolicitado"];
+            $row['Produto'] = $produto;
+            $planilha[] = $row;
+//            $planilha['total'] += $row["VlSolicitado"];
+//            $planilha['totalSugerido'] += $row["VlSugeridoParecerista"];
 //            $planilha[$fonte]['total'] += $row["VlSolicitado"];
 //            $planilha[$fonte]['totalSugerido'] += $row["VlSugeridoParecerista"];
 //            $planilha[$fonte][$produto]['total'] += $row["VlSolicitado"];
@@ -140,7 +142,6 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 //            $planilha[$fonte][$produto][$etapa]['totalSugerido'] += $row["VlSugeridoParecerista"];
 //            $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $row["VlSolicitado"];
 //            $planilha[$fonte][$produto][$etapa][$regiao]['totalSugerido'] += $row["VlSugeridoParecerista"];
-            $planilha[$fonte][$produto][$etapa][$regiao]['itens'][] = $row;
         }
 
         return $planilha;

@@ -54,11 +54,11 @@ export const salvarAnaLiseConteudo = async ({ commit }, avaliacao) => {
 };
 
 export const obterPlanilhaParaAnalise = ({ commit }, params) => {
-    commit(types.SET_PLANILHA_PARECER, {});
+    commit(types.SET_PLANILHA_PARECER, []);
     parecerHelperAPI.obterPlanilhaParaAnalise(params)
         .then((response) => {
             const { data } = response;
-            commit(types.SET_PLANILHA_PARECER, data);
+            commit(types.SET_PLANILHA_PARECER, data.items);
         });
 };
 

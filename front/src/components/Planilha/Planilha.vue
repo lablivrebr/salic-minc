@@ -1,7 +1,14 @@
 <template>
     <div
         v-if="arrayPlanilha.length > 0"
-        class="planilha-orcamentaria">
+        class="planilha-orcamentaria"
+    >
+        <slot
+            :planilha-montada="planilhaMontada"
+            :totais="totaisProjeto"
+            :array-planilha="arrayPlanilha"
+            name="header"
+        />
         <s-collapsible-recursivo
             :planilha="planilhaMontada"
             :headers="headers"
@@ -9,34 +16,52 @@
         >
             <template
                 slot="badge"
-                slot-scope="slotProps">
+                slot-scope="slotProps"
+            >
                 <slot
                     :planilha="slotProps.planilha"
-                    name="badge">
-                    <VChip
+                    name="badge"
+                >
+                    <v-chip
                         v-if="slotProps.planilha.vlSolicitado"
                         outline="outline"
                         label="label"
-                        color="#565555">
+                        color="#565555"
+                    >
                         R$ {{ formatarParaReal(slotProps.planilha.vlSolicitado) }}
-                    </VChip>
+                    </v-chip>
                 </slot>
             </template>
             <template slot-scope="slotProps">
                 <slot :itens="slotProps.itens">
-                    <s-planilha-itens-padrao :table="slotProps.itens"/>
+                    <s-planilha-itens-padrao :table="slotProps.itens" />
                 </slot>
             </template>
         </s-collapsible-recursivo>
-        <div
-            v-if="arrayPlanilha.total"
-            class="text-xs-right pa-3">
-            <span><b>Valor total do projeto:</b>
-                R$ {{ arrayPlanilha.total | filtroFormatarParaReal }}
-            </span>
-        </div>
+        <slot
+            :planilha-montada="planilhaMontada"
+            :totais="totaisProjeto"
+            :array-planilha="arrayPlanilha"
+            name="footer"
+        >
+            <div
+                v-for="(total, key) in totaisProjeto"
+                :key="key"
+                class="text-xs-right pa-3"
+            >
+                <span>
+                    <b>{{ total.label }} total:</b>
+                    R$ {{ total.value| filtroFormatarParaReal }}
+                </span>
+            </div>
+        </slot>
     </div>
-    <div v-else>Nenhuma planilha encontrada</div>
+    <div
+        v-else
+        class="text-xs-center"
+    >
+        Nenhuma planilha encontrada
+    </div>
 </template>
 
 <script>
@@ -187,7 +212,12 @@ export default {
         },
         totais: {
             type: Array,
-            default: () => ['vlSolicitado'],
+            default: () => [
+                {
+                    label: 'Vl. Solicitado',
+                    column: 'vlSolicitado',
+                },
+            ],
         },
         expandAll: {
             type: Boolean,
@@ -202,35 +232,49 @@ export default {
 
             const self = this;
             /* eslint-disable no-param-reassign */
-            const groupBy = (plan, chaves) => plan.reduce((rv, x) => {
+            const groupBy = (planilha, agrupamentos) => planilha.reduce((prev, item) => {
                 let i = 0;
-                function agruparItens(p, item, keys) {
-                    const key = keys[i];
+                function agruparItens(colunas) {
+                    const key = agrupamentos[i];
                     i += 1;
-                    (p[item[key]] = p[item[key]] || Object.assign({}, p[item[key]]) || {});
+                    (colunas[item[key]] = colunas[item[key]] || Object.assign({}, colunas[item[key]]) || {});
                     const isItemExcluido = item.tpAcao && item.tpAcao === 'E';
                     // calculando os totais
-                    const plen = self.totais.length;
+                    const qtdTotais = self.totais.length;
                     if (!isItemExcluido) {
-                        for (let y = 0; y < plen; y += 1) {
-                            const b = self.totais[y];
-                            p[item[key]] = Object.assign(p[item[key]], { [b]: (p[item[key]][b] + x[b]) || x[b] });
+                        for (let y = 0; y < qtdTotais; y += 1) {
+                            const b = self.totais[y].column;
+                            colunas[item[key]] = Object.assign(colunas[item[key]], { [b]: (colunas[item[key]][b] + item[b]) || item[b] });
                         }
                     }
 
-                    if (keys[keys.length - 1] === key) {
-                        if (!p[item[key]].itens) {
-                            (p[item[key]] = Object.assign(p[item[key]], { itens: [] }));
+                    if (agrupamentos[agrupamentos.length - 1] === key) {
+                        if (!colunas[item[key]].itens) {
+                            (colunas[item[key]] = Object.assign(colunas[item[key]], { itens: [] }));
                         }
-                        p[item[key]].itens.push(x);
+                        colunas[item[key]].itens.push(item);
                     } else {
-                        agruparItens(p[item[key]], item, keys);
+                        agruparItens(colunas[item[key]], item, agrupamentos);
                     }
-                    return p;
+                    return colunas;
                 }
-                return agruparItens(rv, x, chaves);
+                return agruparItens(prev);
             }, {});
             return groupBy(this.arrayPlanilha, this.agrupamentos);
+        },
+        totaisProjeto() {
+            const self = this;
+            if (Object.keys(self.planilhaMontada).length === 0) {
+                return {};
+            }
+            return Object.keys(self.planilhaMontada).reduce((prev, key) => {
+                self.totais.forEach((current) => {
+                    const a = current.column;
+                    prev[a] = (prev[a] || { ...current, value: 0 });
+                    prev[a].value += self.planilhaMontada[key][a];
+                });
+                return prev;
+            }, {});
         },
     },
 };

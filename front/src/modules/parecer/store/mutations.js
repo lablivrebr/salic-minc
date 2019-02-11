@@ -4,9 +4,9 @@ export const state = {
     produtos: [],
     produto: {},
     analiseConteudo: {},
-    planilhaParecer: {},
+    planilhaParecer: [],
     produtosSecundarios: [],
-    planilhaSecundario: {},
+    planilhaSecundario: [],
     analiseConteudoSecundario: {},
     consolidacao: {},
 };

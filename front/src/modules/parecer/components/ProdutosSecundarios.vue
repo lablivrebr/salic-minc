@@ -8,40 +8,51 @@
         >
             <template
                 slot="items"
-                slot-scope="props">
+                slot-scope="props"
+            >
                 <td>{{ props.item.Produto }}</td>
                 <td>
                     <v-tooltip
                         v-if="props.item.stPrincipal === 1"
-                        bottom>
+                        bottom
+                    >
                         <v-icon
                             slot="activator"
                             round
-                        >looks_one</v-icon>
+                        >
+                            looks_one
+                        </v-icon>
                         <span>Produto principal</span>
                     </v-tooltip>
                     <v-tooltip
                         v-else
-                        bottom>
+                        bottom
+                    >
                         <v-icon
                             slot="activator"
-                            color="grey">looks_two</v-icon>
+                            color="grey"
+                        >
+                            looks_two
+                        </v-icon>
                         <span>Produto secundário</span>
                     </v-tooltip>
                 </td>
                 <td>{{ props.item.DtDistribuicaoPT }}</td>
-                <td v-html="props.item.Obs "/>
+                <td v-html="props.item.Obs " />
                 <td class="justify-center layout px-0">
                     <v-tooltip
-                        bottom>
+                        bottom
+                    >
                         <v-btn
                             slot="activator"
                             flat
                             icon
                             class="mr-2"
-                            @click="visualizarDetalhesProduto(props.item)">
-                            <v-icon
-                            >visibility</v-icon>
+                            @click="visualizarDetalhesProduto(props.item)"
+                        >
+                            <v-icon>
+                                visibility
+                            </v-icon>
                         </v-btn>
                         <span>Visualizar dados deste produto</span>
                     </v-tooltip>
@@ -58,15 +69,18 @@
         >
             <v-card
                 v-if="produto"
-                tile>
+                tile
+            >
                 <v-toolbar
                     card
                     dark
-                    color="primary">
+                    color="primary"
+                >
                     <v-btn
                         icon
                         dark
-                        @click="dialog = false">
+                        @click="dialog = false"
+                    >
                         <v-icon>close</v-icon>
                     </v-btn>
                     <v-toolbar-title>
@@ -78,41 +92,65 @@
                     <v-expansion-panel
                         v-show="!loading"
                         :value="[true, true]"
-                        expand>
+                        expand
+                    >
                         <v-expansion-panel-content>
                             <div slot="header">
-                                <v-icon class="material-icons">assignment</v-icon>
+                                <v-icon class="material-icons">
+                                    assignment
+                                </v-icon>
                                 Análise do conteúdo
                             </div>
                             <v-layout
                                 wrap
-                                class="pa-3">
+                                class="pa-3"
+                            >
                                 <v-flex
                                     xs12
                                     sm12
-                                    md12>
+                                    md12
+                                >
                                     <p><b>Parecer de Conteúdo do Produto</b></p>
                                     <div
-                                        v-html="analiseConteudo.ParecerDeConteudo"/>
+                                        v-html="analiseConteudo.ParecerDeConteudo"
+                                    />
                                 </v-flex>
                                 <v-flex
                                     xs12
                                     sm12
-                                    md12>
+                                    md12
+                                >
                                     <b>Parecer favorável: </b> {{ analiseConteudo.ParecerFavoravel | formatarLabelSimOuNao }}
                                 </v-flex>
                             </v-layout>
                         </v-expansion-panel-content>
                         <v-expansion-panel-content>
                             <div slot="header">
-                                <v-icon class="material-icons">assignment</v-icon>
+                                <v-icon class="material-icons">
+                                    assignment
+                                </v-icon>
                                 Análise de custo
                             </div>
                             <s-planilha
                                 v-if="Object.keys(planilha).length > 0"
-                                :array-planilha="planilha">
+                                :array-planilha="planilha.items"
+                                :agrupamentos="agrupamentos"
+                                :totais="totaisPlanilha"
+                            >
+                                <template
+                                    slot="badge"
+                                    slot-scope="slotProps"
+                                >
+                                    <v-chip
+                                        outline="outline"
+                                        label="label"
+                                        color="#565555"
+                                    >
+                                        R$ {{ slotProps.planilha.VlSugeridoParecerista | formatarParaReal }}
+                                    </v-chip>
+                                </template>
                                 <template slot-scope="slotProps">
-                                    <s-planilha-itens-visualizar :table="slotProps.itens"/>
+                                    <s-planilha-itens-visualizar :table="slotProps.itens" />
                                 </template>
                             </s-planilha>
                         </v-expansion-panel-content>
@@ -141,6 +179,8 @@ export default {
     },
     data() {
         return {
+            dialog: false,
+            loading: false,
             headers: [
                 { text: 'Produto', value: 'Produto' },
                 { text: 'Tipo', value: 'stPrincipal' },
@@ -154,8 +194,17 @@ export default {
                 type: Object,
                 default: () => {},
             },
-            dialog: false,
-            loading: false,
+            totaisPlanilha: [
+                {
+                    label: 'Valor Sugerido',
+                    column: 'VlSugeridoParecerista',
+                },
+                {
+                    label: 'Valor Solicitado',
+                    column: 'VlSolicitado',
+                },
+            ],
+            agrupamentos: ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade'],
         };
     },
     computed: {

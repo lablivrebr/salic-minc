@@ -2,10 +2,12 @@
     <div @keydown.esc="compararPlanilha = false">
         <v-container
             grid-list-md
-            text-xs-center>
+            text-xs-center
+        >
             <v-layout
                 row
-                wrap>
+                wrap
+            >
                 <v-flex xs6>
                     <v-card
                         class="mx-auto mb-2"
@@ -16,14 +18,11 @@
                             dense
                         >
                             <v-toolbar-title>
-                                <span class="subheading">SOLICITADO</span>
+                                <span class="subheading">
+                                    SOLICITADO
+                                </span>
                             </v-toolbar-title>
-                            <v-spacer/>
-                            <v-btn
-                                icon
-                                @click="show = !show">
-                                <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                            </v-btn>
+                            <v-spacer />
                         </v-toolbar>
 
                         <v-card-text>
@@ -31,18 +30,17 @@
                                 justify-space-between
                             >
                                 <v-flex text-xs-left>
-                                    <span class="subheading font-weight-light mr-1">R$</span>
+                                    <span class="subheading font-weight-light mr-1">
+                                        R$
+                                    </span>
                                     <span
                                         class="display-2 font-weight-light"
-                                    >{{ calculos.totalSolicitado | filtroFormatarParaReal }}</span>
+                                    >
+                                        {{ calculos.totalSolicitado | filtroFormatarParaReal }}
+                                    </span>
                                 </v-flex>
                             </v-layout>
                         </v-card-text>
-                        <v-slide-y-transition>
-                            <v-card-text v-show="show">
-                                {{ calculos }}
-                            </v-card-text>
-                        </v-slide-y-transition>
                     </v-card>
                 </v-flex>
                 <v-flex xs6>
@@ -55,14 +53,11 @@
                             dense
                         >
                             <v-toolbar-title>
-                                <span class="subheading">SUGERIDO</span>
+                                <span class="subheading">
+                                    SUGERIDO
+                                </span>
                             </v-toolbar-title>
-                            <v-spacer/>
-                            <v-btn
-                                icon
-                                @click="show = !show">
-                                <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                            </v-btn>
+                            <v-spacer />
                         </v-toolbar>
 
                         <v-card-text>
@@ -70,18 +65,17 @@
                                 justify-space-between
                             >
                                 <v-flex text-xs-left>
-                                    <span class="subheading font-weight-light mr-1">R$</span>
+                                    <span class="subheading font-weight-light mr-1">
+                                        R$
+                                    </span>
                                     <span
                                         class="display-2 font-weight-light"
-                                    >{{ calculos.totalSugerido | filtroFormatarParaReal }}</span>
+                                    >
+                                        {{ calculos.totalSugerido | filtroFormatarParaReal }}
+                                    </span>
                                 </v-flex>
                             </v-layout>
                         </v-card-text>
-                        <v-slide-y-transition>
-                            <v-card-text v-show="show">
-                                {{ calculos }}
-                            </v-card-text>
-                        </v-slide-y-transition>
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -96,57 +90,63 @@
         >
             <div
                 v-if="compararPlanilha === true"
-                slot="firstPane">
+                slot="firstPane"
+            >
                 <s-planilha
                     :array-planilha="planilha"
                     :expand-all="expandAll"
-                    :agrupamentos="['FonteRecursos', 'Produto', 'Etapa', 'UF', 'Cidade']"
-                    :totais="['VlSolicitado']"
+                    :agrupamentos="agrupamentos"
+                    :totais="totaisPlanilha"
                 >
                     <template
                         slot="badge"
-                        slot-scope="slotProps">
+                        slot-scope="slotProps"
+                    >
                         <VChip
                             v-if="slotProps.planilha.VlSolicitado"
                             outline="outline"
                             label="label"
-                            color="#565555">
+                            color="#565555"
+                        >
                             R$ {{ formatarParaReal(slotProps.planilha.VlSolicitado) }}
                         </VChip>
                     </template>
                     <template slot-scope="slotProps">
-                        <s-planilha-itens-visualizar-solicitado :table="slotProps.itens"/>
+                        <s-planilha-itens-visualizar-solicitado :table="slotProps.itens" />
                     </template>
                 </s-planilha>
             </div>
             <div
-                slot="secondPane">
+                slot="secondPane"
+            >
                 <s-planilha
                     :array-planilha="planilha"
                     :expand-all="expandAll"
-                    :agrupamentos="['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade']"
-                    :totais="['VlSugeridoParecerista']"
+                    :agrupamentos="agrupamentos"
+                    :totais="totaisPlanilha"
                 >
                     <template
                         slot="badge"
-                        slot-scope="slotProps">
-                        <VChip
-                            v-if="slotProps.planilha.VlSugeridoParecerista"
+                        slot-scope="slotProps"
+                    >
+                        <v-chip
                             outline="outline"
                             label="label"
-                            color="#565555">
+                            color="#565555"
+                        >
                             R$ {{ formatarParaReal(slotProps.planilha.VlSugeridoParecerista) }}
-                        </VChip>
+                        </v-chip>
                     </template>
                     <template slot-scope="slotProps">
-                        <s-planilha-itens-analise-inicial :table="slotProps.itens"/>
+                        <s-planilha-itens-analise-inicial :table="slotProps.itens" />
                     </template>
                 </s-planilha>
             </div>
         </resize-panel>
         <s-carregando
             v-else
-            :text="'Carregando Planilha'"/>
+            :text="'Carregando Planilha'"
+        />
         <v-speed-dial
             v-if="active && Object.keys(planilha).length > 0"
             v-model="fab"
@@ -168,7 +168,8 @@
                 <v-icon>close</v-icon>
             </v-btn>
             <v-tooltip
-                left>
+                left
+            >
                 <v-btn
                     slot="activator"
                     fab
@@ -177,15 +178,25 @@
                     color="green"
                     @click="expandAll = !expandAll"
                 >
-                    <v-icon v-if="expandAll">grid_off</v-icon>
-                    <v-icon v-else>grid_on</v-icon>
+                    <v-icon v-if="expandAll">
+                        grid_off
+                    </v-icon>
+                    <v-icon v-else>
+                        grid_on
+                    </v-icon>
                 </v-btn>
                 <span
                     v-if="expandAll"
-                    medium>Esconder itens da planilha</span>
+                    medium
+                >
+                    Esconder itens da planilha
+                </span>
                 <span
                     v-else
-                    medium>Mostrar itens da planilha</span>
+                    medium
+                >
+                    Mostrar itens da planilha
+                </span>
             </v-tooltip>
             <v-tooltip left>
                 <v-btn
@@ -196,7 +207,9 @@
                     fab
                     @click="compararPlanilha = !compararPlanilha"
                 >
-                    <v-icon medium>vertical_split</v-icon>
+                    <v-icon medium>
+                        vertical_split
+                    </v-icon>
                 </v-btn>
                 <span>Comparar planilha</span>
             </v-tooltip>
@@ -242,6 +255,17 @@ export default {
             fab: false,
             calculos: dataDefaults.calculos,
             show: false,
+            totaisPlanilha: [
+                {
+                    label: 'Valor Sugerido',
+                    column: 'VlSugeridoParecerista',
+                },
+                {
+                    label: 'Valor Solicitado',
+                    column: 'VlSolicitado',
+                },
+            ],
+            agrupamentos: ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade'],
         };
     },
     computed: {

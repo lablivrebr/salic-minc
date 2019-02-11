@@ -1,6 +1,5 @@
 import * as parecerHelperAPI from '@/helpers/api/Parecer';
 import * as types from './types';
-import _ from 'lodash';
 
 export const obterProdutosParaAnalise = ({ commit }) => {
     commit(types.SET_PRODUTOS, []);
@@ -55,7 +54,7 @@ export const salvarAnaLiseConteudo = async ({ commit }, avaliacao) => {
 };
 
 export const obterPlanilhaParaAnalise = ({ commit }, params) => {
-    commit(types.SET_PLANILHA_PARECER, {});
+    commit(types.SET_PLANILHA_PARECER, []);
     parecerHelperAPI.obterPlanilhaParaAnalise(params)
         .then((response) => {
             const { data } = response;

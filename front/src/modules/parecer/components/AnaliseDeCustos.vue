@@ -100,6 +100,8 @@
                 <s-planilha
                     :array-planilha="planilha"
                     :expand-all="expandAll"
+                    :agrupamentos="['FonteRecursos', 'Produto', 'Etapa', 'UF', 'Cidade']"
+                    :totais="['VlSolicitado']"
                 >
                     <template
                         slot="badge"
@@ -122,6 +124,8 @@
                 <s-planilha
                     :array-planilha="planilha"
                     :expand-all="expandAll"
+                    :agrupamentos="['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade']"
+                    :totais="['VlSugeridoParecerista']"
                 >
                     <template
                         slot="badge"
@@ -266,7 +270,7 @@ export default {
             handler(val) {
                 if (Object.keys(val).length > 0) {
                     this.calculos = Object.assign({}, this.$options.data().calculos);
-                    this.calcularPlanilhaRecursivo(val);
+                    this.calcularTotais(val);
                 }
             },
             deep: true,
@@ -288,27 +292,12 @@ export default {
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
             obterUnidades: 'planilha/obterUnidadesPlanilha',
         }),
-        calcularPlanilhaRecursivo(planilha) {
+        calcularTotais(planilha) {
             if (!planilha) {
                 return {};
             }
 
             planilha.forEach((item) => {
-                if (!this.calculos[item.FonteRecurso]) {
-                    const obj = { [item.FonteRecurso]: 0 };
-                    Object.assign(this.calculos, obj);
-                }
-                if (!this.calculos[item.Etapa]) {
-                    const obj = { [item.Etapa]: 0 };
-                    Object.assign(this.calculos, obj);
-                }
-                if (!this.calculos[item.Produto]) {
-                    const obj = { [item.Produto]: 0 };
-                    Object.assign(this.calculos, obj);
-                }
-                // this.calculos[item.FonteRecurso] += item.VlSugeridoParecerista;
-                // this.calculos[item.Etapa] += item.VlSugeridoParecerista;
-                // this.calculos[item.Produto] += item.VlSugeridoParecerista;
                 this.calculos.totalSugerido += item.VlSugeridoParecerista;
                 this.calculos.totalSolicitado += item.VlSolicitado;
             });

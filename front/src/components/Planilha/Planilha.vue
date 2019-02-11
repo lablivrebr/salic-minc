@@ -1,6 +1,6 @@
 <template>
     <div
-        v-if="arrayPlanilha"
+        v-if="arrayPlanilha.length > 0"
         class="planilha-orcamentaria">
         <s-collapsible-recursivo
             :planilha="planilhaMontada"
@@ -14,11 +14,11 @@
                     :planilha="slotProps.planilha"
                     name="badge">
                     <VChip
-                        v-if="slotProps.planilha.total"
+                        v-if="slotProps.planilha.vlSolicitado"
                         outline="outline"
                         label="label"
                         color="#565555">
-                        R$ {{ formatarParaReal(slotProps.planilha.total) }}
+                        R$ {{ formatarParaReal(slotProps.planilha.vlSolicitado) }}
                     </VChip>
                 </slot>
             </template>
@@ -183,11 +183,11 @@ export default {
         },
         agrupamentos: {
             type: Array,
-            default: () => ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade'],
+            default: () => ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Municipio'],
         },
         totais: {
             type: Array,
-            default: () => ['VlSolicitado', 'VlSugeridoParecerista'],
+            default: () => ['vlSolicitado'],
         },
         expandAll: {
             type: Boolean,
@@ -196,7 +196,7 @@ export default {
     },
     computed: {
         planilhaMontada() {
-            if (!this.arrayPlanilha) {
+            if (this.arrayPlanilha.length === 0) {
                 return {};
             }
 
@@ -208,11 +208,14 @@ export default {
                     const key = keys[i];
                     i += 1;
                     (p[item[key]] = p[item[key]] || Object.assign({}, p[item[key]]) || {});
-
+                    const isItemExcluido = item.tpAcao && item.tpAcao === 'E';
+                    // calculando os totais
                     const plen = self.totais.length;
-                    for (let y = 0; y < plen; y += 1) {
-                        const b = self.totais[y];
-                        p[item[key]] = Object.assign(p[item[key]], { [b]: (p[item[key]][b] + x[b]) || x[b] });
+                    if (!isItemExcluido) {
+                        for (let y = 0; y < plen; y += 1) {
+                            const b = self.totais[y];
+                            p[item[key]] = Object.assign(p[item[key]], { [b]: (p[item[key]][b] + x[b]) || x[b] });
+                        }
                     }
 
                     if (keys[keys.length - 1] === key) {

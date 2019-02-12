@@ -14,6 +14,7 @@ class Planilha_Bootstrap extends Zend_Application_Module_Bootstrap
             [
                 "planilha" => [
                     'planilha-unidade-rest',
+                    'mediana-item-orcamentario-rest',
                 ]
             ]
         );

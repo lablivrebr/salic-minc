@@ -57,12 +57,18 @@
                             </span>
                         </v-toolbar-title>
                         <v-spacer />
-                        <v-btn
-                            icon
-                            @click="dialog = !dialog"
+                        <v-tooltip
+                            bottom
                         >
-                            <v-icon>restore</v-icon>
-                        </v-btn>
+                            <v-btn
+                                slot="activator"
+                                icon
+                                @click="dialog = !dialog"
+                            >
+                                <v-icon>restore</v-icon>
+                            </v-btn>
+                            <span>Restaurar planilha original</span>
+                        </v-tooltip>
                     </v-toolbar>
 
                     <v-card-text>

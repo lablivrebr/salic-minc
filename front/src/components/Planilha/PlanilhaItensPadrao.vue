@@ -40,10 +40,14 @@
                     </td>
                     <td class="justify-center layout px-0">
                         <v-icon
+                            v-if="props.item.JustProponente.length > 1"
                             small
                             class="mr-2"
                             @click="editItem(props.item)"
-                        >visibility</v-icon>
+                        >
+                            visibility
+                        </v-icon>
+                        <span v-else class="py-2">-</span>
                     </td>
                 </tr>
             </template>
@@ -62,48 +66,19 @@
                 </tr>
             </template>
         </v-data-table>
-        <v-dialog
+        <s-planilha-justificativa-dialog
             v-model="dialog"
-            max-width="500px"
-        >
-            <v-card>
-                <v-card-title>
-                    <span class="headline">
-                        Justificativa
-                    </span>
-                </v-card-title>
-
-                <v-card-text>
-                    <v-container grid-list-md>
-                        <v-layout wrap>
-                            <v-flex
-                                xs12
-                                v-html="editedItem.JustProponente"
-                            >
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                </v-card-text>
-
-                <v-card-actions>
-                    <v-spacer />
-                    <v-btn
-                        color="blue darken-1"
-                        flat
-                        @click="close"
-                    >
-                        Cancel
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+            :text="editedItem.JustProponente"
+        />
     </div>
 </template>
 
 <script>
 import planilhas from '@/mixins/planilhas';
+import SPlanilhaJustificativaDialog from './PlanilhaItensJustificativaDialog';
 
 export default {
+    components: { SPlanilhaJustificativaDialog },
     mixins: [planilhas],
     props: {
         table: {
@@ -132,11 +107,6 @@ export default {
         editItem(item) {
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
-        },
-
-        close() {
-            this.dialog = false;
-            this.editedItem = Object.assign({});
         },
     },
 };

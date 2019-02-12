@@ -59,6 +59,15 @@ export const obterPlanilhaParaAnalise = ({ commit }, params) => {
         .then((response) => {
             const { data } = response;
             commit(types.SET_PLANILHA_PARECER, data.items);
+        }).catch((e) => {
+            commit('noticias/SET_DADOS',
+                {
+                    ativo: true,
+                    color: 'error',
+                    text: e.response.data.error.message,
+                },
+                { root: true });
+            throw new TypeError(e.response.data.error.message, 'obterPlanilhaParaAnalise', 10);
         });
 };
 
@@ -148,6 +157,30 @@ export const salvarAnaliseConsolidacao = async ({ commit }, avaliacao) => {
                 },
                 { root: true });
             throw new TypeError(e.response.data.message, 'salvarAnaliseConsolidacao', 10);
+        });
+    return valor;
+};
+
+export const restaurarPlanilhaProduto = async ({ commit }, avaliacao) => {
+    const valor = await parecerHelperAPI.restaurarPlanilhaProduto(avaliacao)
+        .then((response) => {
+            commit('noticias/SET_DADOS',
+                {
+                    ativo: true,
+                    color: 'success',
+                    text: response.data.message,
+                },
+                { root: true });
+            return response.data;
+        }).catch((e) => {
+            commit('noticias/SET_DADOS',
+                {
+                    ativo: true,
+                    color: 'error',
+                    text: e.response.data.message,
+                },
+                { root: true });
+            throw new TypeError(e.response.data.message, 'restaurarPlanilha', 10);
         });
     return valor;
 };

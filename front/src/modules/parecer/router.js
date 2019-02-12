@@ -1,6 +1,6 @@
 import AnaliseDeConteudo from './components/AnaliseDeConteudo';
 import AnaliseDeCustos from './components/AnaliseDeCustos';
-import AnaliseOutrosPodutos from './components/AnaliseOutrosPodutos';
+import AnaliseOutrosProdutos from './components/AnaliseOutrosProdutos';
 import AnaliseConsolidacao from './components/AnaliseConsolidacao';
 import AnaliseFinalizacao from './components/AnaliseFinalizacao';
 
@@ -36,7 +36,7 @@ export default [
             {
                 path: 'outros-produtos',
                 name: 'analise-outros-produtos',
-                component: AnaliseOutrosPodutos,
+                component: AnaliseOutrosProdutos,
             },
             {
                 path: 'consolidacao',

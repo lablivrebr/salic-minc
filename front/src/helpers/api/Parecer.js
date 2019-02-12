@@ -80,3 +80,5 @@ export const obterAnaliseConsolidacao = (params) => {
 };
 
 export const salvarAnaliseConsolidacao = params => api.postRequest('/parecer/analise-consolidacao-rest/', buildData(params));
+
+export const restaurarPlanilhaProduto = params => api.postRequest('/parecer/planilha-produto-rest', buildData(params));

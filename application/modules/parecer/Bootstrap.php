@@ -20,6 +20,7 @@ class Parecer_Bootstrap extends Zend_Application_Module_Bootstrap
                     'analise-consolidacao-rest',
                     'produtos-secundarios-rest',
                     'produto-rest',
+                    'planilha-produto-rest',
                 ]
             ]
         );

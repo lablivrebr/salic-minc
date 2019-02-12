@@ -14,16 +14,42 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
      */
     private $response;
     private $idUsuario;
+    private $idAgente;
 
     const ID_ATO_ADMINISTRATIVO = \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ANALISE_INICIAL;
 
     function __construct($request, $response)
     {
+        $this->request = $request;
+        $this->response = $response;
+
         $auth = \Zend_Auth::getInstance();
         $this->idUsuario = $auth->getIdentity()->usu_codigo;
 
-        $this->request = $request;
-        $this->response = $response;
+        $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
+        $this->idOrgao = $GrupoAtivo->codOrgao;
+
+        $usuarioDao = new \Autenticacao_Model_DbTable_Usuario();
+        $agente = $usuarioDao->getIdUsuario($this->idUsuario);
+        $this->idAgente = $agente['idagente'];
+
+        if (empty($this->idAgente)) {
+            throw new \Exception("Agente n&atilde;o cadastrado");
+        }
+    }
+
+    private function isPermitidoAvaliar($idProduto, $idPronac)
+    {
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
+        $whereProduto = array();
+        $whereProduto['idPRONAC = ?'] = $idPronac;
+        $whereProduto['idProduto = ?'] = $idProduto;
+        $whereProduto["stEstado = ?"] = 0;
+
+        $distribuicao = $tbDistribuirParecer->buscar($whereProduto)->current()->toArray();
+        $pareceristaAtivo = ($this->idAgente == $distribuicao['idAgenteParecerista']);
+
+        return ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA && $pareceristaAtivo);
     }
 
     public function obter()

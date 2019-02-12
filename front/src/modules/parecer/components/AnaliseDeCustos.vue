@@ -1,86 +1,6 @@
 <template>
     <div @keydown.esc="compararPlanilha = false">
-        <v-container
-            grid-list-md
-            text-xs-center
-        >
-            <v-layout
-                row
-                wrap
-            >
-                <v-flex xs6>
-                    <v-card
-                        class="mx-auto mb-2"
-                        max-width="600"
-                    >
-                        <v-toolbar
-                            card
-                            dense
-                        >
-                            <v-toolbar-title>
-                                <span class="subheading">
-                                    SOLICITADO
-                                </span>
-                            </v-toolbar-title>
-                            <v-spacer />
-                        </v-toolbar>
-
-                        <v-card-text>
-                            <v-layout
-                                justify-space-between
-                            >
-                                <v-flex text-xs-left>
-                                    <span class="subheading font-weight-light mr-1">
-                                        R$
-                                    </span>
-                                    <span
-                                        class="display-2 font-weight-light"
-                                    >
-                                        {{ calculos.totalSolicitado | filtroFormatarParaReal }}
-                                    </span>
-                                </v-flex>
-                            </v-layout>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-                <v-flex xs6>
-                    <v-card
-                        class="mx-auto mb-2"
-                        max-width="600"
-                    >
-                        <v-toolbar
-                            card
-                            dense
-                        >
-                            <v-toolbar-title>
-                                <span class="subheading">
-                                    SUGERIDO
-                                </span>
-                            </v-toolbar-title>
-                            <v-spacer />
-                        </v-toolbar>
-
-                        <v-card-text>
-                            <v-layout
-                                justify-space-between
-                            >
-                                <v-flex text-xs-left>
-                                    <span class="subheading font-weight-light mr-1">
-                                        R$
-                                    </span>
-                                    <span
-                                        class="display-2 font-weight-light"
-                                    >
-                                        {{ calculos.totalSugerido | filtroFormatarParaReal }}
-                                    </span>
-                                </v-flex>
-                            </v-layout>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
-
+        <s-analise-de-custos-header />
         <resize-panel
             v-if="Object.keys(planilha).length > 0"
             :allow-resize="true"
@@ -226,20 +146,12 @@ import SPlanilhaItensVisualizarSolicitado from './PlanilhaItensVisualizarSolicit
 import SCarregando from '@/components/CarregandoVuetify';
 import ResizePanel from '@/components/resize-panel/ResizeSplitPane';
 import MxPlanilha from '@/mixins/planilhas';
-
-const dataDefaults = {
-    calculos: {
-        totalSolicitado: 0,
-        totalSugerido: 0,
-        fontes: {},
-        produtos: {},
-        etapas: {},
-    },
-};
+import SAnaliseDeCustosHeader from '@/modules/parecer/components/AnaliseDeCustosHeader';
 
 export default {
     name: 'AnaliseDeCustos',
     components: {
+        SAnaliseDeCustosHeader,
         ResizePanel,
         SPlanilhaItensVisualizarSolicitado,
         SPlanilha,
@@ -253,7 +165,6 @@ export default {
             size: 50,
             expandAll: true,
             fab: false,
-            calculos: dataDefaults.calculos,
             show: false,
             totaisPlanilha: [
                 {
@@ -284,20 +195,10 @@ export default {
                     id: value.idProduto,
                     idPronac: value.IdPRONAC,
                     stPrincipal: value.stPrincipal,
-
                 };
                 this.obterPlanilhaParecer(params);
                 this.obterUnidades();
             }
-        },
-        planilha: {
-            handler(val) {
-                if (Object.keys(val).length > 0) {
-                    this.calculos = Object.assign({}, this.$options.data().calculos);
-                    this.calcularTotais(val);
-                }
-            },
-            deep: true,
         },
     },
     created() {
@@ -316,17 +217,6 @@ export default {
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
             obterUnidades: 'planilha/obterUnidadesPlanilha',
         }),
-        calcularTotais(planilha) {
-            if (!planilha) {
-                return {};
-            }
-
-            planilha.forEach((item) => {
-                this.calculos.totalSugerido += item.VlSugeridoParecerista;
-                this.calculos.totalSolicitado += item.VlSolicitado;
-            });
-            return true;
-        },
     },
 };
 </script>

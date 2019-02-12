@@ -24,25 +24,7 @@
                     @click="props.expanded = editarItem(props)"
                 >
                     <td class="text-xs-center">
-                        <v-tooltip
-                            v-if="validarLinha(props.item).valid === false"
-                            bottom
-                        >
-                            <v-badge
-                                slot="activator"
-                                left
-                                color="red"
-                            >
-                                <span slot="badge">
-                                    !
-                                </span>
-                                {{ props.item.Seq }}
-                            </v-badge>
-                            <span> {{ validarLinha(props.item).message }}</span>
-                        </v-tooltip>
-                        <span v-else>
-                            {{ props.item.Seq }}
-                        </span>
+                        {{ props.item.Seq }}
                     </td>
                     <td class="text-xs-left">
                         <a
@@ -68,7 +50,25 @@
                         {{ props.item.ocorrenciaparc }}
                     </td>
                     <td class="text-xs-right">
-                        {{ props.item.valorUnitarioparc | filtroFormatarParaReal }}
+                        <v-tooltip
+                            v-if="validarLinha(props.item).valid === false"
+                            bottom
+                        >
+                            <v-badge
+                                slot="activator"
+                                right
+                                color="red"
+                            >
+                                <span slot="badge">
+                                    !
+                                </span>
+                                {{ props.item.valorUnitarioparc | filtroFormatarParaReal }}
+                            </v-badge>
+                            <span> {{ validarLinha(props.item).message }}</span>
+                        </v-tooltip>
+                        <span v-else>
+                            {{ props.item.valorUnitarioparc | filtroFormatarParaReal }}
+                        </span>
                     </td>
                     <td class="text-xs-right">
                         {{ props.item.VlSugeridoParecerista | filtroFormatarParaReal }}
@@ -95,11 +95,29 @@
                         <v-divider />
                         <v-card-text>
                             <v-alert
+                                class="py-2"
                                 :value="messageAlert.length > 0"
                                 type="warning"
+                                dismissible
                             >
                                 {{ messageAlert }}
                             </v-alert>
+                            <div class="text-xs-center">
+                                <v-btn
+                                    v-if="!validarLinha(itemEmEdicao).valid"
+                                    color="blue-grey"
+                                    class="white--text"
+                                    @click="buscarMediana(itemEmEdicao)"
+                                >
+                                    Ver mediana
+                                    <v-icon
+                                        right
+                                        dark
+                                    >
+                                        monetization_on
+                                    </v-icon>
+                                </v-btn>
+                            </div>
                             <v-form
                                 ref="form"
                                 v-model="valid"
@@ -310,6 +328,7 @@
                 </tr>
             </template>
         </v-data-table>
+        <s-planilha-dados-mediana-dialog v-model="modalMediana" />
     </div>
 </template>
 
@@ -319,9 +338,11 @@ import MxPlanilhaParecer from '../mixins/planilhaParecer';
 import { utils } from '@/mixins/utils';
 import { mapActions, mapGetters } from 'vuex';
 import SalicInputValor from '@/components/SalicInputValor';
+import SPlanilhaDadosMedianaDialog from '@/components/Planilha/PlanilhaDadosMediana';
 
 export default {
-    components: { SalicInputValor },
+    name: 'PlanilhaItensAnaliseInicial',
+    components: { SPlanilhaDadosMedianaDialog, SalicInputValor },
     mixins: [MxPlanilhas, MxPlanilhaParecer, utils],
     props: {
         table: {
@@ -355,6 +376,7 @@ export default {
                 valorUnitarioparc: 0,
                 diasparc: 0,
             },
+            modalMediana: false,
             comboUnidade: {},
             rules: {
                 required: v => !!v || 'Campo obrigatório',
@@ -406,13 +428,14 @@ export default {
     methods: {
         ...mapActions({
             salvarAvaliacaoItem: 'parecer/salvarAvaliacaoItem',
+            obterMediana: 'planilha/obterMediana',
         }),
         editarItem(props) {
             if (props.item.isDisponivelParaAnalise === false) {
                 return false;
             }
 
-            this.itemEmEdicao = Object.assign(this.itemEmEdicao, props.item);
+            this.itemEmEdicao = Object.assign(this.itemEmEdicao, props.item, { valorMediana: 0 });
             this.comboUnidade = {
                 idUnidade: this.itemEmEdicao.idUnidade,
                 Descricao: this.itemEmEdicao.UnidadeProjeto,
@@ -448,11 +471,22 @@ export default {
                 || row.dsJustificativaParecerista.length < this.minChars)) {
                 validacao = {
                     valid: false,
-                    message: 'Proponente ultrapassou a mediana, altere o valor solicitado ou justifique o valor solicitado',
+                    message: `O valor unitário (${this.formatarParaReal(row.VlSolicitado)}) deste item para ${row.Cidade},
+                    ultrapassa o valor aprovado por este orgão. Faça uma nova sugestão de valor ou justifique`,
                 };
             }
 
             return validacao;
+        },
+        buscarMediana(item) {
+            this.modalMediana = true;
+            this.obterMediana({
+                idProduto: item.idProduto,
+                idUnidade: item.idUnidade,
+                idPlanilhaItem: item.idPlanilhaItem,
+                idUfDespesa: item.idUfDespesa,
+                idMunicipioDespesa: item.idMunicipioDespesa,
+            });
         },
     },
 };

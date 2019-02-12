@@ -251,7 +251,8 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
                 array('I' => 'tbPlanilhaItens'),
             new Zend_Db_Expr('PPJ.idPlanilhaItem = I.idPlanilhaItens'),
             array(
-            'I.Descricao AS Item'
+            'I.Descricao AS Item',
+            'PPJ.idPlanilhaItem'
                 )
         );
         $select->joinLeft(
@@ -287,7 +288,8 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
                 array('CID' => 'Municipios'),
             new Zend_Db_Expr('CID.idMunicipioIBGE = PPJ.MunicipioDespesa'),
             array(
-            'CID.Descricao as Cidade'
+            'CID.Descricao as Cidade',
+            'CID.idMunicipioIBGE as idMunicipioDespesa'
                 ),
             'Agentes.dbo'
         );
@@ -295,7 +297,8 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
                 array('FED' => 'UF'),
             new Zend_Db_Expr('PPJ.UFDespesa = FED.idUF'),
             array(
-            'FED.Descricao as UF'
+            'FED.Descricao as UF',
+            'FED.idUF as idUfDespesa'
                 ),
             'Agentes.dbo'
         );

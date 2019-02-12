@@ -52,7 +52,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
     private function isPermitidoAvaliar($idProduto, $idPronac)
     {
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $whereProduto = array();
         $whereProduto['idPRONAC = ?'] = $idPronac;
         $whereProduto['idProduto = ?'] = $idProduto;

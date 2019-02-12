@@ -51,7 +51,7 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
         $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $codGrupo = $GrupoAtivo->codGrupo;
 
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $whereProduto = array();
         $whereProduto['idPRONAC = ?'] = $idPronac;
         $whereProduto['idProduto = ?'] = $idProduto;

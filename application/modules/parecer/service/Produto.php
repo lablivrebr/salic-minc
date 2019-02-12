@@ -189,7 +189,7 @@ class Produto implements \MinC\Servico\IServicoRestZend
 //        $dadosWhere["t.stPrincipal = ?"] = 0;
 //        $dadosWhere["t.stPrincipal = ?"] = 0;
         $dadosWhere["t.idProduto <> ?"] = $idProduto;
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuirSecundarios($dadosWhere)->toArray();
 
 //        $dadosWhere["t.DtDistribuicao is not null"] = '';
@@ -225,7 +225,7 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $dadosWhereSA["t.stPrincipal = ?"] = 0;
         $dadosWhereSA["t.DtDevolucao is null"] = '';
 
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         return ($tbDistribuirParecer->dadosParaDistribuir($dadosWhereSA)->count() > 0);
     }
 }

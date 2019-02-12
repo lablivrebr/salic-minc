@@ -122,7 +122,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
             $this->view->tipoFiltro = $tipoFiltro;
         }
 
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
         $total = $tbDistribuirParecer->painelAnaliseTecnica($where, $order, null, null, true, $tipoFiltro);
         $fim = $inicio + $this->intTamPag;
 
@@ -168,7 +168,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
         $GrupoAtivo = new Zend_Session_Namespace('GrupoAtivo');
         $codOrgao = $GrupoAtivo->codOrgao;
 
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
         $busca = $tbDistribuirParecer->produtosDistribuidos($codOrgao);
 
         Zend_Paginator::setDefaultScrollingStyle('Sliding');
@@ -193,7 +193,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
         $Grupo = $GrupoAtivo->codGrupo;
 
         /******************************************************************/
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
         $busca = $tbDistribuirParecer->pagamentoParecerista($codOrgao, $Grupo);
         /******************************************************************/
 
@@ -223,7 +223,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
         $idPronac = $this->_request->getParam("idPronac");
         $idProduto = $this->_request->getParam("idProduto");
         $stPrincipal = $this->_request->getParam("stPrincipal");
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         $where['d.idPronac 		= ?'] = $idPronac;
         $where['d.idProduto 	= ?'] = $idProduto;
@@ -274,7 +274,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
         $TipoAnalise = $this->_request->getParam("tipoanalise");
         $tipoFiltro = $this->_request->getParam("tipoFiltro");
 
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         $dadosWhere["IdPRONAC = ?"] = $idPronac;
         $dadosWhere["idOrgao = ?"] = $codOrgao;
@@ -351,7 +351,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
                 "ALERT"
             );
         }
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         $dadosWhere["IdPRONAC = ?"] = $idPronac;
         $dadosWhere["idOrgao = ?"] = $codOrgao;
@@ -478,7 +478,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
         $idPronac = $this->_request->getParam("idpronac");
         $idProduto = $this->_request->getParam("idproduto");
         $tipoFiltro = $this->_request->getParam("tipoFiltro");
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         //Produto Principal
         $dadosWhere["IdPRONAC = ?"] = $idPronac;
@@ -596,7 +596,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
             );
         }
 
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         $dadosWhere["idDistribuirParecer = ?"] = $idDistribuirParecer;
         $buscaDadosProjeto = $tbDistribuirParecer->painelAnaliseTecnica($dadosWhere, null, null, null, null, $tipoFiltro);
@@ -714,7 +714,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
         $idDistribuirParecer = $this->_request->getParam("idDistribuirParecer");
         $tipoFiltro = $this->_request->getParam("tipoFiltro");
 
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
         $dadosWhere["t.idDistribuirParecer = ?"] = $idDistribuirParecer;
 
         $buscaDadosProjeto = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere);
@@ -883,7 +883,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
             $where['dp.idAgenteParecerista = ?'] = $post->parecerista;
         }
 
-        $distribuirParecerDAO = new tbDistribuirParecer();
+        $distribuirParecerDAO = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         $resp = $distribuirParecerDAO->analisePorPareceristaPagamento($where);
         $retorno = array();
@@ -947,7 +947,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
             $where['dp.idAgenteParecerista = ?'] = $post->parecerista;
         }
 
-        $distribuirParecerDAO = new tbDistribuirParecer();
+        $distribuirParecerDAO = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         $resp = $distribuirParecerDAO->analiseParecerista($where);
         $retorno = array();
@@ -995,7 +995,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
         $post = Zend_Registry::get('post');
         $retorno = array();
         $ProjetosDAO = new Projetos();
-        $distribuirParecerDAO = new tbDistribuirParecer();
+        $distribuirParecerDAO = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         switch ($tipo) {
             case 'resaguardandoparecer':
@@ -1388,7 +1388,7 @@ class GerenciarparecerController extends MinC_Controller_Action_Abstract
         /******************************************************************************/
 
         /* DADOS DO AGENTE ************************************************************/
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
         $dadosProduto = $tbDistribuirParecer->pagamentoParecerista(null, 137);
 
         $agentes = new Agente_Model_DbTable_Agentes();

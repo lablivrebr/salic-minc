@@ -259,7 +259,7 @@ class ProjetosGerenciarController extends MinC_Controller_Action_Abstract
         $arrBusca['p.IdPRONAC =?']=$idpronac;
         $arrBusca['t.stPrincipal =?']=1;
         $arrBusca['t.stEstado =?']=0;
-        $tbDistParecer = new tbDistribuirParecer();
+        $tbDistParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
         $rsProduto = $tbDistParecer->buscarProdutos($arrBusca);
         $this->view->dados = $rsProduto;
 
@@ -288,7 +288,7 @@ class ProjetosGerenciarController extends MinC_Controller_Action_Abstract
             $arrBusca['p.IdPRONAC =?']= $idpronac;
             $arrBusca['t.stEstado =?']=0;
 
-            $tbDistParecer = new tbDistribuirParecer();
+            $tbDistParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
             $rsProdutos = $tbDistParecer->buscarProdutos($arrBusca);
 
             //VOLTANDO TODOS OS PRODUTOS
@@ -473,7 +473,7 @@ class ProjetosGerenciarController extends MinC_Controller_Action_Abstract
                     $arrBusca['p.IdPRONAC = ?']    = $idPronac;
                     $arrBusca['t.stPrincipal = ?'] = 1;
                     $arrBusca['t.stEstado = ?']    = 0;
-                    $tbDistParecer = new tbDistribuirParecer();
+                    $tbDistParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
                     $rsProduto = $tbDistParecer->buscarProdutos($arrBusca);
                     if (count($rsProduto) <= 0) {
                         throw new Exception("Dados n&atilde;o encontrados.");
@@ -488,7 +488,7 @@ class ProjetosGerenciarController extends MinC_Controller_Action_Abstract
                             $arrBusca['p.IdPRONAC = ?'] = $idPronac;
                             $arrBusca['t.stEstado = ?'] = 0;
 
-                            $tbDistParecer = new tbDistribuirParecer();
+                            $tbDistParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
                             $rsProdutos = $tbDistParecer->buscarProdutos($arrBusca);
 
                             //VOLTANDO TODOS OS PRODUTOS

@@ -1,6 +1,6 @@
 <?php
 
-class tbDistribuirParecer extends MinC_Db_Table_Abstract
+class Parecer_Model_DbTable_TbDistribuirParecer extends MinC_Db_Table_Abstract
 {
     protected $_schema = "sac";
     protected $_name = "tbDistribuirParecer";
@@ -684,7 +684,7 @@ class tbDistribuirParecer extends MinC_Db_Table_Abstract
     {
 
         //INSTANCIANDO UM OBJETO DE ACESSO AOS DADOS DA TABELA
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         //BUSCA O REGISTRO QUE VAI SER ALTERADO
         $rstbDistribuirParecer = $tbDistribuirParecer->find($dados['idDistribuirParecer'])->current();
@@ -712,7 +712,7 @@ class tbDistribuirParecer extends MinC_Db_Table_Abstract
     {
 
         //INSTANCIANDO UM OBJETO DE ACESSO AOS DADOS DA TABELA
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         //BUSCA O REGISTRO QUE VAI SER ALTERADO
         $rstbDistribuirParecer = $tbDistribuirParecer->find($dados['idDistribuirParecer'])->current();
@@ -740,7 +740,7 @@ class tbDistribuirParecer extends MinC_Db_Table_Abstract
     {
 
         //INSTANCIANDO UM OBJETO DE ACESSO AOS DADOS DA TABELA
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         //BUSCA O REGISTRO QUE VAI SER ALTERADO
         $rstbDistribuirParecer = $tbDistribuirParecer->find($dados['idDistribuirParecer'])->current();

@@ -29,7 +29,7 @@ class Finalizar implements IAcaoFinalizar
             $modeloTbAssinatura->getIdPronac()
         );
 
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $dadosDistribuirParecer = $tbDistribuirParecer->findBy([
             'idPRONAC = ?' => $modeloTbAssinatura->getIdPronac(),
             'stEstado = ?' => 0,

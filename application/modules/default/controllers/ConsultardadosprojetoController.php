@@ -1601,7 +1601,7 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
             $this->view->idPronac = $idPronac;
             $this->view->DadosProjeto = $DadosProjeto;
 
-            $tbDistribuirParecer = new tbDistribuirParecer();
+            $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
             $this->view->dados = $tbDistribuirParecer->buscarHistoricoEncaminhamento(array('a.idPRONAC = ?'=>$idPronac));
         }
     }
@@ -1621,7 +1621,7 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
             $this->view->idPronac = $idPronac;
             $this->view->DadosProjeto = $DadosProjeto;
 
-            $tbDistribuirParecer = new tbDistribuirParecer();
+            $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
             $this->view->dados = $tbDistribuirParecer->buscarHistoricoEncaminhamento(array('a.idPRONAC = ?'=>$idPronac));
         }
     }

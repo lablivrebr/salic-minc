@@ -2,7 +2,8 @@
     <v-card @keyup.alt.67="dialog = !dialog">
         <s-carregando
             v-if="loading"
-            :text="'Carregando conteúdo'"/>
+            :text="'Carregando conteúdo'"
+        />
         <v-snackbar
             :value="!dialog && !loading"
             :timeout="0"
@@ -14,7 +15,12 @@
                 large
                 @click="dialog = !dialog"
             >
-                <v-icon class="mr-2">edit</v-icon>
+                <v-icon
+                    class="mr-2"
+                    left
+                >
+                    edit
+                </v-icon>
                 Editar parecer
             </v-btn>
         </v-snackbar>
@@ -23,7 +29,8 @@
             <s-proposta
                 v-show="!loading"
                 v-if="Object.keys(produto).length > 0"
-                :idpreprojeto="produto.idProjeto"/>
+                :idpreprojeto="produto.idProjeto"
+            />
         </keep-alive>
         <v-dialog
             v-model="dialog"
@@ -37,23 +44,32 @@
                 <v-toolbar
                     card
                     dark
-                    color="primary">
+                    color="primary"
+                >
                     <v-btn
                         icon
                         dark
-                        @click="dialog = false">
+                        @click="dialog = false"
+                    >
                         <v-icon>close</v-icon>
                     </v-btn>
                     <v-toolbar-title>
                         Análise de conteúdo - Produto:
                         {{ produto.dsProduto }}
                     </v-toolbar-title>
-                    <v-spacer/>
+                    <v-spacer />
                     <v-toolbar-items>
                         <v-btn
                             dark
                             flat
-                            @click="dialog = false">Save</v-btn>
+                            :loading="loadingButton"
+                            @click="submit"
+                        >
+                            <v-icon left>
+                                save
+                            </v-icon>
+                            Salvar
+                        </v-btn>
                     </v-toolbar-items>
                 </v-toolbar>
                 <v-card-text>
@@ -65,7 +81,8 @@
                         <v-layout wrap>
                             <div
                                 v-if="editorParecerRules.show"
-                                class="text-xs-left">
+                                class="text-xs-left"
+                            >
                                 <p
                                     :class="editorParecerRules.color"
                                 >
@@ -75,15 +92,20 @@
                             <v-flex
                                 xs12
                                 sm12
-                                md12>
+                                md12
+                            >
                                 <v-switch
+                                    v-model="analiseConteudoEmEdicao.ParecerFavoravel"
+                                    color="green"
+                                    label="green"
                                     :label="`Parecer Favorável?: ${labelSimOuNao(analiseConteudoEmEdicao.ParecerFavoravel)}`"
-                                    v-model="analiseConteudoEmEdicao.ParecerFavoravel"/>
+                                />
                             </v-flex>
                             <v-flex
                                 xs12
                                 sm12
-                                md12>
+                                md12
+                            >
                                 <p><b>Parecer de Conteúdo do Produto</b></p>
                                 <s-editor-texto
                                     v-model="analiseConteudoEmEdicao.ParecerDeConteudo"
@@ -97,17 +119,24 @@
 
                         <v-layout
                             row
-                            justify-center>
+                            justify-center
+                        >
                             <v-btn
                                 :loading="loadingButton"
-                                @click="submit">
-                                <v-icon>save</v-icon>
+                                @click="submit"
+                            >
+                                <v-icon left>
+                                    save
+                                </v-icon>
                                 Salvar
                             </v-btn>
                             <v-btn
-                                @click="dialog = false">
+                                @click="dialog = false"
+                            >
                                 Fechar
-                                <v-icon>close</v-icon>
+                                <v-icon right>
+                                    close
+                                </v-icon>
                             </v-btn>
                         </v-layout>
                     </v-form>

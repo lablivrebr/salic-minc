@@ -113,7 +113,7 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
             throw new \Exception('Falta parecer de conte&uacute;do');
         }
 
-        if (!$parecerFavoravel) {
+        if (!$parecerFavoravel || $parecerFavoravel == 'false') {
             $dadosZerarPlanilha = [
                 'idUnidade' => 1,
                 'Quantidade' => 0,
@@ -186,6 +186,7 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
         }
 
         $dados['idAnaliseDeConteudo'] = $idAnaliseDeConteudo;
+        $dados = \TratarArray::utf8EncodeArray($dados);
 
         return $dados;
     }

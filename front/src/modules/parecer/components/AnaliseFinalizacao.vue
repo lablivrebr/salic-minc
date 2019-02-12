@@ -25,12 +25,7 @@
                     sm12
                     md12
                 >
-                    <v-switch
-                        v-model="consolidacaoEmEdicao.ParecerFavoravel"
-                        color="green"
-                        label="green"
-                        :label="`Parecer Favorável?: ${labelSimOuNao(consolidacaoEmEdicao.ParecerFavoravel)}`"
-                    />
+                    Verificando se o parecer do produto está disponível para finalização.
                 </v-flex>
                 <v-flex
                     xs12
@@ -38,18 +33,13 @@
                     md12
                     class="mb-2"
                 >
-                    <b>Valor sugerido:</b> 0,00
                 </v-flex>
                 <v-flex
                     xs12
                     sm12
                     md12
                 >
-                    <b>Parecer técnico</b>
-                    <s-editor-texto
-                        v-model="consolidacaoEmEdicao.ResumoParecer"
-                        :placeholder="'Parecer técnico sobre o conteúdo do produto'"
-                    />
+                    Verificando se o parecer do produto está disponível para finalização.
                 </v-flex>
             </v-layout>
             <v-subheader class="pa-0">
@@ -79,7 +69,7 @@ import SCarregando from '@/components/CarregandoVuetify';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-    name: 'Consolidacao',
+    name: 'AnaliseFinalizacao',
     components: { SEditorTexto, SCarregando },
     props: {
         active: {
@@ -133,7 +123,7 @@ export default {
     methods: {
         ...mapActions({
             obterConsolidacao: 'parecer/obterConsolidacao',
-            salvarAnaliseConsolidacao: 'parecer/salvarAnaliseConsolidacao',
+            // salvarAnaliseConsolidacao: 'parecer/salvarAnaliseConsolidacao',
         }),
         labelSimOuNao(val) {
             return val === '2' ? 'Sim' : 'Não';
@@ -143,14 +133,14 @@ export default {
             //     return false;
             // }
 
-            const analise = Object.assign({}, this.consolidacaoEmEdicao);
+            // const analise = Object.assign({}, this.consolidacaoEmEdicao);
 
-            this.loadingButton = true;
-            this.salvarAnaliseConsolidacao(analise).then(() => {
-                this.loadingButton = false;
-            }).catch(() => {
-                this.loadingButton = false;
-            });
+            // this.loadingButton = true;
+            // this.salvarAnaliseConsolidacao(analise).then(() => {
+            //     this.loadingButton = false;
+            // }).catch(() => {
+            //     this.loadingButton = false;
+            // });
 
             return true;
         },

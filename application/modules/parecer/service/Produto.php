@@ -75,10 +75,10 @@ class Produto implements \MinC\Servico\IServicoRestZend
 
         $projeto = new \Projetos();
         $resp = $projeto->buscaProjetosProdutosParaAnalise(
-            array(
+            [
                 'distribuirParecer.idProduto = ?' => $id,
                 'projeto.IdPRONAC = ?' => $idPronac,
-            )
+            ]
         )->current()->toArray();
 
         $resp = \TratarArray::utf8EncodeArray($resp);

@@ -1,7 +1,8 @@
 import AnaliseDeConteudo from './components/AnaliseDeConteudo';
 import AnaliseDeCustos from './components/AnaliseDeCustos';
-import ProdutosSecundarios from './components/ProdutosSecundarios';
+import AnaliseOutrosPodutos from './components/AnaliseOutrosPodutos';
 import AnaliseConsolidacao from './components/AnaliseConsolidacao';
+import AnaliseFinalizacao from './components/AnaliseFinalizacao';
 
 const ParecerAnalisarView = () => import(/* webpackChunkName: "parecer-analisar-view" */ './views/ParecerAnalisarView');
 const ParecerListarView = () => import(/* webpackChunkName: "parecer-listar-view" */ './views/ParecerListarView');
@@ -33,14 +34,19 @@ export default [
                 component: AnaliseDeCustos,
             },
             {
-                path: 'secundarios',
-                name: 'produtos-secundarios',
-                component: ProdutosSecundarios,
+                path: 'outros-produtos',
+                name: 'analise-outros-produtos',
+                component: AnaliseOutrosPodutos,
             },
             {
                 path: 'consolidacao',
-                name: 'parecer-consolidacao',
+                name: 'analise-consolidacao',
                 component: AnaliseConsolidacao,
+            },
+            {
+                path: 'finalizacao',
+                name: 'analise-finalizacao',
+                component: AnaliseFinalizacao,
             },
         ],
     },

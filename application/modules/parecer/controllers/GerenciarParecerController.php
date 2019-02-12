@@ -113,7 +113,7 @@ class Parecer_GerenciarParecerController extends MinC_Controller_Action_Abstract
 
         $this->view->tipoFiltro = $tipoFiltro;
 
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         $total = $tbDistribuirParecer->painelAnaliseTecnica($where, $order, null, null, true, $tipoFiltro);
         $fim = $inicio + $this->intTamPag;
@@ -173,7 +173,7 @@ class Parecer_GerenciarParecerController extends MinC_Controller_Action_Abstract
         try {
             $db->beginTransaction();
 
-            $tbDistribuirParecer = new tbDistribuirParecer();
+            $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
             $dadosWhere["t.idDistribuirParecer = ?"] = $idDistribuirParecer;
 
             $buscaDadosProjeto = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere);
@@ -318,7 +318,7 @@ class Parecer_GerenciarParecerController extends MinC_Controller_Action_Abstract
         }
         $where["idOrgao = ?"] = $codOrgao;
 
-        $tbDistribuirParecer = new tbDistribuirParecer();
+        $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
 
         $totalPag = (int)(($total % $this->intTamPag == 0) ? ($total / $this->intTamPag) : (($total / $this->intTamPag) + 1));
         $tamanho = ($fim > $total) ? $total - $inicio : $this->intTamPag;
@@ -363,7 +363,7 @@ class Parecer_GerenciarParecerController extends MinC_Controller_Action_Abstract
                 $this->fecharAssinatura($idPronac);
             }
 
-            $tbDistribuirParecer = new tbDistribuirParecer();
+            $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
             $dadosWhere["t.idDistribuirParecer = ?"] = $idDistribuirParecer;
 
             $buscaDadosProjeto = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere);

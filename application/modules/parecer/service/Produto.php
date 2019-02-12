@@ -16,10 +16,44 @@ class Produto implements \MinC\Servico\IServicoRestZend
 
     const ID_ATO_ADMINISTRATIVO = \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ANALISE_INICIAL;
 
+    private $idUsuario;
+    private $idOrgao;
+    private $idGrupo;
+    private $idAgente;
+
     function __construct($request, $response)
     {
         $this->request = $request;
         $this->response = $response;
+
+        $auth = \Zend_Auth::getInstance();
+        $this->idUsuario = $auth->getIdentity()->usu_codigo;
+
+        $grupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
+        $this->idOrgao = $grupoAtivo->codOrgao;
+        $this->idGrupo = $grupoAtivo->codGrupo;
+
+        $usuarioDao = new \Autenticacao_Model_DbTable_Usuario();
+        $agente = $usuarioDao->getIdUsuario($this->idUsuario);
+        $this->idAgente = $agente['idagente'];
+
+        if (empty($this->idAgente)) {
+            throw new \Exception("Agente n&atilde;o cadastrado");
+        }
+    }
+
+    private function isPermitidoAvaliar($idProduto, $idPronac)
+    {
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
+        $whereProduto = array();
+        $whereProduto['idPRONAC = ?'] = $idPronac;
+        $whereProduto['idProduto = ?'] = $idProduto;
+        $whereProduto["stEstado = ?"] = 0;
+
+        $distribuicao = $tbDistribuirParecer->buscar($whereProduto)->current()->toArray();
+        $pareceristaAtivo = ($this->idAgente == $distribuicao['idAgenteParecerista']);
+
+        return ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA && $pareceristaAtivo);
     }
 
     public function listar()
@@ -75,10 +109,10 @@ class Produto implements \MinC\Servico\IServicoRestZend
 
         $projeto = new \Projetos();
         $resp = $projeto->buscaProjetosProdutosParaAnalise(
-            array(
+            [
                 'distribuirParecer.idProduto = ?' => $id,
                 'projeto.IdPRONAC = ?' => $idPronac,
-            )
+            ]
         )->current()->toArray();
 
         $resp = \TratarArray::utf8EncodeArray($resp);
@@ -189,7 +223,7 @@ class Produto implements \MinC\Servico\IServicoRestZend
 //        $dadosWhere["t.stPrincipal = ?"] = 0;
 //        $dadosWhere["t.stPrincipal = ?"] = 0;
         $dadosWhere["t.idProduto <> ?"] = $idProduto;
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuirSecundarios($dadosWhere)->toArray();
 
 //        $dadosWhere["t.DtDistribuicao is not null"] = '';
@@ -225,7 +259,7 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $dadosWhereSA["t.stPrincipal = ?"] = 0;
         $dadosWhereSA["t.DtDevolucao is null"] = '';
 
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         return ($tbDistribuirParecer->dadosParaDistribuir($dadosWhereSA)->count() > 0);
     }
 }

@@ -4864,6 +4864,7 @@ class Projetos extends MinC_Db_Table_Abstract
                     'stDiligenciado',
                     'DtDevolucao',
                     'DtEnvio',
+                    'FecharAnalise',
                     'idAgenteParecerista',
                 ),
                 $this->_schema

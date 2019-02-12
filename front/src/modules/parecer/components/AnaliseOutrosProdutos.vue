@@ -168,7 +168,7 @@ import SPlanilha from '@/components/Planilha/Planilha';
 import SPlanilhaItensVisualizar from './PlanilhaItensVisualizar';
 
 export default {
-    name: 'ProdutosSecundarios',
+    name: 'AnaliseOutrosProdutos',
     components: { SPlanilhaItensVisualizar, SPlanilha },
     mixins: [utils],
     props: {

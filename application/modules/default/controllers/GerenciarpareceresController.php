@@ -684,7 +684,7 @@ class GerenciarpareceresController extends MinC_Controller_Action_Abstract
         try {
 //                $db->beginTransaction();
 
-            $tbDistribuirParecer = new tbDistribuirParecer();
+            $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
             $dadosWhere["t.idPRONAC = ?"] = $idpronac;
             $dadosWhere["t.stEstado = ?"] = 0;
             $dadosWhere["t.TipoAnalise in (?)"] = array(1,3);

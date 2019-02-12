@@ -156,7 +156,7 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
 
     private function verificaSecundariosAnalisados($idPronac)
     {
-        $tbDistribuirParecerDAO = new \tbDistribuirParecer();
+        $tbDistribuirParecerDAO = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $dadosWhere["t.stEstado = ?"] = 0;
         $dadosWhere["t.FecharAnalise = ?"] = 0;
         $dadosWhere["t.TipoAnalise = ?"] = 3;

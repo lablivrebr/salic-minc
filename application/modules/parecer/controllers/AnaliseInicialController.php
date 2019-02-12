@@ -124,7 +124,7 @@ class Parecer_AnaliseInicialController extends MinC_Controller_Action_Abstract
 
         if ($_POST || $this->_request->getParam("concluir") == 1) {
             $justificativa = ($this->_request->getParam("concluir") == 1) ? "" : trim(strip_tags($this->_request->getParam("justificativa")));
-            $tbDistribuirParecer = new tbDistribuirParecer();
+            $tbDistribuirParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
             $dadosWhere["t.idDistribuirParecer = ?"] = $idDistribuirParecer;
             $buscaDadosProjeto = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere);
 

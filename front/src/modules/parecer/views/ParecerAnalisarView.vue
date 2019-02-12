@@ -37,31 +37,31 @@
                 non-linear
             >
                 <v-stepper-header>
-                    <template v-for="step in arraySteps">
+                    <template v-for="(step, index) in arraySteps">
                         <v-stepper-step
-                            :key="`${step.path}-step`"
-                            :step="step.id"
+                            :key="`${step.name}-step`"
+                            :step="index + 1"
                             :editable="step.editable"
                             :complete="step.complete"
                             :rules="step.rules"
                         >
-                            {{ step.name }}
+                            {{ step.label }}
                             <small v-if="step.message">
                                 {{ step.message }}
                             </small>
                         </v-stepper-step>
                         <v-divider
-                            v-if="step.id !== Object.keys(arraySteps).length"
-                            :key="step.id"
+                            v-if="index + 1 !== Object.keys(arraySteps).length"
+                            :key="index + 1"
                         />
                     </template>
                 </v-stepper-header>
 
                 <v-stepper-items>
                     <v-stepper-content
-                        v-for="step in arraySteps"
-                        :key="`${step.path}-content`"
-                        :step="step.id"
+                        v-for="(step, index) in arraySteps"
+                        :key="`${step.name}-content`"
+                        :step="index + 1"
                     >
                         <v-card
                             class="mb-5"
@@ -69,7 +69,7 @@
                         >
                             <keep-alive>
                                 <router-view
-                                    v-if="step.id === currentStep"
+                                    v-if="(index + 1) === currentStep"
                                     :is-active="true"
                                     class="view"
                                 />
@@ -96,40 +96,49 @@ export default {
     name: 'ParecerAnalisarView',
     components: { SCarregando },
     data: () => ({
-        currentStep: 1,
+        currentStep: '1',
         arraySteps: [
             {
                 id: 1,
-                name: 'Análise de conteúdo',
+                label: 'Análise de conteúdo',
                 message: '',
-                path: 'analise-conteudo',
+                name: 'analise-conteudo',
                 complete: false,
                 editable: true,
                 rules: [() => true],
             },
             {
                 id: 2,
-                name: 'Análise de custos',
+                label: 'Análise de custos',
                 message: '',
-                path: 'analise-de-custos',
+                name: 'analise-de-custos',
                 complete: false,
                 editable: true,
                 rules: [() => true],
             },
             {
                 id: 3,
-                name: 'Outros produtos do projeto',
+                label: 'Outros produtos do projeto',
                 message: '',
-                path: 'produtos-secundarios',
+                name: 'analise-outros-produtos',
                 complete: false,
                 editable: true,
                 rules: [() => true],
             },
             {
                 id: 4,
-                name: 'Consolidação',
+                label: 'Consolidação',
                 message: '',
-                path: 'parecer-consolidacao',
+                name: 'analise-consolidacao',
+                complete: false,
+                editable: true,
+                rules: [() => true],
+            },
+            {
+                id: 5,
+                label: 'Finalizar análise',
+                message: '',
+                name: 'analise-finalizacao',
                 complete: false,
                 editable: true,
                 rules: [() => true],
@@ -144,23 +153,20 @@ export default {
             produto: 'parecer/getProduto',
             analiseConteudo: 'parecer/getAnaliseConteudo',
         }),
-        activeFab() {
-            switch (this.currentStep) {
-            case 2: return { color: 'red', icon: 'edit' };
-            case 3: return { color: 'green', icon: 'keyboard_arrow_up' };
-            default: return {};
-            }
-        },
     },
     watch: {
-        currentStep(val) {
-            this.$router.push({ name: this.getStepById(val).path });
+        currentStep(step) {
+            this.$router.push({ name: this.arraySteps[step - 1].name });
         },
         produto() {
             this.removerSteps();
+            this.atualizarStepByRoute();
         },
         analiseConteudo() {
             this.validarSteps();
+        },
+        $route() {
+            this.atualizarStepByRoute();
         },
     },
     created() {
@@ -168,7 +174,6 @@ export default {
             id: this.$route.params.id,
             idPronac: this.$route.params.idPronac,
         });
-        this.currentStep = this.arraySteps.find(element => element.path === this.$route.name).id;
         this.obterAnaLiseConteudo({
             id: this.$route.params.id,
             idPronac: this.$route.params.idPronac,
@@ -188,11 +193,11 @@ export default {
         getStepById(id) {
             return this.arraySteps.find(element => element.id === id);
         },
-        getIndexStep(path) {
-            return this.arraySteps.findIndex(element => element.path === path);
+        getIndexStepByName(name) {
+            return this.arraySteps.findIndex(element => element.name === name);
         },
-        deleteStepByPath(path) {
-            this.arraySteps.splice(this.getIndexStep(path), 1);
+        deleteStepByName(name) {
+            this.arraySteps.splice(this.getIndexStepByName(name), 1);
         },
         setStepCompleteStatus(id, val = true) {
             this.$set(this.getStepById(id), 'complete', val);
@@ -209,10 +214,10 @@ export default {
         removerSteps() {
             if (Object.keys(this.produto).length > 0) {
                 if (this.produto.quantidadeProdutos === 1) {
-                    this.deleteStepByPath('produtos-secundarios');
+                    this.deleteStepByName('analise-outros-produtos');
                 }
                 if (this.produto.stPrincipal !== 1) {
-                    this.deleteStepByPath('parecer-consolidacao');
+                    this.deleteStepByName('analise-consolidacao');
                 }
             }
         },
@@ -228,6 +233,9 @@ export default {
                     this.setStepRules(2, [() => false]);
                 }
             }
+        },
+        atualizarStepByRoute() {
+            this.currentStep = this.getIndexStepByName(this.$route.name) + 1;
         },
     },
 };

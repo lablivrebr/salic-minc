@@ -65,7 +65,7 @@
 
             foreach($this->buscar as $d) {
 
-                $tbDistribuirParecerDAO = new tbDistribuirParecer();
+                $tbDistribuirParecerDAO = new Parecer_Model_DbTable_TbDistribuirParecer();
 
                 /** Verifica se tem produtos secund&aacute;rios n&atilde;o analizados ****************************/
                 $dadosWhere["t.stEstado = ?"]                   = 0;

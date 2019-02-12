@@ -51,7 +51,7 @@ class ProjetosController extends MinC_Controller_Action_Abstract
         $servico 	 = $this->_request->getParam("servico"); // pega o id do pronac via get
         $tipousuario = $this->_request->getParam("idusuario"); // pega o id do pronac via get
         
-        $tbDistParecer = new tbDistribuirParecer();
+        $tbDistParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
         $w1['a.IdPRONAC = ?'] = $idPronac;
         $qntdProd = $tbDistParecer->QntdProdutosXValidados($w1);
         
@@ -514,7 +514,7 @@ class ProjetosController extends MinC_Controller_Action_Abstract
             // chama a funcao para fazer o balanceamento
             
             //VERIFICA QUANTOS PRODUTOS O PROJETO POSSUI POR AREA
-            $tbDistParecer = new tbDistribuirParecer();
+            $tbDistParecer = new Parecer_Model_DbTable_TbDistribuirParecer();
             $rsProdutos = $tbDistParecer->BuscarQtdAreasProjetos($idPronac);
             $totalArea = $rsProdutos->QDTArea;
             if ($totalArea >= '2') {

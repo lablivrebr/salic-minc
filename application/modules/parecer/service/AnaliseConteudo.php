@@ -16,6 +16,7 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
 
     private $idUsuario;
     private $idOrgao;
+    private $idAgente;
 
     function __construct($request, $response)
     {
@@ -27,41 +28,28 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
 
         $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $this->idOrgao = $GrupoAtivo->codOrgao;
-    }
 
-    public function index()
-    {
+        $usuarioDao = new \Autenticacao_Model_DbTable_Usuario();
+        $agente = $usuarioDao->getIdUsuario($this->idUsuario);
+        $this->idAgente = $agente['idagente'];
 
-        $UsuarioDAO = new \Autenticacao_Model_DbTable_Usuario();
-        $agente = $UsuarioDAO->getIdUsuario($this->idUsuario);
-        $idAgenteParecerista = $agente['idagente'];
-
-        if (empty($idAgenteParecerista)) {
+        if (empty($this->idAgente)) {
             throw new \Exception("Agente n&atilde;o cadastrado");
         }
-
-        return [];
     }
 
     private function isPermitidoAvaliar($idProduto, $idPronac)
     {
-        $auth = \Zend_Auth::getInstance();
-        $idUsuario = $auth->getIdentity()->usu_codigo;
-
-        $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
-        $codGrupo = $GrupoAtivo->codGrupo;
-
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $whereProduto = array();
         $whereProduto['idPRONAC = ?'] = $idPronac;
         $whereProduto['idProduto = ?'] = $idProduto;
         $whereProduto["stEstado = ?"] = 0;
 
         $distribuicao = $tbDistribuirParecer->buscar($whereProduto)->current()->toArray();
+        $pareceristaAtivo = ($this->idAgente == $distribuicao['idAgenteParecerista']);
 
-        $pareceristaAtivo = ($idUsuario == $distribuicao['idAgenteParecerista']);
-
-        return ($codGrupo == \Autenticacao_Model_Grupos::PARECERISTA && $pareceristaAtivo);
+        return ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA && $pareceristaAtivo);
     }
 
     public function obter()
@@ -113,7 +101,7 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
             throw new \Exception('Falta parecer de conte&uacute;do');
         }
 
-        if (!$parecerFavoravel) {
+        if (!$parecerFavoravel || $parecerFavoravel == 'false') {
             $dadosZerarPlanilha = [
                 'idUnidade' => 1,
                 'Quantidade' => 0,
@@ -186,6 +174,7 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
         }
 
         $dados['idAnaliseDeConteudo'] = $idAnaliseDeConteudo;
+        $dados = \TratarArray::utf8EncodeArray($dados);
 
         return $dados;
     }

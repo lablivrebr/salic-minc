@@ -17,6 +17,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
     private $idUsuario;
     private $idOrgao;
     private $idGrupo;
+    private $idAgente;
 
     const ETAPAS_NAO_EDITAVEIS = [
         \Proposta_Model_TbPlanilhaEtapa::CUSTOS_ADMINISTRATIVOS,
@@ -35,32 +36,26 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         $grupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $this->idOrgao = $grupoAtivo->codOrgao;
         $this->idGrupo = $grupoAtivo->codGrupo;
-    }
 
-    public function index()
-    {
         $usuarioDao = new \Autenticacao_Model_DbTable_Usuario();
         $agente = $usuarioDao->getIdUsuario($this->idUsuario);
-        $idAgenteParecerista = $agente['idagente'];
+        $this->idAgente = $agente['idagente'];
 
-        if (empty($idAgenteParecerista)) {
+        if (empty($this->idAgente)) {
             throw new \Exception("Agente n&atilde;o cadastrado");
         }
-
-        return [];
     }
 
     private function isPermitidoAvaliar($idProduto, $idPronac)
     {
-        $tbDistribuirParecer = new \tbDistribuirParecer();
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $whereProduto = array();
         $whereProduto['idPRONAC = ?'] = $idPronac;
         $whereProduto['idProduto = ?'] = $idProduto;
         $whereProduto["stEstado = ?"] = 0;
 
         $distribuicao = $tbDistribuirParecer->buscar($whereProduto)->current()->toArray();
-
-        $pareceristaAtivo = ($this->idUsuario == $distribuicao['idAgenteParecerista']);
+        $pareceristaAtivo = ($this->idAgente == $distribuicao['idAgenteParecerista']);
 
         return ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA && $pareceristaAtivo);
     }
@@ -120,28 +115,12 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
                 continue;
             }
 
-            $produto = !empty($item['idProduto'])
-                ? $item['Produto']
-                : html_entity_decode('Administra&ccedil;&atilde;o do Projeto');
-
-            $fonte = $item['FonteRecurso'];
-            $etapa = $item['Etapa'];
-            $regiao = $item['UF'] . ' - ' . $item['Cidade'];
-
             $row["Seq"] = $i;
             $row['isDisponivelParaAnalise'] = $this->isItemDisponivelParaAnalise($item);
-            $row['Produto'] = $produto;
+            $row['Produto'] = !empty($item['idProduto'])
+                ? $item['Produto']
+                : html_entity_decode('Administra&ccedil;&atilde;o do Projeto');
             $planilha[] = $row;
-//            $planilha['total'] += $row["VlSolicitado"];
-//            $planilha['totalSugerido'] += $row["VlSugeridoParecerista"];
-//            $planilha[$fonte]['total'] += $row["VlSolicitado"];
-//            $planilha[$fonte]['totalSugerido'] += $row["VlSugeridoParecerista"];
-//            $planilha[$fonte][$produto]['total'] += $row["VlSolicitado"];
-//            $planilha[$fonte][$produto]['totalSugerido'] += $row["VlSugeridoParecerista"];
-//            $planilha[$fonte][$produto][$etapa]['total'] += $row["VlSolicitado"];
-//            $planilha[$fonte][$produto][$etapa]['totalSugerido'] += $row["VlSugeridoParecerista"];
-//            $planilha[$fonte][$produto][$etapa][$regiao]['total'] += $row["VlSolicitado"];
-//            $planilha[$fonte][$produto][$etapa][$regiao]['totalSugerido'] += $row["VlSugeridoParecerista"];
         }
 
         return $planilha;
@@ -232,6 +211,33 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             'item' => $params,
             'custosVinculados' => $itensCustosVinculados
         ];
+    }
+
+    public function restaurarPlanilha()
+    {
+        $params = $this->request->getParams();
+
+        if (!$params['id']) {
+            throw new \Exception('Falta id do Produto');
+        }
+
+        if (!$params['idPronac']) {
+            throw new \Exception('Falta id do projeto');
+        }
+
+        if (!$this->isPermitidoAvaliar($params['idProduto'], $params['idPronac'])) {
+            throw new \Exception('Você não tem permissão para alterar!');
+        }
+
+        $tbPlanilhaProjeto = new \Planilha_Model_DbTable_TbPlanilhaProjeto();
+        $response = $tbPlanilhaProjeto->restaurarPlanilha($params['idPronac'], $params['id']);
+
+//        if ($response) {
+//            $tbPlanilhaProjetoMapper = new \Planilha_Model_TbPlanilhaProjetoMapper();
+//            $tbPlanilhaProjetoMapper->atualizarCustosVinculadosDaTbPlanilhaProjeto($params['idPronac']);
+//        }
+
+        return $response;
     }
 
 }

@@ -40,7 +40,6 @@ const watchWebpackConfig = merge(baseWebpackConfig, {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'vue-style-loader',
                     'style-loader',
                     'css-loader',
                     'postcss-loader',

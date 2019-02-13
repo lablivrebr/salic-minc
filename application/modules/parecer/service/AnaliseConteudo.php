@@ -17,28 +17,29 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
     private $idUsuario;
     private $idOrgao;
     private $idAgente;
+    private $auth;
 
     function __construct($request, $response)
     {
         $this->request = $request;
         $this->response = $response;
 
-        $auth = \Zend_Auth::getInstance();
-        $this->idUsuario = $auth->getIdentity()->usu_codigo;
+        $this->auth = \Zend_Auth::getInstance()->getIdentity();
+        $this->idUsuario = $this->auth->usu_codigo;
 
         $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $this->idOrgao = $GrupoAtivo->codOrgao;
 
-        $usuarioDao = new \Autenticacao_Model_DbTable_Usuario();
-        $agente = $usuarioDao->getIdUsuario($this->idUsuario);
-        $this->idAgente = $agente['idagente'];
+        $tbUsuario = new \Autenticacao_Model_DbTable_Usuario();
+        $usuario = $tbUsuario->getIdUsuario($this->idUsuario);
+        $this->idAgente = $usuario['idagente'];
 
         if (empty($this->idAgente)) {
             throw new \Exception("Agente n&atilde;o cadastrado");
         }
     }
 
-    private function isPermitidoAvaliar($idProduto, $idPronac)
+    private function isPermitidoAvaliar($idPronac, $idProduto)
     {
         $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $whereProduto = array();
@@ -71,7 +72,7 @@ class AnaliseConteudo implements \MinC\Servico\IServicoRestZend
         )->current();
 
         $resp = count($analisedeConteudo) > 0 ? $analisedeConteudo->toArray() : [];
-        $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idProduto, $idPronac)
+        $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idPronac, $idProduto)
             && count($analisedeConteudo) > 0;
 
         $resp = \TratarArray::utf8EncodeArray($resp);

@@ -20,29 +20,30 @@ class Produto implements \MinC\Servico\IServicoRestZend
     private $idOrgao;
     private $idGrupo;
     private $idAgente;
+    private $auth;
 
     function __construct($request, $response)
     {
         $this->request = $request;
         $this->response = $response;
 
-        $auth = \Zend_Auth::getInstance();
-        $this->idUsuario = $auth->getIdentity()->usu_codigo;
+        $this->auth = \Zend_Auth::getInstance()->getIdentity();
+        $this->idUsuario = $this->auth->usu_codigo;
 
         $grupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $this->idOrgao = $grupoAtivo->codOrgao;
         $this->idGrupo = $grupoAtivo->codGrupo;
 
-        $usuarioDao = new \Autenticacao_Model_DbTable_Usuario();
-        $agente = $usuarioDao->getIdUsuario($this->idUsuario);
-        $this->idAgente = $agente['idagente'];
+        $tbUsuario = new \Autenticacao_Model_DbTable_Usuario();
+        $usuario = $tbUsuario->getIdUsuario($this->idUsuario);
+        $this->idAgente = $usuario['idagente'];
 
         if (empty($this->idAgente)) {
             throw new \Exception("Agente n&atilde;o cadastrado");
         }
     }
 
-    private function isPermitidoAvaliar($idProduto, $idPronac)
+    private function isPermitidoAvaliar($idPronac, $idProduto)
     {
         $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $whereProduto = array();
@@ -58,27 +59,12 @@ class Produto implements \MinC\Servico\IServicoRestZend
 
     public function listar()
     {
-        $auth = \Zend_Auth::getInstance();
-        $idusuario = $auth->getIdentity()->usu_codigo;
-
-        $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
-        $idOrgao = $GrupoAtivo->codOrgao;
-
-        $UsuarioDAO = new \Autenticacao_Model_DbTable_Usuario();
-        $agente = $UsuarioDAO->getIdUsuario($idusuario);
-        $idAgenteParecerista = $agente['idagente'];
-
-        if (empty($idAgenteParecerista)) {
-            throw new \Exception("Agente n&atilde;o cadastrado");
-        }
-
-        $situacao = $this->request->getParam('situacao');
-
         $projeto = new \Projetos();
         $resp = $projeto->buscaProjetosProdutosParaAnalise(
             array(
-                'distribuirParecer.idAgenteParecerista = ?' => $idAgenteParecerista,
-                'distribuirParecer.idOrgao = ?' => $idOrgao,
+                'distribuirParecer.idAgenteParecerista = ?' => $this->idAgente,
+                'distribuirParecer.idOrgao = ?' => $this->idOrgao,
+                'distribuirParecer.stEstado = ?' => 0,
             )
         )->toArray();
 
@@ -91,13 +77,13 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $resp = \TratarArray::utf8EncodeArray($resp);
 
         $objTbAtoAdministrativo = new \Assinatura_Model_DbTable_TbAtoAdministrativo();
-        $quantidadeAssinaturas = $objTbAtoAdministrativo->obterQuantidadeMinimaAssinaturas(
+        $quantidadeAssinaturasDoATo = $objTbAtoAdministrativo->obterQuantidadeMinimaAssinaturas(
             self::ID_ATO_ADMINISTRATIVO,
-            $auth->getIdentity()->usu_org_max_superior
+            $this->auth->usu_org_max_superior
         );
 
         return [
-            'quantidadeAssinaturas' => $quantidadeAssinaturas,
+            'quantidadeAssinaturasDoATo' => $quantidadeAssinaturasDoATo,
             'data' => $resp
         ];
     }

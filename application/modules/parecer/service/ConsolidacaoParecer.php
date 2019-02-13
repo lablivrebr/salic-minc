@@ -15,6 +15,7 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
     private $response;
     private $idUsuario;
     private $idAgente;
+    private $auth;
 
     const ID_ATO_ADMINISTRATIVO = \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ANALISE_INICIAL;
 
@@ -23,22 +24,22 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
         $this->request = $request;
         $this->response = $response;
 
-        $auth = \Zend_Auth::getInstance();
-        $this->idUsuario = $auth->getIdentity()->usu_codigo;
+        $this->auth = \Zend_Auth::getInstance()->getIdentity();
+        $this->idUsuario = $this->auth->usu_codigo;
 
         $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $this->idOrgao = $GrupoAtivo->codOrgao;
 
-        $usuarioDao = new \Autenticacao_Model_DbTable_Usuario();
-        $agente = $usuarioDao->getIdUsuario($this->idUsuario);
-        $this->idAgente = $agente['idagente'];
+        $tbUsuario = new \Autenticacao_Model_DbTable_Usuario();
+        $usuario = $tbUsuario->getIdUsuario($this->idUsuario);
+        $this->idAgente = $usuario['idagente'];
 
         if (empty($this->idAgente)) {
             throw new \Exception("Agente n&atilde;o cadastrado");
         }
     }
 
-    private function isPermitidoAvaliar($idProduto, $idPronac)
+    private function isPermitidoAvaliar($idPronac, $idProduto)
     {
         $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $whereProduto = array();

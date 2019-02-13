@@ -43,7 +43,7 @@
                             v-if="props.item.JustProponente.length > 1"
                             small
                             class="mr-2"
-                            @click="editItem(props.item)"
+                            @click="visualizarJustificativa(props.item)"
                         >
                             visibility
                         </v-icon>
@@ -66,19 +66,19 @@
                 </tr>
             </template>
         </v-data-table>
-        <s-planilha-justificativa-dialog
+        <s-planilha-dialog
             v-model="dialog"
-            :text="editedItem.JustProponente"
+            :item="itemVisualizacao"
         />
     </div>
 </template>
 
 <script>
 import planilhas from '@/mixins/planilhas';
-import SPlanilhaJustificativaDialog from './PlanilhaItensJustificativaDialog';
+import SPlanilhaDialog from './PlanilhaItensDialog';
 
 export default {
-    components: { SPlanilhaJustificativaDialog },
+    components: { SPlanilhaDialog },
     mixins: [planilhas],
     props: {
         table: {
@@ -99,13 +99,13 @@ export default {
                 { text: 'Vl. Solicitado', align: 'right', value: 'vlSolicitado' },
                 { text: 'Justificativa', align: 'left', value: 'JustProponente' },
             ],
-            editedItem: {},
+            itemVisualizacao: {},
             dialog: false,
         };
     },
     methods: {
-        editItem(item) {
-            this.editedItem = Object.assign({}, item);
+        visualizarJustificativa(item) {
+            this.itemVisualizacao = Object.assign({}, item);
             this.dialog = true;
         },
     },

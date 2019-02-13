@@ -77,19 +77,19 @@
                 </tr>
             </template>
         </v-data-table>
-        <s-planilha-justificativa-dialog
+        <s-planilha-dialog
             v-model="dialog"
-            :text="editedItem.JustProponente"
+            :item="editedItem"
         />
     </div>
 </template>
 
 <script>
 import planilhas from '@/mixins/planilhas';
-import SPlanilhaJustificativaDialog from './PlanilhaItensJustificativaDialog';
+import SPlanilhaDialog from './PlanilhaItensDialog';
 
 export default {
-    components: { SPlanilhaJustificativaDialog },
+    components: { SPlanilhaDialog },
     mixins: [planilhas],
     props: {
         table: {

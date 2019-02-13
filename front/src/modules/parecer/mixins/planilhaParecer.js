@@ -24,9 +24,9 @@ export default {
         },
         obterClasseItem(row) {
             return {
-                'light-blue lighten-5': this.isLinhaAlterada(row),
-                'grey lighten-3 grey--text text--darken-3': row.isDisponivelParaAnalise === false,
+                'grey lighten-3 grey--text text--darken-3': row.isDisponivelParaAnalise === false && !this.isLinhaAlterada(row),
                 ...this.definirClasseItem(row),
+                'light-blue lighten-5': this.isLinhaAlterada(row),
             };
         },
         obterEstiloItem(row) {

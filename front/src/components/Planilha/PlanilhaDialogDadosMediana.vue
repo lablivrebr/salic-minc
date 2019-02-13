@@ -105,7 +105,7 @@ import planilhas from '@/mixins/planilhas';
 import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
-    name: 'SPlanilhaDadosMedianaDialog',
+    name: 'SPlanilhaDialogDadosMediana',
     components: { SCarregando },
     mixins: [planilhas],
     props: {

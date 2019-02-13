@@ -57,7 +57,7 @@
                             <v-badge
                                 slot="activator"
                                 right
-                                color="red"
+                                color="orange darken-4"
                             >
                                 <span slot="badge">
                                     !
@@ -99,6 +99,8 @@
                                 :value="messageAlert.length > 0"
                                 type="warning"
                                 dismissible
+                                outline
+                                color="orange darken-4"
                             >
                                 {{ messageAlert }}
                             </v-alert>
@@ -328,7 +330,7 @@
                 </tr>
             </template>
         </v-data-table>
-        <s-planilha-dados-mediana-dialog v-model="modalMediana" />
+        <s-planilha-dialog-dados-mediana v-model="modalMediana" />
     </div>
 </template>
 
@@ -338,11 +340,11 @@ import MxPlanilhaParecer from '../mixins/planilhaParecer';
 import { utils } from '@/mixins/utils';
 import { mapActions, mapGetters } from 'vuex';
 import SalicInputValor from '@/components/SalicInputValor';
-import SPlanilhaDadosMedianaDialog from '@/components/Planilha/PlanilhaDadosMediana';
+import SPlanilhaDialogDadosMediana from '@/components/Planilha/PlanilhaDialogDadosMediana';
 
 export default {
     name: 'PlanilhaItensAnaliseInicial',
-    components: { SPlanilhaDadosMedianaDialog, SalicInputValor },
+    components: { SPlanilhaDialogDadosMediana, SalicInputValor },
     mixins: [MxPlanilhas, MxPlanilhaParecer, utils],
     props: {
         table: {
@@ -435,7 +437,7 @@ export default {
                 return false;
             }
 
-            this.itemEmEdicao = Object.assign(this.itemEmEdicao, props.item, { valorMediana: 0 });
+            this.itemEmEdicao = Object.assign(this.itemEmEdicao, props.item);
             this.comboUnidade = {
                 idUnidade: this.itemEmEdicao.idUnidade,
                 Descricao: this.itemEmEdicao.UnidadeProjeto,
@@ -450,9 +452,7 @@ export default {
             }
 
             this.loading = true;
-            this.salvarAvaliacaoItem(avaliacao).then(() => {
-                this.loading = false;
-            }).catch(() => {
+            this.salvarAvaliacaoItem(avaliacao).finally(() => {
                 this.loading = false;
             });
 
@@ -471,7 +471,7 @@ export default {
                 || row.dsJustificativaParecerista.length < this.minChars)) {
                 validacao = {
                     valid: false,
-                    message: `O valor unitário (${this.formatarParaReal(row.VlSolicitado)}) deste item para ${row.Cidade},
+                    message: `O valor unitário (${this.formatarParaReal(row.valorUnitarioprop)}) deste item para ${row.Cidade},
                     ultrapassa o valor aprovado por este orgão. Faça uma nova sugestão de valor ou justifique`,
                 };
             }

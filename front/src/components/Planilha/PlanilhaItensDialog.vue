@@ -2,22 +2,31 @@
     <v-dialog
         v-model="dialog"
         max-width="500px"
+        v-bind="$attrs"
     >
         <v-card>
             <v-card-title>
                 <span class="headline">
-                    {{ label }}
+                    {{ title }}
                 </span>
             </v-card-title>
 
             <v-card-text>
-                <v-container grid-list-md>
-                    <v-layout wrap>
-                        <v-flex
-                            xs12
-                            v-html="text"
-                        />
-                    </v-layout>
+                <v-container
+                    fluid
+                    pa-0
+                    grid-list-md
+                >
+                    <slot
+                        :item="item"
+                    >
+                        <v-layout wrap>
+                            <v-flex
+                                xs12
+                                v-html="item.JustProponente"
+                            />
+                        </v-layout>
+                    </slot>
                 </v-container>
             </v-card-text>
             <v-card-actions>
@@ -35,13 +44,10 @@
 </template>
 
 <script>
-import planilhas from '@/mixins/planilhas';
-
 export default {
-    name: 'SPlanilhaJustificativaDialog',
-    mixins: [planilhas],
+    name: 'SPlanilhaDialog',
     props: {
-        label: {
+        title: {
             type: String,
             default: 'Justificativa',
         },
@@ -49,9 +55,9 @@ export default {
             type: Boolean,
             default: false,
         },
-        text: {
-            type: String,
-            default: '',
+        item: {
+            type: Object,
+            default: () => {},
         },
     },
     data() {

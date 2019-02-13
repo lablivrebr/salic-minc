@@ -97,6 +97,28 @@
             </v-card-text>
         </v-card>
 
+        <comprovante
+            :id-pronac="idPronac"
+            :id-planilha-itens="idPlanilhaItens"
+            :produto="produto"
+            :uf="uf"
+            :id-uf="idUf"
+            :cidade="cidade"
+            :etapa="etapa"
+            tipo="nacional"
+        />
+
+        <comprovante
+            :id-pronac="idPronac"
+            :id-planilha-itens="idPlanilhaItens"
+            :produto="produto"
+            :uf="uf"
+            :id-uf="idUf"
+            :cidade="cidade"
+            :etapa="etapa"
+            tipo="internacional"
+        />
+
     </v-container>
 </template>
 
@@ -104,11 +126,15 @@
 import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import Moeda from '../../../../filters/money';
+import Comprovante from './Comprovante';
 
 Vue.filter('moedaMasck', Moeda);
 
 export default {
     name: 'ComprovarPagamento',
+    components: {
+        Comprovante,
+    },
     filters: {
         dataMasck(data) {
             const dataFormatada = data.replace(/-/g, '/');

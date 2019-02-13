@@ -301,6 +301,15 @@ export const buscarComprovantes = ({ commit }, params) => {
         });
 };
 
+export const listarComprovantes = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.listarComprovantes(params)
+        .then((response) => {
+            const { data } = response;
+            const comprovantes = data.data;
+            commit(types.GET_COMPROVANTES, comprovantes);
+        });
+};
+
 export const devolverProjeto = ({ commit, dispatch }, params) => {
     commit(types.SET_DADOS_PROJETOS_FINALIZADOS, {});
     commit(types.SYNC_PROJETOS_ASSINAR_COORDENADOR, {});

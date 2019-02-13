@@ -43,6 +43,7 @@ export const state = {
     objetoParecer: {},
     itensBuscaComprovantes: {},
     comprovantes: [],
+    listaComprovantes: {},
     projetosAssinarCoordenador: {},
     projetosAssinarCoordenadorGeral: {},
     dadosComprovacao: {},
@@ -247,6 +248,9 @@ export const mutations = {
     },
     [types.GET_DADOS_ITEM](state, dados) {
         state.dadosItem = dados;
+    },
+    [types.GET_COMPROVANTES](state, dados) {
+        state.listaComprovantes = dados;
     },
     [types.DASHBOARD_QUANTIDADE](state, dados) {
         state.dashboard = dados;

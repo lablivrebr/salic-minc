@@ -7,7 +7,7 @@
             row
             wrap
         >
-            <v-flex xs6>
+            <v-flex xs12 sm6 md6>
                 <v-card
                     class="mx-auto mb-2"
                     max-width="600"
@@ -42,7 +42,7 @@
                     </v-card-text>
                 </v-card>
             </v-flex>
-            <v-flex xs6>
+            <v-flex xs12 sm6 md6>
                 <v-card
                     class="mx-auto mb-2"
                     max-width="600"

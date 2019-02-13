@@ -306,8 +306,12 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
                 array('PD' => 'Produto'),
             new Zend_Db_Expr('PPJ.idProduto = PD.Codigo'),
             array(
-            'PD.Descricao as Produto'
-                )
+                new Zend_Db_Expr('CASE 
+               WHEN PPJ.idProduto = 0
+                    THEN \'Administra&ccedil;&atilde;o do Projeto\'
+                    ELSE PD.Descricao 
+               END as Produto')
+            )
         );
 
         foreach ($where as $key => $value) {

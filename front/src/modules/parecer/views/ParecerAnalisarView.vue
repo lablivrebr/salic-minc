@@ -1,11 +1,18 @@
 <template>
     <v-container
-        fluid>
+        fluid
+    >
         <s-carregando
             v-if="Object.keys(produto).length === 0"
-            :text="'Carregando produto'"/>
+            :text="'Carregando produto'"
+        />
         <template v-else>
-            <v-toolbar>
+            <v-toolbar
+                height="90"
+                color="blue-grey darken-2"
+                class="white--text"
+                dark
+            >
                 <v-btn
                     icon
                     class="hidden-xs-only"
@@ -13,24 +20,28 @@
                 >
                     <v-icon>arrow_back</v-icon>
                 </v-btn>
-                <v-toolbar-title>
-                    Análise inicial - Produto:
-                    {{ produto.dsProduto }}
+                <v-toolbar-title class="ml-2">
+                    <h5 class="headline font-weight-regular">
+                        Análise inicial: {{ produto.dsProduto }}
+                    </h5>
+                    <v-divider />
+                    <div class="subheading mt-1">Projeto: {{ produto.PRONAC }} - {{ produto.NomeProjeto }}</div>
                 </v-toolbar-title>
-                <v-spacer/>
+                <v-spacer />
                 <v-chip
+                    light
                     v-if="produto.stPrincipal === 1"
-                    color="teal lighten-5">
+                    color="teal lighten-5"
+                >
                     Produto Principal
                 </v-chip>
                 <v-chip
+                    light
                     v-else
-                    color="blue-grey lighten-5">
+                    color="blue-grey lighten-5"
+                >
                     Produto Secundário
                 </v-chip>
-                <v-btn icon>
-                    <v-icon>more_vert</v-icon>
-                </v-btn>
             </v-toolbar>
             <v-stepper
                 v-model="currentStep"

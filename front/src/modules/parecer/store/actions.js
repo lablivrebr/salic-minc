@@ -113,6 +113,7 @@ export const atualizarCustosVinculados = ({ commit }, data) => {
 };
 
 export const obterAnaliseConteudoSecundario = ({ commit }, params) => {
+    commit(types.SET_ANALISE_CONTEUDO_SECUNDARIO, {});
     parecerHelperAPI.obterAnaliseConteudo(params)
         .then((response) => {
             const { data } = response;
@@ -121,6 +122,7 @@ export const obterAnaliseConteudoSecundario = ({ commit }, params) => {
 };
 
 export const obterPlanilhaProdutoSecundario = ({ commit }, params) => {
+    commit(types.SET_PLANILHA_SECUNDARIO, []);
     parecerHelperAPI.obterPlanilhaParaAnalise(params)
         .then((response) => {
             const { data } = response;

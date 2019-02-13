@@ -14,6 +14,12 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
      */
     private $response;
 
+    private $idUsuario;
+    private $idOrgao;
+    private $idGrupo;
+    private $idAgente;
+    private $auth;
+
     const ID_ATO_ADMINISTRATIVO = \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ANALISE_INICIAL;
 
     function __construct($request, $response)
@@ -24,17 +30,17 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
 
     public function listar()
     {
-        $auth = \Zend_Auth::getInstance();
-        $idusuario = $auth->getIdentity()->usu_codigo;
+        $this->auth = \Zend_Auth::getInstance()->getIdentity();
+        $this->idUsuario = $this->auth->usu_codigo;
 
         $GrupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $idOrgao = $GrupoAtivo->codOrgao; //  ¿rg¿o ativo na sess¿o
 
-        $UsuarioDAO = new \Autenticacao_Model_DbTable_Usuario();
-        $agente = $UsuarioDAO->getIdUsuario($idusuario);
-        $idAgenteParecerista = $agente['idagente'];
+        $tbUsuario = new \Autenticacao_Model_DbTable_Usuario();
+        $usuario = $tbUsuario->getIdUsuario($this->idUsuario);
+        $this->idAgente = $usuario['idagente'];
 
-        if (empty($idAgenteParecerista)) {
+        if (empty($this->idAgente)) {
             throw new \Exception("Agente n&atilde;o cadastrado");
         }
 
@@ -43,7 +49,7 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
         $projeto = new \Projetos();
         $resp = $projeto->buscaProjetosProdutosParaAnalise(
             array(
-                'distribuirParecer.idAgenteParecerista = ?' => $idAgenteParecerista,
+                'distribuirParecer.idAgenteParecerista = ?' => $this->idAgente,
                 'distribuirParecer.idOrgao = ?' => $idOrgao,
             )
         )->toArray();
@@ -53,7 +59,7 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
         $objTbAtoAdministrativo = new \Assinatura_Model_DbTable_TbAtoAdministrativo();
         $quantidadeAssinaturas = $objTbAtoAdministrativo->obterQuantidadeMinimaAssinaturas(
             self::ID_ATO_ADMINISTRATIVO,
-            $auth->getIdentity()->usu_org_max_superior
+            $this->auth->usu_org_max_superior
         );
 
         return [
@@ -85,7 +91,7 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
     {
 
     }
-    
+
     public function validaRegra20Porcento($idPronac)
     {
         $planilhaProjeto = new \PlanilhaProjeto();

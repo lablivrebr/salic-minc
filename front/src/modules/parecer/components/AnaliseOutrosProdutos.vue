@@ -1,5 +1,9 @@
 <template>
-    <div>
+    <s-carregando
+        v-if="loading"
+        text="Carregando outros produtos do projeto"
+    />
+    <div v-else>
         <v-data-table
             :headers="headers"
             :items="produtosSecundarios"
@@ -48,7 +52,7 @@
                             flat
                             icon
                             class="mr-2"
-                            @click="visualizarDetalhesProduto(props.item)"
+                            @click="abrirModal(props.item)"
                         >
                             <v-icon>
                                 visibility
@@ -59,118 +63,23 @@
                 </td>
             </template>
         </v-data-table>
-        <v-dialog
+        <s-analise-outros-produtos-dialog
             v-model="dialog"
-            fullscreen
-            hide-overlay
-            transition="dialog-bottom-transition"
-            scrollable
-            @keydown.esc="dialog = false"
-        >
-            <v-card
-                v-if="produto"
-                tile
-            >
-                <v-toolbar
-                    card
-                    dark
-                    color="primary"
-                >
-                    <v-btn
-                        icon
-                        dark
-                        @click="dialog = false"
-                    >
-                        <v-icon>close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>
-                        Visualizar análise do Produto
-                        <b>{{ produto.Produto }}</b>
-                    </v-toolbar-title>
-                </v-toolbar>
-                <v-card-text>
-                    <v-expansion-panel
-                        v-show="!loading"
-                        :value="[true, true]"
-                        expand
-                    >
-                        <v-expansion-panel-content>
-                            <div slot="header">
-                                <v-icon class="material-icons">
-                                    assignment
-                                </v-icon>
-                                Análise do conteúdo
-                            </div>
-                            <v-layout
-                                wrap
-                                class="pa-3"
-                            >
-                                <v-flex
-                                    xs12
-                                    sm12
-                                    md12
-                                >
-                                    <p><b>Parecer de Conteúdo do Produto</b></p>
-                                    <div
-                                        v-html="analiseConteudo.ParecerDeConteudo"
-                                    />
-                                </v-flex>
-                                <v-flex
-                                    xs12
-                                    sm12
-                                    md12
-                                >
-                                    <b>Parecer favorável: </b> {{ analiseConteudo.ParecerFavoravel | formatarLabelSimOuNao }}
-                                </v-flex>
-                            </v-layout>
-                        </v-expansion-panel-content>
-                        <v-expansion-panel-content>
-                            <div slot="header">
-                                <v-icon class="material-icons">
-                                    assignment
-                                </v-icon>
-                                Análise de custo
-                            </div>
-                            <s-planilha
-                                v-if="Object.keys(planilha).length > 0"
-                                :array-planilha="planilha.items"
-                                :agrupamentos="agrupamentos"
-                                :totais="totaisPlanilha"
-                            >
-                                <template
-                                    slot="badge"
-                                    slot-scope="slotProps"
-                                >
-                                    <v-chip
-                                        outline="outline"
-                                        label="label"
-                                        color="#565555"
-                                    >
-                                        R$ {{ slotProps.planilha.VlSugeridoParecerista | formatarParaReal }}
-                                    </v-chip>
-                                </template>
-                                <template slot-scope="slotProps">
-                                    <s-planilha-itens-visualizar :table="slotProps.itens" />
-                                </template>
-                            </s-planilha>
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
+            :produto="produto"
+        />
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { utils } from '@/mixins/utils';
-import SPlanilha from '@/components/Planilha/Planilha';
-import SPlanilhaItensVisualizar from './PlanilhaItensVisualizar';
+import SCarregando from '@/components/CarregandoVuetify';
+import SAnaliseOutrosProdutosDialog from './AnaliseOutrosProdutosDialog';
 
 export default {
     name: 'AnaliseOutrosProdutos',
-    components: { SPlanilhaItensVisualizar, SPlanilha },
-    mixins: [utils],
+    components: {
+        SAnaliseOutrosProdutosDialog, SCarregando,
+    },
     props: {
         active: {
             type: Boolean,
@@ -180,7 +89,7 @@ export default {
     data() {
         return {
             dialog: false,
-            loading: false,
+            loading: true,
             headers: [
                 { text: 'Produto', value: 'Produto' },
                 { text: 'Tipo', value: 'stPrincipal' },
@@ -194,25 +103,17 @@ export default {
                 type: Object,
                 default: () => {},
             },
-            totaisPlanilha: [
-                {
-                    label: 'Valor Sugerido',
-                    column: 'VlSugeridoParecerista',
-                },
-                {
-                    label: 'Valor Solicitado',
-                    column: 'VlSolicitado',
-                },
-            ],
-            agrupamentos: ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade'],
         };
     },
     computed: {
         ...mapGetters({
             produtosSecundarios: 'parecer/getProdutosSecundarios',
-            analiseConteudo: 'parecer/getAnaliseConteudoSecundario',
-            planilha: 'parecer/getPlanilhaSecundario',
         }),
+    },
+    watch: {
+        produtosSecundarios(val) {
+            this.loading = val.length === 0;
+        },
     },
     created() {
         this.obterProdutosSecundarios({
@@ -223,21 +124,9 @@ export default {
     methods: {
         ...mapActions({
             obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
-            obterAnaliseConteudoSecundario: 'parecer/obterAnaliseConteudoSecundario',
-            obterPlanilha: 'parecer/obterPlanilhaProdutoSecundario',
         }),
-        visualizarDetalhesProduto(produto) {
+        abrirModal(produto) {
             this.produto = produto;
-            this.obterAnaliseConteudoSecundario({
-                id: produto.idProduto,
-                idPronac: produto.IdPRONAC,
-            });
-
-            this.obterPlanilha({
-                id: produto.idProduto,
-                idPronac: produto.IdPRONAC,
-                stPrincipal: produto.stPrincipal,
-            });
             this.dialog = true;
         },
     },

@@ -18,6 +18,8 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
     private $idOrgao;
     private $idGrupo;
     private $idAgente;
+    private $auth;
+    private $distribuicao;
 
     const ETAPAS_NAO_EDITAVEIS = [
         \Proposta_Model_TbPlanilhaEtapa::CUSTOS_ADMINISTRATIVOS,
@@ -30,34 +32,46 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         $this->request = $request;
         $this->response = $response;
 
-        $auth = \Zend_Auth::getInstance();
-        $this->idUsuario = $auth->getIdentity()->usu_codigo;
+        $this->auth = \Zend_Auth::getInstance()->getIdentity();
+        $this->idUsuario = $this->auth->usu_codigo;
 
         $grupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
         $this->idOrgao = $grupoAtivo->codOrgao;
         $this->idGrupo = $grupoAtivo->codGrupo;
 
-        $usuarioDao = new \Autenticacao_Model_DbTable_Usuario();
-        $agente = $usuarioDao->getIdUsuario($this->idUsuario);
-        $this->idAgente = $agente['idagente'];
+        $tbUsuario = new \Autenticacao_Model_DbTable_Usuario();
+        $usuario = $tbUsuario->getIdUsuario($this->idUsuario);
+        $this->idAgente = $usuario['idagente'];
 
         if (empty($this->idAgente)) {
             throw new \Exception("Agente n&atilde;o cadastrado");
         }
     }
 
-    private function isPermitidoAvaliar($idProduto, $idPronac)
+    private function obterDistribuicao($idPronac, $idProduto)
     {
-        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
+        if (empty($idPronac) || empty($idProduto)) {
+            return [];
+        }
+
         $whereProduto = array();
         $whereProduto['idPRONAC = ?'] = $idPronac;
         $whereProduto['idProduto = ?'] = $idProduto;
         $whereProduto["stEstado = ?"] = 0;
+        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
+        $this->distribuicao = $tbDistribuirParecer->buscar($whereProduto)->current()->toArray();
+    }
 
-        $distribuicao = $tbDistribuirParecer->buscar($whereProduto)->current()->toArray();
-        $pareceristaAtivo = ($this->idAgente == $distribuicao['idAgenteParecerista']);
+    private function isPermitidoAvaliar($idPronac, $idProduto)
+    {
+        if (empty($idPronac) || empty($idProduto)) {
+            return false;
+        }
 
-        return ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA && $pareceristaAtivo);
+        $this->obterDistribuicao($idPronac, $idProduto);
+
+        return ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA
+            && $this->idAgente == $this->distribuicao['idAgenteParecerista']);
     }
 
     public function obter()
@@ -66,24 +80,14 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         $idPronac = (int)$this->request->getParam('idPronac');
         $stPrincipal = (int)$this->request->getParam('stPrincipal');
 
-        if (empty($idProduto) || empty($idPronac)) {
+        if (empty($idPronac) || empty($idProduto)) {
             throw new \Exception("Dados obrigat&oacute;rios n&atilde;o informados");
         }
 
-        $where = [
-            'PPJ.IdPRONAC = ?' => $idPronac,
-            'PD.Descricao is not null' => null
-        ];
-
-        if ($stPrincipal == 1) {
-            $where = [
-                'PPJ.IdPRONAC = ?' => $idPronac,
-                'PPJ.IdProduto in (0, ?)' => $idProduto
-            ];
-        }
-
         $PlanilhaDAO = new \PlanilhaProjeto();
-        $planilha = $PlanilhaDAO->buscarAnaliseCustos($where)->toArray();
+        $planilhaCompleta = $PlanilhaDAO->buscarAnaliseCustos([
+            'PPJ.IdPRONAC = ?' => $idPronac,
+        ])->toArray();
 
         $analisedeConteudoDAO = new \Analisedeconteudo();
         $analisedeConteudo = $analisedeConteudoDAO->dadosAnaliseconteudo(
@@ -93,16 +97,16 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
                 'idProduto = ?' => $idProduto
             ]
         );
-        $planilha = \TratarArray::utf8EncodeArray($planilha);
-        $planilhaMontada = $this->montarPlanilha($planilha, $analisedeConteudo, $stPrincipal);
-        $resp['items'] = $planilhaMontada;
-        $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idProduto, $idPronac) && $analisedeConteudo[0]->ParecerFavoravel == 1;
+        $planilhaCompleta = \TratarArray::utf8EncodeArray($planilhaCompleta);
+        $planilhaParaAnalise = $this->filtrarPlanilhaParaAnalise($planilhaCompleta, $analisedeConteudo, $stPrincipal);
+        $resp['items'] = $planilhaParaAnalise;
+        $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idPronac, $idProduto) && $analisedeConteudo[0]->ParecerFavoravel == 1;
 
         return $resp;
 
     }
 
-    public function montarPlanilha($planilhaOrcamentaria, $analisedeConteudo, $stPrincipal)
+    private function filtrarPlanilhaParaAnalise($planilhaOrcamentaria, $analisedeConteudo, $stPrincipal)
     {
         $planilha = array();
         $i = 0;
@@ -111,7 +115,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             $row = $item;
             $i++;
 
-            if (!$this->isItemDisponivelParaVisualizacao($item, $analisedeConteudo, $stPrincipal)) {
+            if ($this->isRemoverItem($item, $analisedeConteudo, $stPrincipal)) {
                 continue;
             }
 
@@ -126,20 +130,19 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         return $planilha;
     }
 
-    private function isItemDisponivelParaVisualizacao($item, $analisedeConteudo, $stPrincipal)
+    private function isRemoverItem($item, $analisedeConteudo, $stPrincipal)
     {
         $idProdutoAnalise = $analisedeConteudo[0]->idProduto;
 
         if (empty($item['idProduto']) && $stPrincipal == 1) {
-            return true;
+            return false;
         }
-
 
         if ($item['idProduto'] == $idProdutoAnalise) {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private function isItemDisponivelParaAnalise($item)
@@ -164,19 +167,21 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         unset($params['controller']);
         unset($params['action']);
 
-        if (!$params['idPlanilhaProjeto']) {
-            throw new \Exception('Falta id do item');
-        }
-
-        if (!$params['IdPRONAC']) {
-            throw new \Exception('Falta id do projeto');
+        if (!$params['idPlanilhaProjeto'] || !$params['IdPRONAC'] || !$params['idProduto']) {
+            throw new \Exception('Dados obrigatórios não informado');
         }
 
         if (strlen(trim($params['dsJustificativaParecerista'])) < 11) {
             throw new \Exception('Parecer incompleto ou n&atilde;o informado');
         }
+
         if (round($params['VlSugeridoParecerista'], 2) > round($params['VlSolicitado'], 2)) {
             throw new \Exception('Valor sugerido não pode ser maior que o solicitado');
+        }
+
+        if (!$this->isPermitidoAvaliar($params['IdPRONAC'], $params['idProduto'])) {
+            throw new \Exception('Você não tem permissão para alterar');
+
         }
 
         $dados = [
@@ -225,17 +230,22 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             throw new \Exception('Falta id do projeto');
         }
 
-        if (!$this->isPermitidoAvaliar($params['idProduto'], $params['idPronac'])) {
+        if (!$this->isPermitidoAvaliar($params['idPronac'], $params['id'])) {
             throw new \Exception('Você não tem permissão para alterar!');
         }
 
-        $tbPlanilhaProjeto = new \Planilha_Model_DbTable_TbPlanilhaProjeto();
-        $response = $tbPlanilhaProjeto->restaurarPlanilha($params['idPronac'], $params['id']);
+        $idsProdutos = [$params['id']];
+        if ($this->distribuicao['stPrincipal'] == 1) {
+            $idsProdutos = [0, $params['id']];
+        }
 
-//        if ($response) {
-//            $tbPlanilhaProjetoMapper = new \Planilha_Model_TbPlanilhaProjetoMapper();
-//            $tbPlanilhaProjetoMapper->atualizarCustosVinculadosDaTbPlanilhaProjeto($params['idPronac']);
-//        }
+        $tbPlanilhaProjeto = new \Planilha_Model_DbTable_TbPlanilhaProjeto();
+        $response = $tbPlanilhaProjeto->restaurarPlanilha($params['idPronac'], $idsProdutos);
+
+        if ($response) {
+            $tbPlanilhaProjetoMapper = new \Planilha_Model_TbPlanilhaProjetoMapper();
+            $tbPlanilhaProjetoMapper->atualizarCustosVinculadosDaTbPlanilhaProjeto($params['idPronac']);
+        }
 
         return $response;
     }

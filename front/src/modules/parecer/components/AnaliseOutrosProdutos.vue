@@ -7,6 +7,7 @@
         <v-data-table
             :headers="headers"
             :items="produtosSecundarios"
+            disable-initial-sort
             class="elevation-0"
             item-key="idDistribuirParecer"
         >

@@ -229,7 +229,7 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
             'PPJ.Ocorrencia AS ocorrenciaparc',
             'PPJ.ValorUnitario AS valorUnitarioparc',
             'PPJ.QtdeDias AS diasparc',
-            'PPJ.stCustoPraticado AS custopraticado',
+            'PPJ.stCustoPraticado AS stCustoPraticadoParc',
                 )
         );
         $select->joinInner(
@@ -383,10 +383,10 @@ class PlanilhaProjeto extends MinC_Db_Table_Abstract
     {
         $sqlParecerista = "INSERT INTO SAC.dbo.tbPlanilhaProjeto
                                      (idPlanilhaProposta,idPronac,idProduto,idEtapa,idPlanilhaItem,Descricao,idUnidade,Quantidade,Ocorrencia,ValorUnitario,QtdeDias,
-                                     TipoDespesa,TipoPessoa,Contrapartida,FonteRecurso,UFDespesa,    MunicipioDespesa,idUsuario)
+                                     TipoDespesa,TipoPessoa,Contrapartida,FonteRecurso,UFDespesa,MunicipioDespesa, stCustoPraticado, idUsuario)
                                    SELECT idPlanilhaProposta, {$idPronac},idProduto,idEtapa,idPlanilhaItem,Descricao,Unidade,
                                         Quantidade, Ocorrencia,ValorUnitario,QtdeDias,TipoDespesa,TipoPessoa,Contrapartida,FonteRecurso,UFDespesa,
-                                        MunicipioDespesa, 0
+                                        MunicipioDespesa, stCustoPraticado, 0
                                         FROM SAC.dbo.tbPlanilhaProposta
                                         WHERE idProjeto = {$idPreProjeto}";
 

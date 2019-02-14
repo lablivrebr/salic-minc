@@ -4,28 +4,32 @@ export default {
     mixins: [planilhas],
     methods: {
         isLinhaAlterada(row) {
-            const a1 = [
+            const proponente = [
                 row.Unidade,
                 row.VlSolicitado,
                 row.ocorrenciaprop,
                 row.quantidadeprop,
                 row.diasprop,
                 row.valorUnitarioprop,
+                row.stCustoPraticado,
             ];
-            const a2 = [
+            const parecerista = [
                 row.idUnidade,
                 row.VlSugeridoParecerista,
                 row.ocorrenciaparc,
                 row.quantidadeparc,
                 row.diasparc,
                 row.valorUnitarioparc,
+                row.valorUnitarioparc,
+                row.valorUnitarioparc,
+                row.stCustoPraticadoParc,
             ];
-            return JSON.stringify(a1) !== JSON.stringify(a2);
+            return JSON.stringify(proponente) !== JSON.stringify(parecerista);
         },
-        obterClasseItem(row) {
+        obterClasseItem(row, cell = 'stCustoPraticado') {
             return {
                 'grey lighten-3 grey--text text--darken-3': row.isDisponivelParaAnalise === false && !this.isLinhaAlterada(row),
-                ...this.definirClasseItem(row),
+                ...this.definirClasseItem(row, cell),
                 'light-blue lighten-5': this.isLinhaAlterada(row),
             };
         },

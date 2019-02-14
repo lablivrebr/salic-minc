@@ -38,8 +38,11 @@ export const mutations = {
     },
     [types.UPDATE_ITEM_PLANILHA](state, params) {
         const index = state.planilhaParecer.findIndex(
-            item => item.idPlanilhaProjeto === params.idPlanilhaProjeto,
+            item => parseInt(item.idPlanilhaProjeto, 10) === parseInt(params.idPlanilhaProjeto, 10),
         );
-        Object.assign(state.planilhaParecer[index], params);
+
+        if (index >= 0) {
+            Object.assign(state.planilhaParecer[index], params);
+        }
     },
 };

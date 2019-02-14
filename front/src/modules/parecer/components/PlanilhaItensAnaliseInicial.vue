@@ -19,7 +19,7 @@
                 slot-scope="props"
             >
                 <tr
-                    :class="obterClasseItem(props.item)"
+                    :class="obterClasseItem(props.item, 'stCustoPraticadoParc')"
                     :style="obterEstiloItem(props.item)"
                     @click="props.expanded = editarItem(props)"
                 >
@@ -51,7 +51,7 @@
                     </td>
                     <td class="text-xs-right">
                         <v-tooltip
-                            v-if="validarLinha(props.item).valid === false"
+                            v-if="validarValorPraticado(props.item).valid === false"
                             bottom
                         >
                             <v-badge
@@ -64,7 +64,7 @@
                                 </span>
                                 {{ props.item.valorUnitarioparc | filtroFormatarParaReal }}
                             </v-badge>
-                            <span> {{ validarLinha(props.item).message }}</span>
+                            <span> {{ validarValorPraticado(props.item).message }}</span>
                         </v-tooltip>
                         <span v-else>
                             {{ props.item.valorUnitarioparc | filtroFormatarParaReal }}
@@ -82,6 +82,7 @@
             </template>
             <template
                 slot="expand"
+                slot-scope="props"
             >
                 <v-layout
                     wrap
@@ -90,23 +91,25 @@
                 >
                     <v-card>
                         <v-card-title class="py-1">
-                            <h3>Editando item: {{ itemEmEdicao.Item }} </h3>
+                            <h3>Editando item: {{ props.item.Item }} </h3>
                         </v-card-title>
                         <v-divider />
                         <v-card-text>
                             <v-alert
                                 class="py-2"
-                                :value="messageAlert.length > 0"
+                                :value="isCustoPraticado(props.item)"
                                 type="warning"
                                 dismissible
                                 outline
                                 color="orange darken-4"
                             >
-                                {{ messageAlert }}
+                                {{ obterMensagemCustoPraticado(props.item) }}
                             </v-alert>
-                            <div class="text-xs-center">
+                            <div
+                                v-if="isCustoPraticado(props.item)"
+                                class="text-xs-center"
+                            >
                                 <v-btn
-                                    v-if="!validarLinha(itemEmEdicao).valid"
                                     color="blue-grey"
                                     class="white--text"
                                     @click="buscarMediana(itemEmEdicao)"
@@ -360,6 +363,7 @@ export default {
             maxChars: 500,
             minChars: 10,
             messageAlert: '',
+            validacao: {},
             headers: [
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
@@ -411,11 +415,7 @@ export default {
     watch: {
         itemEmEdicao: {
             handler(val) {
-                const validacao = this.validarLinha(val);
-                this.messageAlert = '';
-                if (validacao.valid === false) {
-                    this.messageAlert = validacao.message;
-                }
+                this.validarValorPraticado(val);
             },
             deep: true,
         },
@@ -458,25 +458,29 @@ export default {
 
             return true;
         },
-        validarLinha(row) {
-            const isCustoPraticado = (row.stCustoPraticado === true
-                || row.stCustoPraticado === '1'
-                || row.stCustoPraticado === 1);
+        validarValorPraticado(item) {
             let validacao = {
                 valid: true,
                 message: '',
             };
 
-            if (isCustoPraticado && (row.dsJustificativaParecerista === null
-                || row.dsJustificativaParecerista.length < this.minChars)) {
+            if (this.isCustoPraticado(item) && (item.dsJustificativaParecerista === null
+                || item.dsJustificativaParecerista.length < this.minChars)) {
                 validacao = {
                     valid: false,
-                    message: `O valor unitário (${this.formatarParaReal(row.valorUnitarioprop)}) deste item para ${row.Cidade},
-                    ultrapassa o valor aprovado por este orgão. Faça uma nova sugestão de valor ou justifique`,
+                    message: this.obterMensagemCustoPraticado(item),
                 };
             }
 
             return validacao;
+        },
+        isCustoPraticado(item) {
+            return (item.stCustoPraticadoParc === true
+                || parseInt(item.stCustoPraticadoParc, 10) === 1);
+        },
+        obterMensagemCustoPraticado(item) {
+            return `O valor unitário (${this.formatarParaReal(item.valorUnitarioprop)}) deste item para ${item.Cidade},
+                    ultrapassa o valor aprovado por este orgão. Faça uma nova sugestão de valor ou justifique`;
         },
         buscarMediana(item) {
             this.modalMediana = true;

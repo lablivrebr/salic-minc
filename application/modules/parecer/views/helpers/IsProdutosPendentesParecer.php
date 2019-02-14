@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * Helper para verificar se há produtos pendentes de parecer
  */

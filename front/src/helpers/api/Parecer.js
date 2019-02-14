@@ -32,7 +32,7 @@ export const obterProdutoParaAnalise = (params) => {
 
 export const obterAnaliseConteudo = (params) => {
     const module = '/parecer';
-    const controller = '/analise-conteudo-rest';
+    const controller = '/analise-inicial-conteudo-rest';
     const id = `id/${params.id}`;
     const idPronac = `idPronac/${params.idPronac}`;
 
@@ -41,11 +41,11 @@ export const obterAnaliseConteudo = (params) => {
     return api.getRequest(`${module}${controller}${queryParams}`);
 };
 
-export const salvarAnaliseConteudo = params => api.postRequest('/parecer/analise-conteudo-rest/', buildData(params));
+export const salvarAnaliseConteudo = params => api.postRequest('/parecer/analise-inicial-conteudo-rest/', buildData(params));
 
 export const obterPlanilhaParaAnalise = (params) => {
     const module = '/parecer';
-    const controller = '/analise-custo-rest';
+    const controller = '/analise-inicial-custo-rest';
     const id = `id/${params.id}`;
     const idPronac = `idPronac/${params.idPronac}`;
     const stPrincipal = `stPrincipal/${params.stPrincipal}`;
@@ -57,7 +57,7 @@ export const obterPlanilhaParaAnalise = (params) => {
 
 export const obterProdutosSecundarios = (params) => {
     const module = '/parecer';
-    const controller = '/produtos-secundarios-rest';
+    const controller = '/analise-inicial-outros-produtos-rest';
     const idProduto = `id/${params.idProduto}`;
     const idPronac = `idPronac/${params.idPronac}`;
 
@@ -66,11 +66,11 @@ export const obterProdutosSecundarios = (params) => {
     return api.getRequest(`${module}${controller}${queryParams}`);
 };
 
-export const salvarAvaliacaoItem = params => api.postRequest('/parecer/analise-custo-rest/', buildData(params));
+export const salvarAvaliacaoItem = params => api.postRequest('/parecer/analise-inicial-custo-rest/', buildData(params));
 
 export const obterAnaliseConsolidacao = (params) => {
     const module = '/parecer';
-    const controller = '/analise-consolidacao-rest';
+    const controller = '/analise-inicial-consolidacao-rest';
     const id = `id/${params.id}`;
     const idPronac = `idPronac/${params.idPronac}`;
 
@@ -79,6 +79,6 @@ export const obterAnaliseConsolidacao = (params) => {
     return api.getRequest(`${module}${controller}${queryParams}`);
 };
 
-export const salvarAnaliseConsolidacao = params => api.postRequest('/parecer/analise-consolidacao-rest/', buildData(params));
+export const salvarAnaliseConsolidacao = params => api.postRequest('/parecer/analise-inicial-consolidacao-rest/', buildData(params));
 
 export const restaurarPlanilhaProduto = params => api.postRequest('/parecer/planilha-produto-rest', buildData(params));

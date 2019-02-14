@@ -86,12 +86,14 @@
                                 />
                             </keep-alive>
                         </v-card>
-                        <v-btn
-                            color="primary"
-                            @click="nextStep(step.id)"
-                        >
-                            Próximo
-                        </v-btn>
+                        <div class="text-xs-right">
+                            <v-btn
+                                color="primary"
+                                @click="nextStep(index + 1)"
+                            >
+                                Próximo
+                            </v-btn>
+                        </div>
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>

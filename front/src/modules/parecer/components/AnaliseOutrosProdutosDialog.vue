@@ -51,10 +51,7 @@
                                 sm12
                                 md12
                             >
-                                <p><b>Parecer de Conteúdo do Produto</b></p>
-                                <div
-                                    v-html="analiseConteudo.ParecerDeConteudo"
-                                />
+                                <p><b>Parecer favorável: </b> {{ analiseConteudo.ParecerFavoravel | formatarLabelSimOuNao }}</p>
                             </v-flex>
                             <v-flex
                                 v-if="analiseConteudo.ParecerDeConteudo.length > 1"
@@ -62,7 +59,10 @@
                                 sm12
                                 md12
                             >
-                                <b>Parecer favorável: </b> {{ analiseConteudo.ParecerFavoravel | formatarLabelSimOuNao }}
+                                <p><b>Parecer de Conteúdo do Produto</b></p>
+                                <div
+                                    v-html="analiseConteudo.ParecerDeConteudo"
+                                />
                             </v-flex>
                             <v-flex
                                 v-else

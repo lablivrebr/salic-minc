@@ -15,10 +15,10 @@ class Parecer_Bootstrap extends Zend_Application_Module_Bootstrap
             [
                 "parecer" => [
                     'analise-inicial-rest',
-                    'analise-conteudo-rest',
-                    'analise-custo-rest',
-                    'analise-consolidacao-rest',
-                    'produtos-secundarios-rest',
+                    'analise-inicial-conteudo-rest',
+                    'analise-inicial-custo-rest',
+                    'analise-inicial-consolidacao-rest',
+                    'analise-inicial-outros-produtos-rest',
                     'produto-rest',
                     'planilha-produto-rest',
                 ]

@@ -2,7 +2,7 @@
 
 use Application\Modules\Parecer\Service\AnaliseCusto as AnaliseCusto;
 
-class Parecer_AnaliseCustoRestController extends MinC_Controller_Rest_Abstract
+class Parecer_AnaliseInicialCustoRestController extends MinC_Controller_Rest_Abstract
 {
 
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())

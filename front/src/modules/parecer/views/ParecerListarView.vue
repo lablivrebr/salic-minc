@@ -41,7 +41,7 @@
                                 <td>{{ props.item.NomeProjeto }}</td>
                                 <td>
                                     <v-tooltip bottom>
-                                        <v-btn
+                                        <router-link
                                             slot="activator"
                                             :to="{
                                                 name: 'analise-conteudo',
@@ -51,11 +51,10 @@
                                                     produtoPrincipal: props.item.stPrincipal,
                                                 }
                                             }"
-                                            small
-                                            round
+                                            class="subheading font-weight-medium"
                                             color="primary">
                                             {{ props.item.dsProduto }}
-                                        </v-btn>
+                                        </router-link>
                                         <span>Clique para análisar o produto {{ props.item.dsProduto }}</span>
                                     </v-tooltip>
                                 </td>

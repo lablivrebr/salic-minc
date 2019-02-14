@@ -28,7 +28,6 @@
                     <v-switch
                         v-model="consolidacaoEmEdicao.ParecerFavoravel"
                         color="green"
-                        label="green"
                         :label="`Parecer Favorável?: ${labelSimOuNao(consolidacaoEmEdicao.ParecerFavoravel)}`"
                     />
                 </v-flex>

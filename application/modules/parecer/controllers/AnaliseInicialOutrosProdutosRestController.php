@@ -1,8 +1,8 @@
 <?php
 
-use Application\Modules\Parecer\Service\AnaliseConteudo as AnaliseConteudo;
+use Application\Modules\Parecer\Service\Produto as Produto;
 
-class Parecer_AnaliseConteudoRestController extends MinC_Controller_Rest_Abstract
+class Parecer_AnaliseInicialOutrosProdutosRestController extends MinC_Controller_Rest_Abstract
 {
 
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
@@ -25,8 +25,12 @@ class Parecer_AnaliseConteudoRestController extends MinC_Controller_Rest_Abstrac
     public function indexAction()
     {
         try {
+            $resposta = [];
 
-            $this->customRenderJsonResponse([], 200);
+            $this->customRenderJsonResponse([
+                'quantidadeAssinaturas' =>  $resposta['quantidadeAssinaturas'],
+                'items' => $resposta['data'],
+            ], 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([
@@ -42,8 +46,10 @@ class Parecer_AnaliseConteudoRestController extends MinC_Controller_Rest_Abstrac
     public function getAction()
     {
         try {
-            $analiseConteudoService = new AnaliseConteudo($this->getRequest(), $this->getResponse());
-            $resposta = $analiseConteudoService->obter();
+            $tramitacaoService = new Produto($this->getRequest(), $this->getResponse());
+            $resposta = $tramitacaoService->obterOutrosProdutosDoProjeto();
+
+            $resposta = \TratarArray::utf8EncodeArray($resposta);
 
             $this->customRenderJsonResponse($resposta, 200);
 
@@ -60,25 +66,7 @@ class Parecer_AnaliseConteudoRestController extends MinC_Controller_Rest_Abstrac
 
     public function postAction()
     {
-        try {
-
-            $analiseConteudoService = new AnaliseConteudo($this->getRequest(), $this->getResponse());
-            $resposta = $analiseConteudoService->salvar();
-
-            $this->customRenderJsonResponse(
-                [
-                    'data' => $resposta,
-                    'message' => html_entity_decode('Avalia&ccedil;&atilde;o realizada com sucesso')
-                ], 200);
-
-        } catch (Exception $e) {
-            $this->customRenderJsonResponse(
-                [
-                    'code' => 500,
-                    'message' => html_entity_decode($e->getMessage())
-                ], 500);
-
-        }
+        $this->renderJsonResponse([], 201);
     }
 
     public function putAction()

@@ -118,7 +118,7 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
                 'idParecer' => $idParecer,
                 'tpAnalise' => 1,
                 'dtAnalise' => \MinC_Db_Expr::date(),
-                'dsAcaoAlcanceProduto' => '', # o Rômulo pediu pra retirar esse campo, verificar se é preciso salvar
+                'dsAcaoAlcanceProduto' => '', # @todo o Rômulo pediu pra retirar esse campo, verificar se é preciso salvar
                 'idUsuario' => $this->idUsuario,
                 'stEstado' => 1
             );

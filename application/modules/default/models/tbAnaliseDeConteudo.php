@@ -129,6 +129,12 @@ class tbAnaliseDeConteudo extends MinC_Db_Table_Abstract
         return $this->fetchAll($select);
     }
 
+    /**
+     * @param $idPreProjeto
+     * @param $idPronac
+     * @return Zend_Db_Statement_Interface
+     * @todo adicionar o parecerFavoravel igual a sim
+     */
     public function inserirAnaliseConteudoParaParecerista($idPreProjeto, $idPronac)
     {
         $sqlAnaliseDeConteudo = "INSERT INTO SAC.dbo.tbAnaliseDeConteudo (idPronac,idProduto)

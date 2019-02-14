@@ -184,6 +184,29 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
         }
 
+        if ($params['stCustoPraticado'] == 1) {
+
+            if (empty($params['idProduto'])
+                || empty($params['idUnidade'])
+                || empty($params['idPlanilhaItem'])
+                || empty($params['idUfDespesa'])
+                || empty($params['idMunicipioDespesa'])
+            ) {
+                throw new \Exception("Dado obrigatório não informado!");
+            }
+
+            $spCalcularMedianaItemOrcamentario = new \Planilha_Model_DbTable_SpCalcularMedianaItemOrcamentario();
+            $mediana = $spCalcularMedianaItemOrcamentario->obterMedianaItemOrcamento(
+                $params['idProduto'],
+                $params['idUnidade'],
+                $params['idPlanilhaItem'],
+                $params['idUfDespesa'],
+                $params['idMunicipioDespesa']
+            );
+
+            $params['stCustoPraticado'] = $params['valorUnitarioparc'] > $mediana['Mediana'] ? 1 : 0;
+        }
+
         $dados = [
             'idUnidade' => $params['idUnidade'],
             'Quantidade' => $params['quantidadeparc'],
@@ -192,8 +215,8 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             'QtdeDias' => $params['diasparc'],
             'Justificativa' => utf8_decode($params['dsJustificativaParecerista']),
             'idUsuario' => $this->idUsuario,
+            'stCustoPraticado' => $params['stCustoPraticado']
         ];
-
         $where = ['idPlanilhaProjeto = ?' => $params['idPlanilhaProjeto']];
         $planilhaProjeto = new \PlanilhaProjeto();
         $planilhaProjeto->alterar($dados, $where);
@@ -201,20 +224,17 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         $tbPlanilhaProjetoMapper = new \Planilha_Model_TbPlanilhaProjetoMapper();
         $tbPlanilhaProjetoMapper->atualizarCustosVinculadosDaTbPlanilhaProjeto($params['IdPRONAC']);
 
+        $idPlanilhaProjeto = (int) $params['idPlanilhaProjeto'];
         $where = [
             'PPJ.IdPRONAC = ?' => $params['IdPRONAC'],
-            'PPJ.idEtapa in (?)' => [
+            "(PPJ.idPlanilhaProjeto = {$idPlanilhaProjeto} OR PPJ.idEtapa in (?))" => [
                 \Proposta_Model_TbPlanilhaEtapa::CUSTOS_VINCULADOS,
                 \Proposta_Model_TbPlanilhaEtapa::CAPTACAO_DE_RECURSOS,
             ]
         ];
 
-        $PlanilhaDAO = new \PlanilhaProjeto();
-        $itensCustosVinculados = $PlanilhaDAO->buscarAnaliseCustos($where)->toArray();
-
         return [
-            'item' => $params,
-            'custosVinculados' => $itensCustosVinculados
+            'items' => $planilhaProjeto->buscarAnaliseCustos($where)->toArray(),
         ];
     }
 

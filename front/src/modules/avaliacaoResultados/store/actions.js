@@ -302,11 +302,12 @@ export const buscarComprovantes = ({ commit }, params) => {
 };
 
 export const listarComprovantes = ({ commit }, params) => {
+    const mutationType = params.tipo === 'nacional' ? types.GET_COMPROVANTES_NACIONAIS : types.GET_COMPROVANTES_INTERNACIONAIS;
     avaliacaoResultadosHelperAPI.listarComprovantes(params)
         .then((response) => {
             const { data } = response;
             const comprovantes = data.data;
-            commit(types.GET_COMPROVANTES, comprovantes);
+            commit(mutationType, comprovantes);
         });
 };
 

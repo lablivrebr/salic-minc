@@ -2,10 +2,10 @@
     <v-container fluid>
         <v-expansion-panel>
             <v-expansion-panel-content
-                v-for="(item,i) in 5"
+                v-for="(comprovante,i) in comprovantes"
                 :key="i"
             >
-                <div slot="header">Item</div>
+                <div slot="header">Fornecedor: {{ comprovante.fornecedor.nome }} {{ comprovante.valor | moedaMasck }}</div>
                 <v-card>
                     <v-card-text>
                         {{ idPronac }}
@@ -18,7 +18,7 @@
 
 <script>
 import Vue from 'vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import Moeda from '../../../../filters/money';
 
 Vue.filter('moedaMasck', Moeda);
@@ -58,12 +58,13 @@ export default {
                 codigoEtapa: this.etapa,
                 tipo: this.tipo,
             },
+            getter: `avaliacaoResultados/${this.tipo === 'nacional' ? 'listarComprovantesNacionais' : 'listarComprovantesInternacionais'}`,
         };
     },
     computed: {
-        ...mapGetters({
-            comprovantes: 'avaliacaoResultados/listarComprovantes',
-        }),
+        comprovantes() {
+            return this.$store.getters[this.getter];
+        },
     },
     mounted() {
         this.listarComprovantes(this.comprovanteParams);

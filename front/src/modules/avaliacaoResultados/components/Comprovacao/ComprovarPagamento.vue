@@ -97,27 +97,41 @@
             </v-card-text>
         </v-card>
 
-        <comprovante
-            :id-pronac="idPronac"
-            :id-planilha-itens="idPlanilhaItens"
-            :produto="produto"
-            :uf="uf"
-            :id-uf="idUf"
-            :cidade="cidade"
-            :etapa="etapa"
-            tipo="nacional"
-        />
+        <v-card class="mt-3">
+            <v-card-title primary-title>
+                <h2>Comprovantes Nacionais</h2>
+            </v-card-title>
+            <v-card-text>
+                <comprovante
+                    :id-pronac="idPronac"
+                    :id-planilha-itens="idPlanilhaItens"
+                    :produto="produto"
+                    :uf="uf"
+                    :id-uf="idUf"
+                    :cidade="cidade"
+                    :etapa="etapa"
+                    tipo="nacional"
+                />
+            </v-card-text>
+        </v-card>
 
-        <comprovante
-            :id-pronac="idPronac"
-            :id-planilha-itens="idPlanilhaItens"
-            :produto="produto"
-            :uf="uf"
-            :id-uf="idUf"
-            :cidade="cidade"
-            :etapa="etapa"
-            tipo="internacional"
-        />
+        <v-card class="mt-3">
+            <v-card-title primary-title>
+                <h2>Comprovantes Internacionais</h2>
+            </v-card-title>
+            <v-card-text>
+                <comprovante
+                    :id-pronac="idPronac"
+                    :id-planilha-itens="idPlanilhaItens"
+                    :produto="produto"
+                    :uf="uf"
+                    :id-uf="idUf"
+                    :cidade="cidade"
+                    :etapa="etapa"
+                    tipo="internacional"
+                />
+            </v-card-text>
+        </v-card>
 
     </v-container>
 </template>

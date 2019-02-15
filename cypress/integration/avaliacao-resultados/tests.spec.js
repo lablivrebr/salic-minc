@@ -35,6 +35,7 @@ describe('Testes da Análise de Resultados', function () {
   });
 
   it('[EM ANÁLISE] Click para abrir/fechar modal de Visualizar Objeto', function () {
+    cy.get('div.v-tabs__div a').contains('Em Analise').click();
     cy.get(':nth-child(5) > .v-dialog__activator > .v-tooltip > span > .v-btn > .v-btn__content > .v-icon').click();
     cy.wait(3000);
     cy.get('.v-dialog__content--active > .v-dialog > .v-card > .v-toolbar > .v-toolbar__content > .v-btn > .v-btn__content > .v-icon').click();
@@ -71,7 +72,7 @@ describe('Testes da Análise de Resultados', function () {
 
   it('[ASSINAR] Click para abrir/fechar modal de Visualizar Projeto', function () {
     cy.get('div.v-tabs__div a').contains('Assinar').click();
-    cy.get(':nth-child(3) > .v-card > .v-card__text > :nth-child(1) > :nth-child(2) > .v-table__overflow > .v-datatable > tbody > tr > :nth-child(6) > .v-btn--router > .v-btn__content').click();
+    cy.get(':nth-child(4) > .v-card > .v-card__text > :nth-child(1) > :nth-child(2) > .v-table__overflow > .v-datatable > tbody > tr > :nth-child(6) > .v-btn--router > .v-btn__content > .v-tooltip > span > .v-icon').click();
     cy.wait(3000);
     cy.get('.hidden-xs-only > .v-btn__content > .v-icon').click();
     cy.wait(1000);
@@ -92,14 +93,14 @@ describe('Testes da Análise de Resultados', function () {
 
   it('[HISTÓRICO] Click para abrir/fechar modal de Histórico de Encaminhamentos', function () {
     cy.get('div.v-tabs__div a').contains('Historico').click();
-    cy.get(':nth-child(4) > .v-card > .v-card__text > :nth-child(1) > :nth-child(2) > .v-table__overflow > .v-datatable > tbody > tr > :nth-child(6) > .v-dialog__container > .v-dialog__activator > .v-tooltip > span > .v-btn').click();
+    cy.get(':nth-child(5) > .v-card > .v-card__text > :nth-child(1) > :nth-child(2) > .v-table__overflow > .v-datatable > tbody > tr > :nth-child(6) > .v-dialog__container > .v-dialog__activator > .v-tooltip > span > .v-btn > .v-btn__content > .v-icon').click();
     cy.wait(1000);
     cy.get('.v-dialog__content--active > .v-dialog > .v-card > .v-card__actions > .v-btn > .v-btn__content').click();
   });
 
   it('[HISTÓRICO] Click para abrir/fechar modal de Visualizar Projeto', function () {
     cy.get('div.v-tabs__div a').contains('Historico').click();
-    cy.get(':nth-child(4) > .v-card > .v-card__text > :nth-child(1) > :nth-child(2) > .v-table__overflow > .v-datatable > tbody > tr > :nth-child(6) > .v-btn--router').click();
+    cy.get(':nth-child(5) > .v-card > .v-card__text > :nth-child(1) > :nth-child(2) > .v-table__overflow > .v-datatable > tbody > tr > :nth-child(6) > .v-btn--router > .v-btn__content > .v-tooltip > span > .v-icon').click();
     cy.wait(3000);
     cy.get('.hidden-xs-only > .v-btn__content > .v-icon').click();
     cy.wait(1000);

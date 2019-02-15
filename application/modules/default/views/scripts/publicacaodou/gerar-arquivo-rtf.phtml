@@ -307,8 +307,8 @@ if($this->tipoPublicacao == 'readequacao') {
         $iniciocaptacao        = $portaria->DataInicio;
         $fimcaptacao           = $portaria->DataFim;
         $resumoprojeto         = $portaria->ResumoProjeto;
-        $areaprojeto           = strtoupper(strtr($portaria->Area ,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
-        $areaprojetoCodigo     = strtoupper(strtr($portaria->AreaCodigo ,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
+        $areaprojeto           = strtoupper(strtr($portaria->Area ,"áéíóúâêôãõàèìòùç","ÁÉÍÓÚÂÊÔÃÕÀÈÌÒÙÇ"));
+        $areaprojetoCodigo     = strtoupper(strtr($portaria->AreaCodigo ,"áéíóúâêôãõàèìòùç","ÁÉÍÓÚÂÊÔÃÕÀÈÌÒÙÇ"));
         $situacaoprojeto       = $portaria->Situacao;
         $artigo                = $portaria->Artigo;
         $PortariaAprovacao     = $portaria->PortariaAprovacao;
@@ -403,8 +403,8 @@ if($this->tipoPublicacao == 'readequacao') {
         $iniciocaptacao = $portaria->DataInicio;
         $fimcaptacao = $portaria->DataFim;
         $resumoprojeto = $portaria->ResumoProjeto;
-        $areaprojeto = strtoupper(strtr($portaria->Area ,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
-        $areaprojetoCodigo = strtoupper(strtr($portaria->AreaCodigo ,"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
+        $areaprojeto = strtoupper(strtr($portaria->Area ,"áéíóúâêôãõàèìòùç","ÁÉÍÓÚÂÊÔÃÕÀÈÌÒÙÇ"));
+        $areaprojetoCodigo = strtoupper(strtr($portaria->AreaCodigo ,"áéíóúâêôãõàèìòùç","ÁÉÍÓÚÂÊÔÃÕÀÈÌÒÙÇ"));
         $situacaoprojeto = $portaria->Situacao;
         $artigo = $portaria->Artigo;
         $PortariaAprovacao = $portaria->PortariaAprovacao;

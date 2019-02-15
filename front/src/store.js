@@ -12,10 +12,11 @@ import autenticacao from './modules/autenticacao/store';
 import noticias from './modules/noticias/store';
 import parecer from './modules/parecer/store';
 import planilha from './modules/planilha/store';
+import dateFilter from './filters/date';
+import prestacaoContas from './modules/prestacaoContas/store';
 import dadosBancarios from './modules/dadosBancarios/store';
 import execucao from './modules/execucao/store';
 import outrasInformacoes from './modules/outrasInformacoes/store';
-import dateFilter from './filters/date';
 
 Vue.use(Vuex);
 Vue.filter('date', dateFilter);
@@ -35,6 +36,7 @@ export default new Vuex.Store({
         noticias,
         parecer,
         planilha,
+        prestacaoContas,
         dadosBancarios,
         execucao,
         outrasInformacoes,

@@ -73,11 +73,6 @@
                     <td class="text-xs-right">
                         {{ props.item.VlSugeridoParecerista | filtroFormatarParaReal }}
                     </td>
-                    <td
-                        class="text-xs-left"
-                        width="30%"
-                        v-html="$options.filters.filtroDiminuirTexto(props.item.dsJustificativaParecerista, 40)"
-                    />
                 </tr>
             </template>
             <template
@@ -342,7 +337,6 @@
                     <td class="text-xs-right">
                         <b>{{ obterValorSugeridoTotalParecer(table) | formatarParaReal }}</b>
                     </td>
-                    <td />
                 </tr>
             </template>
         </v-data-table>
@@ -386,7 +380,6 @@ export default {
                 { text: 'Ocor.', align: 'center', value: 'ocorrenciaparc' },
                 { text: 'Vl. Unitário', align: 'right', value: 'valorUnitarioparc' },
                 { text: 'Valor Sugerido', align: 'left', value: 'VlSugeridoParecerista' },
-                { text: 'Just. Parecerista', align: 'left', value: 'dsJustificativaParecerista' },
             ],
             itemEmEdicao: {
                 VlSugeridoParecerista: '',

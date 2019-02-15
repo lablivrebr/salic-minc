@@ -48,18 +48,20 @@
                     />
 
                     <v-list-tile :key="`${i}-${task.text}`">
+                        <v-list-tile-avatar>
+                            <v-progress-circular
+                                v-if="!task.done "
+                                :width="3"
+                                color="primary"
+                                small
+                                indeterminate
+                            />
+                        </v-list-tile-avatar>
                         <v-list-tile-action>
-                            <v-checkbox
-                                v-model="task.done"
-                                color="info darken-3"
-                            >
-                                <div
-                                    slot="label"
-                                    :class="task.done && 'grey--text' || 'text--primary'"
-                                    class="ml-3"
-                                    v-text="task.text"
-                                />
-                            </v-checkbox>
+                            <div
+                                :class="task.done && 'text--primary' || 'grey--text'"
+                                v-text="task.text"
+                            />
                         </v-list-tile-action>
 
                         <v-spacer />
@@ -100,18 +102,27 @@ export default {
             {
                 done: false,
                 text: 'Análise de conteúdo',
+                rules: [v => v.analiseConteudo || v.analiseConteudo.ParecerDeConteudo.length > 5 || 'Análise conteudo inválido'],
             },
             {
                 done: false,
                 text: 'Análise de custos',
+                rules: [v => v.planilha.filter(i => i.stCustoPraticadoParc === 1
+                    && i.dsJustificativaParecerista.length > 5).length === 0
+                    || 'Análise de custo inválido',
+                ],
+            },
+            {
+                text: 'Verificando avaliação de outros produtos',
+                done: false,
+            },
+            {
+                done: false,
+                text: 'Verificando diligências',
             },
             {
                 done: false,
                 text: 'Consolidação',
-            },
-            {
-                done: false,
-                text: 'Todos os produtos estão analisados',
             },
         ],
         task: null,
@@ -133,6 +144,9 @@ export default {
             return this.tasks.length - this.completedTasks;
         },
     },
+    mounted() {
+        this.checkAll();
+    },
     methods: {
         ...mapActions({
             obterProdutoParaAnalise: 'parecer/obterProdutoParaAnalise',
@@ -145,8 +159,22 @@ export default {
                 done: false,
                 text: this.task,
             });
-
             this.task = null;
+        },
+        checkAll() {
+            const errorBucket = [];
+            this.tasks.forEach((item, i) => {
+                this.tasks[i].done = false;
+                if (Array.isArray(item.rules)) {
+                    item.rules.forEach((f) => {
+                        const valid = typeof f === 'function' ? f(this) : true;
+                        if (typeof valid === 'string') {
+                            errorBucket.push(valid);
+                        }
+                    });
+                    this.tasks[i].done = errorBucket.length === 0;
+                }
+            });
         },
     },
 };

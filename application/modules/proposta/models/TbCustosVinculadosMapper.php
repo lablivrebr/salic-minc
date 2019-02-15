@@ -320,7 +320,7 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                 'FonteRecurso' => Mecanismo::INCENTIVO_FISCAL_FEDERAL,
                 'UfDespesa' => $item['idUF'],
                 'MunicipioDespesa' => $item['idMunicipio'],
-                'dsJustificativa' => '',
+                'dsJustificativa' => 'Item ajustado automaticamente pelo sistema',
                 'stCustoPraticado' => 0,
                 'idUsuario' => 462
             );

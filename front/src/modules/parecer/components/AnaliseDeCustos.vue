@@ -162,7 +162,7 @@ export default {
     data() {
         return {
             compararPlanilha: false,
-            size: 50,
+            size: 49.8,
             expandAll: true,
             fab: false,
             show: false,

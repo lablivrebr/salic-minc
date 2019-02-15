@@ -44,14 +44,14 @@ export default {
             case this.isItemZerado(row):
                 classe = { 'grey lighten-2': true };
                 break;
-            case row.isDisponivelParaAnalise === false:
-                classe = { 'grey lighten-3 grey--text text--darken-3': true };
-                break;
             case this.isStCustoPraticado(row, cell):
                 classe = { 'orange lighten-4': true };
                 break;
             case this.isLinhaAlterada(row):
                 classe = { 'indigo lighten-4': true };
+                break;
+            case row.isDisponivelParaAnalise === false:
+                classe = { 'grey lighten-3 grey--text text--darken-3': true };
                 break;
             default:
                 classe = {};

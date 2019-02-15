@@ -71,7 +71,7 @@ class Planilha_Model_TbPlanilhaProjetoMapper extends MinC_Db_Mapper
                 'FonteRecurso' => Mecanismo::INCENTIVO_FISCAL_FEDERAL,
                 'UfDespesa' => $item['idUF'],
                 'MunicipioDespesa' => $item['idMunicipio'],
-                'Justificativa' => '',
+                'Justificativa' => 'Item ajustado automaticamente pelo sistema',
                 'stCustoPraticado' => 0,
                 'idUsuario' => 462
             );

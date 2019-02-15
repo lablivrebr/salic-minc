@@ -141,25 +141,29 @@
                                                             props.item.varlorComprovado) }}
                                                             </td>
                                                             <td>
-                                                                <v-btn
-                                                                    :to="{
-                                                                        name: 'ComprovarPagamento',
-                                                                        params: {
-                                                                            idpronac: idPronac,
-                                                                            idUf: uf.cdUF,
-                                                                            uf: uf.Uf,
-                                                                            produto: produto.cdProduto,
-                                                                            cidade: cidade.cdCidade,
-                                                                            etapa: etapa.cdEtapa,
-                                                                            idPlanilhaAprovacao: props.item.idPlanilhaAprovacao,
-                                                                            idPlanilhaItens: props.item.idPlanilhaItens,
-                                                                        }
-                                                                    }"
-                                                                    color="teal"
-                                                                    dark
-                                                                >
-                                                                    <v-icon dark>attach_money</v-icon>
-                                                                </v-btn>
+                                                                <v-tooltip left>
+                                                                    <v-btn
+                                                                        slot="activator"
+                                                                        :to="{
+                                                                            name: 'ComprovarPagamento',
+                                                                            params: {
+                                                                                idpronac: idPronac,
+                                                                                idUf: uf.cdUF,
+                                                                                uf: uf.Uf,
+                                                                                produto: produto.cdProduto,
+                                                                                cidade: cidade.cdCidade,
+                                                                                etapa: etapa.cdEtapa,
+                                                                                idPlanilhaAprovacao: props.item.idPlanilhaAprovacao,
+                                                                                idPlanilhaItens: props.item.idPlanilhaItens,
+                                                                            }
+                                                                        }"
+                                                                        color="teal"
+                                                                        dark
+                                                                    >
+                                                                        <v-icon dark>attach_money</v-icon>
+                                                                    </v-btn>
+                                                                    <span>Comprovar Item</span>
+                                                                </v-tooltip>
                                                             </td>
                                                         </template>
                                                     </v-data-table>

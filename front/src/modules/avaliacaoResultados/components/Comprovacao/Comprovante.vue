@@ -1,18 +1,23 @@
 <template>
     <v-container fluid>
-        <v-expansion-panel>
-            <v-expansion-panel-content
-                v-for="(comprovante,i) in comprovantes"
-                :key="i"
-            >
-                <div slot="header">Fornecedor: {{ comprovante.fornecedor.nome }} {{ comprovante.valor | moedaMasck }}</div>
-                <v-card>
-                    <v-card-text>
-                        {{ idPronac }}
-                    </v-card-text>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+        <div v-if="comprovantes.length > 0">
+            <v-expansion-panel>
+                <v-expansion-panel-content
+                    v-for="(comprovante,i) in comprovantes"
+                    :key="i"
+                >
+                    <div slot="header">Fornecedor: {{ comprovante.fornecedor.nome }} {{ comprovante.valor | moedaMasck }}</div>
+                    <v-card>
+                        <v-card-text>
+                            {{ idPronac }}
+                        </v-card-text>
+                    </v-card>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </div>
+        <div v-else>
+            <p>Não há comprovantes internacionais.</p>
+        </div>
     </v-container>
 </template>
 

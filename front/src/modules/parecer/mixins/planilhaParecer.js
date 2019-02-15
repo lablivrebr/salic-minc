@@ -20,22 +20,49 @@ export default {
                 row.quantidadeparc,
                 row.diasparc,
                 row.valorUnitarioparc,
-                row.valorUnitarioparc,
-                row.valorUnitarioparc,
                 row.stCustoPraticadoParc,
             ];
             return JSON.stringify(proponente) !== JSON.stringify(parecerista);
         },
+        isItemZerado(row) {
+            if (row.idUnidade === 1
+            && row.ocorrenciaparc === 0
+            && row.quantidadeparc === 0
+            && row.diasparc === 0
+            && row.valorUnitarioparc === 0) {
+                return true;
+            }
+            return false;
+        },
+        isStCustoPraticado(row, cell = 'stCustoPraticado') {
+            return (row[cell] === true
+            || parseInt(row[cell], 10) === 1);
+        },
         obterClasseItem(row, cell = 'stCustoPraticado') {
-            return {
-                'grey lighten-3 grey--text text--darken-3': row.isDisponivelParaAnalise === false && !this.isLinhaAlterada(row),
-                ...this.definirClasseItem(row, cell),
-                'light-blue lighten-5': this.isLinhaAlterada(row),
-            };
+            let classe = {};
+            switch (true) {
+            case this.isItemZerado(row):
+                classe = { 'grey lighten-2': true };
+                break;
+            case row.isDisponivelParaAnalise === false:
+                classe = { 'grey lighten-3 grey--text text--darken-3': true };
+                break;
+            case this.isStCustoPraticado(row, cell):
+                classe = { 'orange lighten-4': true };
+                break;
+            case this.isLinhaAlterada(row):
+                classe = { 'indigo lighten-4': true };
+                break;
+            default:
+                classe = {};
+                break;
+            }
+            return classe;
         },
         obterEstiloItem(row) {
             return {
                 cursor: row.isDisponivelParaAnalise === false ? 'not-allowed' : 'pointer',
+                'text-decoration': this.isItemZerado(row) ? 'line-through' : 'none',
             };
         },
         obterValorSolicitadoTotalParecer(table) {

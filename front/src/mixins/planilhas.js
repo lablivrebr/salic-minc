@@ -61,9 +61,9 @@ export default {
         isObject(el) {
             return typeof el === 'object';
         },
-        definirClasseItem(row, cell = 'stCustoPraticado') {
+        definirClasseItem(row) {
             return {
-                'orange lighten-4': row[cell] === true || row[cell] === '1' || row[cell] === 1,
+                'orange lighten-4': row.stCustoPraticado === true || row.stCustoPraticado === '1' || row.stCustoPraticado === 1,
                 'linha-incluida': row.tpAcao === 'I',
                 'linha-excluida': row.tpAcao === 'E',
                 'linha-atualizada': row.tpAcao === 'A',

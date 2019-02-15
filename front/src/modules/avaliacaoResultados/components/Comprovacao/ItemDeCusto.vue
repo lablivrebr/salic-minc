@@ -103,13 +103,13 @@
             </v-card-title>
             <v-card-text>
                 <comprovante
-                    :id-pronac="idPronac"
-                    :id-planilha-itens="idPlanilhaItens"
-                    :produto="produto"
-                    :uf="uf"
-                    :id-uf="idUf"
-                    :cidade="cidade"
-                    :etapa="etapa"
+                    :id-pronac="String(idPronac)"
+                    :id-planilha-itens="String(idPlanilhaItens)"
+                    :produto="String(produto)"
+                    :uf="String(uf)"
+                    :id-uf="String(idUf)"
+                    :cidade="String(cidade)"
+                    :etapa="String(etapa)"
                     tipo="nacional"
                 />
             </v-card-text>
@@ -121,13 +121,13 @@
             </v-card-title>
             <v-card-text>
                 <comprovante
-                    :id-pronac="idPronac"
-                    :id-planilha-itens="idPlanilhaItens"
-                    :produto="produto"
-                    :uf="uf"
-                    :id-uf="idUf"
-                    :cidade="cidade"
-                    :etapa="etapa"
+                    :id-pronac="String(idPronac)"
+                    :id-planilha-itens="String(idPlanilhaItens)"
+                    :produto="String(produto)"
+                    :uf="String(uf)"
+                    :id-uf="String(idUf)"
+                    :cidade="String(cidade)"
+                    :etapa="String(etapa)"
                     tipo="internacional"
                 />
             </v-card-text>
@@ -145,7 +145,7 @@ import Comprovante from './Comprovante';
 Vue.filter('moedaMasck', Moeda);
 
 export default {
-    name: 'ComprovarPagamento',
+    name: 'ItemDeCusto',
     components: {
         Comprovante,
     },

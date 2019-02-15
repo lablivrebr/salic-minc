@@ -145,7 +145,7 @@
                                                                     <v-btn
                                                                         slot="activator"
                                                                         :to="{
-                                                                            name: 'ComprovarPagamento',
+                                                                            name: 'ItemDeCusto',
                                                                             params: {
                                                                                 idpronac: idPronac,
                                                                                 idUf: uf.cdUF,

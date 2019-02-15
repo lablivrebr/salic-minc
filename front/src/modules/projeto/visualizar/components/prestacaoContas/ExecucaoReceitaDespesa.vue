@@ -7,8 +7,10 @@
             <ExecucaoReceita :valor-receita-total="valorReceitaTotal"/>
             <ExecucaoDespesa :valor-despesa-total="valorDespesaTotal"/>
             <v-expansion-panel
+                v-model="panel"
                 popout
-                focusable>
+                focusable
+                expand>
                 <v-expansion-panel-content
                     class="elevation-1">
                     <div slot="header">
@@ -16,7 +18,7 @@
                         <v-chip
                             outline
                             color="black"
-                        >{{ total | filtroFormatarParaReal }}
+                        >R$ {{ total | filtroFormatarParaReal }}
                         </v-chip>
                     </div>
                     <v-card>
@@ -65,6 +67,7 @@ export default {
     mixins: [utils],
     data() {
         return {
+            panel: [true],
             pagination: {
                 sortBy: '',
                 descending: true,

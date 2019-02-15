@@ -283,6 +283,7 @@
                                             md10
                                         >
                                             <v-textarea
+                                                ref="justificativa"
                                                 v-model="itemEmEdicao.dsJustificativaParecerista"
                                                 :rules="justificativaRules"
                                                 label="Justificativa para alterar o item"
@@ -311,6 +312,18 @@
                                             save
                                         </v-icon>
                                         Salvar
+                                    </v-btn>
+                                    <v-btn
+                                        color="primary"
+                                        @click="zerarItem()"
+                                    >
+                                        <v-icon
+                                            left
+                                            dark
+                                        >
+                                            save
+                                        </v-icon>
+                                        Zerar valores
                                     </v-btn>
                                 </v-container>
                             </v-form>
@@ -385,7 +398,7 @@ export default {
             modalMediana: false,
             comboUnidade: {},
             rules: {
-                required: v => !!v || 'Campo obrigatório',
+                required: v => !!v || v === 0 || 'Campo obrigatório',
                 menorQueZero: v => this.converterParaMoedaAmericana(v) >= 0 || 'Não pode ser menor que zero',
             },
         };
@@ -491,6 +504,14 @@ export default {
                 idUfDespesa: item.idUfDespesa,
                 idMunicipioDespesa: item.idMunicipioDespesa,
             });
+        },
+        zerarItem() {
+            this.itemEmEdicao.idUnidade = '1';
+            this.itemEmEdicao.ocorrenciaparc = 0;
+            this.itemEmEdicao.quantidadeparc = 0;
+            this.itemEmEdicao.diasparc = 0;
+            this.itemEmEdicao.valorUnitarioparc = 0;
+            this.$refs.justificativa.focus = true;
         },
     },
 };

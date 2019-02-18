@@ -14,9 +14,9 @@
                     slot="items"
                     slot-scope="props">
                     <td class="text-xs-left">{{ props.item.Produto }}</td>
-                    <td class="text-xs-right">{{ props.item.QtdePatrocinador }}</td>
-                    <td class="text-xs-right">{{ props.item.QtdeProponente }}</td>
-                    <td class="text-xs-right">{{ props.item.QtdeOutros }}</td>
+                    <td class="text-xs-right">{{ props.item.QtdePatrocinador | filtroFormatarValor }}</td>
+                    <td class="text-xs-right">{{ props.item.QtdeProponente | filtroFormatarValor }}</td>
+                    <td class="text-xs-right">{{ props.item.QtdeOutros| filtroFormatarValor }}</td>
                 </template>
             </v-data-table>
         </v-card>
@@ -43,7 +43,7 @@ export default {
                 },
                 {
                     text: 'Patrocionador',
-                    align: 'left',
+                    align: 'right',
                     value: 'QtdePatrocinador',
                 },
                 {

@@ -17,14 +17,6 @@ export const buscarPagamentosUfMunicipio = ({ commit }, idPronac) => {
         });
 };
 
-export const buscarRelatoriosTrimestrais = ({ commit }, idPronac) => {
-    prestacaoContasHelperAPI.buscarRelatoriosTrimestrais(idPronac)
-        .then((response) => {
-            const data = response.data.data.items;
-            commit(types.SET_RELATORIOS_TRIMESTRAIS, data);
-        });
-};
-
 export const buscarExecucaoReceitaDespesa = ({ commit }, idPronac) => {
     prestacaoContasHelperAPI.buscarExecucaoReceitaDespesa(idPronac)
         .then((response) => {

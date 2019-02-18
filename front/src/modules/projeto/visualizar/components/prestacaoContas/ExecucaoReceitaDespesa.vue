@@ -13,21 +13,13 @@
                 expand>
                 <v-expansion-panel-content
                     class="elevation-1">
-                    <div slot="header">
-                        <b><span>TOTAL</span></b>
-                        <v-chip
-                            outline
-                            color="black"
-                        >R$ {{ total | filtroFormatarParaReal }}
-                        </v-chip>
-                    </div>
                     <v-card>
                         <v-container fluid>
                             <v-layout
                                 row
                                 wrap>
                                 <v-flex xs6>
-                                    <h6 class="mr-3">VALOR TOTAL</h6>
+                                    <h6 class="mr-3">VALOR DO SALDO</h6>
                                 </v-flex>
                                 <v-flex
                                     xs5

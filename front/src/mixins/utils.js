@@ -141,5 +141,9 @@ export const utils = {
 
             return value.replace(/(<([^>]+)>)/ig, '').slice(0, size).concat('...');
         },
+        filtroFormatarValor(value) {
+            const parsedValue = parseFloat(value);
+            return numeral(parsedValue).format('0,0');
+        }
     },
 };

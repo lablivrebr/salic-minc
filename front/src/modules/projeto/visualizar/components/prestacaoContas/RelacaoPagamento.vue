@@ -11,7 +11,7 @@
                         row
                         wrap>
                         <Filtro
-                            :items="montaArray('Item')"
+                            :items="montaArray()"
                             :label="'Pesquise Item'"
                             class="pr-5"
                             @eventoSearch="search = $event"
@@ -38,7 +38,7 @@
                             class="text-xs-left"
                             v-html="props.item.tpFormaDePagamento"/>
                         <td class="text-xs-right">{{ props.item.vlPagamento | filtroFormatarParaReal }}</td>
-                        <td class="text-xs-center">
+                        <td class="text-xs-center pr-2">
                             <v-tooltip bottom>
                                 <v-btn
                                     slot="activator"
@@ -68,6 +68,13 @@
                             class="text-xs-right">
                             <h6>
                                 <v-chip
+                                    v-if="this.search"
+                                    outline
+                                    color="black"
+                                >R$ {{ valorTotalPagamentos() | filtroFormatarParaReal }}
+                                </v-chip>
+                                <v-chip
+                                    v-else
                                     outline
                                     color="black"
                                 >R$ {{ valorTotal | filtroFormatarParaReal }}
@@ -97,21 +104,35 @@
                                     </v-flex>
                                     <v-flex>
                                         <b>Arquivo</b><br>
-                                        <a
+                                        <v-btn
                                             v-if="dadosPagamento.idArquivo"
                                             :href="`/upload/abrir?id=${dadosPagamento.idArquivo}`"
+                                            style="text-decoration: none"
+                                            round
+                                            small
                                         >
                                             <span v-html="dadosPagamento.nmArquivo"/>
-                                        </a>
+                                        </v-btn>
                                         <span v-else>
                                             -
                                         </span>
+                                        <!--<a-->
+                                        <!--v-if="dadosPagamento.idArquivo"-->
+                                        <!--:href="`/upload/abrir?id=${dadosPagamento.idArquivo}`"-->
+                                        <!--&gt;-->
+                                        <!--<u>-->
+                                        <!--<p v-html="dadosPagamento.nmArquivo"/>-->
+                                        <!--</u>-->
+                                        <!--</a>-->
+                                        <!--<span v-else>-->
+                                        <!-- - -->
+                                        <!--</span>-->
                                     </v-flex>
                                     <v-flex>
                                         <b class="pl-4">Data Pagamento</b>
                                         <p
                                             v-if="dadosPagamento.DtPagamento"
-                                            class="pl-4"
+                                            class="text-xs-center pr-5"
                                         >
                                             {{ dadosPagamento.DtPagamento | formatarData }}
                                         </p>
@@ -121,7 +142,10 @@
                                     </v-flex>
                                     <v-flex>
                                         <b>Data Emissão</b>
-                                        <p v-if="dadosPagamento.DtPagamento">
+                                        <p
+                                            v-if="dadosPagamento.DtPagamento"
+                                            class="pl-2"
+                                        >
                                             {{ dadosPagamento.DtEmissao | formatarData }}
                                         </p>
                                         <p v-else>
@@ -130,7 +154,10 @@
                                     </v-flex>
                                     <v-flex>
                                         <b>Valor Pagamento</b>
-                                        <p v-if="dadosPagamento.vlPagamento">
+                                        <p
+                                            v-if="dadosPagamento.vlPagamento"
+                                            class="text-xs-center pr-5"
+                                        >
                                             R$ {{ dadosPagamento.vlPagamento | filtroFormatarParaReal }}
                                         </p>
                                         <p v-else>
@@ -151,8 +178,11 @@
                                         </p>
                                     </v-flex>
                                     <v-flex xs6>
-                                        <b>CNPJ/CPF</b>
-                                        <p v-if="dadosPagamento.CNPJCPF">
+                                        <b class="pr-2">CNPJ/CPF</b>
+                                        <p
+                                            v-if="dadosPagamento.CNPJCPF"
+                                            class="pr-2"
+                                        >
                                             {{ dadosPagamento.CNPJCPF | cnpjFilter }}
                                         </p>
                                         <p v-else>
@@ -170,8 +200,11 @@
                                             v-html="dadosPagamento.tbDocumento"/>
                                     </v-flex>
                                     <v-flex xs6>
-                                        <b>Nº Documento</b>
-                                        <p v-if="dadosPagamento.nrComprovante">
+                                        <b class="pr-2">Nº Documento</b>
+                                        <p
+                                            v-if="dadosPagamento.nrComprovante"
+                                            class="pl-4"
+                                        >
                                             {{ dadosPagamento.nrComprovante }}
                                         </p>
                                         <p v-else>
@@ -189,8 +222,11 @@
                                             v-html="dadosPagamento.tpFormaDePagamento"/>
                                     </v-flex>
                                     <v-flex xs6>
-                                        <b>Nº Documento Pagamento</b>
-                                        <p v-if="dadosPagamento.nrDocumentoDePagamento">
+                                        <b class="pr-2">Nº Documento Pagamento</b>
+                                        <p
+                                            v-if="dadosPagamento.nrDocumentoDePagamento"
+                                            class="pl-5"
+                                        >
                                             {{ dadosPagamento.nrDocumentoDePagamento }}
                                         </p>
                                         <p v-else>
@@ -303,13 +339,6 @@ export default {
             dadosProjeto: 'projeto/projeto',
             dados: 'prestacaoContas/relacaoPagamento',
         }),
-        indexItems() {
-            const currentItems = this.montaArray();
-            return currentItems.map((item, index) => ({
-                id: index,
-                conteudo: item,
-            }));
-        },
         valorTotal() {
             if (Object.keys(this.dados).length === 0) {
                 return 0;
@@ -346,16 +375,32 @@ export default {
             this.dadosPagamento = item;
             this.dialog = true;
         },
-        montaArray(value) {
+        montaArray() {
             const dadosListagem = [];
-            let arrayFiltro = this.dados;
-            arrayFiltro = arrayFiltro.filter((element, i, array) => array.map(x => x[value]).indexOf(element[value]) === i);
 
-            arrayFiltro.forEach((element) => {
-                dadosListagem.push(element[value]);
+            const pagamentosByGroup = this.pagamentosPorItem();
+
+            Object.keys(pagamentosByGroup).forEach((key) => {
+                dadosListagem.push(key);
             });
 
             return dadosListagem;
+        },
+        valorTotalPagamentos() {
+            let total = 0;
+            const pagamentosPorItem = this.pagamentosPorItem();
+
+            if (typeof this.search !== 'undefined' && this.search.length > 0) {
+                pagamentosPorItem[this.search].forEach((pagamento) => {
+                    total += pagamento.vlPagamento;
+                });
+                return total;
+            }
+
+            return total;
+        },
+        pagamentosPorItem() {
+            return _.groupBy(this.dados, pagamento => pagamento.Item.trim());
         },
     },
 };

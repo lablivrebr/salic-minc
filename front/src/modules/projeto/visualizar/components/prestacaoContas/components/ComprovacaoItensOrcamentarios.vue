@@ -14,13 +14,17 @@
                     slot="items"
                     slot-scope="props">
                     <td class="text-xs-left">{{ props.item.Item }}</td>
-                    <td class="text-xs-right">{{ props.item.qtFisicaAprovada }}</td>
-                    <td class="text-xs-right">{{ props.item.qtFisicaExecutada | tipoExecucaoRound }}</td>
+                    <td class="text-xs-right">
+                        {{ props.item.qtFisicaAprovada | tipoExecucaoRound | filtroFormatarValor }}
+                    </td>
+                    <td class="text-xs-right">
+                        {{ props.item.qtFisicaExecutada | tipoExecucaoRound | filtroFormatarValor }}
+                    </td>
                     <td class="text-xs-right">{{ props.item.PerFisica | tipoExecucao }} %</td>
-                    <td class="text-xs-right">{{ props.item.vlAprovado | filtroFormatarParaReal }}</td>
-                    <td class="text-xs-right">{{ props.item.vlExecutado | filtroFormatarParaReal }}</td>
+                    <td class="text-xs-right">R$ {{ props.item.vlAprovado | filtroFormatarParaReal }}</td>
+                    <td class="text-xs-right">R$ {{ props.item.vlExecutado | filtroFormatarParaReal }}</td>
                     <td class="text-xs-right">{{ props.item.PercFinanceiro | tipoExecucao }} %</td>
-                    <td class="text-xs-right">{{ props.item.SaldoAExecutar | filtroFormatarParaReal }}</td>
+                    <td class="text-xs-right">R$ {{ props.item.SaldoAExecutar | filtroFormatarParaReal }}</td>
                 </template>
             </v-data-table>
         </v-card>
@@ -58,7 +62,7 @@ export default {
                 },
                 {
                     text: 'Aprovada',
-                    align: 'left',
+                    align: 'right',
                     value: 'qtFisicaAprovada',
                 },
                 {
@@ -73,24 +77,24 @@ export default {
                 },
                 {
                     text: 'Aprovada',
-                    align: 'left',
+                    align: 'right',
                     value: 'vlAprovado',
                 },
 
                 {
                     text: 'Executada',
-                    align: 'left',
+                    align: 'right',
                     value: 'vlExecutado',
                 },
 
                 {
                     text: '% Executado',
-                    align: 'left',
+                    align: 'right',
                     value: 'PerFisica',
                 },
                 {
                     text: 'Saldo à Executar',
-                    align: 'left',
+                    align: 'right',
                     value: 'SaldoAExecutar',
                 },
             ],

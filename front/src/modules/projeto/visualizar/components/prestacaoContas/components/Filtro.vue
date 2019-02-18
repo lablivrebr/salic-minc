@@ -6,6 +6,7 @@
                 :label="label"
                 :items="items"
                 v-bind="$attrs"
+                clearable
                 chips
             >
                 <template

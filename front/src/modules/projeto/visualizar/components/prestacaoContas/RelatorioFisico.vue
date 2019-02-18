@@ -15,7 +15,7 @@
                 <template
                     slot="items"
                     slot-scope="props">
-                    <td class="text-xs-center">{{ props.item.id + 1 }}</td>
+                    <td class="text-xs-center pl-5">{{ props.item.id + 1 }}</td>
                     <td class="text-xs-left">{{ props.item.Etapa }}</td>
                     <td class="text-xs-left">{{ props.item.Item }}</td>
                     <td class="text-xs-left">{{ props.item.Unidade }}</td>
@@ -71,27 +71,27 @@ export default {
                 },
                 {
                     text: 'QTDE PROGRAMADA',
-                    align: 'left',
+                    align: 'right',
                     value: 'qteProgramada',
                 },
                 {
                     text: 'VL. PROGRAMADO',
-                    align: 'left',
+                    align: 'right',
                     value: 'vlProgramado',
                 },
                 {
                     text: '% EXECUTADO',
-                    align: 'left',
+                    align: 'right',
                     value: 'PercExecutado',
                 },
                 {
                     text: 'VL. EXECUTADO',
-                    align: 'left',
+                    align: 'right',
                     value: 'vlExecutado',
                 },
                 {
                     text: '% A EXECUTAR',
-                    align: 'left',
+                    align: 'right',
                     value: 'PercAExecutar',
                 },
             ],

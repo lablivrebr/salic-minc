@@ -23,10 +23,10 @@
                         <template
                             slot="items"
                             slot-scope="props">
-                            <td class="text-xs-center">{{ props.item.id + 1 }}</td>
+                            <td class="text-xs-center pl-5">{{ props.item.id + 1 }}</td>
                             <td class="text-xs-left">{{ props.item.Etapa }}</td>
                             <td class="text-xs-left">{{ props.item.Item }}</td>
-                            <td class="text-xs-right">{{ props.item.vlPagamento | filtroFormatarParaReal }}</td>
+                            <td class="text-xs-left">{{ props.item.vlPagamento | filtroFormatarParaReal }}</td>
                         </template>
                     </v-data-table>
                     <v-container fluid>

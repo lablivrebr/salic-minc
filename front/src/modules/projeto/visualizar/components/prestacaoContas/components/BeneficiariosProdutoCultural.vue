@@ -15,7 +15,12 @@
                     slot-scope="props">
                     <td class="text-xs-left">{{ props.item.Produto }}</td>
                     <td class="text-xs-left">{{ props.item.idTipoBeneficiario | tipoBeneficiario }}</td>
-                    <td class="text-xs-left">{{ props.item.CNPJCPF | cnpjFilter }}</td>
+                    <td
+                        class="text-xs-left"
+                        style="white-space: nowrap"
+                    >
+                        {{ props.item.CNPJCPF | cnpjFilter }}
+                    </td>
                     <td class="text-xs-left">{{ props.item.Beneficiario }}</td>
                     <td class="text-xs-right">{{ props.item.qtRecebida }}</td>
                     <td class="text-xs-left">

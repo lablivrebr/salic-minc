@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="loading">
-            <Carregando :text="'Carregando Pagamentos Consolidados'"/>
+            <Carregando :text="'Pagamentos por UF/Município'"/>
         </div>
         <div v-else-if="dados">
             <v-card>
@@ -36,31 +36,28 @@
                     <template
                         slot="items"
                         slot-scope="props">
-                        <td class="text-xs-center">{{ props.item.id + 1 }}</td>
+                        <td class="text-xs-center pl-5">{{ props.item.id + 1 }}</td>
                         <td class="text-xs-left">{{ props.item.UFFornecedor }}</td>
                         <td class="text-xs-left">{{ props.item.MunicipioFornecedor }}</td>
                         <td class="text-xs-left"><b>{{ props.item.Item }}</b></td>
                         <td
-                            class="text-xs-center pl-5"
-                            style="width: 200px">
+                            class="text-xs-left"
+                            style="white-space: nowrap">
                             {{ props.item.CNPJCPF | cnpjFilter }}
                         </td>
                         <td class="text-xs-left">{{ props.item.Fornecedor }}</td>
                         <td class="text-xs-center pl-5">{{ props.item.DtComprovacao | formatarData }}</td>
                         <td class="text-xs-right">{{ props.item.vlPagamento | filtroFormatarParaReal }}</td>
                         <td class="text-xs-left">
-                            <v-btn
-                                :loading="parseInt(props.item.id) === loadingButton"
+                            <a
                                 :href="`/upload`+
                                     `/abrir`+
                                 `?id=${props.item.idArquivo}`"
-                                style="text-decoration: none"
-                                round
-                                small
-                                @click="loadingButton = parseInt(props.item.id)"
                             >
-                                {{ props.item.nmArquivo }}
-                            </v-btn>
+                                <u>
+                                    <p v-html="props.item.nmArquivo"/>
+                                </u>
+                            </a>
                         </td>
                     </template>
                 </v-data-table>
@@ -143,7 +140,7 @@ export default {
                 },
                 {
                     text: 'CNPJ/CPF',
-                    align: 'center',
+                    align: 'left',
                     value: 'CNPJCPF',
                 },
                 {

@@ -606,16 +606,6 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
                 'grupo' => []
             ];
 
-            if (in_array($this->permissoesMenu['FaseDoProjeto'], array('2', '3', '4', '5')) || !$this->usuarioExterno || $this->debug) {
-                $menu['prestacaodecontas']['submenu'][] = [
-                    'label' => 'Relat&oacute;rios trimestrais',
-                    'title' => 'Ir para Relat&oacute;rios trimestrais',
-                    'link' => "/projeto/#/{$idPronacHash}/relatorios-trimestrais",
-                    'ajax' => false,
-                    'grupo' => []
-                ];
-            }
-
             if (in_array($this->permissoesMenu['FaseDoProjeto'], array('4', '5')) || !$this->usuarioExterno || $this->debug) {
                 $menu['prestacaodecontas']['submenu'][] = [
                     'label' => 'Relat&oacute;rio de cumprimento do objeto',

@@ -15,36 +15,36 @@
                 <template
                     slot="items"
                     slot-scope="props">
-                    <td class="text-xs-center">{{ props.item.id + 1 }}</td>
+                    <td class="text-xs-center pl-5">{{ props.item.id + 1 }}</td>
                     <td class="text-xs-left">{{ props.item.UFFornecedor }}</td>
                     <td class="text-xs-left">{{ props.item.MunicipioFornecedor }}</td>
                     <td class="text-xs-right">{{ props.item.vlPagamento | filtroFormatarParaReal }}</td>
                 </template>
             </v-data-table>
+            <v-card>
+                <v-container fluid>
+                    <v-layout
+                        row
+                        wrap>
+                        <v-flex xs6>
+                            <h6 class="mr-3">TOTAL DOS PAGAMENTOS</h6>
+                        </v-flex>
+                        <v-flex
+                            xs5
+                            offset-xs1
+                            class="text-xs-right">
+                            <h6>
+                                <v-chip
+                                    outline
+                                    color="black"
+                                >R$ {{ valorPagamentoTotal | filtroFormatarParaReal }}
+                                </v-chip>
+                            </h6>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+            </v-card>
         </div>
-        <v-card>
-            <v-container fluid>
-                <v-layout
-                    row
-                    wrap>
-                    <v-flex xs6>
-                        <h6 class="mr-3">TOTAL DOS PAGAMENTOS</h6>
-                    </v-flex>
-                    <v-flex
-                        xs5
-                        offset-xs1
-                        class="text-xs-right">
-                        <h6>
-                            <v-chip
-                                outline
-                                color="black"
-                            >R$ {{ valorPagamentoTotal | filtroFormatarParaReal }}
-                            </v-chip>
-                        </h6>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-        </v-card>
     </div>
 </template>
 <script>

@@ -16,7 +16,12 @@
                 >
                     <td class="text-xs-left">{{ (props.item.tpBem === 'M') ? 'Móvel' : 'Imóvel' }}</td>
                     <td class="text-xs-left">{{ props.item.ItemOrcamentario }}</td>
-                    <td class="text-xs-left">{{ props.item.CNPJCPF | cnpjFilter }}</td>
+                    <td
+                        class="text-xs-left"
+                        style="white-space: nowrap"
+                    >
+                        {{ props.item.CNPJCPF | cnpjFilter }}
+                    </td>
                     <td class="text-xs-left">{{ props.item.NomeAgente }}</td>
                     <td class="text-xs-right">{{ props.item.qtBensDoados }}</td>
                     <td class="text-xs-center pl-5">

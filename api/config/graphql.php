@@ -125,7 +125,8 @@ return [
         'default' => [
             'query' => [
                 'foo' => 'App\GraphQL\Query\FooQuery',
-                'UsuarioInterno' => 'App\Conta\Consulta\UsuarioInterno'
+                'UsuarioInterno' => 'App\Conta\Consulta\UsuarioInterno',
+                'Diligencia' => 'App\Diligencia\Consulta\Diligencia'
             ],
             'mutation' => [
 
@@ -184,6 +185,7 @@ return [
     'types' => [
           'App\GraphQL\Type\FooType',
           'App\Conta\Tipo\UsuarioInterno',
+          'App\Diligencia\Tipo\Diligencia',
     ],
 
     /*

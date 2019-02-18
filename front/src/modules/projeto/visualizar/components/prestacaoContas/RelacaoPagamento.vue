@@ -99,7 +99,10 @@
                                         lg12
                                         dark
                                         class="text-xs-left">
-                                        <b><h4>DADOS DO PAGAMENTO</h4></b>
+                                        <h4>DADOS DO PAGAMENTO</h4>
+                                        <h3 class="text-xs-center">
+                                            <b>{{ dadosPagamento.Item }}</b>
+                                        </h3>
                                         <v-divider class="pb-2"/>
                                     </v-flex>
                                     <v-flex>
@@ -116,23 +119,12 @@
                                         <span v-else>
                                             -
                                         </span>
-                                        <!--<a-->
-                                        <!--v-if="dadosPagamento.idArquivo"-->
-                                        <!--:href="`/upload/abrir?id=${dadosPagamento.idArquivo}`"-->
-                                        <!--&gt;-->
-                                        <!--<u>-->
-                                        <!--<p v-html="dadosPagamento.nmArquivo"/>-->
-                                        <!--</u>-->
-                                        <!--</a>-->
-                                        <!--<span v-else>-->
-                                        <!-- - -->
-                                        <!--</span>-->
                                     </v-flex>
-                                    <v-flex>
-                                        <b class="pl-4">Data Pagamento</b>
+                                    <v-flex class="text-xs-center">
+                                        <b>Data Pagamento</b>
                                         <p
                                             v-if="dadosPagamento.DtPagamento"
-                                            class="text-xs-center pr-5"
+                                            class="text-xs-center"
                                         >
                                             {{ dadosPagamento.DtPagamento | formatarData }}
                                         </p>
@@ -140,11 +132,11 @@
                                             -
                                         </p>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex class="text-xs-center">
                                         <b>Data Emissão</b>
                                         <p
                                             v-if="dadosPagamento.DtPagamento"
-                                            class="pl-2"
+                                            class="text-xs-center"
                                         >
                                             {{ dadosPagamento.DtEmissao | formatarData }}
                                         </p>
@@ -152,11 +144,11 @@
                                             -
                                         </p>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex class="text-xs-right">
                                         <b>Valor Pagamento</b>
                                         <p
                                             v-if="dadosPagamento.vlPagamento"
-                                            class="text-xs-center pr-5"
+                                            class="text-xs-right"
                                         >
                                             R$ {{ dadosPagamento.vlPagamento | filtroFormatarParaReal }}
                                         </p>

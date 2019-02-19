@@ -11,7 +11,7 @@ final class Diligencia extends BaseType
 {
     protected $attributes = [
         'name' => 'Diligencia',
-        'description' => 'Diligencias do Projeto por idPronac'
+        'description' => 'Diligencia do Projeto'
     ];
 
     public function fields()

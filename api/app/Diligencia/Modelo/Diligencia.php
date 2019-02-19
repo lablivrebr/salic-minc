@@ -13,5 +13,5 @@ use Illuminate\Database\Eloquent\Model;
 final class Diligencia extends Model
 {
     protected $table = 'SAC.dbo.tbDiligencia';
-    protected $primaryKey = 'idPronac';
+    protected $primaryKey = 'idDiligencia';
 }

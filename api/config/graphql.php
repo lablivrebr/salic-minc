@@ -126,7 +126,8 @@ return [
             'query' => [
                 'foo' => 'App\GraphQL\Query\FooQuery',
                 'UsuarioInterno' => 'App\Conta\Consulta\UsuarioInterno',
-                'Diligencia' => 'App\Diligencia\Consulta\Diligencia'
+                'Diligencia' => 'App\Diligencia\Consulta\Diligencia',
+                'Diligencias' => 'App\Diligencia\Consulta\Diligencias'
             ],
             'mutation' => [
 

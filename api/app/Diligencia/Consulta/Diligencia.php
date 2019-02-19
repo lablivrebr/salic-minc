@@ -26,7 +26,7 @@ final class Diligencia extends Query
     public function args()
     {
         return [
-            'idPronac' => [
+            'idDiligencia' => [
                 'type' => Type::int()
             ],
 
@@ -35,7 +35,7 @@ final class Diligencia extends Query
 
     public function resolve($root, $args, $context, ResolveInfo $info)
     {
-        $diligencia = diligenciaModelo::find($args['idPronac']);
+        $diligencia = diligenciaModelo::find($args['idDiligencia']);
 
         return $diligencia;
     }

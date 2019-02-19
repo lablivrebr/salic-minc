@@ -39,7 +39,11 @@
             <TabelaDadosComplementares
                 :ds-dado-complementar="dados.Proposta.OutrasInformacoes"
                 dado-complementar="Outras Informa&ccedil;&otilde;es"/>
-
+            <div v-if="dados.Proposta.DescricaoAtividade">
+                <TabelaDadosComplementares
+                    :ds-dado-complementar="dados.Proposta.DescricaoAtividade"
+                    dado-complementar="Descrição de Atividades"/>
+            </div>
         </div>
     </div>
 </template>

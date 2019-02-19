@@ -15,10 +15,10 @@
                     slot-scope="props">
                     <td class="text-xs-left">{{ props.item.Item }}</td>
                     <td class="text-xs-right">
-                        {{ props.item.qtFisicaAprovada | tipoExecucaoRound | filtroFormatarValor }}
+                        {{ props.item.qtFisicaAprovada | tipoExecucaoRound | filtroFormatarQuantidade }}
                     </td>
                     <td class="text-xs-right">
-                        {{ props.item.qtFisicaExecutada | tipoExecucaoRound | filtroFormatarValor }}
+                        {{ props.item.qtFisicaExecutada | tipoExecucaoRound | filtroFormatarQuantidade }}
                     </td>
                     <td class="text-xs-right">{{ props.item.PerFisica | tipoExecucao }} %</td>
                     <td class="text-xs-right">R$ {{ props.item.vlAprovado | filtroFormatarParaReal }}</td>

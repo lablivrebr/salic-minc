@@ -191,11 +191,14 @@
                                             v-if="dadosPagamento.tbDocumento"
                                             v-html="dadosPagamento.tbDocumento"/>
                                     </v-flex>
-                                    <v-flex xs6>
-                                        <b class="pr-2">Nº Documento</b>
+                                    <v-flex
+                                            class="text-xs-center"
+                                            xs6
+                                    >
+                                        <b>Nº Documento</b>
                                         <p
                                             v-if="dadosPagamento.nrComprovante"
-                                            class="pl-4"
+                                            class="text-xs-center"
                                         >
                                             {{ dadosPagamento.nrComprovante }}
                                         </p>
@@ -213,11 +216,14 @@
                                             v-if="dadosPagamento.tpFormaDePagamento"
                                             v-html="dadosPagamento.tpFormaDePagamento"/>
                                     </v-flex>
-                                    <v-flex xs6>
-                                        <b class="pr-2">Nº Documento Pagamento</b>
+                                    <v-flex
+                                           xs6
+                                           class="text-xs-center"
+                                    >
+                                        <b>Nº Documento Pagamento</b>
                                         <p
                                             v-if="dadosPagamento.nrDocumentoDePagamento"
-                                            class="pl-5"
+                                            class="text-xs-center"
                                         >
                                             {{ dadosPagamento.nrDocumentoDePagamento }}
                                         </p>

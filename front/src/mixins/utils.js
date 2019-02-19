@@ -1,6 +1,7 @@
 import moment from 'moment';
 import cnpjFilter from '@/filters/cnpj';
 import moneyFilter from '@/filters/money';
+import filterQuantidade from '@/filters/quantidade';
 
 export const utils = {
     methods: {
@@ -141,9 +142,9 @@ export const utils = {
 
             return value.replace(/(<([^>]+)>)/ig, '').slice(0, size).concat('...');
         },
-        filtroFormatarValor(value) {
+        filtroFormatarQuantidade(value) {
             const parsedValue = parseFloat(value);
-            return numeral(parsedValue).format('0,0');
-        }
+            return filterQuantidade(parsedValue);
+        },
     },
 };

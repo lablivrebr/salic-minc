@@ -26,7 +26,7 @@
                             <td class="text-xs-center pl-5">{{ props.item.id + 1 }}</td>
                             <td class="text-xs-left">{{ props.item.CgcCpfMecena | cnpjFilter }}</td>
                             <td class="text-xs-left">{{ props.item.Nome }}</td>
-                            <td class="text-xs-left">{{ props.item.vlIncentivado | filtroFormatarParaReal }}</td>
+                            <td class="text-xs-right">R$ {{ props.item.vlIncentivado | filtroFormatarParaReal }}</td>
                         </template>
                     </v-data-table>
                     <v-container fluid>
@@ -97,7 +97,7 @@ export default {
                 },
                 {
                     text: 'VALOR',
-                    align: 'left',
+                    align: 'right',
                     value: 'vlIncentivado',
                 },
             ],

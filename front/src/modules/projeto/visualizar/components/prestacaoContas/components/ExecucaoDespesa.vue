@@ -26,7 +26,7 @@
                             <td class="text-xs-center pl-5">{{ props.item.id + 1 }}</td>
                             <td class="text-xs-left">{{ props.item.Etapa }}</td>
                             <td class="text-xs-left">{{ props.item.Item }}</td>
-                            <td class="text-xs-left">{{ props.item.vlPagamento | filtroFormatarParaReal }}</td>
+                            <td class="text-xs-right">R$ {{ props.item.vlPagamento | filtroFormatarParaReal }}</td>
                         </template>
                     </v-data-table>
                     <v-container fluid>
@@ -92,7 +92,7 @@ export default {
                 },
                 {
                     text: 'VALOR',
-                    align: 'left',
+                    align: 'right',
                     value: 'vlPagamento',
                 },
             ],

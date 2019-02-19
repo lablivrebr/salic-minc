@@ -14,9 +14,9 @@
                     slot="items"
                     slot-scope="props">
                     <td class="text-xs-left">{{ props.item.Produto }}</td>
-                    <td class="text-xs-right">{{ props.item.QtdePatrocinador | filtroFormatarValor }}</td>
-                    <td class="text-xs-right">{{ props.item.QtdeProponente | filtroFormatarValor }}</td>
-                    <td class="text-xs-right">{{ props.item.QtdeOutros| filtroFormatarValor }}</td>
+                    <td class="text-xs-right">{{ props.item.QtdePatrocinador | filtroFormatarQuantidade }}</td>
+                    <td class="text-xs-right">{{ props.item.QtdeProponente | filtroFormatarQuantidade }}</td>
+                    <td class="text-xs-right">{{ props.item.QtdeOutros| filtroFormatarQuantidade }}</td>
                 </template>
             </v-data-table>
         </v-card>

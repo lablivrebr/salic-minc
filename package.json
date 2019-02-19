@@ -20,7 +20,10 @@
     "cypress:open": "cypress open",
     "cypress": "cypress run",
     "lint": "eslint --ext .js,.vue front/src front/test/unit front/test/e2e/specs",
-    "lint-fix": "eslint --fix --ext .js,.vue front/src front/test/unit front/test/e2e/specs"
+    "lint-fix": "eslint --fix --ext .js,.vue front/src front/test/unit front/test/e2e/specs",
+    "dredd": "dredd",
+    "api-mock": "drakov -f 'front/src/helpers/mock/*.md' -p 4000",
+    "api-mock:watch": "drakov -f 'front/src/helpers/mock/*.md' -p 4000 —watch"
   },
   "husky": {
     "hooks": {

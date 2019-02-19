@@ -1,15 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: voltAir
- * Date: 18/02/19
- * Time: 16:55
- */
 
 namespace App\Diligencia\Tipo;
 
 use GraphQL\Type\Definition\Type;
 use Folklore\GraphQL\Support\Type as BaseType;
+use GraphQL;
+
 
 final class Diligencia extends BaseType
 {
@@ -22,9 +18,26 @@ final class Diligencia extends BaseType
     {
         return [
             'idPronac' => [
-                'type' => Type::id(),
+                'type' => Type::int(),
                 'description' => 'Identificador Projeto.'
             ],
+            'idDiligencia' => [
+                'type' => Type::int(),
+                'description' => 'Identificador'
+            ],
+            'idTipoDiligencia' => [
+                'type' => Type::int(),
+                'description' => 'Identificador do tipo Diligência'
+            ],
+            'DtSolicitacao' => [
+                'type' => GraphQL::type('DateTimeType'),
+                'description' => 'Data da solicitação'
+            ],
+            'Solicitacao' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'Texto da solicitação da Diligência'
+            ]
+
         ];
     }
 }

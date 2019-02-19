@@ -1,17 +1,14 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: voltAir
- * Date: 18/02/19
- * Time: 17:00
- */
 
 namespace App\Diligencia\Consulta;
 
 use Folklore\GraphQL\Support\Query;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL;
+
+use App\Diligencia\Modelo\Diligencia as diligenciaModelo;
 
 final class Diligencia extends Query
 {
@@ -21,7 +18,7 @@ final class Diligencia extends Query
         'description' => 'Diligancia do Projeto'
     ];
 
-    public function type()
+    public function type() : ObjectType
     {
         return GraphQL::type('Diligencia');
     }
@@ -30,9 +27,16 @@ final class Diligencia extends Query
     {
         return [
             'idPronac' => [
-                'type' => Type::id()
+                'type' => Type::int()
             ],
 
         ];
+    }
+
+    public function resolve($root, $args, $context, ResolveInfo $info)
+    {
+        $diligencia = diligenciaModelo::find($args['idPronac']);
+
+        return $diligencia;
     }
 }

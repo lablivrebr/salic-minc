@@ -186,6 +186,7 @@ return [
           'App\GraphQL\Type\FooType',
           'App\Conta\Tipo\UsuarioInterno',
           'App\Diligencia\Tipo\Diligencia',
+           App\Library\GraphQL\Type\DateTimeType::class,
     ],
 
     /*

@@ -24,7 +24,7 @@ final class DateTimeType extends ScalarType implements TypeConvertible
      * @param mixed $value
      * @return mixed
      */
-    public function serialize($value)
+    public function serialize($value)//: DateTime <- Retorna null quando fixado
     {
         return $value;
     }

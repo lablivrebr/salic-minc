@@ -19,7 +19,7 @@ final class Diligencia extends BaseType
         return [
             'idPronac' => [
                 'type' => Type::int(),
-                'description' => 'Identificador Projeto.'
+                'description' => 'Identificador Projeto'
             ],
             'idDiligencia' => [
                 'type' => Type::int(),
@@ -27,16 +27,40 @@ final class Diligencia extends BaseType
             ],
             'idTipoDiligencia' => [
                 'type' => Type::int(),
-                'description' => 'Identificador do tipo Diligência'
+                'description' => 'Identificador do tipo'
+            ],
+            'idSolicitante' => [
+                'type' => Type::int(),
+                'description' => 'Identificador do Solicitante'
+            ],
+            'idProponente' => [
+                'type' => Type::int(),
+                'description' => 'Identificador do Proponente da diligencia'
+            ],
+            'idPlanoDistribuicao' => [
+                'type' => Type::int(),
+                'description' => 'Identificador do Plano de distribuição do produto'
             ],
             'DtSolicitacao' => [
                 'type' => GraphQL::type('DateTimeType'),
                 'description' => 'Data da solicitação'
             ],
+            'DtResposta' => [
+                'type' => GraphQL::type('DateTimeType'),
+                'description' => 'Data da resposta'
+            ],
             'Solicitacao' => [
                 'type' => Type::nonNull(Type::string()),
-                'description' => 'Texto da solicitação da Diligência'
-            ]
+                'description' => 'Texto da solicitação'
+            ],
+            'Resposta' => [
+                'type' => Type::string(),
+                'description' => 'Texto da resposta da solicitação'
+            ],
+            'stEstado' => [
+                'type' => Type::nonNull(Type::boolean()),
+                'description' => 'Estado da Diligencia (Boleano)'
+            ],
 
         ];
     }

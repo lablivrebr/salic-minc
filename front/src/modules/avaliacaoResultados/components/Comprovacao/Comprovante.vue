@@ -7,9 +7,11 @@
                     :key="i"
                 >
                     <div slot="header">Fornecedor: {{ comprovante.fornecedor.nome }} {{ comprovante.valor | moedaMasck }}</div>
-                    <v-card>
+                    <v-card
+                        flat
+                    >
                         <v-card-text>
-                            {{ idPronac }}
+                            <comprovar-pagamento/>
                         </v-card-text>
                     </v-card>
                 </v-expansion-panel-content>
@@ -25,11 +27,15 @@
 import Vue from 'vue';
 import { mapActions } from 'vuex';
 import Moeda from '../../../../filters/money';
+import ComprovarPagamento from './ComprovarPagamento';
 
 Vue.filter('moedaMasck', Moeda);
 
 export default {
     name: 'Comprovante',
+    components: {
+        ComprovarPagamento,
+    },
     filters: {
         dataMasck(data) {
             const dataFormatada = data.replace(/-/g, '/');

@@ -629,6 +629,7 @@ class Parecer_Model_DbTable_TbDistribuirParecer extends MinC_Db_Table_Abstract
                 "t.DtDevolucao",
                 "t.TipoAnalise",
                 "t.stPrincipal",
+                "t.FecharAnalise",
                 "nrDias" => new Zend_Db_Expr("DATEDIFF(day, t.DtEnvio,t.DtDistribuicao)"),
                 new Zend_Db_Expr("CONVERT(CHAR(10), DtEnvio, 103) AS DtEnvioPT"),
                 new Zend_Db_Expr("CONVERT(CHAR(10), t.DtDevolucao, 103) AS DtDevolucaoPT"),

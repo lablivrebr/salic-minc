@@ -73,11 +73,6 @@
                     <td class="text-xs-right">
                         {{ props.item.VlSugeridoParecerista | filtroFormatarParaReal }}
                     </td>
-                    <td
-                        class="text-xs-left"
-                        width="30%"
-                        v-html="$options.filters.filtroDiminuirTexto(props.item.dsJustificativaParecerista, 40)"
-                    />
                 </tr>
             </template>
             <template
@@ -87,11 +82,47 @@
                 <v-layout
                     wrap
                     column
-                    class="blue-grey lighten-5 pa-2"
+                    class="blue-grey lighten-3 pa-2"
                 >
                     <v-card>
-                        <v-card-title class="py-1">
-                            <h3>Editando item: {{ props.item.Item }} </h3>
+                        <v-card-title class="py-1 blue-grey lighten-1 white--text">
+                            <span class="title">
+                                Editando item: {{ props.item.Item }}
+                            </span>
+
+                            <v-spacer />
+
+                            <v-menu
+                                bottom
+                                left
+                            >
+                                <v-btn
+                                    slot="activator"
+                                    dark
+                                    icon
+                                >
+                                    <v-icon>more_vert</v-icon>
+                                </v-btn>
+
+                                <v-list>
+                                    <v-list-tile
+                                        @click="zerarItem()"
+                                    >
+                                        <v-list-tile-action style="min-width: 30px">
+                                            <v-icon>money_off</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-title>Zerar valores</v-list-tile-title>
+                                    </v-list-tile>
+                                    <v-list-tile
+                                        @click="restaurarItem()"
+                                    >
+                                        <v-list-tile-action style="min-width: 30px">
+                                            <v-icon>restore</v-icon>
+                                        </v-list-tile-action>
+                                        <v-list-tile-title>Restaurar valores</v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
                         </v-card-title>
                         <v-divider />
                         <v-card-text>
@@ -123,76 +154,90 @@
                                     </v-icon>
                                 </v-btn>
                             </div>
+                            <v-layout
+                                row
+                                wrap
+                                px-3
+                            >
+                                <v-flex
+                                    xs12
+                                    md12
+                                >
+                                    <v-expansion-panel
+                                        v-model="openValorSolicitado"
+                                        class="mx-auto"
+                                    >
+                                        <v-expansion-panel-content style="background: #f3f3f3">
+                                            <span slot="header">
+                                                <h3>Valores solicitados</h3>
+                                            </span>
+                                            <v-layout
+                                                row
+                                                wrap
+                                                pa-3
+                                            >
+                                                <v-flex
+                                                    xs12
+                                                    md2
+                                                >
+                                                    <b>Unidade</b>
+                                                    <div>{{ itemEmEdicao.UnidadeProposta }}</div>
+                                                </v-flex>
+                                                <v-flex
+                                                    xs12
+                                                    md1
+                                                >
+                                                    <b>Dias</b>
+                                                    <div>{{ itemEmEdicao.diasprop }}</div>
+                                                </v-flex>
+                                                <v-flex
+                                                    xs12
+                                                    md1
+                                                >
+                                                    <b>Qtd.</b>
+                                                    <div>{{ itemEmEdicao.quantidadeprop }}</div>
+                                                </v-flex>
+                                                <v-flex
+                                                    xs12
+                                                    md2
+                                                >
+                                                    <b>Ocorrência</b>
+                                                    <div>{{ itemEmEdicao.ocorrenciaprop }}</div>
+                                                </v-flex>
+                                                <v-flex
+                                                    xs12
+                                                    md2
+                                                >
+                                                    <b>Vl. Unitário (R$)</b>
+                                                    <div>{{ itemEmEdicao.valorUnitarioprop | filtroFormatarParaReal }}</div>
+                                                </v-flex>
+                                                <v-flex
+                                                    xs12
+                                                    md2
+                                                >
+                                                    <b>Vl. Solicitado (R$)</b>
+                                                    <div>{{ itemEmEdicao.VlSolicitado | filtroFormatarParaReal }}</div>
+                                                </v-flex>
+                                                <v-flex
+                                                    xs10
+                                                    md10
+                                                >
+                                                    <b>Justificativa</b>
+                                                    <div
+                                                        v-html="itemEmEdicao.justificitivaproponente"
+                                                    />
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                </v-flex>
+                            </v-layout>
                             <v-form
                                 ref="form"
                                 v-model="valid"
                                 lazy-validation
                             >
                                 <v-container fluid>
-                                    <v-layout
-                                        row
-                                        wrap
-                                        style="background: #f3f3f3"
-                                    >
-                                        <v-flex
-                                            xs12
-                                            md12
-                                        >
-                                            <h3>Valores Solicitados</h3>
-                                        </v-flex>
-                                        <v-flex
-                                            xs12
-                                            md2
-                                        >
-                                            <b>Unidade</b>
-                                            <div>{{ itemEmEdicao.UnidadeProposta }}</div>
-                                        </v-flex>
-                                        <v-flex
-                                            xs12
-                                            md1
-                                        >
-                                            <b>Dias</b>
-                                            <div>{{ itemEmEdicao.diasprop }}</div>
-                                        </v-flex>
-                                        <v-flex
-                                            xs12
-                                            md1
-                                        >
-                                            <b>Qtd.</b>
-                                            <div>{{ itemEmEdicao.quantidadeprop }}</div>
-                                        </v-flex>
-                                        <v-flex
-                                            xs12
-                                            md2
-                                        >
-                                            <b>Ocorrência</b>
-                                            <div>{{ itemEmEdicao.ocorrenciaprop }}</div>
-                                        </v-flex>
-                                        <v-flex
-                                            xs12
-                                            md2
-                                        >
-                                            <b>Vl. Unitário (R$)</b>
-                                            <div>{{ itemEmEdicao.valorUnitarioprop | filtroFormatarParaReal }}</div>
-                                        </v-flex>
-                                        <v-flex
-                                            xs12
-                                            md2
-                                        >
-                                            <b>Vl. Solicitado (R$)</b>
-                                            <div>{{ itemEmEdicao.VlSolicitado | filtroFormatarParaReal }}</div>
-                                        </v-flex>
-                                        <v-flex
-                                            xs10
-                                            md10
-                                        >
-                                            <b>Justificativa</b>
-                                            <div
-                                                v-html="itemEmEdicao.justificitivaproponente"
-                                            />
-                                        </v-flex>
-                                    </v-layout>
-                                    <v-divider class="mb-3" />
                                     <v-layout
                                         row
                                         wrap
@@ -294,10 +339,8 @@
                                     </v-layout>
                                 </v-container>
                                 <v-container
-                                    grid-list-xs
+                                    grid-list-md
                                     text-xs-center
-                                    ma-0
-                                    pa-0
                                 >
                                     <v-btn
                                         :disabled="!valid"
@@ -314,16 +357,15 @@
                                         Salvar
                                     </v-btn>
                                     <v-btn
-                                        color="primary"
-                                        @click="zerarItem()"
+                                        @click="props.expanded = !props.expanded"
                                     >
                                         <v-icon
                                             left
                                             dark
                                         >
-                                            save
+                                            clear
                                         </v-icon>
-                                        Zerar valores
+                                        Cancelar
                                     </v-btn>
                                 </v-container>
                             </v-form>
@@ -342,7 +384,6 @@
                     <td class="text-xs-right">
                         <b>{{ obterValorSugeridoTotalParecer(table) | formatarParaReal }}</b>
                     </td>
-                    <td />
                 </tr>
             </template>
         </v-data-table>
@@ -373,6 +414,7 @@ export default {
             valid: false,
             expand: false,
             loading: false,
+            openValorSolicitado: 1,
             maxChars: 500,
             minChars: 10,
             messageAlert: '',
@@ -386,7 +428,6 @@ export default {
                 { text: 'Ocor.', align: 'center', value: 'ocorrenciaparc' },
                 { text: 'Vl. Unitário', align: 'right', value: 'valorUnitarioparc' },
                 { text: 'Valor Sugerido', align: 'left', value: 'VlSugeridoParecerista' },
-                { text: 'Just. Parecerista', align: 'left', value: 'dsJustificativaParecerista' },
             ],
             itemEmEdicao: {
                 VlSugeridoParecerista: '',
@@ -414,7 +455,7 @@ export default {
             );
         },
         valorSugeridoRules() {
-            return [v => (!!v && this.valorSugerido) <= this.itemEmEdicao.VlSolicitado
+            return [v => (!!v && parseFloat(this.valorSugerido).toFixed(2)) <= parseFloat(this.itemEmEdicao.VlSolicitado).toFixed(2)
                 || 'O valor sugerido não pode ser maior que o valor solicitado.'];
         },
         justificativaRules() {
@@ -451,11 +492,7 @@ export default {
             }
 
             this.itemEmEdicao = Object.assign(this.itemEmEdicao, props.item);
-            this.comboUnidade = {
-                idUnidade: this.itemEmEdicao.idUnidade,
-                Descricao: this.itemEmEdicao.UnidadeProjeto,
-                Sigla: '',
-            };
+            this.atualizarCombo();
 
             return !props.expanded;
         },
@@ -505,13 +542,28 @@ export default {
                 idMunicipioDespesa: item.idMunicipioDespesa,
             });
         },
+        atualizarCombo() {
+            this.comboUnidade = {
+                idUnidade: this.itemEmEdicao.idUnidade,
+                Descricao: this.itemEmEdicao.UnidadeProjeto,
+                Sigla: '',
+            };
+        },
         zerarItem() {
-            this.itemEmEdicao.idUnidade = '1';
+            this.itemEmEdicao.idUnidade = 1;
             this.itemEmEdicao.ocorrenciaparc = 0;
             this.itemEmEdicao.quantidadeparc = 0;
             this.itemEmEdicao.diasparc = 0;
             this.itemEmEdicao.valorUnitarioparc = 0;
-            this.$refs.justificativa.focus = true;
+            this.atualizarCombo();
+        },
+        restaurarItem() {
+            this.itemEmEdicao.idUnidade = this.itemEmEdicao.Unidade;
+            this.itemEmEdicao.ocorrenciaparc = this.itemEmEdicao.ocorrenciaprop;
+            this.itemEmEdicao.quantidadeparc = this.itemEmEdicao.quantidadeprop;
+            this.itemEmEdicao.diasparc = this.itemEmEdicao.diasprop;
+            this.itemEmEdicao.valorUnitarioparc = this.itemEmEdicao.valorUnitarioprop;
+            this.atualizarCombo();
         },
     },
 };

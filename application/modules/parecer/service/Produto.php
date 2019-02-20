@@ -203,18 +203,18 @@ class Produto implements \MinC\Servico\IServicoRestZend
 
         $dadosWhere = [];
         $dadosWhere["t.stEstado = ?"] = 0;
-//        $dadosWhere["t.TipoAnalise in (?)"] = array(1, 3);
         $dadosWhere["p.Situacao IN ('B11', 'B14')"] = '';
         $dadosWhere["p.IdPRONAC = ?"] = $idPronac;
-//        $dadosWhere["t.stPrincipal = ?"] = 0;
-//        $dadosWhere["t.stPrincipal = ?"] = 0;
         $dadosWhere["t.idProduto <> ?"] = $idProduto;
+//        $dadosWhere["t.TipoAnalise in (?)"] = array(1, 3);
+//        $dadosWhere["t.stPrincipal = ?"] = 0;
+//        $dadosWhere["t.stPrincipal = ?"] = 0;
         $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuirSecundarios($dadosWhere)->toArray();
 
 //        $dadosWhere["t.DtDistribuicao is not null"] = '';
 //        $dadosWhere["t.DtDevolucao is null"] = '';
-//        $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere)->toArray();
+        $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere)->toArray();
 //        $pscount = count($SecundariosAtivos);
 
 //        $i = 1;

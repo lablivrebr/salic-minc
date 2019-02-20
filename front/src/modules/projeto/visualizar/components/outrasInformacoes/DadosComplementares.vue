@@ -39,7 +39,7 @@
             <TabelaDadosComplementares
                 :ds-dado-complementar="dados.Proposta.OutrasInformacoes"
                 dado-complementar="Outras Informa&ccedil;&otilde;es"/>
-            <div v-if="dados.Proposta.DescricaoAtividade">
+            <div v-if="dados.Proposta.DescricaoAtividade.trim()">
                 <TabelaDadosComplementares
                     :ds-dado-complementar="dados.Proposta.DescricaoAtividade"
                     dado-complementar="Descrição de Atividades"/>
@@ -70,6 +70,10 @@ export default {
         }),
     },
     watch: {
+        dadosProjeto(value) {
+            this.loading = true;
+            this.buscarDadosComplementares(value.idPronac);
+        },
         dados() {
             this.loading = false;
         },

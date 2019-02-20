@@ -25,19 +25,21 @@
                         Análise inicial: {{ produto.dsProduto }}
                     </h5>
                     <v-divider />
-                    <div class="subheading mt-1">Projeto: {{ produto.PRONAC }} - {{ produto.NomeProjeto }}</div>
+                    <div class="subheading mt-1">
+                        Projeto: {{ produto.PRONAC }} - {{ produto.NomeProjeto }}
+                    </div>
                 </v-toolbar-title>
                 <v-spacer />
                 <v-chip
-                    light
                     v-if="produto.stPrincipal === 1"
+                    light
                     color="teal lighten-5"
                 >
                     Produto Principal
                 </v-chip>
                 <v-chip
-                    light
                     v-else
+                    light
                     color="blue-grey lighten-5"
                 >
                     Produto Secundário
@@ -178,8 +180,15 @@ export default {
         analiseConteudo() {
             this.validarSteps();
         },
-        $route() {
+        $route(prev, old) {
             this.atualizarStepByRoute();
+            if (prev.params.id !== old.params.id
+                || prev.params.idPronac !== old.params.idPronac) {
+                this.obterProdutoParaAnalise({
+                    id: this.$route.params.id,
+                    idPronac: this.$route.params.idPronac,
+                });
+            }
         },
     },
     created() {

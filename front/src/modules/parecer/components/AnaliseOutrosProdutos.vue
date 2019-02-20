@@ -15,7 +15,32 @@
                 slot="items"
                 slot-scope="props"
             >
-                <td>{{ props.item.Produto }}</td>
+                <td>
+                    <v-tooltip
+                        v-if="props.item.idAgenteParecerista === produto.idAgenteParecerista"
+                        bottom
+                    >
+                        <router-link
+                            slot="activator"
+                            :to="{
+                                name: 'analise-conteudo',
+                                params: {
+                                    id: props.item.idProduto,
+                                    idPronac: props.item.IdPRONAC,
+                                    produtoPrincipal: props.item.stPrincipal,
+                                }
+                            }"
+                            color="primary"
+                        >
+                            {{ props.item.Produto }}
+                        </router-link>
+                        <span>Clique para análisar o produto {{ props.item.Produto }}</span>
+                    </v-tooltip>
+                    <span
+                        v-else
+                        v-text="props.item.Produto"
+                    />
+                </td>
                 <td>
                     <v-tooltip
                         v-if="props.item.stPrincipal === 1"
@@ -66,7 +91,7 @@
         </v-data-table>
         <s-analise-outros-produtos-dialog
             v-model="dialog"
-            :produto="produto"
+            :produto="produtoVisualizacao"
         />
     </div>
 </template>
@@ -100,7 +125,7 @@ export default {
                     text: 'Ações', value: 'idDistribuirParecer', align: 'center', sortable: false,
                 },
             ],
-            produto: {
+            produtoVisualizacao: {
                 type: Object,
                 default: () => {},
             },
@@ -109,6 +134,7 @@ export default {
     computed: {
         ...mapGetters({
             produtosSecundarios: 'parecer/getProdutosSecundarios',
+            produto: 'parecer/getProduto',
         }),
     },
     watch: {
@@ -118,7 +144,7 @@ export default {
     },
     created() {
         this.obterProdutosSecundarios({
-            idProduto: this.$route.params.id,
+            id: this.$route.params.id,
             idPronac: this.$route.params.idPronac,
         });
     },
@@ -127,7 +153,7 @@ export default {
             obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
         }),
         abrirModal(produto) {
-            this.produto = produto;
+            this.produtoVisualizacao = produto;
             this.dialog = true;
         },
     },

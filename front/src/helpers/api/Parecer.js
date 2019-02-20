@@ -58,7 +58,7 @@ export const obterPlanilhaParaAnalise = (params) => {
 export const obterProdutosSecundarios = (params) => {
     const module = '/parecer';
     const controller = '/analise-inicial-outros-produtos-rest';
-    const idProduto = `id/${params.idProduto}`;
+    const idProduto = `id/${params.id}`;
     const idPronac = `idPronac/${params.idPronac}`;
 
     const queryParams = `/${idProduto}/${idPronac}`;

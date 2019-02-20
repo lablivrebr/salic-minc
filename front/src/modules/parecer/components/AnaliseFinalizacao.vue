@@ -47,33 +47,45 @@
                         :key="`${i}-divider`"
                     />
 
-                    <v-list-tile :key="`${i}-${task.text}`">
-                        <v-list-tile-avatar>
-                            <v-progress-circular
-                                v-if="!task.done "
-                                :width="3"
-                                color="primary"
-                                small
-                                indeterminate
-                            />
-                        </v-list-tile-avatar>
-                        <v-list-tile-action>
-                            <div
+                    <v-list-tile
+                        :key="`${i}-${task.text}`"
+                        two-line
+                    >
+                        <v-list-tile-content>
+                            <v-list-tile-title
                                 :class="task.done && 'text--primary' || 'grey--text'"
                                 v-text="task.text"
                             />
-                        </v-list-tile-action>
-
+                            <v-list-tile-sub-title
+                                v-if="!task.done && !task.loading"
+                                class="red--text"
+                                v-text="task.error"
+                            />
+                        </v-list-tile-content>
                         <v-spacer />
-
-                        <v-scroll-x-transition>
-                            <v-icon
-                                v-if="task.done"
-                                color="success"
-                            >
-                                check
-                            </v-icon>
-                        </v-scroll-x-transition>
+                        <v-progress-circular
+                            v-if="!task.done && task.loading"
+                            :width="3"
+                            color="primary"
+                            small
+                            indeterminate
+                        />
+                        <v-list-tile-action>
+                            <v-scroll-x-transition>
+                                <v-icon
+                                    v-if="task.done && !task.loading"
+                                    color="success"
+                                >
+                                    check
+                                </v-icon>
+                                <v-icon
+                                    v-if="!task.done && !task.loading"
+                                    color="red"
+                                >
+                                    clear
+                                </v-icon>
+                            </v-scroll-x-transition>
+                        </v-list-tile-action>
                     </v-list-tile>
                 </template>
             </v-slide-y-transition>
@@ -102,27 +114,45 @@ export default {
             {
                 done: false,
                 text: 'Análise de conteúdo',
-                rules: [v => v.analiseConteudo || v.analiseConteudo.ParecerDeConteudo.length > 5 || 'Análise conteudo inválido'],
+                value: 'analiseConteudo',
+                loading: true,
+                rules: [(v, self) => (Object.keys(v).length > 0
+                    && self.stripTags(v.ParecerDeConteudo).length > 10) || 'Falta parecer da análise de conteúdo'],
+                error: '',
             },
             {
                 done: false,
                 text: 'Análise de custos',
-                rules: [v => v.planilha.filter(i => i.stCustoPraticadoParc === 1
-                    && i.dsJustificativaParecerista.length > 5).length === 0
-                    || 'Análise de custo inválido',
+                value: 'planilha',
+                loading: true,
+                rules: [
+                    (v, self) => (v.length > 0 && v.filter(i => i.stCustoPraticadoParc === 1
+                    && self.stripTags(i.dsJustificativaParecerista).length < 10).length === 0)
+                    || 'Existem itens com o valor praticado e não justificado',
                 ],
-            },
-            {
-                text: 'Verificando avaliação de outros produtos',
-                done: false,
+                error: '',
             },
             {
                 done: false,
-                text: 'Verificando diligências',
+                text: 'Outros produtos',
+                value: 'produtosSecundarios',
+                loading: true,
+                rules: [
+                    v => (v.length > 0 && v.filter(i => i.DtDevolucao === null
+                        && i.FecharAnalise === '0'
+                        && i.stPrincipal === 0).length === 0)
+                        || 'Existem produtos pendentes de análise',
+                ],
+                error: '',
             },
             {
                 done: false,
-                text: 'Consolidação',
+                text: 'Consolidação do projeto',
+                value: 'consolidacao',
+                loading: true,
+                rules: [(v, self) => (Object.keys(v).length > 0
+                    && self.stripTags(v.ResumoParecer).length > 10) || 'Falta parecer da consolidação'],
+                error: '',
             },
         ],
         task: null,
@@ -133,6 +163,7 @@ export default {
             produto: 'parecer/getProduto',
             planilha: 'parecer/getPlanilhaParecer',
             consolidacao: 'parecer/getConsolidacao',
+            produtosSecundarios: 'parecer/getProdutosSecundarios',
         }),
         completedTasks() {
             return this.tasks.filter(task => task.done).length;
@@ -144,37 +175,69 @@ export default {
             return this.tasks.length - this.completedTasks;
         },
     },
+    watch: {
+        analiseConteudo() {
+            this.checkAll();
+        },
+        planilha: {
+            handler() {
+                this.checkAll();
+            },
+            deep: true,
+        },
+        consolidacao() {
+            this.checkAll();
+        },
+        produtosSecundarios() {
+            this.checkAll();
+        },
+    },
     mounted() {
-        this.checkAll();
+        const params = {
+            id: this.$route.params.id,
+            idPronac: this.$route.params.idPronac,
+            stPrincipal: this.$route.params.produtoPrincipal,
+        };
+        this.obterAnaLiseConteudo(params);
+        this.obterPlanilhaParecer(params);
+        this.obterConsolidacao(params);
+        this.obterProdutosSecundarios(params);
     },
     methods: {
         ...mapActions({
-            obterProdutoParaAnalise: 'parecer/obterProdutoParaAnalise',
             obterAnaLiseConteudo: 'parecer/obterAnaLiseConteudo',
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
             obterConsolidacao: 'parecer/obterConsolidacao',
+            obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
         }),
-        create() {
-            this.tasks.push({
-                done: false,
-                text: this.task,
-            });
-            this.task = null;
-        },
         checkAll() {
-            const errorBucket = [];
             this.tasks.forEach((item, i) => {
+                const task = this.tasks[i];
                 this.tasks[i].done = false;
                 if (Array.isArray(item.rules)) {
                     item.rules.forEach((f) => {
-                        const valid = typeof f === 'function' ? f(this) : true;
+                        const valid = typeof f === 'function' ? f(this[task.value], this) : false;
+
                         if (typeof valid === 'string') {
-                            errorBucket.push(valid);
+                            this.tasks[i].error = valid;
                         }
+
+                        if (typeof this[task.value] !== 'undefined'
+                            && ((Array.isArray(this[task.value]) && this[task.value].length > 0)
+                            || Object.keys(this[task.value]).length > 0)) {
+                            this.tasks[i].loading = false;
+                        }
+
+                        this.tasks[i].done = typeof valid === 'boolean' ? valid : false;
                     });
-                    this.tasks[i].done = errorBucket.length === 0;
                 }
             });
+        },
+        stripTags(string) {
+            if (typeof string !== 'string') {
+                return string;
+            }
+            return string.replace(/(<([^>]+)>)/ig, '');
         },
     },
 };

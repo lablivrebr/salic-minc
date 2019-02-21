@@ -1,5 +1,12 @@
 <template>
-    <v-container style="max-width: 800px">
+    <s-carregando
+        v-if="loading"
+        :text="'Carregando conteúdo'"
+    />
+    <v-container
+        v-else
+        style="max-width: 800px"
+    >
         <h2 class="display-1 success--text pl-3">
             Validações:&nbsp;
             <v-fade-transition leave-absolute>
@@ -48,13 +55,13 @@
                     />
 
                     <v-list-tile
-                        :key="`${i}-${task.text}`"
+                        :key="`${i}-${task.label}`"
                         two-line
                     >
                         <v-list-tile-content>
                             <v-list-tile-title
                                 :class="task.done && 'text--primary' || 'grey--text'"
-                                v-text="task.text"
+                                v-text="task.label"
                             />
                             <v-list-tile-sub-title
                                 v-if="!task.done && !task.loading"
@@ -107,24 +114,31 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex';
+import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
+    components: { SCarregando },
     data: () => ({
+        loading: true,
         tasks: [
             {
+                name: 'analise-conteudo',
+                label: 'Análise de conteúdo',
+                getter: 'analiseConteudo',
+                action: 'obterAnaLiseConteudo',
+                loading: false,
                 done: false,
-                text: 'Análise de conteúdo',
-                value: 'analiseConteudo',
-                loading: true,
                 rules: [(v, self) => (Object.keys(v).length > 0
                     && self.stripTags(v.ParecerDeConteudo).length > 10) || 'Falta parecer da análise de conteúdo'],
                 error: '',
             },
             {
+                name: 'analise-de-custos',
+                label: 'Análise de custos',
+                getter: 'planilha',
+                action: 'obterPlanilhaParecer',
+                loading: false,
                 done: false,
-                text: 'Análise de custos',
-                value: 'planilha',
-                loading: true,
                 rules: [
                     (v, self) => (v.length > 0 && v.filter(i => i.stCustoPraticadoParc === 1
                     && self.stripTags(i.dsJustificativaParecerista).length < 10).length === 0)
@@ -133,10 +147,12 @@ export default {
                 error: '',
             },
             {
+                name: 'analise-outros-produtos',
+                label: 'Outros produtos',
+                getter: 'produtosSecundarios',
+                action: 'produtosSecundarios',
+                loading: false,
                 done: false,
-                text: 'Outros produtos',
-                value: 'produtosSecundarios',
-                loading: true,
                 rules: [
                     v => (v.length > 0 && v.filter(i => i.DtDevolucao === null
                         && i.FecharAnalise === '0'
@@ -146,10 +162,12 @@ export default {
                 error: '',
             },
             {
+                name: 'analise-consolidacao',
+                label: 'Consolidação do projeto',
+                getter: 'consolidacao',
+                action: 'obterProdutosSecundarios',
+                loading: false,
                 done: false,
-                text: 'Consolidação do projeto',
-                value: 'consolidacao',
-                loading: true,
                 rules: [(v, self) => (Object.keys(v).length > 0
                     && self.stripTags(v.ResumoParecer).length > 10) || 'Falta parecer da consolidação'],
                 error: '',
@@ -159,8 +177,8 @@ export default {
     }),
     computed: {
         ...mapGetters({
-            analiseConteudo: 'parecer/getAnaliseConteudo',
             produto: 'parecer/getProduto',
+            analiseConteudo: 'parecer/getAnaliseConteudo',
             planilha: 'parecer/getPlanilhaParecer',
             consolidacao: 'parecer/getConsolidacao',
             produtosSecundarios: 'parecer/getProdutosSecundarios',
@@ -207,28 +225,28 @@ export default {
         ...mapActions({
             obterAnaLiseConteudo: 'parecer/obterAnaLiseConteudo',
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
-            obterConsolidacao: 'parecer/obterConsolidacao',
             obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
+            obterConsolidacao: 'parecer/obterConsolidacao',
         }),
         checkAll() {
             this.tasks.forEach((item, i) => {
                 const task = this.tasks[i];
-                this.tasks[i].done = false;
+
                 if (Array.isArray(item.rules)) {
                     item.rules.forEach((f) => {
-                        const valid = typeof f === 'function' ? f(this[task.value], this) : false;
+                        const valid = typeof f === 'function' ? f(this[task.getter], this) : false;
 
                         if (typeof valid === 'string') {
-                            this.tasks[i].error = valid;
+                            task.error = valid;
                         }
 
-                        if (typeof this[task.value] !== 'undefined'
-                            && ((Array.isArray(this[task.value]) && this[task.value].length > 0)
-                            || Object.keys(this[task.value]).length > 0)) {
-                            this.tasks[i].loading = false;
+                        if (typeof this[task.getter] !== 'undefined'
+                            && ((Array.isArray(this[task.getter]) && this[task.getter].length > 0)
+                            || Object.keys(this[task.getter]).length > 0)) {
+                            task.loading = false;
                         }
 
-                        this.tasks[i].done = typeof valid === 'boolean' ? valid : false;
+                        task.done = typeof valid === 'boolean' ? valid : false;
                     });
                 }
             });
@@ -238,6 +256,22 @@ export default {
                 return string;
             }
             return string.replace(/(<([^>]+)>)/ig, '');
+        },
+        deleteTaskByName(name) {
+            return this.$delete(this.tasks, this.getIndexTaskByName(name));
+        },
+        getIndexTaskByName(name) {
+            return this.tasks.findIndex(element => element.name === name);
+        },
+        removerChecks() {
+            if (this.produto.quantidadeProdutos === 1) {
+                this.deleteTaskByName('analise-outros-produtos');
+            }
+            if (this.produto.stPrincipal !== 1) {
+                this.deleteTaskByName('analise-outros-produtos');
+                this.deleteTaskByName('analise-consolidacao');
+            }
+            this.loading = false;
         },
     },
 };

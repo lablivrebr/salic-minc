@@ -212,26 +212,23 @@ export default {
         back() {
             this.$router.push({ name: 'parecer-listar-view' });
         },
-        getStepById(id) {
-            return this.arraySteps.find(element => element.id === id);
+        getStepByName(name) {
+            return this.arraySteps.find(element => element.name === name);
         },
         getIndexStepByName(name) {
             return this.arraySteps.findIndex(element => element.name === name);
         },
         deleteStepByName(name) {
-            this.arraySteps.splice(this.getIndexStepByName(name), 1);
+            this.$delete(this.arraySteps, this.getIndexStepByName(name));
         },
-        setStepCompleteStatus(id, val = true) {
-            this.$set(this.getStepById(id), 'complete', val);
+        setStepEditableStatus(name, val = false) {
+            this.$set(this.getStepByName(name), 'editable', val);
         },
-        setStepEditableStatus(id, val = false) {
-            this.$set(this.getStepById(id), 'editable', val);
+        setStepMessage(name, msg) {
+            this.$set(this.getStepByName(name), 'message', msg);
         },
-        setStepMessage(id, msg) {
-            this.$set(this.getStepById(id), 'message', msg);
-        },
-        setStepRules(id, rules) {
-            this.$set(this.getStepById(id), 'rules', rules);
+        setStepRules(name, rules) {
+            this.$set(this.getStepByName(name), 'rules', rules);
         },
         removerSteps() {
             if (Object.keys(this.produto).length > 0) {
@@ -245,14 +242,14 @@ export default {
         },
         validarSteps() {
             if (Object.keys(this.analiseConteudo).length > 0) {
-                this.setStepEditableStatus(2, true);
-                this.setStepMessage(2, '');
-                this.setStepRules(2, [() => true]);
+                this.setStepEditableStatus('analise-de-custos', true);
+                this.setStepMessage('analise-de-custos', '');
+                this.setStepRules('analise-de-custos', [() => true]);
                 if (this.analiseConteudo.ParecerFavoravel !== true
                     && this.analiseConteudo.ParecerFavoravel !== 1) {
-                    this.setStepEditableStatus(2, false);
-                    this.setStepMessage(2, 'Não disponível! Parecer não favorável');
-                    this.setStepRules(2, [() => false]);
+                    this.setStepEditableStatus('analise-de-custos', false);
+                    this.setStepMessage('analise-de-custos', 'Não disponível! Parecer não favorável');
+                    this.setStepRules('analise-de-custos', [() => false]);
                 }
             }
         },

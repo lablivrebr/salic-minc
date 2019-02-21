@@ -11,7 +11,7 @@
                 >
                     <v-radio-group
                         v-model="cpfCnpj"
-                        label="Tipo do Fornecedor"
+                        label="TIPO DO FORNECEDOR"
                         disabled
                     >
                         <v-radio
@@ -29,8 +29,7 @@
                     </v-radio-group>
                 </v-flex>
                 <v-flex
-                    xs12
-                    sm6
+                    sm12
                     md6
                 >
                     <v-text-field
@@ -40,12 +39,11 @@
                     />
                 </v-flex>
                 <v-flex
-                    xs12
-                    sm6
+                    sm12
                     md6
                 >
                     <v-text-field
-                        label="Nome"
+                        label="NOME"
                         placeholder="Rômulo Menhô Barbosa"
                         disabled
                     />
@@ -58,9 +56,9 @@
                 wrap
             >
                 <v-flex
-                    xs12
-                    sm6
-                    d-flex
+                    sm12
+                    md6
+                    lg3
                 >
                     <v-select
                         :items="tipoComprovante"
@@ -69,20 +67,20 @@
                     />
                 </v-flex>
                 <v-flex
-                    xs12
-                    sm6
-                    md3
+                    sm12
+                    md6
+                    lg3
                 >
                     <v-text-field
-                        label="DT. EMISSÃO DO COMPROVANTE DE DESPESA"
+                        label="DATA EMISSÃO DO COMPROVANTE DE DESPESA"
                         placeholder="DD/MM/AAAA"
                         disabled
                     />
                 </v-flex>
                 <v-flex
-                    xs12
-                    sm6
-                    md4
+                    sm12
+                    md6
+                    lg3
                 >
                     <v-text-field
                         label="NÚMERO"
@@ -91,9 +89,9 @@
                     />
                 </v-flex>
                 <v-flex
-                    xs12
-                    sm6
-                    md4
+                    sm12
+                    md6
+                    lg3
                 >
                     <v-text-field
                         label="SÉRIE"
@@ -114,16 +112,85 @@
                     </v-btn>
                     <v-text-field
                         v-model="nomeArquivo"
+                        :placeholder="nomeArquivo"
                         class="d-inline-block"
-                        label="Selecionar arquivo"
+                        label="SELECIONAR ARQUIVO"
+                        readonly
+                        full-width
                         @click="pickFile"
                     />
                     <input
                         ref="inputComprovante"
                         type="file"
                         style="display: none;"
-                        @change=""
+                        @change="onFilePicked"
                     >
+                </v-flex>
+            </v-layout>
+            <h3 class="my-2">DADOS DO COMPROVANTE BANCÁRIO</h3>
+            <v-layout
+                row
+                wrap
+            >
+                <v-flex
+                    sm12
+                    md6
+                    lg3
+                >
+                    <v-select
+                        :items="formasPagamento"
+                        label="FORMA DE PAGAMENTO"
+                        disabled
+                    />
+                </v-flex>
+                <v-flex
+                    sm12
+                    md6
+                    lg3
+                >
+                    <v-text-field
+                        label="DATA DO PAGAMENTO"
+                        placeholder="DD/MM/AAAA"
+                        disabled
+                    />
+                </v-flex>
+                <v-flex
+                    sm12
+                    md6
+                    lg3
+                >
+                    <v-text-field
+                        label="Nº DOCUMENTO PAGAMENTO"
+                        placeholder="00000000"
+                        disabled
+                    />
+                </v-flex>
+                <v-flex
+                    sm12
+                    md6
+                    lg3
+                >
+                    <v-text-field
+                        label="VALOR***validar valor***"
+                        placeholder="00000000"
+                        disabled
+                    />
+                </v-flex>
+            </v-layout>
+            <h3 class="my-2">JUSTIFICATIVA</h3>
+            <v-layout
+                row
+                wrap
+            >
+                <v-flex
+                    xs12
+                >
+                    <v-textarea
+                        value=""
+                        placeholder="Digite aqui a justificativa."
+                        no-resize
+                        disabled
+                    />
                 </v-flex>
             </v-layout>
         </v-container>
@@ -136,12 +203,32 @@ export default {
         return {
             cpfCnpj: 'CPF',
             tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
+            formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
             nomeArquivo: '',
+            arquivoBinario: '',
+            arquivo: '',
         };
     },
     methods: {
         pickFile() {
             this.$refs.inputComprovante.click();
+        },
+        onFilePicked(e) {
+            console.log(e);
+            const arquivo = e.target.files[0];
+            if (arquivo) {
+                this.nomeArquivo = arquivo.name;
+                const fileReader = new FileReader();
+                fileReader.readAsBinaryString(arquivo);
+                fileReader.addEventListener('load', () => {
+                    this.arquivo = arquivo;
+                    this.arquivoBinario = fileReader.result;
+                });
+            } else {
+                this.nomeArquivo = '';
+                this.arquivo = '';
+                this.arquivoBinario = '';
+            }
         },
     },
 };

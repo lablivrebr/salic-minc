@@ -10,6 +10,7 @@ import paginaInicial from './modules/paginaInicial/store';
 import proposta from './modules/proposta/store';
 import autenticacao from './modules/autenticacao/store';
 import noticias from './modules/noticias/store';
+import prestacaoContas from './modules/prestacaoContas/store';
 import parecer from './modules/parecer/store';
 import planilha from './modules/planilha/store';
 import dadosBancarios from './modules/dadosBancarios/store';
@@ -35,6 +36,7 @@ export default new Vuex.Store({
         noticias,
         parecer,
         planilha,
+        prestacaoContas,
         dadosBancarios,
         execucao,
         outrasInformacoes,

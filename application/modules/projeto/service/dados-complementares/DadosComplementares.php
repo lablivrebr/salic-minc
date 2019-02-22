@@ -82,6 +82,7 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
         $EspecificacaoTecnica = $rsProposta['EspecificacaoTecnica'];
         $OutrasInformacoes = $rsProposta['EstrategiadeExecucao'];
         $Sinopse = $rsProposta['Sinopse'];
+        $DescricaoAtividade = $rsProposta['DescricaoAtividade'];
 
         $PropostaArray = [
             'Objetivos' => $Objetivos,
@@ -94,6 +95,7 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
             'EspecificacaoTecnica' => $EspecificacaoTecnica,
             'OutrasInformacoes' => $OutrasInformacoes,
             'Sinopse' => $Sinopse,
+            'DescricaoAtividade' => $DescricaoAtividade,
         ];
 
         return $PropostaArray;

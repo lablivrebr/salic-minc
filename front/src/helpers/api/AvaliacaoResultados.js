@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as api from './base';
 
 const buildData = (params) => {
@@ -127,3 +128,8 @@ export const projetosPorEstado = (params) => {
 export const salvarAvaliacaoComprovante = params => api.postRequest('/avaliacao-resultados/avaliacao-comprovante/', buildData(params));
 
 export const dashboardQuantidade = () => api.getRequest('/avaliacao-resultados/dashboard');
+
+axios.defaults.baseURL = 'http://localhost:81';
+// axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
+
+export const projetosSimilares = params => axios.get(`/avaliacao-resultados/projetos-similares/${params}`);

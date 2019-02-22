@@ -13,6 +13,7 @@
     "watch": "webpack --watch --config front/build/webpack.watch.conf.js",
     "watch:test": "API=test webpack --watch --config front/build/webpack.watch.conf.js",
     "dev": "webpack-dev-server --inline --progress --config front/build/webpack.dev.conf.js",
+    "dev:test": "API=test webpack-dev-server --inline --progress --config front/build/webpack.dev.conf.js",
     "build": "node front/build/build.js",
     "test": "npm run unit",
     "unit": "jest --config front/test/unit/jest.conf.js --coverage",

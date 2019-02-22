@@ -29,3 +29,28 @@ $router->get('/check', function () use ($router) {
     $results = DB::select("SELECT top 1 * FROM controledeacesso.dbo.sgcacesso");
     dd($results);
 });
+
+$router->get(
+    '/avaliacao-resultados/historico',
+    ['uses' => 'HistoricoController@index']
+);
+
+
+$router->group(
+    [
+        'prefix' => 'avaliacao-resultados',
+        'namespace' => '\App\AvaliacaoResultados\Http\Controllers'
+    ],
+    function() use ($router) {
+        $router->get(
+            'historico/{idpronac}',
+            ['uses' => 'HistoricoController@index']
+        );
+
+        $router->get(
+            'projetos-similares/{idpronac}',
+            ['uses' => 'ProjetosSimilaresController@index']
+        );
+    }
+);
+

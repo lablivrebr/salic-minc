@@ -156,7 +156,7 @@ class tbComprovantePagamentoxPlanilhaAprovacao extends MinC_Db_Table_Abstract
             $select->where("a.idPlanilhaAprovacao = ?", $idPlanilhaAprovacao);
         }
 
-        $select->order("d.Descricao");
+        $select->order(["d.Descricao" ,"b.DtPagamento DESC"]);
         $select->order("e.Descricao");
 
         return $this->fetchAll($select);

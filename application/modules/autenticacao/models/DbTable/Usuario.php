@@ -411,12 +411,11 @@ class Autenticacao_Model_DbTable_Usuario extends MinC_Db_Table_Abstract
         $sql->setIntegrityCheck(false);
         $sql->from(
             'Usuarios',
-            array("usu_nome"),
-            "TABELAS.dbo"
+            array("usu_nome", "usu_identificacao"),
+            $this->_schema
         );
         $sql->where('usu_codigo = ?', $usu_codigo);
-
-        return $this->fetchAll($sql)->current();
+        return $this->fetchRow($sql);
     }
 
     /**

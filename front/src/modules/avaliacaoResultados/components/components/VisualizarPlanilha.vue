@@ -7,9 +7,9 @@
         fluid>
         <v-toolbar>
             <v-btn
-                :to="{ name: 'Painel'}"
                 icon
                 class="hidden-xs-only"
+                @click="goBack()"
             >
                 <v-icon>arrow_back</v-icon>
             </v-btn>
@@ -325,6 +325,13 @@ export default {
             }
 
             return response;
+        },
+        goBack() {
+            if (window.history.length > 1) {
+                this.$router.go(-1);
+            } else {
+                this.$router.push('/');
+            }
         },
     },
 };

@@ -13,7 +13,7 @@ import Proposta from './visualizar/components/incentivo/Proposta';
 import CertidoesNegativas from './visualizar/components/outrasInformacoes/CertidoesNegativas';
 import LocalRealizacaoDeslocamento from './visualizar/components/outrasInformacoes/LocalRealizacaoDeslocamento';
 import DocumentosAssinados from './visualizar/components/outrasInformacoes/DocumentosAssinados';
-import DadosComplementares from './visualizar/components/outrasInformacoes/DadosComplementares';
+import DadosComplementares from './visualizar/components/outrasInformacoes/DadosComplementaresView';
 import DocumentosAnexados from './visualizar/components/outrasInformacoes/DocumentosAnexados';
 import PlanoDistribuicaoIn2013 from './visualizar/components/outrasInformacoes/PlanoDistribuicaoIn2013';
 import HistoricoEncaminhamento from './visualizar/components/outrasInformacoes/HistoricoEncaminhamento';

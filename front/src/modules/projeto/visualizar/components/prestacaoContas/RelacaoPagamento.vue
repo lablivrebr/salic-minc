@@ -97,6 +97,9 @@
                                     wrap>
                                     <v-flex
                                         lg12
+                                        xs12
+                                        sm12
+                                        md12
                                         dark
                                         class="text-xs-left">
                                         <h4>DADOS DO PAGAMENTO</h4>
@@ -105,7 +108,13 @@
                                         </h3>
                                         <v-divider class="pb-2"/>
                                     </v-flex>
-                                    <v-flex>
+                                </v-layout>
+                                <v-layout
+                                    row>
+                                    <v-flex
+                                        xs12
+                                        sm12
+                                        md12>
                                         <b>Arquivo</b><br>
                                         <v-btn
                                             v-if="dadosPagamento.idArquivo"
@@ -115,16 +124,22 @@
                                             small
                                         >
                                             <span v-html="dadosPagamento.nmArquivo"/>
+                                            <v-icon right>cloud_download</v-icon>
                                         </v-btn>
                                         <span v-else>
                                             -
                                         </span>
                                     </v-flex>
-                                    <v-flex class="text-xs-center">
+                                </v-layout>
+                                <v-layout
+                                    row>
+                                    <v-flex
+                                        xs12
+                                        sm12
+                                        md3>
                                         <b>Data Pagamento</b>
                                         <p
                                             v-if="dadosPagamento.DtPagamento"
-                                            class="text-xs-center"
                                         >
                                             {{ dadosPagamento.DtPagamento | formatarData }}
                                         </p>
@@ -132,11 +147,14 @@
                                             -
                                         </p>
                                     </v-flex>
-                                    <v-flex class="text-xs-center">
+                                    <v-flex
+                                        xs12
+                                        sm12
+                                        md3
+                                    >
                                         <b>Data Emissão</b>
                                         <p
                                             v-if="dadosPagamento.DtPagamento"
-                                            class="text-xs-center"
                                         >
                                             {{ dadosPagamento.DtEmissao | formatarData }}
                                         </p>
@@ -144,11 +162,15 @@
                                             -
                                         </p>
                                     </v-flex>
-                                    <v-flex class="text-xs-right">
+                                    <v-flex
+                                        xs12
+                                        sm12
+                                        md3
+                                    >
                                         <b>Valor Pagamento</b>
                                         <p
                                             v-if="dadosPagamento.vlPagamento"
-                                            class="text-xs-right"
+
                                         >
                                             R$ {{ dadosPagamento.vlPagamento | filtroFormatarParaReal }}
                                         </p>
@@ -158,9 +180,11 @@
                                     </v-flex>
                                 </v-layout>
                                 <v-layout
-                                    row
-                                    justify-space-between>
-                                    <v-flex xs6>
+                                    row>
+                                    <v-flex
+                                        xs12
+                                        sm12
+                                        md3>
                                         <b>Fornecedor</b>
                                         <p
                                             v-if="dadosPagamento.Fornecedor"
@@ -169,7 +193,10 @@
                                             -
                                         </p>
                                     </v-flex>
-                                    <v-flex xs6>
+                                    <v-flex
+                                        xs12
+                                        sm12
+                                        md3>
                                         <b class="pr-2">CNPJ/CPF</b>
                                         <p
                                             v-if="dadosPagamento.CNPJCPF"
@@ -183,22 +210,24 @@
                                     </v-flex>
                                 </v-layout>
                                 <v-layout
-                                    row
-                                    justify-space-between>
-                                    <v-flex xs6>
+                                    row>
+                                    <v-flex
+                                        xs12
+                                        sm12
+                                        md3>
                                         <b>Documento</b>
                                         <p
                                             v-if="dadosPagamento.tbDocumento"
                                             v-html="dadosPagamento.tbDocumento"/>
                                     </v-flex>
                                     <v-flex
-                                        class="text-xs-center"
-                                        xs6
+                                        xs12
+                                        sm12
+                                        md3
                                     >
                                         <b>Nº Documento</b>
                                         <p
                                             v-if="dadosPagamento.nrComprovante"
-                                            class="text-xs-center"
                                         >
                                             {{ dadosPagamento.nrComprovante }}
                                         </p>
@@ -206,24 +235,23 @@
                                             -
                                         </p>
                                     </v-flex>
-                                </v-layout>
-                                <v-layout
-                                    row
-                                    justify-space-between>
-                                    <v-flex xs6>
+                                    <v-flex
+                                        xs12
+                                        sm12
+                                        md3>
                                         <b>Forma de Pagamento</b>
                                         <p
                                             v-if="dadosPagamento.tpFormaDePagamento"
                                             v-html="dadosPagamento.tpFormaDePagamento"/>
                                     </v-flex>
                                     <v-flex
-                                        xs6
-                                        class="text-xs-center"
+                                        xs12
+                                        sm12
+                                        md3
                                     >
                                         <b>Nº Documento Pagamento</b>
                                         <p
                                             v-if="dadosPagamento.nrDocumentoDePagamento"
-                                            class="text-xs-center"
                                         >
                                             {{ dadosPagamento.nrDocumentoDePagamento }}
                                         </p>
@@ -351,7 +379,7 @@ export default {
     },
     watch: {
         dadosProjeto(value) {
-            this.loading = false;
+            this.loading = true;
             this.buscarRelacaoPagamento(value.idPronac);
         },
         dados() {

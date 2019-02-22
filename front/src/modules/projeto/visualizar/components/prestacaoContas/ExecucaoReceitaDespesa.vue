@@ -104,7 +104,7 @@ export default {
     },
     watch: {
         dadosProjeto(value) {
-            this.loading = false;
+            this.loading = true;
             this.buscarExecucaoReceitaDespesa(value.idPronac);
         },
         dados() {

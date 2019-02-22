@@ -34,3 +34,4 @@ export const comprovantes = state => state.comprovantes;
 export const getProjetosAssinarCoordenador = state => state.projetosAssinarCoordenador;
 export const getProjetosAssinarCoordenadorGeral = state => state.projetosAssinarCoordenadorGeral;
 export const getDashboardQuantidade = state => state.dashboard;
+export const getProjetosSimilares = state => state.projetosSimilares;

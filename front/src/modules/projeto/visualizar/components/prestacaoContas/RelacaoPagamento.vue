@@ -68,7 +68,7 @@
                             class="text-xs-right">
                             <h6>
                                 <v-chip
-                                    v-if="this.search"
+                                    v-if="search"
                                     outline
                                     color="black"
                                 >R$ {{ valorTotalPagamentos() | filtroFormatarParaReal }}
@@ -192,8 +192,8 @@
                                             v-html="dadosPagamento.tbDocumento"/>
                                     </v-flex>
                                     <v-flex
-                                            class="text-xs-center"
-                                            xs6
+                                        class="text-xs-center"
+                                        xs6
                                     >
                                         <b>Nº Documento</b>
                                         <p
@@ -217,8 +217,8 @@
                                             v-html="dadosPagamento.tpFormaDePagamento"/>
                                     </v-flex>
                                     <v-flex
-                                           xs6
-                                           class="text-xs-center"
+                                        xs6
+                                        class="text-xs-center"
                                     >
                                         <b>Nº Documento Pagamento</b>
                                         <p
@@ -286,8 +286,6 @@ export default {
         return {
             search: '',
             pagination: {
-                // sortBy: 'DtPagamento',
-                // descending: true,
             },
             selected: [],
             dadosPagamento: {},
@@ -397,6 +395,7 @@ export default {
 
             return total;
         },
+        /* global _ */
         pagamentosPorItem() {
             return _.groupBy(this.dados, pagamento => pagamento.Item.trim());
         },

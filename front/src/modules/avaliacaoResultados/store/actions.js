@@ -405,3 +405,13 @@ export const dashboardQuantidades = ({ commit }) => {
             throw new TypeError(e.response.data.message, 'error', 10);
         });
 };
+
+export const projetoSimilaresAction = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.projetosSimilares(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.SYNC_PROJETOS_SIMILARES, data);
+        }).catch((e) => {
+            throw new TypeError(e.response.data.message, 'error', 10);
+        });
+};

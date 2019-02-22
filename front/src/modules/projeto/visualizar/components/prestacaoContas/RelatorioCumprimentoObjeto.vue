@@ -135,7 +135,7 @@ export default {
     },
     watch: {
         dadosProjeto(value) {
-            this.loading = false;
+            this.loading = true;
             this.buscarRelatorioCumprimentoObjeto(value.idPronac);
         },
         dados() {

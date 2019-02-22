@@ -61,7 +61,9 @@
                         de {{ props.itemsLength }}
                     </template>
                 </v-data-table>
-                <v-container fluid>
+                <v-container
+                    v-if="dadosCaptacao.vlTotal"
+                    fluid>
                     <v-layout
                         row
                         wrap>
@@ -75,7 +77,7 @@
                             <h6>R$ {{ dadosCaptacao.vlTotal | filtroFormatarParaReal }}</h6>
                         </v-flex>
                     </v-layout>
-                    <div v-if="dadosCaptacao.vlTotal">
+                    <div>
                         <v-layout
                             row
                             wrap>
@@ -87,10 +89,7 @@
                                 offset-xs1
                                 class=" text-xs-right"
                             >
-                                <h6>{{ ((dadosCaptacao.vlTotal /
-                                    (dadosProjeto.vlAutorizadoOutrasFontes + dadosProjeto.vlAutorizado)
-                                )* 100).toFixed(1) }}%
-                                </h6>
+                                <h6>{{ percentualCaptado }}%</h6>
                             </v-flex>
                         </v-layout>
                     </div>
@@ -204,10 +203,14 @@ export default {
             dadosProjeto: 'projeto/projeto',
             dadosCaptacao: 'dadosBancarios/captacao',
         }),
+        percentualCaptado() {
+            return ((this.dadosCaptacao.vlTotal / (this.dadosProjeto.vlAutorizadoOutrasFontes + this.dadosProjeto.vlAutorizado))
+                * 100).toFixed(1);
+        },
     },
     watch: {
         dadosProjeto(value) {
-            this.loading = false;
+            this.loading = true;
 
             const params = {
                 idPronac: value.idPronac,

@@ -214,7 +214,6 @@ export default {
             this.$refs.inputComprovante.click();
         },
         onFilePicked(e) {
-            console.log(e);
             const arquivo = e.target.files[0];
             if (arquivo) {
                 this.nomeArquivo = arquivo.name;

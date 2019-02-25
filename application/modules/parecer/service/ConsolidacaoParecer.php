@@ -60,9 +60,12 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
         $parecerDAO = new \Parecer();
         $whereParecer = [];
         $whereParecer['idPRONAC = ?'] = $idPronac;
-        $buscaParecer = $parecerDAO->findBy($whereParecer);
+        $parecer = $parecerDAO->findBy($whereParecer);
+        $planilhaprojeto = new \PlanilhaProjeto();
+        $total = $planilhaprojeto->somarPlanilhaProjeto($idPronac, 109);
+        $parecer['SugeridoReal'] = $total['soma'];
 
-        return \TratarArray::utf8EncodeArray($buscaParecer);
+        return \TratarArray::utf8EncodeArray($parecer);
     }
 
     public function salvar()
@@ -80,6 +83,13 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
             $enquadramentoDAO = new \Admissibilidade_Model_Enquadramento();
             $enquadramento = $enquadramentoDAO->buscarDados($idPronac, null, false);
 
+            $planilhaprojeto = new \PlanilhaProjeto();
+            $soma = $planilhaprojeto->somarPlanilhaProjeto(
+                $idPronac,
+                \Mecanismo::INCENTIVO_FISCAL_FEDERAL
+            );
+            $sugeridoReal = $soma['Soma'];
+
             $parecerDAO = new \Parecer();
             $dadosParecer = [
                 'idPRONAC' => $idPronac,
@@ -90,7 +100,7 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
                 'DtParecer' => \MinC_Db_Expr::date(),
                 'NumeroReuniao' => null,
                 'ResumoParecer' => utf8_decode($resumoParecer),
-                'SugeridoReal' => 0, # @todo obter este valor
+                'SugeridoReal' => $sugeridoReal,
                 'Atendimento' => 'S',
                 'idEnquadramento' => $enquadramento['IdEnquadramento'],
                 'stAtivo' => 1,

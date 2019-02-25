@@ -5,7 +5,6 @@
         hide-overlay
         transition="dialog-bottom-transition"
         scrollable
-        @keydown.esc="dialog = false"
     >
         <v-card
             tile
@@ -23,144 +22,151 @@
                     <v-icon>close</v-icon>
                 </v-btn>
                 <v-toolbar-title>
-                    Visualizar análise do Produto
-                    <b>"{{ produto.Produto }}"</b>
+                    Outros produtos do projeto: {{ produto.PRONAC }} - {{ produto.NomeProjeto }}
                 </v-toolbar-title>
             </v-toolbar>
             <v-card-text>
-                <v-expansion-panel
-                    :value="[true, true]"
-                    expand
-                >
-                    <v-expansion-panel-content>
-                        <v-layout row justify-space-between slot="header">
-                            <v-icon class="material-icons">
-                                assignment
-                            </v-icon>
-                            <span class="ml-2 mt-1">Análise do conteúdo</span>
-                            <v-spacer/>
-                        </v-layout>
-                        <v-layout
-                            v-if="Object.keys(analiseConteudo).length > 0"
-                            wrap
-                            class="pa-3"
+                <s-carregando
+                    v-if="loading"
+                    text="Carregando outros produtos do projeto"
+                />
+                <div v-else>
+                    <v-data-table
+                        :headers="headers"
+                        :items="produtosSecundarios"
+                        disable-initial-sort
+                        class="elevation-0"
+                        item-key="idDistribuirParecer"
+                    >
+                        <template
+                            slot="items"
+                            slot-scope="props"
                         >
-                            <v-flex
-                                v-if="analiseConteudo.ParecerDeConteudo.length > 1"
-                                xs12
-                                sm12
-                                md12
-                            >
-                                <p><b>Parecer favorável: </b> {{ analiseConteudo.ParecerFavoravel | formatarLabelSimOuNao }}</p>
-                            </v-flex>
-                            <v-flex
-                                v-if="analiseConteudo.ParecerDeConteudo.length > 1"
-                                xs12
-                                sm12
-                                md12
-                            >
-                                <p><b>Parecer de Conteúdo do Produto</b></p>
-                                <div
-                                    v-html="analiseConteudo.ParecerDeConteudo"
-                                />
-                            </v-flex>
-                            <v-flex
-                                v-else
-                                xs12
-                                sm12
-                                md12
-                            >
-                                <b>Conteúdo ainda não avaliado</b>
-                            </v-flex>
-                        </v-layout>
-                        <s-carregando
-                            v-else
-                            text="Carregando análise do produto"
-                        />
-                    </v-expansion-panel-content>
-                    <v-expansion-panel-content>
-                        <v-layout row justify-space-between slot="header">
-                            <v-icon class="material-icons">
-                                attach_money
-                            </v-icon>
-                            <span class="ml-2 mt-1">Análise de custo</span>
-                            <v-spacer/>
-                        </v-layout>
-                        <s-planilha
-                            v-if="Object.keys(planilha).length > 0"
-                            :array-planilha="planilha.items"
-                            :agrupamentos="agrupamentos"
-                            :totais="totaisPlanilha"
-                        >
-                            <template
-                                slot="badge"
-                                slot-scope="slotProps"
-                            >
-                                <v-chip
-                                    outline="outline"
-                                    label="label"
-                                    color="#565555"
+                            <td>
+                                <v-tooltip
+                                    v-if="props.item.idAgenteParecerista === produto.idAgenteParecerista"
+                                    bottom
                                 >
-                                    R$ {{ slotProps.planilha.VlSugeridoParecerista | formatarParaReal }}
-                                </v-chip>
-                            </template>
-                            <template slot-scope="slotProps">
-                                <s-planilha-itens-visualizar :table="slotProps.itens" />
-                            </template>
-                        </s-planilha>
-                        <s-carregando
-                            v-else
-                            text="Carregando planilha"
-                        />
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
+                                    <router-link
+                                        slot="activator"
+                                        :to="{
+                                            name: 'analise-conteudo',
+                                            params: {
+                                                id: props.item.idProduto,
+                                                idPronac: props.item.IdPRONAC,
+                                                produtoPrincipal: props.item.stPrincipal,
+                                            }
+                                        }"
+                                        color="primary"
+                                    >
+                                        {{ props.item.Produto }}
+                                    </router-link>
+                                    <span>Clique para análisar o produto {{ props.item.Produto }}</span>
+                                </v-tooltip>
+                                <span
+                                    v-else
+                                    v-text="props.item.Produto"
+                                />
+                            </td>
+                            <td>
+                                <v-tooltip
+                                    v-if="props.item.stPrincipal === 1"
+                                    bottom
+                                >
+                                    <v-icon
+                                        slot="activator"
+                                        round
+                                    >
+                                        looks_one
+                                    </v-icon>
+                                    <span>Produto principal</span>
+                                </v-tooltip>
+                                <v-tooltip
+                                    v-else
+                                    bottom
+                                >
+                                    <v-icon
+                                        slot="activator"
+                                        color="grey"
+                                    >
+                                        looks_two
+                                    </v-icon>
+                                    <span>Produto secundário</span>
+                                </v-tooltip>
+                            </td>
+                            <td>{{ props.item.DtDistribuicaoPT }}</td>
+                            <td v-html="props.item.Obs " />
+                            <td class="justify-center layout px-0">
+                                <v-tooltip
+                                    bottom
+                                >
+                                    <v-btn
+                                        slot="activator"
+                                        flat
+                                        icon
+                                        class="mr-2"
+                                        @click="abrirModal(props.item)"
+                                    >
+                                        <v-icon>
+                                            visibility
+                                        </v-icon>
+                                    </v-btn>
+                                    <span>Visualizar dados deste produto</span>
+                                </v-tooltip>
+                            </td>
+                        </template>
+                    </v-data-table>
+                    <s-analise-outros-produtos-dialog-detalhamento
+                        v-model="dialogDetalhamento"
+                        :produto="produtoVisualizacao"
+                    />
+                </div>
             </v-card-text>
         </v-card>
     </v-dialog>
 </template>
 
 <script>
+
 import { mapActions, mapGetters } from 'vuex';
-import { utils } from '@/mixins/utils';
-import SPlanilha from '@/components/Planilha/Planilha';
-import SPlanilhaItensVisualizar from './PlanilhaItensVisualizar';
 import SCarregando from '@/components/CarregandoVuetify';
+import SAnaliseOutrosProdutosDialogDetalhamento from './AnaliseOutrosProdutosDialogDetalhamento';
 
 export default {
     name: 'AnaliseOutrosProdutosDialog',
-    components: { SCarregando, SPlanilhaItensVisualizar, SPlanilha },
-    mixins: [utils],
+    components: {
+        SAnaliseOutrosProdutosDialogDetalhamento, SCarregando,
+    },
     props: {
         value: {
             type: Boolean,
             default: false,
         },
-        produto: {
-            type: Object,
-            default: () => {},
-        },
     },
     data() {
         return {
             dialog: false,
+            dialogDetalhamento: false,
             loading: true,
-            totaisPlanilha: [
+            headers: [
+                { text: 'Produto', value: 'Produto' },
+                { text: 'Tipo', value: 'stPrincipal' },
+                { text: 'Dt. Distribuição', value: 'DtDistribuicaoPT' },
+                { text: 'Situação', value: 'Obs' },
                 {
-                    label: 'Valor Sugerido',
-                    column: 'VlSugeridoParecerista',
-                },
-                {
-                    label: 'Valor Solicitado',
-                    column: 'VlSolicitado',
+                    text: 'Ações', value: 'idDistribuirParecer', align: 'center', sortable: false,
                 },
             ],
-            agrupamentos: ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade'],
+            produtoVisualizacao: {
+                type: Object,
+                default: () => {},
+            },
         };
     },
     computed: {
         ...mapGetters({
-            analiseConteudo: 'parecer/getAnaliseConteudoSecundario',
-            planilha: 'parecer/getPlanilhaSecundario',
+            produtosSecundarios: 'parecer/getProdutosSecundarios',
+            produto: 'parecer/getProduto',
         }),
     },
     watch: {
@@ -168,30 +174,25 @@ export default {
             this.dialog = val;
         },
         dialog(val) {
+            if (val) {
+                this.obterProdutosSecundarios({
+                    id: this.$route.params.id,
+                    idPronac: this.$route.params.idPronac,
+                });
+            }
             this.$emit('input', val);
         },
-        produto(val) {
-            if (Object.keys(val).length > 0 && this.value) {
-                this.visualizarDetalhesProduto(val);
-            }
+        produtosSecundarios(val) {
+            this.loading = val.length === 0;
         },
     },
     methods: {
         ...mapActions({
-            obterAnaliseConteudoSecundario: 'parecer/obterAnaliseConteudoSecundario',
-            obterPlanilha: 'parecer/obterPlanilhaProdutoSecundario',
+            obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
         }),
-        visualizarDetalhesProduto(produto) {
-            this.obterAnaliseConteudoSecundario({
-                id: produto.idProduto,
-                idPronac: produto.IdPRONAC,
-            });
-
-            this.obterPlanilha({
-                id: produto.idProduto,
-                idPronac: produto.IdPRONAC,
-                stPrincipal: produto.stPrincipal,
-            });
+        abrirModal(produto) {
+            this.produtoVisualizacao = produto;
+            this.dialogDetalhamento = true;
         },
     },
 };

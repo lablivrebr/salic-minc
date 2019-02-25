@@ -30,6 +30,62 @@
                     </div>
                 </v-toolbar-title>
                 <v-spacer />
+                <v-tooltip
+                    v-if="produto.quantidadeProdutos > 1"
+                    bottom
+                >
+                    <v-btn
+                        slot="activator"
+                        @click="dialogOutrosProdutos = !dialogOutrosProdutos"
+                        color="grey lighten-3"
+                        icon
+                        small
+                    >
+                        <v-badge
+                            color="grey lighten-1"
+                            overlap
+                            left
+                        >
+                            <span slot="badge">
+                                {{ produto.quantidadeProdutos - 1 }}
+                            </span>
+                            <v-icon
+                                color="blue-grey darken-2">
+                                layers
+                            </v-icon>
+                        </v-badge>
+                    </v-btn>
+                    <span> Visualizar outros produtos do projeto </span>
+                </v-tooltip>
+                <v-tooltip
+                    bottom
+                >
+                    <v-btn
+                        slot="activator"
+                        :href="obterUrlDiligencia(produto)"
+                        :color="obterConfigDiligencia(produto).cor"
+                        target="_blank"
+                        icon
+                        small
+                    >
+                        <v-badge
+                            :value="produto.diasEmDiligencia > 0"
+                            color="grey lighten-1"
+                            overlap
+                            left
+                        >
+                            <span slot="badge">
+                                {{ produto.diasEmDiligencia }}
+                            </span>
+                            <v-icon
+                                :color="obterConfigDiligencia(produto).corIcone"
+                            >
+                                notification_important
+                            </v-icon>
+                        </v-badge>
+                    </v-btn>
+                    <span> {{ obterConfigDiligencia(produto).texto }} </span>
+                </v-tooltip>
                 <v-chip
                     v-if="produto.stPrincipal === 1"
                     light
@@ -100,18 +156,23 @@
                 </v-stepper-items>
             </v-stepper>
         </template>
+        <analise-outros-produtos-dialog v-model="dialogOutrosProdutos" />
     </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import SCarregando from '@/components/CarregandoVuetify';
+import utilsParecer from '../mixins/utilsParecer';
+import AnaliseOutrosProdutosDialog from '../components/AnaliseOutrosProdutosDialog';
 
 export default {
     name: 'ParecerAnalisarView',
-    components: { SCarregando },
+    components: { AnaliseOutrosProdutosDialog, SCarregando },
+    mixins: [utilsParecer],
     data: () => ({
         currentStep: '1',
+        dialogOutrosProdutos: false,
         arraySteps: [
             {
                 id: 1,
@@ -133,15 +194,6 @@ export default {
             },
             {
                 id: 3,
-                label: 'Outros produtos do projeto',
-                message: '',
-                name: 'analise-outros-produtos',
-                complete: false,
-                editable: true,
-                rules: [() => true],
-            },
-            {
-                id: 4,
                 label: 'Consolidação',
                 message: '',
                 name: 'analise-consolidacao',
@@ -150,7 +202,7 @@ export default {
                 rules: [() => true],
             },
             {
-                id: 5,
+                id: 4,
                 label: 'Finalizar análise',
                 message: '',
                 name: 'analise-finalizacao',
@@ -232,9 +284,6 @@ export default {
         },
         removerSteps() {
             if (Object.keys(this.produto).length > 0) {
-                if (this.produto.quantidadeProdutos === 1) {
-                    this.deleteStepByName('analise-outros-produtos');
-                }
                 if (this.produto.stPrincipal !== 1) {
                     this.deleteStepByName('analise-consolidacao');
                 }

@@ -36,6 +36,7 @@
 
             <v-progress-circular
                 :value="progress"
+                color="#2cbe4e"
                 class="mr-2"
             />
         </v-layout>
@@ -126,7 +127,7 @@ export default {
                 label: 'Análise de conteúdo',
                 getter: 'analiseConteudo',
                 action: 'obterAnaLiseConteudo',
-                loading: false,
+                loading: true,
                 done: false,
                 rules: [(v, self) => (Object.keys(v).length > 0
                     && self.stripTags(v.ParecerDeConteudo).length > 10) || 'Falta parecer da análise de conteúdo'],
@@ -137,7 +138,7 @@ export default {
                 label: 'Análise de custos',
                 getter: 'planilha',
                 action: 'obterPlanilhaParecer',
-                loading: false,
+                loading: true,
                 done: false,
                 rules: [
                     (v, self) => (v.length > 0 && v.filter(i => i.stCustoPraticadoParc === 1
@@ -150,8 +151,8 @@ export default {
                 name: 'analise-outros-produtos',
                 label: 'Outros produtos',
                 getter: 'produtosSecundarios',
-                action: 'produtosSecundarios',
-                loading: false,
+                action: 'obterProdutosSecundarios',
+                loading: true,
                 done: false,
                 rules: [
                     v => (v.length > 0 && v.filter(i => i.DtDevolucao === null
@@ -165,8 +166,8 @@ export default {
                 name: 'analise-consolidacao',
                 label: 'Consolidação do projeto',
                 getter: 'consolidacao',
-                action: 'obterProdutosSecundarios',
-                loading: false,
+                action: 'obterConsolidacao',
+                loading: true,
                 done: false,
                 rules: [(v, self) => (Object.keys(v).length > 0
                     && self.stripTags(v.ResumoParecer).length > 10) || 'Falta parecer da consolidação'],
@@ -193,33 +194,28 @@ export default {
             return this.tasks.length - this.completedTasks;
         },
     },
-    watch: {
-        analiseConteudo() {
-            this.checkAll();
-        },
-        planilha: {
-            handler() {
-                this.checkAll();
-            },
-            deep: true,
-        },
-        consolidacao() {
-            this.checkAll();
-        },
-        produtosSecundarios() {
-            this.checkAll();
-        },
-    },
     mounted() {
+        this.removerChecks();
+
         const params = {
             id: this.$route.params.id,
             idPronac: this.$route.params.idPronac,
             stPrincipal: this.$route.params.produtoPrincipal,
         };
-        this.obterAnaLiseConteudo(params);
-        this.obterPlanilhaParecer(params);
-        this.obterConsolidacao(params);
-        this.obterProdutosSecundarios(params);
+
+        this.tasks.forEach((task, index) => {
+            this.$watch(
+                task.getter, () => {
+                    this.checkTask(task, index);
+                    if (!!this[task.getter].length
+                        || !!Object.keys(this[task.getter]).length) {
+                        this.tasks[index].loading = false;
+                    }
+                },
+                { deep: true },
+            );
+            this[task.action](params);
+        });
     },
     methods: {
         ...mapActions({
@@ -228,28 +224,16 @@ export default {
             obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
             obterConsolidacao: 'parecer/obterConsolidacao',
         }),
-        checkAll() {
-            this.tasks.forEach((item, i) => {
-                const task = this.tasks[i];
-
-                if (Array.isArray(item.rules)) {
-                    item.rules.forEach((f) => {
-                        const valid = typeof f === 'function' ? f(this[task.getter], this) : false;
-
-                        if (typeof valid === 'string') {
-                            task.error = valid;
-                        }
-
-                        if (typeof this[task.getter] !== 'undefined'
-                            && ((Array.isArray(this[task.getter]) && this[task.getter].length > 0)
-                            || Object.keys(this[task.getter]).length > 0)) {
-                            task.loading = false;
-                        }
-
-                        task.done = typeof valid === 'boolean' ? valid : false;
-                    });
-                }
-            });
+        checkTask(task, index) {
+            if (Array.isArray(task.rules)) {
+                task.rules.forEach((f) => {
+                    const valid = typeof f === 'function' ? f(this[task.getter], this) : false;
+                    if (typeof valid === 'string') {
+                        this.tasks[index].error = valid;
+                    }
+                    this.tasks[index].done = typeof valid === 'boolean' ? valid : false;
+                });
+            }
         },
         stripTags(string) {
             if (typeof string !== 'string') {

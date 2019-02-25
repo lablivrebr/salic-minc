@@ -10,6 +10,7 @@
             name="header"
         />
         <s-collapsible-recursivo
+            v-if="!listItems"
             :planilha="planilhaMontada"
             :headers="headers"
             :expand-all="expandAll"
@@ -38,6 +39,12 @@
                 </slot>
             </template>
         </s-collapsible-recursivo>
+        <slot
+            v-else
+            :itens="arrayPlanilha"
+        >
+            <s-planilha-itens-padrao :table="arrayPlanilha" />
+        </slot>
         <slot
             :planilha-montada="planilhaMontada"
             :totais="totaisProjeto"
@@ -222,6 +229,10 @@ export default {
         expandAll: {
             type: Boolean,
             default: true,
+        },
+        listItems: {
+            type: Boolean,
+            default: false,
         },
     },
     computed: {

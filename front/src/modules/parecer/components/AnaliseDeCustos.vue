@@ -15,6 +15,7 @@
                 <s-planilha
                     :array-planilha="planilha"
                     :expand-all="expandAll"
+                    :list-items="mostrarListagem"
                     :agrupamentos="agrupamentos"
                     :totais="totaisPlanilha"
                 >
@@ -42,6 +43,7 @@
                 <s-planilha
                     :array-planilha="planilha"
                     :expand-all="expandAll"
+                    :list-items="mostrarListagem"
                     :agrupamentos="agrupamentos"
                     :totais="totaisPlanilha"
                 >
@@ -58,7 +60,7 @@
                         </v-chip>
                     </template>
                     <template slot-scope="slotProps">
-                        <s-planilha-itens-analise-inicial :table="slotProps.itens" />
+                        <s-analise-de-custos-planilha-itens :table="slotProps.itens" />
                     </template>
                 </s-planilha>
             </div>
@@ -107,13 +109,11 @@
                 </v-btn>
                 <span
                     v-if="expandAll"
-                    medium
                 >
                     Esconder itens da planilha
                 </span>
                 <span
                     v-else
-                    medium
                 >
                     Mostrar itens da planilha
                 </span>
@@ -128,10 +128,38 @@
                     @click="compararPlanilha = !compararPlanilha"
                 >
                     <v-icon medium>
-                        vertical_split
+                        compare
                     </v-icon>
                 </v-btn>
                 <span>Comparar planilha</span>
+            </v-tooltip>
+            <v-tooltip left>
+                <v-btn
+                    slot="activator"
+                    color="teal"
+                    dark
+                    small
+                    fab
+                    @click="mostrarListagem = !mostrarListagem"
+                >
+                    <v-icon medium v-if="!mostrarListagem">
+                        list
+                    </v-icon >
+                    <v-icon v-else medium>
+                        calendar_view_day
+                    </v-icon>
+                </v-btn>
+                <span
+                    v-if="!mostrarListagem"
+                >
+                    Mostrar apenas lista de itens
+                </span>
+                <span
+                    v-else
+                >
+                    Mostrar planilha completa
+                </span>
+                <span></span>
             </v-tooltip>
         </v-speed-dial>
     </div>
@@ -141,7 +169,7 @@
 
 import { mapActions, mapGetters } from 'vuex';
 import SPlanilha from '@/components/Planilha/Planilha';
-import SPlanilhaItensAnaliseInicial from './PlanilhaItensAnaliseInicial';
+import SAnaliseDeCustosPlanilhaItens from './AnaliseDeCustosPlanilhaItens';
 import SPlanilhaItensVisualizarSolicitado from './PlanilhaItensVisualizarSolicitado';
 import SCarregando from '@/components/CarregandoVuetify';
 import ResizePanel from '@/components/resize-panel/ResizeSplitPane';
@@ -155,13 +183,14 @@ export default {
         ResizePanel,
         SPlanilhaItensVisualizarSolicitado,
         SPlanilha,
-        SPlanilhaItensAnaliseInicial,
+        SAnaliseDeCustosPlanilhaItens,
         SCarregando,
     },
     mixins: [MxPlanilha],
     data() {
         return {
             compararPlanilha: false,
+            mostrarListagem: false,
             size: 49.8,
             expandAll: true,
             fab: false,

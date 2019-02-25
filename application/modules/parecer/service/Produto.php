@@ -94,17 +94,20 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $idPronac = $this->request->getParam('idPronac');
 
         $projeto = new \Projetos();
-        $resp = $projeto->buscaProjetosProdutosParaAnalise(
+        $produto = $projeto->buscaProjetosProdutosParaAnalise(
             [
                 'distribuirParecer.idProduto = ?' => $id,
                 'projeto.IdPRONAC = ?' => $idPronac,
             ]
         )->current()->toArray();
 
-        $resp = \TratarArray::utf8EncodeArray($resp);
+        $produto['stDiligencia'] = $this->definirStatusDiligencia($produto);
+        $produto['diasEmDiligencia'] = $this->obterTempoDiligencia($produto);
+        $produto['diasEmAvaliacao'] = $this->obterTempoRestanteDeAvaliacao($produto);
 
-        return $resp;
+        $produto = \TratarArray::utf8EncodeArray($produto);
 
+        return $produto;
     }
 
     public function salvar()

@@ -7,15 +7,6 @@
         v-else
         style="max-width: 800px"
     >
-        <h2 class="display-1 success--text pl-3">
-            Validações:&nbsp;
-            <v-fade-transition leave-absolute>
-                <span :key="`tasks-${tasks.length}`">
-                    {{ tasks.length }}
-                </span>
-            </v-fade-transition>
-        </h2>
-
         <v-divider class="mt-3" />
 
         <v-layout
@@ -126,7 +117,6 @@ export default {
                 name: 'analise-conteudo',
                 label: 'Análise de conteúdo',
                 getter: 'analiseConteudo',
-                action: 'obterAnaLiseConteudo',
                 loading: true,
                 done: false,
                 rules: [(v, self) => (Object.keys(v).length > 0
@@ -173,6 +163,17 @@ export default {
                     && self.stripTags(v.ResumoParecer).length > 10) || 'Falta parecer da consolidação'],
                 error: '',
             },
+            {
+                name: 'analise-diligencia',
+                label: 'Diligências',
+                getter: 'produto',
+                loading: true,
+                done: false,
+                rules: [v => (Object.keys(v).length > 0
+                    && (v.stDiligencia !== 1 && v.stDiligencia !== 3))
+                    || 'Existe diligência pendente'],
+                error: '',
+            },
         ],
         task: null,
     }),
@@ -202,19 +203,19 @@ export default {
             idPronac: this.$route.params.idPronac,
             stPrincipal: this.$route.params.produtoPrincipal,
         };
-
+        // cria observadores para as tasks
         this.tasks.forEach((task, index) => {
             this.$watch(
                 task.getter, () => {
                     this.checkTask(task, index);
-                    if (!!this[task.getter].length
-                        || !!Object.keys(this[task.getter]).length) {
-                        this.tasks[index].loading = false;
-                    }
                 },
                 { deep: true },
             );
-            this[task.action](params);
+            if (task.action) {
+                this[task.action](params);
+            } else {
+                this.checkTask(task, index);
+            }
         });
     },
     methods: {
@@ -225,6 +226,10 @@ export default {
             obterConsolidacao: 'parecer/obterConsolidacao',
         }),
         checkTask(task, index) {
+            if (!!this[task.getter].length
+                || !!Object.keys(this[task.getter]).length) {
+                this.tasks[index].loading = false;
+            }
             if (Array.isArray(task.rules)) {
                 task.rules.forEach((f) => {
                     const valid = typeof f === 'function' ? f(this[task.getter], this) : false;

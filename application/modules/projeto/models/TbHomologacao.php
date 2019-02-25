@@ -13,6 +13,9 @@ class Projeto_Model_TbHomologacao extends MinC_Db_Model
     const ST_DECISAO_INDEFERIDO = 1;
     const ST_DECISAO_DEFERIDO = 2;
 
+    const TP_HOMOLOGACAO_NORMAL = 1;
+    const TP_HOMOLOGACAO_AD_REFEREDUM = 2;
+
     /**
      * @return mixed
      */

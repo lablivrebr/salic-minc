@@ -198,7 +198,9 @@ class Projeto_HomologacaoController extends Projeto_GenericController
             $mapper = new Projeto_Model_TbHomologacaoMapper();
             $arrPost = $this->getRequest()->getPost();
             $arrPost['stDecisao'] = (isset($arrPost['stDecisao'])) ? 2 : 1;
-            $arrPost['tpHomologacao'] = 1;
+            $arrPost['tpHomologacao'] = empty($arrPost['tpHomologacao'])
+                ? Projeto_Model_TbHomologacao::TP_HOMOLOGACAO_NORMAL : $arrPost['tpHomologacao'];
+
             $this->_helper->json([
                 'status' => $mapper->save($arrPost),
                 'msg' => $mapper->getMessages(),
@@ -246,8 +248,7 @@ class Projeto_HomologacaoController extends Projeto_GenericController
             'IdPRONAC' => $intIdPronac
         ]);
         $arrValue['parecerHomologacao'] = $dbTableHomologacao->getBy([
-            'idPronac' => $intIdPronac,
-            'tpHomologacao' => '1'
+            'idPronac' => $intIdPronac
         ]);
 
         if (isset($arrValue['IdPRONAC'])) {

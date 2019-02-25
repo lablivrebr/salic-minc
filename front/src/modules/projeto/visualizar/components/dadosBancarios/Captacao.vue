@@ -114,6 +114,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 import { utils } from '@/mixins/utils';
+import { Printd } from 'printd';
 import FiltroData from './components/FiltroData';
 
 export default {
@@ -125,7 +126,7 @@ export default {
     mixins: [utils],
     data() {
         return {
-            cssText: `
+            cssText: [`
               .box {
                 width: 5000px;
                 text-align: left;
@@ -146,7 +147,7 @@ export default {
                 width: 120px;
                 text-align: center;
               }
-              `,
+              `],
             search: '',
             pagination: {
                 sortBy: 'DtRecibo',
@@ -224,7 +225,6 @@ export default {
         },
     },
     mounted() {
-        const { Printd } = window.printd;
         this.d = new Printd();
 
         const { contentWindow } = this.d.getIFrame();

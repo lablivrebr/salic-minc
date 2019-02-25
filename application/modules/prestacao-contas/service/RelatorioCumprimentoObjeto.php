@@ -54,7 +54,7 @@ class RelatorioCumprimentoObjeto implements \MinC\Servico\IServicoRestZend
             $arrayDados['planosCadastrados'] = $tbBeneficiarioProdutoCultural->buscarPlanosCadastrados($idPronac)->toArray();
 
             $arquivo = new \Arquivo();
-            $arrayDados['dadosComprovantes'] = $arquivo->buscarComprovantesExecucao($idPronac);
+            $arrayDados['dadosComprovantes'] = $arquivo->buscarComprovantesExecucao($idPronac, \Zend_DB::FETCH_ASSOC);
 
             $tbTermoAceiteObra = new \ComprovacaoObjeto_Model_DbTable_TbTermoAceiteObra();
             $arrayDados['aceiteObras'] = $tbTermoAceiteObra->buscarTermoAceiteObraArquivos(array('idPronac=?'=>$idPronac), true)->toArray();

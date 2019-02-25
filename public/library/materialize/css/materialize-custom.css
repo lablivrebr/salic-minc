@@ -34,7 +34,6 @@ label {
     color: #0e0e0e;
 }
 
-
 #sidenav-overlay {
     z-index: 988;
 }
@@ -73,7 +72,6 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
     color: #00481d;
 }
 
-
 input:not([type]).invalid,
 input:not([type]):focus.invalid,
 input[type=text].invalid,
@@ -102,7 +100,6 @@ textarea.materialize-textarea.invalid,
 textarea.materialize-textarea:focus.invalid {
     color: #F44336;
 }
-
 
 /* label color */
 .input-field label {
@@ -342,9 +339,9 @@ footer {
     background-size: 170px;
 }
 
-.template-vuetify td, .template-vuetify th {
-    padding: 0px;
-
+.template-vuetify .v-date-picker-table td,
+.template-vuetify .v-date-picker-table th {
+    padding: 0;
 }
 
 .template-vuetify input:not([type]),
@@ -359,8 +356,11 @@ footer {
 .template-vuetify input[type=tel]:not(.browser-default),
 .template-vuetify input[type=number]:not(.browser-default),
 .template-vuetify input[type=search]:not(.browser-default),
-.template-vuetify textarea.materialize-textarea{
+.template-vuetify textarea.materialize-textarea {
     border-bottom: none;
+     font-size: inherit;
+     margin: 0;
+     padding: 0;
 }
 
 .template-vuetify input:not([type]):focus:not([readonly]),
@@ -375,9 +375,8 @@ footer {
 .template-vuetify input[type=tel]:not(.browser-default):focus:not([readonly]),
 .template-vuetify input[type=number]:not(.browser-default):focus:not([readonly]),
 .template-vuetify input[type=search]:not(.browser-default):focus:not([readonly]),
-.template-vuetify textarea.materialize-textarea:focus:not([readonly]){
+.template-vuetify textarea.materialize-textarea:focus:not([readonly]) {
     border-bottom: none;
     box-shadow: none;
 }
-
 

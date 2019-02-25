@@ -13,6 +13,7 @@
     "watch": "webpack --watch --config front/build/webpack.watch.conf.js",
     "watch:test": "API=test webpack --watch --config front/build/webpack.watch.conf.js",
     "dev": "webpack-dev-server --inline --progress --config front/build/webpack.dev.conf.js",
+    "dev:test": "API=test webpack-dev-server --inline --progress --config front/build/webpack.dev.conf.js",
     "build": "node front/build/build.js",
     "test": "npm run unit",
     "unit": "jest --config front/test/unit/jest.conf.js --coverage",
@@ -20,7 +21,10 @@
     "cypress:open": "cypress open",
     "cypress": "cypress run",
     "lint": "eslint --ext .js,.vue front/src front/test/unit front/test/e2e/specs",
-    "lint-fix": "eslint --fix --ext .js,.vue front/src front/test/unit front/test/e2e/specs"
+    "lint-fix": "eslint --fix --ext .js,.vue front/src front/test/unit front/test/e2e/specs",
+    "dredd": "dredd",
+    "api-mock": "drakov -f 'front/src/helpers/mock/*.md' -p 4000",
+    "api-mock:watch": "drakov -f 'front/src/helpers/mock/*.md' -p 4000 —watch"
   },
   "husky": {
     "hooks": {

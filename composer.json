@@ -53,6 +53,9 @@
             "Application\\Modules\\Projeto\\Service\\Assinatura\\Acao\\": "./application/modules/projeto/service/assinatura/acao/",
             "Application\\Modules\\PrestacaoContas\\": "./application/modules/prestacao-contas/",
             "Application\\Modules\\PrestacaoContas\\Service\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\PagamentoConsolidados\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\PagamentoUfMunicipio\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\RelacaoPagamento\\": "./application/modules/prestacao-contas/service/",
             "Application\\Modules\\PrestacaoContas\\Service\\Assinatura\\": "./application/modules/prestacao-contas/service/assinatura/",
             "Application\\Modules\\PrestacaoContas\\Service\\Assinatura\\Laudo\\": "./application/modules/prestacao-contas/service/assinatura/laudo/",
             "Application\\Modules\\PrestacaoContas\\Service\\Assinatura\\Laudo\\Acao\\": "./application/modules/prestacao-contas/service/assinatura/laudo/acao/",
@@ -102,7 +105,10 @@
             "Application\\Modules\\DadosBancarios\\Service\\ExtratosBancarios\\": "./application/modules/dados-bancarios/service/",
             "Application\\Modules\\DadosBancarios\\Service\\ExtratosBancariosConsolidado\\": "./application/modules/dados-bancarios/service/",
             "Application\\Modules\\DadosBancarios\\Service\\Captacao\\": "./application/modules/dados-bancarios/service/",
-            "Application\\Modules\\DadosBancarios\\Service\\Devolucoes\\": "./application/modules/dados-bancarios/service/"
+            "Application\\Modules\\DadosBancarios\\Service\\Devolucoes\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\ExecucaoReceitaDespesa\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\RelatorioFisico\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\RelatorioCumprimentoObjeto\\": "./application/modules/prestacao-contas/service/"
         }
     },
     "archive": {

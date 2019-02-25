@@ -51,6 +51,7 @@ export const state = {
     dadosProjeto: {},
     dadosItem: {},
     dashboard: {},
+    projetosSimilares: [],
 };
 
 export const mutations = {
@@ -258,5 +259,8 @@ export const mutations = {
     },
     [types.DASHBOARD_QUANTIDADE](state, dados) {
         state.dashboard = dados;
+    },
+    [types.SYNC_PROJETOS_SIMILARES](state, dados) {
+        state.projetosSimilares = dados;
     },
 };

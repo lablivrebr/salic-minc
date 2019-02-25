@@ -14,6 +14,7 @@ import VisualizarParecer from './components/components/VisualizarParecer';
 import VisualizarLaudo from './components/LaudoFinal/VisualizarLaudo';
 import PlanilhaComprovacao from './components/Comprovacao/PlanilhaComprovacao';
 import ItemDeCusto from './components/Comprovacao/ItemDeCusto';
+import ProjetosSimilares from './components/ParecerTecnico/ProjetosSimilares';
 
 Vue.use(Router);
 
@@ -162,6 +163,15 @@ const routes = [
         path: '/painel/distribuir',
         name: 'painel_aba_distribuir',
         component: Painel,
+        meta: {
+            title: 'Avaliação de Resultados: Parecer Técnico',
+            tab: 'tab-0',
+        },
+    },
+    {
+        path: '/painel/projetos-similares/:idpronac',
+        name: 'projetosSimilares',
+        component: ProjetosSimilares,
         meta: {
             title: 'Avaliação de Resultados: Parecer Técnico',
             tab: 'tab-0',

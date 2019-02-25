@@ -24,13 +24,33 @@ $router->group(['middleware' => 'jwt'], function () use ($router) {
     );
 });
 
-/* $router->get('/v1/graphql', function () use ($router) { */
-/* ini_set('display_errors', true); */
-/* error_reporting(E_ALL ^E_NOTICE); */
-/* echo '<pre>'; */
-/* $results = DB::select("SELECT top 1 * FROM controledeacesso.dbo.sgcacesso"); */
-/*     print_r($results);die; */
-/*     $results = $router->app('db')->select("SELECT * FROM controledeacesso.dbo.sgcacesso"); */
-/* echo '<pre>';print_r($results);die; */
-/*     return $router->app->version(); */
-/* }); */
+$router->get('/check', function () use ($router) {
+    echo '<pre> teste';
+    $results = DB::select("SELECT top 1 * FROM controledeacesso.dbo.sgcacesso");
+    dd($results);
+});
+
+$router->get(
+    '/avaliacao-resultados/historico',
+    ['uses' => 'HistoricoController@index']
+);
+
+
+$router->group(
+    [
+        'prefix' => 'avaliacao-resultados',
+        'namespace' => '\App\AvaliacaoResultados\Http\Controllers'
+    ],
+    function() use ($router) {
+        $router->get(
+            'historico/{idpronac}',
+            ['uses' => 'HistoricoController@index']
+        );
+
+        $router->get(
+            'projetos-similares/{idpronac}',
+            ['uses' => 'ProjetosSimilaresController@index']
+        );
+    }
+);
+

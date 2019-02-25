@@ -107,6 +107,12 @@
                                         <b>Data solicitação</b>
                                         <p>{{ readequacao.dtSolicitacao | formatarData }} </p>
                                     </v-flex>
+                                    <v-flex class="text-xs-center">
+                                        <b>Data solicitação teste paulo hen</b>
+                                        <p class="text-xs-center">
+                                            {{ readequacao.dtSolicitacao | formatarData }}
+                                        </p>
+                                    </v-flex>
                                 </v-layout>
                                 <v-layout
                                     row

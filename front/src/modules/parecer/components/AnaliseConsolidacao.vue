@@ -28,6 +28,8 @@
                     <v-switch
                         v-model="consolidacaoEmEdicao.ParecerFavoravel"
                         color="green"
+                        false-value="1"
+                        true-value="2"
                         :label="`Parecer Favorável?: ${labelSimOuNao(consolidacaoEmEdicao.ParecerFavoravel)}`"
                     />
                 </v-flex>
@@ -37,7 +39,8 @@
                     md12
                     class="mb-2"
                 >
-                    <b>Valor sugerido:</b> 0,00
+                    <b>Valor sugerido:</b>
+                    <span> R$ {{consolidacaoEmEdicao.SugeridoReal | filtroFormatarParaReal}}</span>
                 </v-flex>
                 <v-flex
                     xs12
@@ -74,11 +77,13 @@
 <script>
 import SEditorTexto from '@/components/SalicEditorTexto';
 import SCarregando from '@/components/CarregandoVuetify';
+import MxPlanilha from '@/mixins/planilhas';
 
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'Consolidacao',
+    mixins: [MxPlanilha],
     components: { SEditorTexto, SCarregando },
     props: {
         active: {

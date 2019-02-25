@@ -110,6 +110,7 @@
                                         <v-btn
                                             slot="activator"
                                             :href="obterUrlHistorico(props.item)"
+                                            color="blue-grey darken-2"
                                             flat
                                             icon
                                             class="mr-2">
@@ -123,6 +124,7 @@
                                         <v-btn
                                             slot="activator"
                                             :href="obterUrlDeclararImpedimento(props.item)"
+                                            color="blue-grey darken-2"
                                             flat
                                             icon
                                             class="mr-2">
@@ -132,48 +134,6 @@
                                         <span>Declarar impedimento para análise deste produto</span>
                                     </v-tooltip>
                                 </td>
-                            </template>
-                            <template
-                                slot="expand"
-                                slot-scope="props">
-                                <v-layout
-                                    row
-                                    justify-center
-                                    class="blue-grey lighten-5 pa-2">
-                                    <v-flex xs12>
-                                        <v-card>
-                                            <v-card-text>
-                                                <v-container fluid>
-                                                    <v-layout
-                                                        row
-                                                        wrap>
-                                                        <v-flex
-                                                            xs12
-                                                            md12
-                                                        >
-                                                            <b>Situação do Projeto:</b>
-                                                            <div>{{ props.item.situacao }}</div>
-                                                        </v-flex>
-                                                        <v-flex
-                                                            xs12
-                                                            md12
-                                                        >
-                                                            <b>Situação do Projeto:</b>
-                                                            <div>{{ props.item.situacao }}</div>
-                                                        </v-flex>
-                                                        <v-flex
-                                                            xs12
-                                                            md12
-                                                        >
-                                                            <b>Data diligência:</b>
-                                                            <div>{{ props.item.DtSolicitacao | formatarData }}</div>
-                                                        </v-flex>
-                                                    </v-layout>
-                                                </v-container>
-                                            </v-card-text>
-                                        </v-card>
-                                    </v-flex>
-                                </v-layout>
                             </template>
                             <template slot="no-data">
                                 <div class="text-xs-center">Sem dados</div>
@@ -192,12 +152,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { utils } from '@/mixins/utils';
+import utilsParecer from '../mixins/utilsParecer';
 import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'ParecerListarView',
     components: { SCarregando },
-    mixins: [utils],
+    mixins: [utils, utilsParecer],
     data: () => ({
         headers: [
             {
@@ -251,66 +212,6 @@ export default {
         }),
         initialize() {
             this.produtos = [];
-        },
-        obterUrlHistorico(produto) {
-            const url = '/analisarprojetoparecer/historico';
-            const idPronac = `idPronac/${produto.IdPRONAC}`;
-            const idProduto = `idProduto/${produto.idProduto}`;
-            const situacao = `stPrincipal/${produto.stPrincipal}`;
-            const params = `${idPronac}/${idProduto}/${situacao}`;
-            return `${url}/${params}`;
-        },
-        obterUrlDeclararImpedimento(produto) {
-            const url = '/analisarprojetoparecer/devolver-parecer';
-            const idPronac = `idPronac=${produto.IdPRONAC}`;
-            const idProduto = `idProduto=${produto.idProduto}`;
-            const situacao = `situacao=${produto.situacao}`;
-            const idDistribuirParecer = `idD=${produto.idDistribuirParecer}`;
-            const params = `${idPronac}&${idProduto}&${situacao}&${idDistribuirParecer}`;
-            return `${url}?${params}`;
-        },
-        obterUrlDiligencia(produto) {
-            const url = '/proposta/diligenciar/listardiligenciaanalista';
-            const idPronac = `idPronac=${produto.IdPRONAC}`;
-            const idProduto = `idProduto=${produto.idProduto}`;
-            const situacao = `situacao=${produto.situacao}`;
-            const tpDiligencia = 'tpDiligencia=124';
-            const params = `${idPronac}&${idProduto}&${situacao}&${tpDiligencia}`;
-            return `${url}?${params}`;
-        },
-        obterConfigDiligencia(produto) {
-            let diligencia = {};
-            switch (produto.stDiligencia) {
-            case 1:
-                diligencia = {
-                    cor: 'yellow accent-4',
-                    corIcone: 'yellow darken-4',
-                    texto: `Diligenciado há ${produto.diasEmDiligencia} dia(s)`,
-                };
-                break;
-            case 2:
-                diligencia = {
-                    cor: 'green lighten-3',
-                    corIcone: 'green darken-4',
-                    texto: 'Diligencia respondida',
-                };
-                break;
-            case 3:
-                diligencia = {
-                    cor: 'orange lighten-3',
-                    corIcone: 'orange darken-4',
-                    texto: 'Diligencia não respondida',
-                };
-                break;
-            default:
-                diligencia = {
-                    cor: 'grey lighten-3',
-                    corIcone: 'grey darken-4',
-                    texto: 'Diligenciar proponente',
-                };
-                break;
-            }
-            return diligencia;
         },
     },
 

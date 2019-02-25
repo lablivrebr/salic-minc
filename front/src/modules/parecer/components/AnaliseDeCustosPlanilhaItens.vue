@@ -400,7 +400,7 @@ import SalicInputValor from '@/components/SalicInputValor';
 import SPlanilhaDialogDadosMediana from '@/components/Planilha/PlanilhaDialogDadosMediana';
 
 export default {
-    name: 'PlanilhaItensAnaliseInicial',
+    name: 'AnaliseDeCustosPlanilhaItens',
     components: { SPlanilhaDialogDadosMediana, SalicInputValor },
     mixins: [MxPlanilhas, MxPlanilhaParecer, utils],
     props: {

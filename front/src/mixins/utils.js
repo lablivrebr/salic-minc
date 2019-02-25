@@ -1,7 +1,7 @@
 import moment from 'moment';
 import cnpjFilter from '@/filters/cnpj';
 import moneyFilter from '@/filters/money';
-import filterQuantidade from '@/filters/quantidade';
+import filtersQuantidade from '@/filters/quantidade';
 
 export const utils = {
     methods: {
@@ -144,7 +144,7 @@ export const utils = {
         },
         filtroFormatarQuantidade(value) {
             const parsedValue = parseFloat(value);
-            return filterQuantidade(parsedValue);
+            return filtersQuantidade(parsedValue);
         },
     },
 };

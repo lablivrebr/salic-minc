@@ -10,13 +10,13 @@ import paginaInicial from './modules/paginaInicial/store';
 import proposta from './modules/proposta/store';
 import autenticacao from './modules/autenticacao/store';
 import noticias from './modules/noticias/store';
+import prestacaoContas from './modules/prestacaoContas/store';
 import parecer from './modules/parecer/store';
 import planilha from './modules/planilha/store';
-import dateFilter from './filters/date';
-import prestacaoContas from './modules/prestacaoContas/store';
 import dadosBancarios from './modules/dadosBancarios/store';
 import execucao from './modules/execucao/store';
 import outrasInformacoes from './modules/outrasInformacoes/store';
+import dateFilter from './filters/date';
 
 Vue.use(Vuex);
 Vue.filter('date', dateFilter);

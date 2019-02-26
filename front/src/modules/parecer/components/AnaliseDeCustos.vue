@@ -23,14 +23,14 @@
                         slot="badge"
                         slot-scope="slotProps"
                     >
-                        <VChip
+                        <v-chip
                             v-if="slotProps.planilha.VlSolicitado"
                             outline="outline"
                             label="label"
                             color="#565555"
                         >
                             R$ {{ formatarParaReal(slotProps.planilha.VlSolicitado) }}
-                        </VChip>
+                        </v-chip>
                     </template>
                     <template slot-scope="slotProps">
                         <s-planilha-itens-visualizar-solicitado :table="slotProps.itens" />

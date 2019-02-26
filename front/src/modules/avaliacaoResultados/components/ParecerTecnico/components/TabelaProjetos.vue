@@ -7,6 +7,7 @@
             <v-switch
                 v-model="filtro"
                 input-value="true"
+                color="success"
                 label="Todos / Analisar"
                 value="Diligenciado">
                 <!--<v-select-->

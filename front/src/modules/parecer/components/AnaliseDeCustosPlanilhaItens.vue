@@ -392,7 +392,6 @@
 </template>
 
 <script>
-import MxPlanilhas from '@/mixins/planilhas';
 import MxPlanilhaParecer from '../mixins/planilhaParecer';
 import { utils } from '@/mixins/utils';
 import { mapActions, mapGetters } from 'vuex';
@@ -402,7 +401,7 @@ import SPlanilhaDialogDadosMediana from '@/components/Planilha/PlanilhaDialogDad
 export default {
     name: 'AnaliseDeCustosPlanilhaItens',
     components: { SPlanilhaDialogDadosMediana, SalicInputValor },
-    mixins: [MxPlanilhas, MxPlanilhaParecer, utils],
+    mixins: [MxPlanilhaParecer, utils],
     props: {
         table: {
             type: Array,
@@ -455,8 +454,9 @@ export default {
             );
         },
         valorSugeridoRules() {
-            return [v => (!!v && parseFloat(this.valorSugerido).toFixed(2)) <= parseFloat(this.itemEmEdicao.VlSolicitado).toFixed(2)
-                || 'O valor sugerido não pode ser maior que o valor solicitado.'];
+            return [v => (!!v && (this.valorSugerido <= this.itemEmEdicao.VlSolicitado))
+                || `O valor sugerido (${this.formatarParaReal(this.valorSugerido)})
+                não pode ser maior que o valor solicitado(${this.formatarParaReal(this.itemEmEdicao.VlSolicitado)}).`];
         },
         justificativaRules() {
             const rules = [];

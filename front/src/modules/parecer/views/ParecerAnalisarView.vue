@@ -155,8 +155,8 @@
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
+            <analise-outros-produtos-dialog v-model="dialogOutrosProdutos" />
         </template>
-        <analise-outros-produtos-dialog v-model="dialogOutrosProdutos" />
     </v-container>
 </template>
 

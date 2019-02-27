@@ -132,7 +132,7 @@
                 />
             </v-card-text>
         </v-card>
-
+        <comprovar-pagamento/>
     </v-container>
 </template>
 
@@ -141,6 +141,7 @@ import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import Moeda from '../../../../filters/money';
 import Comprovante from './Comprovante';
+import ComprovarPagamento from './ComprovarPagamento';
 
 Vue.filter('moedaMasck', Moeda);
 
@@ -148,6 +149,7 @@ export default {
     name: 'ItemDeCusto',
     components: {
         Comprovante,
+        ComprovarPagamento,
     },
     filters: {
         dataMasck(data) {

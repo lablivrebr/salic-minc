@@ -89,7 +89,6 @@
                             <v-flex
                                 sm12
                                 md6
-                                lg3
                             >
                                 <v-select
                                     :items="tipoComprovante"
@@ -97,12 +96,14 @@
                                     disabled
                                 />
                             </v-flex>
+
                             <v-flex
                                 sm12
                                 md6
-                                lg3
                             >
                                 <v-text-field
+                                    :hint="`Início em: ${dataInicio} até ${dataFim}`"
+                                    persistent-hint
                                     label="DATA EMISSÃO DO COMPROVANTE DE DESPESA"
                                     placeholder="DD/MM/AAAA"
                                     disabled
@@ -111,7 +112,6 @@
                             <v-flex
                                 sm12
                                 md6
-                                lg3
                             >
                                 <v-text-field
                                     label="NÚMERO"
@@ -122,7 +122,6 @@
                             <v-flex
                                 sm12
                                 md6
-                                lg3
                             >
                                 <v-text-field
                                     label="SÉRIE"
@@ -249,6 +248,10 @@
 
 <script>
 export default {
+    props: {
+        dataInicio: { type: String, default: '' },
+        dataFim: { type: String, default: '' },
+    },
     data() {
         return {
             cpfCnpj: 'CPF',

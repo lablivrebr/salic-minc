@@ -132,7 +132,10 @@
                 />
             </v-card-text>
         </v-card>
-        <comprovar-pagamento/>
+        <comprovar-pagamento
+            :data-inicio="dadosProjeto.dtInicioExecucao | dataMasck"
+            :data-fim="dadosProjeto.dtFimExecucao | dataMasck"
+        />
     </v-container>
 </template>
 

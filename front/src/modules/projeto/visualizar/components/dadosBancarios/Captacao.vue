@@ -225,16 +225,6 @@ export default {
         },
     },
     mounted() {
-        this.d = new Printd();
-
-        const { contentWindow } = this.d.getIFrame();
-
-        contentWindow.addEventListener(
-            'beforeprint', () => {},
-        );
-        contentWindow.addEventListener(
-            'afterprint', () => {},
-        );
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             const params = {
                 idPronac: this.dadosProjeto.idPronac,
@@ -257,6 +247,16 @@ export default {
             this.buscarCaptacao(params);
         },
         print() {
+            this.d = new Printd();
+
+            const { contentWindow } = this.d.getIFrame();
+
+            contentWindow.addEventListener(
+                'beforeprint', () => {},
+            );
+            contentWindow.addEventListener(
+                'afterprint', () => {},
+            );
             this.d.print(this.$el, this.cssText);
         },
     },

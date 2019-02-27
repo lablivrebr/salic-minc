@@ -181,16 +181,6 @@ export default {
         },
     },
     mounted() {
-        this.d = new Printd();
-
-        const { contentWindow } = this.d.getIFrame();
-
-        contentWindow.addEventListener(
-            'beforeprint', () => {},
-        );
-        contentWindow.addEventListener(
-            'afterprint', () => {},
-        );
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             this.buscarExtratosBancariosConsolidado(this.dadosProjeto.idPronac);
         }
@@ -200,6 +190,17 @@ export default {
             buscarExtratosBancariosConsolidado: 'dadosBancarios/buscarExtratosBancariosConsolidado',
         }),
         print() {
+            this.d = new Printd();
+
+            const { contentWindow } = this.d.getIFrame();
+
+            contentWindow.addEventListener(
+                'beforeprint', () => {},
+            );
+            contentWindow.addEventListener(
+                'afterprint', () => {},
+            );
+
             this.d.print(this.$el, this.cssText);
         },
     },

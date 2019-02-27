@@ -185,14 +185,6 @@ export default {
         },
     },
     mounted() {
-        this.d = new Printd();
-        const { contentWindow } = this.d.getIFrame();
-        contentWindow.addEventListener(
-            'beforeprint', () => {},
-        );
-        contentWindow.addEventListener(
-            'afterprint', () => {},
-        );
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             this.buscarSaldoContas(this.dadosProjeto.idPronac);
         }
@@ -202,6 +194,18 @@ export default {
             buscarSaldoContas: 'dadosBancarios/buscarSaldoContas',
         }),
         print() {
+            this.d = new Printd();
+
+            const { contentWindow } = this.d.getIFrame();
+
+            contentWindow.addEventListener(
+                'beforeprint', () => {
+                },
+            );
+            contentWindow.addEventListener(
+                'afterprint', () => {
+                },
+            );
             this.d.print(this.$el, this.cssText);
         },
     },

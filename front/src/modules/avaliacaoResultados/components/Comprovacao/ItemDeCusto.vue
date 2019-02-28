@@ -1,5 +1,12 @@
 <template>
     <v-container fluid>
+        <!-- Criar Comprovante -->
+        <comprovar-pagamento
+            v-if="dadosProjeto.dtInicioExecucao"
+            :data-inicio="dadosProjeto.dtInicioExecucao | dataMasck"
+            :data-fim="dadosProjeto.dtFimExecucao | dataMasck"
+            :valor-comprovar="valorComprovar | moedaMasck"
+        />
         <v-toolbar>
             <!-- Verificar o caminho de volta -->
             <v-btn
@@ -53,7 +60,10 @@
             </v-card-actions>
         </v-card>
 
-        <v-card class="mt-3">
+        <v-card
+            v-if="dadosItem.Item"
+            class="mt-3"
+        >
             <v-card-title primary-title>
                 <h2>Item: {{ dadosItem.Item }}</h2>
             </v-card-title>
@@ -91,7 +101,7 @@
                     </div>
                     <div class="d-inline-block">
                         <h4>Faltando Comprovar</h4>
-                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado - dadosItem.vlComprovado | moedaMasck }}</p>
+                        <p class="text-xs-left">R$ {{ valorComprovar | moedaMasck }}</p>
                     </div>
                 </div>
             </v-card-text>
@@ -132,10 +142,6 @@
                 />
             </v-card-text>
         </v-card>
-        <comprovar-pagamento
-            :data-inicio="dadosProjeto.dtInicioExecucao | dataMasck"
-            :data-fim="dadosProjeto.dtFimExecucao | dataMasck"
-        />
     </v-container>
 </template>
 
@@ -197,6 +203,9 @@ export default {
         },
         dadosItem() {
             return this.getDadosItem;
+        },
+        valorComprovar() {
+            return this.dadosItem.vlAprovado - this.dadosItem.vlComprovado;
         },
     },
     mounted() {

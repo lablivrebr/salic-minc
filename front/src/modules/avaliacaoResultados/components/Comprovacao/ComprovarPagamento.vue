@@ -102,7 +102,7 @@
                                 md6
                             >
                                 <v-text-field
-                                    :hint="`Início em: ${dataInicio} até ${dataFim}`"
+                                    :hint="`*Início em: ${dataInicio} até ${dataFim}`"
                                     persistent-hint
                                     label="DATA EMISSÃO DO COMPROVANTE DE DESPESA"
                                     placeholder="DD/MM/AAAA"
@@ -201,7 +201,9 @@
                                 lg3
                             >
                                 <v-text-field
-                                    label="VALOR***validar valor***"
+                                    :hint="`*Atual: R$ ${valorAtual} / Máx: R$ ${valorComprovar}`"
+                                    label="VALOR"
+                                    persistent-hint
                                     placeholder="00000000"
                                     disabled
                                 />
@@ -251,6 +253,8 @@ export default {
     props: {
         dataInicio: { type: String, default: '' },
         dataFim: { type: String, default: '' },
+        valorComprovar: { type: String, default: '0' },
+        valorAtual: { type: String, default: (0).toFixed(2) },
     },
     data() {
         return {

@@ -41,9 +41,8 @@
                                 xs12
                             >
                                 <v-radio-group
-                                    v-model="cpfCnpj"
+                                    v-model="cpfCnpjLabel"
                                     label="TIPO DO FORNECEDOR"
-                                    disabled
                                 >
                                     <v-radio
                                         label="CPF"
@@ -61,22 +60,25 @@
                             </v-flex>
                             <v-flex
                                 sm12
-                                md6
+                                md5
                             >
                                 <v-text-field
-                                    :label="cpfCnpj"
+                                    :label="cpfCnpjLabel"
+                                    v-model="cpfCnpj"
                                     placeholder="239.456.123-85"
-                                    disabled
+                                    append-outer-icon="search"
+                                    @click:append-outer="buscarAgente(cpfCnpjParams)"
                                 />
                             </v-flex>
                             <v-flex
                                 sm12
                                 md6
+                                offset-md1
                             >
                                 <v-text-field
-                                    label="NOME"
-                                    placeholder="Rômulo Menhô Barbosa"
-                                    disabled
+                                    :label="nomeRazaoSocialLabel"
+                                    :value="nomeRazaoSocial"
+                                    readonly
                                 />
                             </v-flex>
                         </v-layout>
@@ -93,7 +95,6 @@
                                 <v-select
                                     :items="tipoComprovante"
                                     label="TIPO COMPROVANTE"
-                                    disabled
                                 />
                             </v-flex>
 
@@ -106,7 +107,6 @@
                                     persistent-hint
                                     label="DATA EMISSÃO DO COMPROVANTE DE DESPESA"
                                     placeholder="DD/MM/AAAA"
-                                    disabled
                                 />
                             </v-flex>
                             <v-flex
@@ -116,7 +116,6 @@
                                 <v-text-field
                                     label="NÚMERO"
                                     placeholder="00000000"
-                                    disabled
                                 />
                             </v-flex>
                             <v-flex
@@ -126,7 +125,6 @@
                                 <v-text-field
                                     label="SÉRIE"
                                     placeholder="00000000"
-                                    disabled
                                 />
                             </v-flex>
                             <v-flex
@@ -170,7 +168,6 @@
                                 <v-select
                                     :items="formasPagamento"
                                     label="FORMA DE PAGAMENTO"
-                                    disabled
                                 />
                             </v-flex>
                             <v-flex
@@ -181,7 +178,6 @@
                                 <v-text-field
                                     label="DATA DO PAGAMENTO"
                                     placeholder="DD/MM/AAAA"
-                                    disabled
                                 />
                             </v-flex>
                             <v-flex
@@ -192,7 +188,6 @@
                                 <v-text-field
                                     label="Nº DOCUMENTO PAGAMENTO"
                                     placeholder="00000000"
-                                    disabled
                                 />
                             </v-flex>
                             <v-flex
@@ -205,7 +200,6 @@
                                     label="VALOR"
                                     persistent-hint
                                     placeholder="00000000"
-                                    disabled
                                 />
                             </v-flex>
                         </v-layout>
@@ -221,7 +215,6 @@
                                     value=""
                                     placeholder="Digite aqui a justificativa."
                                     no-resize
-                                    disabled
                                 />
                             </v-flex>
                         </v-layout>
@@ -249,6 +242,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
     props: {
         dataInicio: { type: String, default: '' },
@@ -258,7 +253,8 @@ export default {
     },
     data() {
         return {
-            cpfCnpj: 'CPF',
+            cpfCnpjLabel: 'CPF',
+            cpfCnpj: '',
             tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
             formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
             nomeArquivo: '',
@@ -268,7 +264,24 @@ export default {
             action: 'Criar Comprovante',
         };
     },
+    computed: {
+        ...mapGetters({
+            agente: 'avaliacaoResultados/buscarAgente',
+        }),
+        nomeRazaoSocialLabel() {
+            return this.cpfCnpjLabel === 'CPF' ? 'NOME' : 'RAZÃO SOCIAL';
+        },
+        nomeRazaoSocial() {
+            return this.agente[0] ? this.agente[0].agente.nome : '';
+        },
+        cpfCnpjParams() {
+            return { cpf: this.cpfCnpj };
+        },
+    },
     methods: {
+        ...mapActions({
+            buscarAgente: 'avaliacaoResultados/buscarAgente',
+        }),
         pickFile() {
             this.$refs.inputComprovante.click();
         },

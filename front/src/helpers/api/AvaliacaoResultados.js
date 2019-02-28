@@ -174,3 +174,5 @@ export const dashboardQuantidade = () => api.getRequest('/avaliacao-resultados/d
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
 
 export const projetosSimilares = params => axios.get(`/avaliacao-resultados/projetos-similares/${params}`);
+
+export const buscarAgente = params => api.postRequest('/agente/agentes/agentecadastrado/', buildData(params));

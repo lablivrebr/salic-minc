@@ -449,3 +449,13 @@ export const projetoSimilaresAction = ({ commit }, params) => {
             throw new TypeError(e.response.data.message, 'error', 10);
         });
 };
+
+export const buscarAgente = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.buscarAgente(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.BUSCAR_AGENTE, data);
+        }).catch((e) => {
+            throw new TypeError(e.response.data.message, 'error', 10);
+        });
+};

@@ -36,10 +36,10 @@
                 >
                     <v-btn
                         slot="activator"
-                        @click="dialogOutrosProdutos = !dialogOutrosProdutos"
                         color="grey lighten-3"
                         icon
                         small
+                        @click="dialogOutrosProdutos = !dialogOutrosProdutos"
                     >
                         <v-badge
                             color="grey lighten-1"
@@ -50,7 +50,8 @@
                                 {{ produto.quantidadeProdutos - 1 }}
                             </span>
                             <v-icon
-                                color="blue-grey darken-2">
+                                color="blue-grey darken-2"
+                            >
                                 layers
                             </v-icon>
                         </v-badge>
@@ -62,11 +63,11 @@
                 >
                     <v-btn
                         slot="activator"
-                        :href="obterUrlDiligencia(produto)"
                         :color="obterConfigDiligencia(produto).cor"
                         target="_blank"
                         icon
                         small
+                        @click="mostrarDiligencias(produto)"
                     >
                         <v-badge
                             :value="produto.diasEmDiligencia > 0"
@@ -156,6 +157,7 @@
                 </v-stepper-items>
             </v-stepper>
             <analise-outros-produtos-dialog v-model="dialogOutrosProdutos" />
+            <diligencias-dialog v-model="dialogDiligencias" />
         </template>
     </v-container>
 </template>
@@ -165,14 +167,16 @@ import { mapActions, mapGetters } from 'vuex';
 import SCarregando from '@/components/CarregandoVuetify';
 import utilsParecer from '../mixins/utilsParecer';
 import AnaliseOutrosProdutosDialog from '../components/AnaliseOutrosProdutosDialog';
+import DiligenciasDialog from '@/modules/diligencia/components/DiligenciasDialog';
 
 export default {
     name: 'ParecerAnalisarView',
-    components: { AnaliseOutrosProdutosDialog, SCarregando },
+    components: { DiligenciasDialog, AnaliseOutrosProdutosDialog, SCarregando },
     mixins: [utilsParecer],
     data: () => ({
         currentStep: '1',
         dialogOutrosProdutos: false,
+        dialogDiligencias: false,
         arraySteps: [
             {
                 id: 1,
@@ -257,6 +261,7 @@ export default {
         ...mapActions({
             obterProdutoParaAnalise: 'parecer/obterProdutoParaAnalise',
             obterAnaLiseConteudo: 'parecer/obterAnaLiseConteudo',
+            obterDiligencias: 'diligencia/obterDiligenciasProduto',
         }),
         nextStep(n) {
             this.currentStep = (n === Object.keys(this.arraySteps).length) ? 1 : n + 1;
@@ -304,6 +309,11 @@ export default {
         },
         atualizarStepByRoute() {
             this.currentStep = this.getIndexStepByName(this.$route.name) + 1;
+        },
+        mostrarDiligencias(produto) {
+            const params = this.obterParametrosDiligencia(produto);
+            this.obterDiligencias(params);
+            this.dialogDiligencias = true;
         },
     },
 };

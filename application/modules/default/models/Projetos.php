@@ -2945,43 +2945,13 @@ class Projetos extends MinC_Db_Table_Abstract
         return $this->fetchAll($select);
     }
 
+    /**
+     * @deprecated: método migrado para modulo correto. Utilizar model Diligencia_Model_DbTable_TbDiligencia
+     **/
     public function listarDiligencias($consulta = array(), $retornaSelect = false)
     {
-        $select = $this->select();
-        $select->setIntegrityCheck(false);
-        $select->from(
-            array('pro' => $this->_name),
-            array('nomeProjeto' => 'pro.NomeProjeto', 'pronac' => new Zend_Db_Expr('pro.AnoProjeto+pro.Sequencial'))
-        );
-
-        $select->joinInner(
-            array('dil' => 'tbDiligencia'),
-            'dil.idPronac = pro.IdPRONAC',
-            array(
-                'dil.stProrrogacao',
-                'idDiligencia' => 'dil.idDiligencia',
-                'dataSolicitacao' => 'dil.DtSolicitacao',
-                'dataResposta' => 'dil.DtResposta',
-                'Solicitacao' => 'dil.Solicitacao',
-                'Resposta' => new Zend_Db_Expr('CAST(dil.Resposta AS TEXT)'),
-                'dil.idCodigoDocumentosExigidos',
-                'dil.idTipoDiligencia',
-                'dil.stEnviado'
-            )
-        );
-        $select->joinInner(array('ver' => 'Verificacao'), 'ver.idVerificacao = dil.idTipoDiligencia', array('tipoDiligencia' => 'ver.Descricao'));
-        $select->joinLeft(array('prod' => 'Produto'), 'prod.Codigo = dil.idProduto', array('produto' => 'prod.Descricao'));
-
-
-        foreach ($consulta as $coluna => $valor) {
-            $select->where($coluna, $valor);
-        }
-
-        if ($retornaSelect) {
-            return $select;
-        } else {
-            return $this->fetchAll($select);
-        }
+        $tbDiligenciaDbTable = new Diligencia_Model_DbTable_TbDiligencia();
+        return $tbDiligenciaDbTable->listarDiligencias($consulta, $retornaSelect);
     }
 
     public function dadosProjeto($consulta = array())

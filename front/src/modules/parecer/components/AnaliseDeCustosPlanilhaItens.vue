@@ -37,7 +37,7 @@
                             {{ props.item.Item }}
                         </span>
                     </td>
-                    <td class="text-xs-center">
+                    <td class="text-xs-left">
                         {{ props.item.UnidadeProjeto }}
                     </td>
                     <td class="text-xs-center">
@@ -422,11 +422,11 @@ export default {
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
                 { text: 'Unidade', align: 'left', value: 'UnidadeProjeto' },
-                { text: 'Dias', align: 'center', value: 'diasparc' },
-                { text: 'Qtde', align: 'center', value: 'quantidadeparc' },
-                { text: 'Ocor.', align: 'center', value: 'ocorrenciaparc' },
-                { text: 'Vl. Unitário', align: 'right', value: 'valorUnitarioparc' },
-                { text: 'Valor Sugerido', align: 'left', value: 'VlSugeridoParecerista' },
+                { text: 'Dias', align: 'left', value: 'diasparc' },
+                { text: 'Qtde', align: 'left', value: 'quantidadeparc' },
+                { text: 'Ocor.', align: 'left', value: 'ocorrenciaparc' },
+                { text: 'Vl. Unitário', align: 'center', value: 'valorUnitarioparc' },
+                { text: 'Valor Sugerido', align: 'center', value: 'VlSugeridoParecerista' },
             ],
             itemEmEdicao: {
                 VlSugeridoParecerista: '',

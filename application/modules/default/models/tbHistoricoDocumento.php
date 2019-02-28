@@ -4,6 +4,8 @@ class tbHistoricoDocumento extends MinC_Db_Table_Abstract
 {
     protected $_banco = "SAC";
     protected $_name = "tbHistoricoDocumento";
+    protected $_schema = "dbo";
+    protected $_primary = "idHistorico";
 
     /**
      * Retorna registros do banco de dados

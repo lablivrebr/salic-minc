@@ -6214,8 +6214,8 @@ class Projetos extends MinC_Db_Table_Abstract
             array('p' => $this->_name),
             array('IdPRONAC', 'NomeProjeto', 'ResumoProjeto', 'DtInicioExecucao', 'DtFimExecucao', 'Situacao',
                 new Zend_Db_Expr('p.AnoProjeto+p.Sequencial as PRONAC'),
-                new Zend_Db_Expr('dbo.fnQtdeDeMesesDaUltimaCaptacao(p.AnoProjeto,p.Sequencial,getdate()) AS Meses'),
-                new Zend_Db_Expr('dbo.fnPercentualCaptado(p.AnoProjeto,p.Sequencial) as Percentual')
+                new Zend_Db_Expr('sac.dbo.fnQtdeDeMesesDaUltimaCaptacao(p.AnoProjeto,p.Sequencial,getdate()) AS Meses'),
+                new Zend_Db_Expr('sac.dbo.fnPercentualCaptado(p.AnoProjeto,p.Sequencial) as Percentual')
             )
         );
         $select->joinInner(

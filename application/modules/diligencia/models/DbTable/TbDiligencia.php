@@ -14,7 +14,10 @@ class Diligencia_Model_DbTable_TbDiligencia extends MinC_Db_Table_Abstract
         $select->setIntegrityCheck(false);
         $select->from(
             array('pro' => 'projetos'),
-            array('nomeProjeto' => 'pro.NomeProjeto', 'pronac' => new Zend_Db_Expr('pro.AnoProjeto+pro.Sequencial'))
+            array(
+                'IdPRONAC',
+                'nomeProjeto' => 'pro.NomeProjeto',
+                'pronac' => new Zend_Db_Expr('pro.AnoProjeto+pro.Sequencial'))
         );
 
         $select->joinInner(

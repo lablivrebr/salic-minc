@@ -16,6 +16,7 @@ import planilha from './modules/planilha/store';
 import dadosBancarios from './modules/dadosBancarios/store';
 import execucao from './modules/execucao/store';
 import outrasInformacoes from './modules/outrasInformacoes/store';
+import diligencia from './modules/diligencia/store';
 import dateFilter from './filters/date';
 
 Vue.use(Vuex);
@@ -40,6 +41,7 @@ export default new Vuex.Store({
         dadosBancarios,
         execucao,
         outrasInformacoes,
+        diligencia,
     },
     getters: {
         route: state => state.route,

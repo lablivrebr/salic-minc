@@ -60,7 +60,9 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
             $tbDiligenciaDbTable = new Diligencia_Model_DbTable_TbDiligencia();
             $diligencias = $tbDiligenciaDbTable->listarDiligencias($whereDiligencia)->toArray();
 
-            $this->customRenderJsonResponse(TratarArray::utf8EncodeArray($diligencias), 200);
+            $this->customRenderJsonResponse([
+                'items' => TratarArray::utf8EncodeArray($diligencias),
+            ], 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

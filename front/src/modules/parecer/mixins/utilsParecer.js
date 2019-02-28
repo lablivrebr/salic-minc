@@ -26,6 +26,14 @@ export default {
             const params = `${idPronac}&${idProduto}&${situacao}&${tpDiligencia}`;
             return `${url}?${params}`;
         },
+        obterParametrosDiligencia(produto) {
+            return {
+                idPronac: produto.IdPRONAC,
+                idProduto: produto.idProduto,
+                situacao: produto.situacao,
+                tpDiligencia: 124,
+            };
+        },
         obterConfigDiligencia(produto) {
             let diligencia = {};
             switch (produto.stDiligencia) {

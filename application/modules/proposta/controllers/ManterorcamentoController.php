@@ -257,6 +257,17 @@ class Proposta_ManterorcamentoController extends Proposta_GenericController
         try {
 
             $justificativa = substr(trim(strip_tags($params['justificativa'])), 0, 1000);
+            $valorUnitario = str_replace(",", ".", str_replace(".", "", $params['vlunitario']));
+
+            if ($params['unidade'] <= 0 ||  $params['qtd']  <= 0 || $params['ocorrencia']  <= 0 || $valorUnitario  <= 0 ) {
+                throw new Exception("Quantidade, unidade e ocorr&ecirc;ncia devem ser maior que zero");
+            }
+
+            $valorSolicitado = $params['unidade'] * $params['qtd'] * $params['ocorrencia'] * $valorUnitario;
+            if ($valorSolicitado  <= 0 ) {
+                throw new Exception("O valor solicitado n&atilde;o poder ser menor que 1(um)");
+            }
+
 
             $dados = array(
                 'idProjeto' => $params['idPreProjeto'],
@@ -267,7 +278,7 @@ class Proposta_ManterorcamentoController extends Proposta_GenericController
                 'Unidade' => $params['unidade'],
                 'Quantidade' => $params['qtd'],
                 'Ocorrencia' => $params['ocorrencia'],
-                'ValorUnitario' => str_replace(",", ".", str_replace(".", "", $params['vlunitario'])),
+                'ValorUnitario' => $valorUnitario,
                 'QtdeDias' => $params['qtdDias'],
                 'TipoDespesa' => 0,
                 'TipoPessoa' => 0,

@@ -93,11 +93,9 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
                 'dil.idDiligencia = ?' => $idDiligencia,
             ];
 
-            $data = [];
             $diligencia = $tbDiligenciaDbTable->listarDiligencias($whereDiligencia)->current()->toArray();
-            $data['diligencia']  = $diligencia;
             if ($diligencia['idCodigoDocumentosExigidos']) {
-                $data['diligencia']['documentosExigidos'] = $DocumentosExigidosDao->listarDocumentosExigido(
+                $diligencia['documentosExigidos'] = $DocumentosExigidosDao->listarDocumentosExigido(
                     $diligencia['idCodigoDocumentosExigidos']
                 )->toArray();
             }
@@ -106,10 +104,10 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
             $anexos = $tbDiligenciaXArquivo->obterAnexosDiligencia(['idDiligencia = ?' => $idDiligencia])->toArray();
 
             if (!empty($anexos)) {
-                $data['diligencia']['anexos'] = $anexos;
+                $diligencia['anexos'] = $anexos;
             }
 
-            $this->customRenderJsonResponse(TratarArray::utf8EncodeArray($data), 200);
+            $this->customRenderJsonResponse(TratarArray::utf8EncodeArray($diligencia), 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

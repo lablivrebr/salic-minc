@@ -63,9 +63,9 @@
                                 />
                             </td>
                             <td>
-                                {{ props.item.dataSolicitacao }}
+                                {{ props.item.dataSolicitacao | formatarData }}
                             </td>
-                            <td>{{ props.item.dataResposta }}</td>
+                            <td>{{ props.item.dataResposta | formatarData }}</td>
                             <td class="justify-center layout px-0">
                                 <v-tooltip
                                     bottom
@@ -101,9 +101,11 @@
 import { mapActions, mapGetters } from 'vuex';
 import SCarregando from '@/components/CarregandoVuetify';
 import SDiligenciaDetalhamentoDialog from './DiligenciaDetalhamentoDialog';
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'DiligenciasDialog',
+    mixins: [utils],
     components: {
         SDiligenciaDetalhamentoDialog, SCarregando,
     },

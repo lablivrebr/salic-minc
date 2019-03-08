@@ -97,16 +97,35 @@ export const buscarComprovantes = (params) => {
     const modulo = '/prestacao-contas';
     const controller = '/comprovante-pagamento';
 
-    const uf = `uf=${params.uf}`;
     const idPronac = `idPronac=${params.idPronac}`;
     const idPlanilhaItem = `idPlanilhaItem=${params.idPlanilhaItens}`;
     const produto = `produto=${params.codigoProduto}`;
+    const uf = `uf=${params.uf}`;
     const idMunicipio = `idmunicipio=${params.codigoCidade}`;
-    const etapa = `etapa=${params.codigoEtapa}`;
     const stItemAvaliado = `stItemAvaliado=${params.stItemAvaliado}`;
+    const etapa = `etapa=${params.codigoEtapa}`;
 
     const url = `${modulo}${controller}`;
     const queryParams = `?${idPronac}&${idPlanilhaItem}&${produto}&${uf}&${idMunicipio}&${stItemAvaliado}&${etapa}`;
+
+    return api.getRequest(url + queryParams);
+};
+
+export const listarComprovantes = (params) => {
+    const modulo = '/prestacao-contas';
+    const controller = '/comprovante-pagamento';
+
+    const idPronac = `idPronac=${params.idPronac}`;
+    const idPlanilhaItem = `idPlanilhaItem=${params.idPlanilhaItens}`;
+    const produto = `produto=${params.codigoProduto}`;
+    const uf = `uf=${params.uf}`;
+    const idUf = `idUf=${params.idUf}`;
+    const idMunicipio = `idmunicipio=${params.codigoCidade}`;
+    const etapa = `etapa=${params.codigoEtapa}`;
+    const tipo = `tipo=${params.tipo}`;
+
+    const url = `${modulo}${controller}`;
+    const queryParams = `?${idPronac}&${idPlanilhaItem}&${produto}&${uf}&${idUf}&${idMunicipio}&${etapa}&${tipo}`;
 
     return api.getRequest(url + queryParams);
 };
@@ -126,7 +145,31 @@ export const projetosPorEstado = (params) => {
 
 export const salvarAvaliacaoComprovante = params => api.postRequest('/avaliacao-resultados/avaliacao-comprovante/', buildData(params));
 
+export const dadosComprovacao = params => api.getRequest(`/prestacao-contas/pagamento/planilha-pagamento/idpronac/${params}`);
+
+export const dadosProjeto = params => api.getRequest(`/prestacao-contas/pagamento/planilha-dados-projeto/idpronac/${params}`);
+
+export const dadosItem = (params) => {
+    const modulo = '/prestacao-contas';
+    const controller = '/pagamento';
+    const action = '/item';
+
+    const idPronac = `/idpronac/${params.idPronac}`;
+    const uf = `/uf/${params.uf}`;
+    const produto = `/produto/${params.produto}`;
+    const cidade = `/cidade/${params.cidade}`;
+    const etapa = `/etapa/${params.etapa}`;
+    const idPlanilhaItens = `/idPlanilhaItens/${params.idPlanilhaItens}`;
+
+    const url = modulo + controller + action;
+    const queryParams = `${idPronac}${uf}${etapa}${cidade}${produto}${idPlanilhaItens}`;
+
+    return api.getRequest(url + queryParams);
+};
+
 export const dashboardQuantidade = () => api.getRequest('/avaliacao-resultados/dashboard');
+
+export const buscarAgente = params => api.postRequest('/agente/agentes/agentecadastrado/', buildData(params));
 
 const ax = api.HTTP({ baseURL: 'http://localhost:81' });
 

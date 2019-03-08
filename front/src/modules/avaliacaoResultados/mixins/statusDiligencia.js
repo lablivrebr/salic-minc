@@ -45,30 +45,6 @@ export default {
             return status;
         },
         prazoResposta(obj) {
-            /**
-             If (notempty dtSolicitação){
-             Calculo do Prazo
-
-             prazo = date.now() - datainicial(dtSolicitacao);
-
-              converter.dias(prazo)
-
-             -> Para casos de de ser contagem regressiva.
-             if (key boolean (bln_descrescente) ){
-              prazo = prazoPadrao - prazo(do calculo acima);
-             }
-
-             if(prazo > 0) { prazo positivo
-              return prazo
-             } else if( prazo <= 0) { prazo negativo
-                return 0
-             } else {        para prazo de resposta igual ao padrão
-              return -1
-             }
-             }else {
-             return 0
-             }
-             */
 
             let now;
             let timeDiff;
@@ -77,15 +53,6 @@ export default {
                 now = Date.now();
                 timeDiff = Math.abs(now - new Date(obj.dataSolicitacao));
                 prazo = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                // console.info(new Date().toLocaleDateString(undefined, {
-                //     day: '2-digit',
-                //     month: '2-digit',
-                //     year: 'numeric'
-                // }) + " - "+ new Date(obj.DtSolicitacao).toLocaleDateString(undefined, {
-                //     day: '2-digit',
-                //     month: '2-digit',
-                //     year: 'numeric'
-                // }) + " = "+ prazo);
 
                 if (prazo > 0) {
                     // prazo positivo

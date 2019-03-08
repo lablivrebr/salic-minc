@@ -43,10 +43,16 @@ export const state = {
     objetoParecer: {},
     itensBuscaComprovantes: {},
     comprovantes: [],
+    listaComprovantesNacionais: {},
+    listaComprovantesInternacionais: {},
     projetosAssinarCoordenador: {},
     projetosAssinarCoordenadorGeral: {},
+    dadosComprovacao: {},
+    dadosProjeto: {},
+    dadosItem: {},
     dashboard: {},
     projetosSimilares: [],
+    agente: {},
 };
 
 export const mutations = {
@@ -237,10 +243,28 @@ export const mutations = {
             Vue.set(copiaState[tipo], params.idPlanilhaItem, copiaItem);
         });
     },
+    [types.GET_DADOS_COMPROVACAO](state, dados) {
+        state.dadosComprovacao = dados;
+    },
+    [types.GET_DADOS_PROJETO](state, dados) {
+        state.dadosProjeto = dados;
+    },
+    [types.GET_DADOS_ITEM](state, dados) {
+        state.dadosItem = dados;
+    },
+    [types.GET_COMPROVANTES_NACIONAIS](state, dados) {
+        state.listaComprovantesNacionais = dados;
+    },
+    [types.GET_COMPROVANTES_INTERNACIONAIS](state, dados) {
+        state.listaComprovantesInternacionais = dados;
+    },
     [types.DASHBOARD_QUANTIDADE](state, dados) {
         state.dashboard = dados;
     },
     [types.SYNC_PROJETOS_SIMILARES](state, dados) {
         state.projetosSimilares = dados;
+    },
+    [types.BUSCAR_AGENTE](state, dados) {
+        state.agente = dados;
     },
 };

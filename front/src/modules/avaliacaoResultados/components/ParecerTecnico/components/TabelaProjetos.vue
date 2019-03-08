@@ -3,20 +3,15 @@
         row
         wrap>
         <v-flex xs4>
-            <br/>
+            <br>
             <v-switch
+                v-if="$route.path == '/painel/aba-em-analise'"
                 v-model="filtro"
                 input-value="true"
                 color="success"
                 label="Todos / Analisar"
-                value="Diligenciado">
-                <!--<v-select-->
-                    <!--v-if="$route.path == '/painel/aba-em-analise'"-->
-                    <!--:items="diligencias"-->
-                    <!--label="filtrar por estado da diligencia"-->
-                    <!--@change="filtroDiligencia"-->
-                <!--/>-->
-        </v-switch></v-flex>
+                value="Diligenciado"/>
+        </v-flex>
         <v-flex xs8>
             <v-card-title>
                 <v-spacer/>

@@ -12,11 +12,29 @@ import Laudo from './components/LaudoFinal/PainelLaudo';
 import AnalisarItem from './components/ParecerTecnico/AnalisarItem';
 import VisualizarParecer from './components/components/VisualizarParecer';
 import VisualizarLaudo from './components/LaudoFinal/VisualizarLaudo';
+import PlanilhaComprovacao from './components/Comprovacao/PlanilhaComprovacao';
+import ItemDeCusto from './components/Comprovacao/ItemDeCusto';
 import ProjetosSimilares from './components/ParecerTecnico/ProjetosSimilares';
 
 Vue.use(Router);
 
 const routes = [
+    {
+        path: '/comprovar-item/idpronac/:id/idUf/:idUf/uf/:uf/produto/:produto/cidade/:cidade/etapa/:etapa/idPlanilhaAprovacao/:idPlanilhaAprovacao/idPlanilhaItens/:idPlanilhaItens',
+        name: 'ItemDeCusto',
+        component: ItemDeCusto,
+        meta: {
+            title: 'Item de Custo',
+        },
+    },
+    {
+        path: '/planilha-comprovacao/:id',
+        name: 'PlanilhaComprovacao',
+        component: PlanilhaComprovacao,
+        meta: {
+            title: 'PlanilhaComprovacao',
+        },
+    },
     {
         path: '/emitir-parecer/:id',
         name: 'EmitirEditar',

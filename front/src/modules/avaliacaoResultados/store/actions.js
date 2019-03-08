@@ -301,6 +301,16 @@ export const buscarComprovantes = ({ commit }, params) => {
         });
 };
 
+export const listarComprovantes = ({ commit }, params) => {
+    const mutationType = params.tipo === 'nacional' ? types.GET_COMPROVANTES_NACIONAIS : types.GET_COMPROVANTES_INTERNACIONAIS;
+    avaliacaoResultadosHelperAPI.listarComprovantes(params)
+        .then((response) => {
+            const { data } = response;
+            const comprovantes = data.data;
+            commit(mutationType, comprovantes);
+        });
+};
+
 export const devolverProjeto = ({ commit, dispatch }, params) => {
     commit(types.SET_DADOS_PROJETOS_FINALIZADOS, {});
     commit(types.SYNC_PROJETOS_ASSINAR_COORDENADOR, {});
@@ -396,6 +406,30 @@ export const alterarAvaliacaoComprovante = ({ commit }, params) => {
 
 export const alterarPlanilha = ({ commit }, params) => commit(types.ALTERAR_PLANILHA, params);
 
+export const getDadosComprovacao = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.dadosComprovacao(params)
+        .then((response) => {
+            const dadosComprovacaoFinanceira = response.data;
+            commit(types.GET_DADOS_COMPROVACAO, dadosComprovacaoFinanceira);
+        });
+};
+
+export const getDadosProjeto = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.dadosProjeto(params)
+        .then((response) => {
+            const dadosProjeto = response.data;
+            commit(types.GET_DADOS_PROJETO, dadosProjeto);
+        });
+};
+
+export const getDadosItem = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.dadosItem(params)
+        .then((response) => {
+            const dadosItem = response.data;
+            commit(types.GET_DADOS_ITEM, dadosItem);
+        });
+};
+
 export const dashboardQuantidades = ({ commit }) => {
     avaliacaoResultadosHelperAPI.dashboardQuantidade()
         .then((response) => {
@@ -411,6 +445,16 @@ export const projetoSimilaresAction = ({ commit }, params) => {
         .then((response) => {
             const { data } = response;
             commit(types.SYNC_PROJETOS_SIMILARES, data);
+        }).catch((e) => {
+            throw new TypeError(e.response.data.message, 'error', 10);
+        });
+};
+
+export const buscarAgente = ({ commit }, params) => {
+    avaliacaoResultadosHelperAPI.buscarAgente(params)
+        .then((response) => {
+            const { data } = response;
+            commit(types.BUSCAR_AGENTE, data);
         }).catch((e) => {
             throw new TypeError(e.response.data.message, 'error', 10);
         });

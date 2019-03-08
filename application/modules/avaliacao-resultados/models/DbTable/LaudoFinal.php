@@ -42,7 +42,7 @@ class AvaliacaoResultados_Model_DbTable_LaudoFinal extends MinC_Db_Table_Abstrac
             'sac.dbo'
         )
         ->join(['fp'=>'FluxosProjeto'], 'fp.idPronac=p.IdPRONAC', null, 'sac.dbo')
-        ->join(['parecer'=>'tbAvaliacaoFinanceira'],
+        ->joinLeft(['parecer'=>'tbAvaliacaoFinanceira'],
             'parecer.IdPronac=p.IdPRONAC', ['parecer.*','parecer.siManifestacao as dsResutaldoAvaliacaoObjeto'],
             'sac.dbo'
         )

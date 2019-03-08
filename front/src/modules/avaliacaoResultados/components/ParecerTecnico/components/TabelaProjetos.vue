@@ -1,79 +1,100 @@
 <template>
-    <div>
-        <v-card-title>
-            <v-spacer/>
-            <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Pesquisar"
-                single-line
-                hide-details
-            />
-        </v-card-title>
-        <v-data-table
-            :headers="cab()"
-            :items="dados.items"
-            :pagination.sync="pagination"
-            :search="search"
-            hide-actions
-        >
-            <template
-                slot="items"
-                slot-scope="props">
-                <td>{{ props.index+1 }}</td>
-                <td class="text-xs-right">
-                    <v-flex
-                        xs12
-                        sm4
-                        text-xs-center>
-                        <div>
-                            <v-btn
-                                :href="'/projeto/#/'+ props.item.idPronac"
-                                flat>{{ props.item.PRONAC }}</v-btn>
-                        </div>
-                    </v-flex>
-                </td>
-                <td class="text-xs-left">{{ props.item.NomeProjeto }}</td>
-                <td class="text-xs-center">{{ props.item.Situacao }}</td>
-                <td class="text-xs-center">{{ props.item.UfProjeto }}</td>
-                <td
-                    v-if="mostrarTecnico"
-                    class="text-xs-center">{{ props.item.usu_nome }}</td>
-                <td class="text-xs-center">
-                    <template
-                        v-for="(c, index) in componentes.acoes"
-                        d-inline-block>
-                        <component
-                            :key="index"
-                            :obj="props.item"
-                            :is="c"
-                            :link-direto-assinatura="true"
-                            :documento="props.item.idDocumentoAssinatura"
-                            :id-pronac="props.item.IdPRONAC.toString()"
-                            :pronac="props.item.PRONAC"
-                            :nome-projeto="props.item.NomeProjeto"
-                            :atual="componentes.atual"
-                            :proximo="componentes.proximo"
-                            :id-tipo-do-ato-administrativo="componentes.idTipoDoAtoAdministrativo"
-                            :usuario="componentes.usuario"
-                            :tecnico="{
-                                idAgente: props.item.idAgente,
-                                nome: props.item.usu_nome
-                            }"
-                        />
-                    </template>
-                </td>
-            </template>
-            <template slot="no-data">
-                <v-alert
-                    :value="true"
-                    color="error"
-                    icon="warning">
-                    Nenhum dado encontrado ¯\_(ツ)_/¯
-                </v-alert>
-            </template>
-        </v-data-table>
-        <div class="text-xs-center">
+    <v-layout
+        row
+        wrap>
+        <v-flex xs4>
+            <br>
+            <v-switch
+                v-if="$route.path == '/painel/aba-em-analise'"
+                v-model="filtro"
+                input-value="true"
+                color="success"
+                label="Todos / Analisar"
+                value="Diligenciado"/>
+        </v-flex>
+        <v-flex xs8>
+            <v-card-title>
+                <v-spacer/>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Pesquisar"
+                    single-line
+                    hide-details
+                />
+            </v-card-title>
+        </v-flex>
+
+        <v-flex xs12>
+            <v-data-table
+                :headers="cab()"
+                :items="dados.items"
+                :pagination.sync="pagination"
+                :search="search"
+                hide-actions
+            >
+                <template
+                    v-if="filtragem(statusDiligencia(props.item).desc,filtro)"
+                    slot="items"
+                    slot-scope="props">
+                    <td>{{ props.index+1 }}</td>
+                    <td class="text-xs-right">
+                        <v-flex
+                            xs12
+                            sm4
+                            text-xs-center>
+                            <div>
+                                <v-btn
+                                    :href="'/projeto/#/'+ props.item.idPronac"
+                                    flat>{{ props.item.PRONAC }}</v-btn>
+                            </div>
+                        </v-flex>
+                    </td>
+                    <td class="text-xs-left">{{ props.item.NomeProjeto }}</td>
+                    <td class="text-xs-center">{{ props.item.Situacao }}</td>
+                    <td class="text-xs-center">{{ props.item.UfProjeto }}</td>
+                    <td
+                        v-if="mostrarTecnico"
+                        class="text-xs-center">{{ props.item.usu_nome }}</td>
+                    <td class="text-xs-center">
+                        <template
+                            v-for="(c, index) in componentes.acoes"
+                            d-inline-block>
+                            <component
+                                :key="index"
+                                :obj="props.item"
+                                :is="c"
+                                :filtros="filtro"
+                                :link-direto-assinatura="true"
+                                :documento="props.item.idDocumentoAssinatura"
+                                :id-pronac="props.item.IdPRONAC.toString()"
+                                :pronac="props.item.PRONAC"
+                                :nome-projeto="props.item.NomeProjeto"
+                                :atual="componentes.atual"
+                                :proximo="componentes.proximo"
+                                :id-tipo-do-ato-administrativo="componentes.idTipoDoAtoAdministrativo"
+                                :usuario="componentes.usuario"
+                                :tecnico="{
+                                    idAgente: props.item.idAgente,
+                                    nome: props.item.usu_nome
+                                }"
+                            />
+                        </template>
+                    </td>
+                </template>
+                <template slot="no-data">
+                    <v-alert
+                        :value="true"
+                        color="error"
+                        icon="warning">
+                        Nenhum dado encontrado ¯\_(ツ)_/¯
+                    </v-alert>
+                </template>
+            </v-data-table>
+        </v-flex>
+        <v-flex
+            xs12
+            class="text-xs-center">
             <div class="text-xs-center pt-2">
                 <v-pagination
                     v-model="pagination.page"
@@ -82,15 +103,17 @@
                     color="primary "
                 />
             </div>
-        </div>
-    </div>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import statusDiligencia from '../../../mixins/statusDiligencia';
 
 export default {
     name: 'TabelaProjetos',
+    mixins: [statusDiligencia],
     props: {
         dados: { type: Object, default: () => {} },
         componentes: { type: Object, default: () => {} },
@@ -103,6 +126,14 @@ export default {
             },
             selected: [],
             search: '',
+            filtro: 'Diligenciado',
+            diligencias: [
+                'Todos projetos',
+                'A Diligenciar',
+                'Diligenciado',
+                'Diligencia respondida',
+                'Diligencia não respondida',
+            ],
         };
     },
     computed: {
@@ -128,6 +159,16 @@ export default {
         ...mapActions({
             obterDadosTabelaTecnico: 'avaliacaoResultados/obterDadosTabelaTecnico',
         }),
+        filtragem(projeto, filtro) {
+            if (filtro === 'Todos projetos' || this.filtro === '') {
+                return true;
+            }
+            return projeto !== filtro;
+        },
+        filtroDiligencia(val) {
+            this.filtro = val;
+            this.$emit('filtros', this.filtro);
+        },
         cab() {
             let dados = [];
 

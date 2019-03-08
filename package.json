@@ -118,6 +118,7 @@
     "lodash": "^4.17.5",
     "moment": "^2.23.0",
     "numeral": "^2.0.6",
+    "printd": "^1.3.0",
     "vue": "^2.5.21",
     "vue-currency-filter": "^3.2.0",
     "vue-router": "^3.0.2",

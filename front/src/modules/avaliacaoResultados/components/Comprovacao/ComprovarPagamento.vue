@@ -81,6 +81,18 @@
                                     readonly
                                 />
                             </v-flex>
+                            <v-flex
+                                sm12
+                            >
+                                <v-btn
+                                    v-if="agente.length === 0"
+                                    :href="`/prestacao-contas/fornecedor/index/cpfcnpj/${cpfCnpj}`"
+                                    color="teal"
+                                    dark
+                                >
+                                    CADASTRAR FORNECEDOR
+                                </v-btn>
+                            </v-flex>
                         </v-layout>
 
                         <h3 class="my-2">DADOS DO COMPROVANTE DE DESPESA</h3>

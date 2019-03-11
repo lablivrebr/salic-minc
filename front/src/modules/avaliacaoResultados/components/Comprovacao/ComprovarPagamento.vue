@@ -30,7 +30,7 @@
                 <v-spacer/>
             </v-toolbar>
             <v-card-text>
-                <v-form>
+                <v-form v-model="valid">
                     <v-container>
                         <h3 class="mb-2">IDENTIFICAÇÃO DO CONTRATADO</h3>
                         <v-layout
@@ -64,8 +64,10 @@
                             >
                                 <v-text-field
                                     :label="cpfCnpjLabel"
+                                    :rules="cpfCnpjRules"
                                     v-model="cpfCnpj"
-                                    placeholder="239.456.123-85"
+                                    mask="###.###.###-##"
+                                    placeholder="000.000.000-00"
                                     append-outer-icon="search"
                                     @click:append-outer="buscarAgente(cpfCnpjParams)"
                                 />
@@ -84,14 +86,16 @@
                             <v-flex
                                 sm12
                             >
-                                <v-btn
-                                    v-if="agente.length === 0"
-                                    :href="`/prestacao-contas/fornecedor/index/cpfcnpj/${cpfCnpj}`"
-                                    color="teal"
-                                    dark
-                                >
-                                    CADASTRAR FORNECEDOR
-                                </v-btn>
+                                <div v-if="agente.length === 0">
+                                    <span class="error--text caption d-block ml-2 md-1">Fornecedor não cadastrado!</span>
+                                    <v-btn
+                                        :href="`/prestacao-contas/fornecedor/index/cpfcnpj/${cpfCnpj}`"
+                                        color="teal"
+                                        dark
+                                    >
+                                        CADASTRAR FORNECEDOR
+                                    </v-btn>
+                                </div>
                             </v-flex>
                         </v-layout>
 
@@ -106,6 +110,7 @@
                             >
                                 <v-select
                                     :items="tipoComprovante"
+                                    value="Cupom Fiscal"
                                     label="TIPO COMPROVANTE"
                                 />
                             </v-flex>
@@ -154,9 +159,10 @@
                                     v-model="nomeArquivo"
                                     :placeholder="nomeArquivo"
                                     class="d-inline-block"
-                                    label="SELECIONAR ARQUIVO"
+                                    label="Selecionar arquivo..."
                                     readonly
-                                    full-width
+                                    solo
+                                    flat
                                     @click="pickFile"
                                 />
                                 <input
@@ -179,6 +185,7 @@
                             >
                                 <v-select
                                     :items="formasPagamento"
+                                    value="Cheque"
                                     label="FORMA DE PAGAMENTO"
                                 />
                             </v-flex>
@@ -265,8 +272,12 @@ export default {
     },
     data() {
         return {
+            valid: false,
             cpfCnpjLabel: 'CPF',
             cpfCnpj: '',
+            cpfCnpjRules: [
+                cpfCnpj => !!cpfCnpj || 'O campo CPF/CNPJ é obrigatório!',
+            ],
             tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
             formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
             nomeArquivo: '',

@@ -90,6 +90,22 @@
                         v-model="dialogDetalhamento"
                         :item="diligenciaVisualizacao"
                     />
+
+                    <div class="text-xs-center mt-3">
+                        <v-btn
+                            color="primary"
+                            @click="dialogCriarDiligencia = !dialogCriarDiligencia"
+                        >
+                            <v-icon left>
+                                notification_important
+                            </v-icon>
+                            Criar nova diligência
+                        </v-btn>
+                    </div>
+                    <diligencia-dialog-criar
+                        v-if="dialogCriarDiligencia"
+                        v-model="dialogCriarDiligencia"
+                    />
                 </div>
             </v-card-text>
         </v-card>
@@ -98,17 +114,20 @@
 
 <script>
 
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import SCarregando from '@/components/CarregandoVuetify';
 import SDiligenciaDetalhamentoDialog from './DiligenciaDetalhamentoDialog';
 import { utils } from '@/mixins/utils';
+import DiligenciaDialogCriar from './DiligenciaDialogCriar';
 
 export default {
     name: 'DiligenciasDialog',
-    mixins: [utils],
     components: {
-        SDiligenciaDetalhamentoDialog, SCarregando,
+        DiligenciaDialogCriar,
+        SDiligenciaDetalhamentoDialog,
+        SCarregando,
     },
+    mixins: [utils],
     props: {
         value: {
             type: Boolean,
@@ -119,6 +138,7 @@ export default {
         return {
             dialog: false,
             dialogDetalhamento: false,
+            dialogCriarDiligencia: false,
             loading: true,
             headers: [
                 { text: 'Pronac', value: 'pronac' },
@@ -150,7 +170,6 @@ export default {
             this.$emit('input', val);
         },
         diligencias() {
-            console.log('diligencias');
             this.loading = false;
         },
     },

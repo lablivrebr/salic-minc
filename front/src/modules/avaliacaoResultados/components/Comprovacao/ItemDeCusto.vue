@@ -3,9 +3,11 @@
         <!-- Criar Comprovante -->
         <comprovar-pagamento
             v-if="dadosProjeto.dtInicioExecucao"
-            :data-inicio="dadosProjeto.dtInicioExecucao | dataMasck"
-            :data-fim="dadosProjeto.dtFimExecucao | dataMasck"
-            :valor-comprovar="valorComprovar | moedaMasck"
+            :data-inicio-formatada="dadosProjeto.dtInicioExecucao | dataFilter"
+            :data-fim-formatada="dadosProjeto.dtFimExecucao | dataFilter"
+            :data-inicio="dadosProjeto.dtInicioExecucao"
+            :data-fim="dadosProjeto.dtFimExecucao"
+            :valor-comprovar="valorComprovar | moedaFilter"
         />
         <v-toolbar>
             <!-- Verificar o caminho de volta -->
@@ -29,23 +31,23 @@
                 <div class="my-3">
                     <div class="d-inline-block mr-5">
                         <h4>Data Início da Execução</h4>
-                        <p class="text-xs-left">{{ dadosProjeto.dtInicioExecucao | dataMasck }}</p>
+                        <p class="text-xs-left">{{ dadosProjeto.dtInicioExecucao | dataFilter }}</p>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Data Final da Execução</h4>
-                        <p class="text-xs-left">{{ dadosProjeto.dtFimExecucao | dataMasck }}</p>
+                        <p class="text-xs-left">{{ dadosProjeto.dtFimExecucao | dataFilter }}</p>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Valor Aprovado</h4>
-                        <p class="text-xs-left">R$ {{ dadosProjeto.vlAprovado | moedaMasck }}</p>
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlAprovado | moedaFilter }}</p>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Valor Comprovado</h4>
-                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovado | moedaMasck }}</p>
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovado | moedaFilter }}</p>
                     </div>
                     <div class="d-inline-block">
                         <h4>Valor a Comprovar</h4>
-                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovar | moedaMasck }}</p>
+                        <p class="text-xs-left">R$ {{ dadosProjeto.vlComprovar | moedaFilter }}</p>
                     </div>
                 </div>
             </v-card-text>
@@ -93,15 +95,15 @@
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Aprovado</h4>
-                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado | moedaMasck }}</p>
+                        <p class="text-xs-left">R$ {{ dadosItem.vlAprovado | moedaFilter }}</p>
                     </div>
                     <div class="d-inline-block mr-5">
                         <h4>Total Comprovado</h4>
-                        <p class="text-xs-left">R$ {{ dadosItem.vlComprovado | moedaMasck }}</p>
+                        <p class="text-xs-left">R$ {{ dadosItem.vlComprovado | moedaFilter }}</p>
                     </div>
                     <div class="d-inline-block">
                         <h4>Faltando Comprovar</h4>
-                        <p class="text-xs-left">R$ {{ valorComprovar | moedaMasck }}</p>
+                        <p class="text-xs-left">R$ {{ valorComprovar | moedaFilter }}</p>
                     </div>
                 </div>
             </v-card-text>
@@ -152,7 +154,7 @@ import Moeda from '../../../../filters/money';
 import Comprovante from './Comprovante';
 import ComprovarPagamento from './ComprovarPagamento';
 
-Vue.filter('moedaMasck', Moeda);
+Vue.filter('moedaFilter', Moeda);
 
 export default {
     name: 'ItemDeCusto',
@@ -161,13 +163,13 @@ export default {
         ComprovarPagamento,
     },
     filters: {
-        dataMasck(data) {
+        dataFilter(data) {
             const dataFormatada = data.replace(/-/g, '/');
             const date = new Date(dataFormatada);
             return date.toLocaleString(['pt-BR'], {
                 month: '2-digit',
                 day: '2-digit',
-                year: '2-digit',
+                year: 'numeric',
             });
         },
     },

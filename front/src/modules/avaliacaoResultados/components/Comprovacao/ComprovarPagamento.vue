@@ -119,12 +119,38 @@
                                 sm12
                                 md6
                             >
-                                <v-text-field
-                                    :hint="`*Início em: ${dataInicio} até ${dataFim}`"
-                                    persistent-hint
-                                    label="DATA EMISSÃO DO COMPROVANTE DE DESPESA"
-                                    placeholder="DD/MM/AAAA"
-                                />
+                                <v-menu
+                                    ref="menu"
+                                    v-model="datePicker"
+                                    :close-on-content-click="false"
+                                    :nudge-right="40"
+                                    lazy
+                                    transition="scale-transition"
+                                    offset-y
+                                    full-width
+                                    max-width="290px"
+                                    min-width="290px"
+                                >
+                                    <v-text-field
+                                        slot="activator"
+                                        v-model="dataEmissaoFormatada"
+                                        :hint="`*Início em: ${dataInicioFormatada} até ${dataFimFormatada}`"
+                                        persistent-hint
+                                        label="DATA EMISSÃO DO COMPROVANTE DE DESPESA"
+                                        placeholder="DD/MM/AAAA"
+                                        prepend-icon="event"
+                                        readonly
+                                    />
+                                    <v-date-picker
+                                        ref="picker"
+                                        v-model="dataEmissao"
+                                        :min="dataInicio"
+                                        :max="dataFim"
+                                        no-title
+                                        locale="pt-br"
+                                        @change="save"
+                                    />
+                                </v-menu>
                             </v-flex>
                             <v-flex
                                 sm12
@@ -265,6 +291,8 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     props: {
+        dataInicioFormatada: { type: String, default: '' },
+        dataFimFormatada: { type: String, default: '' },
         dataInicio: { type: String, default: '' },
         dataFim: { type: String, default: '' },
         valorComprovar: { type: String, default: '0' },
@@ -278,13 +306,14 @@ export default {
             cpfCnpjRules: [
                 cpfCnpj => !!cpfCnpj || 'O campo CPF/CNPJ é obrigatório!',
             ],
+            dataEmissao: '',
+            datePicker: false,
             tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
             formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
             nomeArquivo: '',
             arquivoBinario: '',
             arquivo: '',
             dialog: false,
-            action: 'Criar Comprovante',
         };
     },
     computed: {
@@ -299,6 +328,21 @@ export default {
         },
         cpfCnpjParams() {
             return { cpf: this.cpfCnpj };
+        },
+        dataEmissaoFormatada() {
+            if (!this.dataEmissao) return null;
+
+            const [ano, mes, dia] = this.dataEmissao.split('-');
+            return `${dia}/${mes}/${ano}`;
+        },
+    },
+    watch: {
+        datePicker(val) {
+            if (val) {
+                setTimeout(() => {
+                    this.$refs.picker.activePicker = 'YEAR';
+                });
+            }
         },
     },
     methods: {
@@ -323,6 +367,9 @@ export default {
                 this.arquivo = '';
                 this.arquivoBinario = '';
             }
+        },
+        save(date) {
+            this.$refs.menu.save(date);
         },
     },
 };

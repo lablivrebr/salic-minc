@@ -60,26 +60,30 @@
                             </v-flex>
                             <v-flex
                                 sm12
-                                md5
+                                md3
                             >
                                 <v-text-field
                                     :label="cpfCnpjLabel"
                                     :rules="cpfCnpjRules"
                                     v-model="cpfCnpj"
+                                    validate-on-blur
                                     mask="###.###.###-##"
                                     placeholder="000.000.000-00"
-                                    append-outer-icon="search"
-                                    @click:append-outer="buscarAgente(cpfCnpjParams)"
+                                    outline
+                                    append-icon="search"
+                                    @click:append="buscarAgente(cpfCnpjParams)"
+                                    @keyup.enter="buscarAgente(cpfCnpjParams)"
+                                    @blur="buscarAgente(cpfCnpjParams)"
                                 />
                             </v-flex>
                             <v-flex
                                 sm12
                                 md6
-                                offset-md1
                             >
                                 <v-text-field
                                     :label="nomeRazaoSocialLabel"
                                     :value="nomeRazaoSocial"
+                                    outline
                                     readonly
                                 />
                             </v-flex>
@@ -106,18 +110,19 @@
                         >
                             <v-flex
                                 sm12
-                                md6
+                                md3
                             >
                                 <v-select
                                     :items="tipoComprovante"
                                     value="Cupom Fiscal"
                                     label="TIPO COMPROVANTE"
+                                    outline
                                 />
                             </v-flex>
 
                             <v-flex
                                 sm12
-                                md6
+                                md3
                             >
                                 <v-menu
                                     ref="menu"
@@ -136,9 +141,10 @@
                                         v-model="dataEmissaoFormatada"
                                         :hint="`*Início em: ${dataInicioFormatada} até ${dataFimFormatada}`"
                                         persistent-hint
-                                        label="DATA EMISSÃO DO COMPROVANTE DE DESPESA"
+                                        label="DATA DA EMISSÃO"
                                         placeholder="DD/MM/AAAA"
-                                        prepend-icon="event"
+                                        append-icon="event"
+                                        outline
                                         readonly
                                     />
                                     <v-date-picker
@@ -154,20 +160,22 @@
                             </v-flex>
                             <v-flex
                                 sm12
-                                md6
+                                md3
                             >
                                 <v-text-field
                                     label="NÚMERO"
                                     placeholder="00000000"
+                                    outline
                                 />
                             </v-flex>
                             <v-flex
                                 sm12
-                                md6
+                                md3
                             >
                                 <v-text-field
                                     label="SÉRIE"
                                     placeholder="00000000"
+                                    outline
                                 />
                             </v-flex>
                             <v-flex
@@ -213,6 +221,7 @@
                                     :items="formasPagamento"
                                     value="Cheque"
                                     label="FORMA DE PAGAMENTO"
+                                    outline
                                 />
                             </v-flex>
                             <v-flex
@@ -223,6 +232,7 @@
                                 <v-text-field
                                     label="DATA DO PAGAMENTO"
                                     placeholder="DD/MM/AAAA"
+                                    outline
                                 />
                             </v-flex>
                             <v-flex
@@ -233,6 +243,7 @@
                                 <v-text-field
                                     label="Nº DOCUMENTO PAGAMENTO"
                                     placeholder="00000000"
+                                    outline
                                 />
                             </v-flex>
                             <v-flex
@@ -243,8 +254,9 @@
                                 <v-text-field
                                     :hint="`*Atual: R$ ${valorAtual} / Máx: R$ ${valorComprovar}`"
                                     label="VALOR"
-                                    persistent-hint
                                     placeholder="00000000"
+                                    persistent-hint
+                                    outline
                                 />
                             </v-flex>
                         </v-layout>
@@ -260,6 +272,7 @@
                                     value=""
                                     placeholder="Digite aqui a justificativa."
                                     no-resize
+                                    outline
                                 />
                             </v-flex>
                         </v-layout>
@@ -304,7 +317,8 @@ export default {
             cpfCnpjLabel: 'CPF',
             cpfCnpj: '',
             cpfCnpjRules: [
-                cpfCnpj => !!cpfCnpj || 'O campo CPF/CNPJ é obrigatório!',
+                cpfCnpj => !!cpfCnpj || `O campo ${this.cpfCnpjLabel} é obrigatório!`,
+                cpfCnpj => cpfCnpj.length === 11 || `O ${this.cpfCnpjLabel} informado não é válido!`,
             ],
             dataEmissao: '',
             datePicker: false,

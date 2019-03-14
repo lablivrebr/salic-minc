@@ -20,11 +20,14 @@ class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Res
 
     public function getAction(){
         $idPronac = $this->getRequest()->getParam('idPronac');
+        //TODO: Implementar Passagem de parametros do frontEnd 100, 99 , 95 , 90%
+        //$percent = $this->getRequest()->getParam('percent');
+        $percent = '5';
         $data = [];
         $code = 200;
 
         $planilhaAprovacaoModel = new PlanilhaAprovacao();
-        $resposta = $planilhaAprovacaoModel->planilhaAprovada($idPronac);
+        $resposta = $planilhaAprovacaoModel->planilhaAprovadaAmostragem($idPronac, $percent);
         /* var_dump(empty($resposta->toArray()));die; */
 
         $planilhaJSON = null;

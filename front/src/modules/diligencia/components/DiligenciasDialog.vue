@@ -90,6 +90,25 @@
                         v-model="dialogDetalhamento"
                         :item="diligenciaVisualizacao"
                     />
+
+                    <div class="text-xs-center mt-3">
+                        <v-btn
+                            color="primary"
+                            @click="dialogCriarDiligencia = !dialogCriarDiligencia"
+                        >
+                            <v-icon left>
+                                notification_important
+                            </v-icon>
+                            Criar nova diligência
+                        </v-btn>
+                    </div>
+                    <diligencia-dialog-criar
+                        v-model="dialogCriarDiligencia"
+                        :id-pronac="idPronac"
+                        :id-produto="idProduto"
+                        :tp-diligencia="tpDiligencia"
+                        :situacao="situacao"
+                    />
                 </div>
             </v-card-text>
         </v-card>
@@ -102,23 +121,43 @@ import { mapActions, mapGetters } from 'vuex';
 import SCarregando from '@/components/CarregandoVuetify';
 import SDiligenciaDetalhamentoDialog from './DiligenciaDetalhamentoDialog';
 import { utils } from '@/mixins/utils';
+import DiligenciaDialogCriar from './DiligenciaDialogCriar';
 
 export default {
     name: 'DiligenciasDialog',
-    mixins: [utils],
     components: {
-        SDiligenciaDetalhamentoDialog, SCarregando,
+        DiligenciaDialogCriar,
+        SDiligenciaDetalhamentoDialog,
+        SCarregando,
     },
+    mixins: [utils],
     props: {
         value: {
             type: Boolean,
             default: false,
+        },
+        idPronac: {
+            type: Number,
+            required: true,
+        },
+        tpDiligencia: {
+            type: Number,
+            default: null,
+        },
+        idProduto: {
+            type: Number,
+            default: null,
+        },
+        situacao: {
+            type: String,
+            default: null,
         },
     },
     data() {
         return {
             dialog: false,
             dialogDetalhamento: false,
+            dialogCriarDiligencia: false,
             loading: true,
             headers: [
                 { text: 'Pronac', value: 'pronac' },
@@ -145,19 +184,26 @@ export default {
     watch: {
         value(val) {
             this.dialog = val;
+            if (val) {
+                this.obterDiligencias({
+                    idPronac: this.idPronac,
+                    idProduto: this.idProduto,
+                    situacao: this.situacao,
+                    tpDiligencia: this.tpDiligencia,
+                });
+            }
         },
         dialog(val) {
             this.$emit('input', val);
         },
         diligencias() {
-            console.log('diligencias');
             this.loading = false;
         },
     },
     methods: {
-        // ...mapActions({
-        //     obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
-        // }),
+        ...mapActions({
+            obterDiligencias: 'diligencia/obterDiligenciasProduto',
+        }),
         abrirModal(produto) {
             this.diligenciaVisualizacao = produto;
             this.dialogDetalhamento = true;

@@ -67,7 +67,7 @@
                         target="_blank"
                         icon
                         small
-                        @click="mostrarDiligencias(produto)"
+                        @click="mostrarDiligencias()"
                     >
                         <v-badge
                             :value="produto.diasEmDiligencia > 0"
@@ -157,7 +157,13 @@
                 </v-stepper-items>
             </v-stepper>
             <analise-outros-produtos-dialog v-model="dialogOutrosProdutos" />
-            <diligencias-dialog v-model="dialogDiligencias" />
+            <diligencias-dialog
+                v-model="dialogDiligencias"
+                :id-pronac="produto.IdPRONAC"
+                :id-produto="produto.idProduto"
+                :tp-diligencia="tpDiligencia"
+                :situacao="situacaoDiligencia"
+            />
         </template>
     </v-container>
 </template>
@@ -169,6 +175,9 @@ import utilsParecer from '../mixins/utilsParecer';
 import AnaliseOutrosProdutosDialog from '../components/AnaliseOutrosProdutosDialog';
 import DiligenciasDialog from '@/modules/diligencia/components/DiligenciasDialog';
 
+const TP_DILIGENCIA = 124;
+const SITUACAO_DILIGENCIA = 'B14';
+
 export default {
     name: 'ParecerAnalisarView',
     components: { DiligenciasDialog, AnaliseOutrosProdutosDialog, SCarregando },
@@ -177,6 +186,8 @@ export default {
         currentStep: '1',
         dialogOutrosProdutos: false,
         dialogDiligencias: false,
+        tpDiligencia: TP_DILIGENCIA,
+        situacaoDiligencia: SITUACAO_DILIGENCIA,
         arraySteps: [
             {
                 id: 1,
@@ -261,7 +272,6 @@ export default {
         ...mapActions({
             obterProdutoParaAnalise: 'parecer/obterProdutoParaAnalise',
             obterAnaLiseConteudo: 'parecer/obterAnaLiseConteudo',
-            obterDiligencias: 'diligencia/obterDiligenciasProduto',
         }),
         nextStep(n) {
             this.currentStep = (n === Object.keys(this.arraySteps).length) ? 1 : n + 1;
@@ -310,9 +320,7 @@ export default {
         atualizarStepByRoute() {
             this.currentStep = this.getIndexStepByName(this.$route.name) + 1;
         },
-        mostrarDiligencias(produto) {
-            const params = this.obterParametrosDiligencia(produto);
-            this.obterDiligencias(params);
+        mostrarDiligencias() {
             this.dialogDiligencias = true;
         },
     },

@@ -25,7 +25,12 @@
                 </v-toolbar-title>
             </v-toolbar>
             <v-card-text>
+                <s-carregando
+                    v-if="Object.keys(diligencia).length === 0"
+                    text="Carregando detalhamento da diligência"
+                />
                 <v-container
+                    v-else
                     fluid
                     grid-list-lg
                 >
@@ -182,9 +187,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { utils } from '@/mixins/utils';
+import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'DiligenciaDetalhamentoDialog',
+    components: { SCarregando },
     mixins: [utils],
     props: {
         value: {

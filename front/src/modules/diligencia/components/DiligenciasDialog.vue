@@ -103,8 +103,11 @@
                         </v-btn>
                     </div>
                     <diligencia-dialog-criar
-                        v-if="dialogCriarDiligencia"
                         v-model="dialogCriarDiligencia"
+                        :id-pronac="idPronac"
+                        :id-produto="idProduto"
+                        :tp-diligencia="tpDiligencia"
+                        :situacao="situacao"
                     />
                 </div>
             </v-card-text>
@@ -114,7 +117,7 @@
 
 <script>
 
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import SCarregando from '@/components/CarregandoVuetify';
 import SDiligenciaDetalhamentoDialog from './DiligenciaDetalhamentoDialog';
 import { utils } from '@/mixins/utils';
@@ -132,6 +135,22 @@ export default {
         value: {
             type: Boolean,
             default: false,
+        },
+        idPronac: {
+            type: Number,
+            required: true,
+        },
+        tpDiligencia: {
+            type: Number,
+            default: null,
+        },
+        idProduto: {
+            type: Number,
+            default: null,
+        },
+        situacao: {
+            type: String,
+            default: null,
         },
     },
     data() {
@@ -165,6 +184,14 @@ export default {
     watch: {
         value(val) {
             this.dialog = val;
+            if (val) {
+                this.obterDiligencias({
+                    idPronac: this.idPronac,
+                    idProduto: this.idProduto,
+                    situacao: this.situacao,
+                    tpDiligencia: this.tpDiligencia,
+                });
+            }
         },
         dialog(val) {
             this.$emit('input', val);
@@ -174,9 +201,9 @@ export default {
         },
     },
     methods: {
-        // ...mapActions({
-        //     obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
-        // }),
+        ...mapActions({
+            obterDiligencias: 'diligencia/obterDiligenciasProduto',
+        }),
         abrirModal(produto) {
             this.diligenciaVisualizacao = produto;
             this.dialogDetalhamento = true;

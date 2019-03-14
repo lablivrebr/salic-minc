@@ -1,5 +1,15 @@
 import * as api from './base';
 
+const buildData = (params) => {
+    const bodyFormData = new FormData();
+
+    Object.keys(params).forEach((key) => {
+        bodyFormData.append(key, params[key]);
+    });
+
+    return bodyFormData;
+};
+
 export const obterDiligencias = (params) => {
     const module = '/diligencia';
     const controller = '/diligencia-rest';
@@ -31,3 +41,5 @@ export const obterDiligencia = (params) => {
     const queryParams = `/${idPronac}/${idDiligencia}`;
     return api.getRequest(`${module}${controller}${queryParams}`);
 };
+
+export const salvarDiligencia = params => api.postRequest('/diligencia/diligencia-rest', buildData(params));

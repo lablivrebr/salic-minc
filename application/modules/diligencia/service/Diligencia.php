@@ -1,7 +1,6 @@
 <?php
 
-namespace Application\Modules\Diligencia\Service\Diligencia;
-
+namespace Application\Modules\Diligencia\Service;
 
 class Diligencia implements \MinC\Servico\IServicoRestZend
 {
@@ -57,11 +56,7 @@ class Diligencia implements \MinC\Servico\IServicoRestZend
             }
 
             $tbDiligenciaDbTable = new \Diligencia_Model_DbTable_TbDiligencia();
-            $diligencias = $tbDiligenciaDbTable->listarDiligencias($whereDiligencia)->toArray();
-
-            $result = \TratarArray::utf8EncodeArray($diligencias);
-
-            return $result;
+            return $tbDiligenciaDbTable->listarDiligencias($whereDiligencia)->toArray();
         } catch (\Exception $exception) {
             throw $exception;
         }
@@ -100,9 +95,7 @@ class Diligencia implements \MinC\Servico\IServicoRestZend
                 $diligencia['anexos'] = $anexos;
             }
 
-            $result = \TratarArray::utf8EncodeArray($diligencia);
-
-            return $result;
+            return $diligencia;
         } catch (\Exception $exception) {
             throw $exception;
         }
@@ -115,7 +108,7 @@ class Diligencia implements \MinC\Servico\IServicoRestZend
             $idProduto = $this->request->getParam('idProduto', null);
             $situacao = $this->request->getParam('situacao');
             $idTipoDiligencia = $this->request->getParam('tpDiligencia');
-            $solicitacao = $this->request->getParam('solicitacao');
+            $solicitacao = utf8_decode($this->request->getParam('solicitacao'));
             $confirmaEnvio = $this->request->getParam('btnEnvio');
 
             if (empty($idPronac)) {
@@ -142,29 +135,44 @@ class Diligencia implements \MinC\Servico\IServicoRestZend
             if (count($diligenciaCadastrada) > 0) {
                 throw new \Exception("Existe dilig&ecirc;ncia aguardando resposta!");
             }
-            $auth = \Zend_Auth::getInstance();
-            $idAgente = $auth->getIdentity()->usu_codigo;
+
             $idProduto = $idProduto ?? new \Zend_Db_Expr('null');
+            $auth = \Zend_Auth::getInstance();
 
             $dados = array(
                 'idPronac' => $idPronac,
-                'DtSolicitacao' => null,
                 'Solicitacao' => $solicitacao,
-                'idSolicitante' => null,
+                'idSolicitante' => $auth->getIdentity()->usu_codigo,
                 'idTipoDiligencia' => $idTipoDiligencia,
                 'idProduto' => $idProduto,
+                'DtSolicitacao' => new \Zend_Db_Expr('GETDATE()'),
                 'stEstado' => 0,
                 'stEnviado' => 'N'
             );
 
+            // @todo a trigger no banco já salva como stEnviado ='S' ao inserir
             if ($confirmaEnvio == 1) {
-                $dados['DtSolicitacao'] = new \Zend_Db_Expr('GETDATE()');
-                $dados['idSolicitante'] = $idAgente;
                 $dados['stEnviado'] = 'S';
             }
-            $idDiligencia = $diligenciaDAO->inserir($dados);
 
-            return $idDiligencia;
+            $tbDiligenciaDbTable = new \Diligencia_Model_DbTable_TbDiligencia();
+            $diligenciaEmEdicao = $tbDiligenciaDbTable->findBy([
+                'idPronac = ?' => $idPronac,
+                'idSolicitante = ?' => $auth->getIdentity()->usu_codigo,
+                'idProduto = ?' => $idProduto,
+                'stEstado = ?' => 0,
+            ]);
+
+            if (!empty($diligenciaEmEdicao)) {
+                return $diligenciaDAO->update(
+                    $dados,
+                    ['idDiligencia = ?' => $diligenciaEmEdicao['idDiligencia']]
+                );
+            }
+
+           return $diligenciaDAO->inserir($dados);
+
+
         } catch (\Exception $exception) {
             throw $exception;
         }

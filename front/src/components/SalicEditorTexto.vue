@@ -3,7 +3,7 @@
         <vue-editor
             :editor-toolbar="customToolbar"
             v-model="editor"
-            :placeholder="'Texto do Documento *'"
+            v-bind="$attrs"
             @input="enviar($event)"
         />
     </div>

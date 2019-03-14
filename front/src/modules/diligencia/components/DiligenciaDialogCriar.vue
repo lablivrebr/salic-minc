@@ -1,10 +1,10 @@
 <template>
     <v-dialog
         v-model="dialog"
-        full-width
         scrollable
-        fullscreen
-        transition="dialog-bottom-transition"
+        max-width="1200px"
+        min-width="500px"
+        @keydown.esc="dialog = false"
     >
         <v-card>
             <v-toolbar
@@ -24,34 +24,11 @@
             <v-card-text>
                 <v-container>
                     <v-card>
-                        <v-card-title primary-title>
-                            <div class="headline">
-                                <b>Projeto:</b>
-                                {{ projeto.AnoProjeto }}{{ projeto.Sequencial }} - {{ projeto.NomeProjeto }}
-                            </div>
-                        </v-card-title>
                         <v-card-text>
                             <v-form
                                 ref="form"
                                 v-model="valid"
                             >
-                                <label for="diligencia">Tipo de Diligencia *</label>
-                                <v-radio-group
-                                    id="diligencia"
-                                    v-model="tpDiligencia"
-                                    :rules="diligenciaRules"
-                                >
-                                    <v-radio
-                                        color="success"
-                                        label="Somente itens recusados"
-                                        value="174"
-                                    />
-                                    <v-radio
-                                        color="success"
-                                        label="Todos os itens orçamentários"
-                                        value="645"
-                                    />
-                                </v-radio-group>
                                 <div
                                     v-show="solicitacaoRules.show"
                                     class="text-xs-left"
@@ -60,11 +37,10 @@
                                         {{ solicitacaoRules.msg }}*
                                     </h4>
                                 </div>
-                                <EditorTexto
+                                <s-editor-texto
+                                    v-model="diligenciaEmEdicao.solicitacao"
+                                    placeholder="Texto da diligência:"
                                     :style="solicitacaoRules.backgroundColor"
-                                    :value="solicitacao"
-                                    required="required"
-                                    @editor-texto-input="inputSolicitacao($event)"
                                     @editor-texto-counter="validarSolicitacao($event)"
                                 />
                             </v-form>
@@ -72,7 +48,6 @@
                         <v-card-actions class="justify-center">
                             <v-btn
                                 :disabled="!valid || !solicitacaoRules.enable"
-                                :to="{ name: 'AnalisePlanilha', params:{ id: idPronac }}"
                                 color="primary"
                                 @click.native="enviarDiligencia()"
                             >
@@ -88,30 +63,40 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import EditorTexto from '@/components/SalicEditorTexto';
+import SEditorTexto from '@/components/SalicEditorTexto';
 
 export default {
     name: 'DiligenciaDialogCriar',
     components: {
-        EditorTexto,
+        SEditorTexto,
     },
     props: {
         value: {
             type: Boolean,
             default: false,
         },
-        item: {
-            type: Object,
-            default: () => {},
+        idPronac: {
+            type: Number,
+            required: true,
+        },
+        tpDiligencia: {
+            type: Number,
+            required: true,
+        },
+        idProduto: {
+            type: Number,
+            default: null,
+        },
+        situacao: {
+            type: String,
+            default: null,
         },
     },
     data() {
         return {
-            tpDiligencia: '',
             solicitacao: '',
-            idPronac: this.$route.params.id,
             valid: false,
-            dialog: true,
+            dialog: false,
             solicitacaoRules: {
                 show: false,
                 color: '',
@@ -122,6 +107,13 @@ export default {
             diligenciaRules: [
                 v => !!v || 'Tipo de diligencia é obrigatório!',
             ],
+            diligenciaEmEdicao: {
+                idPronac: this.idPronac,
+                tpDiligencia: this.tpDiligencia,
+                solicitacao: '',
+                idProduto: this.idProduto,
+                situacao: this.situacao,
+            },
         };
     },
     computed: {
@@ -129,51 +121,46 @@ export default {
             projeto: 'avaliacaoResultados/projeto',
         }),
     },
-    created() {
-        this.getConsolidacao(this.idPronac);
-    },
-    methods:
-        {
-            ...mapActions({
-                requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
-                salvar: 'avaliacaoResultados/enviarDiligencia',
-            }),
-            getConsolidacao(id) {
-                this.requestEmissaoParecer(id);
-            },
-            enviarDiligencia() {
-                const data = {
-                    idPronac: this.idPronac,
-                    tpDiligencia: this.tpDiligencia,
-                    solicitacao: this.solicitacao,
-                };
-
-                this.salvar(data);
-            },
-            inputSolicitacao(e) {
-                this.solicitacao = e;
-                // this.validarSolicitacao(e);
-            },
-            validarSolicitacao(e) {
-                if (e < 1) {
-                    this.solicitacaoRules = {
-                        show: true,
-                        color: 'red--text',
-                        backgroundColor: { 'background-color': '#FFCDD2' },
-                        msg: 'A solicitação é obrigatória!',
-                        enable: false,
-                    };
-                }
-                if (e > 0) {
-                    this.solicitacaoRules = {
-                        show: false,
-                        color: '',
-                        backgroundColor: '',
-                        msg: '',
-                        enable: true,
-                    };
-                }
-            },
+    watch: {
+        value(val) {
+            this.dialog = val;
         },
+        dialog(val) {
+            this.$emit('input', val);
+        },
+    },
+    created() {
+    },
+    methods: {
+        ...mapActions({
+            requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
+            salvar: 'diligencia/salvarDiligencia',
+        }),
+        enviarDiligencia() {
+            this.salvar(this.diligenciaEmEdicao).then(() => {
+                this.dialog = false;
+            });
+        },
+        validarSolicitacao(e) {
+            if (e < 1) {
+                this.solicitacaoRules = {
+                    show: true,
+                    color: 'red--text',
+                    backgroundColor: { 'background-color': '#FFCDD2' },
+                    msg: 'A solicitação é obrigatória!',
+                    enable: false,
+                };
+            }
+            if (e > 0) {
+                this.solicitacaoRules = {
+                    show: false,
+                    color: '',
+                    backgroundColor: '',
+                    msg: '',
+                    enable: true,
+                };
+            }
+        },
+    },
 };
 </script>

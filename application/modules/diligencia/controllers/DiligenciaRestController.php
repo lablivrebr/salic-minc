@@ -1,21 +1,21 @@
 <?php
 
-
+use Application\Modules\Diligencia\Service\Diligencia as Diligencia;
 class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
 {
 
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
-//        $profiles = [
-//            Autenticacao_Model_Grupos::PARECERISTA,
-//            Autenticacao_Model_Grupos::COORDENADOR_DE_PARECER,
-//        ];
-//
-//        $permissionsPerMethod = [
-//            '*' => $profiles,
-//        ];
-//
-//        $this->setProtectedMethodsProfilesPermission($permissionsPerMethod);
+        $profiles = [
+            Autenticacao_Model_Grupos::PARECERISTA,
+            Autenticacao_Model_Grupos::COORDENADOR_DE_PARECER,
+        ];
+
+        $permissionsPerMethod = [
+            '*' => $profiles,
+        ];
+
+        $this->setProtectedMethodsProfilesPermission($permissionsPerMethod);
         $this->setValidateUserIsLogged();
 
         parent::__construct($request, $response, $invokeArgs);
@@ -25,40 +25,8 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
     {
         try {
 
-            $idPronac = $this->getRequest()->getParam('idPronac');
-            $idDiligencia = $this->getRequest()->getParam('idDiligencia');
-            $situacao = $this->getRequest()->getParam('situacao');
-            $idTipoDiligencia = $this->getRequest()->getParam('tpDiligencia');
-            $idProduto = $this->getRequest()->getParam('idProduto');
-
-            if (empty($idPronac)) {
-                throw new Exception("Identificador do projeto &eacute; obrigat&oacute;rio");
-            }
-
-            $whereDiligencia = ['pro.IdPRONAC = ?' => $idPronac];
-
-            if (!empty($idProduto)) {
-                $whereDiligencia = [
-                    'pro.IdPRONAC = ?' => $idPronac,
-                    'dil.idProduto = ?' => $idProduto,
-                    'dil.stEnviado = ?' => 'S'
-                ];
-            }
-
-            if ($idDiligencia) {
-                $whereDiligencia['dil.idDiligencia = ?'] = $idDiligencia;
-            }
-
-            if ($idTipoDiligencia) {
-                $whereDiligencia['dil.idTipoDiligencia = ?'] = $idTipoDiligencia;
-            }
-
-            if ($situacao) {
-                $whereDiligencia['pro.Situacao = ?'] = $situacao;
-            }
-
-            $tbDiligenciaDbTable = new Diligencia_Model_DbTable_TbDiligencia();
-            $diligencias = $tbDiligenciaDbTable->listarDiligencias($whereDiligencia)->toArray();
+            $serviceDiligencia = new Diligencia($this->getRequest(), $this->getResponse());
+            $diligencias = $serviceDiligencia->listar();
 
             $this->customRenderJsonResponse([
                 'items' => TratarArray::utf8EncodeArray($diligencias),
@@ -78,34 +46,9 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
     public function getAction()
     {
         try {
-            $idPronac = $this->getRequest()->getParam('idPronac');
-            $idDiligencia = $this->getRequest()->getParam('idDiligencia');
 
-            if (empty($idPronac) || empty($idDiligencia)) {
-                throw new Exception("Identificadores obrigat&oacute;rios n&atilde;o informados");
-            }
-
-            $tbDiligenciaDbTable = new Diligencia_Model_DbTable_TbDiligencia();
-            $DocumentosExigidosDao = new DocumentosExigidos();
-
-            $whereDiligencia = [
-                'pro.IdPRONAC = ?' => $idPronac,
-                'dil.idDiligencia = ?' => $idDiligencia,
-            ];
-
-            $diligencia = $tbDiligenciaDbTable->listarDiligencias($whereDiligencia)->current()->toArray();
-            if ($diligencia['idCodigoDocumentosExigidos']) {
-                $diligencia['documentosExigidos'] = $DocumentosExigidosDao->listarDocumentosExigido(
-                    $diligencia['idCodigoDocumentosExigidos']
-                )->toArray();
-            }
-
-            $tbDiligenciaXArquivo = new Diligencia_Model_DbTable_TbDiligenciaXArquivo();
-            $anexos = $tbDiligenciaXArquivo->obterAnexosDiligencia(['idDiligencia = ?' => $idDiligencia])->toArray();
-
-            if (!empty($anexos)) {
-                $diligencia['anexos'] = $anexos;
-            }
+            $serviceDiligencia = new Diligencia($this->getRequest(), $this->getResponse());
+            $diligencia = $serviceDiligencia->obter();
 
             $this->customRenderJsonResponse(TratarArray::utf8EncodeArray($diligencia), 200);
 
@@ -123,10 +66,12 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
     public function postAction()
     {
         try {
+            $serviceDiligencia = new Diligencia($this->getRequest(), $this->getResponse());
+            $diligencia = $serviceDiligencia->salvar();
 
             $this->customRenderJsonResponse(
                 [
-                    'data' => [],
+                    'data' => $diligencia,
                     'message' => html_entity_decode('')
                 ], 200);
 

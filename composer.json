@@ -86,6 +86,7 @@
             "Application\\Modules\\AvaliacaoResultados\\Service\\Assinatura\\Laudo\\": "./application/modules/avaliacao-resultados/service/assinatura/laudo",
             "Application\\Modules\\AvaliacaoResultados\\Service\\Assinatura\\Laudo\\Acao\\": "./application/modules/avaliacao-resultados/service/assinatura/laudo/acao",
             "Application\\Modules\\AvaliacaoResultados\\Service\\LaudoFinal\\": "./application/modules/avaliacao-resultados/service/laudo-final",
+            "Application\\Modules\\Analise\\Service\\AnaliseAprovacao\\": "./application/modules/analise/service/analise-aprovacao/",
             "Application\\Modules\\Fiscalizacao\\": "./application/modules/fiscalizacao/",
             "Application\\Modules\\Fiscalizacao\\Service\\": "./application/modules/fiscalizacao/service/",
             "Application\\Modules\\Fiscalizacao\\Service\\Assinatura\\": "./application/modules/fiscalizacao/service/assinatura/",

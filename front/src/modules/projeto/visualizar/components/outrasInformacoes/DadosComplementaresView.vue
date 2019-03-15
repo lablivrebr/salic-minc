@@ -24,7 +24,7 @@
             <DadosComplementares
                 :texto="dados.Proposta.Objetivos"
                 label="Objetivos"
-                icon="trending_up"/>
+                icon="playlist_add_check"/>
             <DadosComplementares
                 :texto="dados.Proposta.Justificativa"
                 label="Justificativa"/>

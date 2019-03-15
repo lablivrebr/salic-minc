@@ -1249,6 +1249,12 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/analise/controllers/RecursoRestController.php
+     * application/modules/dados-bancarios/controllers/ContasBancariasRestController.php
+     */
     public function recursoAction()
     {
         $mapperArea = new Agente_Model_AreaMapper();

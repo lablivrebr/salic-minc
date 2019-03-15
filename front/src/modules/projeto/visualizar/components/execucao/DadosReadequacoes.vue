@@ -289,6 +289,12 @@ export default {
             case 11:
                 icone = 'perm_media';
                 break;
+            case 20:
+                icone = 'date_range';
+                break;
+            case 16:
+                icone = 'playlist_add_check';
+                break;
             default:
                 icone = 'subject';
             }

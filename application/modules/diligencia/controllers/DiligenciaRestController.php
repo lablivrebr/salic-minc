@@ -35,10 +35,10 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([
                 'error' => [
-                    'code' => 404,
+                    'code' => 400,
                     'message' => $objException->getMessage()
                 ]
-            ], 404);
+            ], 400);
 
         }
     }
@@ -55,10 +55,10 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([
                 'error' => [
-                    'code' => 404,
+                    'code' => 400,
                     'message' => $objException->getMessage()
                 ]
-            ], 404);
+            ], 400);
 
         }
     }
@@ -78,9 +78,9 @@ class Diligencia_DiligenciaRestController extends MinC_Controller_Rest_Abstract
         } catch (Exception $e) {
             $this->customRenderJsonResponse(
                 [
-                    'code' => 500,
+                    'code' => 400,
                     'message' => html_entity_decode($e->getMessage())
-                ], 500);
+                ], 400);
 
         }
     }

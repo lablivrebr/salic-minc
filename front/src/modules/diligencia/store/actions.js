@@ -2,6 +2,7 @@ import * as types from './types';
 import * as diligenciaAPI from '@/helpers/api/Diligencia';
 
 export const obterDiligencias = ({ commit }, params) => {
+    // commit(types.SET_DILIGENCIAS, []);
     diligenciaAPI.obterDiligencias(params)
         .then((response) => {
             const { data } = response;
@@ -10,6 +11,7 @@ export const obterDiligencias = ({ commit }, params) => {
 };
 
 export const obterDiligenciasProduto = ({ commit }, params) => {
+    // commit(types.SET_DILIGENCIAS, []);
     diligenciaAPI.obterDiligenciasProduto(params)
         .then((response) => {
             const { data } = response;
@@ -18,6 +20,7 @@ export const obterDiligenciasProduto = ({ commit }, params) => {
 };
 
 export const obterDiligencia = ({ commit }, params) => {
+    commit(types.SET_DILIGENCIA, {});
     diligenciaAPI.obterDiligencia(params)
         .then((response) => {
             const { data } = response;

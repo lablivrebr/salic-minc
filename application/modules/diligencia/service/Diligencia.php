@@ -35,7 +35,7 @@ class Diligencia implements \MinC\Servico\IServicoRestZend
 
             $whereDiligencia = ['pro.IdPRONAC = ?' => $idPronac];
 
-            if (!empty($idProduto)) {
+            if (!empty($idProduto) && $idProduto != 'null') {
                 $whereDiligencia = [
                     'pro.IdPRONAC = ?' => $idPronac,
                     'dil.idProduto = ?' => $idProduto,
@@ -43,15 +43,15 @@ class Diligencia implements \MinC\Servico\IServicoRestZend
                 ];
             }
 
-            if ($idDiligencia) {
+            if ($idDiligencia && $idDiligencia != 'null') {
                 $whereDiligencia['dil.idDiligencia = ?'] = $idDiligencia;
             }
 
-            if ($idTipoDiligencia) {
+            if ($idTipoDiligencia && $idTipoDiligencia != 'null') {
                 $whereDiligencia['dil.idTipoDiligencia = ?'] = $idTipoDiligencia;
             }
 
-            if ($situacao) {
+            if (!empty($situacao) && $situacao != 'null') {
                 $whereDiligencia['pro.Situacao = ?'] = $situacao;
             }
 

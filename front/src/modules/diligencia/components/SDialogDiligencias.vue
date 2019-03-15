@@ -86,23 +86,34 @@
                             </td>
                         </template>
                     </v-data-table>
-                    <s-diligencia-detalhamento-dialog
+                    <s-dialog-diligencia-detalhamento
                         v-model="dialogDetalhamento"
                         :item="diligenciaVisualizacao"
                     />
 
-                    <div class="text-xs-center mt-3">
-                        <v-btn
-                            color="primary"
-                            @click="dialogCriarDiligencia = !dialogCriarDiligencia"
+                    <div
+                        class="text-xs-center mt-3"
+                    >
+                        <v-tooltip
+                            bottom
                         >
-                            <v-icon left>
-                                notification_important
-                            </v-icon>
-                            Criar nova diligência
-                        </v-btn>
+                            <v-btn
+                                slot="activator"
+                                color="primary"
+                                :disabled="isDiligenciaAberta"
+                                @click="dialogCriarDiligencia = !dialogCriarDiligencia"
+                            >
+                                <v-icon left>
+                                    notification_important
+                                </v-icon>
+                                Nova diligência
+                            </v-btn>
+                            <span v-if="!isDiligenciaAberta">Criar nova diligência</span>
+                            <span v-else>Existe uma diligência em aberto</span>
+                        </v-tooltip>
                     </div>
-                    <diligencia-dialog-criar
+                    <s-dialog-criar-diligencia
+                        v-if="!isDiligenciaAberta"
                         v-model="dialogCriarDiligencia"
                         :id-pronac="idPronac"
                         :id-produto="idProduto"
@@ -119,15 +130,15 @@
 
 import { mapActions, mapGetters } from 'vuex';
 import SCarregando from '@/components/CarregandoVuetify';
-import SDiligenciaDetalhamentoDialog from './DiligenciaDetalhamentoDialog';
+import SDialogDiligenciaDetalhamento from './SDialogDiligenciaDetalhamento';
 import { utils } from '@/mixins/utils';
-import DiligenciaDialogCriar from './DiligenciaDialogCriar';
+import SDialogCriarDiligencia from './SDialogCriarDiligencia';
 
 export default {
-    name: 'DiligenciasDialog',
+    name: 'SDialogDiligencias',
     components: {
-        DiligenciaDialogCriar,
-        SDiligenciaDetalhamentoDialog,
+        SDialogCriarDiligencia,
+        SDialogDiligenciaDetalhamento,
         SCarregando,
     },
     mixins: [utils],
@@ -180,6 +191,9 @@ export default {
         ...mapGetters({
             diligencias: 'diligencia/getDiligencias',
         }),
+        isDiligenciaAberta() {
+            return this.diligencias.length > 0 && typeof this.diligencias.find(item => !item.dataResposta) === 'object';
+        },
     },
     watch: {
         value(val) {
@@ -191,6 +205,7 @@ export default {
                     situacao: this.situacao,
                     tpDiligencia: this.tpDiligencia,
                 });
+                this.loading = true;
             }
         },
         dialog(val) {

@@ -18,7 +18,7 @@
                 >
                     <v-icon>close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Diligênciar</v-toolbar-title>
+                <v-toolbar-title>Criar nova diligência</v-toolbar-title>
                 <v-spacer />
             </v-toolbar>
             <v-card-text>
@@ -47,10 +47,14 @@
                         </v-card-text>
                         <v-card-actions class="justify-center">
                             <v-btn
-                                :disabled="!valid || !solicitacaoRules.enable"
+                                :loading="saveLoading"
+                                :disabled="!valid || !solicitacaoRules.enable || saveLoading"
                                 color="primary"
                                 @click.native="enviarDiligencia()"
                             >
+                                <v-icon left>
+                                    send
+                                </v-icon>
                                 Enviar
                             </v-btn>
                         </v-card-actions>
@@ -66,7 +70,7 @@ import { mapActions, mapGetters } from 'vuex';
 import SEditorTexto from '@/components/SalicEditorTexto';
 
 export default {
-    name: 'DiligenciaDialogCriar',
+    name: 'SDialoagCriarDiligencia',
     components: {
         SEditorTexto,
     },
@@ -94,6 +98,7 @@ export default {
     },
     data() {
         return {
+            saveLoading: false,
             solicitacao: '',
             valid: false,
             dialog: false,
@@ -129,16 +134,17 @@ export default {
             this.$emit('input', val);
         },
     },
-    created() {
-    },
     methods: {
         ...mapActions({
             requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
             salvar: 'diligencia/salvarDiligencia',
         }),
         enviarDiligencia() {
+            this.saveLoading = true;
             this.salvar(this.diligenciaEmEdicao).then(() => {
                 this.dialog = false;
+            }).finally(() => {
+                this.saveLoading = false;
             });
         },
         validarSolicitacao(e) {

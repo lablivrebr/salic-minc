@@ -1,18 +1,25 @@
 <template>
     <v-container
-        fluid>
+        fluid
+    >
         <v-layout
             row
-            wrap>
+            wrap
+        >
             <v-flex
                 xs12
-                md12>
+                md12
+            >
                 <v-card
-                    class="mb-2">
+                    class="mb-2"
+                >
                     <v-card-title
                         primary
-                        class="title">Produtos para an&aacute;lise inicial</v-card-title>
-                    <v-divider/>
+                        class="title"
+                    >
+                        Produtos para an&aacute;lise inicial
+                    </v-card-title>
+                    <v-divider />
                     <v-card-text>
                         <v-data-table
                             v-if="produtos.length > 0"
@@ -24,15 +31,18 @@
                         >
                             <template
                                 slot="items"
-                                slot-scope="props">
+                                slot-scope="props"
+                            >
                                 <td>
                                     <v-tooltip
-                                        bottom>
+                                        bottom
+                                    >
                                         <a
                                             slot="activator"
                                             :href="`/projeto/#/${props.item.IdPRONAC}`"
                                             target="_blank"
-                                            class="mr-2">
+                                            class="mr-2"
+                                        >
                                             {{ props.item.PRONAC }}
                                         </a>
                                         <span>Consultar projeto {{ props.item.NomeProjeto }}</span>
@@ -52,7 +62,8 @@
                                                 }
                                             }"
                                             class="subheading font-weight-medium"
-                                            color="primary">
+                                            color="primary"
+                                        >
                                             {{ props.item.dsProduto }}
                                         </router-link>
                                         <span>Clique para análisar o produto {{ props.item.dsProduto }}</span>
@@ -61,42 +72,54 @@
                                 <td class="text-xs-center">
                                     <v-tooltip
                                         v-if="props.item.stPrincipal === 1"
-                                        bottom>
+                                        bottom
+                                    >
                                         <v-icon
                                             slot="activator"
                                             round
-                                        >looks_one</v-icon>
+                                        >
+                                            looks_one
+                                        </v-icon>
                                         <span>Produto principal</span>
                                     </v-tooltip>
                                     <v-tooltip
                                         v-else
-                                        bottom>
+                                        bottom
+                                    >
                                         <v-icon
                                             slot="activator"
-                                            color="grey">looks_two</v-icon>
+                                            color="grey"
+                                        >
+                                            looks_two
+                                        </v-icon>
                                         <span>Produto secundário</span>
                                     </v-tooltip>
                                 </td>
-                                <td class="text-xs-right">{{ props.item.DtDistribuicao | formatarData }}</td>
+                                <td class="text-xs-right">
+                                    {{ props.item.DtDistribuicao | formatarData }}
+                                </td>
                                 <td class="text-xs-center">
                                     <v-tooltip
-                                        bottom>
+                                        bottom
+                                    >
                                         <v-btn
                                             slot="activator"
-                                            :href="obterUrlDiligencia(props.item)"
                                             :color="obterConfigDiligencia(props.item).cor"
                                             target="_blank"
                                             icon
                                             small
+                                            @click="visualizarDiligencia(props.item)"
                                         >
                                             <v-badge
                                                 :value="props.item.diasEmDiligencia > 0"
                                                 color="grey lighten-1"
                                                 overlap
-                                                left>
+                                                left
+                                            >
                                                 <span slot="badge">{{ props.item.diasEmDiligencia }}</span>
                                                 <v-icon
-                                                    :color="obterConfigDiligencia(props.item).corIcone">
+                                                    :color="obterConfigDiligencia(props.item).corIcone"
+                                                >
                                                     notification_important
                                                 </v-icon>
                                             </v-badge>
@@ -106,42 +129,57 @@
                                 </td>
                                 <td class="justify-center layout px-0">
                                     <v-tooltip
-                                        bottom>
+                                        bottom
+                                    >
                                         <v-btn
                                             slot="activator"
                                             :href="obterUrlHistorico(props.item)"
                                             color="blue-grey darken-2"
                                             flat
                                             icon
-                                            class="mr-2">
-                                            <v-icon
-                                            >history</v-icon>
+                                            class="mr-2"
+                                        >
+                                            <v-icon>
+                                                history
+                                            </v-icon>
                                         </v-btn>
                                         <span>Visualizar histórico de distribuição deste produto</span>
                                     </v-tooltip>
                                     <v-tooltip
-                                        bottom>
+                                        bottom
+                                    >
                                         <v-btn
                                             slot="activator"
                                             :href="obterUrlDeclararImpedimento(props.item)"
                                             color="blue-grey darken-2"
                                             flat
                                             icon
-                                            class="mr-2">
-                                            <v-icon
-                                            >voice_over_off</v-icon>
+                                            class="mr-2"
+                                        >
+                                            <v-icon>
+                                                voice_over_off
+                                            </v-icon>
                                         </v-btn>
                                         <span>Declarar impedimento para análise deste produto</span>
                                     </v-tooltip>
                                 </td>
                             </template>
                             <template slot="no-data">
-                                <div class="text-xs-center">Sem dados</div>
+                                <div class="text-xs-center">
+                                    Sem dados
+                                </div>
                             </template>
                         </v-data-table>
                         <s-carregando
                             v-else
-                            :text="'Carregando lista de produtos'" />
+                            :text="'Carregando lista de produtos'"
+                        />
+                        <s-dialog-diligencias
+                            v-model="dialogDiligencias"
+                            :id-pronac="diligenciaVisualizacao.IdPRONAC"
+                            :id-produto="diligenciaVisualizacao.idProduto"
+                            :tp-diligencia="tipoDiligencia"
+                        />
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -152,13 +190,17 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { utils } from '@/mixins/utils';
-import utilsParecer from '../mixins/utilsParecer';
+import mixinDiligencia from '@/modules/diligencia/mixins/diligencia';
+import mixinParecer from '../mixins/utilsParecer';
 import SCarregando from '@/components/CarregandoVuetify';
+import SDialogDiligencias from '@/modules/diligencia/components/SDialogDiligencias';
+
+const TP_DILIGENCIA = 124;
 
 export default {
     name: 'ParecerListarView',
-    components: { SCarregando },
-    mixins: [utils, utilsParecer],
+    components: { SCarregando, SDialogDiligencias },
+    mixins: [utils, mixinDiligencia, mixinParecer],
     data: () => ({
         headers: [
             {
@@ -187,6 +229,12 @@ export default {
                 text: 'Ações', align: 'center', value: 'idProduto', sortable: false,
             },
         ],
+        dialogDiligencias: false,
+        diligenciaVisualizacao: {
+            IdPRONAC: 0,
+            idProduto: 0,
+        },
+        tipoDiligencia: TP_DILIGENCIA,
         produtos: [],
         expand: false,
         loading: true,
@@ -201,7 +249,6 @@ export default {
             this.produtos = val;
         },
     },
-
     created() {
         this.initialize();
         this.obterProdutosParaAnalise();
@@ -212,6 +259,13 @@ export default {
         }),
         initialize() {
             this.produtos = [];
+        },
+        visualizarDiligencia(item) {
+            this.dialogDiligencias = true;
+            this.diligenciaVisualizacao = {
+                IdPRONAC: item.IdPRONAC,
+                idProduto: item.idProduto,
+            };
         },
     },
 

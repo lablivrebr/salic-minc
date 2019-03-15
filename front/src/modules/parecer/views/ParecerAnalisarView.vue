@@ -156,13 +156,12 @@
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
-            <analise-outros-produtos-dialog v-model="dialogOutrosProdutos" />
-            <diligencias-dialog
+            <s-dialog-analise-outros-produtos v-model="dialogOutrosProdutos" />
+            <s-dialog-diligencias
                 v-model="dialogDiligencias"
                 :id-pronac="produto.IdPRONAC"
                 :id-produto="produto.idProduto"
-                :tp-diligencia="tpDiligencia"
-                :situacao="situacaoDiligencia"
+                :tp-diligencia="tipoDiligencia"
             />
         </template>
     </v-container>
@@ -171,22 +170,23 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import SCarregando from '@/components/CarregandoVuetify';
-import utilsParecer from '../mixins/utilsParecer';
-import AnaliseOutrosProdutosDialog from '../components/AnaliseOutrosProdutosDialog';
-import DiligenciasDialog from '@/modules/diligencia/components/DiligenciasDialog';
+import mixinParecer from '../mixins/utilsParecer';
+import mixinDiligencia from '@/modules/diligencia/mixins/diligencia';
+import SDialogAnaliseOutrosProdutos from '../components/AnaliseOutrosProdutosDialog';
+import SDialogDiligencias from '@/modules/diligencia/components/SDialogDiligencias';
 
 const TP_DILIGENCIA = 124;
 const SITUACAO_DILIGENCIA = 'B14';
 
 export default {
     name: 'ParecerAnalisarView',
-    components: { DiligenciasDialog, AnaliseOutrosProdutosDialog, SCarregando },
-    mixins: [utilsParecer],
+    components: { SDialogDiligencias, SDialogAnaliseOutrosProdutos, SCarregando },
+    mixins: [mixinParecer, mixinDiligencia],
     data: () => ({
         currentStep: '1',
         dialogOutrosProdutos: false,
         dialogDiligencias: false,
-        tpDiligencia: TP_DILIGENCIA,
+        tipoDiligencia: TP_DILIGENCIA,
         situacaoDiligencia: SITUACAO_DILIGENCIA,
         arraySteps: [
             {

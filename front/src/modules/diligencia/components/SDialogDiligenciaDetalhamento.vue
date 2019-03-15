@@ -190,7 +190,7 @@ import { utils } from '@/mixins/utils';
 import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
-    name: 'DiligenciaDetalhamentoDialog',
+    name: 'SDialoagDiligenciaDetalhamento',
     components: { SCarregando },
     mixins: [utils],
     props: {

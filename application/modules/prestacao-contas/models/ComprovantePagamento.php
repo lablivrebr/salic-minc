@@ -193,7 +193,8 @@ final class PrestacaoContas_Model_ComprovantePagamento extends MinC_Db_Table_Abs
             ];
         }
 
-        /* $this->comprovarPlanilhaCadastrar(); */
+        $this->comprovarPlanilhaAtualizar();
+
         $result = $this->update(
             $dados,
             ['idComprovantePagamento = ?' => $this->idComprovantePagamento]
@@ -600,5 +601,16 @@ final class PrestacaoContas_Model_ComprovantePagamento extends MinC_Db_Table_Abs
             ),
             array('idComprovantePagamento = ?' => $idComprovantePagamento)
         );
+    }
+
+    protected function comprovarPlanilhaAtualizar()
+    {
+        $comprovantePlanilha = new PrestacaoContas_Model_ComprovantePagamentoxPlanilhaAprovacao();
+
+        $dados =
+            [
+                'vlComprovado' => $this->vlComprovacao,
+            ];
+        $result = $comprovantePlanilha->update($dados, ['idComprovantePagamento = ? ' => $this->idComprovantePagamento]);
     }
 }

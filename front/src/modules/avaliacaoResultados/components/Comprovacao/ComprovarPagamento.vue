@@ -253,10 +253,14 @@
                             >
                                 <v-text-field
                                     :hint="`*Atual: R$ ${valorAtual} / Máx: R$ ${valorComprovar}`"
+                                    :rules="valorRules"
+                                    v-model="valor"
                                     label="VALOR"
-                                    placeholder="00000000"
+                                    placeholder="00,00"
+                                    prefix="R$"
                                     persistent-hint
                                     outline
+                                    @keypress="valorMask"
                                 />
                             </v-flex>
                         </v-layout>
@@ -322,6 +326,13 @@ export default {
             ],
             dataEmissao: '',
             datePicker: false,
+            valor: '',
+            valorRules: [
+                valor => !!valor || 'O campo valor é obrigatório!',
+                valor => /^\d+(,\d{1,2})?$/.test(valor) || 'O valor informado é inválido!',
+                valor => (this.valorNumber(valor) > 0) || 'O valor informado deve ser maior que 0(zero)!',
+                valor => (this.valorNumber(valor) <= this.valorNumber(this.valorComprovar)) || 'O valor informado é maior que o valor a comprovar!',
+            ],
             tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
             formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
             nomeArquivo: '',
@@ -384,6 +395,15 @@ export default {
         },
         save(date) {
             this.$refs.menu.save(date);
+        },
+        valorMask(e) {
+            if (!/[\d,]/.test(e.key)) {
+                e.preventDefault();
+            }
+        },
+        valorNumber(number) {
+            const string = number.replace(/\./g, '').replace(/,/g, '.');
+            return parseFloat(string);
         },
     },
 };

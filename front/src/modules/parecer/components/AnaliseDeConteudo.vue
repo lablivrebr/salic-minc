@@ -109,6 +109,8 @@
                                 <s-editor-texto
                                     v-model="analiseConteudoEmEdicao.ParecerDeConteudo"
                                     :placeholder="'Parecer técnico sobre o conteúdo do produto'"
+                                    :min-char="minChar"
+                                    @editor-texto-counter="validateText($event)"
                                 />
                             </v-flex>
                         </v-layout>
@@ -121,7 +123,9 @@
                             justify-center
                         >
                             <v-btn
+                                color="primary"
                                 :loading="loadingButton"
+                                :disabled="!textIsValid"
                                 @click="submit"
                             >
                                 <v-icon left>
@@ -173,6 +177,8 @@ export default {
             fling: false,
             hover: false,
             tabs: null,
+            minChar: 10,
+            textIsValid: false,
             editorParecerRules: {
                 show: false,
                 color: '',
@@ -232,36 +238,8 @@ export default {
 
             return true;
         },
-        validarEditor(e) {
-            if (e < 10) {
-                this.editorParecerRules = {
-                    show: true,
-                    color: 'red--text',
-                    backgroundColor: { 'background-color': '#FFCDD2' },
-                    msg: 'O Parecer deve conter mais que 10 caracteres',
-                    enable: false,
-                };
-            }
-            if (e < 1) {
-                this.editorParecerRules = {
-                    show: true,
-                    color: 'red--text',
-                    backgroundColor: { 'background-color': '#FFCDD2' },
-                    msg: 'O Laudo é obrigatório!',
-                    enable: false,
-                };
-            }
-            if (e >= 10) {
-                this.editorParecerRules = {
-                    show: false,
-                    color: '',
-                    backgroundColor: '',
-                    msg: '',
-                    enable: true,
-                };
-                return true;
-            }
-            return false;
+        validateText(e) {
+            this.textIsValid = e >= this.minChar;
         },
         labelSimOuNao(val) {
             return val ? 'Sim' : 'Não';

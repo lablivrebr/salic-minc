@@ -40,7 +40,7 @@
                     class="mb-2"
                 >
                     <b>Valor sugerido:</b>
-                    <span> R$ {{consolidacaoEmEdicao.SugeridoReal | filtroFormatarParaReal}}</span>
+                    <span> R$ {{ consolidacaoEmEdicao.SugeridoReal | filtroFormatarParaReal }}</span>
                 </v-flex>
                 <v-flex
                     xs12
@@ -51,6 +51,8 @@
                     <s-editor-texto
                         v-model="consolidacaoEmEdicao.ResumoParecer"
                         :placeholder="'Parecer técnico sobre o conteúdo do produto'"
+                        :min-char="minChar"
+                        @editor-texto-counter="validateText($event)"
                     />
                 </v-flex>
             </v-layout>
@@ -63,10 +65,12 @@
                 justify-center
             >
                 <v-btn
+                    color="primary"
                     :loading="loadingButton"
+                    :disabled="!valid || !textIsValid"
                     @click="submit"
                 >
-                    <v-icon>save</v-icon>
+                    <v-icon left>save</v-icon>
                     Salvar
                 </v-btn>
             </v-layout>
@@ -83,8 +87,8 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'Consolidacao',
-    mixins: [MxPlanilha],
     components: { SEditorTexto, SCarregando },
+    mixins: [MxPlanilha],
     props: {
         active: {
             type: Boolean,
@@ -96,6 +100,8 @@ export default {
             loadingButton: false,
             loading: true,
             valid: false,
+            minChar: 10,
+            textIsValid: false,
             editorParecerRules: {
                 show: false,
                 color: '',
@@ -141,6 +147,9 @@ export default {
         }),
         labelSimOuNao(val) {
             return val === '2' ? 'Sim' : 'Não';
+        },
+        validateText(e) {
+            this.textIsValid = e >= this.minChar;
         },
         submit() {
             // if (!this.$refs.form.validate()) {

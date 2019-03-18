@@ -29,26 +29,18 @@
                                 ref="form"
                                 v-model="valid"
                             >
-                                <div
-                                    v-show="solicitacaoRules.show"
-                                    class="text-xs-left"
-                                >
-                                    <h4 :class="solicitacaoRules.color">
-                                        {{ solicitacaoRules.msg }}*
-                                    </h4>
-                                </div>
                                 <s-editor-texto
                                     v-model="diligenciaEmEdicao.solicitacao"
-                                    placeholder="Texto da diligência:"
-                                    :style="solicitacaoRules.backgroundColor"
-                                    @editor-texto-counter="validarSolicitacao($event)"
+                                    placeholder="Texto da diligência"
+                                    :min-char="minChar"
+                                    @editor-texto-counter="validateText($event)"
                                 />
                             </v-form>
                         </v-card-text>
                         <v-card-actions class="justify-center">
                             <v-btn
                                 :loading="saveLoading"
-                                :disabled="!valid || !solicitacaoRules.enable || saveLoading"
+                                :disabled="!valid || !textIsValid || saveLoading"
                                 color="primary"
                                 @click.native="enviarDiligencia()"
                             >
@@ -68,12 +60,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import SEditorTexto from '@/components/SalicEditorTexto';
+import mixinUtils from '@/mixins/utils';
 
 export default {
     name: 'SDialoagCriarDiligencia',
     components: {
         SEditorTexto,
     },
+    mixins: [mixinUtils],
     props: {
         value: {
             type: Boolean,
@@ -100,15 +94,10 @@ export default {
         return {
             saveLoading: false,
             solicitacao: '',
+            minChar: 10,
             valid: false,
             dialog: false,
-            solicitacaoRules: {
-                show: false,
-                color: '',
-                backgroundColor: '',
-                msg: '',
-                enable: false,
-            },
+            textIsValid: false,
             diligenciaRules: [
                 v => !!v || 'Tipo de diligencia é obrigatório!',
             ],
@@ -139,6 +128,9 @@ export default {
             requestEmissaoParecer: 'avaliacaoResultados/getDadosEmissaoParecer',
             salvar: 'diligencia/salvarDiligencia',
         }),
+        validateText(e) {
+            this.textIsValid = e >= this.minChar;
+        },
         enviarDiligencia() {
             this.saveLoading = true;
             this.salvar(this.diligenciaEmEdicao).then(() => {
@@ -146,26 +138,6 @@ export default {
             }).finally(() => {
                 this.saveLoading = false;
             });
-        },
-        validarSolicitacao(e) {
-            if (e < 1) {
-                this.solicitacaoRules = {
-                    show: true,
-                    color: 'red--text',
-                    backgroundColor: { 'background-color': '#FFCDD2' },
-                    msg: 'A solicitação é obrigatória!',
-                    enable: false,
-                };
-            }
-            if (e > 0) {
-                this.solicitacaoRules = {
-                    show: false,
-                    color: '',
-                    backgroundColor: '',
-                    msg: '',
-                    enable: true,
-                };
-            }
         },
     },
 };

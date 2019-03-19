@@ -93,6 +93,7 @@
             <v-btn
                 color="primary"
                 :disabled="remainingTasks > 0"
+                @click="finalizarParecer()"
             >
                 <v-icon left>
                     send
@@ -224,6 +225,7 @@ export default {
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
             obterProdutosSecundarios: 'parecer/obterProdutosSecundarios',
             obterConsolidacao: 'parecer/obterConsolidacao',
+            finalizarAnalise: 'parecer/finalizarAnalise',
         }),
         checkTask(task, index) {
             if (!!this[task.getter].length
@@ -261,6 +263,20 @@ export default {
                 this.deleteTaskByName('analise-consolidacao');
             }
             this.loading = false;
+        },
+        finalizarParecer() {
+            if (this.remainingTasks > 0) {
+                return;
+            }
+
+            const analise = {
+                idPronac: this.produto.IdPRONAC,
+                idProduto: this.produto.idProduto,
+                idDistribuirParecer: this.produto.idDistribuirParecer,
+                situacao: this.produto.situacao,
+            };
+
+            this.finalizarAnalise(analise);
         },
     },
 };

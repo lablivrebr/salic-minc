@@ -20,15 +20,11 @@ class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Res
 
     public function getAction(){
         $idPronac = $this->getRequest()->getParam('idPronac');
-        //TODO: Implementar Passagem de parametros do frontEnd 100, 99 , 95 , 90%
-        //$percent = $this->getRequest()->getParam('percent');
-        $percent = '5';
         $data = [];
         $code = 200;
 
         $planilhaAprovacaoModel = new PlanilhaAprovacao();
-        $resposta = $planilhaAprovacaoModel->planilhaAprovadaAmostragem($idPronac, $percent);
-        /* var_dump(empty($resposta->toArray()));die; */
+        $resposta = $planilhaAprovacaoModel->planilhaAprovada($idPronac);
 
         $planilhaJSON = null;
 
@@ -111,8 +107,6 @@ class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Res
             $code = 400;
             $data['data']['erro'] = ['message' => 'Não existe planilha para esse projeto!'];
         }
-
-        /* $data = \TratarArray::utf8EncodeArray($data); */
 
         $this->customRenderJsonResponse($data, $code);
     }

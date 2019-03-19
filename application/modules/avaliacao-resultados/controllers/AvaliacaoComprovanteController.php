@@ -34,10 +34,8 @@ class AvaliacaoResultados_AvaliacaoComprovanteController extends MinC_Controller
 
         $comprovantesService = new AvaliacaoComprovantesService($this->getRequest(), $this->getResponse());
         $comprovantes = $comprovantesService->buscarComprovantes();
-//        $dadosItem = $comprovantesService->buscarDadosAvaliacaoComprovante();
 
         $this->renderJsonResponse([
-//            'dadosItem' => $dadosItem,
             'comprovantes' => $comprovantes
         ], 200);
     }

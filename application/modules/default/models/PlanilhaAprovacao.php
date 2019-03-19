@@ -2835,6 +2835,8 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
         }
 
         $select->order('vlUnitario','desc');
+        xd($this->fetchAll($select));
+        die;
         return $this->fetchAll($select);
     }
 
@@ -2954,12 +2956,6 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
              'sac.dbo'
         );
 
-        /* $select->where('a.tpplanilha = ?', 'SR'); */
-        /* $select->where(new Zend_Db_Expr(' */
-        /*     sac.dbo.fnVlAprovado_Fonte_Produto_Etapa_Local_Item */
-        /*         (a.idPronac,a.nrFonteRecurso,a.idProduto,a.idEtapa,a.idUFDespesa, */
-        /*         a.idMunicipioDespesa,a.idPlanilhaItem) > 0 */
-        /*     ')); */
         $select->where("a.tpacao <> 'E' OR a.tpacao is null");
         $select->where('a.IdPRONAC = ?', $idpronac);
         $select->where('a.nrFonteRecurso = 109');

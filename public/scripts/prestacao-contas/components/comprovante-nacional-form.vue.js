@@ -427,8 +427,7 @@ Vue.component('sl-comprovante-nacional-form',
 
                     // let c = JSON.parse(JSON.stringify(this.comprovante))
                     let c = Object.assign({}, this.comprovante);
-                    c.valor = numeral(c.valor)
-                        .value();
+                    c.valor = numeral(c.valor).value();
                     formData.append('comprovante', JSON.stringify(c));
 
                     $3.ajax({

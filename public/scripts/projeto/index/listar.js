@@ -89,7 +89,7 @@ $(document).ready(function () {
         var table = $('#lista-de-projetos').DataTable(
             {
                 "language": {
-                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                    "url": "/public/js/Portuguese-Brasil.json"
                 },
                 "lengthChange": true,
                 "ajax": {

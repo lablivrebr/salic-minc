@@ -24,7 +24,7 @@ class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Res
         $code = 200;
 
         $planilhaAprovacaoModel = new PlanilhaAprovacao();
-        $resposta = $planilhaAprovacaoModel->planilhaAprovada($idPronac);
+        $resposta = $planilhaAprovacaoModel->planilhaAprovadaAmostragem($idPronac);
 
         $planilhaJSON = null;
 
@@ -102,6 +102,30 @@ class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Res
                 ];
             }
             $data = $planilhaJSON;
+// :TODO Elabaroar o Json com os Comprovantes para a planilha depois acrescentar o PERCENTUAL de AMOSTRAGEM
+//            idPronac
+//            cdProduto
+//            Produto
+//            j.UF
+//            j.Municipio
+//            Etapa
+//            Item
+//            idComprovantePagamento
+//            idPlanilhaAprovacao
+//            CNPJCPF
+//            Fornecedor
+//            DtComprovacao
+//            tpDocumento
+//            nrComprovante
+//            DtPagamento
+//            tpFormaDePagamento
+//            dsJustificativa
+//            nrDocumentoDePagamento
+//            vlPagamento
+//            idArquivo
+//            nmArquivo
+//            stEstado
+
 
         } else {
             $code = 400;

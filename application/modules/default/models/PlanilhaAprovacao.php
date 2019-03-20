@@ -2696,7 +2696,7 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
 
     public function planilhaAprovadaAmostragem(
         $idpronac,
-        $percent,
+//        $percent,
         $uf = null,
         $idPlanilhaEtapa = null,
         $codigoProduto = null,
@@ -2778,7 +2778,7 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
             a.VlUnitario as valor
         ");
 
-        $select = $this->select()->distinct()->limit(100);
+        $select = $this->select()->distinct()->limit(15);
         $select->setIntegrityCheck(false);
 
         $select->from(
@@ -2906,7 +2906,9 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
             $select->where('d.codigo is null');
         }
 
-        $select->order('g.vlComprovado','desc');
+        $select->order('vlUnitario desc');
+        xd($this->fetchAll($select));
+        die;
         return $this->fetchAll($select);
 
     }

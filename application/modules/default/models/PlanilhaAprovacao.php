@@ -2837,7 +2837,113 @@ class PlanilhaAprovacao extends MinC_Db_Table_Abstract
         $select->order('vlUnitario','desc');
         xd($this->fetchAll($select));
         die;
+
+
+        $cols = new Zend_Db_Expr("PERCENT
+            c.idPronac,c.idProduto as cdProduto,
+           CASE
+               WHEN c.idProduto = 0 THEN 'Administração do Projeto'
+               ELSE l.Descricao
+               END as Produto,
+           j.UF,j.Municipio,k.Descricao as Etapa,d.Descricao as Item,b.idComprovantePagamento,
+           c.idPlanilhaAprovacao,g.CNPJCPF,e.Descricao as Fornecedor,b.DtPagamento as DtComprovacao,
+           CASE tpDocumento
+               WHEN 1 THEN ('Cupom Fiscal')
+               WHEN 2 THEN ('Guia de Recolhimento')
+               WHEN 3 THEN ('Nota Fiscal/Fatura')
+               WHEN 4 THEN ('Recibo de Pagamento')
+               WHEN 5 THEN ('RPA')
+               ELSE ''
+               END as tpDocumento,
+           b.nrComprovante,b.dtEmissao as DtPagamento,
+           CASE
+               WHEN b.tpFormaDePagamento = '1' THEN 'Cheque'
+               WHEN b.tpFormaDePagamento = '2' THEN 'Transferencia Bancária'
+               WHEN b.tpFormaDePagamento = '3' THEN 'Saque/Dinheiro'
+               ELSE ''
+               END as tpFormaDePagamento,b.dsJustificativa,
+           b.nrDocumentoDePagamento,a.vlComprovado as vlPagamento,b.idArquivo,f.nmArquivo,
+           CASE
+               WHEN a.stItemAvaliado = 1 THEN 'Validado'
+               WHEN a.stItemAvaliado = 3 THEN 'Impugnado'
+               WHEN a.stItemAvaliado = 4 THEN 'Sem Análise'
+               END AS stEstado");
+
+        $select = $this->select()->distinct()->limit($percent);
+        $select->setIntegrityCheck(false);
+
+        $select->from(
+            ['a' => 'tbComprovantePagamentoxPlanilhaAprovacao'],
+            $cols,
+            'BDCORPORATIVO.scSAC'
+        );
+
+        $select->joinInner(
+            ['b' => 'tbComprovantePagamento'],
+            "(a.idComprovantePagamento = b.idComprovantePagamento)",
+            [],
+            'BDCORPORATIVO.scSAC'
+        );
+        $select->joinLeft(
+            ['c' => 'tbPlanilhaAprovacao'],
+            "(a.idPlanilhaAprovacao = c.idPlanilhaAprovacao)",
+            [],
+            'SAC.dbo'
+        );
+        $select->joinLeft(
+            ['d' => 'tbPlanilhaItens'],
+            "(c.idPlanilhaItem = d.idPlanilhaItens)",
+            [],
+            'SAC.dbo'
+        );
+        $select->joinLeft(
+            ['e' => 'Nomes'],
+            "(b.idFornecedor = e.idAgente)",
+            [],
+            'Agentes.dbo'
+        );
+        $select->joinLeft(
+            ['f' => 'tbArquivo'],
+            "(b.idArquivo = f.idArquivo)",
+            [],
+            'BDCORPORATIVO.scCorp'
+        );
+        $select->joinLeft(
+            ['g' => 'Agentes'],
+            "(b.idFornecedor = g.idAgente)",
+            [],
+            'Agentes.dbo'
+        );
+        $select->joinLeft(
+            ['i' => 'EnderecoNacional'],
+            "(b.idFornecedor = i.idAgente AND i.Status = 1)",
+            [],
+            'Agentes.dbo'
+        );
+        $select->joinLeft(
+            ['j' => 'vUFMunicipio'],
+            "(b.idFornecedor = i.idAgente AND i.Status = 1)",
+            [],
+            'Agentes.dbo'
+        );
+        $select->joinLeft(
+            ['k' => 'tbPlanilhaEtapa'],
+            "(c.idEtapa = k.idPlanilhaEtapa)",
+            [],
+            'SAC.dbo'
+        );
+        $select->joinLeft(
+            ['l' => 'Produto'],
+            "(c.idProduto = l.Codigo)",
+            [],
+            'SAC.dbo'
+        );
+
+        $select->where('c.IdPRONAC = ?', $idpronac);
+        $select->order('a.vlComprovado','desc');
+
         return $this->fetchAll($select);
+
     }
 
     public function planilhaAprovada(

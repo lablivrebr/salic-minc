@@ -30,7 +30,11 @@
                 <v-spacer/>
             </v-toolbar>
             <v-card-text>
-                <v-form v-model="valid">
+                <v-form
+                    ref="form"
+                    v-model="valid"
+                    lazy-validation
+                >
                     <v-container>
                         <h3 class="mb-2">IDENTIFICAÇÃO DO CONTRATADO</h3>
                         <v-layout
@@ -112,7 +116,7 @@
                             >
                                 <v-select
                                     :items="tipoComprovante"
-                                    value="Cupom Fiscal"
+                                    :value="tipoComprovante[0]"
                                     label="TIPO COMPROVANTE *"
                                     outline
                                 />
@@ -137,6 +141,7 @@
                                     <v-text-field
                                         slot="activator"
                                         v-model="dataEmissaoFormatada"
+                                        :rules="dataEmissaoRules"
                                         :hint="`*Início em: ${dataInicioFormatada} até ${dataFimFormatada}`"
                                         persistent-hint
                                         label="DATA DA EMISSÃO *"
@@ -161,9 +166,11 @@
                                 md3
                             >
                                 <v-text-field
+                                    :rules="numeroRules"
                                     label="NÚMERO *"
                                     placeholder="00000000"
                                     outline
+                                    @keypress="apenasNumeros"
                                 />
                             </v-flex>
                             <v-flex
@@ -172,7 +179,7 @@
                             >
                                 <v-text-field
                                     label="SÉRIE"
-                                    placeholder="00000000"
+                                    placeholder="00000000000"
                                     outline
                                 />
                             </v-flex>
@@ -217,7 +224,7 @@
                             >
                                 <v-select
                                     :items="formasPagamento"
-                                    value="Cheque"
+                                    :value="formasPagamento[0]"
                                     label="FORMA DE PAGAMENTO *"
                                     outline
                                 />
@@ -242,6 +249,7 @@
                                     <v-text-field
                                         slot="activator"
                                         v-model="dataPagamentoFormatada"
+                                        :rules="dataPagamentoRules"
                                         label="DATA PAGAMENTO *"
                                         placeholder="DD/MM/AAAA"
                                         append-icon="event"
@@ -251,6 +259,7 @@
                                     <v-date-picker
                                         ref="dataPagamentoPicker"
                                         v-model="dataPagamento"
+                                        :max="new Date().toISOString()"
                                         no-title
                                         locale="pt-br"
                                         @change="save('dataPagamentoMenu')"
@@ -263,9 +272,11 @@
                                 lg3
                             >
                                 <v-text-field
+                                    :rules="numeroRules"
                                     label="Nº DOCUMENTO PAGAMENTO *"
-                                    placeholder="00000000"
+                                    placeholder="00000000000"
                                     outline
+                                    @keypress="apenasNumeros"
                                 />
                             </v-flex>
                             <v-flex
@@ -307,8 +318,10 @@
             <v-card-actions>
                 <v-spacer/>
                 <v-btn
+                    :disabled="!valid"
                     flat
                     color="success"
+                    @click="submit"
                 >
                     Salvar
                 </v-btn>
@@ -340,7 +353,9 @@ export default {
     },
     data() {
         return {
-            valid: false,
+            dialog: false,
+            valid: true,
+
             cpfCnpjLabel: 'CNPJ',
             cpfCnpj: '',
             cpfRules: [
@@ -351,27 +366,37 @@ export default {
                 cnpj => !!cnpj || 'O campo CNPJ é obrigatório!',
                 cnpj => cnpj.length === 14 || 'O CNPJ informado não é válido!',
             ],
+
+            tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
             dataEmissao: '',
             dataEmissaoPicker: false,
+            dataEmissaoRules: [
+                data => !!data || 'O campo data de emissão é obrigatório!',
+            ],
+            numeroRules: [
+                numero => !!numero || 'O campo Número é obrigatório!',
+            ],
+            nomeArquivo: '',
+            arquivoBinario: '',
+            arquivo: '',
+
+            formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
+            dataPagamento: '',
             dataPagamentoPicker: false,
+            dataPagamentoRules: [
+                data => !!data || 'O campo data de pagamento é obrigatório!',
+            ],
             valor: 'R$ 0,00',
+            valorRules: [
+                valor => (this.valorNumber(valor) > 0) || 'O campo valor é obrigatório e deve ser maior que 0(zero)!',
+                valor => (this.valorNumber(valor) <= this.valorNumber(this.valorComprovar)) || 'O valor informado é maior que o valor a comprovar!',
+            ],
             money: {
                 decimal: ',',
                 thousands: '.',
                 prefix: 'R$ ',
                 precision: 2,
             },
-            valorRules: [
-                valor => (this.valorNumber(valor) > 0) || 'O campo valor é obrigatório e deve ser maior que 0(zero)!',
-                valor => (this.valorNumber(valor) <= this.valorNumber(this.valorComprovar)) || 'O valor informado é maior que o valor a comprovar!',
-            ],
-            dataPagamento: '',
-            tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
-            formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
-            nomeArquivo: '',
-            arquivoBinario: '',
-            arquivo: '',
-            dialog: false,
         };
     },
     computed: {
@@ -455,17 +480,20 @@ export default {
         save(picker, date) {
             this.$refs[picker].save(date);
         },
-        valorMask(e) {
-            if (!/[\d,]/.test(e.key)) {
+        apenasNumeros(e) {
+            if (e.charCode < 48 || e.charCode > 57) {
                 e.preventDefault();
             }
         },
+        // Converte uma string de preço para um número flutuante
         valorNumber(number) {
             let string = number.replace(/R\$/g, ''); // Retira prefixo R$
             string = string.replace(/\./g, ''); // Retira pontos
             string = string.replace(/,/g, '.'); // Transforma vírgulas em pontos
-            console.log(string);
             return parseFloat(string);
+        },
+        submit() {
+            this.$refs.form.validate();
         },
     },
 };

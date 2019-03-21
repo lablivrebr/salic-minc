@@ -45,14 +45,13 @@
                                     label="TIPO DO FORNECEDOR"
                                 >
                                     <v-radio
-                                        label="CPF"
-                                        value="CPF"
-                                        color="teal"
-
-                                    />
-                                    <v-radio
                                         label="CNPJ"
                                         value="CNPJ"
+                                        color="teal"
+                                    />
+                                    <v-radio
+                                        label="CPF"
+                                        value="CPF"
                                         color="teal"
 
                                     />
@@ -63,17 +62,16 @@
                                 md3
                             >
                                 <v-text-field
-                                    :label="cpfCnpjLabel"
+                                    :label="`${cpfCnpjLabel} *`"
                                     :rules="cpfCnpjRules"
                                     v-model="cpfCnpj"
+                                    :mask="cpfCnpjMask"
+                                    :placeholder="cpfCnpjPlaceholder"
                                     validate-on-blur
-                                    mask="###.###.###-##"
-                                    placeholder="000.000.000-00"
                                     outline
                                     append-icon="search"
                                     @click:append="buscarAgente(cpfCnpjParams)"
                                     @keyup.enter="buscarAgente(cpfCnpjParams)"
-                                    @blur="buscarAgente(cpfCnpjParams)"
                                 />
                             </v-flex>
                             <v-flex
@@ -115,7 +113,7 @@
                                 <v-select
                                     :items="tipoComprovante"
                                     value="Cupom Fiscal"
-                                    label="TIPO COMPROVANTE"
+                                    label="TIPO COMPROVANTE *"
                                     outline
                                 />
                             </v-flex>
@@ -125,8 +123,8 @@
                                 md3
                             >
                                 <v-menu
-                                    ref="menu"
-                                    v-model="datePicker"
+                                    ref="dataEmissaoMenu"
+                                    v-model="dataEmissaoPicker"
                                     :close-on-content-click="false"
                                     :nudge-right="40"
                                     lazy
@@ -141,20 +139,20 @@
                                         v-model="dataEmissaoFormatada"
                                         :hint="`*Início em: ${dataInicioFormatada} até ${dataFimFormatada}`"
                                         persistent-hint
-                                        label="DATA DA EMISSÃO"
+                                        label="DATA DA EMISSÃO *"
                                         placeholder="DD/MM/AAAA"
                                         append-icon="event"
                                         outline
                                         readonly
                                     />
                                     <v-date-picker
-                                        ref="picker"
+                                        ref="dataEmissaoPicker"
                                         v-model="dataEmissao"
                                         :min="dataInicio"
                                         :max="dataFim"
                                         no-title
                                         locale="pt-br"
-                                        @change="save"
+                                        @change="save('dataEmissaoMenu')"
                                     />
                                 </v-menu>
                             </v-flex>
@@ -163,7 +161,7 @@
                                 md3
                             >
                                 <v-text-field
-                                    label="NÚMERO"
+                                    label="NÚMERO *"
                                     placeholder="00000000"
                                     outline
                                 />
@@ -187,7 +185,7 @@
                                     color="teal"
                                     @click="pickFile"
                                 >
-                                    COMPROVANTE<v-icon right>attachment</v-icon>
+                                    COMPROVANTE *<v-icon right>attachment</v-icon>
                                 </v-btn>
                                 <v-text-field
                                     v-model="nomeArquivo"
@@ -220,7 +218,7 @@
                                 <v-select
                                     :items="formasPagamento"
                                     value="Cheque"
-                                    label="FORMA DE PAGAMENTO"
+                                    label="FORMA DE PAGAMENTO *"
                                     outline
                                 />
                             </v-flex>
@@ -229,11 +227,35 @@
                                 md6
                                 lg3
                             >
-                                <v-text-field
-                                    label="DATA DO PAGAMENTO"
-                                    placeholder="DD/MM/AAAA"
-                                    outline
-                                />
+                                <v-menu
+                                    ref="dataPagamentoMenu"
+                                    v-model="dataPagamentoPicker"
+                                    :close-on-content-click="false"
+                                    :nudge-right="40"
+                                    lazy
+                                    transition="scale-transition"
+                                    offset-y
+                                    full-width
+                                    max-width="290px"
+                                    min-width="290px"
+                                >
+                                    <v-text-field
+                                        slot="activator"
+                                        v-model="dataPagamentoFormatada"
+                                        label="DATA PAGAMENTO *"
+                                        placeholder="DD/MM/AAAA"
+                                        append-icon="event"
+                                        outline
+                                        readonly
+                                    />
+                                    <v-date-picker
+                                        ref="dataPagamentoPicker"
+                                        v-model="dataPagamento"
+                                        no-title
+                                        locale="pt-br"
+                                        @change="save('dataPagamentoMenu')"
+                                    />
+                                </v-menu>
                             </v-flex>
                             <v-flex
                                 sm12
@@ -241,7 +263,7 @@
                                 lg3
                             >
                                 <v-text-field
-                                    label="Nº DOCUMENTO PAGAMENTO"
+                                    label="Nº DOCUMENTO PAGAMENTO *"
                                     placeholder="00000000"
                                     outline
                                 />
@@ -255,7 +277,7 @@
                                     :hint="`*Atual: R$ ${valorAtual} / Máx: R$ ${valorComprovar}`"
                                     :rules="valorRules"
                                     v-model="valor"
-                                    label="VALOR"
+                                    label="VALOR *"
                                     placeholder="00,00"
                                     prefix="R$"
                                     persistent-hint
@@ -318,14 +340,19 @@ export default {
     data() {
         return {
             valid: false,
-            cpfCnpjLabel: 'CPF',
+            cpfCnpjLabel: 'CNPJ',
             cpfCnpj: '',
-            cpfCnpjRules: [
-                cpfCnpj => !!cpfCnpj || `O campo ${this.cpfCnpjLabel} é obrigatório!`,
-                cpfCnpj => cpfCnpj.length === 11 || `O ${this.cpfCnpjLabel} informado não é válido!`,
+            cpfRules: [
+                cpf => !!cpf || 'O campo CPF é obrigatório!',
+                cpf => cpf.length === 11 || 'O CPF informado não é válido!',
+            ],
+            cnpjRules: [
+                cnpj => !!cnpj || 'O campo CNPJ é obrigatório!',
+                cnpj => cnpj.length === 14 || 'O CNPJ informado não é válido!',
             ],
             dataEmissao: '',
-            datePicker: false,
+            dataEmissaoPicker: false,
+            dataPagamentoPicker: false,
             valor: '',
             valorRules: [
                 valor => !!valor || 'O campo valor é obrigatório!',
@@ -333,6 +360,7 @@ export default {
                 valor => (this.valorNumber(valor) > 0) || 'O valor informado deve ser maior que 0(zero)!',
                 valor => (this.valorNumber(valor) <= this.valorNumber(this.valorComprovar)) || 'O valor informado é maior que o valor a comprovar!',
             ],
+            dataPagamento: '',
             tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
             formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
             nomeArquivo: '',
@@ -345,8 +373,21 @@ export default {
         ...mapGetters({
             agente: 'avaliacaoResultados/buscarAgente',
         }),
+        cpfCnpjMask() {
+            const cpfMask = '###.###.###-##';
+            const cnpjMask = '##.###.###/####-##';
+            return this.cpfCnpjLabel === 'CNPJ' ? cnpjMask : cpfMask;
+        },
+        cpfCnpjPlaceholder() {
+            const cpfPlaceholder = '000.000.000-00';
+            const cnpjPlaceholder = '00.000.000/0000-00';
+            return this.cpfCnpjLabel === 'CNPJ' ? cnpjPlaceholder : cpfPlaceholder;
+        },
+        cpfCnpjRules() {
+            return this.cpfCnpjLabel === 'CNPJ' ? this.cnpjRules : this.cpfRules;
+        },
         nomeRazaoSocialLabel() {
-            return this.cpfCnpjLabel === 'CPF' ? 'NOME' : 'RAZÃO SOCIAL';
+            return this.cpfCnpjLabel === 'CNPJ' ? 'RAZÃO SOCIAL' : 'NOME';
         },
         nomeRazaoSocial() {
             return this.agente[0] ? this.agente[0].agente.nome : '';
@@ -360,12 +401,25 @@ export default {
             const [ano, mes, dia] = this.dataEmissao.split('-');
             return `${dia}/${mes}/${ano}`;
         },
+        dataPagamentoFormatada() {
+            if (!this.dataPagamento) return null;
+
+            const [ano, mes, dia] = this.dataPagamento.split('-');
+            return `${dia}/${mes}/${ano}`;
+        },
     },
     watch: {
-        datePicker(val) {
+        dataEmissaoPicker(val) {
             if (val) {
                 setTimeout(() => {
-                    this.$refs.picker.activePicker = 'YEAR';
+                    this.$refs.dataEmissaoPicker.activePicker = 'YEAR';
+                });
+            }
+        },
+        dataPagamentoPicker(val) {
+            if (val) {
+                setTimeout(() => {
+                    this.$refs.dataPagamentoPicker.activePicker = 'YEAR';
                 });
             }
         },
@@ -393,8 +447,8 @@ export default {
                 this.arquivoBinario = '';
             }
         },
-        save(date) {
-            this.$refs.menu.save(date);
+        save(picker, date) {
+            this.$refs[picker].save(date);
         },
         valorMask(e) {
             if (!/[\d,]/.test(e.key)) {

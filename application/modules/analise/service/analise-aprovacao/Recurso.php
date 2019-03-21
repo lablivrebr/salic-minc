@@ -77,12 +77,16 @@ class Recurso implements \MinC\Servico\IServicoRestZend
 
                     }
 
+                    $fnVerificarProjetoAprovadoIN2017 = new \fnVerificarProjetoAprovadoIN2017();
+                    $in2017 = $fnVerificarProjetoAprovadoIN2017->verificar($idPronac);
+
                     $data[] = [
                         'dadosRecurso' => $recurso ,
                         'desistenciaRecurso' => $recurso['siRecurso'] == 0 ? true : false,
                         'produtosRecurso' => $dadosProdutos,
                         'projetosENRecurso' => $projetosENRecurso,
-                        'parecerRecurso' => $parecer
+                        'parecerRecurso' => $parecer,
+                        'in2017' => ($in2017 == 1) ?  true : false
                     ];
                 }
             }

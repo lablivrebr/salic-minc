@@ -274,15 +274,14 @@
                                 lg3
                             >
                                 <v-text-field
+                                    v-money="money"
                                     :hint="`*Atual: R$ ${valorAtual} / Máx: R$ ${valorComprovar}`"
                                     :rules="valorRules"
                                     v-model="valor"
                                     label="VALOR *"
                                     placeholder="00,00"
-                                    prefix="R$"
                                     persistent-hint
                                     outline
-                                    @keypress="valorMask"
                                 />
                             </v-flex>
                         </v-layout>
@@ -327,8 +326,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { VMoney } from 'v-money';
 
 export default {
+    directives: { money: VMoney },
     props: {
         dataInicioFormatada: { type: String, default: '' },
         dataFimFormatada: { type: String, default: '' },
@@ -353,11 +354,15 @@ export default {
             dataEmissao: '',
             dataEmissaoPicker: false,
             dataPagamentoPicker: false,
-            valor: '',
+            valor: 'R$ 0,00',
+            money: {
+                decimal: ',',
+                thousands: '.',
+                prefix: 'R$ ',
+                precision: 2,
+            },
             valorRules: [
-                valor => !!valor || 'O campo valor é obrigatório!',
-                valor => /^\d+(,\d{1,2})?$/.test(valor) || 'O valor informado é inválido!',
-                valor => (this.valorNumber(valor) > 0) || 'O valor informado deve ser maior que 0(zero)!',
+                valor => (this.valorNumber(valor) > 0) || 'O campo valor é obrigatório e deve ser maior que 0(zero)!',
                 valor => (this.valorNumber(valor) <= this.valorNumber(this.valorComprovar)) || 'O valor informado é maior que o valor a comprovar!',
             ],
             dataPagamento: '',
@@ -456,7 +461,10 @@ export default {
             }
         },
         valorNumber(number) {
-            const string = number.replace(/\./g, '').replace(/,/g, '.');
+            let string = number.replace(/R\$/g, ''); // Retira prefixo R$
+            string = string.replace(/\./g, ''); // Retira pontos
+            string = string.replace(/,/g, '.'); // Transforma vírgulas em pontos
+            console.log(string);
             return parseFloat(string);
         },
     },

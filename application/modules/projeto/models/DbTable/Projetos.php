@@ -766,4 +766,25 @@ class Projeto_Model_DbTable_Projetos extends MinC_Db_Table_Abstract
 
         return $this->fetchAll($query);
     }
+
+    public function possuiCalculoAutomaticoCustosVinculados($idPronac)
+    {
+        $query = $this->select();
+        $query->setIntegrityCheck(false);
+        $query->from(
+            ['tbProjetoFase' => 'tbProjetoFase'],
+            ['idPronac'],
+            'sac'
+        );
+        
+        $idNormativoCustosVinculados = 6;
+
+        $query->where('idPronac = ?', $idPronac);
+        $query->where('idNormativo > ?', $idNormativoCustosVinculados);
+        
+        $result = $this->fetchRow($query);
+        if ($result) {
+            return true;
+        }
+    }
 }

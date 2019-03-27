@@ -106,20 +106,6 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                     break;
                 case $modelCustosVinculados::ID_REMUNERACAO_CAPTACAO:
                     $item['percentualPadrao'] = $percentualRemuneracaoCaptacao;
-
-                    $projetos = new Projetos();
-                    $projeto = $projetos->buscar(['idProjeto = ?' => $idPreProjeto]);
-                    if (count($projeto) > 0) {
-                        $tbPlanilhaAprovacaoModel = new tbPlanilhaAprovacao();
-                        $idPronac = $projeto->current()['IdPRONAC'];
-
-                        $valorRemuneracaoCaptacaoAprovado = $tbPlanilhaAprovacaoModel->obterValorRemuneracaoCaptacaoAprovado($idPronac);
-                        if (!empty($valorRemuneracaoCaptacaoAprovado)
-                            && $limiteRemuneracaoCaptacao > $valorRemuneracaoCaptacaoAprovado) {
-                            $limiteRemuneracaoCaptacao = $valorRemuneracaoCaptacaoAprovado;
-                        }
-                    }
-
                     $item['limitePadrao'] = $limiteRemuneracaoCaptacao;
                     break;
             }

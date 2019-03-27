@@ -508,23 +508,26 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $idPronac,
             Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
         );
-        
-        $atualizarCustosVinculados = $this->atualizarCustosVinculados(
-            $idPronac,
-            $idReadequacao
-        );
-        
-        if ($atualizarCustosVinculados['erro']) {
-            $this->reverterAlteracaoItem(
-                $idPronac,
-                $idReadequacao,
-                $editarItem->idPlanilhaItem
-            );
 
-            $this->_helper->json([
-                'resposta' => false,
-                'mensagem' => $atualizarCustosVinculados['mensagem']
-            ]);            
+        $projetosDbTable = new Projeto_Model_DbTable_Projetos();
+        if ($projetosDbTable->possuiCalculoAutomaticoCustosVinculados($idPronac)) {
+            $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+                $idPronac,
+                $idReadequacao
+            );
+            
+            if ($atualizarCustosVinculados['erro']) {
+                $this->reverterAlteracaoItem(
+                    $idPronac,
+                    $idReadequacao,
+                    $editarItem->idPlanilhaItem
+                );
+
+                $this->_helper->json([
+                    'resposta' => false,
+                    'mensagem' => $atualizarCustosVinculados['mensagem']
+                ]);
+            }
         }
         
         $this->_helper->json(array('resposta' => true, 'msg' => 'Dados salvos com sucesso!'));

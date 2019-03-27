@@ -3,6 +3,8 @@
         <!-- Criar Comprovante -->
         <comprovar-pagamento
             v-if="dadosProjeto.dtInicioExecucao"
+            :id-planilha-itens="idPlanilhaItens"
+            :id-planilha-aprovacao="idPlanilhaAprovacao"
             :data-inicio-formatada="dadosProjeto.dtInicioExecucao | dataFilter"
             :data-fim-formatada="dadosProjeto.dtFimExecucao | dataFilter"
             :data-inicio="dadosProjeto.dtInicioExecucao"

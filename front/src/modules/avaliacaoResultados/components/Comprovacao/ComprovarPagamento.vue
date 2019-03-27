@@ -71,6 +71,7 @@
                                     v-model="cpfCnpj"
                                     :mask="cpfCnpjMask"
                                     :placeholder="cpfCnpjPlaceholder"
+                                    return-masked-value
                                     validate-on-blur
                                     outline
                                     append-icon="search"
@@ -115,8 +116,10 @@
                                 md3
                             >
                                 <v-select
-                                    :items="tipoComprovante"
-                                    :value="tipoComprovante[0]"
+                                    :items="tipoComprovanteOpcoes"
+                                    v-model="tipoComprovante"
+                                    item-value="value"
+                                    item-text="text"
                                     label="TIPO COMPROVANTE *"
                                     outline
                                 />
@@ -167,6 +170,7 @@
                             >
                                 <v-text-field
                                     :rules="numeroRules"
+                                    v-model="numero"
                                     label="NÚMERO *"
                                     placeholder="00000000"
                                     outline
@@ -178,6 +182,7 @@
                                 md3
                             >
                                 <v-text-field
+                                    v-model="serie"
                                     label="SÉRIE"
                                     placeholder="00000000000"
                                     outline
@@ -208,6 +213,7 @@
                                     ref="inputComprovante"
                                     type="file"
                                     style="display: none;"
+                                    accept=".pdf"
                                     @change="onFilePicked"
                                 >
                             </v-flex>
@@ -223,8 +229,10 @@
                                 lg3
                             >
                                 <v-select
-                                    :items="formasPagamento"
-                                    :value="formasPagamento[0]"
+                                    :items="formaPagamentoOpcoes"
+                                    v-model="formaPagamento"
+                                    item-value="value"
+                                    item-text="text"
                                     label="FORMA DE PAGAMENTO *"
                                     outline
                                 />
@@ -273,6 +281,7 @@
                             >
                                 <v-text-field
                                     :rules="numeroRules"
+                                    v-model="numeroDocumentoPagamento"
                                     label="Nº DOCUMENTO PAGAMENTO *"
                                     placeholder="00000000000"
                                     outline
@@ -305,6 +314,7 @@
                                 xs12
                             >
                                 <v-textarea
+                                    v-model="justificativa"
                                     value=""
                                     placeholder="Digite aqui a justificativa."
                                     no-resize
@@ -340,10 +350,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { VMoney } from 'v-money';
+import axios from 'axios';
 
 export default {
     directives: { money: VMoney },
     props: {
+        idPlanilhaItens: { type: String, default: '' },
+        idPlanilhaAprovacao: { type: String, default: '' },
         dataInicioFormatada: { type: String, default: '' },
         dataFimFormatada: { type: String, default: '' },
         dataInicio: { type: String, default: '' },
@@ -360,32 +373,47 @@ export default {
             cpfCnpj: '',
             cpfRules: [
                 cpf => !!cpf || 'O campo CPF é obrigatório!',
-                cpf => cpf.length === 11 || 'O CPF informado não é válido!',
+                cpf => cpf.length === 14 || 'O CPF informado não é válido!',
             ],
             cnpjRules: [
                 cnpj => !!cnpj || 'O campo CNPJ é obrigatório!',
-                cnpj => cnpj.length === 14 || 'O CNPJ informado não é válido!',
+                cnpj => cnpj.length === 18 || 'O CNPJ informado não é válido!',
             ],
 
-            tipoComprovante: ['Cupom Fiscal', 'Guia de Recolhimento', 'Nota Fiscal/Fatura', 'Recibo de Pagamento', 'RPA'],
+            tipoComprovante: 1,
+            tipoComprovanteOpcoes: [
+                { value: 1, text: 'Cupom Fiscal' },
+                { value: 2, text: 'Guia de Recolhimento' },
+                { value: 3, text: 'Nota Fiscal/Fatura' },
+                { value: 4, text: 'Recibo de Pagamento' },
+                { value: 5, text: 'RPA' },
+            ],
             dataEmissao: '',
             dataEmissaoPicker: false,
             dataEmissaoRules: [
                 data => !!data || 'O campo data de emissão é obrigatório!',
             ],
+            numero: '',
             numeroRules: [
                 numero => !!numero || 'O campo Número é obrigatório!',
             ],
+            serie: '',
             nomeArquivo: '',
-            arquivoBinario: '',
             arquivo: '',
+            foiAtualizado: false,
 
-            formasPagamento: ['Cheque', 'Transferência Bancária', 'Saque/Dinheiro'],
+            formaPagamento: 1,
+            formaPagamentoOpcoes: [
+                { value: 1, text: 'Cheque' },
+                { value: 2, text: 'Transferência Bancária' },
+                { value: 3, text: 'Saque/Dinheiro' },
+            ],
             dataPagamento: '',
             dataPagamentoPicker: false,
             dataPagamentoRules: [
                 data => !!data || 'O campo data de pagamento é obrigatório!',
             ],
+            numeroDocumentoPagamento: '',
             valor: 'R$ 0,00',
             valorRules: [
                 valor => (this.valorNumber(valor) > 0) || 'O campo valor é obrigatório e deve ser maior que 0(zero)!',
@@ -397,6 +425,7 @@ export default {
                 prefix: 'R$ ',
                 precision: 2,
             },
+            justificativa: '',
         };
     },
     computed: {
@@ -464,17 +493,9 @@ export default {
         onFilePicked(e) {
             const arquivo = e.target.files[0];
             if (arquivo) {
+                this.arquivo = arquivo;
                 this.nomeArquivo = arquivo.name;
-                const fileReader = new FileReader();
-                fileReader.readAsBinaryString(arquivo);
-                fileReader.addEventListener('load', () => {
-                    this.arquivo = arquivo;
-                    this.arquivoBinario = fileReader.result;
-                });
-            } else {
-                this.nomeArquivo = '';
-                this.arquivo = '';
-                this.arquivoBinario = '';
+                this.foiAtualizado = true;
             }
         },
         save(picker, date) {
@@ -494,6 +515,54 @@ export default {
         },
         submit() {
             this.$refs.form.validate();
+
+            if (this.valid) {
+                const formData = new FormData();
+
+                const comprovante = {
+                    fornecedor: {
+                        nacionalidade: 31,
+                        tipoPessoa: this.cpfCnpjLabel === 'CPF' ? 1 : 2,
+                        CNPJCPF: this.cpfCnpj.replace(/[/.-]/g, ''),
+                        cnpjcpfMask: this.cpfCnpj,
+                        nome: this.nomeRazaoSocial,
+                        idAgente: this.agente[0].idAgente,
+                        eInternacional: false,
+                    },
+                    arquivo: {
+                        nome: this.nomeArquivo,
+                        file: this.arquivo,
+                    },
+                    item: this.idPlanilhaItens,
+                    idPlanilhaAprovacao: this.idPlanilhaAprovacao,
+                    tipo: this.tipoComprovante,
+                    numero: this.numero,
+                    serie: this.serie,
+                    dataEmissao: this.dataEmissaoFormatada,
+                    dataPagamento: this.dataPagamentoFormatada,
+                    forma: this.formaPagamento,
+                    numeroDocumento: this.numeroDocumentoPagamento,
+                    valor: this.valorNumber(this.valor),
+                    valorAntigo: this.valorAtual,
+                    valorPermitido: this.valorNumber(this.valorComprovar),
+                    justificativa: this.justificativa,
+                    foiAtualizado: this.foiAtualizado,
+                };
+
+                const comprovanteJSON = JSON.stringify(comprovante);
+                formData.append('comprovante', comprovanteJSON);
+                formData.append('arquivo', this.arquivo);
+
+                // TESTANDO
+                axios({
+                    method: 'post',
+                    url: '/prestacao-contas/gerenciar/cadastrar',
+                    data: formData,
+                    config: {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                    },
+                });
+            }
         },
     },
 };

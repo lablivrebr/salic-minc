@@ -3,20 +3,21 @@
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
-class ProjetosSimilaresTest extends TestCase
+class PlanilhaAprovadaControllerTest extends TestCase
 {
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testIndex()
+
+    public function testGet()
     {
         $this->json(
             'GET',
-            '/avaliacao-resultados/projetos-similares/134261'
+            '/avaliacao-resultados/planilha-aprovada/{idpronac}'
         )->seeJson([
-            'idpronac' => 134261,
+            'teste Planilha Aprovada GET'
         ]);
     }
 }

@@ -117,44 +117,47 @@
                                                             }}
                                                         </p>
                                                     </v-flex>
-                                                    <v-flex>
-                                                        <b>Lei 8.313/91 alterada pela Lei 9.874/1999
-                                                        *</b>
-                                                        <p>
-                                                            {{ (dadosprodutos.Lei8313 === 1) ? 'Sim' :
-                                                            'Não'
-                                                            }}
-                                                        </p>
-                                                    </v-flex>
-                                                    <v-flex>
-                                                        <b>Artigo 3°</b>
-                                                        <p>
-                                                            {{ (dadosprodutos.Artigo3 === 1) ? 'Sim' :
-                                                            'Não'
-                                                            }}
-                                                        </p>
-                                                    </v-flex>
-                                                    <v-flex>
-                                                        <b>Inciso</b>
-                                                        <p>{{ dadosprodutos.IncisoArtigo3 | filtrarIncisos }}</p>
-                                                    </v-flex>
-                                                    <v-flex>
-                                                        <b>Alinea Artigo 3</b>
-                                                        <p>{{ dadosprodutos.AlineaArtigo3 }}</p>
-                                                    </v-flex>
-                                                    <v-flex>
-                                                        <b>Artigo Enquadramento</b>
-                                                        <p>
-                                                            {{ (dadosprodutos.Artigo18 === 1) ? 'Artigo 18' : 'Artigo 26'
-                                                            }}
-                                                        </p>
-                                                    </v-flex>
-                                                    <v-flex>
-                                                        <b>Alínea Artigo 18</b>
-                                                        <p>{{ dadosprodutos.AlineaArtigo18 }}</p>
-                                                    </v-flex>
+                                                    <template v-if="recurso.in2017 !== true">
+                                                        <v-flex>
+                                                            <b>Lei 8.313/91 alterada pela Lei 9.874/1999
+                                                            *</b>
+                                                            <p>
+                                                                {{ (dadosprodutos.Lei8313 === 1) ? 'Sim' :
+                                                                'Não'
+                                                                }}
+                                                            </p>
+                                                        </v-flex>
+                                                        <v-flex>
+                                                            <b>Artigo 3°</b>
+                                                            <p>
+                                                                {{ (dadosprodutos.Artigo3 === 1) ? 'Sim' :
+                                                                'Não'
+                                                                }}
+                                                            </p>
+                                                        </v-flex>
+                                                        <v-flex>
+                                                            <b>Inciso</b>
+                                                            <p>{{ dadosprodutos.IncisoArtigo3 | filtrarIncisos }}</p>
+                                                        </v-flex>
+                                                        <v-flex>
+                                                            <b>Alinea Artigo 3</b>
+                                                            <p>{{ dadosprodutos.AlineaArtigo3 }}</p>
+                                                        </v-flex>
+                                                        <v-flex>
+                                                            <b>Artigo Enquadramento</b>
+                                                            <p>
+                                                                {{ (dadosprodutos.Artigo18 === 1) ? 'Artigo 18' : 'Artigo 26'
+                                                                }}
+                                                            </p>
+                                                        </v-flex>
+                                                        <v-flex>
+                                                            <b>Alínea Artigo 18</b>
+                                                            <p>{{ dadosprodutos.AlineaArtigo18 }}</p>
+                                                        </v-flex>
+                                                    </template>
                                                 </v-layout>
                                                 <v-layout
+                                                    v-if="recurso.in2017 !== true"
                                                     justify-space-around
                                                     row
                                                     wrap>

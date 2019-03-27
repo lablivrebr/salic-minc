@@ -115,7 +115,7 @@ class Diligencia implements \MinC\Servico\IServicoRestZend
                 throw new \Exception("Dados obrigat&oacute;rios n&atilde;o informados");
             }
 
-            if (empty($solicitacao)) {
+            if (empty(trim(strip_tags($solicitacao)))) {
                 throw new \Exception("Texto da dilig&ecirc;ncia &eacute; obrigat&oacute;rio");
             }
 

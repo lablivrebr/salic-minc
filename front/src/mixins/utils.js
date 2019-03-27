@@ -48,6 +48,12 @@ export const utils = {
 
             return novoValor;
         },
+        stripTags(string) {
+            if (typeof string !== 'string') {
+                return string;
+            }
+            return string.replace(/(<([^>]+)>)/ig, '');
+        },
     },
     filters: {
         formatarData(date) {
@@ -148,3 +154,5 @@ export const utils = {
         },
     },
 };
+
+export default utils;

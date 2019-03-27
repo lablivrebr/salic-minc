@@ -186,13 +186,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { utils } from '@/mixins/utils';
+import mixinUtils from '@/mixins/utils';
 import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'SDialoagDiligenciaDetalhamento',
     components: { SCarregando },
-    mixins: [utils],
+    mixins: [mixinUtils],
     props: {
         value: {
             type: Boolean,

@@ -575,7 +575,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 if ($itemOriginal->vlUnitario != $item['valorUnitario']) {
                     $editarItem->vlUnitario = $item['valorUnitario'];
                     $editarItem->tpAcao = 'A';
-                    $editarItem->dsJustificativa = "Recalculo autom&aacute;tico com base no percentual solicitado pelo proponente ao enviar a proposta ao MinC.";
+                    $editarItem->dsJustificativa = "Rec&aacute;lculo autom&aacute;tico com base no percentual solicitado pelo proponente ao enviar a proposta ao MinC.";
 
                     $editarItem->save();
                 } else {
@@ -596,15 +596,16 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 ]);
                 
                 foreach ($itensOriginais as $itemOriginal) {
-                    $editarItem = $tbPlanilhaAprovacao->buscar([
+                    $editarItens = $tbPlanilhaAprovacao->buscar([
                         'idPronac = ?' => $idPronac,
                         'idPlanilhaItem = ?' => $itemOriginal['idPlanilhaItem'],
                         'idReadequacao = ?' => $idReadequacao
-                    ])->current();
-                    
-                    $editarItem->vlUnitario = $itemOriginal['vlUnitario'];
-                    $editarItem->tpAcao = 'N';
-                    $editarItem->save();
+                    ]);
+                    foreach ($editarItens as $editarItem) {
+                        $editarItem->vlUnitario = $itemOriginal['vlUnitario'];
+                        $editarItem->tpAcao = 'N';
+                        $editarItem->save();
+                    }
                 }
         } else {
             $retorno['erro'] = true;

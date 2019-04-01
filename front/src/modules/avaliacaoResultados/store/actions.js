@@ -430,6 +430,15 @@ export const getDadosItem = ({ commit }, params) => {
         });
 };
 
+export const criarComprovante = (_, params) => {
+    avaliacaoResultadosHelperAPI.criarComprovante(params)
+        .then((response) => {
+            // INSERIR NOVO COMPROVANTE NO STATE DA LISTA DE COMPROVANTES
+        }).catch((e) => {
+            throw new TypeError(e.response.data.message, 'error', 10);
+        });
+};
+
 export const dashboardQuantidades = ({ commit }) => {
     avaliacaoResultadosHelperAPI.dashboardQuantidade()
         .then((response) => {

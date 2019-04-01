@@ -167,6 +167,19 @@ export const dadosItem = (params) => {
     return api.getRequest(url + queryParams);
 };
 
+export const criarComprovante = (params) => {
+    const ax = api.HTTP({
+        method: 'post',
+        url: '/prestacao-contas/gerenciar/cadastrar',
+        data: params,
+        config: {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        },
+    });
+
+    return ax.request();
+};
+
 export const dashboardQuantidade = () => api.getRequest('/avaliacao-resultados/dashboard');
 
 export const buscarAgente = params => api.postRequest('/agente/agentes/agentecadastrado/', buildData(params));

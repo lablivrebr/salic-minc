@@ -47,7 +47,7 @@ export const state = {
     listaComprovantesInternacionais: {},
     projetosAssinarCoordenador: {},
     projetosAssinarCoordenadorGeral: {},
-    dadosComprovacao: {},
+    dadosComprovacao: [],
     dadosProjeto: {},
     dadosItem: {},
     dashboard: {},

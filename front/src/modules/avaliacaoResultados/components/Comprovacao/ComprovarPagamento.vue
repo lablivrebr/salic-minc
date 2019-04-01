@@ -201,6 +201,7 @@
                                 </v-btn>
                                 <v-text-field
                                     v-model="nomeArquivo"
+                                    :rules="arquivoRules"
                                     :placeholder="nomeArquivo"
                                     class="d-inline-block"
                                     label="Selecionar arquivo..."
@@ -350,7 +351,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { VMoney } from 'v-money';
-import axios from 'axios';
 
 export default {
     directives: { money: VMoney },
@@ -400,6 +400,9 @@ export default {
             serie: '',
             nomeArquivo: '',
             arquivo: '',
+            arquivoRules: [
+                arquivo => !!arquivo || 'Anexar um arquivo de comprovante é obrigatório!',
+            ],
             foiAtualizado: false,
 
             formaPagamento: 1,
@@ -486,6 +489,7 @@ export default {
     methods: {
         ...mapActions({
             buscarAgente: 'avaliacaoResultados/buscarAgente',
+            criarComprovante: 'avaliacaoResultados/criarComprovante',
         }),
         pickFile() {
             this.$refs.inputComprovante.click();
@@ -514,7 +518,7 @@ export default {
             return parseFloat(string);
         },
         submit() {
-            this.$refs.form.validate();
+            this.valid = this.$refs.form.validate();
 
             if (this.valid) {
                 const formData = new FormData();
@@ -553,15 +557,7 @@ export default {
                 formData.append('comprovante', comprovanteJSON);
                 formData.append('arquivo', this.arquivo);
 
-                // TESTANDO
-                axios({
-                    method: 'post',
-                    url: '/prestacao-contas/gerenciar/cadastrar',
-                    data: formData,
-                    config: {
-                        headers: { 'Content-Type': 'multipart/form-data' },
-                    },
-                });
+                this.criarComprovante(formData);
             }
         },
     },

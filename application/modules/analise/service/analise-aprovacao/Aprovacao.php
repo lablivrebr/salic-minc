@@ -54,19 +54,18 @@ class Aprovacao implements \MinC\Servico\IServicoRestZend
         foreach ($aprovacoes as $aprovacao) {
             $resultArray[] = [
                 'TipoAprovacao' => $aprovacao['TipoAprovacao'],
-                'DtAprovacao' => $aprovacao['DtAprovacao'],
-                'DtPortariaAprovacao' => $aprovacao['DtPortariaAprovacao'],
+                'DtAprovacao' => trim($aprovacao['DtAprovacao']),
+                'DtPortariaAprovacao' => trim($aprovacao['DtPortariaAprovacao']),
                 'PortariaAprovacao' => $aprovacao['PortariaAprovacao'],
-                'DtPublicacaoAprovacao' => $aprovacao['DtPublicacaoAprovacao'],
-                'DtInicioCaptacao' => $aprovacao['DtInicioCaptacao'],
-                'DtFimCaptacao' => $aprovacao['DtFimCaptacao'],
+                'DtPublicacaoAprovacao' => trim($aprovacao['DtPublicacaoAprovacao']),
+                'DtInicioCaptacao' => trim($aprovacao['DtInicioCaptacao']),
+                'DtFimCaptacao' => trim($aprovacao['DtFimCaptacao']),
                 'Mecanismo' => $aprovacao['Mecanismo'],
                 'ResumoAprovacao' => $aprovacao['ResumoAprovacao'],
                 'AprovadoReal' => $aprovacao['AprovadoReal'],
                 'CodTipoAprovacao' => $aprovacao['CodTipoAprovacao']
             ];
         }
-
         return $resultArray;
     }
 }

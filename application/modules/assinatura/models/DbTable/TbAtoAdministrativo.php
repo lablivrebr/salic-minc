@@ -243,39 +243,47 @@ class Assinatura_Model_DbTable_TbAtoAdministrativo extends MinC_Db_Table_Abstrac
         );
 
         $objQuery->joinInner(
-            array("Verificacao" => "Verificacao"),
+            ["Verificacao" => "Verificacao"],
             "{$this->_name}.idTipoDoAto = Verificacao.idVerificacao",
-            array("dsAtoAdministrativo" => "Descricao"),
+            ["dsAtoAdministrativo" => "Descricao"],
             $this->_schema
         );
 
         $objQuery->joinLeft(
-            array("Verificacao_Agentes" => "Verificacao"),
+            ["Verificacao_Agentes" => "Verificacao"],
             "{$this->_name}.idCargoDoAssinante = Verificacao_Agentes.idVerificacao",
-            array("dsCargoDoAssinante" => "Descricao"),
+            ["dsCargoDoAssinante" => "Descricao"],
             "Agentes.dbo"
         );
 
         $objQuery->joinInner(
-            array("Orgaos" => "Orgaos"),
+            ["Orgaos" => "Orgaos"],
             "{$this->_name}.idOrgaoDoAssinante = Orgaos.Codigo",
-            array("dsOrgaoDoAssinante" => "Sigla"),
+            ["dsOrgaoDoAssinante" => "Sigla"],
             $this->_schema
         );
 
         $objQuery->joinLeft(
-            array("OrgaoSuperior" => "Orgaos"),
+            ["OrgaoSuperior" => "Orgaos"],
             "{$this->_name}.idOrgaoSuperiorDoAssinante = OrgaoSuperior.Codigo",
-            array("dsOrgaoSuperiorDoAssinante" => "OrgaoSuperior.Sigla"),
+            ["dsOrgaoSuperiorDoAssinante" => "OrgaoSuperior.Sigla"],
             $this->_schema
         );
 
         $objQuery->joinInner(
-            array("Grupos" => "Grupos"),
+            ["Grupos" => "Grupos"],
             "{$this->_name}.idPerfilDoAssinante = Grupos.gru_codigo",
-            array("dsPerfil" => "gru_nome"),
+            ["dsPerfil" => "gru_nome"],
             'tabelas'
         );
+
+        $objQuery->joinInner(
+            ["tbAtoAdministrativoMetodoEncaminhamento", "tbAtoAdministrativoMetodoEncaminhamento"],
+            "{$this->_name}.idTipoDoAto = tbAtoAdministrativoMetodoEncaminhamento.idTipoDoAto",
+            ["encaminhaProjeto" => "encaminhaProjeto"],
+            $this->_schema
+        );
+        
         $objQuery->order([
             "Verificacao.Descricao asc",
             "OrgaoSuperior.Sigla asc",

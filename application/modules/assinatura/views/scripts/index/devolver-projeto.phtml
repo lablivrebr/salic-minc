@@ -123,7 +123,13 @@
             <div class="margin-bottom30">&nbsp;</div>
             <div class="row center-align">
                 <a class="btn waves-effect waves-dark"
-                   href="<?php echo "/{$this->moduleOrigin}/{$this->controllerOrigin}/gerenciar-assinaturas"; ?>">Voltar</a>
+                <a class="btn waves-effect waves-dark"
+                   href="<?php
+                   if (strpos($this->redirectRest, '#') !== false) {
+                       echo "/{$this->redirectRest}";
+                   } else {
+                       echo "/{$this->moduleOrigin}/{$this->controllerOrigin}/gerenciar-assinaturas";
+                   }?>">Voltar</a>
                 <button type="submit"
                         class="btn waves-effect waves-dark btn-danger tooltipped" data-tooltip="O documento ser&aacute; exclu&iacute;do e o processo voltar&aacute; para o in&iacute;cio">Devolver</button>
             </div>

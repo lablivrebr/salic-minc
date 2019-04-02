@@ -6,6 +6,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
     private $grupoAtivo;
     private $cod_usuario;
     public $moduloDeOrigem;
+    public $redirectRest;
 
     public function init()
     {
@@ -18,6 +19,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
         isset($this->auth->getIdentity()->usu_codigo) ? parent::perfil() : parent::perfil(4);
 
         $this->definirModuloDeOrigem();
+
     }
 
     private function definirModuloDeOrigem()
@@ -26,8 +28,9 @@ class Assinatura_IndexController extends Assinatura_GenericController
         $post = (object)$this->getRequest()->getPost();
         $this->view->origin = "{$this->moduleName}/index";
         if (!empty($get->origin) || !empty($post->origin)) {
-            $this->view->origin = (!empty($post->origin)) ? $post->origin : $get->origin;
+            $this->view->origin = (!empty($post->origin)) ? urldecode($post->origin) : urldecode($get->origin);
         }
+        $this->redirectRest = $this->view->origin;
         $this->moduloDeOrigem = $this->view->origin;
     }
 
@@ -51,8 +54,6 @@ class Assinatura_IndexController extends Assinatura_GenericController
         $search = $this->getRequest()->getParam('search');
         $order = $this->getRequest()->getParam('order');
         $columns = $this->getRequest()->getParam('columns');
-//
-//        $order = ($order[0]['dir'] != 1) ? array($columns[$order[0]['column']]['name'] . ' ' . $order[0]['dir']) : ["Pronac desc"];
 
         if ($search['value'] != '') {
             $search['value'] = urldecode($search['value']);
@@ -194,6 +195,8 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 $idDocumentoAssinatura
             );
 
+            $this->view->redirectRest = $this->view->origin;
+
             $moduleAndControllerArray = explode('/', $this->view->origin);
             $this->view->moduleOrigin = $moduleAndControllerArray[0];
             $this->view->controllerOrigin = $moduleAndControllerArray[1];
@@ -268,7 +271,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 throw new Exception("Identificador do tipo do ato administrativo &eacute; necess&aacute;rio para acessar essa funcionalidade.");
             }
         } catch (Exception $objException) {
-            parent::message($objException->getMessage(), "/{$this->view->origin}/gerenciar-assinaturas");
+            parent::message($objException->getMessage(), "/gerenciar-assinaturas");
         }
 
         try {
@@ -419,6 +422,8 @@ class Assinatura_IndexController extends Assinatura_GenericController
 
             $this->view->templateAutenticacao = $servicoAutenticacao->obterMetodoAutenticacao()->obterTemplateAutenticacao();
             $this->view->idTipoDoAtoAdministrativo = $get->idTipoDoAtoAdministrativo;
+
+            $this->view->redirectRest = $this->view->origin;
 
             $moduleAndControllerArray = explode('/', $this->view->origin);
             $this->view->moduleOrigin = $moduleAndControllerArray[0];
@@ -613,6 +618,8 @@ class Assinatura_IndexController extends Assinatura_GenericController
 
             $this->view->templateAutenticacao = $servicoAutenticacao->obterMetodoAutenticacao()->obterTemplateAutenticacao();
             $this->view->idTipoDoAtoAdministrativo = $get->idTipoDoAtoAdministrativo;
+
+            $this->view->redirectRest = $this->view->origin;
 
             $moduleAndControllerArray = explode('/', $this->view->origin);
             $this->view->moduleOrigin = $moduleAndControllerArray[0];

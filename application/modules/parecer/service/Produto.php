@@ -105,6 +105,10 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $produto['diasEmDiligencia'] = $this->obterTempoDiligencia($produto);
         $produto['diasEmAvaliacao'] = $this->obterTempoRestanteDeAvaliacao($produto);
 
+        if ($produto['stPrincipal'] && $produto['FecharAnalise'] != '0') {
+            $produto['idDocumentoAssinatura'] = $this->getIdDocumentoAssinatura($idPronac);
+        }
+
         $produto = \TratarArray::utf8EncodeArray($produto);
 
         return $produto;
@@ -113,37 +117,6 @@ class Produto implements \MinC\Servico\IServicoRestZend
     public function salvar()
     {
 
-    }
-
-    public function validaRegra20Porcento($idPronac)
-    {
-        $planilhaProjeto = new \PlanilhaProjeto();
-        $valorProjeto = $planilhaProjeto->somarPlanilhaProjeto(
-            $idPronac,
-            109
-        );
-        $valorProjetoDivulgacao = $planilhaProjeto->somarPlanilhaProjetoDivulgacao(
-            $idPronac,
-            109,
-            null,
-            null
-        );
-        $somaProjetoDivulgacao = $valorProjetoDivulgacao->soma ? $valorProjetoDivulgacao->soma : 0;
-
-        if ($somaProjetoDivulgacao != 0) {
-            $this->view->totalsugerido = $valorProjeto['soma'] ? $valorProjeto['soma'] : 0;
-            $porcentValorProjeto = ($valorProjeto['soma'] * 0.20);
-            $totalValorProjetoDivulgacao = $valorProjetoDivulgacao->soma;
-
-            $valorRetirar = $totalValorProjetoDivulgacao - $porcentValorProjeto;
-            $this->view->valorRetirar = $valorRetirar;
-
-            if ($totalValorProjetoDivulgacao > $porcentValorProjeto) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private function definirStatusDiligencia($produto)
@@ -209,46 +182,15 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $dadosWhere["p.Situacao IN ('B11', 'B14')"] = '';
         $dadosWhere["p.IdPRONAC = ?"] = $idPronac;
         $dadosWhere["t.idProduto <> ?"] = $idProduto;
-//        $dadosWhere["t.TipoAnalise in (?)"] = array(1, 3);
-//        $dadosWhere["t.stPrincipal = ?"] = 0;
-//        $dadosWhere["t.stPrincipal = ?"] = 0;
         $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
-        $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuirSecundarios($dadosWhere)->toArray();
 
-//        $dadosWhere["t.DtDistribuicao is not null"] = '';
-//        $dadosWhere["t.DtDevolucao is null"] = '';
-        $outrosProdutos = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere)->toArray();
-//        $pscount = count($SecundariosAtivos);
-
-//        $i = 1;
-//        foreach ($outrosProdutos as $ps) {
-//            $wherePS['PAP.idPRONAC = ?'] = $ps->IdPRONAC;
-//            $wherePS['PAP.idProduto = ?'] = $ps->idProduto;
-//            $PlanilhaDAO = new \PlanilhaProjeto();
-//            $valorSugerido = $PlanilhaDAO->somaDadosPlanilha($wherePS);
-//
-//            $produtosSecundarios[$i]['IdPRONAC'] = $ps->IdPRONAC;
-//            $produtosSecundarios[$i]['idProduto'] = $ps->idProduto;
-//            $produtosSecundarios[$i]['stPrincipal'] = $ps->stPrincipal;
-//            $produtosSecundarios[$i]['Produto'] = $ps->Produto;
-//            $i++;
-//        }
-
-
-        return $outrosProdutos;
+        return $tbDistribuirParecer->dadosParaDistribuir($dadosWhere)->toArray();
     }
 
-    private function isProdutoSecundarioEmAnalise($idPronac)
+    private function getIdDocumentoAssinatura($idPronac)
     {
-        $dadosWhereSA["t.stEstado = ?"] = 0;
-        $dadosWhereSA["t.FecharAnalise = ?"] = 0;
-        $dadosWhereSA["t.TipoAnalise = ?"] = 3;
-        $dadosWhereSA["p.Situacao IN ('B11', 'B14')"] = '';
-        $dadosWhereSA["p.IdPRONAC = ?"] = $idPronac;
-        $dadosWhereSA["t.stPrincipal = ?"] = 0;
-        $dadosWhereSA["t.DtDevolucao is null"] = '';
-
-        $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
-        return ($tbDistribuirParecer->dadosParaDistribuir($dadosWhereSA)->count() > 0);
+        $objDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
+        return $objDocumentoAssinatura->getIdDocumentoAssinatura($idPronac, self::ID_ATO_ADMINISTRATIVO);
     }
+
 }

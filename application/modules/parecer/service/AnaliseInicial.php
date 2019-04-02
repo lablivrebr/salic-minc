@@ -99,6 +99,10 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
         $distribuicao = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere)->current();
         $isProdutoPrincipal = $distribuicao->stPrincipal == 1;
 
+        if ($distribuicao->FecharAnalise != 0) {
+            throw new \Exception("Produto n&atilde;o dispon&iacute;vel para avalia&ccedil;&atilde;o!");
+        }
+
         if ($distribuicao->idAgenteParecerista != $this->idAgente) {
             throw new \Exception("Voc&ecirc; n&atilde;o tem permiss&atilde;o para finalizar esse parecer!");
         }
@@ -127,7 +131,6 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
             if (!$this->isProjetoDisponivelParaAssinatura($distribuicao->IdPRONAC)) {
                 throw new \Exception("Projeto n&atilde;o dispon&iacute;vel para assinatura");
             }
-
         }
 
         try {
@@ -161,6 +164,11 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
             $tbDistribuirParecer->inserir($dados);
 
             $tbDistribuirParecer->getAdapter()->commit();
+
+            if ($isProdutoPrincipal) {
+                $this->iniciarAssinatura($distribuicao->IdPRONAC);
+            }
+
         } catch (\Zend_Db_Exception $e) {
             $tbDistribuirParecer->getAdapter()->rollBack();
             throw $e;
@@ -249,5 +257,27 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
 
         $parecerDbTable = new \Parecer();
         return empty($parecerDbTable->findBy($where));
+    }
+
+    private function iniciarAssinatura($idPronac) : int
+    {
+        try {
+            if (!empty($idPronac)) {
+                $parecer = new \Parecer();
+                $parecerTecnico = $parecer->getIdAtoAdministrativoParecerTecnico(
+                    $idPronac,
+                    1
+                )->current();
+
+                $servicoDocumentoAssinatura = new \Application\Modules\Parecer\Service\Assinatura\AnaliseInicial\DocumentoAssinatura(
+                    $idPronac,
+                    \Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_ANALISE_INICIAL,
+                    $parecerTecnico['idParecer']
+                );
+                return $servicoDocumentoAssinatura->iniciarFluxo();
+            }
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

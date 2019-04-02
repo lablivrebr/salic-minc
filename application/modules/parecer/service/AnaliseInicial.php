@@ -90,19 +90,52 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
         $idDistribuirParecer = $this->request->getParam("idDistribuirParecer");
 
         if (empty($idDistribuirParecer)) {
-            throw new \Exception("ID da distribuição não informado!");
+            throw new \Exception("ID da distribui&ccedil;&atilde;o n&atilde;o informado!");
         }
 
         $dadosWhere = [];
         $dadosWhere["t.idDistribuirParecer = ?"] = $idDistribuirParecer;
         $tbDistribuirParecer = new \Parecer_Model_DbTable_TbDistribuirParecer();
         $distribuicao = $tbDistribuirParecer->dadosParaDistribuir($dadosWhere)->current();
+        $isProdutoPrincipal = $distribuicao->stPrincipal == 1;
+
         if ($distribuicao->idAgenteParecerista != $this->idAgente) {
-            throw new \Exception("Você não tem permissão para finalizar esse parecer!");
+            throw new \Exception("Voc&ecirc; n&atilde;o tem permiss&atilde;o para finalizar esse parecer!");
+        }
+
+        if ($this->isConteudoNaoAnalisado($distribuicao->IdPRONAC, $distribuicao->idProduto)) {
+            throw new \Exception("Conte&uacute;do ainda n&atilde;o analisado!");
+        }
+
+        if ($this->isProdutoComDiligenciaAberta($distribuicao->IdPRONAC, $distribuicao->idProduto)) {
+            throw new \Exception("Existe dilig&ecirc;ncia aberta aguardando resposta!");
+        }
+
+        if ($this->isItemDeCustosNaoAvaliados($distribuicao->IdPRONAC, $distribuicao->idProduto)) {
+            throw new \Exception("An&aacute;lise de custos: existem itens obrigat&oacute;rios da planilha que não foram avaliados!");
+        }
+
+        if ($isProdutoPrincipal) {
+            if ($this->isProdutosSecundariosNaoAnalisados($distribuicao->IdPRONAC, $distribuicao->idProduto)) {
+                throw new \Exception("Existem produtos secund&aacute;rios aguardando an&aacute;lise!");
+            }
+
+            if (!$this->isProjetoSemParecer($distribuicao->IdPRONAC)) {
+                throw new \Exception("A consolida&ccedil;&atilde;o do projeto &eacute; obrigat&oacute;ria");
+            }
+
+            if (!$this->isProjetoDisponivelParaAssinatura($distribuicao->IdPRONAC)) {
+                throw new \Exception("Projeto n&atilde;o dispon&iacute;vel para assinatura");
+            }
+
         }
 
         try {
             $tbDistribuirParecer->getAdapter()->beginTransaction();
+
+            $fecharAnalise = $isProdutoPrincipal
+                ? \Parecer_Model_TbDistribuirParecer::FECHAR_ANALISE_ASSINATURA
+                : \Parecer_Model_TbDistribuirParecer::FECHAR_ANALISE_FECHADA;
 
             $dados = array(
                 'idOrgao' => $distribuicao->idOrgao,
@@ -111,7 +144,7 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
                 'DtDistribuicao' => $distribuicao->DtDistribuicao,
                 'DtDevolucao' => \MinC_Db_Expr::date(),
                 'DtRetorno' => null,
-                'FecharAnalise' => 0,
+                'FecharAnalise' => $fecharAnalise,
                 'Observacao' => '',
                 'idUsuario' => $this->idUsuario,
                 'idPRONAC' => $distribuicao->IdPRONAC,
@@ -124,8 +157,8 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
 
             $where = [];
             $where['idDistribuirParecer = ?'] = $idDistribuirParecer;
-//            $tbDistribuirParecer->alterar(array('stEstado' => 1), $where);
-//            $tbDistribuirParecer->inserir($dados);
+            $tbDistribuirParecer->alterar(array('stEstado' => 1), $where);
+            $tbDistribuirParecer->inserir($dados);
 
             $tbDistribuirParecer->getAdapter()->commit();
         } catch (\Zend_Db_Exception $e) {
@@ -133,5 +166,88 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
             throw $e;
         }
         return $distribuicao;
+    }
+
+    private function isProdutoComDiligenciaAberta($idPronac, $idProduto)
+    {
+        $where = [
+            'idPronac = ?' => $idPronac,
+            'idProduto = ?' => $idProduto,
+            'DtResposta IS NULL' => ''
+        ];
+
+        $diligenciaDbTable = new \Diligencia_Model_DbTable_TbDiligencia();
+        $diligencia = $diligenciaDbTable->findBy($where);
+
+        return !empty($diligencia);
+    }
+
+    private function isConteudoNaoAnalisado($idPronac, $idProduto)
+    {
+        $tbAnaliseDeConteudoDAO = new \Analisedeconteudo();
+        $where = [
+            'IdPRONAC = ?' => $idPronac,
+            'idProduto = ?' => $idProduto
+        ];
+        $parecerDeConteudo = $tbAnaliseDeConteudoDAO->dadosAnaliseconteudo(null, $where)
+            ->current()['ParecerDeConteudo'];
+
+        return (strlen(trim($parecerDeConteudo)) == 0);
+    }
+
+    private function isProdutosSecundariosNaoAnalisados($idPronac)
+    {
+        $where = [
+            "stEstado = ?" => 0,
+            "FecharAnalise = ?" => 0,
+            "TipoAnalise = ?" => 3,
+            "IdPRONAC = ?" => $idPronac,
+            "stPrincipal = ?" => 0,
+            "DtDevolucao is null" => ''
+        ];
+
+        $tbDistribuirParecerDAO = new \Parecer_Model_DbTable_TbDistribuirParecer();
+        $produtosSecundariosAtivos = $tbDistribuirParecerDAO->findAll($where);
+
+        return (count($produtosSecundariosAtivos) > 0);
+    }
+
+    private function isItemDeCustosNaoAvaliados($idPronac, $idProduto)
+    {
+        $where = [
+            'IdPRONAC = ?' => $idPronac,
+            'idProduto = ?' => $idProduto,
+            'stCustoPraticado = ?' => 1,
+            'Justificativa = \'\'' => '',
+        ];
+
+        $planilhaProjeto = new \PlanilhaProjeto();
+        $itensNaoAvaliados = $planilhaProjeto->findAll($where);
+        return (count($itensNaoAvaliados) > 0);
+    }
+
+    private function isProjetoDisponivelParaAssinatura($idPronac)
+    {
+        $objModelDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
+        $isProjetoDisponivelParaAssinatura = $objModelDocumentoAssinatura->isProjetoDisponivelParaAssinatura(
+            $idPronac,
+            self::ID_ATO_ADMINISTRATIVO
+        );
+
+        return $isProjetoDisponivelParaAssinatura;
+    }
+
+    private function isProjetoSemParecer($idPronac)
+    {
+        $where = [
+            'IdPRONAC' => $idPronac,
+            'idTipoAgente' => 1,
+            'stAtivo' => 1,
+            'ResumoParecer IS NOT NULL',
+            'Logon' => $this->idUsuario
+        ];
+
+        $parecerDbTable = new \Parecer();
+        return empty($parecerDbTable->findBy($where));
     }
 }

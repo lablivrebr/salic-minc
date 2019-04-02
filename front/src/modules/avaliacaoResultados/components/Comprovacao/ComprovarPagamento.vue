@@ -57,7 +57,6 @@
                                         label="CPF"
                                         value="CPF"
                                         color="teal"
-
                                     />
                                 </v-radio-group>
                             </v-flex>
@@ -75,8 +74,8 @@
                                     validate-on-blur
                                     outline
                                     append-icon="search"
-                                    @click:append="buscarAgente(cpfCnpjParams)"
-                                    @keyup.enter="buscarAgente(cpfCnpjParams)"
+                                    @click:append="buscarFornecedor(cpfCnpj)"
+                                    @keyup.enter="buscarFornecedor(cpfCnpj)"
                                 />
                             </v-flex>
                             <v-flex
@@ -93,7 +92,7 @@
                             <v-flex
                                 sm12
                             >
-                                <div v-if="agente.length === 0">
+                                <div v-if="!agenteEhCadastrado">
                                     <span class="error--text caption d-block ml-2 md-1">Fornecedor não cadastrado!</span>
                                     <v-btn
                                         :href="`/prestacao-contas/fornecedor/index/cpfcnpj/${cpfCnpj}`"
@@ -328,6 +327,15 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer/>
+                <span
+                    v-if="!valid"
+                    align-center
+                    justify-end
+                    class="error--text caption mr-5"
+                >
+                    <v-icon class="error--text small mr-1">warning</v-icon>
+                    Há campos inválidos e/ou não preenchidos!
+                </span>
                 <v-btn
                     :disabled="!valid"
                     flat
@@ -351,9 +359,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { VMoney } from 'v-money';
+import { validadorCpf } from '@/mixins/validadorCpf';
+import { validadorCnpj } from '@/mixins/validadorCnpj';
 
 export default {
     directives: { money: VMoney },
+    mixins: [validadorCpf, validadorCnpj],
     props: {
         idPlanilhaItens: { type: String, default: '' },
         idPlanilhaAprovacao: { type: String, default: '' },
@@ -373,11 +384,11 @@ export default {
             cpfCnpj: '',
             cpfRules: [
                 cpf => !!cpf || 'O campo CPF é obrigatório!',
-                cpf => cpf.length === 14 || 'O CPF informado não é válido!',
+                cpf => this.validarCpf(cpf) || 'O CPF informado não é válido!',
             ],
             cnpjRules: [
                 cnpj => !!cnpj || 'O campo CNPJ é obrigatório!',
-                cnpj => cnpj.length === 18 || 'O CNPJ informado não é válido!',
+                cnpj => this.validarCnpj(cnpj) || 'O CNPJ informado não é válido!',
             ],
 
             tipoComprovante: 1,
@@ -452,7 +463,7 @@ export default {
             return this.cpfCnpjLabel === 'CNPJ' ? 'RAZÃO SOCIAL' : 'NOME';
         },
         nomeRazaoSocial() {
-            return this.agente[0] ? this.agente[0].agente.nome : '';
+            return this.agenteEhCadastrado ? this.agente[0].agente.nome : '';
         },
         cpfCnpjParams() {
             return { cpf: this.cpfCnpj };
@@ -468,6 +479,12 @@ export default {
 
             const [ano, mes, dia] = this.dataPagamento.split('-');
             return `${dia}/${mes}/${ano}`;
+        },
+        agenteEhCadastrado() {
+            if (this.agente.length === 0) {
+                return false;
+            }
+            return true;
         },
     },
     watch: {
@@ -491,6 +508,20 @@ export default {
             buscarAgente: 'avaliacaoResultados/buscarAgente',
             criarComprovante: 'avaliacaoResultados/criarComprovante',
         }),
+        buscarFornecedor(cpfCnpj) {
+            if (this.cpfCnpjLabel === 'CNPJ') {
+                if (!this.validarCnpj(cpfCnpj)) {
+                    return;
+                }
+            } else if (!this.validarCpf(cpfCnpj)) {
+                return;
+            }
+
+            this.buscarAgente(this.cpfCnpjParams);
+            if (!this.agenteEhCadastrado) {
+                this.valid = false;
+            }
+        },
         pickFile() {
             this.$refs.inputComprovante.click();
         },
@@ -519,8 +550,9 @@ export default {
         },
         submit() {
             this.valid = this.$refs.form.validate();
+            this.buscarFornecedor(this.cpfCnpj);
 
-            if (this.valid) {
+            if (this.valid && this.agenteEhCadastrado) {
                 const formData = new FormData();
 
                 const comprovante = {

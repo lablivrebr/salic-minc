@@ -52,7 +52,7 @@ export const state = {
     dadosItem: {},
     dashboard: {},
     projetosSimilares: [],
-    agente: {},
+    agente: [],
 };
 
 export const mutations = {

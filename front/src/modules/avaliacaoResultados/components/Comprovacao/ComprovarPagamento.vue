@@ -390,6 +390,7 @@ export default {
                 cnpj => !!cnpj || 'O campo CNPJ é obrigatório!',
                 cnpj => this.validarCnpj(cnpj) || 'O CNPJ informado não é válido!',
             ],
+            buscouFornecedor: false,
 
             tipoComprovante: 1,
             tipoComprovanteOpcoes: [
@@ -481,10 +482,7 @@ export default {
             return `${dia}/${mes}/${ano}`;
         },
         agenteEhCadastrado() {
-            if (this.agente.length === 0) {
-                return false;
-            }
-            return true;
+            return this.buscouFornecedor && this.agente.length > 0;
         },
     },
     watch: {
@@ -518,6 +516,7 @@ export default {
             }
 
             this.buscarAgente(this.cpfCnpjParams);
+            this.buscouFornecedor = true;
             if (!this.agenteEhCadastrado) {
                 this.valid = false;
             }

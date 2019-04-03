@@ -4,6 +4,7 @@ import PaginaInicial from '@/modules/paginaInicial';
 import Pagina404 from '@/components/404';
 import RotasFoo from '@/modules/foo/router';
 import RotasParecer from '@/modules/parecer/router';
+import Readequacao from '@/modules/readequacao/router'
 
 Vue.use(Router);
 
@@ -20,6 +21,7 @@ const baseRoutes = [
 ];
 
 let routes = [];
+routes = routes.concat(Readequacao);
 routes = routes.concat(RotasFoo);
 routes = routes.concat(RotasParecer);
 routes = routes.concat(baseRoutes);

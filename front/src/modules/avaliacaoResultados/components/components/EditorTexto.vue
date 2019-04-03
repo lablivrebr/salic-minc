@@ -37,11 +37,15 @@ export default {
         this.setInfo();
         this.counter();
     },
+    watch: {
+        value() {
+            this.setInfo();
+        },
+    },
     methods: {
         enviar(e) {
             this.$emit('editor-texto-input', e);
         },
-
         counter(e) {
             if (typeof e !== 'undefined' && e.ops.length > 0 && e.ops[0].retain !== undefined) {
                 this.$emit('editor-texto-counter', e.ops[0].retain);

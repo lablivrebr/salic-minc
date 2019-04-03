@@ -524,15 +524,15 @@ class PrestacaoContas_GerenciarController extends MinC_Controller_Action_Abstrac
     public function cadastrarAction()
     {
         $comprovante = new PrestacaoContas_Model_ComprovantePagamento();
-        $comprovante->preencher($this->getRequest()->getPost()['comprovante']);
 
         $data = [];
         try {
+            $comprovante->preencher($this->getRequest()->getPost()['comprovante']);
             $id = $comprovante->cadastrar();
             $data = ['success' => true, 'idComprovantePagamento' => $id];
         } catch (Exception $e) {
             $this->view->message = $e->getMessage();
-            echo $e->getMessage();die;
+            $data = ['success' => false, 'message' => $e->getMessage()];
         }
         $this->_helper->json($data);
     }

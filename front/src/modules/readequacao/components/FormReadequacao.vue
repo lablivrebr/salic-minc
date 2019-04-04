@@ -27,13 +27,13 @@
     </v-container>
 </template>
 <script>
-//import SEditorTexto from '@/components/SalicEditorTexto';
+// import SEditorTexto from '@/components/SalicEditorTexto';
 import EditorTexto from '../../avaliacaoResultados/components/components/EditorTexto';
  
 export default {
     name: 'FormReadequacao',
     components: {
-        //SEditorTexto,
+        // SEditorTexto,
         EditorTexto,
     },
     props: {
@@ -45,12 +45,12 @@ export default {
             minChar: 10,
         };
     },
+    computed: {
+    },
     watch: {
         textIsValid() {
             this.$emit('texto-valido', textIsValid);
         }
-    },
-    computed: {
     },
     methods: {
         atualizarForm(texto) {

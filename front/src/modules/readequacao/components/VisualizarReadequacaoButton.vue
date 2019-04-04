@@ -143,7 +143,7 @@
                             <v-list-tile avatar>
                                 <v-list-tile-avatar>
                                     <v-icon class="green lighten-1 white--text">person</v-icon>
-                                </v-list-tile-avatar>                               
+                                </v-list-tile-avatar>:
                                 <v-list-tile-content>
                                     <v-list-tile-title>Nome do Avaliador</v-list-tile-title>
                                     <v-list-tile-sub-title>Avaliador - {{ dadosReadequacao.idAvaliador }}</v-list-tile-sub-title>
@@ -155,7 +155,7 @@
                                 </v-list-tile-avatar>
                                 <v-list-tile-content>
                                     <v-list-tile-title>Avaliação</v-list-tile-title>
-                                    <v-list-tile-sub-title v-html="dadosReadequacao.dsAvaliacao"></v-list-tile-sub-title>
+                                    <v-list-tile-sub-title v-html="dadosReadequacao.dsAvaliacao"/>
                                 </v-list-tile-content>
                             </v-list-tile>
                         </v-list>
@@ -188,7 +188,6 @@
 <script>
 import _ from 'lodash';
 import { utils } from '@/mixins/utils';
-import Const from '../const';
 import VisualizarCampoDetalhado from './VisualizarCampoDetalhado';
 
 export default {
@@ -215,11 +214,9 @@ export default {
     computed: {
         existeAvaliacao() {
             if (this.dadosReadequacao
-                && this.perfilAceito()
-               ) {
+                && this.perfilAceito()) {
                 if (!_.isNull(this.dadosReadequacao.dsAvaliacao)
-                    && !_.isNull(this.dadosReadequacao.dtAvaliador)
-                ) {
+                    && !_.isNull(this.dadosReadequacao.dtAvaliador)) {
                     return true;
                 }
             }

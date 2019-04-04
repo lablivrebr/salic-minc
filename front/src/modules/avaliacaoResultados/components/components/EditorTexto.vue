@@ -33,14 +33,14 @@ export default {
             ],
         };
     },
-    mounted() {
-        this.setInfo();
-        this.counter();
-    },
     watch: {
         value() {
             this.setInfo();
         },
+    },
+    mounted() {
+        this.setInfo();
+        this.counter();
     },
     methods: {
         enviar(e) {

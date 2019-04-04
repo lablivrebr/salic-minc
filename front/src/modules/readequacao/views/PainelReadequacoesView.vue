@@ -47,7 +47,7 @@
                                     :dados-readequacao="getReadequacoesAnalise"
                                     :componentes="acoesAnalise"
                                     :dados-projeto="dadosProjeto"
-                                    :perfisAceitos="getPerfis('analise')"
+                                    :perfis-aceitos="getPerfis('analise')"
                                     :perfil="getUsuario.grupo_ativo"
                                 />
                             </v-card>
@@ -129,12 +129,10 @@ export default {
                 cor: '',
             },
             perfisAceitos: {
-                'proponente':
-                [
+                proponente: [
                     Const.PERFIL_PROPONENTE,
                 ],
-                'analise':
-                [
+                analise: [
                     Const.PERFIL_TECNICO_ACOMPANHAMENTO,
                     Const.PERFIL_COORDENADOR_ACOMPANHAMENTO,
                     Const.PERFIL_COORDENADOR_GERAL_ACOMPANHAMENTO,

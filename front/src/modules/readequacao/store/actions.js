@@ -48,11 +48,10 @@ export const buscaReadequacaoPronacTipo = ({ commit }, params) => {
 export const obterDocumento = ({ commit }, idDocumento) => {
     readequacaoHelperAPI.obterDocumentoReadequacao(idDocumento)
         .then((response) => {
-            if(response.data) {
+            if (response.data) {
                 const documento = response.data;
                 commit(types.GET_DOCUMENTO, { documento, idDocumento });
-            }
-            else {
+            } else {
                 commit(types.GET_DOCUMENTO, {});
             }
         });
@@ -121,10 +120,10 @@ export const obterDisponivelEdicaoItemSaldoAplicacao = ({ commit }, params) => {
 
 export const obterCampoAtual = async ({ commit }, params) => {
     const resultado = await readequacaoHelperAPI.obterCampoAtual(params)
-          .then((response) => {
-              const { data } = response.data;
+        .then((response) => {
+            const { data } = response.data;
             commit(types.SET_CAMPO_ATUAL, data.items[0]);
-          });
+        });
     return resultado;
 };
 
@@ -152,15 +151,15 @@ export const inserirReadequacao = async ({ commit, dispatch }, params) => {
 
 export const finalizarReadequacao = async ({ dispatch }, params) => {
     const resultado = await readequacaoHelperAPI.finalizarReadequacao(params)
-          .then((response) => {
-              dispatch('obterListaDeReadequacoes', {
-                  idPronac: params.idPronac,
-                  stStatusAtual: 'proponente',
-              });
-              dispatch('obterListaDeReadequacoes', {
-                  idPronac: params.idPronac,
-                  stStatusAtual: 'analise',
-              });
-          });
+        .then(() => {
+            dispatch('obterListaDeReadequacoes', {
+                idPronac: params.idPronac,
+                stStatusAtual: 'proponente',
+            });
+            dispatch('obterListaDeReadequacoes', {
+                idPronac: params.idPronac,
+                stStatusAtual: 'analise',
+            });
+        });
     return resultado;
 };

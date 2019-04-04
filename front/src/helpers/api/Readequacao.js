@@ -67,7 +67,7 @@ export const obterDisponivelEdicaoItemSaldoAplicacao = (idPronac) => {
 
 export const obterDocumentoReadequacao = (idDocumento) => {
     const path = `/readequacao/readequacoes/abrir-documento-readequacao?id=${idDocumento}`;
-    let http = {
+    const http = {
         baseURL: path,
         responseType: 'blob',
     };

@@ -47,34 +47,15 @@ export default {
                     progress(true, 0, 1024);
                     load(file);
 
-                    // Should expose an abort method so the request can be cancelled
                     return {
                         abort: () => {
-                            // This function is entered if the user has tapped the cancel button
-                            request.abort();
-
                             // Let FilePond know the request has been cancelled
                             abort();
                         }
                     };
                 },
-                load: (source, load, error, progress, abort, headers) => {
-                    error('Arquivo não carregado da base!');
-
-                    progress(true, 0, 1024);
-                    load(file);
-
-                    return {
-                        abort: () => {
-                            // User tapped cancel, abort our ongoing actions here
-
-                            // Let FilePond know the request has been cancelled
-                            abort();
-                        }
-                    };
-                },
+                load: null,
                 revert: null,
-                restore: null,
                 fetch: null,
             },
         };

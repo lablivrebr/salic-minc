@@ -46,7 +46,7 @@
                                     :dados-readequacao="props.item"
                                     :dados-projeto="dadosProjeto"
                                     :bind-click="bindClick"
-                                    :perfisAceitos="perfisAceitos"
+                                    :perfis-aceitos="perfisAceitos"
                                     :perfil="perfil"
                                     class="pa-0 ma-0 align-center justify-center fill-height"
                                     @excluir-readequacao="excluirReadequacao"

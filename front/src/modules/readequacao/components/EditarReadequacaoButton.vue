@@ -110,11 +110,11 @@
                                         <v-layout row>
                                             <v-flex xs3>
                                                 <UploadFile
-                                                :arquivo-inicial="this.getDocumentoReadequacao"
-                                                :formatos-aceitos="formatosAceitos"
-                                                class="mt-1"
-                                                @arquivo-anexado="atualizarArquivo($event)"
-                                                @arquivo-removido="removerArquivo($event)"
+                                                    :arquivo-inicial="dadosReadequacao.documento"
+                                                    :formatos-aceitos="formatosAceitos"
+                                                    class="mt-1"
+                                                    @arquivo-anexado="atualizarArquivo($event)"
+                                                    @arquivo-removido="removerArquivo($event)"
                                                 />
                                             </v-flex>
                                             <v-flex xs1>
@@ -212,8 +212,8 @@ import FormReadequacao from './FormReadequacao';
 import TemplateTextarea from './TemplateTextarea';
 import TemplateInput from './TemplateInput';
 import TemplateDate from './TemplateDate';
-import TemplateRedirect from './TemplateRedirect'
-import FinalizarButton from '../components/FinalizarButton';
+import TemplateRedirect from './TemplateRedirect';
+import FinalizarButton from './FinalizarButton';
 import UploadFile from './UploadFile';
 
 export default {
@@ -295,8 +295,7 @@ export default {
         },
         possuiDocumentoAnexado() {
             if (this.dadosReadequacao.idDocumento
-                && this.dadosReadequacao.idDocumento !== ''
-               ) {
+                && this.dadosReadequacao.idDocumento !== '') {
                 return true;
             }
             return false;
@@ -316,8 +315,7 @@ export default {
         mensagem: {
             handler(mensagem) {
                 if (mensagem.ativa === false
-                    && mensagem.finaliza === true
-                   ) {
+                    && mensagem.finaliza === true) {
                     this.dialog = false;
                 }
             },
@@ -336,8 +334,7 @@ export default {
         },
         dialog() {
             if (this.dialog === false
-                && this.recarregarReadequacoes === true
-               ) {
+                && this.recarregarReadequacoes === true) {
                 this.$emit('atualizar-readequacao', { idReadequacao: this.readequacaoEditada.idReadequacao });
             }
         },
@@ -391,19 +388,25 @@ export default {
                 idDocumento: this.dadosReadequacao.idDocumento || '',
                 dsSolicitacao: this.dadosReadequacao.dsSolicitacao,
                 dsJustificativa: this.dadosReadequacao.dsJustificativa,
-                documento: {},
             };
-            this.obterArquivoReadequacao(this.readequacaoEditada.idDocumento);
+            this.inicializarArquivoReadequacao(this.dadosReadequacao.idDocumento);
         },
+<<<<<<< HEAD
         obterArquivoReadequacao(id) {
-            if(id) {
-                this.obterDocumento(id);
-                if(typeof this.dadosReadequacao.documento !== 'undefined'){
-                    return this.dadosReadequacao.documento;
-                }
+            if (id) {
+                this.obterDocumento(id).then(() => {
+                    if (typeof this.dadosReadequacao.documento !== 'undefined'){
+                        return this.dadosReadequacao.documento;
+                    }
+                });
             }
             else {
                 return {};
+=======
+        inicializarArquivoReadequacao(id) {
+            if(id) {
+                this.obterDocumento(id);
+>>>>>>> d2d098d2f8364e2dfa99da6c976c097f16832c79
             }
         },
         atualizarArquivo(arquivo) {

@@ -1,4 +1,4 @@
-import SaldoAplicacao from './views/SaldoAplicacaoView';
+// import SaldoAplicacao from './views/SaldoAplicacaoView';
 import PainelReadequacoes from './views/PainelReadequacoesView';
 
 export default [

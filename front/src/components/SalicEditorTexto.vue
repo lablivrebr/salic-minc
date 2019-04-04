@@ -69,7 +69,6 @@ export default {
         },
         rules: [],
     },
-    inject: ['form', 'theme'],
     data() {
         return {
             editor: '',

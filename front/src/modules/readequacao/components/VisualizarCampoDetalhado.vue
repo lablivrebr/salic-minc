@@ -21,7 +21,7 @@
             <v-card-text v-html="dados.descricao"/>
             <v-divider/>
             <v-card-actions>
-                <v-spacer></v-spacer>
+                <v-spacer/>
                 <v-btn
                     color="primary"
                     flat
@@ -38,7 +38,7 @@ export default {
     name: 'VisualizarCampoDetalhado',
     props: {
         dialog: { type: Boolean, default: false },
-        dados: { type: Object, default: () => {} },        
+        dados: { type: Object, default: () => {} },
     },
     methods: {
         fecharVisualizacao() {

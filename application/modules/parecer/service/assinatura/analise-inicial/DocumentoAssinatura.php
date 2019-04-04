@@ -42,6 +42,8 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
             throw new \Exception("Projeto n&atilde;o encontrado.");
         }
 
+
+
         $fnVerificarProjetoAprovadoIN2017 = new \fnVerificarProjetoAprovadoIN2017();
         $instrucaoNormativa2017 = $fnVerificarProjetoAprovadoIN2017->verificar($this->idPronac);
 
@@ -81,12 +83,14 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
             $objDocumentoAssinatura = new \MinC\Assinatura\Servico\DocumentoAssinatura();
             $objDocumentoAssinatura->registrarDocumentoAssinatura($objModelDocumentoAssinatura);
 
-            $objDbTableDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
-            return (int)$objDbTableDocumentoAssinatura->getIdDocumentoAssinatura(
-                $this->idPronac,
-                $this->idTipoDoAtoAdministrativo
-            );
         }
+
+        $objDbTableDocumentoAssinatura = new \Assinatura_Model_DbTable_TbDocumentoAssinatura();
+        return (int)$objDbTableDocumentoAssinatura->getIdDocumentoAssinatura(
+            $this->idPronac,
+            $this->idTipoDoAtoAdministrativo
+        );
+
     }
 
     /**

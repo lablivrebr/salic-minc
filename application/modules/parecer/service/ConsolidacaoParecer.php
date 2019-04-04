@@ -117,32 +117,6 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
                 $tbParecer->inserir($dadosParecer);
             }
 
-//            $tbAcaoAlcanceProjeto = new \tbAcaoAlcanceProjeto();
-//            $buscarAcaoAlcanceProjeto = $tbAcaoAlcanceProjeto->buscar(
-//                ['idPronac = ?' => $idPronac, 'idParecer = ?' => $idParecer]
-//            );
-
-//            $dados = array(
-//                'idPronac' => $idPronac,
-//                'idParecer' => $idParecer,
-//                'tpAnalise' => 1,
-//                'dtAnalise' => \MinC_Db_Expr::date(),
-//                'dsAcaoAlcanceProduto' => '', # @todo o Rômulo pediu pra retirar esse campo, verificar se é preciso salvar
-//                'idUsuario' => $this->idUsuario,
-//                'stEstado' => 1
-//            );
-//
-//            if (count($buscarAcaoAlcanceProjeto) > 0) {
-//                $where = array(
-//                    'idPronac = ?' => $idPronac,
-//                    'idParecer = ?' => $idParecer
-//                );
-//
-//                $tbAcaoAlcanceProjeto->update($dados, $where);
-//            } else {
-//                $tbAcaoAlcanceProjeto->insert($dados);
-//            }
-
         } catch (\Exception $e) {
             throw $e;
         }

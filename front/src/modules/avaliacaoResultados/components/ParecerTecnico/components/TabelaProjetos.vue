@@ -75,6 +75,7 @@
                                 :id-tipo-do-ato-administrativo="componentes.idTipoDoAtoAdministrativo"
                                 :usuario="componentes.usuario"
                                 :retorno="retornoUrl"
+                                :laudo="false"
                                 :tecnico="{
                                     idAgente: props.item.idAgente,
                                     nome: props.item.usu_nome

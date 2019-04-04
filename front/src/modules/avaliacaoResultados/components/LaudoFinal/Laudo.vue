@@ -26,7 +26,7 @@
                 <td class="text-xs-center">
                     <v-flex>
                         <div>
-                            <v-btn :href="'/projeto/#/'+ props.item.idPronac">
+                            <v-btn :href="'/projeto/#/'+ props.item.IdPronac">
                                 {{ props.item.PRONAC }}
                             </v-btn>
                         </div>
@@ -36,7 +36,8 @@
                 <td class="text-xs-center">
                     <VisualizarParecer
                         :obj="props.item"
-                        :id-pronac="props.item.idPronac"
+                        :id-pronac="props.item.IdPronac"
+                        :laudo="true"
                     />
                 </td>
                 <td class="text-xs-center">

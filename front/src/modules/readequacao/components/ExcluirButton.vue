@@ -5,7 +5,7 @@
             icon
             flat
             small
-            color="red"
+            color="red darken-3"
             @click.stop="dialog = true"
         >
             <v-tooltip bottom>

@@ -22,7 +22,7 @@
             icon
             flat
             small
-            color="green"
+            color="green darken-3"
             @click.stop="dialog = true"
         >
             <v-tooltip bottom>

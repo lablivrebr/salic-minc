@@ -12,7 +12,7 @@
                 slot-scope="props">
                 <td>{{ props.index+1 }}</td>
                 <td class="text-xs-left">{{ props.item.dsTipoReadequacao }}</td>
-                <td class="text-xs-center">{{ props.item.dtSolicitacao }}</td>
+                <td class="text-xs-center">{{ props.item.dtSolicitacao | formatarData }}</td>
                 <td class="text-xs-center">
                     <v-btn
                         v-if="props.item.idDocumento"
@@ -70,9 +70,11 @@
 </template>
 
 <script>
+import { utils } from '@/mixins/utils';
 
 export default {
     name: 'TabelaReadequacoes',
+    mixins: [utils],
     props: {
         dadosReadequacao: { type: Object, default: () => {} },
         componentes: { type: Object, default: () => {} },

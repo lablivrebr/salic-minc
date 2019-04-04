@@ -13,7 +13,7 @@ export default {
         return {
             tiposReadequacoesRedirect: {
                 local_realizacao: '/readequacao/local-realizacao/index/?idPronac=',
-                planilha_orcamentaria: '/readequacao/readequacoes/planilha-orcamentaria/?idPronac=',
+                planilha: '/readequacao/readequacoes/planilha-orcamentaria/?idPronac=',
                 saldo_aplicacao: '#/readequacao/saldo-aplicacao/',
                 plano_distribuicao: '/readequacao/plano-distribuicao/index/?idPronac=',
                 remanejamento_50: '/readequacao/remanejamento-menor/index/?idPronac=',
@@ -24,14 +24,26 @@ export default {
     watch: {
         campo() {
             const chave = `key_${this.dadosReadequacao.idTipoReadequacao}`;
-            if (Object.prototype.hasOwnProperty.call(this.campo, chave)) {
-                if (typeof this.campo[chave].tpCampo !== 'undefined') {
-                    this.urlRedirect = this.tiposReadequacoesRedirect[this.campo[chave].tpCampo];
+            if (typeof this.campo !== 'undefined') {
+                if (Object.prototype.hasOwnProperty.call(this.campo, chave)) {
+                    if (typeof this.campo[chave].tpCampo !== 'undefined') {
+                        this.urlRedirect = this.tiposReadequacoesRedirect[this.campo[chave].tpCampo];
+                        if (this.redirecionar) {
+                            this.executaRedirecionamento();
+                        }
+                    }
                 }
             }
         },
         redirecionar() {
             if (this.redirecionar) {
+                this.executaRedirecionamento();
+            }
+        },
+    },
+    methods: {
+        executaRedirecionamento() {
+            if (this.urlRedirect !== 'undefined') {
                 const routePath = this.urlRedirect + String(this.dadosReadequacao.idPronac);
                 if (routePath.match(/#/)) {
                     this.$router.push({ path: routePath });

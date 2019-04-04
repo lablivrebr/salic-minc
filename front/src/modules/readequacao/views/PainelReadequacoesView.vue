@@ -187,29 +187,16 @@ export default {
             }
         },
         criarReadequacao(idReadequacao) {
-            this.obterListaDeReadequacoes({
-                idPronac: this.dadosProjeto.idPronac,
-                stStatusAtual: 'proponente',
-            }).then(() => {
-                this.itemEmEdicao = idReadequacao;
-            });
+            this.itemEmEdicao = idReadequacao;
         },
         excluirReadequacao() {
             this.mensagem.conteudo = 'Readequação excluída!';
             this.mensagem.ativa = true;
             this.mensagem.cor = 'green lighteen-1';
             this.timeout = 1300;
-            this.obterListaDeReadequacoes({
-                idPronac: this.$route.params.idPronac,
-                stStatusAtual: 'proponente',
-            });
         },
         atualizarReadequacao() {
             this.itemEmEdicao = 0;
-            this.obterListaDeReadequacoes({
-                idPronac: this.$route.params.idPronac,
-                stStatusAtual: 'proponente',
-            });
         },
         getPerfis(tipo) {
             return this.perfisAceitos[tipo];

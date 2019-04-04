@@ -75,7 +75,10 @@ export default {
             excluirReadequacao: 'readequacao/excluirReadequacao',
         }),
         excluir() {
-            this.excluirReadequacao({ idReadequacao: this.dadosReadequacao.idReadequacao });
+            this.excluirReadequacao({
+                idReadequacao: this.dadosReadequacao.idReadequacao,
+                idPronac: this.dadosReadequacao.idPronac,
+            });
             this.dialog = false;
             this.$emit('excluir-readequacao', { idReadequacao: this.dadosReadequacao.idReadequacao });
         },

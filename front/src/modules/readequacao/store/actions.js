@@ -77,14 +77,21 @@ export const excluirReadequacao = ({ commit, dispatch }, params) => {
     readequacaoHelperAPI.excluirReadequacao(params)
         .then(() => {
             commit(types.EXCLUIR_READEQUACAO);
-            dispatch('obterListaDeReadequacoes', { stStatusAtual: 'proponente' });
+            dispatch('obterListaDeReadequacoes', {
+                idPronac: params.idPronac,
+                stStatusAtual: 'proponente',
+            });
         });
 };
 
-export const updateReadequacao = ({ commit }, params) => {
+export const updateReadequacao = ({ commit, dispatch }, params) => {
     readequacaoHelperAPI.updateReadequacao(params)
         .then((response) => {
             commit(types.UPDATE_READEQUACAO, response.data.data.items);
+            dispatch('obterListaDeReadequacoes', {
+                idPronac: params.idPronac,
+                stStatusAtual: 'proponente',
+            });
         });
 };
 
@@ -128,12 +135,16 @@ export const obterTiposDisponiveis = ({ commit }, params) => {
         });
 };
 
-export const inserirReadequacao = async ({ commit }, params) => {
+export const inserirReadequacao = async ({ commit, dispatch }, params) => {
     const resultado = await readequacaoHelperAPI.inserirReadequacao(params)
         .then((response) => {
             const { data } = response.data;
             commit(types.SET_READEQUACAO, data);
             commit(types.SET_READEQUACOES_PROPONENTE, data);
+            dispatch('obterListaDeReadequacoes', {
+                idPronac: params.idPronac,
+                stStatusAtual: 'proponente',
+            });
             return data;
         });
     return resultado;
@@ -142,20 +153,14 @@ export const inserirReadequacao = async ({ commit }, params) => {
 export const finalizarReadequacao = async ({ dispatch }, params) => {
     const resultado = await readequacaoHelperAPI.finalizarReadequacao(params)
           .then((response) => {
-              dispatch(
-                  'obterListaDeReadequacoes',
-                  {
-                      idPronac: params.idPronac,
-                      stStatusAtual: 'proponente'
-                  }
-              );
-              dispatch(
-                  'obterListaDeReadequacoes',
-                  {
-                      idPronac: params.idPronac,
-                      stStatusAtual: 'analise'
-                  }
-              );
+              dispatch('obterListaDeReadequacoes', {
+                  idPronac: params.idPronac,
+                  stStatusAtual: 'proponente',
+              });
+              dispatch('obterListaDeReadequacoes', {
+                  idPronac: params.idPronac,
+                  stStatusAtual: 'analise',
+              });
           });
     return resultado;
 };

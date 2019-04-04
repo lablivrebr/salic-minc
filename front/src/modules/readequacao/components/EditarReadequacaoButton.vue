@@ -327,6 +327,9 @@ export default {
             handler(value) {
                 if (value.idPronac && value.idTipoReadequacao) {
                     this.obterDadosIniciais();
+                    if (this.bindClick === this.dadosReadequacao.idReadequacao) {
+                        this.dialog = true;
+                    }
                 }
             },
             deep: true,

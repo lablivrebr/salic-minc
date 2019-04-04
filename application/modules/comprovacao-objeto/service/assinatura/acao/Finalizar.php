@@ -2,6 +2,8 @@
 
 namespace Application\Modules\ComprovacaoObjeto\Service\Assinatura\Acao;
 
+use Application\Modules\AvaliacaoResultados\Service\Fluxo\Estado as EstadoService;
+
 use MinC\Assinatura\Acao\IAcaoFinalizar;
 
 class Finalizar implements IAcaoFinalizar
@@ -21,6 +23,18 @@ class Finalizar implements IAcaoFinalizar
         if ($objeto['stResultadoAvaliacao'] == \ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto::OBJETO_REPROVADO) {
             $situacao = \Projeto_Model_Situacao::AGUARDANDO_REVISAO_DE_RESULTADOS;
             $providenciaTomada = 'Projeto encaminhado para revis&atilde;o da avalia&ccedil;&atilde;o de  resultados';
+            $idPronac = $objeto['idPronac'];
+            $proximoEstado = 10;
+
+            if (isset($idPronac)) {
+                $estadoService = new EstadoService();
+                $estadoService->alterarEstado(
+                    [
+                        'idPronac' => $idPronac,
+                        'proximo' => $proximoEstado
+                    ]
+                );
+            }
         }
 
         $tbProjetos = new \Projetos();

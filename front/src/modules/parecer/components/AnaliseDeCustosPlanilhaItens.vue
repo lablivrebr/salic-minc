@@ -127,8 +127,8 @@
                         <v-divider />
                         <v-card-text>
                             <v-alert
-                                class="py-2"
                                 :value="isCustoPraticado(props.item)"
+                                class="py-2"
                                 type="warning"
                                 dismissible
                                 outline

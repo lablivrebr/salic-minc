@@ -27,10 +27,10 @@
                 >
                     <v-switch
                         v-model="consolidacaoEmEdicao.ParecerFavoravel"
+                        :label="`Parecer Favorável?: ${labelSimOuNao(consolidacaoEmEdicao.ParecerFavoravel)}`"
                         color="green"
                         false-value="1"
                         true-value="2"
-                        :label="`Parecer Favorável?: ${labelSimOuNao(consolidacaoEmEdicao.ParecerFavoravel)}`"
                     />
                 </v-flex>
                 <v-flex
@@ -65,9 +65,9 @@
                 justify-center
             >
                 <v-btn
-                    color="primary"
                     :loading="loadingButton"
                     :disabled="!valid || !textIsValid"
+                    color="primary"
                     @click="submit"
                 >
                     <v-icon left>save</v-icon>

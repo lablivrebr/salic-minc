@@ -47,7 +47,9 @@
                         >
                             visibility
                         </v-icon>
-                        <span v-else class="py-2">-</span>
+                        <span
+                            v-else
+                            class="py-2">-</span>
                     </td>
                 </tr>
             </template>

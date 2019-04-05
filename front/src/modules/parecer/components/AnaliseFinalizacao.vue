@@ -91,8 +91,8 @@
         </v-card>
         <div class="text-xs-center mt-3">
             <v-btn
-                color="primary"
                 :disabled="remainingTasks > 0"
+                color="primary"
                 @click="finalizarParecer()"
             >
                 <v-icon left>

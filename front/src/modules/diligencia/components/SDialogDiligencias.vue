@@ -99,8 +99,8 @@
                         >
                             <v-btn
                                 slot="activator"
-                                color="primary"
                                 :disabled="isDiligenciaAberta"
+                                color="primary"
                                 @click="dialogCriarDiligencia = !dialogCriarDiligencia"
                             >
                                 <v-icon left>

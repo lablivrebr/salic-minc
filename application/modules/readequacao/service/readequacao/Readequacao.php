@@ -75,6 +75,7 @@ class Readequacao implements IServicoRestZend
                 $item['dsTipoReadequacao'] = utf8_encode($item['dsTipoReadequacao']);
                 $item['dsSolicitacao'] = utf8_encode($item['dsSolicitacao']);
                 $item['dsJustificativa'] = utf8_encode($item['dsJustificativa']);
+                $item['dsNomeSolicitante'] = utf8_encode($item['dsNomeSolicitante']);
                 $item['stStatusAtual'] = $stStatusAtual;
                 $resultArray[] = $item;
             }

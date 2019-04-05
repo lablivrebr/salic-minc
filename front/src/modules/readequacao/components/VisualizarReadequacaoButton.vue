@@ -44,12 +44,13 @@
                     class="mt-5 pt-3"
                 >
                     <v-flex
-                        xs5
+                        xs10
                         offset-xs1
                     >
                         <v-list
                             two-line
                             subheader
+                            class="ml-2"
                         >
                             <v-subheader inset>Dados da Solicitação</v-subheader>
                             <v-list-tile avatar>
@@ -58,9 +59,75 @@
                                 </v-list-tile-avatar>
                                 <v-list-tile-content>
                                     <v-list-tile-title>Nome do Solicitante</v-list-tile-title>
-                                    <v-list-tile-sub-title>Beltrano Ciclano - {{ dadosReadequacao.idSolicitante }} </v-list-tile-sub-title>
+                                    <v-list-tile-sub-title>{{ dadosReadequacao.dsNomeSolicitante }}</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                                <v-list-tile-avatar>
+                                    <v-icon class="green lighten-1 white--text">date_range</v-icon>
+                                </v-list-tile-avatar>
+                                <v-list-tile-content class="ml-3">
+                                    <v-list-tile-title>Data da Solicitação</v-list-tile-title>
+                                    <v-list-tile-sub-title>{{ dadosReadequacao.dtSolicitacao | formatarData }}</v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </v-list-tile>
+                        </v-list>
+
+                        <v-expansion-panel
+                            v-model="panel"
+                            expand
+                        >
+                            <v-expansion-panel-content>
+                                <v-card>
+                                    <v-card-title>
+                                        <v-btn fab depressed small class="green lighten-1">
+                                            <v-icon color="white">mode_comment</v-icon>
+                                        </v-btn>
+                                        Solicitação
+                                    </v-card-title>
+
+                                    <v-layout row>
+                                        <v-flex xs6>
+                                            <v-card-text class="grey lighten-3">
+                                                Solicitação Anterior
+                                            </v-card-text>
+                                        </v-flex>
+                                        <v-flex xs6>
+                                            <v-card-text class="grey lighten-3">
+                                                Solicitação Nova
+                                            </v-card-text>
+                                        </v-flex>
+                                    </v-layout>
+
+                                </v-card>
+                            </v-expansion-panel-content>
+                            <v-expansion-panel-content>
+                                <v-card>
+                                    <v-card-title>
+                                        <v-btn fab depressed small class="green lighten-1">
+                                            <v-icon color="white">assignment</v-icon>
+                                        </v-btn>
+                                        Justificativa
+                                    </v-card-title>
+                                    <v-layout row>
+                                        <v-flex xs6>
+                                            <v-card-text class="grey lighten-3">
+                                                Justificativa Anterior
+                                            </v-card-text>
+                                        </v-flex>
+                                        <v-flex xs6>
+                                            <v-card-text class="grey lighten-3">
+                                                Justificativa Nova
+                                            </v-card-text>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card>
+                            </v-expansion-panel-content>
+
+                        </v-expansion-panel>
+
+
+
+
+                        <!-- <v-list>
                             <v-list-tile
                                 avatar
                                 @click="visualizarSolicitacao = !visualizarSolicitacao"
@@ -88,21 +155,13 @@
                             </v-list-tile>
                         </v-list>
                     </v-flex>
-                    <v-flex xs5>
+                    <v-flex xs10 offset-xs1>
                         <v-list
                             two-line
                             subheader
                         >
                             <v-subheader inset/>
-                            <v-list-tile avatar>
-                                <v-list-tile-avatar>
-                                    <v-icon class="green lighten-1 white--text">date_range</v-icon>
-                                </v-list-tile-avatar>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>Data da Solicitação</v-list-tile-title>
-                                    <v-list-tile-sub-title>{{ dadosReadequacao.dtSolicitacao | formatarData }}</v-list-tile-sub-title>
-                                </v-list-tile-content>
-                            </v-list-tile>
+
                             <v-list-tile
                                 avatar
                                 @click="visualizarJustificativa = !visualizarJustificativa"
@@ -128,7 +187,7 @@
                                     </v-btn>
                                 </v-list-tile-action>
                             </v-list-tile>
-                        </v-list>
+                        </v-list> -->
                     </v-flex>
                     <v-flex
                         v-if="existeAvaliacao"

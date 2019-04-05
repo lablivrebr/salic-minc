@@ -389,7 +389,7 @@ export default {
                 dsSolicitacao: this.dadosReadequacao.dsSolicitacao,
                 dsJustificativa: this.dadosReadequacao.dsJustificativa,
             };
-            this.inicializarArquivoReadequacao(this.dadosReadequacao.idDocumento);
+            this.obterArquivoReadequacao(this.dadosReadequacao.idDocumento);
         },
         obterArquivoReadequacao(id) {
             if (id) {

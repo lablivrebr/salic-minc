@@ -1948,10 +1948,17 @@ select grupo from sac..tbAtoAdministrativo where idAtoAdministrativo = (
         ]);
 
         $query->joinInner(
-            array('tbTipoReadequacao' => 'tbTipoReadequacao'),
+            ['tbTipoReadequacao' => 'tbTipoReadequacao'],
             'tbTipoReadequacao.idTipoReadequacao = tbReadequacao.idTipoReadequacao',
             ['dsReadequacao AS dsTipoReadequacao'],
             $this->_schema
+        );
+
+        $query->joinInner(
+            ['nomes' => 'Nomes'],
+            'nomes.idAgente = tbReadequacao.idSolicitante',
+            ['Descricao AS dsNomeSolicitante'],
+            'agentes.dbo'
         );
         
         foreach ($where as $coluna => $valor) {

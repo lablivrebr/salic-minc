@@ -26,12 +26,30 @@ class Finalizar implements IAcaoFinalizar
             $idPronac = $objeto['idPronac'];
             $proximoEstado = 10;
 
+            $objTbProjetos = new \Projeto_Model_DbTable_Projetos();
+            $dadosProjeto = $objTbProjetos->findBy(array(
+                'IdPRONAC' => $modeloTbAssinatura->getIdPronac()
+            ));
+
+            $objOrgaos = new \Orgaos();
+            $dadosOrgaoSuperior = $objOrgaos->obterOrgaoSuperior($dadosProjeto['Orgao']);
+
+            if ((int)$dadosOrgaoSuperior['Codigo'] == (int)\Orgaos::ORGAO_SUPERIOR_SEFIC) {
+                $idOrgaoDestino = (int)\Orgaos::ORGAO_SEFIC_ARQ_CGEPC;
+            } elseif ((int)$dadosOrgaoSuperior['Codigo'] == (int)\Orgaos::ORGAO_SUPERIOR_SAV) {
+                $idOrgaoDestino = (int)\Orgaos::ORGAO_SAV_CEP;
+            }
+
             if (isset($idPronac)) {
                 $estadoService = new EstadoService();
                 $estadoService->alterarEstado(
                     [
                         'idPronac' => $idPronac,
-                        'proximo' => $proximoEstado
+                        'proximo' => $proximoEstado,
+                        'idOrgaoDestino' => $idOrgaoDestino,
+                        'cdGruposDestino' => \Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
+                        'idAgenteDestino' => $objeto['idTecnicoAvaliador']
+
                     ]
                 );
             }

@@ -42,7 +42,7 @@
                     @click.native="dialog = false">
                     <v-icon>close</v-icon>
                 </v-btn>
-                <v-toolbar-title absolute>Avaliação de Resultados - Visualizar Parecer</v-toolbar-title>
+                <v-toolbar-title>Avaliação de Resultados - Visualizar Parecer</v-toolbar-title>
             </v-toolbar>
 
             <v-container v-if="parecerObjeto === null">
@@ -184,8 +184,6 @@ export default {
         },
         statusButton(obj, laudo) {
             let status = {};
-
-            console.info(laudo && obj.siManifestacao === null);
 
             if (laudo && obj.siManifestacao === null) {
                 status = {

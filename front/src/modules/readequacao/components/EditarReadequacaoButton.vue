@@ -391,7 +391,6 @@ export default {
             };
             this.inicializarArquivoReadequacao(this.dadosReadequacao.idDocumento);
         },
-<<<<<<< HEAD
         obterArquivoReadequacao(id) {
             if (id) {
                 this.obterDocumento(id).then(() => {
@@ -399,14 +398,8 @@ export default {
                         return this.dadosReadequacao.documento;
                     }
                 });
-            }
-            else {
+            } else {
                 return {};
-=======
-        inicializarArquivoReadequacao(id) {
-            if(id) {
-                this.obterDocumento(id);
->>>>>>> d2d098d2f8364e2dfa99da6c976c097f16832c79
             }
         },
         atualizarArquivo(arquivo) {

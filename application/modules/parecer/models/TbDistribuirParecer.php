@@ -21,7 +21,9 @@ class Parecer_Model_TbDistribuirParecer  extends MinC_Db_Model
 
     const FECHAR_ANALISE_ABERTA = 0;
     const FECHAR_ANALISE_FECHADA = 1;
-    const FECHAR_ANALISE_ASSINATURA = 2;
+    const FECHAR_ANALISE_DEVOLVIDA_PARA_REANALISE = 2;
+    const FECHAR_ANALISE_EM_VALIDACAO = 3;
+    const FECHAR_ANALISE_ASSINATURA = 4;
 
     /**
      * @return mixed

@@ -45,7 +45,7 @@ class Parecer_AnaliseInicialConteudoRestController extends MinC_Controller_Rest_
             $analiseConteudoService = new AnaliseConteudo($this->getRequest(), $this->getResponse());
             $resposta = $analiseConteudoService->obter();
 
-            $this->customRenderJsonResponse($resposta, 200);
+            $this->customRenderJsonResponse(['data' => $resposta], 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

@@ -75,7 +75,7 @@ export default {
     },
     filters: {
         filtroFormatarParaReal(value) {
-            const parsedValue = parseFloat(value);
+            const parsedValue = typeof value !== 'undefined' ? parseFloat(value) : 0;
             return moneyFilter(parsedValue);
         },
         formatarData(value) {

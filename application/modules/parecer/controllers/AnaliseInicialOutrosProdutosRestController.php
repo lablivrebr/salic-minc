@@ -51,7 +51,7 @@ class Parecer_AnaliseInicialOutrosProdutosRestController extends MinC_Controller
 
             $resposta = \TratarArray::utf8EncodeArray($resposta);
 
-            $this->customRenderJsonResponse($resposta, 200);
+            $this->customRenderJsonResponse(['data' => $resposta], 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

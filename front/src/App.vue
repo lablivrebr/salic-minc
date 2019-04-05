@@ -14,7 +14,7 @@
                 :timeout="4000"
                 @input="fecharSnackbar"
             >
-                {{ getSnackbar.text }}
+                <span v-html="getSnackbar.text"/>
             </v-snackbar>
             <Rodape/>
         </v-app>

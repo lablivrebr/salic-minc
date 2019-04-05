@@ -61,9 +61,11 @@ class ConsolidacaoParecer implements \MinC\Servico\IServicoRestZend
         $whereParecer = [];
         $whereParecer['idPRONAC = ?'] = $idPronac;
         $parecer = $parecerDAO->findBy($whereParecer);
-        $planilhaprojeto = new \PlanilhaProjeto();
-        $total = $planilhaprojeto->somarPlanilhaProjeto($idPronac, 109);
-        $parecer['SugeridoReal'] = $total['soma'];
+
+        if (!empty($parecer)) {
+            $planilhaprojeto = new \PlanilhaProjeto();
+            $parecer['SugeridoReal'] = $planilhaprojeto->somarPlanilhaProjeto($idPronac, 109)['soma'];
+        }
 
         return \TratarArray::utf8EncodeArray($parecer);
     }

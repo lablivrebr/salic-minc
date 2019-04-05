@@ -20,13 +20,20 @@ class AvaliacaoResultados_PlanilhaAprovadaController extends MinC_Controller_Res
 
     public function getAction(){
         $idPronac = $this->getRequest()->getParam('idPronac');
+//        $porcento = $this->getRequest()->getParam('porcento');
         $data = [];
         $code = 200;
 
         $planilhaAprovacaoModel = new PlanilhaAprovacao();
-        $resposta = $planilhaAprovacaoModel->planilhaAprovadaAmostragem($idPronac);
+        $resposta = $planilhaAprovacaoModel->planilhaAprovadaAmostragem($idPronac, 10);
 
         $planilhaJSON = null;
+
+        if(isset($item)){
+            //:TODO
+            // Implementar parametro de filtro para retorno dos comprovantes somente
+            //
+        }
 
         if(!empty($resposta->toArray())) {
 

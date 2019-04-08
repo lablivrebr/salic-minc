@@ -7,8 +7,8 @@
             align-center
         >
             <v-flex class="text-xs-center">
-                <h1 class="display-2 error--text">
-                    Erro! :(
+                <h1 :class="`display-2 ${type}--text`">
+                    {{ title }}
                 </h1>
                 <p
                     class="headline mt-2"
@@ -17,14 +17,14 @@
                 <v-btn
                     v-if="urlRetorno"
                     outline
-                    color="error"
+                    :color="type"
                     :href="urlRetorno"
                     v-html="msgUrlRetorno"
                 />
                 <v-btn
                     v-if="rotaRetorno"
                     outline
-                    color="error"
+                    :color="type"
                     :to="rotaRetorno"
                     v-html="msgUrlRetorno"
                 />
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    name: 'SalicMensagemErro',
+    name: 'SalicMensagem',
     props: {
         texto: {
             type: String,
@@ -52,6 +52,26 @@ export default {
         rotaRetorno: {
             type: [String, Object],
             default: '',
+        },
+        type: {
+            type: String,
+            default: 'Voltar',
+        },
+    },
+    computed: {
+        title() {
+            let title = '';
+            switch (this.type) {
+            case 'error':
+                title = 'Erro! :(';
+                break;
+            case 'success':
+                title = 'Sucesso! :)';
+                break;
+            default:
+                title = 'Atenção!';
+            }
+            return title;
         },
     },
 };

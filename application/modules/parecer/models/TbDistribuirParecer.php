@@ -25,6 +25,9 @@ class Parecer_Model_TbDistribuirParecer  extends MinC_Db_Model
     const FECHAR_ANALISE_EM_VALIDACAO = 3;
     const FECHAR_ANALISE_ASSINATURA = 4;
 
+    const ST_ESTADO_ATIVO = 0;
+    const ST_ESTADO_INATIVO = 1;
+
     /**
      * @return mixed
      */

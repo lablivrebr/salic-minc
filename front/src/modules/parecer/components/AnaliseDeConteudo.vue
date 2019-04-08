@@ -230,9 +230,7 @@ export default {
             );
 
             this.loadingButton = true;
-            this.salvarAnaliseConteudo(analise).then(() => {
-                this.loadingButton = false;
-            }).catch(() => {
+            this.salvarAnaliseConteudo(analise).finally(() => {
                 this.loadingButton = false;
             });
 

@@ -105,13 +105,12 @@ class Produto implements \MinC\Servico\IServicoRestZend
         $produto['diasEmDiligencia'] = $this->obterTempoDiligencia($produto);
         $produto['diasEmAvaliacao'] = $this->obterTempoRestanteDeAvaliacao($produto);
 
-        if ($produto['stPrincipal'] && $produto['FecharAnalise'] != '0') {
+        if ($produto['stPrincipal']
+            && $produto['FecharAnalise'] == \Parecer_Model_TbDistribuirParecer::FECHAR_ANALISE_ASSINATURA) {
             $produto['idDocumentoAssinatura'] = $this->getIdDocumentoAssinatura($idPronac);
         }
 
-        $produto = \TratarArray::utf8EncodeArray($produto);
-
-        return $produto;
+        return \TratarArray::utf8EncodeArray($produto);
     }
 
     public function salvar()

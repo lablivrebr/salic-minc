@@ -88,7 +88,6 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
     public function finalizarParecer()
     {
         $idDistribuirParecer = $this->request->getParam("idDistribuirParecer");
-
         if (empty($idDistribuirParecer)) {
             throw new \Exception("ID da distribui&ccedil;&atilde;o n&atilde;o informado!");
         }
@@ -136,33 +135,37 @@ class AnaliseInicial implements \MinC\Servico\IServicoRestZend
         try {
             $tbDistribuirParecer->getAdapter()->beginTransaction();
 
-            $fecharAnalise = $isProdutoPrincipal
-                ? \Parecer_Model_TbDistribuirParecer::FECHAR_ANALISE_ASSINATURA
-                : \Parecer_Model_TbDistribuirParecer::FECHAR_ANALISE_FECHADA;
-
-            $dados = array(
+            $dados = [
                 'idOrgao' => $distribuicao->idOrgao,
                 'DtEnvio' => $distribuicao->DtEnvio,
                 'idAgenteParecerista' => $distribuicao->idAgenteParecerista,
                 'DtDistribuicao' => $distribuicao->DtDistribuicao,
-                'DtDevolucao' => \MinC_Db_Expr::date(),
+                'DtDevolucao' => null,
                 'DtRetorno' => null,
-                'FecharAnalise' => $fecharAnalise,
+                'FecharAnalise' => \Parecer_Model_TbDistribuirParecer::FECHAR_ANALISE_ASSINATURA,
                 'Observacao' => '',
                 'idUsuario' => $this->idUsuario,
                 'idPRONAC' => $distribuicao->IdPRONAC,
                 'idProduto' => $distribuicao->idProduto,
                 'TipoAnalise' => $distribuicao->TipoAnalise,
-                'stEstado' => 1,
+                'stEstado' => \Parecer_Model_TbDistribuirParecer::ST_ESTADO_ATIVO,
                 'stPrincipal' => $distribuicao->stPrincipal,
                 'stDiligenciado' => null
-            );
+            ];
+
+            if (!$isProdutoPrincipal) {
+                $dados['DtDevolucao'] = \MinC_Db_Expr::date();
+                $dados['FecharAnalise'] = \Parecer_Model_TbDistribuirParecer::FECHAR_ANALISE_FECHADA;
+            }
 
             $where = [];
             $where['idDistribuirParecer = ?'] = $idDistribuirParecer;
-            $tbDistribuirParecer->alterar(array('stEstado' => 1), $where);
+            $tbDistribuirParecer->alterar([
+                    'stEstado' => \Parecer_Model_TbDistribuirParecer::ST_ESTADO_INATIVO,
+                    'fecharAnalise' => 0
+                ], $where
+            );
             $tbDistribuirParecer->inserir($dados);
-
             $tbDistribuirParecer->getAdapter()->commit();
 
             if ($isProdutoPrincipal) {

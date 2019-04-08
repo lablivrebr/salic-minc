@@ -44,15 +44,6 @@ class Recurso implements \MinC\Servico\IServicoRestZend
                     ) {
                         $planoDistribuicaoProduto = new \Proposta_Model_DbTable_PlanoDistribuicaoProduto();
                         $dadosProdutos = $planoDistribuicaoProduto->buscarProdutosProjeto($recurso['IdPRONAC'])->toArray();
-
-                        $tipoDaPlanilha = 2; // 2=Planilha Aprovada Parecerista
-//                                    if ($data['tpSolicitacao'] == 'EO' || $data['tpSolicitacao'] == 'OR') {
-                            $tipoDaPlanilha = 4; // 4=Cortes Or�ament�rios Aprovados
-//                            }
-//                                $spPlanilhaOrcamentaria = new \spPlanilhaOrcamentaria();
-//
-//                                $planilhaOrcamentaria = $spPlanilhaOrcamentaria->exec($recurso['IdPRONAC'], $tipoDaPlanilha);
-//                                $data['planilhaRecurso'] = $this->montarPlanilhaOrcamentaria($planilhaOrcamentaria, $tipoDaPlanilha);
                     }
 
                     if ($recurso['tpSolicitacao'] == 'PI'

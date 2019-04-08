@@ -572,7 +572,7 @@ class Parecer_Model_DbTable_TbDistribuirParecer extends MinC_Db_Table_Abstract
                 new Zend_Db_Expr("CONVERT(CHAR(10), DtEnvio, 103) AS DtEnvioPT"),
                 new Zend_Db_Expr("CONVERT(CHAR(10), t.DtDevolucao, 103) AS DtDevolucaoPT"),
                 new Zend_Db_Expr("CONVERT(CHAR(10), t.DtDistribuicao, 103) AS DtDistribuicaoPT"),
-                "DescricaoAnalise" => new Zend_Db_Expr("CASE WHEN TipoAnalise = 0 THEN 'Cont�udo' WHEN TipoAnalise = 1 THEN 'Custo do Produto' ELSE 'Custo Administrativo' END"),
+                "DescricaoAnalise" => new Zend_Db_Expr("CASE WHEN TipoAnalise = 0 THEN 'Cont&eacute;udo' WHEN TipoAnalise = 1 THEN 'Custo do Produto' ELSE 'Custo Administrativo' END"),
                 'Obs' => new Zend_Db_Expr("SAC.dbo.fnChecarDistribuicaoProjeto(p.IdPRONAC, t.idProduto, t.TipoAnalise)"),
                 'Valor' => new Zend_Db_Expr("(Select SUM(x.Ocorrencia*x.Quantidade*x.ValorUnitario) FROM SAC.dbo.tbPlanilhaProjeto x WHERE p.IdPRONAC = x.idPRONAC and x.FonteRecurso = 109 and x.idProduto = t.idProduto)"),
                 new Zend_Db_Expr("(SELECT x1.Segmento FROM sac.dbo.PlanoDistribuicaoProduto x1

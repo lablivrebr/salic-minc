@@ -164,6 +164,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $this->_helper->viewRenderer->setNoRender(true);
     }
 
+    
     /**
      * Essa função é acessada para alterar o item da planilha orçamentária.
      */
@@ -172,6 +173,9 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $this->_helper->layout->disableLayout();
         $idPlanilhaAprovacao = $this->_request->getParam("idPlanilha");
         $idPronac = $this->_request->getParam("idPronac");
+        if (strlen($idPronac) > 7) {
+            $idPronac = Seguranca::dencrypt($idPronac);
+        }
         $tbPlanilhaAprovacao = new tbPlanilhaAprovacao();
 
         /* DADOS DO ITEM ATIVO */
@@ -455,9 +459,11 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
 
         $ValorUnitario = $this->_request->getParam('ValorUnitario');
 
-        $ValorUnitario = str_replace('R$ ', '', $ValorUnitario);
-        $ValorUnitario = str_replace('.', '', $ValorUnitario);
-        $ValorUnitario = str_replace(',', '.', $ValorUnitario);
+        if (strpos($ValorUnitario, 'R$')) {
+            $ValorUnitario = str_replace('R$ ', '', $ValorUnitario);
+            $ValorUnitario = str_replace('.', '', $ValorUnitario);
+            $ValorUnitario = str_replace(',', '.', $ValorUnitario);
+        }
 
         $idPronac = $this->_request->getParam("idPronac");
         if (strlen($idPronac) > 7) {
@@ -508,23 +514,26 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $idPronac,
             Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
         );
-        
-        $atualizarCustosVinculados = $this->atualizarCustosVinculados(
-            $idPronac,
-            $idReadequacao
-        );
-        
-        if ($atualizarCustosVinculados['erro']) {
-            $this->reverterAlteracaoItem(
-                $idPronac,
-                $idReadequacao,
-                $editarItem->idPlanilhaItem
-            );
 
-            $this->_helper->json([
-                'resposta' => false,
-                'mensagem' => $atualizarCustosVinculados['mensagem']
-            ]);            
+        $projetosDbTable = new Projeto_Model_DbTable_Projetos();
+        if ($projetosDbTable->possuiCalculoAutomaticoCustosVinculados($idPronac)) {
+            $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+                $idPronac,
+                $idReadequacao
+            );
+            
+            if ($atualizarCustosVinculados['erro']) {
+                $this->reverterAlteracaoItem(
+                    $idPronac,
+                    $idReadequacao,
+                    $editarItem->idPlanilhaItem
+                );
+
+                $this->_helper->json([
+                    'resposta' => false,
+                    'mensagem' => $atualizarCustosVinculados['mensagem']
+                ]);
+            }
         }
         
         $this->_helper->json(array('resposta' => true, 'msg' => 'Dados salvos com sucesso!'));
@@ -572,7 +581,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 if ($itemOriginal->vlUnitario != $item['valorUnitario']) {
                     $editarItem->vlUnitario = $item['valorUnitario'];
                     $editarItem->tpAcao = 'A';
-                    $editarItem->dsJustificativa = "Recalculo autom&aacute;tico com base no percentual solicitado pelo proponente ao enviar a proposta ao MinC.";
+                    $editarItem->dsJustificativa = "Rec&aacute;lculo autom&aacute;tico com base no percentual solicitado pelo proponente ao enviar a proposta ao MinC.";
 
                     $editarItem->save();
                 } else {
@@ -593,15 +602,16 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 ]);
                 
                 foreach ($itensOriginais as $itemOriginal) {
-                    $editarItem = $tbPlanilhaAprovacao->buscar([
+                    $editarItens = $tbPlanilhaAprovacao->buscar([
                         'idPronac = ?' => $idPronac,
                         'idPlanilhaItem = ?' => $itemOriginal['idPlanilhaItem'],
                         'idReadequacao = ?' => $idReadequacao
-                    ])->current();
-                    
-                    $editarItem->vlUnitario = $itemOriginal['vlUnitario'];
-                    $editarItem->tpAcao = 'N';
-                    $editarItem->save();
+                    ]);
+                    foreach ($editarItens as $editarItem) {
+                        $editarItem->vlUnitario = $itemOriginal['vlUnitario'];
+                        $editarItem->tpAcao = 'N';
+                        $editarItem->save();
+                    }
                 }
         } else {
             $retorno['erro'] = true;
@@ -3466,11 +3476,13 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
     {
         $this->_helper->layout->disableLayout();
 
+        $httpCode = 200;
+        
         $idTipoReadequacao = $this->_request->getParam('idTipoReadequacao');
         $idReadequacao = $this->_request->getParam('idReadequacao');
         $idPronac = $this->_request->getParam('idPronac');
         $siEncaminhamento = $this->_request->getParam('siEncaminhamento');
-
+        
         try {
             $tbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
             $readequacao = $tbReadequacao->obterDadosReadequacao(
@@ -3485,9 +3497,11 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 $readequacao = [];
             }
 
+            $this->getResponse()->setHttpResponseCode($httpCode);
             $this->_helper->json(
                 [
-                    'readequacao' => array_map('utf8_encode', $readequacao),
+                    'data' => array_map('utf8_encode', $readequacao),
+                    'sucess' => true,
                     'msg' => $mensagem
                 ]
             );
@@ -3496,7 +3510,8 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
 
             $this->_helper->json(
                 [
-                    'msg' => 'N&atilde;o foi poss&iacute;vel obter a readequa&ccedil;&atilde;o. Erro: ' . $objException->getMessage()
+                    'msg' => 'N&atilde;o foi poss&iacute;vel obter a readequa&ccedil;&atilde;o. Erro: ' . $objException->getMessage(),
+                    'sucess' => false
                 ]
             );
         }
@@ -3524,7 +3539,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $idReadequacao = $TbReadequacaoMapper->salvarSolicitacaoReadequacao($arrData);
 
             $this->_helper->json([
-                'mensagem' => utf8_encode('Houve um erro ao excluir o documento.'),
+                'mensagem' => utf8_encode('Documento excluído com sucesso.'),
             ]);
 
         } catch (Exception $objException) {
@@ -3542,6 +3557,10 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $this->_helper->viewRenderer->setNoRender(true);
 
         $idPronac = $this->_request->getParam('idPronac');
+        if (strlen($idPronac) > 7) {
+            $idPronac = Seguranca::dencrypt($idPronac);
+        }
+        
         $idDocumentoAtual = $this->_request->getParam('idDocumentoAtual');
         $idReadequacao = $this->_request->getParam('idReadequacao');
         $idTipoReadequacao = $this->_request->getParam('idTipoReadequacao');
@@ -3653,6 +3672,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $tbTitulacaoConselheiro = new tbTitulacaoConselheiro();
         $this->view->conselheiros = $tbTitulacaoConselheiro->buscarConselheirosTitularesTbUsuarios();
     }
+    
 
 
     public function obterPlanilhaOrcamentariaAction()
@@ -3660,6 +3680,9 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
         $this->_helper->layout->disableLayout();
 
         $idPronac = $this->_request->getParam('idPronac');
+        if (strlen($idPronac) > 7) {
+            $idPronac = Seguranca::dencrypt($idPronac);
+        }
         $tipoPlanilha = $this->_request->getParam('tipoPlanilha');
 
         $params = [];

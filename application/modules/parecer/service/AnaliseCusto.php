@@ -64,14 +64,15 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
     private function isPermitidoAvaliar($idPronac, $idProduto)
     {
-        if (empty($idPronac) || empty($idProduto)) {
+        if (empty($idPronac)
+            || empty($idProduto)
+            || $this->idGrupo != \Autenticacao_Model_Grupos::PARECERISTA) {
             return false;
         }
 
         $this->obterDistribuicao($idPronac, $idProduto);
 
-        return ($this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA
-            && $this->idAgente == $this->distribuicao['idAgenteParecerista']);
+        return ($this->idAgente == $this->distribuicao['idAgenteParecerista']);
     }
 
     public function obter()
@@ -100,7 +101,8 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         $planilhaCompleta = \TratarArray::utf8EncodeArray($planilhaCompleta);
         $planilhaParaAnalise = $this->filtrarPlanilhaParaAnalise($planilhaCompleta, $analisedeConteudo, $stPrincipal);
         $resp['items'] = $planilhaParaAnalise;
-        $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idPronac, $idProduto) && $analisedeConteudo[0]->ParecerFavoravel == 1;
+        $resp['somenteLeitura'] = $this->isPermitidoAvaliar($idPronac, $idProduto)
+            && $analisedeConteudo[0]->ParecerFavoravel == 1;
 
         return $resp;
 
@@ -120,7 +122,8 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             }
 
             $row["Seq"] = $i;
-            $row['isDisponivelParaAnalise'] = $this->isItemDisponivelParaAnalise($item);
+            $row['isDisponivelParaAnalise'] = $this->idGrupo == \Autenticacao_Model_Grupos::PARECERISTA
+                && $this->isItemDisponivelParaAnalise($item);
             $row['Produto'] = !empty($item['idProduto'])
                 ? $item['Produto']
                 : html_entity_decode('Administra&ccedil;&atilde;o do Projeto');
@@ -147,12 +150,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
 
     private function isItemDisponivelParaAnalise($item)
     {
-
         if (in_array($item['idEtapa'], self::ETAPAS_NAO_EDITAVEIS)) {
-            return false;
-        }
-
-        if ($this->idGrupo != \Autenticacao_Model_Grupos::PARECERISTA) {
             return false;
         }
 
@@ -224,7 +222,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
         $tbPlanilhaProjetoMapper = new \Planilha_Model_TbPlanilhaProjetoMapper();
         $tbPlanilhaProjetoMapper->atualizarCustosVinculadosDaTbPlanilhaProjeto($params['IdPRONAC']);
 
-        $idPlanilhaProjeto = (int) $params['idPlanilhaProjeto'];
+        $idPlanilhaProjeto = (int)$params['idPlanilhaProjeto'];
         $where = [
             'PPJ.IdPRONAC = ?' => $params['IdPRONAC'],
             "(PPJ.idPlanilhaProjeto = {$idPlanilhaProjeto} OR PPJ.idEtapa in (?))" => [

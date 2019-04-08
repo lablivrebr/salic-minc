@@ -937,7 +937,7 @@ class tbPlanilhaAprovacao extends MinC_Db_Table_Abstract
         
         $result = $this->fetchAll($objQuery);
         
-        if (count($result > 0)) {
+        if (count($result) > 0) {
             return true;
         }
         return false;

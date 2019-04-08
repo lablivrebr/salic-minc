@@ -1,7 +1,7 @@
 <template>
     <v-btn
         v-if="linkDiretoAssinatura"
-        :href="'/assinatura/index/visualizar-projeto?idDocumentoAssinatura='+documento"
+        :href="'/assinatura/index/visualizar-projeto?idDocumentoAssinatura='+documento+retorno"
         dark
         icon
         flat
@@ -37,6 +37,7 @@ export default {
         idPronac: { type: String, default: '' },
         linkDiretoAssinatura: { type: String, default: '' },
         documento: { type: String, default: '' },
+        retorno: { type: String, default: '' },
     },
     data() {
         return {

@@ -6,6 +6,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
     private $grupoAtivo;
     private $cod_usuario;
     public $moduloDeOrigem;
+    public $redirectRest;
 
     public function init()
     {
@@ -18,6 +19,8 @@ class Assinatura_IndexController extends Assinatura_GenericController
         isset($this->auth->getIdentity()->usu_codigo) ? parent::perfil() : parent::perfil(4);
 
         $this->definirModuloDeOrigem();
+        $this->definirUrlVoltar();
+
     }
 
     private function definirModuloDeOrigem()
@@ -26,9 +29,21 @@ class Assinatura_IndexController extends Assinatura_GenericController
         $post = (object)$this->getRequest()->getPost();
         $this->view->origin = "{$this->moduleName}/index";
         if (!empty($get->origin) || !empty($post->origin)) {
-            $this->view->origin = (!empty($post->origin)) ? $post->origin : $get->origin;
+            $this->view->origin = (!empty($post->origin)) ? urldecode($post->origin) : urldecode($get->origin);
         }
+
+        $this->view->originEncoded = urlencode($this->view->origin);
         $this->moduloDeOrigem = $this->view->origin;
+    }
+
+    private function definirUrlVoltar()
+    {
+        $moduleAndControllerArray = explode('/', $this->view->origin);
+
+        $this->view->urlVoltar = strpos($this->view->origin, '#') !== false
+            ? "/{$this->view->origin}"
+            : "/{$moduleAndControllerArray[0]}/{$moduleAndControllerArray[1]}/gerenciar-assinaturas";
+
     }
 
     public function indexAction()
@@ -51,8 +66,6 @@ class Assinatura_IndexController extends Assinatura_GenericController
         $search = $this->getRequest()->getParam('search');
         $order = $this->getRequest()->getParam('order');
         $columns = $this->getRequest()->getParam('columns');
-//
-//        $order = ($order[0]['dir'] != 1) ? array($columns[$order[0]['column']]['name'] . ' ' . $order[0]['dir']) : ["Pronac desc"];
 
         if ($search['value'] != '') {
             $search['value'] = urldecode($search['value']);
@@ -227,7 +240,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
             }
 
         } catch (Exception $objException) {
-            parent::message($objException->getMessage(), "/{$this->moduleName}/index/visualizar-documento-assinado?idDocumentoAssinatura={$idDocumentoAssinatura}&origin={$this->view->origin}");
+            parent::message($objException->getMessage(), "/{$this->moduleName}/index/visualizar-documento-assinado?idDocumentoAssinatura={$idDocumentoAssinatura}&origin={$this->view->originEncoded }");
         }
     }
 
@@ -268,7 +281,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 throw new Exception("Identificador do tipo do ato administrativo &eacute; necess&aacute;rio para acessar essa funcionalidade.");
             }
         } catch (Exception $objException) {
-            parent::message($objException->getMessage(), "/{$this->view->origin}/gerenciar-assinaturas");
+            parent::message($objException->getMessage(), "/gerenciar-assinaturas");
         }
 
         try {
@@ -286,7 +299,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
 
             if (is_array($get->IdPRONAC)) {
                 $idPronacUnidos = implode(',', $get->IdPRONAC);
-                $this->redirect("/{$this->moduleName}/index/assinar-projeto?IdPRONAC={$idPronacUnidos}&idTipoDoAtoAdministrativo={$idTipoDoAtoAdministrativo}&origin={$this->view->origin}");
+                $this->redirect("/{$this->moduleName}/index/assinar-projeto?IdPRONAC={$idPronacUnidos}&idTipoDoAtoAdministrativo={$idTipoDoAtoAdministrativo}&origin={$this->view->originEncoded}");
             }
 
             $this->view->IdPRONAC = $get->IdPRONAC;
@@ -372,7 +385,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
                     } else {
                         parent::message(
                             "Projeto assinado com sucesso!",
-                            "/{$this->moduleName}/index/visualizar-projeto?idDocumentoAssinatura={$idDocumentoAssinatura}&origin={$this->view->origin}",
+                            "/{$this->moduleName}/index/visualizar-projeto?idDocumentoAssinatura={$idDocumentoAssinatura}&origin={$this->view->originEncoded}",
                             'CONFIRM'
                         );
                     }
@@ -380,7 +393,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 } catch (Exception $objException) {
                     parent::message(
                         $objException->getMessage(),
-                        "/{$this->moduleName}/index/assinar-projeto?IdPRONAC={$idPronac}&idTipoDoAtoAdministrativo={$idTipoDoAtoAdministrativo}&origin={$this->view->origin}",
+                        "/{$this->moduleName}/index/assinar-projeto?IdPRONAC={$idPronac}&idTipoDoAtoAdministrativo={$idTipoDoAtoAdministrativo}&origin={$this->view->originEncoded}",
                         'ERROR'
                     );
                 }
@@ -419,6 +432,8 @@ class Assinatura_IndexController extends Assinatura_GenericController
 
             $this->view->templateAutenticacao = $servicoAutenticacao->obterMetodoAutenticacao()->obterTemplateAutenticacao();
             $this->view->idTipoDoAtoAdministrativo = $get->idTipoDoAtoAdministrativo;
+
+            $this->view->redirectRest = $this->view->origin;
 
             $moduleAndControllerArray = explode('/', $this->view->origin);
             $this->view->moduleOrigin = $moduleAndControllerArray[0];
@@ -581,7 +596,7 @@ class Assinatura_IndexController extends Assinatura_GenericController
                 } catch (Exception $objException) {
                     parent::message(
                         $objException->getMessage(),
-                        "/{$this->moduleName}/index/devolver-projeto?IdPRONAC={$idPronac}&idTipoDoAtoAdministrativo={$idTipoDoAtoAdministrativo}&origin={$this->view->origin}",
+                        "/{$this->moduleName}/index/devolver-projeto?IdPRONAC={$idPronac}&idTipoDoAtoAdministrativo={$idTipoDoAtoAdministrativo}&origin={$this->view->originEncoded}",
                         'ERROR'
                     );
                 }
@@ -613,6 +628,8 @@ class Assinatura_IndexController extends Assinatura_GenericController
 
             $this->view->templateAutenticacao = $servicoAutenticacao->obterMetodoAutenticacao()->obterTemplateAutenticacao();
             $this->view->idTipoDoAtoAdministrativo = $get->idTipoDoAtoAdministrativo;
+
+            $this->view->redirectRest = $this->view->origin;
 
             $moduleAndControllerArray = explode('/', $this->view->origin);
             $this->view->moduleOrigin = $moduleAndControllerArray[0];

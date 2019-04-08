@@ -103,6 +103,7 @@
                 </v-chip>
             </v-toolbar>
             <v-stepper
+                v-if="produto.FecharAnalise === '0'"
                 v-model="currentStep"
                 non-linear
             >
@@ -156,6 +157,68 @@
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
+            <v-card
+                v-else-if="produto.FecharAnalise !== '0' && produto.stPrincipal === '1'"
+                tile
+            >
+                <v-card-text>
+                    <v-container
+                        fill-height
+                        style="min-height:calc(100vh - 400px);"
+                    >
+                        <v-layout
+                            align-center
+                        >
+                            <v-flex class="text-xs-center">
+                                <h1 class="display-2 primary--text">
+                                    Parecer finalizado com sucesso!
+                                </h1>
+                                <p class="mt-2">
+                                    Você concluiu a análise do produto. Para finalizar a análise do projeto
+                                    você deverá assinar o documento com o parecer!
+                                </p>
+                                <v-btn
+                                    outline
+                                    color="primary"
+                                    href=""
+                                    class="v-btn v-btn--outline "
+                                >
+                                    Ir para o documento
+                                </v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+            </v-card>
+            <v-card
+                v-else
+                tile
+            >
+                <v-card-text>
+                    <v-container
+                        fill-height
+                        style="min-height:calc(100vh - 400px);"
+                    >
+                        <v-layout
+                            align-center
+                        >
+                            <v-flex class="text-xs-center">
+                                <h1 class="display-2 primary--text">
+                                    Parecer finalizado com sucesso!
+                                </h1>
+                                <v-btn
+                                    outline
+                                    color="primary"
+                                    href=""
+                                    class="v-btn v-btn--outline "
+                                >
+                                    Ir para lista de produtos
+                                </v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+            </v-card>
             <s-dialog-analise-outros-produtos v-model="dialogOutrosProdutos" />
             <s-dialog-diligencias
                 v-model="dialogDiligencias"

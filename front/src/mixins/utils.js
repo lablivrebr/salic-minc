@@ -27,6 +27,13 @@ export const utils = {
 
             return 'N\xE3o';
         },
+	isObject: function (el) {
+            return typeof el === "object";
+        },
+	converterParaReal: function (value) {
+            value = parseFloat(value);
+            return numeral(value).format('0,0.00');
+        },
         isDataExpirada(date) {
             return moment().diff(date, 'days') > 0;
         },
@@ -57,7 +64,7 @@ export const utils = {
     },
     filters: {
         formatarData(date) {
-            if ((date && date.length === 0) || date === null) {
+            if (date && date.length === 0 || date === null) {
                 return '-';
             }
             return moment(date)

@@ -54,7 +54,7 @@
             }
             ?>
             <a class="btn waves-effect waves-dark"
-               href="<?php echo "/{$this->moduleOrigin}/{$this->controllerOrigin}/gerenciar-assinaturas{$origin}"; ?>">Voltar</a>
+               href="<?= $this->urlVoltar; ?>">Voltar</a>
             <?php
             if ($this->isPermitidoAssinar === true):
                 ?>
@@ -65,7 +65,7 @@
                            'controller' => 'index',
                            'action' => 'assinar-projeto'
                        ))
-                       . "?IdPRONAC={$this->IdPRONAC}&idTipoDoAtoAdministrativo={$this->idTipoDoAtoAdministrativo}&origin={$this->origin}";
+                       . "?IdPRONAC={$this->IdPRONAC}&idTipoDoAtoAdministrativo={$this->idTipoDoAtoAdministrativo}&origin=",urlencode($this->origin);
                    ?>">Assinar</a>
 
                 <?php if ($this->isDisponivelParaDevolucao === true): ?>

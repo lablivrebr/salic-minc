@@ -35,7 +35,9 @@
         <v-card>
             <v-toolbar
                 dark
-                color="green">
+                color="#0a420e !important"
+                fixed
+            >
                 <v-btn
                     icon
                     dark
@@ -49,7 +51,7 @@
                 <v-alert
                     :value="true"
                     type="warning"
-                    class="black--text"
+                    class="mt-5 black--text"
                 >
                     Avaliação do cumprimento do objeto não encontrada!
                 </v-alert>
@@ -58,7 +60,9 @@
             <v-container grid-list-sm>
                 <v-layout
                     row
-                    wrap>
+                    wrap
+                    class="mt-5"
+                >
                     <v-flex
                         xs12
                         sm12

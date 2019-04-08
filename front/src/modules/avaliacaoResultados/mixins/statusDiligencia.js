@@ -45,7 +45,6 @@ export default {
             return status;
         },
         prazoResposta(obj) {
-
             let now;
             let timeDiff;
             let prazo;

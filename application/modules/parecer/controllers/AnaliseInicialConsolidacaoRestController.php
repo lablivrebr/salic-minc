@@ -12,7 +12,7 @@ class Parecer_AnaliseInicialConsolidacaoRestController extends MinC_Controller_R
             Autenticacao_Model_Grupos::COORDENADOR_DE_PARECER,
         ];
 
-        $permissionsPerMethod  = [
+        $permissionsPerMethod = [
             '*' => $profiles,
         ];
 
@@ -45,7 +45,7 @@ class Parecer_AnaliseInicialConsolidacaoRestController extends MinC_Controller_R
             $analiseConteudoService = new ConsolidacaoParecer($this->getRequest(), $this->getResponse());
             $resposta = $analiseConteudoService->obter();
 
-            $this->customRenderJsonResponse($resposta, 200);
+            $this->customRenderJsonResponse(['data' => $resposta], 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

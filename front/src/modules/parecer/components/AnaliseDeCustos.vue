@@ -142,10 +142,14 @@
                     fab
                     @click="mostrarListagem = !mostrarListagem"
                 >
-                    <v-icon medium v-if="!mostrarListagem">
+                    <v-icon
+                        v-if="!mostrarListagem"
+                        medium>
                         list
                     </v-icon >
-                    <v-icon v-else medium>
+                    <v-icon
+                        v-else
+                        medium>
                         calendar_view_day
                     </v-icon>
                 </v-btn>
@@ -159,7 +163,6 @@
                 >
                     Mostrar planilha completa
                 </span>
-                <span></span>
             </v-tooltip>
         </v-speed-dial>
     </div>

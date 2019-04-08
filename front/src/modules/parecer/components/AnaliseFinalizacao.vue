@@ -91,8 +91,9 @@
         </v-card>
         <div class="text-xs-center mt-3">
             <v-btn
+                :disabled="remainingTasks > 0 || loadingButton"
+                :loading="loadingButton"
                 color="primary"
-                :disabled="remainingTasks > 0"
                 @click="finalizarParecer()"
             >
                 <v-icon left>
@@ -113,6 +114,7 @@ export default {
     components: { SCarregando },
     data: () => ({
         loading: true,
+        loadingButton: false,
         tasks: [
             {
                 name: 'analise-conteudo',
@@ -160,7 +162,7 @@ export default {
                 action: 'obterConsolidacao',
                 loading: true,
                 done: false,
-                rules: [(v, self) => (Object.keys(v).length > 0
+                rules: [(v, self) => (Object.keys(v).length > 0 && v.ResumoParecer
                     && self.stripTags(v.ResumoParecer).length > 10) || 'Falta parecer da consolidação'],
                 error: '',
             },
@@ -275,8 +277,11 @@ export default {
                 idDistribuirParecer: this.produto.idDistribuirParecer,
                 situacao: this.produto.situacao,
             };
+            this.loadingButton = true;
 
-            this.finalizarAnalise(analise);
+            this.finalizarAnalise(analise).finally(() => {
+                this.loadingButton = false;
+            });
         },
     },
 };

@@ -27,10 +27,10 @@
                 >
                     <v-switch
                         v-model="consolidacaoEmEdicao.ParecerFavoravel"
+                        :label="`Parecer Favorável?: ${labelSimOuNao(consolidacaoEmEdicao.ParecerFavoravel)}`"
                         color="green"
                         false-value="1"
                         true-value="2"
-                        :label="`Parecer Favorável?: ${labelSimOuNao(consolidacaoEmEdicao.ParecerFavoravel)}`"
                     />
                 </v-flex>
                 <v-flex
@@ -65,9 +65,9 @@
                 justify-center
             >
                 <v-btn
-                    color="primary"
                     :loading="loadingButton"
                     :disabled="!valid || !textIsValid"
+                    color="primary"
                     @click="submit"
                 >
                     <v-icon left>save</v-icon>
@@ -114,6 +114,7 @@ export default {
                 idProduto: this.$route.params.id,
                 ParecerFavoravel: '2',
                 ResumoParecer: '',
+                SugeridoReal: 1000,
             },
             rules: {
                 parecer: v => (!!v || this.$refs.stItemAvaliado.value !== '3') || 'Parecer é obrigatório',
@@ -129,7 +130,7 @@ export default {
     watch: {
         consolidacao(val) {
             if (Object.keys(val).length > 0) {
-                this.consolidacaoEmEdicao = Object.assign({}, val);
+                this.consolidacaoEmEdicao = Object.assign({}, this.consolidacaoEmEdicao, val);
             }
             this.loading = false;
         },

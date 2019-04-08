@@ -50,7 +50,7 @@ class Parecer_ProdutoRestController extends MinC_Controller_Rest_Abstract
             $tramitacaoService = new Produto($this->getRequest(), $this->getResponse());
             $resposta = $tramitacaoService->buscar();
 
-            $this->customRenderJsonResponse($resposta, 200);
+            $this->customRenderJsonResponse(['data' => $resposta], 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

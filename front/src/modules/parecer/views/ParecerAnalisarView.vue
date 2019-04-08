@@ -3,10 +3,10 @@
         fluid
     >
         <s-carregando
-            v-if="Object.keys(produto).length === 0"
-            :text="'Carregando produto'"
+            v-if="loadingProduto"
+            text="Carregando produto"
         />
-        <template v-else>
+        <template v-else-if="produto && Object.keys(produto).length > 0">
             <v-toolbar
                 height="90"
                 color="blue-grey darken-2"
@@ -59,6 +59,7 @@
                     <span> Visualizar outros produtos do projeto </span>
                 </v-tooltip>
                 <v-tooltip
+                    v-if="isDisponivelParaAnalise"
                     bottom
                 >
                     <v-btn
@@ -103,7 +104,7 @@
                 </v-chip>
             </v-toolbar>
             <v-stepper
-                v-if="produto.FecharAnalise === '0'"
+                v-if="isDisponivelParaAnalise"
                 v-model="currentStep"
                 non-linear
             >
@@ -127,7 +128,6 @@
                         />
                     </template>
                 </v-stepper-header>
-
                 <v-stepper-items>
                     <v-stepper-content
                         v-for="(step, index) in arraySteps"
@@ -157,76 +157,37 @@
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
-            <v-card
-                v-else-if="produto.FecharAnalise !== '0' && produto.stPrincipal === '1'"
-                tile
-            >
-                <v-card-text>
-                    <v-container
-                        fill-height
-                        style="min-height:calc(100vh - 400px);"
-                    >
-                        <v-layout
-                            align-center
-                        >
-                            <v-flex class="text-xs-center">
-                                <h1 class="display-2 primary--text">
-                                    Parecer finalizado com sucesso!
-                                </h1>
-                                <p class="mt-2">
-                                    Você concluiu a análise do produto. Para finalizar a análise do projeto
-                                    você deverá assinar o documento com o parecer!
-                                </p>
-                                <v-btn
-                                    outline
-                                    color="primary"
-                                    href=""
-                                    class="v-btn v-btn--outline "
-                                >
-                                    Ir para o documento
-                                </v-btn>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                </v-card-text>
-            </v-card>
-            <v-card
+            <s-mensagem
+                v-else-if="isDisponivelParaAssinatura"
+                texto="Você concluiu a análise do produto.
+                Para finalizar a análise do projeto você deverá assinar o documento com o parecer!"
+                msg-url-retorno="Ir para o documento"
+                type="success"
+                :url-retorno="`/assinatura/index/visualizar-projeto?idDocumentoAssinatura=${produto.idDocumentoAssinatura}`"
+            />
+            <s-mensagem
                 v-else
-                tile
-            >
-                <v-card-text>
-                    <v-container
-                        fill-height
-                        style="min-height:calc(100vh - 400px);"
-                    >
-                        <v-layout
-                            align-center
-                        >
-                            <v-flex class="text-xs-center">
-                                <h1 class="display-2 primary--text">
-                                    Parecer finalizado com sucesso!
-                                </h1>
-                                <v-btn
-                                    outline
-                                    color="primary"
-                                    href=""
-                                    class="v-btn v-btn--outline "
-                                >
-                                    Ir para lista de produtos
-                                </v-btn>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                </v-card-text>
-            </v-card>
+                texto="Parecer finalizado com sucesso!"
+                msg-url-retorno="Ir para lista de produtos"
+                type="success"
+                :rota-retorno="{ name: 'parecer-listar-view'}"
+            />
             <s-dialog-analise-outros-produtos v-model="dialogOutrosProdutos" />
             <s-dialog-diligencias
+                v-if="isDisponivelParaAnalise"
                 v-model="dialogDiligencias"
                 :id-pronac="produto.IdPRONAC"
                 :id-produto="produto.idProduto"
                 :tp-diligencia="tipoDiligencia"
             />
         </template>
+        <s-mensagem
+            v-else
+            texto="Desculpe, houve um erro ao carregar o produto."
+            msg-url-retorno="Voltar para lista de produtos"
+            type="error"
+            :rota-retorno="{ name: 'parecer-listar-view'}"
+        />
     </v-container>
 </template>
 
@@ -237,13 +198,16 @@ import mixinParecer from '../mixins/utilsParecer';
 import mixinDiligencia from '@/modules/diligencia/mixins/diligencia';
 import SDialogAnaliseOutrosProdutos from '../components/AnaliseOutrosProdutosDialog';
 import SDialogDiligencias from '@/modules/diligencia/components/SDialogDiligencias';
+import SMensagem from '@/components/SalicMensagem';
 
 const TP_DILIGENCIA = 124;
 const SITUACAO_DILIGENCIA = 'B14';
 
 export default {
     name: 'ParecerAnalisarView',
-    components: { SDialogDiligencias, SDialogAnaliseOutrosProdutos, SCarregando },
+    components: {
+        SMensagem, SDialogDiligencias, SDialogAnaliseOutrosProdutos, SCarregando,
+    },
     mixins: [mixinParecer, mixinDiligencia],
     data: () => ({
         currentStep: '1',
@@ -251,6 +215,7 @@ export default {
         dialogDiligencias: false,
         tipoDiligencia: TP_DILIGENCIA,
         situacaoDiligencia: SITUACAO_DILIGENCIA,
+        loadingProduto: true,
         arraySteps: [
             {
                 id: 1,
@@ -298,14 +263,31 @@ export default {
             produto: 'parecer/getProduto',
             analiseConteudo: 'parecer/getAnaliseConteudo',
         }),
+        isDisponivelParaAnalise() {
+            return !!this.produto && this.produto.FecharAnalise === '0';
+        },
+        isDisponivelParaAssinatura() {
+            return this.produto
+                && this.produto.FecharAnalise === '4'
+                && this.produto.stPrincipal === 1
+                && this.produto.idDocumentoAssinatura;
+        },
     },
     watch: {
         currentStep(step) {
             this.$router.push({ name: this.arraySteps[step - 1].name });
         },
-        produto() {
-            this.removerSteps();
-            this.atualizarStepByRoute();
+        produto(val) {
+            this.loadingProduto = true;
+            if (!!val && Object.keys(val).length > 0) {
+                this.removerSteps();
+                this.atualizarStepByRoute();
+                this.loadingProduto = false;
+            }
+
+            if (typeof val === 'undefined') {
+                this.loadingProduto = false;
+            }
         },
         analiseConteudo() {
             this.validarSteps();

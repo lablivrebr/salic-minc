@@ -31,8 +31,8 @@
                             >
                                 <s-editor-texto
                                     v-model="diligenciaEmEdicao.solicitacao"
-                                    placeholder="Texto da diligência"
                                     :min-char="minChar"
+                                    placeholder="Texto da diligência"
                                     @editor-texto-counter="validateText($event)"
                                 />
                             </v-form>

@@ -12,7 +12,7 @@ class Parecer_AnaliseInicialRestController extends MinC_Controller_Rest_Abstract
             Autenticacao_Model_Grupos::COORDENADOR_DE_PARECER,
         ];
 
-        $permissionsPerMethod  = [
+        $permissionsPerMethod = [
             '*' => $profiles,
         ];
 
@@ -29,8 +29,8 @@ class Parecer_AnaliseInicialRestController extends MinC_Controller_Rest_Abstract
             $resposta = $tramitacaoService->listar();
 
             $this->customRenderJsonResponse([
-                'quantidadeAssinaturas' =>  $resposta['quantidadeAssinaturas'],
                 'items' => $resposta['data'],
+                'quantidadeAssinaturas' => $resposta['quantidadeAssinaturas'],
             ], 200);
 
         } catch (Exception $objException) {
@@ -50,7 +50,10 @@ class Parecer_AnaliseInicialRestController extends MinC_Controller_Rest_Abstract
             $tramitacaoService = new AnaliseInicialService($this->getRequest(), $this->getResponse());
             $resposta = $tramitacaoService->analisar();
 
-            $this->customRenderJsonResponse($resposta, 200);
+            $this->customRenderJsonResponse([
+                    'items' => $resposta['items'],
+                    'somenteLeitura' => $resposta['somenteLeitura']
+            ],200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

@@ -41,7 +41,7 @@ class Parecer_AnaliseInicialFinalizacaoRestController extends MinC_Controller_Re
     public function getAction()
     {
         try {
-            $this->customRenderJsonResponse([], 200);
+            $this->customRenderJsonResponse(['data' => []], 200);
 
         } catch (Exception $objException) {
             $this->customRenderJsonResponse([

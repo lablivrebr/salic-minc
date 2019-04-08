@@ -29,11 +29,14 @@ export const obterProdutosParaAnalise = ({ commit }) => {
         });
 };
 
-export const obterProdutoParaAnalise = ({ commit }, params) => {
+export const obterProdutoParaAnalise = ({ commit, dispatch }, params) => {
     commit(types.SET_PRODUTO, {});
     parecerHelperAPI.obterProdutoParaAnalise(params)
         .then((response) => {
-            commit(types.SET_PRODUTO, response.data);
+            commit(types.SET_PRODUTO, response.data.data);
+        }).catch((e) => {
+            dispatch('parecerMensagemErro', e.response.data.error.message);
+            throw new TypeError(e.response.data.error.message, 'obterProdutoParaAnalise', 10);
         });
 };
 
@@ -41,7 +44,7 @@ export const obterAnaLiseConteudo = ({ commit }, params) => {
     commit(types.SET_ANALISE_CONTEUDO, {});
     parecerHelperAPI.obterAnaliseConteudo(params)
         .then((response) => {
-            commit(types.SET_ANALISE_CONTEUDO, response.data);
+            commit(types.SET_ANALISE_CONTEUDO, response.data.data);
         });
 };
 
@@ -70,13 +73,13 @@ export const obterProdutosSecundarios = ({ commit }, params) => {
     commit(types.SET_PRODUTOS_SECUNDARIOS, []);
     parecerHelperAPI.obterProdutosSecundarios(params)
         .then((response) => {
-            commit(types.SET_PRODUTOS_SECUNDARIOS, response.data);
+            commit(types.SET_PRODUTOS_SECUNDARIOS, response.data.data);
         });
 };
 
 export const salvarAvaliacaoItem = async ({ dispatch }, avaliacao) => parecerHelperAPI.salvarAvaliacaoItem(avaliacao)
     .then((response) => {
-        dispatch('atualizarVariosItens', response.data.data.items);
+        dispatch('atualizarVariosItensPlanilha', response.data.data.items);
         dispatch('parecerMensagemSucesso', response.data.message);
         return response.data;
     }).catch((e) => {
@@ -84,7 +87,7 @@ export const salvarAvaliacaoItem = async ({ dispatch }, avaliacao) => parecerHel
         throw new TypeError(e.response.data.message, 'salvarAnaliseItem', 10);
     });
 
-export const atualizarVariosItens = ({ commit }, data) => {
+export const atualizarVariosItensPlanilha = ({ commit }, data) => {
     data.forEach((item) => {
         commit(types.UPDATE_ITEM_PLANILHA, item);
     });
@@ -94,7 +97,7 @@ export const obterAnaliseConteudoSecundario = ({ commit }, params) => {
     commit(types.SET_ANALISE_CONTEUDO_SECUNDARIO, {});
     parecerHelperAPI.obterAnaliseConteudo(params)
         .then((response) => {
-            commit(types.SET_ANALISE_CONTEUDO_SECUNDARIO, response.data);
+            commit(types.SET_ANALISE_CONTEUDO_SECUNDARIO, response.data.data);
         });
 };
 
@@ -102,14 +105,14 @@ export const obterPlanilhaProdutoSecundario = ({ commit }, params) => {
     commit(types.SET_PLANILHA_SECUNDARIO, []);
     parecerHelperAPI.obterPlanilhaParaAnalise(params)
         .then((response) => {
-            commit(types.SET_PLANILHA_SECUNDARIO, response.data);
+            commit(types.SET_PLANILHA_SECUNDARIO, response.data.data);
         });
 };
 
 export const obterConsolidacao = ({ commit }, params) => {
     parecerHelperAPI.obterAnaliseConsolidacao(params)
         .then((response) => {
-            commit(types.SET_CONSOLIDACAO, response.data);
+            commit(types.SET_CONSOLIDACAO, response.data.data);
         });
 };
 
@@ -135,6 +138,10 @@ export const restaurarPlanilhaProduto = async ({ dispatch }, avaliacao) => parec
 export const finalizarAnalise = async ({ dispatch }, data) => parecerHelperAPI.finalizarAnalise(data)
     .then((response) => {
         dispatch('parecerMensagemSucesso', 'Salvo com sucesso!');
+        dispatch('obterProdutoParaAnalise', {
+            id: data.idProduto,
+            idPronac: data.idPronac,
+        });
         return response.data;
     }).catch((e) => {
         dispatch('parecerMensagemErro', e.response.data.message);

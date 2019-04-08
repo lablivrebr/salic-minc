@@ -60,9 +60,9 @@
                     <v-spacer />
                     <v-toolbar-items>
                         <v-btn
+                            :loading="loadingButton"
                             dark
                             flat
-                            :loading="loadingButton"
                             @click="submit"
                         >
                             <v-icon left>
@@ -96,8 +96,8 @@
                             >
                                 <v-switch
                                     v-model="analiseConteudoEmEdicao.ParecerFavoravel"
-                                    color="green"
                                     :label="`Parecer Favorável?: ${labelSimOuNao(analiseConteudoEmEdicao.ParecerFavoravel)}`"
+                                    color="green"
                                 />
                             </v-flex>
                             <v-flex
@@ -123,9 +123,9 @@
                             justify-center
                         >
                             <v-btn
-                                color="primary"
                                 :loading="loadingButton"
                                 :disabled="!textIsValid"
+                                color="primary"
                                 @click="submit"
                             >
                                 <v-icon left>
@@ -230,9 +230,7 @@ export default {
             );
 
             this.loadingButton = true;
-            this.salvarAnaliseConteudo(analise).then(() => {
-                this.loadingButton = false;
-            }).catch(() => {
+            this.salvarAnaliseConteudo(analise).finally(() => {
                 this.loadingButton = false;
             });
 

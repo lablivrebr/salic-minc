@@ -1249,6 +1249,12 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/analise/controllers/RecursoRestController.php
+     * application/modules/dados-bancarios/controllers/ContasBancariasRestController.php
+     */
     public function recursoAction()
     {
         $mapperArea = new Agente_Model_AreaMapper();
@@ -1645,6 +1651,10 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/service/PagamentoUfMunicipio.php
+     */
     public function pagamentosPorUfMunicipioAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1664,6 +1674,10 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/service/PagamentoConsolidados.php
+     */
     public function pagamentosConsolidadosPorUfMunicipioAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1715,6 +1729,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/controllers/ExecucaoReceitaDespesaController.php
+     * application/modules/prestacao-contas/service/ExecucaoReceitaDespesa.php
+     */
     public function execucaoReceitaDespesaAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1738,6 +1757,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/controllers/RelatorioFisicoRestController.php
+     * application/modules/prestacao-contas/service/RelatorioFisico.php
+     */
     public function relatorioFisicoAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1850,6 +1874,10 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/service/RelatoriosTrimestrais.php
+     */
     public function relatoriosTrimestraisAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1971,7 +1999,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $this->_helper->layout->disableLayout();// Desabilita o Zend Layout
     }
 
-
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/controllers/RelatorioCumprimentoObjetoRestController.php
+     * application/modules/prestacao-contas/service/RelatorioCumprimentoObjeto.php
+     */
     public function relatorioFinalAction()
     {
         $idpronac = $this->_request->getParam("idPronac");

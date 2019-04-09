@@ -508,23 +508,26 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
             $idPronac,
             Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA
         );
-        
-        $atualizarCustosVinculados = $this->atualizarCustosVinculados(
-            $idPronac,
-            $idReadequacao
-        );
-        
-        if ($atualizarCustosVinculados['erro']) {
-            $this->reverterAlteracaoItem(
-                $idPronac,
-                $idReadequacao,
-                $editarItem->idPlanilhaItem
-            );
 
-            $this->_helper->json([
-                'resposta' => false,
-                'mensagem' => $atualizarCustosVinculados['mensagem']
-            ]);            
+        $projetosDbTable = new Projeto_Model_DbTable_Projetos();
+        if ($projetosDbTable->possuiCalculoAutomaticoCustosVinculados($idPronac)) {
+            $atualizarCustosVinculados = $this->atualizarCustosVinculados(
+                $idPronac,
+                $idReadequacao
+            );
+            
+            if ($atualizarCustosVinculados['erro']) {
+                $this->reverterAlteracaoItem(
+                    $idPronac,
+                    $idReadequacao,
+                    $editarItem->idPlanilhaItem
+                );
+
+                $this->_helper->json([
+                    'resposta' => false,
+                    'mensagem' => $atualizarCustosVinculados['mensagem']
+                ]);
+            }
         }
         
         $this->_helper->json(array('resposta' => true, 'msg' => 'Dados salvos com sucesso!'));
@@ -572,7 +575,7 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 if ($itemOriginal->vlUnitario != $item['valorUnitario']) {
                     $editarItem->vlUnitario = $item['valorUnitario'];
                     $editarItem->tpAcao = 'A';
-                    $editarItem->dsJustificativa = "Recalculo autom&aacute;tico com base no percentual solicitado pelo proponente ao enviar a proposta ao MinC.";
+                    $editarItem->dsJustificativa = "Rec&aacute;lculo autom&aacute;tico com base no percentual solicitado pelo proponente ao enviar a proposta ao MinC.";
 
                     $editarItem->save();
                 } else {
@@ -593,15 +596,16 @@ class Readequacao_ReadequacoesController extends Readequacao_GenericController
                 ]);
                 
                 foreach ($itensOriginais as $itemOriginal) {
-                    $editarItem = $tbPlanilhaAprovacao->buscar([
+                    $editarItens = $tbPlanilhaAprovacao->buscar([
                         'idPronac = ?' => $idPronac,
                         'idPlanilhaItem = ?' => $itemOriginal['idPlanilhaItem'],
                         'idReadequacao = ?' => $idReadequacao
-                    ])->current();
-                    
-                    $editarItem->vlUnitario = $itemOriginal['vlUnitario'];
-                    $editarItem->tpAcao = 'N';
-                    $editarItem->save();
+                    ]);
+                    foreach ($editarItens as $editarItem) {
+                        $editarItem->vlUnitario = $itemOriginal['vlUnitario'];
+                        $editarItem->tpAcao = 'N';
+                        $editarItem->save();
+                    }
                 }
         } else {
             $retorno['erro'] = true;

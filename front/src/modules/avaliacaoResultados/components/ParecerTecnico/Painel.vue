@@ -209,6 +209,7 @@ import Devolver from '../components/Devolver';
 import VisualizarPlanilhaButtton from '../analise/VisualizarPlanilhaButtton';
 import Diligencias from '../components/HistoricoDiligencias';
 import VisualizarParecer from '../components/VisualizarParecer';
+import ProjetosSimilaresButtton from '../analise/ProjetosSimilaresButton';
 
 export default {
     name: 'Painel',
@@ -223,7 +224,7 @@ export default {
             listaAcoesTecnico: {
                 atual: '',
                 proximo: '',
-                acoes: [Diligencias, Historico, AnaliseButton, VisualizarParecer],
+                acoes: [Diligencias, Historico, AnaliseButton, VisualizarParecer, VisualizarPlanilhaButtton, ProjetosSimilaresButtton],
             },
             listaAcoesAssinar: {
                 usuario: this.getUsuario,

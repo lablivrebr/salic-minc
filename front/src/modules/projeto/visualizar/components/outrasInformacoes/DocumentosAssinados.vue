@@ -26,26 +26,14 @@
                                     `/idPronac/${props.item.IdPRONAC}`+
                             `?idDocumentoAssinatura=${props.item.idDocumentoAssinatura}`"
                             style="text-decoration: none"
-                            fab
-                            dark
-                            small
-                            color="teal"
+                            flat
+                            icon
                             target="_blank"
                         >
-                            <v-icon dark>search</v-icon>
+                            <v-icon>visibility</v-icon>
                         </v-btn>
                         <span>Visualizar</span>
                     </v-tooltip>
-                </td>
-                <td class="text-xs-center">
-                    <v-btn
-                        slot="activator"
-                        :to="{ name: 'dadosprojeto', params: { idPronac: dadosProjeto.idPronac }}"
-                        style="text-decoration: none"
-                        color="primary"
-                        class="center">
-                        {{ props.item.pronac }}
-                    </v-btn>
                 </td>
             </template>
             <template
@@ -102,13 +90,7 @@ export default {
                 {
                     align: 'center',
                     sortable: false,
-                    text: 'VER',
-                },
-                {
-                    align: 'center',
-                    text: 'PRONAC',
-                    sortable: false,
-                    value: 'pronac',
+                    text: 'VISUALIZAR',
                 },
             ],
         };
@@ -120,6 +102,10 @@ export default {
         }),
     },
     watch: {
+        dadosProjeto(value) {
+            this.loading = true;
+            this.buscarDocumentosAssinados(value.idPronac);
+        },
         dados() {
             this.loading = false;
         },

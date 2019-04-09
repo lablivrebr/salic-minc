@@ -29,7 +29,7 @@ class Finalizar implements IAcaoFinalizar
         $objOrgaos = new \Orgaos();
         $dadosOrgaoSuperior = $objOrgaos->obterOrgaoSuperior($dadosProjeto['Orgao']);
         if ((int)$dadosOrgaoSuperior['Codigo'] == (int)\Orgaos::ORGAO_SUPERIOR_SEFIC) {
-            $orgaoDestino = (int)\Orgaos::ORGAO_GEAR_SACAV;
+            $orgaoDestino = (int)\Orgaos::ORGAO_SEFIC_ARQ_CGEPC;
         } elseif ((int)$dadosOrgaoSuperior['Codigo'] == (int)\Orgaos::ORGAO_SUPERIOR_SAV) {
             $orgaoDestino = (int)\Orgaos::ORGAO_SAV_CEP;
         }

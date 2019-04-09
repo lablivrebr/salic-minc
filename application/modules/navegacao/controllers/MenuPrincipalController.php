@@ -61,7 +61,7 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
             'label' => 'Avaliação de Resultados',
             'title' => 'Ir para Presta&ccedil;&atilde;o de Contas',
             'menu' => [],
-            'grupo' => [100, 124, 125, 126, 132, 148, 151],
+            'grupo' => [100, 124, 125, 126, 132, 148, 149, 151],
         ];
 
         $arrMenu['prestacao-contas']['menu'][] = [
@@ -93,7 +93,7 @@ class Navegacao_MenuPrincipalController extends Zend_Rest_Controller
         ];
 
         $arrMenu['prestacao-contas']['menu'][] = [
-            'grupo' => [126, 148, 151],
+            'grupo' => [126, 148, 149, 151],
             'url' => ['module' => 'avaliacao-resultados', 'controller' => 'index', 'action' => 'index/#/laudo'],
             'title' => 'Ir para Laudo Final',
             'label' => 'Analisar Laudo Final'

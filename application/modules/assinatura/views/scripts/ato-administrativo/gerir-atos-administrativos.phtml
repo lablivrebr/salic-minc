@@ -33,6 +33,7 @@
                             <th class="center-align">Orgao</th>
                             <th class="center-align">Cargo</th>
                             <th class="center-align">Perfil</th>
+                            <th class="center-align">Utiliza encaminhamento de projeto?</th>
                             <th class="center-align">Situa&ccedil;&atilde;o</th>
                             <th class="center-align" align="center" colspan="2">A&ccedil;&atilde;o</th>
 			</tr>
@@ -48,6 +49,7 @@
                             <td class="center-align" align="center"><?php echo $dado['dsOrgaoDoAssinante']; ?></td>
                             <td class="center-align" align="center"><?php echo $dado['dsCargoDoAssinante']; ?></td>
                             <td class="center-align" align="center"><?php echo $dado['dsPerfil']; ?></td>
+                            <td class="center-align" align="center"><?php echo ($dado['encaminhaProjeto'] == 1) ? "sim" : "n&atilde;o"; ?></td>
                             <td class="center-align" align="center"><?php echo ($dado['stEstado'] == Assinatura_Model_TbAtoAdministrativo::ST_ESTADO_ATIVO) ? 'Ativo': 'Inativo' ; ?></td>
                             <td class="center-align" align="center">
                                 <?php

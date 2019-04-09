@@ -106,20 +106,6 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                     break;
                 case $modelCustosVinculados::ID_REMUNERACAO_CAPTACAO:
                     $item['percentualPadrao'] = $percentualRemuneracaoCaptacao;
-
-                    $projetos = new Projetos();
-                    $projeto = $projetos->buscar(['idProjeto = ?' => $idPreProjeto]);
-                    if (count($projeto) > 0) {
-                        $tbPlanilhaAprovacaoModel = new tbPlanilhaAprovacao();
-                        $idPronac = $projeto->current()['IdPRONAC'];
-
-                        $valorRemuneracaoCaptacaoAprovado = $tbPlanilhaAprovacaoModel->obterValorRemuneracaoCaptacaoAprovado($idPronac);
-                        if (!empty($valorRemuneracaoCaptacaoAprovado)
-                            && $limiteRemuneracaoCaptacao > $valorRemuneracaoCaptacaoAprovado) {
-                            $limiteRemuneracaoCaptacao = $valorRemuneracaoCaptacaoAprovado;
-                        }
-                    }
-
                     $item['limitePadrao'] = $limiteRemuneracaoCaptacao;
                     break;
             }
@@ -309,7 +295,7 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                 'idEtapa' => $item['idPlanilhaEtapa'],
                 'idPlanilhaItem' => $item['idPlanilhaItens'],
                 'Descricao' => '',
-                'Unidade' => '1',
+                'Unidade' => '15',
                 'Quantidade' => '1',
                 'Ocorrencia' => '1',
                 'ValorUnitario' => $item['valorUnitario'],
@@ -320,7 +306,7 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                 'FonteRecurso' => Mecanismo::INCENTIVO_FISCAL_FEDERAL,
                 'UfDespesa' => $item['idUF'],
                 'MunicipioDespesa' => $item['idMunicipio'],
-                'dsJustificativa' => '',
+                'dsJustificativa' => 'Item or&ccedil;ament&aacute;rio recalculado automaticamente conforme o percentual solicitado pelo proponente',
                 'stCustoPraticado' => 0,
                 'idUsuario' => 462
             );

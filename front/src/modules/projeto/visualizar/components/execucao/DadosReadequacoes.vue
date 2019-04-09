@@ -107,6 +107,12 @@
                                         <b>Data solicitação</b>
                                         <p>{{ readequacao.dtSolicitacao | formatarData }} </p>
                                     </v-flex>
+                                    <v-flex class="text-xs-center">
+                                        <b>Data solicitação teste paulo hen</b>
+                                        <p class="text-xs-center">
+                                            {{ readequacao.dtSolicitacao | formatarData }}
+                                        </p>
+                                    </v-flex>
                                 </v-layout>
                                 <v-layout
                                     row
@@ -282,6 +288,12 @@ export default {
             case 14:
             case 11:
                 icone = 'perm_media';
+                break;
+            case 20:
+                icone = 'date_range';
+                break;
+            case 16:
+                icone = 'playlist_add_check';
                 break;
             default:
                 icone = 'subject';

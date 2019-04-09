@@ -37,6 +37,7 @@ Vue.component('sl-comprovante-nacional-form',
                                 type="text"
                                 ref="CNPJCPF"
                                 v-on:keyup.enter="pesquisarFornecedor()"
+                                @blur="pesquisarFornecedor()"
                                 :class="[this.c.fornecedor.CNPJCPF.css]"
                                 v-mask="maskCNPJCPF"
                                 v-model="comprovante.fornecedor.cnpjcpfMask"
@@ -427,8 +428,7 @@ Vue.component('sl-comprovante-nacional-form',
 
                     // let c = JSON.parse(JSON.stringify(this.comprovante))
                     let c = Object.assign({}, this.comprovante);
-                    c.valor = numeral(c.valor)
-                        .value();
+                    c.valor = numeral(c.valor).value();
                     formData.append('comprovante', JSON.stringify(c));
 
                     $3.ajax({
@@ -439,7 +439,8 @@ Vue.component('sl-comprovante-nacional-form',
                         processData: false,
                         contentType: false,
                     })
-                        .done(function (data) {
+                    .done(function (data) {
+                        if (data.success == true) {
                             Materialize.toast('Salvo com sucesso!', 4000, 'green');
                             $3('#modal1')
                                 .modal('close');
@@ -524,11 +525,21 @@ Vue.component('sl-comprovante-nacional-form',
 
                                 vue.$root.$emit('atualizado-comprovante-nacional', vue.comprovante);
                             }
-                        });
+                        } else {
+                            Materialize.toast('Erro ao tentar salvar!', 4000, 'red');
+
+                        }
+                    });
                 }
             },
             validar: function () {
                 if (!this.comprovante.fornecedor.CNPJCPF) {
+                    this.c.fornecedor.CNPJCPF.css = 'invalid red-text';
+                    this.$refs.CNPJCPF.focus();
+                    return false;
+                }
+
+                if (this.comprovante.fornecedor.idAgente == '') {
                     this.c.fornecedor.CNPJCPF.css = 'invalid red-text';
                     this.$refs.CNPJCPF.focus();
                     return false;

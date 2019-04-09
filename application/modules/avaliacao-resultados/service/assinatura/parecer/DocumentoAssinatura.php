@@ -115,6 +115,12 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
                 break;
         };
 
+        $view->secretaria = 'Secretaria Fomento e Incentivo &agrave; Cultura';
+
+        if ($dadosProjeto['Mecanismo'] == 1 ) {
+            $view->secretaria = 'Secretaria do Audiovisual';
+        }
+
         return $view->render('documento-assinatura.phtml');
     }
 

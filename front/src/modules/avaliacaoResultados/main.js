@@ -5,6 +5,7 @@ import Vue from 'vue';
 import pt from 'vuetify/lib/locale/pt';
 import Vuetify from 'vuetify';
 import Index from './Index';
+import 'vuetify/dist/vuetify.min.css';
 
 import {
     router,

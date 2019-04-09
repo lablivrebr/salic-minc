@@ -41,6 +41,9 @@ import RelatorioFisico from './visualizar/components/prestacaoContas/RelatorioFi
 import RelacaoPagamento from './visualizar/components/prestacaoContas/RelacaoPagamento';
 import RelatorioCumprimentoObjeto from './visualizar/components/prestacaoContas/RelatorioCumprimentoObjeto';
 
+import Aprovacao from './visualizar/components/analiseAprovacao/Aprovacao';
+import Recurso from './visualizar/components/analiseAprovacao/Recurso';
+
 // import retirados do webpackChunkName
 import DadosProjeto from './visualizar/components/DadosProjeto';
 import Proponente from './visualizar/components/incentivo/Proponente';
@@ -344,6 +347,22 @@ const routes = [
                 component: Devolucoes,
                 meta: {
                     title: 'Devoluções',
+                },
+            },
+            {
+                path: 'aprovacao',
+                name: 'Aprovacao',
+                component: Aprovacao,
+                meta: {
+                    title: 'Aprovação',
+                },
+            },
+            {
+                path: 'recurso',
+                name: 'Recurso',
+                component: Recurso,
+                meta: {
+                    title: 'Recurso',
                 },
             },
             {

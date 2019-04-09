@@ -96,6 +96,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 import { utils } from '@/mixins/utils';
+import { Printd } from 'printd';
 import FiltroData from './components/FiltroData';
 import FiltroTipoConta from './components/FiltroTipoConta';
 
@@ -109,7 +110,7 @@ export default {
     mixins: [utils],
     data() {
         return {
-            cssText: `
+            cssText: [`
               .box {
                 width: 5000px;
                 text-align: left;
@@ -130,7 +131,7 @@ export default {
                 width: 120px;
                 text-align: center;
               }
-              `,
+              `],
             search: '',
             pagination: {
                 sortBy: 'dtLancamento',
@@ -205,17 +206,6 @@ export default {
         },
     },
     mounted() {
-        const { Printd } = window.printd;
-        this.d = new Printd();
-
-        const { contentWindow } = this.d.getIFrame();
-
-        contentWindow.addEventListener(
-            'beforeprint', () => {},
-        );
-        contentWindow.addEventListener(
-            'afterprint', () => {},
-        );
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             const params = {
                 idPronac: this.dadosProjeto.idPronac,
@@ -240,6 +230,19 @@ export default {
             this.buscarExtratosBancarios(params);
         },
         print() {
+            this.d = new Printd();
+
+            const { contentWindow } = this.d.getIFrame();
+
+            contentWindow.addEventListener(
+                'beforeprint', () => {
+                },
+            );
+            contentWindow.addEventListener(
+                'afterprint', () => {
+                },
+            );
+
             this.d.print(this.$el, this.cssText);
         },
     },

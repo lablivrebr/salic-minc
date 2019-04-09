@@ -33,4 +33,4 @@ export const putRequest = (path, bodyFormData, id) => instance.post(`${path}/${i
 
 export const deleteRequest = (path, id) => instance.delete(`${path}/${id}`);
 
-export const HTTP = () => axios.create({});
+export const HTTP = config => axios.create(config);

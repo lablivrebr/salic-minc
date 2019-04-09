@@ -87,6 +87,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 import { utils } from '@/mixins/utils';
+import { Printd } from 'printd';
 import FiltroTipoConta from './components/FiltroTipoConta';
 
 export default {
@@ -98,7 +99,7 @@ export default {
     mixins: [utils],
     data() {
         return {
-            cssText: `
+            cssText: [`
               .box {
                 width: 5000px;
                 text-align: left;
@@ -119,7 +120,7 @@ export default {
                 width: 120px;
                 text-align: center;
               }
-              `,
+              `],
             items: [
                 'Captação',
                 'Movimentação',
@@ -180,17 +181,6 @@ export default {
         },
     },
     mounted() {
-        const { Printd } = window.printd;
-        this.d = new Printd();
-
-        const { contentWindow } = this.d.getIFrame();
-
-        contentWindow.addEventListener(
-            'beforeprint', () => {},
-        );
-        contentWindow.addEventListener(
-            'afterprint', () => {},
-        );
         if (typeof this.dadosProjeto.idPronac !== 'undefined') {
             this.buscarExtratosBancariosConsolidado(this.dadosProjeto.idPronac);
         }
@@ -200,6 +190,17 @@ export default {
             buscarExtratosBancariosConsolidado: 'dadosBancarios/buscarExtratosBancariosConsolidado',
         }),
         print() {
+            this.d = new Printd();
+
+            const { contentWindow } = this.d.getIFrame();
+
+            contentWindow.addEventListener(
+                'beforeprint', () => {},
+            );
+            contentWindow.addEventListener(
+                'afterprint', () => {},
+            );
+
             this.d.print(this.$el, this.cssText);
         },
     },

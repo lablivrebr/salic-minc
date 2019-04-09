@@ -76,6 +76,7 @@
                                     append-icon="search"
                                     @click:append="buscarFornecedor(cpfCnpj)"
                                     @keyup.enter="buscarFornecedor(cpfCnpj)"
+                                    @blur="buscarFornecedor(cpfCnpj)"
                                 />
                             </v-flex>
                             <v-flex
@@ -92,7 +93,7 @@
                             <v-flex
                                 sm12
                             >
-                                <div v-if="!agenteEhCadastrado">
+                                <div v-if="!agenteEhCadastrado && buscouFornecedor">
                                     <span class="error--text caption d-block ml-2 md-1">Fornecedor não cadastrado!</span>
                                     <v-btn
                                         :href="`/prestacao-contas/fornecedor/index/cpfcnpj/${cpfCnpj}`"
@@ -337,7 +338,7 @@
                     Há campos inválidos e/ou não preenchidos!
                 </span>
                 <v-btn
-                    :disabled="!valid"
+                    :disabled="!valid || buscandoFornecedor"
                     flat
                     color="success"
                     @click="submit"
@@ -382,6 +383,10 @@ export default {
 
             cpfCnpjLabel: 'CNPJ',
             cpfCnpj: '',
+            cpfMask: '###.###.###-##',
+            cnpjMask: '##.###.###/####-##',
+            cpfPlaceholder: '000.000.000-00',
+            cnpjPlaceholder: '00.000.000/0000-00',
             cpfRules: [
                 cpf => !!cpf || 'O campo CPF é obrigatório!',
                 cpf => this.validarCpf(cpf) || 'O CPF informado não é válido!',
@@ -390,7 +395,7 @@ export default {
                 cnpj => !!cnpj || 'O campo CNPJ é obrigatório!',
                 cnpj => this.validarCnpj(cnpj) || 'O CNPJ informado não é válido!',
             ],
-            buscouFornecedor: false,
+            buscandoFornecedor: false,
 
             tipoComprovante: 1,
             tipoComprovanteOpcoes: [
@@ -448,14 +453,10 @@ export default {
             agente: 'avaliacaoResultados/buscarAgente',
         }),
         cpfCnpjMask() {
-            const cpfMask = '###.###.###-##';
-            const cnpjMask = '##.###.###/####-##';
-            return this.cpfCnpjLabel === 'CNPJ' ? cnpjMask : cpfMask;
+            return this.cpfCnpjLabel === 'CNPJ' ? this.cnpjMask : this.cpfMask;
         },
         cpfCnpjPlaceholder() {
-            const cpfPlaceholder = '000.000.000-00';
-            const cnpjPlaceholder = '00.000.000/0000-00';
-            return this.cpfCnpjLabel === 'CNPJ' ? cnpjPlaceholder : cpfPlaceholder;
+            return this.cpfCnpjLabel === 'CNPJ' ? this.cnpjPlaceholder : this.cpfPlaceholder;
         },
         cpfCnpjRules() {
             return this.cpfCnpjLabel === 'CNPJ' ? this.cnpjRules : this.cpfRules;
@@ -481,8 +482,11 @@ export default {
             const [ano, mes, dia] = this.dataPagamento.split('-');
             return `${dia}/${mes}/${ano}`;
         },
+        buscouFornecedor() {
+            return this.agente.length > 0;
+        },
         agenteEhCadastrado() {
-            return this.buscouFornecedor && this.agente.length > 0;
+            return this.agente.length > 0 && this.agente[0].msgCPF === 'cadastrado';
         },
     },
     watch: {
@@ -500,6 +504,17 @@ export default {
                 });
             }
         },
+        cpfCnpj() {
+            this.buscandoFornecedor = true;
+        },
+        agente(val) {
+            if (val[0].msgCPF === 'cadastrado') {
+                this.valid = true;
+            } else {
+                this.valid = false;
+            }
+            this.buscandoFornecedor = false;
+        },
     },
     methods: {
         ...mapActions({
@@ -516,10 +531,6 @@ export default {
             }
 
             this.buscarAgente(this.cpfCnpjParams);
-            this.buscouFornecedor = true;
-            if (!this.agenteEhCadastrado) {
-                this.valid = false;
-            }
         },
         pickFile() {
             this.$refs.inputComprovante.click();
@@ -548,8 +559,8 @@ export default {
             return parseFloat(string);
         },
         submit() {
-            this.valid = this.$refs.form.validate();
             this.buscarFornecedor(this.cpfCnpj);
+            this.valid = this.$refs.form.validate();
 
             if (this.valid && this.agenteEhCadastrado) {
                 const formData = new FormData();

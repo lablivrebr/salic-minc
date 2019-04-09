@@ -463,6 +463,9 @@ export const buscarAgente = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI.buscarAgente(params)
         .then((response) => {
             const { data } = response;
+            if (data.length === 0) {
+                data.push({ msgCPF: 'nao cadastrado' });
+            }
             commit(types.BUSCAR_AGENTE, data);
         }).catch((e) => {
             throw new TypeError(e.response.data.message, 'error', 10);

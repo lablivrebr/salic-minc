@@ -1,12 +1,14 @@
 <template>
     <div class="itens">
         <v-data-table
+            v-model="selected"
             :headers="headers"
             :items="table"
             :rows-per-page-items="[-1]"
             :loading="loading"
             item-key="idPlanilhaProjeto"
             class="elevation-1"
+            select-all
             hide-actions
         >
             <v-progress-linear
@@ -23,6 +25,13 @@
                     :style="obterEstiloItem(props.item)"
                     @click="props.expanded = editarItem(props)"
                 >
+                    <td>
+                        <v-checkbox
+                            v-model="props.selected"
+                            primary
+                            hide-details
+                        />
+                    </td>
                     <td class="text-xs-center">
                         {{ props.item.Seq }}
                     </td>
@@ -418,6 +427,7 @@ export default {
             minChars: 10,
             messageAlert: '',
             validacao: {},
+            selected: [],
             headers: [
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
@@ -480,10 +490,15 @@ export default {
         valorSugerido(val) {
             this.itemEmEdicao.VlSugeridoParecerista = val;
         },
+        selected(val, old) {
+
+        },
     },
     methods: {
         ...mapActions({
             salvarAvaliacaoItem: 'parecer/salvarAvaliacaoItem',
+            salvarItemSelecionado: 'parecer/salvarItemSelecionado',
+            removerItemSelecionado: 'parecer/removerItemSelecionado',
             obterMediana: 'planilha/obterMediana',
         }),
         editarItem(props) {
@@ -564,6 +579,12 @@ export default {
             this.itemEmEdicao.diasparc = this.itemEmEdicao.diasprop;
             this.itemEmEdicao.valorUnitarioparc = this.itemEmEdicao.valorUnitarioprop;
             this.atualizarCombo();
+        },
+        inserirItemSelecionado(item) {
+            this.salvarItemSelecionado(item);
+        },
+        retirarItemSelecionado(item) {
+            this.removerItemSelecionado(item);
         },
     },
 };

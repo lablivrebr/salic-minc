@@ -109,7 +109,9 @@
             "Application\\Modules\\DadosBancarios\\Service\\Devolucoes\\": "./application/modules/dados-bancarios/service/",
             "Application\\Modules\\PrestacaoContas\\Service\\ExecucaoReceitaDespesa\\": "./application/modules/prestacao-contas/service/",
             "Application\\Modules\\PrestacaoContas\\Service\\RelatorioFisico\\": "./application/modules/prestacao-contas/service/",
-            "Application\\Modules\\PrestacaoContas\\Service\\RelatorioCumprimentoObjeto\\": "./application/modules/prestacao-contas/service/"
+            "Application\\Modules\\PrestacaoContas\\Service\\RelatorioCumprimentoObjeto\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\MovimentacaoBancaria\\": "./application/modules/movimentacao-bancaria/",
+            "Application\\Modules\\MovimentacaoBancaria\\Service\\": "./application/modules/movimentacao-bancaria/service/",
         }
     },
     "archive": {

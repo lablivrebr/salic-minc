@@ -159,18 +159,18 @@
             </v-stepper>
             <s-mensagem
                 v-else-if="isDisponivelParaAssinatura"
+                :url-retorno="`/assinatura/index/visualizar-projeto?idDocumentoAssinatura=${produto.idDocumentoAssinatura}`"
                 texto="Você concluiu a análise do produto.
                 Para finalizar a análise do projeto você deverá assinar o documento com o parecer!"
                 msg-url-retorno="Ir para o documento"
                 type="success"
-                :url-retorno="`/assinatura/index/visualizar-projeto?idDocumentoAssinatura=${produto.idDocumentoAssinatura}`"
             />
             <s-mensagem
                 v-else
+                :rota-retorno="{ name: 'parecer-listar-view'}"
                 texto="Parecer finalizado com sucesso!"
                 msg-url-retorno="Ir para lista de produtos"
                 type="success"
-                :rota-retorno="{ name: 'parecer-listar-view'}"
             />
             <s-dialog-analise-outros-produtos v-model="dialogOutrosProdutos" />
             <s-dialog-diligencias
@@ -183,10 +183,10 @@
         </template>
         <s-mensagem
             v-else
+            :rota-retorno="{ name: 'parecer-listar-view'}"
             texto="Desculpe, houve um erro ao carregar o produto."
             msg-url-retorno="Voltar para lista de produtos"
             type="error"
-            :rota-retorno="{ name: 'parecer-listar-view'}"
         />
     </v-container>
 </template>

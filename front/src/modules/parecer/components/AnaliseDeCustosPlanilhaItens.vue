@@ -490,15 +490,29 @@ export default {
         valorSugerido(val) {
             this.itemEmEdicao.VlSugeridoParecerista = val;
         },
-        selected(val, old) {
+        selected(after, before) {
+            const removed = before.filter((item) => {
+                const indexItem = after.findIndex(
+                    itemBefore => parseInt(itemBefore.idPlanilhaProjeto, 10) === parseInt(item.idPlanilhaProjeto, 10),
+                );
+                return indexItem < 0;
+            });
 
+            const add = after.filter((item) => {
+                const indexItem = before.findIndex(
+                    itemBefore => parseInt(itemBefore.idPlanilhaProjeto, 10) === parseInt(item.idPlanilhaProjeto, 10),
+                );
+                return indexItem < 0;
+            });
+            this.retirarItensSelecionados(removed);
+            this.inserirItensSelecionados(add);
         },
     },
     methods: {
         ...mapActions({
             salvarAvaliacaoItem: 'parecer/salvarAvaliacaoItem',
-            salvarItemSelecionado: 'parecer/salvarItemSelecionado',
-            removerItemSelecionado: 'parecer/removerItemSelecionado',
+            salvarItensSelecionados: 'parecer/salvarItensSelecionados',
+            removerItensSelecionados: 'parecer/removerItensSelecionados',
             obterMediana: 'planilha/obterMediana',
         }),
         editarItem(props) {
@@ -580,11 +594,15 @@ export default {
             this.itemEmEdicao.valorUnitarioparc = this.itemEmEdicao.valorUnitarioprop;
             this.atualizarCombo();
         },
-        inserirItemSelecionado(item) {
-            this.salvarItemSelecionado(item);
+        inserirItensSelecionados(item) {
+            if (Object.keys(item).length > 0) {
+                this.salvarItensSelecionados(item);
+            }
         },
-        retirarItemSelecionado(item) {
-            this.removerItemSelecionado(item);
+        retirarItensSelecionados(item) {
+            if (Object.keys(item).length > 0) {
+                this.removerItensSelecionados(item);
+            }
         },
     },
 };

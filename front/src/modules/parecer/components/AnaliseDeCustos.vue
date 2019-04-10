@@ -1,6 +1,63 @@
 <template>
     <div @keydown.esc="compararPlanilha = false">
         <s-analise-de-custos-header />
+        <v-container
+            fluid
+            class="pa-0">
+            <v-flex
+                xs12
+                sm6
+                class="py-2">
+                <v-btn-toggle
+                    v-model="toggle_multiple"
+                    multiple>
+                    <v-tooltip bottom>
+                        <v-btn
+                            slot="activator"
+                            flat>
+                            <v-icon>calendar_view_day</v-icon>
+                        </v-btn>
+                        <span
+                        >
+                            Mostrar planilha completa
+                        </span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <v-btn
+                            slot="activator"
+                            flat>
+                            <v-icon>compare</v-icon>
+                        </v-btn>
+                        <span
+                        >
+                            Comparar planilhas
+                        </span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <v-btn
+                            slot="activator"
+                            flat>
+                            <v-icon>list</v-icon>
+                        </v-btn>
+                        <span
+                        >
+                            Apenas itens
+                        </span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <v-btn
+                            slot="activator"
+                            flat>
+                            <v-icon>select_all</v-icon>
+                        </v-btn>
+                        <span
+                        >
+                            Selecionar itens
+                        </span>
+                    </v-tooltip>
+                </v-btn-toggle>
+            </v-flex>
+        </v-container>
         <resize-panel
             v-if="Object.keys(planilha).length > 0"
             :allow-resize="true"
@@ -192,10 +249,11 @@ export default {
     mixins: [MxPlanilha],
     data() {
         return {
-            compararPlanilha: false,
-            mostrarListagem: false,
+            // compararPlanilha: false,
+            // mostrarListagem: false,
+            toggle_multiple: [0],
             size: 49.8,
-            expandAll: true,
+            // expandAll: true,
             fab: false,
             show: false,
             totaisPlanilha: [
@@ -218,6 +276,15 @@ export default {
         }),
         active() {
             return this.$route.name === 'analise-de-custos';
+        },
+        compararPlanilha() {
+            return this.isOptionActive(1);
+        },
+        expandAll() {
+            return this.isOptionActive(0);
+        },
+        mostrarListagem() {
+            return this.isOptionActive(2);
         },
     },
     watch: {
@@ -249,6 +316,9 @@ export default {
             obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
             obterUnidades: 'planilha/obterUnidadesPlanilha',
         }),
+        isOptionActive(index) {
+            return this.toggle_multiple.includes(index);
+        },
     },
 };
 </script>

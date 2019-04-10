@@ -34,8 +34,8 @@ export const mutations = {
     [types.SET_PLANILHA_SECUNDARIO](state, planilha) {
         state.planilhaSecundario = planilha;
     },
-    [types.SET_ITEM_PLANILHA_SELECIONADOS](state, planilha) {
-        state.planilhaSelecionados = planilha;
+    [types.SET_ITEM_PLANILHA_SELECIONADOS](state, item) {
+        state.planilhaSelecionados.push(item);
     },
     [types.REMOVE_ITEM_PLANILHA_SELECIONADOS](state, params) {
         const index = state.planilhaSelecionados.findIndex(

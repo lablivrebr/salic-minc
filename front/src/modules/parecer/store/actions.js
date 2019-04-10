@@ -148,10 +148,14 @@ export const finalizarAnalise = async ({ dispatch }, data) => parecerHelperAPI.f
         throw new TypeError(e.response.data.message, 'finalizarAnalise', 10);
     });
 
-export const salvarItemSelecionado = ({ commit }, item) => {
-    commit(types.SET_ITEM_PLANILHA_SELECIONADOS, item);
+export const salvarItensSelecionados = ({ commit }, data) => {
+    data.forEach((item) => {
+        commit(types.SET_ITEM_PLANILHA_SELECIONADOS, item);
+    });
 };
 
-export const removerItemSelecionado = ({ commit }, item) => {
-    commit(types.REMOVE_ITEM_PLANILHA_SELECIONADOS, item);
+export const removerItensSelecionados = ({ commit }, data) => {
+    data.forEach((item) => {
+        commit(types.REMOVE_ITEM_PLANILHA_SELECIONADOS, item);
+    });
 };

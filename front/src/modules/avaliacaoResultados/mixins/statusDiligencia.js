@@ -3,16 +3,13 @@ export default {
         statusDiligencia(obj) {
             let fim = new Date();
             const prazo = this.prazoResposta(obj);
-
             const result = new Date(obj.dataSolicitacao);
             fim.setTime(result.getTime() + (40 * 24 * 60 * 60 * 1000));
-
             fim = fim.toLocaleString(['pt-BR'], {
                 month: '2-digit',
                 day: '2-digit',
                 year: 'numeric',
             });
-
             let status = {
                 color: 'grey',
                 desc: 'Histórico Diligências',
@@ -52,10 +49,8 @@ export default {
                 now = Date.now();
                 timeDiff = Math.abs(now - new Date(obj.dataSolicitacao));
                 prazo = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
                 if (prazo > 0) {
                     // prazo positivo
-
                     return prazo;
                 }
                 if (prazo <= 0) {

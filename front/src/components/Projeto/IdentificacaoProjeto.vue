@@ -17,6 +17,9 @@
 <script>
 export default {
     name: 'IdentificacaoProjeto',
-    props: ['pronac', 'nomeProjeto'],
+    props: {
+        pronac: { type: [String, Number], default: '' },
+        nomeProjeto: { type: String, default: '' },
+    },
 };
 </script>

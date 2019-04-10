@@ -250,13 +250,15 @@ Vue.component('readequacao-saldo-planilha-orcamentaria', {
 	    $3('#modalEditar').modal('open');
 	},
 	podeEditarItem: function(item) {
-	    if (this.perfil == this.perfilProponente
-		&& this.link
-		&& item.vlComprovado < item.vlAprovado
-		&& this.disponivelParaEdicaoReadequacaoPlanilha
-		&& (item.tpAcao != 'E'
-		 && item.idFonte == this.fonteRecursosFederais)) {
-		return true;
+        const ETAPA_CUSTOS_VINCULADOS = 8;
+        if (this.perfil == this.perfilProponente
+		    && this.link
+		    && item.vlComprovado < item.vlAprovado
+		    && this.disponivelParaEdicaoReadequacaoPlanilha
+            && item.idEtapa !== ETAPA_CUSTOS_VINCULADOS
+            && (item.tpAcao != 'E'
+		        && item.idFonte == this.fonteRecursosFederais)) {
+		    return true;
 	    }
 	},
 	podeIncluirItem: function() {

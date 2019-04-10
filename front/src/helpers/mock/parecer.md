@@ -320,28 +320,34 @@
 
     + Body
         {
-              "IdPRONAC": 215261,
-              "PRONAC": "177111",
-              "NomeProjeto": "Auditório C.E.U.",
-              "DtAnalise": "03/11/2017",
-              "situacao": "B11",
-              "idOrgao": 262,
-              "DtSolicitacao": null,
-              "DtResposta": null,
-              "stEnviado": null,
-              "tempoFimDiligencia": null,
-              "quantidadeProdutos": 2,
-              "idProjeto": 251930,
-              "idDistribuirParecer": 910177,
-              "idProduto": 68,
-              "stPrincipal": 1,
-              "TipoAnalise": 3,
-              "DtDistribuicao": "2019-01-28 11:25:12",
-              "stDiligenciado": 0,
-              "DtDevolucao": null,
-              "DtEnvio": "2018-10-31 08:37:24",
-              "idAgenteParecerista": 46265,
-              "dsProduto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição"
+          "data": {
+            "IdPRONAC": 219794,
+            "PRONAC": "182216",
+            "NomeProjeto": "GALO DA MADRUGADA 2019",
+            "DtAnalise": "23/07/2018",
+            "situacao": "B14",
+            "idOrgao": 262,
+            "DtSolicitacao": "2019-03-15 14:56:06",
+            "DtResposta": null,
+            "stEnviado": "S",
+            "tempoFimDiligencia": 40,
+            "quantidadeProdutos": 1,
+            "idProjeto": 282667,
+            "idDistribuirParecer": 910044,
+            "idProduto": 114,
+            "stPrincipal": 1,
+            "TipoAnalise": 3,
+            "DtDistribuicao": "2018-11-13 15:38:51",
+            "stDiligenciado": 0,
+            "DtDevolucao": null,
+            "DtEnvio": "2018-11-08 09:32:27",
+            "FecharAnalise": "0",
+            "idAgenteParecerista": 46265,
+            "dsProduto": "Desfile de Carnaval",
+            "stDiligencia": 1,
+            "diasEmDiligencia": 25,
+            "diasEmAvaliacao": 122
+          }
         }
         
 ## PARECER - Análise conteúdo [/parecer/analise-inicial-conteudo-rest/id/{id}/idPronac/{idPronac}]
@@ -356,9 +362,10 @@
 
     + Body
         {
-            "IdPRONAC": 215261,
-            "idAnaliseDeConteudo": 91130,
-            "idProduto": 68,
+          "data": {
+            "IdPRONAC": 219794,
+            "idAnaliseDeConteudo": 91210,
+            "idProduto": 114,
             "Lei8313": 0,
             "Artigo3": 0,
             "IncisoArtigo3": 0,
@@ -373,8 +380,9 @@
             "IncisoArtigo27_III": 0,
             "IncisoArtigo27_IV": 0,
             "ParecerFavoravel": 1,
-            "ParecerDeConteudo": "<p class=\"ql-align-justify\"><br></p><p>O projeto prevê a \"<span style=\"background-color: rgb(238, 238, 238);\">Conclusão da construção de um Auditório para música de Camara, instalar e montar o Auditório nos 1º e 2º. Pavimentos (palco e plateia) e 1º. Subsolo (camarins e vestiários) do edifício do CEU ? Centro de Extensão Universitária, cuja construção foi interrompida em 2012 restando o acabamento, mobiliário e equipamentos de som, luz e refrigeração. Além da música de câmara, o Auditório C.E.U terá capacidade para receber todas as manifestações culturais que o CEU vem realizando desde a sua fundação tais como recitais, workshops diversos, palestras, encontros culturais, eventos literários, cinema em debate e Fórum de cinema e literatura.</span></p>",
+            "ParecerDeConteudo": "<p class=\"ql-align-justify\">hor(a) Proponente,</p><p class=\"ql-align-justify\">Conforme dispõe o artigo 24 da Instrução Normativa nº 05/2017 do MinC, sua proposta será encaminhada à Comissão Nacional de Incentivo à Cultura para conhecimento e manifestação quanto ao enquadramen</p><p>ribuição ou cobrança de ingressos, o acesso é&nbsp;totalmente gratuito e aberto ao público.&nbsp;Portanto fica garantido/assegurado o livre acesso a toda a população. Fica garantida a plena DEMOCRATIZAÇÂO DO ACESSO para 100% das pessoas, de forma gratuita, que desejarem participar do Desfile de Carnaval.</p><p>O evento já está incorporado as festividades e ao carnaval da cidade do Recife e do Estado de Pernambuco.</p><p>sadasdasd]ãsçdasçd</p><p>]asd</p>",
             "somenteLeitura": false
+          }
         }
 
 ## PARECER - Análise Custo [/parecer/analise-inicial-custo-rest/id/{id}/idPronac/{idPronac}/stPrincipal/{stPrincipal}]

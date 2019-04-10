@@ -4,16 +4,17 @@ use Application\Modules\AvaliacaoResultados\Service\ParecerTecnico\AvaliacaoFina
 
 class AvaliacaoResultados_EmissaoParecerRestController extends MinC_Controller_Rest_Abstract
 {
+    private $_profiles;
 
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
-        $profiles = [
+        $this->_profiles = [
             Autenticacao_Model_Grupos::TECNICO_PRESTACAO_DE_CONTAS,
             Autenticacao_Model_Grupos::COORDENADOR_PRESTACAO_DE_CONTAS,
             Autenticacao_Model_Grupos::COORDENADOR_GERAL_PRESTACAO_DE_CONTAS,
         ];
 
-        $permissionsPerMethod  = [
+        $permissionsPerMethod = [
 //            'index' => $profiles,
 //            'post' => $profiles
         ];
@@ -30,8 +31,20 @@ class AvaliacaoResultados_EmissaoParecerRestController extends MinC_Controller_R
 
     public function getAction()
     {
-        if (!isset($this->_request->idPronac)){
+        if (!isset($this->_request->idPronac)) {
             $this->customRenderJsonResponse([], 422);
+        }
+
+        if (!$this->isPermitidoAcesso()) {
+            $this->renderJsonResponse(
+                [
+                    'consolidacaoComprovantes' => [],
+                    'projeto' => [],
+                    'proponente' => [],
+                    'parecer' => [],
+                    'objetoParecer' => [],
+                ], 200);
+            return;
         }
 
         $avaliacaoFinanceiraService = new AvaliacaoFinanceiraService($this->getRequest(), $this->getResponse());
@@ -39,7 +52,22 @@ class AvaliacaoResultados_EmissaoParecerRestController extends MinC_Controller_R
         $this->renderJsonResponse(\TratarArray::utf8EncodeArray($resposta), 200);
     }
 
-    public function headAction(){}
+    private function isPermitidoAcesso()
+    {
+        if (!in_array($this->_codGrupo, $this->_profiles)) {
+            $fluxosProjetoDbTable = new \AvaliacaoResultados_Model_DbTable_FluxosProjeto();
+            $fluxoProjeto = $fluxosProjetoDbTable->findBy(['idPronac = ?' => $this->_request->idPronac]);
+
+            if ($fluxoProjeto['estadoId'] != 12) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function headAction()
+    {
+    }
 
     public function postAction()
     {
@@ -53,6 +81,8 @@ class AvaliacaoResultados_EmissaoParecerRestController extends MinC_Controller_R
         $this->customRenderJsonResponse($response, 200);
     }
 
-    public function deleteAction(){}
+    public function deleteAction()
+    {
+    }
 
 }

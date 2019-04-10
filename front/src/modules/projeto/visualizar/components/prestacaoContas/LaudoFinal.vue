@@ -1,9 +1,9 @@
 <template>
     <div>
         <div v-if="loading">
-            <Carregando :text="'Laudo final'"/>
+            <Carregando text="Laudo final"/>
         </div>
-        <div v-else-if="parecerObjeto">
+        <div v-else-if="parecerObjeto && Object.keys(parecerObjeto).length > 0">
             <v-container
                 grid-list-md
                 text-xs-left>

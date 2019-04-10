@@ -1,13 +1,11 @@
-matrix:
-    include:
-      - language: node_js
-        node_js:
-        - '8.9.4'
-        branches:
-            only:
-            - dev
-        cache:
-            directories:
-            - node_modules
-        script:
-        - npm run lint
+language: node_js
+node_js:
+- '9.0.0'
+branches:
+    only:
+    - dev
+cache:
+    directories:
+    - node_modules
+script:
+- npm run lint

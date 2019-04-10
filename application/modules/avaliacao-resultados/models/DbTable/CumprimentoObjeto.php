@@ -22,7 +22,7 @@ class AvaliacaoResultados_Model_DbTable_CumprimentoObjeto extends MinC_Db_Table_
         ";
 
         $db = Zend_Db_Table::getDefaultAdapter();
-        $db->setFetchMode(Zend_DB :: FETCH_OBJ);
+        $db->setFetchMode(Zend_DB::FETCH_ASSOC);
 
         return $db->fetchRow($sql);
     }

@@ -147,3 +147,17 @@ export const finalizarAnalise = async ({ dispatch }, data) => parecerHelperAPI.f
         dispatch('parecerMensagemErro', e.response.data.message);
         throw new TypeError(e.response.data.message, 'finalizarAnalise', 10);
     });
+
+export const salvarItensSelecionados = ({ commit }, data) => {
+    data.forEach((item) => {
+        const novoItem = Object.assign({}, item, { selecionado: true });
+        commit(types.UPDATE_ITEM_PLANILHA, novoItem);
+    });
+};
+
+export const removerItensSelecionados = ({ commit }, data) => {
+    data.forEach((item) => {
+        const novoItem = Object.assign({}, item, { selecionado: false });
+        commit(types.UPDATE_ITEM_PLANILHA, novoItem);
+    });
+};

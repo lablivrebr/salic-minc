@@ -17,9 +17,9 @@ import planilha from './modules/planilha/store';
 import dadosBancarios from './modules/dadosBancarios/store';
 import execucao from './modules/execucao/store';
 import outrasInformacoes from './modules/outrasInformacoes/store';
+import analise from './modules/analise/store';
 import diligencia from './modules/diligencia/store';
 import dateFilter from './filters/date';
-import analise from './modules/analise/store';
 
 Vue.use(Vuex);
 Vue.filter('date', dateFilter);

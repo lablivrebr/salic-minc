@@ -1,12 +1,14 @@
 <template>
     <div class="itens">
         <v-data-table
+            v-model="selected"
             :headers="headers"
             :items="table"
             :rows-per-page-items="[-1]"
             :loading="loading"
             item-key="idPlanilhaProjeto"
             class="elevation-1"
+            select-all
             hide-actions
         >
             <v-progress-linear
@@ -21,8 +23,15 @@
                 <tr
                     :class="obterClasseItem(props.item, 'stCustoPraticadoParc')"
                     :style="obterEstiloItem(props.item)"
-                    @click="props.expanded = editarItem(props)"
+                    @click.stop="props.expanded = editarItem(props)"
                 >
+                    <td>
+                        <v-checkbox
+                            v-model="props.selected"
+                            primary
+                            hide-details
+                        />
+                    </td>
                     <td class="text-xs-center">
                         {{ props.item.Seq }}
                     </td>
@@ -418,6 +427,7 @@ export default {
             minChars: 10,
             messageAlert: '',
             validacao: {},
+            selected: [],
             headers: [
                 { text: '#', align: 'center', value: 'Seq' },
                 { text: 'Item', align: 'left', value: 'Item' },
@@ -480,14 +490,35 @@ export default {
         valorSugerido(val) {
             this.itemEmEdicao.VlSugeridoParecerista = val;
         },
+        selected(after, before) {
+            const removed = before.filter((item) => {
+                const indexItem = after.findIndex(
+                    itemBefore => parseInt(itemBefore.idPlanilhaProjeto, 10) === parseInt(item.idPlanilhaProjeto, 10),
+                );
+                return indexItem < 0;
+            });
+
+            const add = after.filter((item) => {
+                const indexItem = before.findIndex(
+                    itemBefore => parseInt(itemBefore.idPlanilhaProjeto, 10) === parseInt(item.idPlanilhaProjeto, 10),
+                );
+                return indexItem < 0;
+            });
+            this.retirarItensSelecionados(removed);
+            this.inserirItensSelecionados(add);
+        },
     },
     methods: {
         ...mapActions({
             salvarAvaliacaoItem: 'parecer/salvarAvaliacaoItem',
+            salvarItensSelecionados: 'parecer/salvarItensSelecionados',
+            removerItensSelecionados: 'parecer/removerItensSelecionados',
             obterMediana: 'planilha/obterMediana',
         }),
         editarItem(props) {
-            if (props.item.isDisponivelParaAnalise === false) {
+            /* eslint-disable no-restricted-globals */
+            if (props.item.isDisponivelParaAnalise === false
+            || event.target.classList.contains('v-input--selection-controls__ripple')) {
                 return false;
             }
 
@@ -564,6 +595,16 @@ export default {
             this.itemEmEdicao.diasparc = this.itemEmEdicao.diasprop;
             this.itemEmEdicao.valorUnitarioparc = this.itemEmEdicao.valorUnitarioprop;
             this.atualizarCombo();
+        },
+        inserirItensSelecionados(item) {
+            if (Object.keys(item).length > 0) {
+                this.salvarItensSelecionados(item);
+            }
+        },
+        retirarItensSelecionados(item) {
+            if (Object.keys(item).length > 0) {
+                this.removerItensSelecionados(item);
+            }
         },
     },
 };

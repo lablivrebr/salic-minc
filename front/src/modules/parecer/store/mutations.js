@@ -7,6 +7,7 @@ export const state = {
     planilhaParecer: [],
     produtosSecundarios: [],
     planilhaSecundario: [],
+    planilhaSelecionados: [],
     analiseConteudoSecundario: {},
     consolidacao: {},
 };

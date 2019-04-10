@@ -150,12 +150,14 @@ export const finalizarAnalise = async ({ dispatch }, data) => parecerHelperAPI.f
 
 export const salvarItensSelecionados = ({ commit }, data) => {
     data.forEach((item) => {
-        commit(types.SET_ITEM_PLANILHA_SELECIONADOS, item);
+        const novoItem = Object.assign({}, item, { selecionado: true });
+        commit(types.UPDATE_ITEM_PLANILHA, novoItem);
     });
 };
 
 export const removerItensSelecionados = ({ commit }, data) => {
     data.forEach((item) => {
-        commit(types.REMOVE_ITEM_PLANILHA_SELECIONADOS, item);
+        const novoItem = Object.assign({}, item, { selecionado: false });
+        commit(types.UPDATE_ITEM_PLANILHA, novoItem);
     });
 };

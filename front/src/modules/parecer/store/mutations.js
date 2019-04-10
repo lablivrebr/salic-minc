@@ -34,18 +34,6 @@ export const mutations = {
     [types.SET_PLANILHA_SECUNDARIO](state, planilha) {
         state.planilhaSecundario = planilha;
     },
-    [types.SET_ITEM_PLANILHA_SELECIONADOS](state, item) {
-        state.planilhaSelecionados.push(item);
-    },
-    [types.REMOVE_ITEM_PLANILHA_SELECIONADOS](state, params) {
-        const index = state.planilhaSelecionados.findIndex(
-            item => parseInt(item.idPlanilhaProjeto, 10) === parseInt(params.idPlanilhaProjeto, 10),
-        );
-
-        if (index >= 0) {
-            state.planilhaSelecionados.splice(index, 1);
-        }
-    },
     [types.SET_CONSOLIDACAO](state, dados) {
         state.consolidacao = dados;
     },

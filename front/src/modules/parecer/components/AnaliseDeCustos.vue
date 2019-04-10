@@ -1,58 +1,79 @@
 <template>
-    <div @keydown.esc="compararPlanilha = false">
-        <s-analise-de-custos-header />
+    <div>
+        <s-analise-de-custos-header :planilha="planilhaParecer" />
+        <v-snackbar
+            :value="totalItensSelecionados > 0"
+            :timeout="0"
+            color="cyan darken-2"
+        >
+            <v-btn
+                dark
+                flat
+                class="ml-0"
+                @click="filtrarItensSelecionados = !filtrarItensSelecionados"
+            >
+                <span v-if="!filtrarItensSelecionados">
+                    <v-icon
+                        class="mr-2 left"
+                    >
+                        visibility
+                    </v-icon>
+                    Visualizar itens selecionados ({{ totalItensSelecionados }})
+                </span>
+                <span v-else>
+                    <v-icon
+                        class="mr-2 left"
+                    >
+                        visibility_off
+                    </v-icon>
+                    Voltar planilha completa ({{ totalItensSelecionados }})
+                </span>
+            </v-btn>
+        </v-snackbar>
         <v-container
             fluid
-            class="pa-0">
+            class="pa-0"
+        >
             <v-flex
                 xs12
                 sm6
-                class="py-2">
+                class="py-2"
+            >
                 <v-btn-toggle
                     v-model="toggle_multiple"
-                    multiple>
+                    multiple
+                >
                     <v-tooltip bottom>
                         <v-btn
                             slot="activator"
-                            flat>
+                            flat
+                        >
                             <v-icon>calendar_view_day</v-icon>
                         </v-btn>
-                        <span
-                        >
+                        <span>
                             Mostrar planilha completa
                         </span>
                     </v-tooltip>
                     <v-tooltip bottom>
                         <v-btn
                             slot="activator"
-                            flat>
+                            flat
+                        >
                             <v-icon>compare</v-icon>
                         </v-btn>
-                        <span
-                        >
+                        <span>
                             Comparar planilhas
                         </span>
                     </v-tooltip>
                     <v-tooltip bottom>
                         <v-btn
                             slot="activator"
-                            flat>
+                            flat
+                        >
                             <v-icon>list</v-icon>
                         </v-btn>
-                        <span
-                        >
+                        <span>
                             Apenas itens
-                        </span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                        <v-btn
-                            slot="activator"
-                            flat>
-                            <v-icon>select_all</v-icon>
-                        </v-btn>
-                        <span
-                        >
-                            Selecionar itens
                         </span>
                     </v-tooltip>
                 </v-btn-toggle>
@@ -61,7 +82,7 @@
         <resize-panel
             v-if="Object.keys(planilha).length > 0"
             :allow-resize="true"
-            :size="size"
+            :size="sizePanel"
             units="percents"
             split-to="columns"
         >
@@ -70,8 +91,8 @@
                 slot="firstPane"
             >
                 <s-planilha
-                    :array-planilha="planilha"
-                    :expand-all="expandAll"
+                    :array-planilha="planilhaParecer"
+                    :expand-all="expandirTudo"
                     :list-items="mostrarListagem"
                     :agrupamentos="agrupamentos"
                     :totais="totaisPlanilha"
@@ -98,8 +119,8 @@
                 slot="secondPane"
             >
                 <s-planilha
-                    :array-planilha="planilha"
-                    :expand-all="expandAll"
+                    :array-planilha="planilhaParecer"
+                    :expand-all="expandirTudo"
                     :list-items="mostrarListagem"
                     :agrupamentos="agrupamentos"
                     :totais="totaisPlanilha"
@@ -126,102 +147,6 @@
             v-else
             :text="'Carregando Planilha'"
         />
-        <v-speed-dial
-            v-if="active && Object.keys(planilha).length > 0"
-            v-model="fab"
-            bottom
-            right
-            direction="top"
-            open-on-hover
-            transition="slide-y-reverse-transition"
-            fixed
-        >
-            <v-btn
-                slot="activator"
-                v-model="fab"
-                color="red darken-2"
-                dark
-                fab
-            >
-                <v-icon>add</v-icon>
-                <v-icon>close</v-icon>
-            </v-btn>
-            <v-tooltip
-                left
-            >
-                <v-btn
-                    slot="activator"
-                    fab
-                    dark
-                    small
-                    color="green"
-                    @click="expandAll = !expandAll"
-                >
-                    <v-icon v-if="expandAll">
-                        grid_off
-                    </v-icon>
-                    <v-icon v-else>
-                        grid_on
-                    </v-icon>
-                </v-btn>
-                <span
-                    v-if="expandAll"
-                >
-                    Esconder itens da planilha
-                </span>
-                <span
-                    v-else
-                >
-                    Mostrar itens da planilha
-                </span>
-            </v-tooltip>
-            <v-tooltip left>
-                <v-btn
-                    slot="activator"
-                    color="teal"
-                    dark
-                    small
-                    fab
-                    @click="compararPlanilha = !compararPlanilha"
-                >
-                    <v-icon medium>
-                        compare
-                    </v-icon>
-                </v-btn>
-                <span>Comparar planilha</span>
-            </v-tooltip>
-            <v-tooltip left>
-                <v-btn
-                    slot="activator"
-                    color="teal"
-                    dark
-                    small
-                    fab
-                    @click="mostrarListagem = !mostrarListagem"
-                >
-                    <v-icon
-                        v-if="!mostrarListagem"
-                        medium>
-                        list
-                    </v-icon >
-                    <v-icon
-                        v-else
-                        medium>
-                        calendar_view_day
-                    </v-icon>
-                </v-btn>
-                <span
-                    v-if="!mostrarListagem"
-                >
-                    Mostrar apenas lista de itens
-                </span>
-                <span
-                    v-else
-                >
-                    Mostrar planilha completa
-                </span>
-            </v-tooltip>
-        </v-speed-dial>
     </div>
 </template>
 
@@ -252,10 +177,9 @@ export default {
             // compararPlanilha: false,
             // mostrarListagem: false,
             toggle_multiple: [0],
-            size: 49.8,
-            // expandAll: true,
-            fab: false,
-            show: false,
+            sizePanel: 49.8,
+            totalItensSelecionados: 0,
+            filtrarItensSelecionados: false,
             totaisPlanilha: [
                 {
                     label: 'Valor Sugerido',
@@ -266,6 +190,7 @@ export default {
                     column: 'VlSolicitado',
                 },
             ],
+            planilhaParecer: [],
             agrupamentos: ['FonteRecurso', 'Produto', 'Etapa', 'UF', 'Cidade'],
         };
     },
@@ -277,11 +202,11 @@ export default {
         active() {
             return this.$route.name === 'analise-de-custos';
         },
+        expandirTudo() {
+            return this.isOptionActive(0);
+        },
         compararPlanilha() {
             return this.isOptionActive(1);
-        },
-        expandAll() {
-            return this.isOptionActive(0);
         },
         mostrarListagem() {
             return this.isOptionActive(2);
@@ -298,6 +223,16 @@ export default {
                 this.obterPlanilhaParecer(params);
                 this.obterUnidades();
             }
+        },
+        planilha: {
+            handler(val) {
+                this.totalItensSelecionados = this.contarItensSelecionados(val);
+                this.planilhaParecer = val;
+            },
+            deep: true,
+        },
+        filtrarItensSelecionados(val) {
+            this.planilhaParecer = val ? this.planilha.filter(item => item.selecionado) : this.planilha;
         },
     },
     created() {
@@ -318,6 +253,13 @@ export default {
         }),
         isOptionActive(index) {
             return this.toggle_multiple.includes(index);
+        },
+        contarItensSelecionados(planilha) {
+            if (planilha.length === 0) {
+                return 0;
+            }
+
+            return planilha.reduce((soma, item) => (item.selecionado ? 1 : 0) + soma, 0);
         },
     },
 };

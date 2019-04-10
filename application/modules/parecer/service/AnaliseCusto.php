@@ -127,6 +127,7 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             $row['Produto'] = !empty($item['idProduto'])
                 ? $item['Produto']
                 : html_entity_decode('Administra&ccedil;&atilde;o do Projeto');
+            $row["selecionado"] = false;
             $planilha[] = $row;
         }
 

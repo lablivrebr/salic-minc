@@ -10,7 +10,8 @@
             <v-flex
                 xs12
                 sm6
-                md6>
+                md6
+            >
                 <v-card
                     class="mx-auto mb-2"
                     max-width="600"
@@ -48,7 +49,8 @@
             <v-flex
                 xs12
                 sm6
-                md6>
+                md6
+            >
                 <v-card
                     class="mx-auto mb-2"
                     max-width="600"
@@ -152,6 +154,12 @@ export default {
     name: 'AnaliseDeCustosHeader',
     components: { ProgressoDialog },
     mixins: [MxPlanilha],
+    props: {
+        planilha: {
+            type: Array,
+            default: () => [],
+        },
+    },
     data() {
         return {
             dialog: false,
@@ -161,7 +169,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            planilha: 'parecer/getPlanilhaParecer',
+            // planilha: 'parecer/getPlanilhaParecer',
             produto: 'parecer/getProduto',
         }),
     },

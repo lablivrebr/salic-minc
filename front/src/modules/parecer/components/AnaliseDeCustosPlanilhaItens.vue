@@ -23,7 +23,7 @@
                 <tr
                     :class="obterClasseItem(props.item, 'stCustoPraticadoParc')"
                     :style="obterEstiloItem(props.item)"
-                    @click="props.expanded = editarItem(props)"
+                    @click.stop="props.expanded = editarItem(props)"
                 >
                     <td>
                         <v-checkbox
@@ -516,7 +516,9 @@ export default {
             obterMediana: 'planilha/obterMediana',
         }),
         editarItem(props) {
-            if (props.item.isDisponivelParaAnalise === false) {
+            /* eslint-disable no-restricted-globals */
+            if (props.item.isDisponivelParaAnalise === false
+            || event.target.classList.contains('v-input--selection-controls__ripple')) {
                 return false;
             }
 

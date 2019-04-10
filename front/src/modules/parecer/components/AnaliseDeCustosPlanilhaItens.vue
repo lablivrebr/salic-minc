@@ -25,7 +25,7 @@
                     :style="obterEstiloItem(props.item)"
                     @click.stop="props.expanded = editarItem(props)"
                 >
-                    <td>
+                    <td width="1">
                         <v-checkbox
                             v-model="props.selected"
                             primary
@@ -128,7 +128,7 @@
                                         <v-list-tile-action style="min-width: 30px">
                                             <v-icon>restore</v-icon>
                                         </v-list-tile-action>
-                                        <v-list-tile-title>Restaurar valores</v-list-tile-title>
+                                        <v-list-tile-title>Restaurar item</v-list-tile-title>
                                     </v-list-tile>
                                 </v-list>
                             </v-menu>
@@ -422,6 +422,7 @@ export default {
             valid: false,
             expand: false,
             loading: false,
+            loadingRestore: false,
             openValorSolicitado: 1,
             maxChars: 500,
             minChars: 10,
@@ -505,14 +506,22 @@ export default {
                 return indexItem < 0;
             });
             this.retirarItensSelecionados(removed);
-            this.inserirItensSelecionados(add);
+            this.marcarItensSelecionados(add);
         },
+        table(val) {
+            this.selected = val.filter(item => item.selecionado);
+        },
+    },
+    mounted() {
+        this.selected = this.table.filter(item => item.selecionado);
     },
     methods: {
         ...mapActions({
             salvarAvaliacaoItem: 'parecer/salvarAvaliacaoItem',
             salvarItensSelecionados: 'parecer/salvarItensSelecionados',
             removerItensSelecionados: 'parecer/removerItensSelecionados',
+            restaurarPlanilhaProduto: 'parecer/restaurarPlanilhaProduto',
+            obterPlanilhaParecer: 'parecer/obterPlanilhaParaAnalise',
             obterMediana: 'planilha/obterMediana',
         }),
         editarItem(props) {
@@ -589,21 +598,31 @@ export default {
             this.atualizarCombo();
         },
         restaurarItem() {
-            this.itemEmEdicao.idUnidade = this.itemEmEdicao.Unidade;
-            this.itemEmEdicao.ocorrenciaparc = this.itemEmEdicao.ocorrenciaprop;
-            this.itemEmEdicao.quantidadeparc = this.itemEmEdicao.quantidadeprop;
-            this.itemEmEdicao.diasparc = this.itemEmEdicao.diasprop;
-            this.itemEmEdicao.valorUnitarioparc = this.itemEmEdicao.valorUnitarioprop;
-            this.atualizarCombo();
+            if (Object.keys(this.itemEmEdicao).length === 0) {
+                return;
+            }
+            const params = {
+                id: this.itemEmEdicao.idProduto,
+                idPronac: this.itemEmEdicao.IdPRONAC,
+                stPrincipal: this.itemEmEdicao.stPrincipal,
+                idPlanilhaProjeto: this.itemEmEdicao.idPlanilhaProjeto,
+            };
+            this.restaurarPlanilhaProduto(params).then(() => {
+                this.loadingRestore = false;
+                this.obterPlanilhaParecer(params); //@todo atualizar apenas o item
+            }).finally(() => {
+                this.loadingRestore = false;
+                this.atualizarCombo();
+            });
         },
-        inserirItensSelecionados(item) {
-            if (Object.keys(item).length > 0) {
-                this.salvarItensSelecionados(item);
+        marcarItensSelecionados(itens) {
+            if (Object.keys(itens).length > 0) {
+                this.salvarItensSelecionados(itens);
             }
         },
-        retirarItensSelecionados(item) {
-            if (Object.keys(item).length > 0) {
-                this.removerItensSelecionados(item);
+        retirarItensSelecionados(itens) {
+            if (Object.keys(itens).length > 0) {
+                this.removerItensSelecionados(itens);
             }
         },
     },

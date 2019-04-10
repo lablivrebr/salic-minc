@@ -65,7 +65,7 @@ class Parecer_PlanilhaProdutoRestController extends MinC_Controller_Rest_Abstrac
             $this->customRenderJsonResponse(
                 [
                     'data' => \TratarArray::utf8EncodeArray($resposta),
-                    'message' => html_entity_decode('Planilha restaurada com sucesso!')
+                    'message' => html_entity_decode('Restauração realizada com sucesso!')
                 ], 200);
 
         } catch (Exception $e) {

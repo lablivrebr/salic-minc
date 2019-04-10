@@ -4,7 +4,7 @@ class Planilha_Model_DbTable_TbPlanilhaProjeto extends MinC_Db_Table_Abstract
     protected $_schema = 'SAC';
     protected $_name = 'tbPlanilhaProjeto';
 
-    public function restaurarPlanilha($idPronac, $idsProdutos = [])
+    public function restaurarPlanilha($idPronac, $idsProdutos = [], $idPlanilhaProjeto = null)
     {
         $sql = "UPDATE SAC.dbo.tbPlanilhaProjeto
 				SET 
@@ -22,6 +22,10 @@ class Planilha_Model_DbTable_TbPlanilhaProjeto extends MinC_Db_Table_Abstract
         if (!empty($idsProdutos)) {
             $idsProdutos = implode(",", $idsProdutos);
             $sql .= " AND PP.idProduto in ({$idsProdutos}) ";
+        }
+
+        if (!empty($idPlanilhaProjeto)) {
+            $sql .= " AND PP.idPlanilhaProjeto = {$idPlanilhaProjeto} ";
         }
 
         $db = Zend_Db_Table::getDefaultAdapter();

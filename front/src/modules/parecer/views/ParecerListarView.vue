@@ -18,6 +18,14 @@
                         class="title"
                     >
                         Produtos para an&aacute;lise inicial
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                            v-model="search"
+                            append-icon="search"
+                            label="Buscar"
+                            single-line
+                            hide-details
+                        ></v-text-field>
                     </v-card-title>
                     <v-divider />
                     <v-card-text>
@@ -26,6 +34,7 @@
                             :headers="headers"
                             :items="produtos"
                             :rows-per-page-items="[15, 35, 50, {'text': 'Todos', value: -1}]"
+                            :search="search"
                             item-key="idDistribuirParecer"
                             class="elevation-1"
                         >
@@ -229,6 +238,7 @@ export default {
                 text: 'Ações', align: 'center', value: 'idProduto', sortable: false,
             },
         ],
+        search: '',
         dialogDiligencias: false,
         diligenciaVisualizacao: {
             IdPRONAC: 0,

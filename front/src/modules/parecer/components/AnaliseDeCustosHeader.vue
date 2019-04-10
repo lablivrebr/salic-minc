@@ -212,9 +212,8 @@ export default {
                 stPrincipal: this.produto.stPrincipal,
             };
             this.restaurarPlanilhaProduto(params).then(() => {
-                this.loadingRestore = false;
                 this.obterPlanilhaParecer(params);
-            }).catch(() => {
+            }).finally(() => {
                 this.loadingRestore = false;
             });
 

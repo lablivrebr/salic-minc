@@ -258,8 +258,10 @@ class AnaliseCusto implements \MinC\Servico\IServicoRestZend
             $idsProdutos = [0, $params['id']];
         }
 
+        $idPlanilhaProjeto  = $this->request->getParam('idPlanilhaProjeto', null);
+
         $tbPlanilhaProjeto = new \Planilha_Model_DbTable_TbPlanilhaProjeto();
-        $response = $tbPlanilhaProjeto->restaurarPlanilha($params['idPronac'], $idsProdutos);
+        $response = $tbPlanilhaProjeto->restaurarPlanilha($params['idPronac'], $idsProdutos, $idPlanilhaProjeto);
 
         if ($response) {
             $tbPlanilhaProjetoMapper = new \Planilha_Model_TbPlanilhaProjetoMapper();

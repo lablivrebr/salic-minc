@@ -126,7 +126,7 @@ export const salvarAnaliseConsolidacao = async ({ commit, dispatch }, avaliacao)
         throw new TypeError(e.response.data.message, 'salvarAnaliseConsolidacao', 10);
     });
 
-export const restaurarPlanilhaProduto = async ({ dispatch }, avaliacao) => parecerHelperAPI.restaurarPlanilhaProduto(avaliacao)
+export const restaurarPlanilhaProduto = async ({ dispatch }, params) => parecerHelperAPI.restaurarPlanilhaProduto(params)
     .then((response) => {
         dispatch('parecerMensagemSucesso', response.data.message);
         return response.data;

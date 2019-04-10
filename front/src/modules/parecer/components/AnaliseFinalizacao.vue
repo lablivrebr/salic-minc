@@ -1,7 +1,7 @@
 <template>
     <s-carregando
         v-if="loading"
-        :text="'Carregando conteúdo'"
+        text="Carregando conteúdo"
     />
     <v-container
         v-else

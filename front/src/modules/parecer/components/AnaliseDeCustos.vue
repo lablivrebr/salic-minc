@@ -145,7 +145,7 @@
         </resize-panel>
         <s-carregando
             v-else
-            :text="'Carregando Planilha'"
+            text="Carregando Planilha"
         />
     </div>
 </template>
@@ -227,7 +227,7 @@ export default {
         planilha: {
             handler(val) {
                 this.totalItensSelecionados = this.contarItensSelecionados(val);
-                this.planilhaParecer = val;
+                this.planilhaParecer = this.filtrarItensSelecionados ? this.planilha.filter(item => item.selecionado) : this.planilha;
             },
             deep: true,
         },

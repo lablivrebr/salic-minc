@@ -2,7 +2,7 @@
     <v-card @keyup.alt.67="dialog = !dialog">
         <s-carregando
             v-if="loading"
-            :text="'Carregando conteúdo'"
+            text="Carregando conteúdo"
         />
         <v-snackbar
             :value="!dialog && !loading"

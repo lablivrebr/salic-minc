@@ -41,6 +41,9 @@ export default {
         obterClasseItem(row, cell = 'stCustoPraticado') {
             let classe = {};
             switch (true) {
+            case row.selecionado:
+                classe = { 'purple lighten-5': true };
+                break;
             case this.isItemZerado(row):
                 classe = { 'grey lighten-2': true };
                 break;

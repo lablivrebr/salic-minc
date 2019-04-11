@@ -9,6 +9,8 @@ class Captacao
         //DEFINE PARAMETROS DE ORDENACAO / QTDE. REG POR PAG. / PAGINACAO
         if (isset($this->_request->qtde)) {
             $this->intTamPag = $this->_request->qtde;
+        } else {
+            $this->intTamPag = '2';
         }
         $order = array();
 
@@ -99,10 +101,8 @@ class Captacao
             "tamanho"=>$tamanho
         );
 
-        $this->view->paginacao     = $paginacao;
-        $this->view->qtdRegistros  = $total;
-        $this->view->dados         = $busca;
-        $this->view->intTamPag     = $this->intTamPag;
+        xd($paginacao,$total,$busca,$this->intTamPag);
+        die;
     }
 
 }

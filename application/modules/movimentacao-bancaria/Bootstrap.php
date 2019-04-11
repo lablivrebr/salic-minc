@@ -10,10 +10,10 @@ class MovimentacaoBancaria_Bootstrap extends Zend_Application_Module_Bootstrap
             [],
             [
                 "movimentacao-bancaria" => [
-                    'foo-rest',
+                    'transferencia-recurso',
                 ]
             ]
         );
-        $frontController->getRouter()->addRoute('movimentacao-bancaria', $restRoute);
+        $frontController->getRouter()->addRoute('rest-movimentacao-bancaria', $restRoute);
     }
 }

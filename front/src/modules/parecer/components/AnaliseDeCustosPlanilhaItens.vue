@@ -508,12 +508,15 @@ export default {
             this.retirarItensSelecionados(removed);
             this.marcarItensSelecionados(add);
         },
-        table(val) {
-            this.selected = val.filter(item => item.selecionado);
+        table: {
+            handler() {
+                this.atualizarItensSelecionados();
+            },
+            deep: true,
         },
     },
     mounted() {
-        this.selected = this.table.filter(item => item.selecionado);
+        this.atualizarItensSelecionados();
     },
     methods: {
         ...mapActions({
@@ -608,8 +611,7 @@ export default {
                 idPlanilhaProjeto: this.itemEmEdicao.idPlanilhaProjeto,
             };
             this.restaurarPlanilhaProduto(params).then(() => {
-                this.loadingRestore = false;
-                this.obterPlanilhaParecer(params); //@todo atualizar apenas o item
+                this.obterPlanilhaParecer(params); // @todo atualizar apenas o item
             }).finally(() => {
                 this.loadingRestore = false;
                 this.atualizarCombo();
@@ -624,6 +626,9 @@ export default {
             if (Object.keys(itens).length > 0) {
                 this.removerItensSelecionados(itens);
             }
+        },
+        atualizarItensSelecionados() {
+            this.selected = this.table.filter(item => item.selecionado);
         },
     },
 };

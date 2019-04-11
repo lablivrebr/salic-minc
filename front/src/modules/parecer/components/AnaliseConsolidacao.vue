@@ -70,7 +70,9 @@
                     color="primary"
                     @click="submit"
                 >
-                    <v-icon left>save</v-icon>
+                    <v-icon left>
+                        save
+                    </v-icon>
                     Salvar
                 </v-btn>
             </v-layout>

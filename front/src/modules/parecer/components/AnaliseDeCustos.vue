@@ -40,7 +40,7 @@
                 class="py-2"
             >
                 <v-btn-toggle
-                    v-model="toggle_multiple"
+                    v-model="opcoesDeVisualizacao"
                     multiple
                 >
                     <v-tooltip bottom>
@@ -174,9 +174,7 @@ export default {
     mixins: [MxPlanilha],
     data() {
         return {
-            // compararPlanilha: false,
-            // mostrarListagem: false,
-            toggle_multiple: [0],
+            opcoesDeVisualizacao: [0],
             sizePanel: 49.8,
             totalItensSelecionados: 0,
             filtrarItensSelecionados: false,
@@ -215,35 +213,28 @@ export default {
     watch: {
         produto(value) {
             if (Object.keys(value).length > 0) {
-                const params = {
-                    id: value.idProduto,
-                    idPronac: value.IdPRONAC,
-                    stPrincipal: value.stPrincipal,
-                };
-                this.obterPlanilhaParecer(params);
-                this.obterUnidades();
+                this.buscarPlanilha();
             }
         },
         planilha: {
             handler(val) {
                 this.totalItensSelecionados = this.contarItensSelecionados(val);
-                this.planilhaParecer = this.filtrarItensSelecionados ? this.planilha.filter(item => item.selecionado) : this.planilha;
+                this.filtrarPlanilha();
             },
             deep: true,
         },
-        filtrarItensSelecionados(val) {
-            this.planilhaParecer = val ? this.planilha.filter(item => item.selecionado) : this.planilha;
+        filtrarItensSelecionados() {
+            this.filtrarPlanilha();
+        },
+        totalItensSelecionados(val) {
+            if (val === 0) {
+                this.filtrarItensSelecionados = false;
+            }
         },
     },
     created() {
         if (Object.keys(this.produto).length > 0) {
-            const params = {
-                id: this.produto.idProduto,
-                idPronac: this.produto.IdPRONAC,
-                stPrincipal: this.produto.stPrincipal,
-            };
-            this.obterPlanilhaParecer(params);
-            this.obterUnidades();
+            this.buscarPlanilha();
         }
     },
     methods: {
@@ -252,7 +243,7 @@ export default {
             obterUnidades: 'planilha/obterUnidadesPlanilha',
         }),
         isOptionActive(index) {
-            return this.toggle_multiple.includes(index);
+            return this.opcoesDeVisualizacao.includes(index);
         },
         contarItensSelecionados(planilha) {
             if (planilha.length === 0) {
@@ -260,6 +251,18 @@ export default {
             }
 
             return planilha.reduce((soma, item) => (item.selecionado ? 1 : 0) + soma, 0);
+        },
+        buscarPlanilha() {
+            const params = {
+                id: this.produto.idProduto,
+                idPronac: this.produto.IdPRONAC,
+                stPrincipal: this.produto.stPrincipal,
+            };
+            this.obterPlanilhaParecer(params);
+            this.obterUnidades();
+        },
+        filtrarPlanilha() {
+            this.planilhaParecer = this.filtrarItensSelecionados ? this.planilha.filter(item => item.selecionado) : this.planilha;
         },
     },
 };

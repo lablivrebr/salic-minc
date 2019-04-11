@@ -49,7 +49,8 @@
                         </v-icon>
                         <span
                             v-else
-                            class="py-2">-</span>
+                            class="py-2"
+                        >-</span>
                     </td>
                 </tr>
             </template>

@@ -2,7 +2,7 @@
     <div
         v-if="planilha.vlSolicitadoTotal
             || planilha.vlAprovadoTotal
-        || planilha.vlSugeridoTotal"
+            || planilha.vlSugeridoTotal"
         class="card-action planilha-consolidacao"
     >
         <div class="totais">

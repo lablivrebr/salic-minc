@@ -71,7 +71,7 @@ class Captacao
             $where['SAC.dbo.fnPercentualCaptado(c.AnoProjeto, c.Sequencial) >= ?'] = 20;
         }
 
-        $tbCaptacao = new Captacao();
+        $tbCaptacao = new \MovimentacaoBancaria_Model_Captacao();
         $total = $tbCaptacao->buscaExtratoCaptacao($where, $order, null, null, true);
         $fim = $inicio + $this->intTamPag;
 

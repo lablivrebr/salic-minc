@@ -451,6 +451,7 @@ export default {
     computed: {
         ...mapGetters({
             agente: 'avaliacaoResultados/buscarAgente',
+            status: 'avaliacaoResultados/statusCriarComprovante',
         }),
         cpfCnpjMask() {
             return this.cpfCnpjLabel === 'CNPJ' ? this.cnpjMask : this.cpfMask;
@@ -514,6 +515,9 @@ export default {
                 this.valid = false;
             }
             this.buscandoFornecedor = false;
+        },
+        status() {
+            this.dialog = false;
         },
     },
     methods: {

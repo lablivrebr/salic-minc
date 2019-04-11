@@ -430,9 +430,12 @@ export const getDadosItem = ({ commit }, params) => {
         });
 };
 
-export const criarComprovante = (_, params) => {
+export const criarComprovante = ({ commit }, params) => {
     avaliacaoResultadosHelperAPI.criarComprovante(params)
         .then((response) => {
+            // Atualiza o status da requisicao
+            const status = response.data;
+            commit(types.STATUS_CRIAR_COMPROVANTE, status);
             // INSERIR NOVO COMPROVANTE NO STATE DA LISTA DE COMPROVANTES
         }).catch((e) => {
             throw new TypeError(e.response.data.message, 'error', 10);

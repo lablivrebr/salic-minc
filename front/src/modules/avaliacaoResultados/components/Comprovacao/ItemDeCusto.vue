@@ -3,8 +3,8 @@
         <!-- Criar Comprovante -->
         <comprovar-pagamento
             v-if="dadosProjeto.dtInicioExecucao"
-            :id-planilha-itens="idPlanilhaItens"
-            :id-planilha-aprovacao="idPlanilhaAprovacao"
+            :id-planilha-itens="String(idPlanilhaItens)"
+            :id-planilha-aprovacao="String(idPlanilhaAprovacao)"
             :data-inicio-formatada="dadosProjeto.dtInicioExecucao | dataFilter"
             :data-fim-formatada="dadosProjeto.dtFimExecucao | dataFilter"
             :data-inicio="dadosProjeto.dtInicioExecucao"
@@ -146,6 +146,22 @@
                 />
             </v-card-text>
         </v-card>
+
+        <!-- Mensagem mostrada ao criar, editar ou excluir um comprovante -->
+        <v-snackbar
+            v-model="snackbar"
+            :timeout="3000"
+            :color="mensagemFinal.color"
+            top
+        >
+            <v-icon
+                class="mr-2"
+                dark
+            >
+                {{ mensagemFinal.icon }}
+            </v-icon>
+            {{ mensagemFinal.msg }}
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -185,12 +201,15 @@ export default {
             etapa: this.$route.params.etapa,
             idPlanilhaAprovacao: this.$route.params.idPlanilhaAprovacao,
             idPlanilhaItens: this.$route.params.idPlanilhaItens,
+
+            snackbar: false,
         };
     },
     computed: {
         ...mapGetters({
             getDadosProjeto: 'avaliacaoResultados/getDadosProjeto',
             getDadosItem: 'avaliacaoResultados/getDadosItem',
+            status: 'avaliacaoResultados/statusCriarComprovante',
         }),
         dadosProjeto() {
             return this.getDadosProjeto;
@@ -210,6 +229,24 @@ export default {
         },
         valorComprovar() {
             return this.dadosItem.vlAprovado - this.dadosItem.vlComprovado;
+        },
+        mensagemFinal() {
+            const sucesso = {
+                msg: 'Comprovante criado com sucesso!',
+                icon: 'done',
+                color: 'success',
+            };
+            const falha = {
+                msg: 'Houve um problema ao tentar criar o comprovante, tente novamente mais tarde.',
+                icon: 'warning',
+                color: 'error',
+            };
+            return this.status.success ? sucesso : falha;
+        },
+    },
+    watch: {
+        status() {
+            this.snackbar = true;
         },
     },
     mounted() {

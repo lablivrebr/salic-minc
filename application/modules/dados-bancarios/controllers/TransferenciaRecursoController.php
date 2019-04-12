@@ -1,8 +1,8 @@
 <?php
 
-use Application\Modules\MovimentacaoBancaria\service\Captacao as CaptacaoService;
+use Application\Modules\DadosBancarios\service\Captacao as CaptacaoService;
 
-class MovimentacaoBancaria_TransferenciaRecursoController extends MinC_Controller_Rest_Abstract
+class DadosBancarios_TransferenciaRecursoController extends MinC_Controller_Rest_Abstract
 {
     public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
@@ -17,7 +17,8 @@ class MovimentacaoBancaria_TransferenciaRecursoController extends MinC_Controlle
     public function indexAction()
     {
         $tabelaCaptacao = new CaptacaoService();
-        xd($this->customRenderJsonResponse($tabelaCaptacao->resultadoExtratoDeContaCaptacaoAction(), 200));
+        header('Content-Type: application/json');
+        var_dump($this->renderJsonResponse($tabelaCaptacao->resultadoExtratoDeContaCaptacaoAction()));
         die;
     }
 

@@ -1,5 +1,5 @@
 <?php
-class MovimentacaoBancaria_Model_Captacao extends MinC_Db_Table_Abstract
+class DadosBancarios_Model_Captacao extends MinC_Db_Table_Abstract
 {
     protected $_banco   = "SAC";
     protected $_schema  = "SAC";
@@ -991,7 +991,7 @@ class MovimentacaoBancaria_Model_Captacao extends MinC_Db_Table_Abstract
         return $this->fetchAll($slctSomatorio);
     }
 
-    /*  Pega o alor total do projeto pelo PRONAC
+    /*  Pega o valor total do projeto pelo PRONAC
      *  Captado
      *  Autorizado
      *

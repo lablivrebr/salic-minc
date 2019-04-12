@@ -1,6 +1,6 @@
 <?php
 
-class MovimentacaoBancaria_Model_Usuariosorgaosgrupos extends MinC_Db_Table_Abstract
+class DadosBancarios_Model_Usuariosorgaosgrupos extends MinC_Db_Table_Abstract
 {
     protected $_banco = 'Tabelas';
     protected $_schema = 'Tabelas';

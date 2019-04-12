@@ -32,8 +32,8 @@
                 </div>
             </div>
             <div
-                class="v-counter theme--light"
                 :class="obterClasseContador()"
+                class="v-counter theme--light"
             >
                 {{ contador }}
                 <span v-if="maxChar"> / {{ maxChar }}</span>
@@ -67,9 +67,7 @@ export default {
             type: [String, Number],
             default: null,
         },
-        rules: [],
     },
-    inject: ['form', 'theme'],
     data() {
         return {
             editor: '',

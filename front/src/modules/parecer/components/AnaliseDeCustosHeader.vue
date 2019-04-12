@@ -169,7 +169,6 @@ export default {
     },
     computed: {
         ...mapGetters({
-            // planilha: 'parecer/getPlanilhaParecer',
             produto: 'parecer/getProduto',
         }),
     },

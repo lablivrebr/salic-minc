@@ -115,7 +115,7 @@
                                 </v-chip>
                             </template>
                             <template slot-scope="slotProps">
-                                <s-planilha-itens-visualizar :table="slotProps.itens" />
+                                <s-analise-outros-produtos-planilha-itens-visualizar :table="slotProps.itens" />
                             </template>
                         </s-planilha>
                         <s-carregando
@@ -133,12 +133,12 @@
 import { mapActions, mapGetters } from 'vuex';
 import { utils } from '@/mixins/utils';
 import SPlanilha from '@/components/Planilha/Planilha';
-import SPlanilhaItensVisualizar from './PlanilhaItensVisualizar';
+import SAnaliseOutrosProdutosPlanilhaItensVisualizar from './AnaliseOutrosProdutosPlanilhaItensVisualizar';
 import SCarregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'AnaliseOutrosProdutosDialog',
-    components: { SCarregando, SPlanilhaItensVisualizar, SPlanilha },
+    components: { SCarregando, SAnaliseOutrosProdutosPlanilhaItensVisualizar, SPlanilha },
     mixins: [utils],
     props: {
         value: {

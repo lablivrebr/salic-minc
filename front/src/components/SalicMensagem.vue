@@ -16,16 +16,16 @@
                 />
                 <v-btn
                     v-if="urlRetorno"
-                    outline
                     :color="type"
                     :href="urlRetorno"
+                    outline
                     v-html="msgUrlRetorno"
                 />
                 <v-btn
                     v-if="rotaRetorno"
-                    outline
                     :color="type"
                     :to="rotaRetorno"
+                    outline
                     v-html="msgUrlRetorno"
                 />
             </v-flex>

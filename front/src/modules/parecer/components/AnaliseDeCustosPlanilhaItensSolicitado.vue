@@ -123,7 +123,7 @@ import MxPlanilhaParecer from '../mixins/planilhaParecer';
 import { utils } from '@/mixins/utils';
 
 export default {
-    name: 'SPlanilhaItensVisualizarSolicitado',
+    name: 'AnaliseDeCustosPlanilhaItensSolicitado',
     mixins: [MxPlanilhas, MxPlanilhaParecer, utils],
     props: {
         table: {

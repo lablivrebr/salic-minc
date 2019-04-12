@@ -1,84 +1,7 @@
 <template>
     <div>
         <s-analise-de-custos-header :planilha="planilhaParecer" />
-        <v-snackbar
-            :value="totalItensSelecionados > 0"
-            :timeout="0"
-            color="cyan darken-2"
-        >
-            <v-btn
-                dark
-                flat
-                class="ml-0"
-                @click="filtrarItensSelecionados = !filtrarItensSelecionados"
-            >
-                <span v-if="!filtrarItensSelecionados">
-                    <v-icon
-                        class="mr-2 left"
-                    >
-                        visibility
-                    </v-icon>
-                    Visualizar itens selecionados ({{ totalItensSelecionados }})
-                </span>
-                <span v-else>
-                    <v-icon
-                        class="mr-2 left"
-                    >
-                        visibility_off
-                    </v-icon>
-                    Voltar planilha completa ({{ totalItensSelecionados }})
-                </span>
-            </v-btn>
-        </v-snackbar>
-        <v-container
-            fluid
-            class="pa-0"
-        >
-            <v-flex
-                xs12
-                sm6
-                class="py-2"
-            >
-                <v-btn-toggle
-                    v-model="opcoesDeVisualizacao"
-                    multiple
-                >
-                    <v-tooltip bottom>
-                        <v-btn
-                            slot="activator"
-                            flat
-                        >
-                            <v-icon>calendar_view_day</v-icon>
-                        </v-btn>
-                        <span>
-                            Mostrar planilha completa
-                        </span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                        <v-btn
-                            slot="activator"
-                            flat
-                        >
-                            <v-icon>compare</v-icon>
-                        </v-btn>
-                        <span>
-                            Comparar planilhas
-                        </span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                        <v-btn
-                            slot="activator"
-                            flat
-                        >
-                            <v-icon>list</v-icon>
-                        </v-btn>
-                        <span>
-                            Apenas itens
-                        </span>
-                    </v-tooltip>
-                </v-btn-toggle>
-            </v-flex>
-        </v-container>
+        <analise-de-custos-buttons v-model="opcoesDeVisualizacao" />
         <resize-panel
             v-if="Object.keys(planilha).length > 0"
             :allow-resize="true"
@@ -111,7 +34,7 @@
                         </v-chip>
                     </template>
                     <template slot-scope="slotProps">
-                        <s-planilha-itens-visualizar-solicitado :table="slotProps.itens" />
+                        <s-analise-de-custos-planilha-itens-solicitado :table="slotProps.itens" />
                     </template>
                 </s-planilha>
             </div>
@@ -147,6 +70,35 @@
             v-else
             text="Carregando Planilha"
         />
+        <v-snackbar
+            :value="totalItensSelecionados > 0"
+            :timeout="0"
+            color="cyan darken-2"
+        >
+            <v-btn
+                dark
+                flat
+                class="ml-0"
+                @click="filtrarItensSelecionados = !filtrarItensSelecionados"
+            >
+                <span v-if="!filtrarItensSelecionados">
+                    <v-icon
+                        class="mr-2 left"
+                    >
+                        visibility
+                    </v-icon>
+                    Visualizar itens selecionados ({{ totalItensSelecionados }})
+                </span>
+                <span v-else>
+                    <v-icon
+                        class="mr-2 left"
+                    >
+                        visibility_off
+                    </v-icon>
+                    Voltar planilha completa ({{ totalItensSelecionados }})
+                </span>
+            </v-btn>
+        </v-snackbar>
     </div>
 </template>
 
@@ -155,18 +107,20 @@
 import { mapActions, mapGetters } from 'vuex';
 import SPlanilha from '@/components/Planilha/Planilha';
 import SAnaliseDeCustosPlanilhaItens from './AnaliseDeCustosPlanilhaItens';
-import SPlanilhaItensVisualizarSolicitado from './PlanilhaItensVisualizarSolicitado';
+import SAnaliseDeCustosPlanilhaItensSolicitado from './AnaliseDeCustosPlanilhaItensSolicitado';
 import SCarregando from '@/components/CarregandoVuetify';
 import ResizePanel from '@/components/resize-panel/ResizeSplitPane';
 import MxPlanilha from '@/mixins/planilhas';
 import SAnaliseDeCustosHeader from '@/modules/parecer/components/AnaliseDeCustosHeader';
+import AnaliseDeCustosButtons from '@/modules/parecer/components/AnaliseDeCustosButtons';
 
 export default {
     name: 'AnaliseDeCustos',
     components: {
+        AnaliseDeCustosButtons,
         SAnaliseDeCustosHeader,
         ResizePanel,
-        SPlanilhaItensVisualizarSolicitado,
+        SAnaliseDeCustosPlanilhaItensSolicitado,
         SPlanilha,
         SAnaliseDeCustosPlanilhaItens,
         SCarregando,
@@ -197,9 +151,6 @@ export default {
             planilha: 'parecer/getPlanilhaParecer',
             produto: 'parecer/getProduto',
         }),
-        active() {
-            return this.$route.name === 'analise-de-custos';
-        },
         expandirTudo() {
             return this.isOptionActive(0);
         },

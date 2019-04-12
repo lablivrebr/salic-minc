@@ -432,7 +432,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 1,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691534,
@@ -467,7 +468,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 2,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691528,
@@ -502,7 +504,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 3,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691565,
@@ -537,7 +540,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 4,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691546,
@@ -572,7 +576,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 5,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691568,
@@ -607,7 +612,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 6,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691533,
@@ -642,7 +648,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 7,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691526,
@@ -677,7 +684,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 8,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691556,
@@ -712,7 +720,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 9,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691527,
@@ -747,7 +756,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 10,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691543,
@@ -782,7 +792,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 11,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691532,
@@ -817,7 +828,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 12,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691559,
@@ -852,7 +864,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 13,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691561,
@@ -887,7 +900,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 14,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691529,
@@ -922,7 +936,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 15,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691539,
@@ -957,7 +972,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 16,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691540,
@@ -992,7 +1008,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 17,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691530,
@@ -1027,7 +1044,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 18,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691549,
@@ -1062,7 +1080,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 19,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691563,
@@ -1097,7 +1116,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 20,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691551,
@@ -1132,7 +1152,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 21,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691553,
@@ -1167,7 +1188,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 22,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691535,
@@ -1202,7 +1224,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 23,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691536,
@@ -1237,7 +1260,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 24,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691572,
@@ -1272,7 +1296,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 25,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691537,
@@ -1307,7 +1332,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 26,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691558,
@@ -1342,7 +1368,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 27,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691538,
@@ -1377,7 +1404,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 28,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691573,
@@ -1412,7 +1440,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 29,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691555,
@@ -1447,7 +1476,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 30,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691552,
@@ -1482,7 +1512,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 31,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691542,
@@ -1517,7 +1548,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 32,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691571,
@@ -1552,7 +1584,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 33,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691547,
@@ -1587,7 +1620,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 34,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691570,
@@ -1622,7 +1656,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 35,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691531,
@@ -1657,7 +1692,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 36,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691554,
@@ -1692,7 +1728,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 37,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691545,
@@ -1727,7 +1764,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 38,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691560,
@@ -1762,7 +1800,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 39,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691569,
@@ -1797,7 +1836,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 40,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691548,
@@ -1832,7 +1872,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 41,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691544,
@@ -1867,7 +1908,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 42,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691562,
@@ -1902,7 +1944,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 43,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691557,
@@ -1937,7 +1980,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 44,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691550,
@@ -1972,7 +2016,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 45,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691564,
@@ -2007,7 +2052,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 46,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691541,
@@ -2042,7 +2088,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 47,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691567,
@@ -2077,7 +2124,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 48,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691566,
@@ -2112,7 +2160,8 @@
               "UF": "SP",
               "Produto": "Bem Imóvel - Reforma / Ampliação / Construção / Aquisição",
               "Seq": 49,
-              "isDisponivelParaAnalise": true
+              "isDisponivelParaAnalise": true,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691523,
@@ -2147,7 +2196,8 @@
               "UF": "SP",
               "Produto": "Administração do Projeto",
               "Seq": 50,
-              "isDisponivelParaAnalise": false
+              "isDisponivelParaAnalise": false,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691524,
@@ -2182,7 +2232,8 @@
               "UF": "SP",
               "Produto": "Administração do Projeto",
               "Seq": 51,
-              "isDisponivelParaAnalise": false
+              "isDisponivelParaAnalise": false,
+              "selecionado": false
             },
             {
               "idPlanilhaProjeto": 2691525,
@@ -2217,7 +2268,8 @@
               "UF": "SP",
               "Produto": "Administração do Projeto",
               "Seq": 52,
-              "isDisponivelParaAnalise": false
+              "isDisponivelParaAnalise": false,
+              "selecionado": false
             }
           ],
           "somenteLeitura": false

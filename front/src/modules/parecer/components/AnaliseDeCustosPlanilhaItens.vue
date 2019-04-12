@@ -23,9 +23,10 @@
                 <tr
                     :class="obterClasseItem(props.item, 'stCustoPraticadoParc')"
                     :style="obterEstiloItem(props.item)"
-                    @click.stop="props.expanded = editarItem(props)"
+                    class="teste-1"
+                    @click="props.expanded = editarItem(props)"
                 >
-                    <td width="1">
+                    <td class="text-xs-right">
                         <v-checkbox
                             v-model="props.selected"
                             primary

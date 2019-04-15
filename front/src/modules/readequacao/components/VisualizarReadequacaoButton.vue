@@ -92,7 +92,7 @@
                                         <campo-diff
                                             v-if="dadosReadequacao.dsSolicitacao"
                                             :original-text="tratarCampoVazio(getDadosCampo.valor)"
-                                            :changed-text="dadosReadequacao.dsSolicitacao"
+                                            :changed-text="textoSolicitacao"
                                             :method="'diffSentences'"
                                         />
                                         <div
@@ -224,6 +224,7 @@
 import _ from 'lodash';
 import { mapGetters } from 'vuex';
 import { utils } from '@/mixins/utils';
+import Const from '../const';
 import VisualizarCampoDetalhado from './VisualizarCampoDetalhado';
 import CampoDiff from '@/components/CampoDiff';
 
@@ -274,6 +275,16 @@ export default {
                 };
             }
             return {};
+        },
+        textoSolicitacao() {
+            switch (this.dadosReadequacao.idTipoReadequacao) {
+            case Const.TIPO_READEQUACAO_PERIODO_EXECUCAO:
+                const [year, month, day] = this.dadosReadequacao.dsSolicitacao.substr(0, 10).split('-');
+                return `${day}/${month}/${year}`;
+            default:
+                return this.dadosReadequacao.dsSolicitacao;
+                break;
+            }
         },
     },
     methods: {

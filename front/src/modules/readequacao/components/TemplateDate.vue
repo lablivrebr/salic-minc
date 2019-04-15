@@ -91,6 +91,10 @@ export default {
                     date = this.campo.valor;
                 }
                 date = this.dadosReadequacao.dsSolicitacao;
+                if (date === '') {
+                    const today = new Date();
+                    date = today.getDate();
+                }
                 this.date = this.prepareDate(date);
             }
         },

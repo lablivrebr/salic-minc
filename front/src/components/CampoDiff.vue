@@ -66,7 +66,12 @@ export default {
     },
     watch: {
         originalText() {
-            if (this.originalText !== '') {
+            if (this.changedText !== '') {
+                this.showDiff();
+            }
+        },
+        changedText() {
+            if (this.changedText !== '') {
                 this.showDiff();
             }
         },
@@ -95,6 +100,8 @@ export default {
             return dd;
         },         
         showDiff() {
+            this.textDiff.after = '';
+            this.textDiff.before = '';
             let color = '';
             let span = '';
             let first = true;

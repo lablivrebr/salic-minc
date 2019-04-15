@@ -17,7 +17,6 @@
 
 <script>
 import * as Diff from 'diff'
-import {Diff2Html} from 'diff2html'
 
 export default {
     name: 'CampoDiff',

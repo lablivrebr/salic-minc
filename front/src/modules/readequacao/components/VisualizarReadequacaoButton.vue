@@ -78,23 +78,21 @@
                             <v-expansion-panel-content>
                                 <v-card>
                                     <v-card-title>
-                                        <v-btn fab depressed small class="green lighten-1">
+                                        <v-btn
+                                            fab
+                                            depressed
+                                            small
+                                            class="green lighten-1"
+                                        >
                                             <v-icon color="white">mode_comment</v-icon>
                                         </v-btn>
                                         Solicitação
                                     </v-card-title>
-
                                     <v-layout row>
-                                        <v-flex xs6>
-                                            <v-card-text class="grey lighten-3">
-                                                Solicitação Anterior
-                                            </v-card-text>
-                                        </v-flex>
-                                        <v-flex xs6>
-                                            <v-card-text class="grey lighten-3">
-                                                Solicitação Nova
-                                            </v-card-text>
-                                        </v-flex>
+                                        <campo-diff
+                                            :original-text="tratarCampoVazio(getDadosCampo.valor)"
+                                            :changed-text="dadosReadequacao.dsSolicitacao"
+                                        />
                                     </v-layout>
 
                                 </v-card>
@@ -102,7 +100,12 @@
                             <v-expansion-panel-content>
                                 <v-card>
                                     <v-card-title>
-                                        <v-btn fab depressed small class="green lighten-1">
+                                        <v-btn
+                                            fab
+                                            depressed
+                                            small
+                                            class="green lighten-1"
+                                        >
                                             <v-icon color="white">assignment</v-icon>
                                         </v-btn>
                                         Justificativa
@@ -121,39 +124,7 @@
                                     </v-layout>
                                 </v-card>
                             </v-expansion-panel-content>
-
                         </v-expansion-panel>
-
-
-
-
-                        <!-- <v-list>
-                            <v-list-tile
-                                avatar
-                                @click="visualizarSolicitacao = !visualizarSolicitacao"
-                            >
-                                <VisualizarCampoDetalhado
-                                    v-if="visualizarSolicitacao"
-                                    :dialog="true"
-                                    :dados="{ titulo: 'Solicitação', descricao: dadosReadequacao.dsSolicitacao }"
-                                    @fechar-visualizacao="visualizarSolicitacao = false"
-                                />
-                                <v-list-tile-avatar>
-                                    <v-icon class="green lighten-1 white--text">mode_comment</v-icon>
-                                </v-list-tile-avatar>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>Solicitação</v-list-tile-title>
-                                </v-list-tile-content>
-                                <v-list-tile-action>
-                                    <v-btn
-                                        icon
-                                        ripple
-                                    >
-                                        <v-icon color="grey lighten-1">info</v-icon>
-                                    </v-btn>
-                                </v-list-tile-action>
-                            </v-list-tile>
-                        </v-list>
                     </v-flex>
                     <v-flex xs10 offset-xs1>
                         <v-list
@@ -161,7 +132,6 @@
                             subheader
                         >
                             <v-subheader inset/>
-
                             <v-list-tile
                                 avatar
                                 @click="visualizarJustificativa = !visualizarJustificativa"
@@ -246,13 +216,16 @@
 </template>
 <script>
 import _ from 'lodash';
+import { mapGetters } from 'vuex';
 import { utils } from '@/mixins/utils';
 import VisualizarCampoDetalhado from './VisualizarCampoDetalhado';
+import CampoDiff from '@/components/CampoDiff';
 
 export default {
     name: 'VisualizarReadequacaoButton',
     components: {
         VisualizarCampoDetalhado,
+        CampoDiff,
     },
     mixins: [utils],
     props: {
@@ -271,6 +244,9 @@ export default {
         };
     },
     computed: {
+        ...mapGetters({
+            campoAtual: 'readequacao/getCampoAtual',
+        }),
         existeAvaliacao() {
             if (this.dadosReadequacao
                 && this.perfilAceito()) {
@@ -280,6 +256,17 @@ export default {
                 }
             }
             return false;
+        },
+        getDadosCampo() {
+            const chave = `key_${this.dadosReadequacao.idTipoReadequacao}`;
+            if (Object.prototype.hasOwnProperty.call(this.campoAtual, chave)) {
+                return {
+                    valor: this.campoAtual[chave].dsCampo,
+                    titulo: this.campoAtual[chave].descricao,
+                    tpCampo: this.campoAtual[chave].tpCampo,
+                };
+            }
+            return {};
         },
     },
     methods: {
@@ -291,6 +278,15 @@ export default {
                 return false;
             }
             return true;
+        },
+        tratarCampoVazio(value) {
+            if (typeof value !== 'undefined') {
+                if (value.trim() === '') {
+                    const msgVazio = '<em>Campo vazio</em>';
+                    return msgVazio;
+                }
+                return value;
+            }
         },
     },
 };

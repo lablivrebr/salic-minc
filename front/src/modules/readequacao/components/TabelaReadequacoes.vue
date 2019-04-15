@@ -1,9 +1,26 @@
 <template>
     <div>
+        <v-card
+            flat
+        >
+            <v-card-title>
+                <v-spacer/>
+                <v-spacer/>
+                <v-spacer/>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Buscar"
+                    single-line
+                    hide-details
+                />
+            </v-card-title>
+        </v-card>
         <v-data-table
             :headers="head"
             :items="dadosReadequacao.items"
             :pagination.sync="pagination"
+            :search="search"
             item-key="item.index"
             rows-per-page-text="Items por Página"
         >
@@ -117,6 +134,7 @@ export default {
                     value: '',
                 },
             ],
+            search: '',
             bindClick: 0,
         };
     },

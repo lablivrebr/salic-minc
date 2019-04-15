@@ -133,6 +133,10 @@ abstract class MinC_Controller_Rest_Abstract extends Zend_Controller_Action
      */    
     final protected function verifySubRoutes()
     {
+        if (empty($this->_subRoutes)) {
+            return;
+        }
+        
         $arrRequest = $this->getAllParams();
         $currentUrl = $arrRequest['module'] . '/' .  $arrRequest['controller'];
        

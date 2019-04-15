@@ -546,4 +546,19 @@ class Readequacao implements IServicoRestZend
         }
         return $data;
     }
+
+    public function buscarDocumento($idReadequacao, $idDocumento) {
+        $data = [];
+        
+        $readequacao = $this->buscar($idReadequacao);
+        if ($readequacao['idDocumento'] == $idDocumento) {
+            $documento = new DocumentoService(
+                $this->request,
+                $this->response
+            );
+            $data = $documento->abrirDocumento($idDocumento);
+        }
+        return $data;
+    }
+
 }

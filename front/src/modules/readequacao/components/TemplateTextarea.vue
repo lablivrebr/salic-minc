@@ -22,10 +22,11 @@
             >
                 <v-card min-height="336px">
                     <v-card-title class="green lighten-2 title">Versão readequada</v-card-title>
-                    <EditorTexto
+                    <s-editor-texto
+                        v-model="dadosReadequacaoEmEdicao.dsSolicitacao"
                         :style="''"
-                        :value="campoTexto"
-                        @editor-texto-input="salvarInput($event)"
+                        :min-char="minChar"
+                        @text-change="atualizarForm($event)"
                         @editor-texto-counter="atualizarContador($event)"
                     />
                 </v-card>
@@ -34,28 +35,55 @@
     </v-container>
 </template>
 <script>
-import EditorTexto from '../../avaliacaoResultados/components/components/EditorTexto';
-
+import SEditorTexto from '@/components/SalicEditorTexto';
+ 
 export default {
     name: 'TemplateTextarea',
     components: {
-        EditorTexto,
+        SEditorTexto,
     },
     props: {
-        campo: { type: Object, default: () => {} },
-        dadosReadequacao: { type: Object, default: () => {} },
-    },
-    data() {
-        return {};
-    },
-    computed: {
-        campoTexto() {
-            return this.dadosReadequacao.dsSolicitacao;
+        campo: {
+            type: Object,
+            default: () => {},
+        },
+        dadosReadequacao: {
+            type: Object,
+            default: () => {},
+        },
+        minChar: {
+            type: Number,
+            default: 0,
         },
     },
+    data() {
+        return {
+            dadosReadequacaoEmEdicao: {
+                idReadequacao: 0,
+                dsSolicitacao: '',
+                dsJustificativa: '',
+                dtSolicitacao: '',
+                documento: {},
+                idDocumento: '',
+                dsAvaliacao: '',
+            },
+        };
+    },
+    watch: {
+        campo() {
+            if (this.campo.idReadequacao !== 0) {
+                this.dadosReadequacaoEmEdicao = Object.assign({}, this.dadosReadequacao);
+            }
+        },
+    },
+    created() {
+        if (this.dadosReadequacao.idReadequacao !== 0) {
+            this.dadosReadequacaoEmEdicao = Object.assign({}, this.dadosReadequacao);
+        }
+    },
     methods: {
-        salvarInput(e) {
-            this.$emit('dados-update', e);
+        atualizarForm() {
+            this.$emit('dados-update', this.dadosReadequacaoEmEdicao.dsSolicitacao);
         },
         atualizarContador(valor) {
             this.$emit('editor-texto-counter', valor);

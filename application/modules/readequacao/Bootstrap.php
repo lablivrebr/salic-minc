@@ -18,6 +18,7 @@ class Readequacao_Bootstrap extends Zend_Application_Module_Bootstrap
                     'campo-atual',
                     'dados-readequacao',
                     'dados-readequacao-documento',
+                    'documento',
                     'finalizar',
                     'tipos-disponiveis',
                 ]

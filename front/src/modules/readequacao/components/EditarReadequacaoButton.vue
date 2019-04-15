@@ -16,7 +16,7 @@
         <template
             v-if="!getTemplateParaTipo"
         >
-            <TemplateRedirect
+            <template-redirect
                 :dados-readequacao="dadosReadequacao"
                 :campo="campoAtual"
                 :redirecionar="redirecionar"
@@ -57,7 +57,7 @@
                         xs10
                         offset-xs1
                     >
-                        <Carregando
+                        <carregando
                             :text="'Montando edição de readequação...'"
                             class="mt-5"
                         />
@@ -83,8 +83,10 @@
                                         :is="getTemplateParaTipo"
                                         :dados-readequacao="dadosReadequacao"
                                         :campo="getDadosCampo"
+                                        :min-char="minChar.solicitacao"
+                                        :rules="rules.solicitacao"
                                         @dados-update="atualizarCampo($event, 'dsSolicitacao')"
-                                        @editor-texto-counter="validarFormulario()"
+                                        @editor-texto-counter="atualizarContador($event, 'solicitacao')"
                                     />
                                 </v-card>
                             </v-expansion-panel-content>
@@ -101,20 +103,21 @@
                                     >
                                         Justificativa da readequação
                                     </v-card-title>
-                                    <FormReadequacao
+                                    <form-readequacao
                                         :dados-readequacao="dadosReadequacao"
+                                        :min-char="minChar.justificativa"
                                         @dados-update="atualizarCampo($event, 'dsJustificativa')"
-                                        @editor-texto-counter="validarFormulario()"
+                                        @editor-texto-counter="atualizarContador($event, 'justificativa')"
                                     />
                                     <v-card-text>
                                         <v-layout row>
                                             <v-flex xs3>
-                                                <UploadFile
-                                                    :arquivo-inicial="dadosReadequacao.documento"
+                                                <upload-file
                                                     :formatos-aceitos="formatosAceitos"
+                                                    :id-documento="dadosReadequacao.idDocumento"
                                                     class="mt-1"
                                                     @arquivo-anexado="atualizarArquivo($event)"
-                                                    @arquivo-removido="removerArquivo($event)"
+                                                    @arquivo-removido="removerArquivo()"
                                                 />
                                             </v-flex>
                                             <v-flex xs1>
@@ -127,7 +130,7 @@
                                                         color="white"
                                                         @click="abrirArquivo()"
                                                     >
-                                                        <v-icon small>attach_file</v-icon>
+                                                        <v-icon small>visibility</v-icon>
                                                     </v-btn>
                                                     <v-spacer/>
                                                     <v-btn
@@ -159,6 +162,7 @@
                                     row
                                     wrap
                                     justify-end
+                                    text-xs-right
                                 >
                                     <v-btn
                                         color="green darken-1"
@@ -170,13 +174,21 @@
                                             dark
                                         >done</v-icon>
                                     </v-btn>
-                                    <FinalizarButton
+                                    <v-btn
+                                        color="red lighten-2"
+                                        dark
+                                        @click="dialog = false"
+                                    >Cancelar
+                                        <v-icon
+                                            right
+                                            dark
+                                        >cancel</v-icon>
+                                    </v-btn>
+                                    <finalizar-button
                                         :disabled="!validacao"
                                         :dados-readequacao="dadosReadequacao"
                                         :dados-projeto="dadosProjeto"
                                         :tela-edicao="true"
-                                        color="green darken-1"
-                                        class="mr-2"
                                         dark
                                         @readequacao-finalizada="readequacaoFinalizada()"
                                     />
@@ -205,7 +217,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 import FormReadequacao from './FormReadequacao';
@@ -262,17 +274,36 @@ export default {
                 finaliza: false,
             },
             recarregarReadequacoes: false,
-            minChar: 3,
+            minChar: {
+                solicitacao: 3,
+                justificativa: 10,
+            },
             validacao: false,
-            validacaoOk: false,
-            campos: ['dsSolicitacao', 'dsJustificativa'],
+            contador: {
+                solicitacao: 0,
+                justificativa: 0,
+            },
+            rules: {
+                solicitacao: [
+                    v => !!v || 'Campo obrigatório.',
+                    v => (v && v.length >= this.minChar.solicitacao) || `Deve ter no mínimo ${this.minChar.solicitacao} caracteres.`,
+                ],
+                justificativa: [
+                    v => !!v || 'Preencha a justificativa.',
+                    v => (v && v.length >= this.minChar.justificativa) || `Justificativa ter no mínimo ${this.minChar.justificativa} caracteres.`,
+                ],
+            },
+            campos: [
+                'dsSolicitacao',
+                'dsJustificativa',
+            ],
             loading: true,
+            arquivo: {},
         };
     },
     computed: {
         ...mapGetters({
             campoAtual: 'readequacao/getCampoAtual',
-            getDocumentoReadequacao: 'readequacao/getDocumentoReadequacao',
         }),
         getTemplateParaTipo() {
             let templateName = false;
@@ -346,7 +377,6 @@ export default {
         ...mapActions({
             obterCampoAtual: 'readequacao/obterCampoAtual',
             updateReadequacao: 'readequacao/updateReadequacao',
-            obterDocumento: 'readequacao/obterDocumento',
             finalizarReadequacao: 'readequacao/finalizarReadequacao',
         }),
         obterDadosIniciais() {
@@ -389,18 +419,6 @@ export default {
                 dsSolicitacao: this.dadosReadequacao.dsSolicitacao,
                 dsJustificativa: this.dadosReadequacao.dsJustificativa,
             };
-            this.obterArquivoReadequacao(this.dadosReadequacao.idDocumento);
-        },
-        obterArquivoReadequacao(id) {
-            if (id) {
-                this.obterDocumento(id).then(() => {
-                    if (typeof this.dadosReadequacao.documento !== 'undefined'){
-                        return this.dadosReadequacao.documento;
-                    }
-                });
-            } else {
-                return {};
-            }
         },
         atualizarArquivo(arquivo) {
             this.readequacaoEditada.documento = arquivo;
@@ -430,15 +448,28 @@ export default {
         atualizarCampo(valor, campo) {
             if (this.campos.includes(campo)) {
                 this.readequacaoEditada[campo] = valor;
+                this.validarFormulario();
             }
+        },
+        atualizarContador(valor, campo) {
+            this.contador[campo] = valor;
             this.validarFormulario();
         },
         validarFormulario() {
-            this.validacao = true;
-            if (this.readequacaoEditada.dsJustificativa.trim().length < this.minChar
-                || this.readequacaoEditada.dsSolicitacao.trim().length < this.minChar) {
-                this.validacao = false;
+            let valido = ['solicitacao', 'justificatica'];
+            valido.solicitacao = false;
+            valido.justificativa = false;
+            if (typeof this.readequacaoEditada.dsJustificativa === 'string') {
+                if (this.contador.justificativa >= this.minChar.justificativa) {
+                    valido.justificativa = true;
+                }
             }
+            if (typeof this.readequacaoEditada.dsSolicitacao === 'string') {
+                if (this.contador.solicitacao >= this.minChar.solicitacao) {
+                    valido.solicitacao = true;
+                }
+            }
+            this.validacao = (valido.solicitacao && valido.justificativa);
         },
         readequacaoFinalizada() {
             this.dialog = false;

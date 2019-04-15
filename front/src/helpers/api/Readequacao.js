@@ -65,13 +65,9 @@ export const obterDisponivelEdicaoItemSaldoAplicacao = (idPronac) => {
     return api.getRequest(path);
 };
 
-export const obterDocumentoReadequacao = (idDocumento) => {
-    const path = `/readequacao/readequacoes/abrir-documento-readequacao?id=${idDocumento}`;
-    const http = {
-        baseURL: path,
-        responseType: 'blob',
-    };
-    return api.HTTP(http).get();
+export const obterDocumentoReadequacao = (params) => {
+    const path = `/readequacao/documento`;
+    return api.getRequest(path + parseQueryParams(params));
 };
 
 export const adicionarDocumento = (params) => {

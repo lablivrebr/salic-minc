@@ -151,4 +151,31 @@ class Documento implements IServicoRestZend
         $tbDocumento = new \tbDocumento();
         return $tbDocumento->excluirDocumento($idDocumento);
     }
+
+    public function abrirDocumento($idDocumento)
+    {
+        // Configuracao o php.ini para 10MB
+        @ini_set("mssql.textsize", 10485760);
+        @ini_set("mssql.textlimit", 10485760);
+        @ini_set("upload_max_filesize", "10M");
+
+        $data = [];
+        try {
+            $tbDocumento = new \Arquivo_Model_DbTable_TbDocumento();
+            $resultado = $tbDocumento->abrir($idDocumento);
+            
+            if (!$resultado) {
+                throw new Exception("O documento n&atilde;o existe!");
+            } else {
+                $resultado = current($resultado);
+                $data['idDocumento'] = utf8_encode($idDocumento);
+                $data['filename'] = utf8_encode($resultado->nmArquivo);
+                $data['type'] = utf8_encode($resultado->dsTipoPadronizado);
+                $data['content'] = base64_encode($resultado->biArquivo);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+        return $data;
+    }
 }

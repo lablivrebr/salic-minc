@@ -8,7 +8,7 @@
                 xs10
                 md5
             >
-                <v-card height="130px">
+                <v-card>
                     <v-card-title class="grey lighten-2 title">Versão original</v-card-title>
                     <v-divider/>
                     <v-card-text>
@@ -21,12 +21,14 @@
                 md5
                 offset-md2
             >
-                <v-card height="130px">
+                <v-card>
                     <v-card-title class="green lighten-2 title">Versão readequada</v-card-title>
                     <v-card-actions>
                         <v-text-field
                             :label="campo.titulo"
                             :value="campoTexto"
+                            :rules="rules"
+                            counter
                             @input="updateCampo"
                         />
                     </v-card-actions>
@@ -39,18 +41,64 @@
 export default {
     name: 'TemplateInput',
     props: {
-        campo: { type: Object, default: () => {} },
-        dadosReadequacao: { type: Object, default: () => {} },
-        nomeAtributo: { type: String, default: () => '' },
+        campo: {
+            type: Object,
+            default: () => {},
+        },
+        dadosReadequacao: {
+            type: Object,
+            default: () => {},
+        },
+        nomeAtributo: {
+            type: String,
+            default: () => '',
+        },
+        minChar: {
+            type: Number,
+            default: 0,
+        },
+        rules: {
+            type: Array,
+            default: () => [],
+        },
+    },
+    data() {
+        return {
+            dadosReadequacaoEmEdicao: {
+                idReadequacao: 0,
+                dsSolicitacao: '',
+                dsJustificativa: '',
+                dtSolicitacao: '',
+                documento: {},
+                idDocumento: '',
+                dsAvaliacao: '',
+            },
+        };
     },
     computed: {
         campoTexto() {
             return this.dadosReadequacao.dsSolicitacao;
         },
     },
+    watch: {
+        campo() {
+            if (this.campo.idReadequacao !== 0) {
+                this.dadosReadequacaoEmEdicao = Object.assign({}, this.dadosReadequacao);
+            }
+        },
+    },
+    created() {
+        if (this.dadosReadequacao.idReadequacao !== 0) {
+            this.dadosReadequacaoEmEdicao = Object.assign({}, this.dadosReadequacao);
+        }
+    },
     methods: {
         updateCampo(e) {
             this.$emit('dados-update', e);
+            this.atualizarContador(e.length);
+        },
+        atualizarContador(valor) {
+            this.$emit('editor-texto-counter', valor);
         },
     },
 };

@@ -125,10 +125,11 @@ HOST: http://localhost:4000
                 }
             }
 
-## Readequacao - Obter Documento anexado [/readequacao/readequacoes/abrir-documento-readequacao?id={idDocumento}]
+## Readequacao - Obter Documento anexado [/readequacao/documento?idDocumento={idDocumento}&idReadequacao={idReadequacao}]
 
 + Parameters
     + idDocumento: 14100 (number, required)
+    + idReadequacao: 14100 (number, required)
 
 ### Filtro por id do Documento [GET]
 
@@ -138,6 +139,8 @@ HOST: http://localhost:4000
 
             {
                 filename: "documento-readequacao.pdf",
+                type: "application/pdf",
+                content: "[BINARY CODE]"
             }
 
 ## Readequacao - Visualizar lista de readequações [/readequacao?idPronac={idPronac}]

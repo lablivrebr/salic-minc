@@ -88,13 +88,19 @@
                                         </v-btn>
                                         Solicitação
                                     </v-card-title>
-                                    <v-layout row>
+                                    <v-card-text>
                                         <campo-diff
+                                            v-if="dadosReadequacao.dsSolicitacao"
                                             :original-text="tratarCampoVazio(getDadosCampo.valor)"
                                             :changed-text="dadosReadequacao.dsSolicitacao"
+                                            :method="'diffSentences'"
                                         />
-                                    </v-layout>
-
+                                        <div
+                                            v-else
+                                        >
+                                            <span v-html="mensagemPadraoOutrasSolicitacoes"/>
+                                        </div>
+                                    </v-card-text>
                                 </v-card>
                             </v-expansion-panel-content>
                             <v-expansion-panel-content>
@@ -241,6 +247,7 @@ export default {
             panel: [true, true],
             visualizarSolicitacao: false,
             visualizarJustificativa: false,
+            mensagemPadraoOutrasSolicitacoes: 'Readequação com alterações específicas.',
         };
     },
     computed: {

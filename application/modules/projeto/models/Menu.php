@@ -443,7 +443,7 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             $menu['execucao']['submenu'][] = [
                 'label' => 'Dados das readequa&ccedil;&otilde;es',
                 'title' => 'Ir para Dados das readequa&ccedil;&otilde;es',
-                'link' => '/#/readequacao/painel/' . $idPronacHash,
+                'link' => "/projeto/#/{$idPronacHash}/readequacoes",
                 'ajax' => false,
                 'grupo' => []
             ];

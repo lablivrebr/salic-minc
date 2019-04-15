@@ -11,6 +11,7 @@
             bottom
             right
             fab
+            @click="valid = true"
         >
             <v-icon>add</v-icon>
         </v-btn>
@@ -296,11 +297,11 @@
                             >
                                 <v-text-field
                                     v-money="money"
+                                    id="valor"
                                     :hint="`*Atual: R$ ${valorAtual} / Máx: R$ ${valorComprovar}`"
                                     :rules="valorRules"
-                                    v-model="valor"
+                                    v-model.lazy="valor"
                                     label="VALOR *"
-                                    placeholder="00,00"
                                     persistent-hint
                                     outline
                                 />
@@ -362,6 +363,7 @@ import { mapActions, mapGetters } from 'vuex';
 import { VMoney } from 'v-money';
 import { validadorCpf } from '@/mixins/validadorCpf';
 import { validadorCnpj } from '@/mixins/validadorCnpj';
+import { setTimeout } from 'timers';
 
 export default {
     directives: { money: VMoney },
@@ -509,7 +511,7 @@ export default {
             this.buscandoFornecedor = true;
         },
         agente(val) {
-            if (val[0].msgCPF === 'cadastrado') {
+            if (val.length > 0 && val[0].msgCPF === 'cadastrado') {
                 this.valid = true;
             } else {
                 this.valid = false;
@@ -518,12 +520,14 @@ export default {
         },
         status() {
             this.dialog = false;
+            setTimeout(this.reset, 2000, this.$refs.form.resetValidation);
         },
     },
     methods: {
         ...mapActions({
             buscarAgente: 'avaliacaoResultados/buscarAgente',
             criarComprovante: 'avaliacaoResultados/criarComprovante',
+            limparAgente: 'avaliacaoResultados/limparAgente',
         }),
         buscarFornecedor(cpfCnpj) {
             if (this.cpfCnpjLabel === 'CNPJ') {
@@ -557,14 +561,14 @@ export default {
         },
         // Converte uma string de preço para um número flutuante
         valorNumber(number) {
-            let string = number.replace(/R\$/g, ''); // Retira prefixo R$
+            let string = number.replace(/R\$ /g, ''); // Retira prefixo R$
             string = string.replace(/\./g, ''); // Retira pontos
             string = string.replace(/,/g, '.'); // Transforma vírgulas em pontos
             return parseFloat(string);
         },
         submit() {
             this.buscarFornecedor(this.cpfCnpj);
-            this.valid = this.$refs.form.validate();
+            this.$refs.form.validate();
 
             if (this.valid && this.agenteEhCadastrado) {
                 const formData = new FormData();
@@ -605,6 +609,25 @@ export default {
 
                 this.criarComprovante(formData);
             }
+        },
+        reset(resetValidation) {
+            this.cpfCnpjLabel = 'CNPJ';
+            this.cpfCnpj = '';
+            this.tipoComprovante = 1;
+            this.dataEmissao = '';
+            this.numero = '';
+            this.serie = '';
+            this.nomeArquivo = '';
+            this.arquivo = '';
+            this.foiAtualizado = false;
+            this.formaPagamento = 1;
+            this.dataPagamento = '';
+            this.numeroDocumentoPagamento = '';
+            document.getElementById('valor').value = 0;
+            this.valor = 'R$ 0,00';
+            this.justificativa = '';
+            this.limparAgente();
+            resetValidation();
         },
     },
 };

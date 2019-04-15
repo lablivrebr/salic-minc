@@ -474,3 +474,7 @@ export const buscarAgente = ({ commit }, params) => {
             throw new TypeError(e.response.data.message, 'error', 10);
         });
 };
+
+export const limparAgente = ({ commit }) => {
+    commit(types.BUSCAR_AGENTE, []);
+};

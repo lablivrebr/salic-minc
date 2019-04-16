@@ -1,13 +1,13 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\Captacao\Captacao as CaptacaoService;
+use Application\Modules\DadosBancarios\Service\Captacao as CaptacaoService;
 
 class DadosBancarios_CaptacaoRestController extends MinC_Controller_Rest_Abstract
 {
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
-        $this->setValidateUserIsLogged();
-
+//        $this->setValidateUserIsLogged();
+//
         parent::__construct($request, $response, $invokeArgs);
     }
 
@@ -34,7 +34,7 @@ class DadosBancarios_CaptacaoRestController extends MinC_Controller_Rest_Abstrac
 
     public function getAction()
     {
-        
+
     }
 
     public function postAction()

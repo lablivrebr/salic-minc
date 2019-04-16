@@ -22,6 +22,8 @@ class Captacao
 
     public function buscarCaptacao()
     {
+        xd('ola');
+        die;
         $idPronac = $this->request->idPronac;
         $dtReciboInicio = $this->request->dtReciboInicio;
         $dtReciboFim = $this->request->dtReciboFim;

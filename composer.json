@@ -99,7 +99,6 @@
             "Application\\Modules\\Execucao\\Service\\DadosReadequacoes\\": "./application/modules/execucao/service/",
             "Application\\Modules\\Execucao\\Service\\PedidoProrrogacao\\": "./application/modules/execucao/service/",
             "Application\\Modules\\DadosBancarios\\Service\\": "./application/modules/dados-bancarios/service/",
-            "Application\\Modules\\DadosBancarios\\": "./application/modules/dados-bancarios/",
             "Application\\Modules\\PrestacaoContas\\Service\\ExecucaoReceitaDespesa\\": "./application/modules/prestacao-contas/service/",
             "Application\\Modules\\PrestacaoContas\\Service\\RelatorioFisico\\": "./application/modules/prestacao-contas/service/",
             "Application\\Modules\\PrestacaoContas\\Service\\RelatorioCumprimentoObjeto\\": "./application/modules/prestacao-contas/service/"

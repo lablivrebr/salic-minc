@@ -15,27 +15,29 @@
                 round
                 @click.native="sincState(idPronac)">
                 <v-icon
-                    :color="statusButton(obj).color"
-                    :change="statusButton(obj).color"
-                    class="material-icons">{{ statusButton(obj).icon }}</v-icon>
+                    :color="statusButton(obj,laudo).color"
+                    :change="statusButton(obj,laudo).color"
+                    class="material-icons">{{ statusButton(obj,laudo).icon }}</v-icon>
             </v-btn>
-            <span>{{ statusButton(obj).texto }}</span>
+            <span>{{ statusButton(obj,laudo).texto }}</span>
         </v-tooltip>
         <v-btn
             v-else
             slot="activator"
-            :color="statusButton(obj).color"
+            :color="statusButton(obj,laudo).color"
             round
             dark
             @click.native="sincState(idPronac)">
-            <v-icon class="material-icons">{{ statusButton(obj).icon }}</v-icon>
-            <span>&nbsp;{{ statusButton(obj).texto }}</span>
+            <v-icon class="material-icons">{{ statusButton(obj,laudo).icon }}</v-icon>
+            <span>&nbsp;{{ statusButton(obj,laudo).texto }}</span>
         </v-btn>
 
         <v-card>
             <v-toolbar
                 dark
-                color="green">
+                color="#0a420e !important"
+                fixed
+            >
                 <v-btn
                     icon
                     dark
@@ -49,7 +51,7 @@
                 <v-alert
                     :value="true"
                     type="warning"
-                    class="black--text"
+                    class="mt-5 black--text"
                 >
                     Avaliação do cumprimento do objeto não encontrada!
                 </v-alert>
@@ -58,7 +60,9 @@
             <v-container grid-list-sm>
                 <v-layout
                     row
-                    wrap>
+                    wrap
+                    class="mt-5"
+                >
                     <v-flex
                         xs12
                         sm12
@@ -104,7 +108,7 @@
                 </v-layout>
                 <v-divider/>
             </v-container>
-            <div v-if="parecerTecnico !== undefined">
+            <div v-if="Object.keys(parecerTecnico).length !== 0">
                 <h2 class="text-sm-center">Parecer técnico de avaliação financeira</h2>
                 <v-container grid-list-sm>
                     <v-layout
@@ -155,6 +159,10 @@ export default {
             type: Object,
             default: () => {},
         },
+        laudo: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -178,9 +186,16 @@ export default {
             this.requestEmissaoParecer(id);
             this.getLaudoFinal(id);
         },
-        statusButton(obj) {
+        statusButton(obj, laudo) {
             let status = {};
 
+            if (laudo && obj.siManifestacao === null) {
+                status = {
+                    color: 'red',
+                    icon: 'sentiment_very_dissatisfied',
+                    texto: 'Objeto Reprovado',
+                };
+            } else
             if (typeof obj.dsParecer === 'undefined') {
                 status = {
                     color: '',
@@ -206,6 +221,7 @@ export default {
                     texto: 'Reprovado',
                 };
             }
+
             return status;
         },
     },

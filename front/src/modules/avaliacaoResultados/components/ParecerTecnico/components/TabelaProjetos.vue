@@ -74,6 +74,8 @@
                                 :proximo="componentes.proximo"
                                 :id-tipo-do-ato-administrativo="componentes.idTipoDoAtoAdministrativo"
                                 :usuario="componentes.usuario"
+                                :laudo="false"
+                                :retorno="retornoUrl"
                                 :tecnico="{
                                     idAgente: props.item.idAgente,
                                     nome: props.item.usu_nome
@@ -124,6 +126,7 @@ export default {
             pagination: {
                 rowsPerPage: 10,
             },
+            retornoUrl: `&origin=${encodeURIComponent('avaliacao-resultados/#/painel/assinar')}`,
             selected: [],
             search: '',
             filtro: 'Diligenciado',

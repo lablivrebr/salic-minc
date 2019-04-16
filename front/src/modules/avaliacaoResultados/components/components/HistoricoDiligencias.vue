@@ -25,7 +25,9 @@
 
             <v-toolbar
                 dark
-                color="#0a420e !important">
+                color="#0a420e !important"
+                fixed
+            >
                 <v-btn
                     icon
                     dark
@@ -42,7 +44,7 @@
                         :headers="headers"
                         :items="sortByDate"
                         item-key="idDiligencia"
-                        class="elevation-1"
+                        class="mt-5 pt-2 elevation-1"
                         rows-per-page-text="Items por Página"
                         no-data-text="Nenhum dado encontrado"
                     >

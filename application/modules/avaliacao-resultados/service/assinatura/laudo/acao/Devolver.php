@@ -9,6 +9,7 @@ class Devolver implements IAcaoDevolver
 
     public function executar(\MinC\Assinatura\Model\Assinatura $assinatura)
     {
+
     }
 
 

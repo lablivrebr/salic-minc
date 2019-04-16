@@ -119,7 +119,6 @@ class Recurso_Model_TbRecursoMapper extends MinC_Db_Mapper
             || $recurso['tpSolicitacao'] == Recurso_Model_TbRecurso::TIPO_RECURSO_DESISTENCIA_DO_PRAZO_RECURSAL) {
             return false;
         }
-
         return ($this->obterPrazoSegundoRecurso($recurso) > 0);
     }
 
@@ -169,7 +168,7 @@ class Recurso_Model_TbRecursoMapper extends MinC_Db_Mapper
             return false;
         }
 
-        return $dadosRecurso['prazoRecurso'] = Recurso_Model_TbRecurso::PRAZO_RECURSAL - Data::datadiff($recurso['dtAvaliacao'], 'now');
+        return $dadosRecurso['prazoRecurso'] = Recurso_Model_TbRecurso::PRAZO_RECURSAL -  Data::obterDiferencaEmDias($recurso['dtAvaliacao']);
     }
 
     public function obterTipoRecurso($recurso)

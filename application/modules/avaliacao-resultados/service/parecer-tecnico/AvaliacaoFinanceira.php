@@ -43,19 +43,16 @@ class AvaliacaoFinanceira
             'idPronac' => $this->request->idPronac
         ];
         $dadosParecer = $tbAvaliacaoFinanceira->findBy($where);
-        $dadosParecer = ($dadosParecer) ?: new \stdClass();
 
         $vwVisualizarparecer = new \AvaliacaoResultados_Model_DbTable_CumprimentoObjeto();
-        $dadosObjetoParecer = $vwVisualizarparecer->buscarObjeto($this->request->idPronac);
-        $dadosObjetoParecer->dsParecerDeCumprimentoDoObjeto = utf8_encode($dadosObjetoParecer->dsParecerDeCumprimentoDoObjeto);
-        $dadosObjetoParecer = $dadosObjetoParecer->dsManifestacaoObjeto ? $dadosObjetoParecer : null;
+        $parecerObjeto = $vwVisualizarparecer->buscarObjeto($this->request->idPronac);
 
         return [
             'consolidacaoComprovantes' => $dadosAvaliacaoFinanceira,
             'projeto' => $dadosProjeto,
             'proponente' => $dadosProponente,
-            'parecer' => $dadosParecer,
-            'objetoParecer' => $dadosObjetoParecer
+            'parecer' => ($dadosParecer) ?: new \stdClass(),
+            'objetoParecer' => $parecerObjeto,
         ];
     }
 

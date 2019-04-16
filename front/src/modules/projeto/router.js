@@ -40,6 +40,7 @@ import ExecucaoReceitaDespesa from './visualizar/components/prestacaoContas/Exec
 import RelatorioFisico from './visualizar/components/prestacaoContas/RelatorioFisico';
 import RelacaoPagamento from './visualizar/components/prestacaoContas/RelacaoPagamento';
 import RelatorioCumprimentoObjeto from './visualizar/components/prestacaoContas/RelatorioCumprimentoObjeto';
+import LaudoFinal from './visualizar/components/prestacaoContas/LaudoFinal';
 
 import Aprovacao from './visualizar/components/analiseAprovacao/Aprovacao';
 import Recurso from './visualizar/components/analiseAprovacao/Recurso';
@@ -411,6 +412,14 @@ const routes = [
                 component: RelatorioCumprimentoObjeto,
                 meta: {
                     title: 'Relatório de cumprimento do Objeto',
+                },
+            },
+            {
+                path: 'laudo-final',
+                name: 'LaudoFinal',
+                component: LaudoFinal,
+                meta: {
+                    title: 'Laudo Final',
                 },
             },
         ],

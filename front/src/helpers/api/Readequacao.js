@@ -66,7 +66,7 @@ export const obterDisponivelEdicaoItemSaldoAplicacao = (idPronac) => {
 };
 
 export const obterDocumentoReadequacao = (params) => {
-    const path = `/readequacao/documento`;
+    const path = '/readequacao/documento';
     return api.getRequest(path + parseQueryParams(params));
 };
 

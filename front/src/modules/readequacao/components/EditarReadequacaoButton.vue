@@ -217,7 +217,7 @@
 </template>
 
 <script>
-
+import _ from 'lodash';
 import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 import FormReadequacao from './FormReadequacao';
@@ -376,6 +376,7 @@ export default {
     methods: {
         ...mapActions({
             obterCampoAtual: 'readequacao/obterCampoAtual',
+            obterDocumento: 'readequacao/obterDocumento',
             updateReadequacao: 'readequacao/updateReadequacao',
             finalizarReadequacao: 'readequacao/finalizarReadequacao',
         }),
@@ -456,9 +457,10 @@ export default {
             this.validarFormulario();
         },
         validarFormulario() {
-            let valido = ['solicitacao', 'justificatica'];
-            valido.solicitacao = false;
-            valido.justificativa = false;
+            const valido = {
+                solicitacao: false,
+                justificativa: false,
+            };
             if (typeof this.readequacaoEditada.dsJustificativa === 'string') {
                 if (this.contador.justificativa >= this.minChar.justificativa) {
                     valido.justificativa = true;

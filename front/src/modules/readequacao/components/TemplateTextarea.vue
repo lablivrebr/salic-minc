@@ -36,7 +36,7 @@
 </template>
 <script>
 import SEditorTexto from '@/components/SalicEditorTexto';
- 
+
 export default {
     name: 'TemplateTextarea',
     components: {

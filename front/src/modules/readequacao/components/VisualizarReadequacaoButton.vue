@@ -132,7 +132,10 @@
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                     </v-flex>
-                    <v-flex xs10 offset-xs1>
+                    <v-flex
+                        xs10
+                        offset-xs1
+                    >
                         <v-list
                             two-line
                             subheader
@@ -277,14 +280,14 @@ export default {
             return {};
         },
         textoSolicitacao() {
-            switch (this.dadosReadequacao.idTipoReadequacao) {
-            case Const.TIPO_READEQUACAO_PERIODO_EXECUCAO:
+            let result = '';
+            if (this.dadosReadequacao.idTipoReadequacao === Const.TIPO_READEQUACAO_PERIODO_EXECUCAO) {
                 const [year, month, day] = this.dadosReadequacao.dsSolicitacao.substr(0, 10).split('-');
-                return `${day}/${month}/${year}`;
-            default:
-                return this.dadosReadequacao.dsSolicitacao;
-                break;
+                result = `${day}/${month}/${year}`;
+            } else {
+                result = this.dadosReadequacao.dsSolicitacao;
             }
+            return result;
         },
     },
     methods: {
@@ -303,8 +306,8 @@ export default {
                     const msgVazio = '<em>Campo vazio</em>';
                     return msgVazio;
                 }
-                return value;
             }
+            return value;
         },
     },
 };

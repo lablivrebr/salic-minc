@@ -47,22 +47,22 @@ export const buscaReadequacaoPronacTipo = ({ commit }, params) => {
 
 export const obterDocumento = async ({ commit }, params) => {
     const resultado = await readequacaoHelperAPI.obterDocumentoReadequacao(params)
-          .then((response) => {
-              if (response.data) {
-                  const documento = response.data.data.items;
-                  commit(types.GET_DOCUMENTO, {
-                      documento: documento.content,
-                      idDocumento: documento.idDocumento,
-                  });
-                  commit(types.GET_READEQUACAO, {
-                      documento: documento.content,
-                      idDocumento: documento.idDocumento,
-                  });
-              } else {
-                  commit(types.GET_DOCUMENTO, {});
-              }
-              return response.data;
-          });
+        .then((response) => {
+            if (response.data) {
+                const documento = response.data.data.items;
+                commit(types.GET_DOCUMENTO, {
+                    documento: documento.content,
+                    idDocumento: documento.idDocumento,
+                });
+                commit(types.GET_READEQUACAO, {
+                    documento: documento.content,
+                    idDocumento: documento.idDocumento,
+                });
+            } else {
+                commit(types.GET_DOCUMENTO, {});
+            }
+            return response.data;
+        });
     return resultado;
 };
 

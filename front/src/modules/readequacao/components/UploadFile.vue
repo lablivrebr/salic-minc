@@ -6,8 +6,8 @@
             ref="pond"
             :server="server"
             :accepted-file-types="formatosAceitos"
-            name="upload"
             :label-idle="textoBotao"
+            name="upload"
             label-file-type-not-allowed="Tipo de arquivo inválido."
             file-validate-type-label-expected-types="Somente {allTypes} serão aceitos."
             label-button-remove-item="Excluir"
@@ -24,7 +24,6 @@ import _ from 'lodash';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import vueFilePond from 'vue-filepond';
 import 'filepond/dist/filepond.min.css';
-import { mapActions, mapGetters } from 'vuex';
 import Carregando from '@/components/CarregandoVuetify';
 
 const FilePond = vueFilePond(FilePondPluginFileValidateType);
@@ -72,7 +71,7 @@ export default {
     },
     computed: {
         textoBotao() {
-            let texto = (_.isNull(this.idDocumento)) ? 'CARREGAR ARQUIVO' : 'ALTERAR ARQUIVO';
+            const texto = (_.isNull(this.idDocumento)) ? 'CARREGAR ARQUIVO' : 'ALTERAR ARQUIVO';
             return `<span class='subheading'>${texto}</span>`;
         },
     },

@@ -42,24 +42,15 @@ export const mutations = {
         state.readequacao = {};
     },
     [types.GET_DOCUMENTO](state, data) {
-        state.readequacoesProponente.items.forEach((readequacao) => {
-            readequacao.documento = {};
-            if (readequacao.idDocumento === data.idDocumento) {
+        const readequacoesProponente = [];
+        state.readequacoesProponente.items.forEach((item) => {
+            const readequacao = item;
+            if (item.idDocumento === data.idDocumento) {
                 readequacao.documento = data.documento;
             }
+            readequacoesProponente.push(readequacao);
         });
-        state.readequacoesAnalise.items.forEach((readequacao) => {
-            readequacao.documento = {};
-            if (readequacao.idDocumento === data.idDocumento) {
-                readequacao.documento = data.documento;
-            }
-        });
-        state.readequacoesFinalizadas.items.forEach((readequacao) => {
-            readequacao.documento = {};
-            if (readequacao.idDocumento === data.idDocumento) {
-                readequacao.documento = data.documento;
-            }
-        });
+        state.readequacoesProponente.items = readequacoesProponente;
     },
     [types.ADICIONAR_DOCUMENTO](state, data) {
         state.readequacao.idDocumento = data.idDocumento;

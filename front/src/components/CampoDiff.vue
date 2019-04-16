@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import * as Diff from 'diff'
+import * as Diff from 'diff';
 
 export default {
     name: 'CampoDiff',
@@ -98,20 +98,25 @@ export default {
                 break;
             }
             return dd;
-        },         
+        },
         showDiff() {
             this.textDiff.after = '';
             this.textDiff.before = '';
-            let color = '';
-            let span = '';
-            let first = true;
-            let dd = this.makeDiff(this.originalText, this.changedText);
+            const dd = this.makeDiff(this.originalText, this.changedText);
             dd.forEach((part) => {
-                color = (part.added === true) ? this.colors.added : part.removed ? this.colors.removed : this.colors.normal;
-                if (part.value.includes('<p>')) {
-                    span =`<div stlye="display:inline-block" class="${color}">${part.value}</div>`;
+                let color = '';
+                let span = '';
+                if (part.added === true) {
+                    color = this.colors.added;
+                } else if (part.removed === true) {
+                    color = this.colors.removed;
                 } else {
-                    span =`<span class="${color}">${part.value}</span>`;
+                    color = this.colors.normal;
+                }
+                if (part.value.includes('<p>')) {
+                    span = `<div stlye="display:inline-block" class="${color}">${part.value}</div>`;
+                } else {
+                    span = `<span class="${color}">${part.value}</span>`;
                 }
                 if (part.removed === true) {
                     this.textDiff.before += span;

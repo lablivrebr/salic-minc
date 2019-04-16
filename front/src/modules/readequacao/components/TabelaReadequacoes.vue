@@ -65,6 +65,7 @@
                                     :bind-click="bindClick"
                                     :perfis-aceitos="perfisAceitos"
                                     :perfil="perfil"
+                                    :min-char="minChar"
                                     class="pa-0 ma-0 align-center justify-center fill-height"
                                     @excluir-readequacao="excluirReadequacao"
                                     @atualizar-readequacao="atualizarReadequacao(props.item.idReadequacao)"
@@ -93,12 +94,31 @@ export default {
     name: 'TabelaReadequacoes',
     mixins: [utils],
     props: {
-        dadosReadequacao: { type: Object, default: () => {} },
+        dadosReadequacao: {
+            type: Object,
+            default: () => {},
+        },
         componentes: { type: Object, default: () => {} },
-        dadosProjeto: { type: Object, default: () => {} },
-        itemEmEdicao: { type: Number, default: 0 },
-        perfisAceitos: { type: Array, default: () => [] },
-        perfil: { type: Number, default: 0 },
+        dadosProjeto: {
+            type: Object,
+            default: () => {},
+        },
+        itemEmEdicao: {
+            type: Number,
+            default: 0,
+        },
+        perfisAceitos: {
+            type: Array,
+            default: () => [],
+        },
+        perfil: {
+            type: Number,
+            default: 0,
+        },
+        minChar: {
+            type: Object,
+            default: () => {},
+        },
     },
     data() {
         return {

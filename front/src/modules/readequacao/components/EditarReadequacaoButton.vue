@@ -227,6 +227,7 @@ import TemplateDate from './TemplateDate';
 import TemplateRedirect from './TemplateRedirect';
 import FinalizarButton from './FinalizarButton';
 import UploadFile from './UploadFile';
+import validarFormulario from '../mixins/validarFormulario';
 
 export default {
     name: 'EditarReadequacaoButton',
@@ -240,10 +241,24 @@ export default {
         TemplateRedirect,
         UploadFile,
     },
+    mixins: [validarFormulario],
     props: {
-        dadosReadequacao: { type: Object, default: () => {} },
-        dadosProjeto: { type: Object, default: () => {} },
-        bindClick: { type: Number, default: 0 },
+        dadosReadequacao: {
+            type: Object,
+            default: () => {},
+        },
+        dadosProjeto: {
+            type: Object,
+            default: () => {},
+        },
+        bindClick: {
+            type: Number,
+            default: 0,
+        },
+        minChar: {
+            type: Object,
+            default: () => {},
+        },
     },
     data() {
         return {
@@ -274,10 +289,6 @@ export default {
                 finaliza: false,
             },
             recarregarReadequacoes: false,
-            minChar: {
-                solicitacao: 3,
-                justificativa: 10,
-            },
             validacao: false,
             contador: {
                 solicitacao: 0,
@@ -398,7 +409,7 @@ export default {
             } else {
                 this.dialog = true;
             }
-            this.validarFormulario();
+            this.validar();
         },
         salvarReadequacao() {
             this.updateReadequacao(this.readequacaoEditada).then(() => {
@@ -449,29 +460,19 @@ export default {
         atualizarCampo(valor, campo) {
             if (this.campos.includes(campo)) {
                 this.readequacaoEditada[campo] = valor;
-                this.validarFormulario();
+                this.validar();
             }
         },
         atualizarContador(valor, campo) {
             this.contador[campo] = valor;
-            this.validarFormulario();
+            this.validar();
         },
-        validarFormulario() {
-            const valido = {
-                solicitacao: false,
-                justificativa: false,
-            };
-            if (typeof this.readequacaoEditada.dsJustificativa === 'string') {
-                if (this.contador.justificativa >= this.minChar.justificativa) {
-                    valido.justificativa = true;
-                }
-            }
-            if (typeof this.readequacaoEditada.dsSolicitacao === 'string') {
-                if (this.contador.solicitacao >= this.minChar.solicitacao) {
-                    valido.solicitacao = true;
-                }
-            }
-            this.validacao = (valido.solicitacao && valido.justificativa);
+        validar() {
+            this.validacao = this.validarFormulario(
+                this.readequacaoEditada,
+                this.contador,
+                this.minChar,
+            );
         },
         readequacaoFinalizada() {
             this.dialog = false;

@@ -14,20 +14,22 @@
                 dark
             >send</v-icon>
         </v-btn>
-        <v-btn
-            v-else
-            dark
-            icon
-            flat
-            small
-            color="green darken-3"
-            @click.stop="dialog = true"
-        >
-            <v-tooltip bottom>
-                <v-icon slot="activator">send</v-icon>
-                <span>Finalizar Readequação</span>
-            </v-tooltip>
-        </v-btn>
+        <div v-else>
+            <v-btn
+                :disabled="!validacao"
+                dark
+                icon
+                flat
+                small
+                color="green darken-3"
+                @click.stop="dialog = true"
+            >
+                <v-tooltip bottom>
+                    <v-icon slot="activator">send</v-icon>
+                    <span>Finalizar Readequação</span>
+                </v-tooltip>
+            </v-btn>
+        </div>
         <v-dialog
             v-model="dialog"
             max-width="350"
@@ -68,27 +70,76 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import { mapActions } from 'vuex';
+import validarFormulario from '../mixins/validarFormulario';
 
 export default {
     name: 'FinalizarButton',
+    mixins: [validarFormulario],
     props: {
-        disabled: { type: Boolean, default: false },
-        dadosProjeto: { type: Object, default: () => {} },
-        dadosReadequacao: { type: Object, default: () => {} },
-        telaEdicao: { type: Boolean, default: false },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+        dadosProjeto: {
+            type: Object,
+            default: () => {},
+        },
+        dadosReadequacao: {
+            type: Object,
+            default: () => {},
+        },
+        telaEdicao: {
+            type: Boolean,
+            default: false,
+        },
+        minChar: {
+            type: Object,
+            default: () => {},
+        },
     },
     data() {
         return {
             dialog: false,
+            validacao: false,
         };
     },
-    computed: {
+    watch: {
+        dadosReadequacao: {
+            handler() {
+                this.validar();
+            },
+            deep: true,
+        },
+        minChar() {
+            if (!_.isEmpty(this.minChar)) {
+                this.validar();
+            }
+        },
+    },
+    created() {
+        this.validar();
     },
     methods: {
         ...mapActions({
             finalizarReadequacao: 'readequacao/finalizarReadequacao',
         }),
+        validar() {
+            if (typeof this.minChar === 'object') {
+                if (this.minChar.solicitacao === 3) {
+                    const contador = {
+                        solicitacao: this.dadosReadequacao.dsSolicitacao.length,
+                        justificativa: this.dadosReadequacao.dsJustificativa.length,
+                    };
+                    this.validacao = this.validarFormulario(
+                        this.dadosReadequacao,
+                        contador,
+                        this.minChar,
+                    );
+                }
+            }
+        },
         finalizar() {
             this.finalizarReadequacao({
                 idReadequacao: this.dadosReadequacao.idReadequacao,

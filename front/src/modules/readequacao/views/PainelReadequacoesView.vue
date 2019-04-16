@@ -36,6 +36,7 @@
                                     :componentes="acoesProponente"
                                     :dados-projeto="dadosProjeto"
                                     :item-em-edicao="itemEmEdicao"
+                                    :min-char="minChar"
                                     @excluir-readequacao="excluirReadequacao"
                                     @atualizar-readequacao="atualizarReadequacao"
                                 />
@@ -139,6 +140,10 @@ export default {
                     Const.PERFIL_DIRETOR,
                     Const.PERFIL_SECRETARIO,
                 ],
+            },
+            minChar: {
+                solicitacao: 3,
+                justificativa: 10,
             },
         };
     },

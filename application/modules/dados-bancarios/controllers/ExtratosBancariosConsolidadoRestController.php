@@ -1,6 +1,6 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\ExtratosBancariosConsolidado\ExtratosBancariosConsolidado as ExtratosBancariosConsolidadoService;
+use Application\Modules\DadosBancarios\Service\ExtratosBancariosConsolidado as ExtratosBancariosConsolidadoService;
 
 class DadosBancarios_ExtratosBancariosConsolidadoRestController extends MinC_Controller_Rest_Abstract
 {

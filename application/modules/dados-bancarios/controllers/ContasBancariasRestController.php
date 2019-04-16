@@ -1,6 +1,6 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\ContasBancarias\ContasBancarias as ContasBancariasService;
+use Application\Modules\DadosBancarios\Service\ContasBancarias as ContasBancariasService;
 
 class DadosBancarios_ContasBancariasRestController extends MinC_Controller_Rest_Abstract
 {

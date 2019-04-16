@@ -1,6 +1,6 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\ExtratosBancarios\ExtratosBancarios as ExtratosBancariosService;
+use Application\Modules\DadosBancarios\Service\ExtratosBancarios as ExtratosBancariosService;
 
 class DadosBancarios_ExtratosBancariosRestController extends MinC_Controller_Rest_Abstract
 {
@@ -34,7 +34,7 @@ class DadosBancarios_ExtratosBancariosRestController extends MinC_Controller_Res
 
     public function getAction()
     {
-        
+
     }
 
     public function postAction()

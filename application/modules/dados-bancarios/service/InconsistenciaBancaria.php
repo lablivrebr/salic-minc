@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\DadosBancarios\Service\InconsistenciaBancaria;
+namespace Application\Modules\DadosBancarios\Service;
 
 class InconsistenciaBancaria
 {
@@ -36,7 +36,7 @@ class InconsistenciaBancaria
 
         $dadosProjeto = new \Projetos();
         $buscaDadosProjeto = $dadosProjeto->inconsistenciasComprovacao($where, ['dtPagamento DESC'], null, null)->toArray();
-        
+
         return $buscaDadosProjeto;
     }
 }

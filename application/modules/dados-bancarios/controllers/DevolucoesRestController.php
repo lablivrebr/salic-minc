@@ -1,6 +1,6 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\Devolucoes\Devolucoes as DevolucoesService;
+use Application\Modules\DadosBancarios\Service\Devolucoes as DevolucoesService;
 
 class DadosBancarios_DevolucoesRestController extends MinC_Controller_Rest_Abstract
 {

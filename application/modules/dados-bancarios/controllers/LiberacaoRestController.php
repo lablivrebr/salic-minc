@@ -1,6 +1,6 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\Liberacao\Liberacao as LiberacaoService;
+use Application\Modules\DadosBancarios\Service\Liberacao as LiberacaoService;
 
 class DadosBancarios_LiberacaoRestController extends MinC_Controller_Rest_Abstract
 {

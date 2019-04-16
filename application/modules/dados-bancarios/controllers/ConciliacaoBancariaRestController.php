@@ -1,6 +1,6 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\ConciliacaoBancaria\ConciliacaoBancaria as ConciliacaoBancariaService;
+use Application\Modules\DadosBancarios\Service\ConciliacaoBancaria as ConciliacaoBancariaService;
 
 class DadosBancarios_ConciliacaoBancariaRestController extends MinC_Controller_Rest_Abstract
 {

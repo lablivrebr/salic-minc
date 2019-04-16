@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\DadosBancarios\Service\Devolucoes;
+namespace Application\Modules\DadosBancarios\Service;
 
 class Devolucoes
 {

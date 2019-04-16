@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\DadosBancarios\Service\ContasBancarias;
+namespace Application\Modules\DadosBancarios\Service;
 
 class ContasBancarias
 {

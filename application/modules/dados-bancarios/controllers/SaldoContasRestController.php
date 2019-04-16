@@ -1,6 +1,6 @@
 <?php
 
-use Application\Modules\DadosBancarios\Service\SaldoContas\SaldoContas as SaldoContasService;
+use Application\Modules\DadosBancarios\Service\SaldoContas as SaldoContasService;
 
 class DadosBancarios_SaldoContasRestController extends MinC_Controller_Rest_Abstract
 {

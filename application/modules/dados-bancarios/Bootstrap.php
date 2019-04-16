@@ -12,7 +12,8 @@ class DadosBancarios_Bootstrap extends Zend_Application_Module_Bootstrap
                 "dados-bancarios" => [
                     'transferencia-recurso',
                     'captacao-rest',
-                    'contas-bancarias-rest',
+                    'conciliacao-bancaria',
+                    'contas-bancarias',
                     'devolucoes-rest',
                     'extratos-bancarios-consolidado-rest',
                     'extratos-bancarios-rest',

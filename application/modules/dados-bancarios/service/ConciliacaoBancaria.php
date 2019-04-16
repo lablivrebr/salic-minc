@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\DadosBancarios\Service\ConciliacaoBancaria;
+namespace Application\Modules\DadosBancarios\Service;
 
 class ConciliacaoBancaria
 {

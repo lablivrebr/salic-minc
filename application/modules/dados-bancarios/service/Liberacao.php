@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\DadosBancarios\Service\Liberacao;
+namespace Application\Modules\DadosBancarios\Service;
 
 class Liberacao
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\DadosBancarios\Service\ExtratosBancariosConsolidado;
+namespace Application\Modules\DadosBancarios\Service;
 
 class ExtratosBancariosConsolidado
 {

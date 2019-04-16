@@ -127,16 +127,19 @@ export default {
         }),
         validar() {
             if (typeof this.minChar === 'object') {
-                if (this.minChar.solicitacao === 3) {
-                    const contador = {
-                        solicitacao: this.dadosReadequacao.dsSolicitacao.length,
-                        justificativa: this.dadosReadequacao.dsJustificativa.length,
-                    };
-                    this.validacao = this.validarFormulario(
-                        this.dadosReadequacao,
-                        contador,
-                        this.minChar,
-                    );
+                if (typeof this.minChar.solicitacao === 'number') {
+                    if (typeof this.dadosReadequacao.dsSolicitacao !== 'undefined'
+                        && typeof this.dadosReadequacao.dsJustificativa !== 'undefined') {
+                        const contador = {
+                            solicitacao: this.dadosReadequacao.dsSolicitacao.length,
+                            justificativa: this.dadosReadequacao.dsJustificativa.length,
+                        };
+                        this.validacao = this.validarFormulario(
+                            this.dadosReadequacao,
+                            contador,
+                            this.minChar,
+                        );
+                    }
                 }
             }
         },

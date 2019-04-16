@@ -10,7 +10,7 @@
                     >{{ dadosProjeto.Pronac }} - {{ dadosProjeto.NomeProjeto }}</h3>
                 </v-subheader>
                 <div v-if="loading">
-                    <Carregando :text="'Carregando readequações...'"/>
+                    <carregando :text="'Carregando readequações...'"/>
                 </div>
                 <div v-else-if="getReadequacoesProponente">
                     <v-tabs
@@ -37,6 +37,8 @@
                                     :dados-projeto="dadosProjeto"
                                     :item-em-edicao="itemEmEdicao"
                                     :min-char="minChar"
+                                    :perfis-aceitos="getPerfis('proponente')"
+                                    :perfil="getUsuario.grupo_ativo"
                                     @excluir-readequacao="excluirReadequacao"
                                     @atualizar-readequacao="atualizarReadequacao"
                                 />

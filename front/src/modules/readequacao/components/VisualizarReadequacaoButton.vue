@@ -230,6 +230,7 @@ import { utils } from '@/mixins/utils';
 import Const from '../const';
 import VisualizarCampoDetalhado from './VisualizarCampoDetalhado';
 import CampoDiff from '@/components/CampoDiff';
+import verificarPerfil from '../mixins/verificarPerfil';
 
 export default {
     name: 'VisualizarReadequacaoButton',
@@ -237,13 +238,31 @@ export default {
         VisualizarCampoDetalhado,
         CampoDiff,
     },
-    mixins: [utils],
+    mixins: [
+        utils,
+        verificarPerfil,
+    ],
     props: {
-        obj: { type: Object, default: () => {} },
-        dadosProjeto: { type: Object, default: () => {} },
-        dadosReadequacao: { type: Object, default: () => {} },
-        perfisAceitos: { type: Array, default: () => [] },
-        perfil: { type: Number, default: 0 },
+        obj: {
+            type: Object,
+            default: () => {},
+        },
+        dadosProjeto: {
+            type: Object,
+            default: () => {},
+        },
+        dadosReadequacao: {
+            type: Object,
+            default: () => {},
+        },
+        perfisAceitos: {
+            type: Array,
+            default: () => [],
+        },
+        perfil: {
+            type: Number,
+            default: 0,
+        },
     },
     data() {
         return {
@@ -292,13 +311,7 @@ export default {
     },
     methods: {
         perfilAceito() {
-            if (!_.isEmpty(this.perfisAceitos)) {
-                if (this.perfisAceitos.includes(this.perfil)) {
-                    return true;
-                }
-                return false;
-            }
-            return true;
+            return this.verificarPerfil(this.perfil, this.perfisAceitos);
         },
         tratarCampoVazio(value) {
             if (typeof value !== 'undefined') {

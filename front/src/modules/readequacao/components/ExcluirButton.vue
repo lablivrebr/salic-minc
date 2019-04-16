@@ -1,5 +1,7 @@
 <template>
-    <v-layout>
+    <v-layout
+        v-if="perfilAceito"
+    >
         <v-btn
             dark
             icon
@@ -55,13 +57,32 @@
 
 <script>
 import { mapActions } from 'vuex';
+import verificarPerfil from '../mixins/verificarPerfil';
 
 export default {
     name: 'ExcluirButton',
+    mixins: [verificarPerfil],
     props: {
-        obj: { type: Object, default: () => {} },
-        dadosProjeto: { type: Object, default: () => {} },
-        dadosReadequacao: { type: Object, default: () => {} },
+        obj: {
+            type: Object,
+            default: () => {},
+        },
+        dadosProjeto: {
+            type: Object,
+            default: () => {},
+        },
+        dadosReadequacao: {
+            type: Object,
+            default: () => {},
+        },
+        perfisAceitos: {
+            type: Array,
+            default: () => [],
+        },
+        perfil: {
+            type: Number,
+            default: 0,
+        },
     },
     data() {
         return {
@@ -69,6 +90,9 @@ export default {
         };
     },
     computed: {
+        perfilAceito() {
+             return this.verificarPerfil(this.perfil, this.perfisAceitos);
+         },
     },
     methods: {
         ...mapActions({

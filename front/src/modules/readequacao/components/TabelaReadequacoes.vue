@@ -1,5 +1,13 @@
 <template>
-    <div>
+    <div
+        v-if="loading"
+        mt-5
+    >
+        <carregando :text="'Carregando readequações...'"/>
+    </div>
+    <div
+        v-else-if="!loading"
+    >
         <v-card
             flat
         >
@@ -89,16 +97,23 @@
 
 <script>
 import { utils } from '@/mixins/utils';
+import Carregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'TabelaReadequacoes',
     mixins: [utils],
+    components: {
+        Carregando,
+    },
     props: {
         dadosReadequacao: {
             type: Object,
             default: () => {},
         },
-        componentes: { type: Object, default: () => {} },
+        componentes: {
+            type: Object,
+            default: () => {},
+        },
         dadosProjeto: {
             type: Object,
             default: () => {},
@@ -156,6 +171,7 @@ export default {
             ],
             search: '',
             bindClick: 0,
+            loading: true,
         };
     },
     computed: {},
@@ -163,6 +179,9 @@ export default {
         itemEmEdicao() {
             this.bindClick = this.itemEmEdicao;
         },
+    },
+    created() {
+        this.loading = false;
     },
     methods: {
         excluirReadequacao() {

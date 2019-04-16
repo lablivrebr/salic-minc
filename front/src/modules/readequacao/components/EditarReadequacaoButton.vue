@@ -1,5 +1,7 @@
 <template>
-    <v-layout>
+    <v-layout
+        v-if="perfilAceito"
+    >
         <v-btn
             dark
             icon
@@ -228,6 +230,7 @@ import TemplateRedirect from './TemplateRedirect';
 import FinalizarButton from './FinalizarButton';
 import UploadFile from './UploadFile';
 import validarFormulario from '../mixins/validarFormulario';
+import verificarPerfil from '../mixins/verificarPerfil';
 
 export default {
     name: 'EditarReadequacaoButton',
@@ -241,7 +244,10 @@ export default {
         TemplateRedirect,
         UploadFile,
     },
-    mixins: [validarFormulario],
+    mixins: [
+        validarFormulario,
+        verificarPerfil,
+    ],
     props: {
         dadosReadequacao: {
             type: Object,
@@ -258,6 +264,14 @@ export default {
         minChar: {
             type: Object,
             default: () => {},
+        },
+        perfisAceitos: {
+            type: Array,
+            default: () => [],
+        },
+        perfil: {
+            type: Number,
+            default: 0,
         },
     },
     data() {
@@ -341,6 +355,9 @@ export default {
                 return true;
             }
             return false;
+        },
+        perfilAceito() {
+            return this.verificarPerfil(this.perfil, this.perfisAceitos);
         },
     },
     watch: {
@@ -482,7 +499,7 @@ export default {
 </script>
 <style>
 
-#footer {
-    z-index: 10;
-}
+ #footer {
+     z-index: 10;
+ }
 </style>

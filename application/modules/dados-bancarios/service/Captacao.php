@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Modules\DadosBancarios\Service\Captacao;
+namespace Application\Modules\DadosBancarios\Service;
 
 class Captacao
 {
@@ -22,8 +22,6 @@ class Captacao
 
     public function buscarCaptacao()
     {
-        xd('ola');
-        die;
         $idPronac = $this->request->idPronac;
         $dtReciboInicio = $this->request->dtReciboInicio;
         $dtReciboFim = $this->request->dtReciboFim;
@@ -158,7 +156,7 @@ class Captacao
             "Itenspag"=>$this->intTamPag,
             "tamanho"=>$tamanho
         );
-//        $data = ;
+
         $dataEncoded = \TratarArray::utf8EncodeArray($busca->toArray());
 
         return json_encode([

@@ -521,6 +521,7 @@ export default {
         status() {
             this.dialog = false;
             setTimeout(this.reset, 2000, this.$refs.form.resetValidation);
+            this.$root.$emit('recarregar-comprovantes');
         },
     },
     methods: {
@@ -619,6 +620,7 @@ export default {
             this.serie = '';
             this.nomeArquivo = '';
             this.arquivo = '';
+            this.$refs.inputComprovante.value = '';
             this.foiAtualizado = false;
             this.formaPagamento = 1;
             this.dataPagamento = '';

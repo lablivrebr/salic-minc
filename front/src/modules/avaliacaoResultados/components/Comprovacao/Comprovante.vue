@@ -121,6 +121,7 @@ export default {
     },
     mounted() {
         this.listarComprovantes(this.comprovanteParams);
+        this.$root.$on('recarregar-comprovantes', () => this.listarComprovantes(this.comprovanteParams));
     },
     methods: {
         ...mapActions({

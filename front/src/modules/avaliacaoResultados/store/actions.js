@@ -442,6 +442,15 @@ export const criarComprovante = ({ commit }, params) => {
         });
 };
 
+export const excluirComprovante = (_, params) => {
+    avaliacaoResultadosHelperAPI.excluirComprovante(params)
+        .then((response) => {
+            const { data } = response;
+        }).catch((e) => {
+            throw new TypeError(e.response.data.message, 'error', 10);
+        });
+};
+
 export const dashboardQuantidades = ({ commit }) => {
     avaliacaoResultadosHelperAPI.dashboardQuantidade()
         .then((response) => {

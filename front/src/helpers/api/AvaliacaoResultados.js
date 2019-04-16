@@ -180,6 +180,8 @@ export const criarComprovante = (params) => {
     return ax.request();
 };
 
+export const excluirComprovante = params => api.postRequest('/prestacao-contas/gerenciar/excluir', buildData(params));
+
 export const dashboardQuantidade = () => api.getRequest('/avaliacao-resultados/dashboard');
 
 export const buscarAgente = params => api.postRequest('/agente/agentes/agentecadastrado/', buildData(params));

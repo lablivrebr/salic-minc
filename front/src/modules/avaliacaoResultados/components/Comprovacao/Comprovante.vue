@@ -24,17 +24,9 @@
                             </v-btn>
                             <span>Editar</span>
                         </v-tooltip>
-                        <v-tooltip top>
-                            <v-btn
-                                slot="activator"
-                                flat
-                                icon
-                                color="red"
-                            >
-                                <v-icon>delete</v-icon>
-                            </v-btn>
-                            <span>Excluir</span>
-                        </v-tooltip>
+                        <ExcluirComprovante
+                            :id-comprovante-pagamento="props.item.idComprovantePagamento"
+                        />
                     </td>
                 </template>
             </v-data-table>
@@ -50,6 +42,7 @@ import Vue from 'vue';
 import { mapActions } from 'vuex';
 import Moeda from '../../../../filters/money';
 import ComprovarPagamento from './ComprovarPagamento';
+import ExcluirComprovante from './ExcluirComprovante';
 
 Vue.filter('moedaMasck', Moeda);
 
@@ -57,6 +50,7 @@ export default {
     name: 'Comprovante',
     components: {
         ComprovarPagamento,
+        ExcluirComprovante,
     },
     filters: {
         dataMasck(data) {
@@ -112,6 +106,7 @@ export default {
                     value: 'acoes',
                 },
             ],
+            dialog: false,
         };
     },
     computed: {
@@ -126,6 +121,7 @@ export default {
     methods: {
         ...mapActions({
             listarComprovantes: 'avaliacaoResultados/listarComprovantes',
+            excluirComprovante: 'avaliacaoResultados/excluirComprovante',
         }),
     },
 };

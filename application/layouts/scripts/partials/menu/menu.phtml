@@ -100,10 +100,9 @@ $arrMenuProponente['nfe']['menu'][] =
     [
         'label' => 'Vizualizar Notas',
         'title' => 'Vizualizar Notas',
-        'url' => 'http://localhost:8080/notas',
+        'url' => Zend_Registry::get("config")->toArray()['url']['hostnfe'],
         'grupo' => []
     ];
-
 // ========== FIM MENU PROTOCOLO ==========
 
 // ========== INICIO MENU MANUAIS ==========

@@ -87,6 +87,23 @@ $arrMenuProponente['usuario']['menu'][] = array('label' => 'Alterar Dados', 'tit
     'url' => $this->url(array('module' => 'autenticacao', 'controller' => 'index', 'action' => 'alterardados'), '', true),
     'grupo' => array()
 );
+
+$arrMenuProponente['nfe'] = [
+    'id' => 'nfe',
+    'label' => 'Notas Fiscais',
+    'title' => 'Ir para Notas Fiscais',
+    'menu' => [],
+    'grupo' => []
+];
+
+$arrMenuProponente['nfe']['menu'][] =
+    [
+        'label' => 'Vizualizar Notas',
+        'title' => 'Vizualizar Notas',
+        'url' => 'http://localhost:8080/notas',
+        'grupo' => []
+    ];
+
 // ========== FIM MENU PROTOCOLO ==========
 
 // ========== INICIO MENU MANUAIS ==========

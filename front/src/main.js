@@ -5,7 +5,7 @@
 import 'vuetify/dist/vuetify.min.css';
 import Vuetify from 'vuetify';
 import Vue from 'vue';
-import App from './App';
+import App from './App.vue';
 
 import {
   store,
@@ -28,11 +28,18 @@ Vue.config.productionTip = false;
 
 // window.onload = () => {
 /* eslint-disable-next-line */
-const main = new Vue({
-  el: '#app',
+// const main = new Vue({
+//   el: '#app',
+//   router,
+//   store,
+//   components: { App },
+//   template: '<App/>',
+// });
+
+new Vue({
   router,
   store,
-  components: { App },
-  template: '<App/>',
-});
+  render: h => h(App),
+}).$mount('#app');
+
 // };

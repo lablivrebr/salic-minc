@@ -1,6 +1,6 @@
 <template>
     <div
-        id="projeto"
+        id="app"
         class="template-vuetify"
     >
         <router-view/>

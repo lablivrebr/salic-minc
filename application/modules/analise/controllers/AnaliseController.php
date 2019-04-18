@@ -101,7 +101,19 @@ class Analise_AnaliseController extends Analise_GenericController
 
     public function visualizarprojetoAction()
     {
-        $this->carregarScriptsVue();
+//        $this->carregarScriptsVue();
+
+        $validator = new Zend_Validate_File_Exists();
+        $validator->addDirectory('application/layouts/scripts');
+        if (!$validator->isValid('proposta.phtml')) {
+            echo "Aguarde, atualizando o sistema...";
+            die;
+        }
+
+        //@todo cleber, aqui tem que importar apenas o script.
+
+        Zend_Layout::startMvc(array('layout' => 'proposta'));
+        $this->_helper->viewRenderer->setNoRender();
 
         $idPronac = $this->getRequest()->getParam('idpronac');
 

@@ -19,7 +19,7 @@
     /* Parsear os arquivos de configuração */
 //    $applicationConf = Zend_Registry::get('config')->application->{APPLICATION_ENV};
     $config = Zend_Registry::get('config');
-    $configLayout = $config->layout->{$this->layout()->name};
+    $configLayout = $config->layout->layout;    //@todo cleber ver uma solucao melhor para carregar os scripts gerais
     $gitTag = '?v=' . $this->gitTag();
     $arrJsFiles = array();
     if ($configLayout->resources->js->global->files) {

@@ -41,7 +41,9 @@ class Projeto_IndexController extends Projeto_GenericController
 
     public function indexAction()
     {
-        $this->carregarScripts();
+        header('Content-type: text/html; charset=UTF-8');
+        Zend_Layout::startMvc(array('layout' => 'projeto'));
+        $this->_helper->viewRenderer->setNoRender();
     }
 
     public function listarAction()

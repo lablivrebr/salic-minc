@@ -1,50 +1,55 @@
+let is_not_dev_server = process.env.NODE_ENV === 'production' || process.env.npm_lifecycle_event === 'watch';
+
 module.exports = {
+  publicPath: is_not_dev_server
+    ? 'public/dist'
+    : '',
   filenameHashing: false,
   outputDir: '../public/dist',
   pages: {
     main: {
-      entry: './src/main.js',
-    },
-    foo: {
-      entry: './src/modules/foo/main.js',
+      entry: 'src/main.js',
+      template: 'public/index.html',
+      filename: is_not_dev_server
+      ? '../../application/layouts/scripts/main.phtml'
+      : 'main.html',
     },
     avaliacao_resultados: {
-      entry: './src/modules/avaliacaoResultados/main.js',
+      entry: 'src/modules/avaliacaoResultados/main.js',
+      template: 'public/index.html',
+      filename: is_not_dev_server
+        ? '../../application/layouts/scripts/avaliacao_resultados.phtml'
+        : 'avaliacao_resultados.html',
     },
     proposta: {
-      entry: './src/modules/proposta/main.js',
+      entry: 'src/modules/proposta/main.js',
+      template: '../../application/layouts/scripts/layout.phtml',
+      filename: is_not_dev_server
+        ? '../../application/layouts/scripts/proposta.phtml'
+        : 'proposta.html',
     },
     projeto: {
-      entry: './src/modules/projeto/main.js',
+      entry: 'src/modules/projeto/main.js',
+      template: '../../application/layouts/scripts/layout.phtml',
+      filename: is_not_dev_server
+        ? '../../application/layouts/scripts/projeto.phtml'
+        : 'projeto.html',
+    },
+    foo: {
+      entry: 'src/modules/foo/main.js',
+      template: 'public/index.html',
+      filename: 'foo.html',
     },
   },
-  // chainWebpack: config => {
-  //   const options = module.exports
-  //   const pages = options.pages
-  //   const pageKeys = Object.keys(pages)
-  //
-  //   // Long-term caching
-  //
-  //   const IS_VENDOR = /[\\/]node_modules[\\/]/
-  //
-  //   config.optimization
-  //     .splitChunks({
-  //       cacheGroups: {
-  //         commons: {
-  //           chunks: "initial",
-  //           name: "manifest",
-  //           minChunks: 2,
-  //           maxInitialRequests: 5, // The default limit is too small to showcase the effect
-  //           minSize: 0 // This is example is too small to create commons chunks
-  //         },
-  //         vendor: {
-  //           test: IS_VENDOR,
-  //           chunks: "all",
-  //           name: "vendor",
-  //           priority: 10,
-  //           enforce: true
-  //         }
-  //       },
-  //     })
-  // }
+  devServer: {
+    proxy: 'http://localhost:80',
+    historyApiFallback: {
+      rewrites: [
+        { from: /\/avaliacao-resultados/, to: '/avaliacao_resultados.html' },
+        { from: /\/proposta/, to: '/proposta.html' },
+        { from: /\/projeto/, to: '/projeto.html' },
+        { from: /\/foo/, to: '/foo.html' },
+      ]
+    }
+  },
 };

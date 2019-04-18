@@ -30,15 +30,21 @@ Vue.use(Vuetify, {
 });
 Vue.config.productionTip = false;
 
-window.onload = () => {
-  /* eslint-disable-next-line */
-    const main = new Vue({
-    el: '#app',
-    router,
-    store,
-    components: {
-      Index,
-    },
-    template: '<Index/>',
-  });
-};
+// window.onload = () => {
+//   /* eslint-disable-next-line */
+//     const main = new Vue({
+//     el: '#app',
+//     router,
+//     store,
+//     components: {
+//       Index,
+//     },
+//     template: '<Index/>',
+//   });
+// };
+
+new Vue({
+  router,
+  store,
+  render: h => h(Index),
+}).$mount('#app');

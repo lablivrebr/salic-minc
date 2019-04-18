@@ -49,13 +49,13 @@ class IndexController extends MinC_Controller_Action_Abstract
 
         $validator = new Zend_Validate_File_Exists();
         $validator->addDirectory('application/layouts/scripts');
-        if (!$validator->isValid('vue.phtml')) {
+        if (!$validator->isValid('main.phtml')) {
             echo "Aguarde, atualizando o sistema...";
             die;
         }
 
         header('Content-type: text/html; charset=UTF-8');
-        Zend_Layout::startMvc(array('layout' => 'vue'));
+        Zend_Layout::startMvc(array('layout' => 'main'));
         $this->_helper->viewRenderer->setNoRender();
     }
 

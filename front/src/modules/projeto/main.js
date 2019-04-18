@@ -27,17 +27,23 @@ Vue.use(Vuetify, {
 });
 Vue.config.productionTip = false;
 
-window.onload = () => {
-    /* eslint-disable-next-line */
-    const main = new Vue({
-        el: '#app',
-        router,
-        store,
-        components: {
-            Index,
-        },
-        created: () => {
-        },
-        template: '<Index/>',
-    });
-};
+// window.onload = () => {
+//     /* eslint-disable-next-line */
+//     const main = new Vue({
+//         el: '#app',
+//         router,
+//         store,
+//         components: {
+//             Index,
+//         },
+//         created: () => {
+//         },
+//         template: '<Index/>',
+//     });
+// };
+
+new Vue({
+  router,
+  store,
+  render: h => h(Index),
+}).$mount('#app');

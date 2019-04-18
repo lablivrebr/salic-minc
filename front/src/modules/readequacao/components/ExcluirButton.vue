@@ -91,8 +91,8 @@ export default {
     },
     computed: {
         perfilAceito() {
-             return this.verificarPerfil(this.perfil, this.perfisAceitos);
-         },
+            return this.verificarPerfil(this.perfil, this.perfisAceitos);
+        },
     },
     methods: {
         ...mapActions({

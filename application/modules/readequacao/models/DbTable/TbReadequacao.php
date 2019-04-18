@@ -1943,10 +1943,30 @@ select grupo from sac..tbAtoAdministrativo where idAtoAdministrativo = (
         
         $query = $this->select();
         $query->setIntegrityCheck(false);
-        $query->from([
-            'tbReadequacao' => $this->_name
-        ]);
-
+        $query->from(
+            [
+                'tbReadequacao' => $this->_name
+            ],
+            [
+                'idReadequacao',
+                'idPronac',
+                'idTipoReadequacao',
+                'dtSolicitacao',
+                'idSolicitante',
+                new Zend_Db_Expr('CAST(tbReadequacao.dsJustificativa AS TEXT) AS dsJustificativa'),
+                new Zend_Db_Expr('CAST(tbReadequacao.dsSolicitacao AS TEXT) AS dsSolicitacao'),
+                'idDocumento',
+                'idAvaliador',
+                'dtAvaliador',
+                new Zend_Db_Expr('CAST(tbReadequacao.dsAvaliacao AS TEXT) AS dsAvaliacao'),
+                'stAtendimento',
+                'siEncaminhamento',
+                'stAnalise',
+                'idNrReuniao',
+                'stEstado',
+            ]
+        );
+        
         $query->joinInner(
             ['tbTipoReadequacao' => 'tbTipoReadequacao'],
             'tbTipoReadequacao.idTipoReadequacao = tbReadequacao.idTipoReadequacao',

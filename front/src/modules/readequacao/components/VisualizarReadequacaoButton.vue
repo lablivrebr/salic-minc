@@ -50,7 +50,6 @@
                         <v-list
                             two-line
                             subheader
-                            class="ml-2"
                         >
                             <v-subheader inset>Dados da Solicitação</v-subheader>
                             <v-list-tile avatar>
@@ -70,82 +69,14 @@
                                 </v-list-tile-content>
                             </v-list-tile>
                         </v-list>
-
-                        <v-expansion-panel
-                            v-model="panel"
-                            expand
-                        >
-                            <v-expansion-panel-content>
-                                <v-card>
-                                    <v-card-title>
-                                        <v-btn
-                                            fab
-                                            depressed
-                                            small
-                                            class="green lighten-1"
-                                        >
-                                            <v-icon color="white">mode_comment</v-icon>
-                                        </v-btn>
-                                        Solicitação
-                                    </v-card-title>
-                                    <v-card-text>
-                                        <campo-diff
-                                            v-if="dadosReadequacao.dsSolicitacao"
-                                            :original-text="tratarCampoVazio(getDadosCampo.valor)"
-                                            :changed-text="textoSolicitacao"
-                                            :method="'diffSentences'"
-                                        />
-                                        <div
-                                            v-else
-                                        >
-                                            <span v-html="mensagemPadraoOutrasSolicitacoes"/>
-                                        </div>
-                                    </v-card-text>
-                                </v-card>
-                            </v-expansion-panel-content>
-                            <v-expansion-panel-content>
-                                <v-card>
-                                    <v-card-title>
-                                        <v-btn
-                                            fab
-                                            depressed
-                                            small
-                                            class="green lighten-1"
-                                        >
-                                            <v-icon color="white">assignment</v-icon>
-                                        </v-btn>
-                                        Justificativa
-                                    </v-card-title>
-                                    <v-layout row>
-                                        <v-flex xs6>
-                                            <v-card-text class="grey lighten-3">
-                                                Justificativa Anterior
-                                            </v-card-text>
-                                        </v-flex>
-                                        <v-flex xs6>
-                                            <v-card-text class="grey lighten-3">
-                                                Justificativa Nova
-                                            </v-card-text>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-card>
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
-                    </v-flex>
-                    <v-flex
-                        xs10
-                        offset-xs1
-                    >
                         <v-list
                             two-line
-                            subheader
                         >
-                            <v-subheader inset/>
                             <v-list-tile
                                 avatar
                                 @click="visualizarJustificativa = !visualizarJustificativa"
                             >
-                                <VisualizarCampoDetalhado
+                                <visualizar-campo-detalhado
                                     v-if="visualizarJustificativa"
                                     :dialog="true"
                                     :dados="{ titulo: 'Justificativa', descricao: dadosReadequacao.dsJustificativa }"
@@ -166,7 +97,40 @@
                                     </v-btn>
                                 </v-list-tile-action>
                             </v-list-tile>
-                        </v-list> -->
+                        </v-list>
+                    </v-flex>
+                    <v-flex
+                        xs10
+                        offset-xs1
+                    >
+                        <v-card>
+                            <v-card-title
+                                class="subheading"
+                            >
+                                <v-btn
+                                    fab
+                                    depressed
+                                    small
+                                    class="green lighten-1"
+                                >
+                                    <v-icon color="white">mode_comment</v-icon>
+                                </v-btn>
+                                Solicitação
+                            </v-card-title>
+                            <v-card-text>
+                                <campo-diff
+                                    v-if="dadosReadequacao.dsSolicitacao"
+                                    :original-text="tratarCampoVazio(getDadosCampo.valor)"
+                                    :changed-text="textoSolicitacao"
+                                    :method="'diffSentences'"
+                                />
+                                <div
+                                    v-else
+                                >
+                                    <span v-html="mensagemPadraoOutrasSolicitacoes"/>
+                                </div>
+                            </v-card-text>
+                        </v-card>
                     </v-flex>
                     <v-flex
                         v-if="existeAvaliacao"
@@ -300,7 +264,8 @@ export default {
         },
         textoSolicitacao() {
             let result = '';
-            if (this.dadosReadequacao.idTipoReadequacao === Const.TIPO_READEQUACAO_PERIODO_EXECUCAO) {
+            if (this.dadosReadequacao.idTipoReadequacao === Const.TIPO_READEQUACAO_PERIODO_EXECUCAO
+                && this.dadosReadequacao.dsSolicitacao.trim() !== '') {
                 const [year, month, day] = this.dadosReadequacao.dsSolicitacao.substr(0, 10).split('-');
                 result = `${day}/${month}/${year}`;
             } else {

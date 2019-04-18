@@ -89,17 +89,16 @@ export const excluirReadequacao = ({ commit, dispatch }, params) => {
                 idPronac: params.idPronac,
                 stStatusAtual: 'proponente',
             });
+            dispatch('obterTiposDisponiveis', {
+                idPronac: params.idPronac,
+            });
         });
 };
 
-export const updateReadequacao = ({ commit, dispatch }, params) => {
+export const updateReadequacao = ({ commit }, params) => {
     readequacaoHelperAPI.updateReadequacao(params)
         .then((response) => {
             commit(types.UPDATE_READEQUACAO, response.data.data.items);
-            dispatch('obterListaDeReadequacoes', {
-                idPronac: params.idPronac,
-                stStatusAtual: 'proponente',
-            });
         });
 };
 
@@ -152,6 +151,13 @@ export const inserirReadequacao = async ({ commit, dispatch }, params) => {
             dispatch('obterListaDeReadequacoes', {
                 idPronac: params.idPronac,
                 stStatusAtual: 'proponente',
+            });
+            dispatch('obterTiposDisponiveis', {
+                idPronac: params.idPronac,
+            });
+            dispatch('obterCampoAtual', {
+                idPronac: params.idPronac,
+                idTipoReadequacao: params.idTipoReadequacao,
             });
             return data;
         });

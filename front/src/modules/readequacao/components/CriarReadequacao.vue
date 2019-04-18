@@ -105,7 +105,6 @@ export default {
             }).then((response) => {
                 this.dialog = false;
                 this.$emit('criar-readequacao', response.items.idReadequacao);
-                this.obterTiposDisponiveis({ idPronac: this.idPronac });
             });
         },
     },

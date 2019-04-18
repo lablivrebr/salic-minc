@@ -101,10 +101,10 @@ import Carregando from '@/components/CarregandoVuetify';
 
 export default {
     name: 'TabelaReadequacoes',
-    mixins: [utils],
     components: {
         Carregando,
     },
+    mixins: [utils],
     props: {
         dadosReadequacao: {
             type: Object,

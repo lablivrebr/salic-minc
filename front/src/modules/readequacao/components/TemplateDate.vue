@@ -42,19 +42,22 @@
                             max-width="290px"
                             min-width="290px"
                         >
-                            <v-text-field
-                                slot="activator"
-                                v-model="dateFormatted"
-                                label="Date"
-                                hint="Formato DD/MM/YYYY"
-                                persistent-hint
-                                prepend-icon="event"
-                            />
+                            <template v-slot:activator="{ on }">
+                                <v-text-field
+                                    :rules="rules"
+                                    v-model="dateFormatted"
+                                    label="Escolha a data"
+                                    prepend-icon="event"
+                                    v-on="on"
+                                />
+                            </template>
                             <v-date-picker
                                 v-model="date"
                                 no-title
+                                class="calendario-vuetify"
                                 locale="pt-br"
-                                @input="menu = false"
+                                color="primary lighten-1"
+                                @input="menu = false; updateCampo($event)"
                             />
                         </v-menu>
                     </v-card-actions>
@@ -68,13 +71,28 @@
 export default {
     name: 'TemplateDate',
     props: {
-        campo: { type: Object, default: () => {} },
-        dadosReadequacao: { type: Object, default: () => {} },
+        campo: {
+            type: Object,
+            default: () => {},
+        },
+        dadosReadequacao: {
+            type: Object,
+            default: () => {},
+        },
+        minChar: {
+            type: Number,
+            default: 0,
+        },
+        rules: {
+            type: Array,
+            default: () => [],
+        },
     },
     data() {
         return {
             date: '',
             dateFormatted: '',
+            today: new Date().toISOString().substr(0, 10),
             menu: false,
         };
     },
@@ -85,17 +103,12 @@ export default {
         },
         campo() {
             if (this.campo.valor !== '') {
-                let date;
-                if (this.dadosReadequacao.dsSolicitacao === ' '
-                    || this.dadosReadequacao.dsSolicitacao === '') {
-                    date = this.campo.valor;
-                }
-                date = this.dadosReadequacao.dsSolicitacao;
+                let date = this.dadosReadequacao.dsSolicitacao.trim();
                 if (date === '') {
-                    const today = new Date();
-                    date = today.getDate();
+                    date = this.campo.valor.trim();
                 }
-                this.date = this.prepareDate(date);
+                this.date = this.parseDate(date);
+                this.updateCampo(this.date);
             }
         },
     },
@@ -112,14 +125,24 @@ export default {
                 const [year, month, day] = date.split('-');
                 return `${day}/${month}/${year}`;
             }
-            return this.parseDate(date);
+            return date;
         },
         parseDate(date) {
             if (!date) {
                 return null;
             }
-            const [day, month, year] = date.split('/');
-            return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+            if (date.includes('/')) {
+                const [day, month, year] = date.split('/');
+                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            }
+            return date;
+        },
+        updateCampo(e) {
+            this.$emit('dados-update', e);
+            this.atualizarContador(e.length);
+        },
+        atualizarContador(valor) {
+            this.$emit('editor-texto-counter', valor);
         },
     },
 };

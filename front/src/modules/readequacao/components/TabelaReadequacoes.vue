@@ -43,6 +43,7 @@
                         v-if="props.item.idDocumento"
                         flat
                         icon
+                        @click="abrirArquivo(props.item.idDocumento)"
                     >
                         <v-icon>insert_drive_file</v-icon>
                     </v-btn>
@@ -98,13 +99,17 @@
 <script>
 import { utils } from '@/mixins/utils';
 import Carregando from '@/components/CarregandoVuetify';
+import abrirArquivo from '../mixins/abrirArquivo';
 
 export default {
     name: 'TabelaReadequacoes',
     components: {
         Carregando,
     },
-    mixins: [utils],
+    mixins: [
+        utils,
+        abrirArquivo,
+    ],
     props: {
         dadosReadequacao: {
             type: Object,
@@ -127,7 +132,7 @@ export default {
             default: () => [],
         },
         perfil: {
-            type: Number,
+            type: [Number, String],
             default: 0,
         },
         minChar: {

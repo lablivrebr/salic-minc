@@ -130,7 +130,7 @@
                                                         small
                                                         class="green darken-1"
                                                         color="white"
-                                                        @click="abrirArquivo()"
+                                                        @click="abrirArquivo(dadosReadequacao.idDocumento)"
                                                     >
                                                         <v-icon small>visibility</v-icon>
                                                     </v-btn>
@@ -231,6 +231,7 @@ import FinalizarButton from './FinalizarButton';
 import UploadFile from './UploadFile';
 import validarFormulario from '../mixins/validarFormulario';
 import verificarPerfil from '../mixins/verificarPerfil';
+import abrirArquivo from '../mixins/abrirArquivo';
 
 export default {
     name: 'EditarReadequacaoButton',
@@ -247,6 +248,7 @@ export default {
     mixins: [
         validarFormulario,
         verificarPerfil,
+        abrirArquivo,
     ],
     props: {
         dadosReadequacao: {
@@ -270,7 +272,7 @@ export default {
             default: () => [],
         },
         perfil: {
-            type: Number,
+            type: [Number, String],
             default: 0,
         },
     },
@@ -469,10 +471,6 @@ export default {
                 this.mensagem.cor = 'green darken-1';
                 this.recarregarReadequacoes = true;
             });
-        },
-        abrirArquivo() {
-            const urlArquivo = `/readequacao/readequacoes/abrir-documento-readequacao?id=${this.dadosReadequacao.idDocumento}`;
-            window.location.href = urlArquivo;
         },
         atualizarCampo(valor, campo) {
             if (this.campos.includes(campo)) {

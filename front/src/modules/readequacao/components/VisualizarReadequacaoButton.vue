@@ -98,6 +98,22 @@
                                 </v-list-tile-action>
                             </v-list-tile>
                         </v-list>
+                        <v-list
+                            v-if="dadosReadequacao.idDocumento"
+                            two-line
+                        >
+                            <v-list-tile
+                                avatar
+                                @click="abrirArquivo(dadosReadequacao.idDocumento)"
+                            >
+                                <v-list-tile-avatar>
+                                    <v-icon class="green lighten-1 white--text">insert_drive_file</v-icon>
+                                </v-list-tile-avatar>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>Documento anexo</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </v-list>
                     </v-flex>
                     <v-flex
                         xs10
@@ -119,7 +135,7 @@
                             </v-card-title>
                             <v-card-text>
                                 <campo-diff
-                                    v-if="dadosReadequacao.dsSolicitacao"
+                                    v-if="readequacaoTipoSimples() && dadosReadequacao.dsSolicitacao"
                                     :original-text="tratarCampoVazio(getDadosCampo.valor)"
                                     :changed-text="textoSolicitacao"
                                     :method="'diffSentences'"
@@ -127,6 +143,7 @@
                                 <div
                                     v-else
                                 >
+                                    <h4 v-html="dadosReadequacao.dsTipoReadequacao"/>
                                     <span v-html="mensagemPadraoOutrasSolicitacoes"/>
                                 </div>
                             </v-card-text>
@@ -145,7 +162,7 @@
                             <v-list-tile avatar>
                                 <v-list-tile-avatar>
                                     <v-icon class="green lighten-1 white--text">person</v-icon>
-                                </v-list-tile-avatar>:
+                                </v-list-tile-avatar>
                                 <v-list-tile-content>
                                     <v-list-tile-title>Nome do Avaliador</v-list-tile-title>
                                     <v-list-tile-sub-title>Avaliador - {{ dadosReadequacao.idAvaliador }}</v-list-tile-sub-title>
@@ -195,6 +212,7 @@ import Const from '../const';
 import VisualizarCampoDetalhado from './VisualizarCampoDetalhado';
 import CampoDiff from '@/components/CampoDiff';
 import verificarPerfil from '../mixins/verificarPerfil';
+import abrirArquivo from '../mixins/abrirArquivo';
 
 export default {
     name: 'VisualizarReadequacaoButton',
@@ -205,6 +223,7 @@ export default {
     mixins: [
         utils,
         verificarPerfil,
+        abrirArquivo,
     ],
     props: {
         obj: {
@@ -224,7 +243,7 @@ export default {
             default: () => [],
         },
         perfil: {
-            type: Number,
+            type: [Number, String],
             default: 0,
         },
     },
@@ -234,7 +253,15 @@ export default {
             panel: [true, true],
             visualizarSolicitacao: false,
             visualizarJustificativa: false,
-            mensagemPadraoOutrasSolicitacoes: 'Readequação com alterações específicas.',
+            outrosTiposSolicitacoes: [
+                Const.TIPO_READEQUACAO_REMANEJAMENTO_PARCIAL,
+                Const.TIPO_READEQUACAO_PLANILHA_ORCAMENTARIA,
+                Const.TIPO_READEQUACAO_LOCAL_REALIZACAO,
+                Const.TIPO_READEQUACAO_PLANO_DISTRIBUICAO,
+                Const.TIPO_READEQUACAO_SALDO_APLICACAO,
+                Const.TIPO_READEQUACAO_TRANSFERENCIA_RECURSOS,
+            ],
+            mensagemPadraoOutrasSolicitacoes: 'Visualização indisponível para esse tipo de readequação.',
         };
     },
     computed: {
@@ -286,6 +313,12 @@ export default {
                 }
             }
             return value;
+        },
+        readequacaoTipoSimples() {
+            if (this.outrosTiposSolicitacoes.indexOf(this.dadosReadequacao.idTipoReadequacao)) {
+                return false;
+            }
+            return true;
         },
     },
 };

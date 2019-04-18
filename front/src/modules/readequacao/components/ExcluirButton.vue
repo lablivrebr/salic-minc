@@ -80,7 +80,7 @@ export default {
             default: () => [],
         },
         perfil: {
-            type: Number,
+            type: [Number, String],
             default: 0,
         },
     },

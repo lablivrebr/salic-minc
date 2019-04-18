@@ -102,7 +102,7 @@ export default {
     },
     methods: {
         makeDiff(original, changed) {
-            /** see all available methods at https://www.npmjs.com/package/diff **/
+            /** see all available methods at https://www.npmjs.com/package/diff */
             let dd = {};
             switch (this.method) {
             case 'diffChars':

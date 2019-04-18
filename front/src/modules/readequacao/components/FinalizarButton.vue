@@ -1,5 +1,7 @@
 <template>
-    <v-layout>
+    <v-layout
+        v-if="perfilAceito"
+    >
         <v-btn
             v-if="telaEdicao"
             :disabled="disabled"
@@ -73,10 +75,14 @@
 import _ from 'lodash';
 import { mapActions } from 'vuex';
 import validarFormulario from '../mixins/validarFormulario';
+import verificarPerfil from '../mixins/verificarPerfil';
 
 export default {
     name: 'FinalizarButton',
-    mixins: [validarFormulario],
+    mixins: [
+        validarFormulario,
+        verificarPerfil,
+    ],
     props: {
         disabled: {
             type: Boolean,
@@ -98,12 +104,25 @@ export default {
             type: Object,
             default: () => {},
         },
+        perfisAceitos: {
+            type: Array,
+            default: () => [],
+        },
+        perfil: {
+            type: [Number, String],
+            default: 0,
+        },
     },
     data() {
         return {
             dialog: false,
             validacao: false,
         };
+    },
+    computed: {
+        perfilAceito() {
+            return this.verificarPerfil(this.perfil, this.perfisAceitos);
+        },
     },
     watch: {
         dadosReadequacao: {

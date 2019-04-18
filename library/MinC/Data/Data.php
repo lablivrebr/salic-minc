@@ -488,4 +488,9 @@ class Data
         return $output;
     }
 
+    public static function obterDiferencaEmDias($dataInicial, $dataFinal = 'now') {
+        $diferenca = strtotime($dataFinal) - strtotime($dataInicial);
+        return floor($diferenca / (60 * 60 * 24));
+    }
+
 } // fecha class

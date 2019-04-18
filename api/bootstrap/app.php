@@ -58,13 +58,14 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+   App\Http\Middleware\ExampleMiddleware::class
+]);
 
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'jwt' => App\Http\Middleware\JwtMiddleware::class,
 ]);
 
 /*
@@ -90,7 +91,6 @@ $app->configure('graphql');
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
-$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Folklore\GraphQL\LumenServiceProvider::class);
 /*
 |--------------------------------------------------------------------------

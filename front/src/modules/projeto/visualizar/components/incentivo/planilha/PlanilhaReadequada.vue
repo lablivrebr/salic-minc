@@ -1,25 +1,20 @@
 <template>
-  <div id="planilha-readequada">
-    <Carregando
-      v-if="loading"
-      :text="'Procurando planilha'"
-    />
+    <div id="planilha-readequada">
+        <Carregando
+            v-if="loading"
+            :text="'Procurando planilha'"/>
 
-    <Planilha
-      v-if="Object.keys(planilha).length > 0"
-      :array-planilha="planilha"
-    >
-      <template slot-scope="slotProps">
-        <PlanilhaItensReadequados :table="slotProps.itens" />
-      </template>
-    </Planilha>
-    <div
-      v-if="semResposta"
-      class="card-panel padding 20 center-align"
-    >
-      {{ mensagem }}
+        <Planilha
+            v-if="Object.keys(planilha).length > 0"
+            :array-planilha="planilha">
+            <template slot-scope="slotProps">
+                <PlanilhaItensReadequados :table="slotProps.itens"/>
+            </template>
+        </Planilha>
+        <div
+            v-if="semResposta"
+            class="card-panel padding 20 center-align">{{ mensagem }}</div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -29,41 +24,40 @@ import PlanilhaItensReadequados from '@/components/Planilha/PlanilhaItensReadequ
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  /* eslint-disable */
-        name: 'PlanilhaPropostaReadequada',
-        data: function () {
-            return {
-                loading: true,
-                semResposta: false,
-                mensagem: ''
-            };
+    name: 'PlanilhaPropostaReadequada',
+    components: {
+        Carregando,
+        Planilha,
+        PlanilhaItensReadequados,
+    },
+    data() {
+        return {
+            loading: true,
+            semResposta: false,
+            mensagem: '',
+        };
+    },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            planilha: 'projeto/planilhaReadequada',
+        }),
+    },
+    watch: {
+        dadosProjeto(value) {
+            this.buscaPlanilhaReadequada(value.idPronac);
         },
-        components: {
-            Carregando,
-            Planilha,
-            PlanilhaItensReadequados
+        planilha() {
+            this.loading = false;
         },
-        mounted: function () {
-            this.buscaPlanilhaReadequada(this.dadosProjeto.idPronac);
-        },
-        watch: {
-            dadosProjeto(value) {
-                this.buscaPlanilhaReadequada(value.idPronac);
-            },
-            planilha() {
-                this.loading = false;
-            },
-        },
-        computed: {
-            ...mapGetters({
-                dadosProjeto: 'projeto/projeto',
-                planilha: 'projeto/planilhaReadequada',
-            }),
-        },
-        methods: {
-            ...mapActions({
-                buscaPlanilhaReadequada: 'projeto/buscaPlanilhaReadequada'
-            }),
-        },
-    };
+    },
+    mounted() {
+        this.buscaPlanilhaReadequada(this.dadosProjeto.idPronac);
+    },
+    methods: {
+        ...mapActions({
+            buscaPlanilhaReadequada: 'projeto/buscaPlanilhaReadequada',
+        }),
+    },
+};
 </script>

@@ -26,28 +26,34 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
     {
         $idPronac = $this->request->idPronac;
 
+        $resultArray = [];
+        $resultArray['CustosVinculados'] = [];
+        $resultArray['Proposta'] = '';
+
+        if (empty($idPronac)) {
+            return $resultArray;
+        }
         if (strlen($idPronac) > 7) {
             $idPronac = Seguranca::dencrypt($idPronac);
         }
-
         $tblProjeto = new \Projetos();
-        $projeto = $tblProjeto->buscar(array('IdPronac=?'=>$idPronac))->current();
+        $rsProjeto = $tblProjeto->buscar(array('IdPronac=?'=>$idPronac,'idProjeto IS NOT NULL'=>'?'))->current();
 
-        if (!empty($idPronac)) {
-            $rsProjeto = $tblProjeto->buscar(array('IdPronac=?'=>$idPronac,'idProjeto IS NOT NULL'=>'?'))->current();
-
-            if (is_object($rsProjeto) && count($rsProjeto) > 0) {
-                $tblProposta = new \Proposta_Model_DbTable_PreProjeto();
-                $rsProposta = $tblProposta->buscar(array('idPreProjeto=?'=>$rsProjeto->idProjeto))->current();
-                $tbCustosVinculadosMapper = new \Proposta_Model_TbCustosVinculadosMapper();
-                $itensCustosVinculados = $tbCustosVinculadosMapper->obterCustosVinculados($rsProjeto->idProjeto);
-            }
+        $rsProposta = [];
+        if (!empty($rsProjeto)) {
+            $tblProposta = new \Proposta_Model_DbTable_PreProjeto();
+            $rsProposta = $tblProposta->buscar(array('idPreProjeto=?'=> $rsProjeto->idProjeto))->current();
         }
+
+        if (empty($rsProposta)) {;
+            return $resultArray;
+        }
+
+        $tbCustosVinculadosMapper = new \Proposta_Model_DbTable_TbCustosVinculados();
+        $itensCustosVinculados = $tbCustosVinculadosMapper->buscarCustosVinculados(['idProjeto = ?' => $rsProjeto->idProjeto])->toArray();
 
         $CustosVinculadosArray = $this->montaArrayCustosVinculados($itensCustosVinculados);
         $PropostaArray = $this->montaArrayProposta($rsProposta);
-
-        $resultArray = [];
 
         $resultArray['CustosVinculados'] = $CustosVinculadosArray;
         $resultArray['Proposta'] = $PropostaArray;
@@ -58,43 +64,34 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
     }
 
     private function montaArrayCustosVinculados($itensCustosVinculados) {
+        $custosVinculadosArray = [];
         foreach ($itensCustosVinculados as $item) {
-            $descricao = $item['Descricao'];
 
-            $CustosVinculadosArray[] = [
-                'Descricao' => $descricao,
-                'Percentual' => $item['percentualProponente'],
+            $custosVinculadosArray[] = [
+                'Descricao' => $item['item'],
+                'Percentual' => $item['pcCalculo'],
+                'dtCadastro' => $item['dtCadastro']
             ];
-
         }
-        return $CustosVinculadosArray;
+        return $custosVinculadosArray;
     }
 
     private function montaArrayProposta($rsProposta) {
-        $PropostaArray = [];
-        $Objetivos = $rsProposta['Objetivos'];
-        $Justificativa = $rsProposta['Justificativa'];
-        $Acessibilidade = $rsProposta['Acessibilidade'];
-        $DemocratizacaoDeAcesso = $rsProposta['DemocratizacaoDeAcesso'];
-        $EtapaDeTrabalho = $rsProposta['EtapaDeTrabalho'];
-        $FichaTecnica = $rsProposta['FichaTecnica'];
-        $ImpactoAmbiental = $rsProposta['ImpactoAmbiental'];
-        $EspecificacaoTecnica = $rsProposta['EspecificacaoTecnica'];
-        $OutrasInformacoes = $rsProposta['EstrategiadeExecucao'];
-        $Sinopse = $rsProposta['Sinopse'];
-
         $PropostaArray = [
-            'Objetivos' => $Objetivos,
-            'Justificativa' => $Justificativa,
-            'Acessibilidade' => $Acessibilidade,
-            'DemocratizacaoDeAcesso' => $DemocratizacaoDeAcesso,
-            'EtapaDeTrabalho' => $EtapaDeTrabalho,
-            'FichaTecnica' => $FichaTecnica,
-            'ImpactoAmbiental' => $ImpactoAmbiental,
-            'EspecificacaoTecnica' => $EspecificacaoTecnica,
-            'OutrasInformacoes' => $OutrasInformacoes,
-            'Sinopse' => $Sinopse,
+            'Objetivos' => $rsProposta['Objetivos'],
+            'Justificativa' => $rsProposta['Justificativa'],
+            'Acessibilidade' => $rsProposta['Acessibilidade'],
+            'DemocratizacaoDeAcesso' => $rsProposta['DemocratizacaoDeAcesso'],
+            'EtapaDeTrabalho' => $rsProposta['EtapaDeTrabalho'],
+            'FichaTecnica' => $rsProposta['FichaTecnica'],
+            'ImpactoAmbiental' => $rsProposta['ImpactoAmbiental'],
+            'EspecificacaoTecnica' => $rsProposta['EspecificacaoTecnica'],
+            'OutrasInformacoes' => $rsProposta['EstrategiadeExecucao'],
+            'Sinopse' => $rsProposta['Sinopse'],
+            'DescricaoAtividade' => $rsProposta['DescricaoAtividade'],
         ];
+
+        $PropostaArray = array_map('trim', $PropostaArray);
 
         return $PropostaArray;
     }

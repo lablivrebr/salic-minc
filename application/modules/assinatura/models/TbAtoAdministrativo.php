@@ -176,4 +176,24 @@ class Assinatura_Model_TbAtoAdministrativo extends MinC_Db_Model
         $this->_idOrdemDaAssinatura = $idOrdemDaAssinatura;
         return $this;
     }
+
+    public function obterAtosNaoDisponiveisParaDevolucao()
+    {
+        $modeloAssinatura = new Assinatura_Model_DbTable_TbAssinatura();
+        return [
+            $modeloAssinatura::TIPO_ATO_LAUDO_FINAL_PRESTACAO_CONTAS,
+            $modeloAssinatura::TIPO_ATO_LAUDO_PRESTACAO_CONTAS,
+            $modeloAssinatura::TIPO_ATO_ANALISE_INICIAL,
+            $modeloAssinatura::TIPO_ATO_ANALISE_CNIC,
+        ];
+    }
+
+    public function isAtoDisponivelParaDevolucao($atoAdministrativo)
+    {
+        $atosNaoDisponiveis = $this->obterAtosNaoDisponiveisParaDevolucao();
+        return !in_array(
+            $atoAdministrativo,
+            $atosNaoDisponiveis
+        );
+    }
 }

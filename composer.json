@@ -9,7 +9,8 @@
         "opauth/opauth": ">=0.2.0",
         "aferrandini/phpqrcode": "1.0.1",
         "zendframework/zendframework1": "1.12.x-dev",
-        "sentry/sentry": "^1.8"
+        "sentry/sentry": "^1.8",
+        "firebase/php-jwt": "^5.0"
     },
     "autoload" : {
         "psr-4" : {
@@ -52,6 +53,9 @@
             "Application\\Modules\\Projeto\\Service\\Assinatura\\Acao\\": "./application/modules/projeto/service/assinatura/acao/",
             "Application\\Modules\\PrestacaoContas\\": "./application/modules/prestacao-contas/",
             "Application\\Modules\\PrestacaoContas\\Service\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\PagamentoConsolidados\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\PagamentoUfMunicipio\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\RelacaoPagamento\\": "./application/modules/prestacao-contas/service/",
             "Application\\Modules\\PrestacaoContas\\Service\\Assinatura\\": "./application/modules/prestacao-contas/service/assinatura/",
             "Application\\Modules\\PrestacaoContas\\Service\\Assinatura\\Laudo\\": "./application/modules/prestacao-contas/service/assinatura/laudo/",
             "Application\\Modules\\PrestacaoContas\\Service\\Assinatura\\Laudo\\Acao\\": "./application/modules/prestacao-contas/service/assinatura/laudo/acao/",
@@ -82,6 +86,7 @@
             "Application\\Modules\\AvaliacaoResultados\\Service\\Assinatura\\Laudo\\": "./application/modules/avaliacao-resultados/service/assinatura/laudo",
             "Application\\Modules\\AvaliacaoResultados\\Service\\Assinatura\\Laudo\\Acao\\": "./application/modules/avaliacao-resultados/service/assinatura/laudo/acao",
             "Application\\Modules\\AvaliacaoResultados\\Service\\LaudoFinal\\": "./application/modules/avaliacao-resultados/service/laudo-final",
+            "Application\\Modules\\Analise\\Service\\AnaliseAprovacao\\": "./application/modules/analise/service/analise-aprovacao/",
             "Application\\Modules\\Fiscalizacao\\": "./application/modules/fiscalizacao/",
             "Application\\Modules\\Fiscalizacao\\Service\\": "./application/modules/fiscalizacao/service/",
             "Application\\Modules\\Fiscalizacao\\Service\\Assinatura\\": "./application/modules/fiscalizacao/service/assinatura/",
@@ -92,7 +97,19 @@
             "Application\\Modules\\Execucao\\Service\\MarcasAnexadas\\": "./application/modules/execucao/service/",
             "Application\\Modules\\Execucao\\Service\\Fiscalizacao\\": "./application/modules/execucao/service/",
             "Application\\Modules\\Execucao\\Service\\DadosReadequacoes\\": "./application/modules/execucao/service/",
-            "Application\\Modules\\Execucao\\Service\\PedidoProrrogacao\\": "./application/modules/execucao/service/"
+            "Application\\Modules\\Execucao\\Service\\PedidoProrrogacao\\": "./application/modules/execucao/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\ContasBancarias\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\ConciliacaoBancaria\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\InconsistenciaBancaria\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\Liberacao\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\SaldoContas\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\ExtratosBancarios\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\ExtratosBancariosConsolidado\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\Captacao\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\DadosBancarios\\Service\\Devolucoes\\": "./application/modules/dados-bancarios/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\ExecucaoReceitaDespesa\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\RelatorioFisico\\": "./application/modules/prestacao-contas/service/",
+            "Application\\Modules\\PrestacaoContas\\Service\\RelatorioCumprimentoObjeto\\": "./application/modules/prestacao-contas/service/"
         }
     },
     "archive": {

@@ -106,20 +106,6 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                     break;
                 case $modelCustosVinculados::ID_REMUNERACAO_CAPTACAO:
                     $item['percentualPadrao'] = $percentualRemuneracaoCaptacao;
-
-                    $projetos = new Projetos();
-                    $projeto = $projetos->buscar(['idProjeto = ?' => $idPreProjeto]);
-                    if (count($projeto) > 0) {
-                        $tbPlanilhaAprovacaoModel = new tbPlanilhaAprovacao();
-                        $idPronac = $projeto->current()['IdPRONAC'];
-
-                        $valorRemuneracaoCaptacaoAprovado = $tbPlanilhaAprovacaoModel->obterValorRemuneracaoCaptacaoAprovado($idPronac);
-                        if (!empty($valorRemuneracaoCaptacaoAprovado)
-                            && $limiteRemuneracaoCaptacao > $valorRemuneracaoCaptacaoAprovado) {
-                            $limiteRemuneracaoCaptacao = $valorRemuneracaoCaptacaoAprovado;
-                        }
-                    }
-
                     $item['limitePadrao'] = $limiteRemuneracaoCaptacao;
                     break;
             }
@@ -184,7 +170,10 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
         ];
 
         foreach ($itensEmReadequacao as $item) {
-            if (in_array($item->idEtapa, $etapasSomaDivulgacaoAdministracao) && $item->tpAcao != 'E') {
+            if (in_array($item->idEtapa, $etapasSomaDivulgacaoAdministracao)
+                && $item->tpAcao != 'E'
+                && $item->nrFonteRecurso == Mecanismo::INCENTIVO_FISCAL_FEDERAL
+            ) {
                 $totalParaDivulgacaoAdministracao += $item->vlUnitario * $item->qtItem * $item->nrOcorrencia;
             }
         }
@@ -235,7 +224,7 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
         $tbPlanilhaProposta = new Proposta_Model_DbTable_TbPlanilhaProposta();
         $valorDoProjeto = $tbPlanilhaProposta->somarPlanilhaPropostaPorEtapa(
             $idPreProjeto,
-            Mecanismo::INCENTIVO_FISCAL,
+            Mecanismo::INCENTIVO_FISCAL_FEDERAL,
             null,
             [
                 'idPlanilhaEtapa in (?)' => [
@@ -306,7 +295,7 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                 'idEtapa' => $item['idPlanilhaEtapa'],
                 'idPlanilhaItem' => $item['idPlanilhaItens'],
                 'Descricao' => '',
-                'Unidade' => '1',
+                'Unidade' => '15',
                 'Quantidade' => '1',
                 'Ocorrencia' => '1',
                 'ValorUnitario' => $item['valorUnitario'],
@@ -314,10 +303,10 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
                 'TipoDespesa' => '0',
                 'TipoPessoa' => '0',
                 'contraPartida' => '0',
-                'FonteRecurso' => Mecanismo::INCENTIVO_FISCAL,
+                'FonteRecurso' => Mecanismo::INCENTIVO_FISCAL_FEDERAL,
                 'UfDespesa' => $item['idUF'],
                 'MunicipioDespesa' => $item['idMunicipio'],
-                'dsJustificativa' => '',
+                'dsJustificativa' => 'Item or&ccedil;ament&aacute;rio recalculado automaticamente conforme o percentual solicitado pelo proponente',
                 'stCustoPraticado' => 0,
                 'idUsuario' => 462
             );

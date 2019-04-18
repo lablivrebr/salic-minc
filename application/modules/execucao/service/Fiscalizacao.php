@@ -79,22 +79,9 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
     private function montaListaFiscalizacao($dados)
     {
         foreach ($dados as $item) {
-            $objDateTimeDtInicio = ' ';
-            $objDateTimeDtFim = ' ';
-
-            if (!empty($item['dtInicioFiscalizacaoProjeto'])) {
-                $objDateTimeDtInicio = new \DateTime($item['dtInicioFiscalizacaoProjeto']);
-                $objDateTimeDtInicio = $objDateTimeDtInicio->format('d/m/Y');
-            }
-
-            if (!empty($item['dtFimFiscalizacaoProjeto'])) {
-                $objDateTimeDtFim = new \DateTime($item['dtFimFiscalizacaoProjeto']);
-                $objDateTimeDtFim = $objDateTimeDtFim->format('d/m/Y');
-            }
-
             $listaFiscalizacao[] = [
-                'dtInicio' => $objDateTimeDtInicio,
-                'dtFim' => $objDateTimeDtFim,
+                'dtInicio' => $item['dtInicioFiscalizacaoProjeto'],
+                'dtFim' => $item['dtFimFiscalizacaoProjeto'],
                 'cpfTecnico' => $item['cpfTecnico'],
                 'nmTecnico' => $item['nmTecnico'],
                 'idFiscalizacao' => $item['idFiscalizacao']
@@ -120,28 +107,11 @@ class Fiscalizacao implements \MinC\Servico\IServicoRestZend
     private function montaOficializarFiscalizacao($dados)
     {
         foreach ($dados as $item) {
-            $objDateTimeDtInicio = ' ';
-            $objDateTimeDtFim = ' ';
-            $objDateTimeDtResposta = ' ';
-
-            if (!empty($item['dtInicioFiscalizacaoProjeto'])) {
-                $objDateTimeDtInicio = new \DateTime($item['dtInicioFiscalizacaoProjeto']);
-                $objDateTimeDtInicio = $objDateTimeDtInicio->format('d/m/Y');
-            }
-
-            if (!empty($item['dtFimFiscalizacaoProjeto'])) {
-                $objDateTimeDtFim = new \DateTime($item['dtFimFiscalizacaoProjeto']);
-                $objDateTimeDtFim = $objDateTimeDtFim->format('d/m/Y');
-            }
-            if (!empty($item['dtRespostaSolicitada'])) {
-                $objDateTimeDtResposta = new \DateTime($item['dtRespostaSolicitada']);
-                $objDateTimeDtResposta = $objDateTimeDtResposta->format('d/m/Y');
-            }
-
+            
             $listaFiscalizacao[] = [
-                'dtInicio' => $objDateTimeDtInicio,
-                'dtFim' => $objDateTimeDtFim,
-                'dtResposta' => $objDateTimeDtResposta,
+                'dtInicio' => $item['dtInicioFiscalizacaoProjeto'],
+                'dtFim' => $item['dtFimFiscalizacaoProjeto'],
+                'dtResposta' => $item['dtRespostaSolicitada'],
                 'cpfTecnico' => $item['cpfTecnico'],
                 'nmTecnico' => $item['nmTecnico'],
                 'tpDemandante' => $item['tpDemandante'],

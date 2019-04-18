@@ -392,7 +392,7 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
         }
     }
 
-    public function listaRelatorios($where = array(), $order = array(), $tamanho = -1, $inicio = -1, $qtdeTotal = false, $analisados = false)
+    public function listaRelatorios($where = array(), $order = array(), $tamanho = -1, $inicio = -1, $qtdeTotal = false, $filtro = '')
     {
         $select = $this->select();
         $select->setIntegrityCheck(false);
@@ -427,6 +427,41 @@ class ComprovacaoObjeto_Model_DbTable_TbCumprimentoObjeto extends MinC_Db_Table_
             ),
             $this->_schema
         );
+
+        $idAtoAdministrativo = Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_PARECER_AVALIACAO_OBJETO;
+        if ($filtro == 'painel-tecnico') {
+            $select->joinLeft(
+                array('d' => 'tbDocumentoAssinatura'),
+                "a.IdPRONAC = d.idPronac 
+                    AND d.cdSituacao = 2 
+                    AND d.stEstado = 0
+                    AND d.idTipoDoAtoAdministrativo = {$idAtoAdministrativo}
+                    ",
+                array(
+                    'd.idDocumentoAssinatura',
+                ),
+                $this->_schema
+            );
+        }
+
+        if ($filtro == 'analisados') {
+            $select->joinLeft(
+                array('d' => 'tbDocumentoAssinatura'),
+                "a.IdPRONAC = d.idPronac 
+                    AND d.cdSituacao = 1 
+                    AND d.stEstado = 1
+                    AND d.idTipoDoAtoAdministrativo = {$idAtoAdministrativo}
+                    ",
+                array(
+                    'd.idDocumentoAssinatura',
+                    new Zend_Db_Expr("(select count(*)
+                                        from sac.dbo.TbAssinatura as  tbAssinatura
+                                       where tbAssinatura.idPronac = d.idPronac
+                                         and tbAssinatura.idDocumentoAssinatura = d.idDocumentoAssinatura) as quantidadeAssinaturas")
+                ),
+                $this->_schema
+            );
+        }
 
         if ($analisados) {
             $idAtoAdministrativo = Assinatura_Model_DbTable_TbAssinatura::TIPO_ATO_PARECER_AVALIACAO_OBJETO;

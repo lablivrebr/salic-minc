@@ -49,7 +49,7 @@ class Readequacao_ReadequacaoAssinaturaController extends Readequacao_GenericCon
         $this->view->dados = $servicoReadequacaoAssinatura->obterAssinaturas();
 
         $this->view->codGrupo = $this->grupoAtivo->codGrupo;
-        
+
         $objTbAtoAdministrativo = new Assinatura_Model_DbTable_TbAtoAdministrativo();
         $this->view->quantidade_minima_assinaturas = $objTbAtoAdministrativo->obterQuantidadeMinimaAssinaturas(
             $servicoReadequacaoAssinatura->obterAtosAdministativos(),
@@ -74,7 +74,7 @@ class Readequacao_ReadequacaoAssinaturaController extends Readequacao_GenericCon
             if (!filter_input(INPUT_GET, 'idDocumentoAssinatura')) {
                 throw new Exception("Identificador do documento &eacute; necess&aacute;ria para acessar essa funcionalidade.");
             }
-            
+
             if ($this->grupoAtivo->codGrupo == Autenticacao_Model_Grupos::PARECERISTA) {
                 throw new Exception(
                     "O Perfil Parecerista n&atilde;o possui permiss&atilde;o para executar a a&ccedil;&atilde;o de devolver."
@@ -86,18 +86,18 @@ class Readequacao_ReadequacaoAssinaturaController extends Readequacao_GenericCon
             $this->view->projeto = $objTbProjetos->findBy(array(
                 'IdPRONAC' => $get->IdPRONAC
             ));
-                        
+
             $servicoReadequacaoAssinatura = new \Application\Modules\Readequacao\Service\Assinatura\ReadequacaoAssinatura(
                 $this->grupoAtivo,
                 $this->auth
             );
-            
+
             $objModelDocumentoAssinatura = new Assinatura_Model_DbTable_TbDocumentoAssinatura();
             $documentoAssinatura = $objModelDocumentoAssinatura->findBy(
                 ['idDocumentoAssinatura' => $get->idDocumentoAssinatura]
             );
             $idTipoDoAtoAdministrativo = $documentoAssinatura['idTipoDoAtoAdministrativo'];
-            
+
             $post = $this->getRequest()->getPost();
             if ($post) {
                 if (!filter_input(INPUT_POST, 'motivoDevolucao')) {
@@ -106,7 +106,7 @@ class Readequacao_ReadequacaoAssinaturaController extends Readequacao_GenericCon
 
                 $assinaturaService = new \MinC\Assinatura\Servico\Assinatura(
                     [
-                        'Despacho' => $post['motivoDevolucao'],
+                        'dsMotivoDevolucao' => $post['motivoDevolucao'],
                         'idTipoDoAto' => $idTipoDoAtoAdministrativo,
                         'idPerfilDoAssinante' => $this->grupoAtivo->codGrupo,
                         'idPronac' => $get->IdPRONAC,
@@ -171,13 +171,13 @@ class Readequacao_ReadequacaoAssinaturaController extends Readequacao_GenericCon
             if (!filter_input(INPUT_GET, 'idReadequacao')) {
                 throw new Exception("Identificador da readequa&ccedil;&atilde;o necess&aacute;rio para acessar essa funcionalidade.");
             }
-            $idReadequacao = $get->idReadequacao;            
-            
+            $idReadequacao = $get->idReadequacao;
+
             $servicoReadequacaoAssinatura = new \Application\Modules\Readequacao\Service\Assinatura\ReadequacaoAssinatura(
                 $this->grupoAtivo,
                 $this->auth
             );
-            
+
             $servicoReadequacaoAssinatura->encaminharOuFinalizarReadequacaoChecklist(
                 $idReadequacao
             );

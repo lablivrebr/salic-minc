@@ -16,10 +16,9 @@ class TratarString
 
     public static function tratarTextoRico($string)
     {
-
         $string = trim($string);
         $string = strip_tags($string);
-        $string = str_replace(array("\r\n", "\r", "\n"), "<br />", $string);
+        $string = str_replace(array("\r\n", "\r", "\n"), "<br>", $string);
         $string = preg_replace('/^(?:<br\s*\/?>\s*)+/', '', $string);
 
         return $string;

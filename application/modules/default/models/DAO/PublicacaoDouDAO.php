@@ -215,7 +215,7 @@ class PublicacaoDouDAO extends Zend_Db_Table
                 WHERE Ap.PortariaAprovacao = '$portaria' 
                     and ( ap.PortariaAprovacao is not null or DtPublicacaoAprovacao is not null or DtPortariaAprovacao is not null) 
                     and $filtroOrgao
-               ORDER BY 12,19,7  
+               ORDER BY 12,19,1
         ";
 
         $db = Zend_Db_Table::getDefaultAdapter();

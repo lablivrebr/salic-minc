@@ -342,8 +342,8 @@ class Assinatura_Model_DbTable_TbDocumentoAssinatura extends MinC_Db_Table_Abstr
             $this->_schema
         );
 
-        $objQuery->where('tbDocumentoAssinatura.stEstado = ?', 1);
-        $objQuery->where('tbDocumentoAssinatura.cdSituacao = ?', 2);
+        $objQuery->where('tbDocumentoAssinatura.stEstado = ?',  Assinatura_Model_TbDocumentoAssinatura::ST_ESTADO_DOCUMENTO_ATIVO);
+        $objQuery->where('tbDocumentoAssinatura.cdSituacao = ?', Assinatura_Model_TbDocumentoAssinatura::CD_SITUACAO_FECHADO_PARA_ASSINATURA);
         $objQuery->where('tbDocumentoAssinatura.IdPRONAC = ?', $idPronac);
         $objQuery->order('tbDocumentoAssinatura.dt_criacao ASC');
 
@@ -427,5 +427,4 @@ class Assinatura_Model_DbTable_TbDocumentoAssinatura extends MinC_Db_Table_Abstr
         $db = Zend_Db_Table::getDefaultAdapter();
         return $db->fetchOne($query);
     }
-    
 }

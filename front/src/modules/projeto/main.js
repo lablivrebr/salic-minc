@@ -3,6 +3,7 @@
 // Vue.config.productionTip = false
 import Vue from 'vue';
 import Vuetify from 'vuetify';
+import pt from 'vuetify/lib/locale/pt';
 import Index from './Index';
 import {
     store,
@@ -18,6 +19,10 @@ Vue.use(Vuetify, {
         warning: '#ffeb3b',
         info: '#2196f3',
         success: '#4caf50',
+    },
+    lang: {
+        locales: { pt },
+        current: 'pt',
     },
 });
 Vue.config.productionTip = false;

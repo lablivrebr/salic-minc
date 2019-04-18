@@ -92,12 +92,21 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
         $auth = \Zend_Auth::getInstance();
         $dadosUsuarioLogado = $auth->getIdentity();
         $orgaoSuperior = $dadosUsuarioLogado->usu_org_max_superior;
+        $view->orgaoSuperior = $orgaoSuperior;
 
         $view->secretaria = 'Secretaria do Audiovisual - SAv';
         if((int)$orgaoSuperior == (int)\Orgaos::ORGAO_SUPERIOR_SEFIC) {
             $view->secretaria = 'Secretaria de Fomento e Incentivo &agrave; Cultura - SEFIC';
+        } else {
+            $grupoAtivo = new \Zend_Session_Namespace('GrupoAtivo');
+            $codOrgao = $grupoAtivo->codOrgao;
+            
+            $objOrgao = new \Orgaos();
+            $resultOrgao = $objOrgao->pesquisarNomeOrgao($codOrgao);
+            
+            $view->secretaria = $resultOrgao[0]['NomeOrgao'];
         }
-
+        
         $tbParecer = new \Parecer();
         $parecer = $tbParecer->buscar([
             'IdParecer = ?' => $this->idAtoDeGestao
@@ -125,7 +134,7 @@ class DocumentoAssinatura implements \MinC\Assinatura\Servico\IDocumentoAssinatu
         $tbReadequacaoDbTable = new \Readequacao_Model_DbTable_TbReadequacao();
         $readequacaoDetalhada = $tbReadequacaoDbTable->obterReadequacaoDetalhada($tbReadequacaoXParecer['idReadequacao']);
         $view->dsTipoReadequacao = $readequacaoDetalhada['dsTipoReadequacao'];
-
+        
         return $view->render('documento-assinatura.phtml');
     }
 }

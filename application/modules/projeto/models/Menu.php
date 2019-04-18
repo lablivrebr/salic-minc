@@ -399,16 +399,16 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             $menu['analiseaprovacao']['submenu'][] = [
                 'label' => 'Aprova&ccedil;&atilde;o',
                 'title' => 'Ir para Aprova&ccedil;&atilde;o',
-                'link' => '/default/consultardadosprojeto/aprovacao/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/aprovacao",
+                'ajax' => false,
                 'grupo' => []
             ];
 
             $menu['analiseaprovacao']['submenu'][] = [
                 'label' => 'Recursos',
                 'title' => 'Ir para Recursos',
-                'link' => '/default/consultardadosprojeto/recurso/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/recurso",
+                'ajax' => false,
                 'grupo' => []
             ];
 
@@ -429,14 +429,6 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
 
             if (in_array($this->permissoesMenu['FaseDoProjeto'], array('2', '3', '4', '5')) || !$this->usuarioExterno || $this->debug) {
-
-                $menu['execucao']['submenu'][] = [
-                    'label' => 'Dados banc&aacute;rios',
-                    'title' => 'Ir para Dados banc&aacute;rios',
-                    'link' => '/default/consultardadosprojeto/dados-bancarios/?idPronac=' . $idPronacHash,
-                    'ajax' => false,
-                    'grupo' => []
-                ];
 
                 $menu['execucao']['submenu'][] = [
                     'label' => 'Dados da fiscaliza&ccedil;&atilde;o',
@@ -473,6 +465,93 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
         }
 
+        #dados bancario
+        if (in_array($this->permissoesMenu['FaseDoProjeto'], array('2', '3', '4', '5')) || !$this->usuarioExterno || $this->debug) {
+
+            $menu['dadosbancarios'] = [
+                'id' => 'DadosBancarios',
+                'label' => 'Dados Banc&aacute;rios',
+                'title' => 'Menu Dados Banc&aacute;rios',
+                'link' => '',
+                'ajax' => false,
+                'icon' => 'attach_money',
+                'submenu' => '',
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Capta&ccedil;&atilde;o',
+                'title' => 'Ir para Capta&ccedil;&atilde;o',
+                'link' => "/projeto/#/{$idPronacHash}/captacao",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Concilia&ccedil;&atilde;o Banc&aacute;ria',
+                'title' => 'Ir para Concilia&ccedil;&atilde;o Banc&aacute;ria',
+                'link' => "/projeto/#/{$idPronacHash}/conciliacao-bancaria",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Contas Banc&aacute;rias',
+                'title' => 'Ir para Contas Banc&aacute;rias',
+                'link' => "/projeto/#/{$idPronacHash}/contas-bancarias",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Devolu&ccedil;&otilde;es',
+                'title' => 'Ir para Devolu&ccedil;&otilde;es',
+                'link' => "/projeto/#/{$idPronacHash}/devolucoes",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Extrato Banc&aacute;rio',
+                'title' => 'Ir para Extrato Banc&aacute;rio',
+                'link' => "/projeto/#/{$idPronacHash}/extratos-bancarios",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Extrato Banc&aacute;rio Consolidado',
+                'title' => 'Ir para Extrato Banc&aacute;rio Consolidado',
+                'link' => "/projeto/#/{$idPronacHash}/extratos-bancarios-consolidado",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Inconsist&ecirc;ncias Banc&aacute;rias',
+                'title' => 'Ir para Inconsist&ecirc;ncias Banc&aacute;rias',
+                'link' => "/projeto/#/{$idPronacHash}/inconsistencia-bancaria",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Libera&ccedil;&atilde;o',
+                'title' => 'Ir para Libera&ccedil;&atilde;o',
+                'link' => "/projeto/#/{$idPronacHash}/liberacao",
+                'ajax' => false,
+                'grupo' => []
+            ];
+
+            $menu['dadosbancarios']['submenu'][] = [
+                'label' => 'Saldo das Contas',
+                'title' => 'Ir para Saldo das Contas',
+                'link' => "/projeto/#/{$idPronacHash}/saldo-contas",
+                'ajax' => false,
+                'grupo' => []
+            ];
+        }
+
         # Prestação de contas
         if ($this->permissoesMenu['PrestacaoContas'] || !$this->usuarioExterno || $this->debug) {
             $menu['prestacaodecontas'] = [
@@ -487,81 +566,63 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
             ];
 
             $menu['prestacaodecontas']['submenu'][] = [
-                'label' => 'Extrato Banc&aacute;rio',
-                'title' => 'Ir para Extrato Banc&aacute;rio',
-                'link' => '/default/consultardadosprojeto/extratos-bancarios/?idPronac=' . $idPronacHash,
-                'ajax' => false,
-                'grupo' => []
-            ];
-
-            $menu['prestacaodecontas']['submenu'][] = [
-                'label' => 'Concilia&ccedil;&atilde;o Banc&aacute;ria',
-                'title' => 'Ir para Concilia&ccedil;&atilde;o Banc&aacute;ria',
-                'link' => '/default/consultardadosprojeto/conciliacao-bancaria/?idPronac=' . $idPronacHash,
-                'ajax' => false,
-                'grupo' => []
-            ];
-
-            $menu['prestacaodecontas']['submenu'][] = [
                 'label' => 'Rela&ccedil;&atilde;o de pagamentos',
                 'title' => 'Ir para Rela&ccedil;&atilde;o de Pagamentos',
-                'link' => '/default/consultardadosprojeto/dados-relacao-pagamentos/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/relacao-pagamento",
+                'ajax' => false,
                 'grupo' => []
             ];
 
             $menu['prestacaodecontas']['submenu'][] = [
                 'label' => 'Execu&ccedil;&atilde;o da receita e despesa',
                 'title' => 'Ir para Execu&ccedil;&atilde;o da receita e despesa',
-                'link' => '/default/consultardadosprojeto/execucao-receita-despesa/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/execucao-receita-despesa",
+                'ajax' => false,
                 'grupo' => []
             ];
 
             $menu['prestacaodecontas']['submenu'][] = [
                 'label' => 'Relat&oacute;rio f&iacute;sico',
                 'title' => 'Ir para Relat&oacute;rio f&iacute;sico',
-                'link' => '/default/consultardadosprojeto/relatorio-fisico/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/relatorio-fisico",
+                'ajax' => false,
                 'grupo' => []
             ];
 
 
             $menu['prestacaodecontas']['submenu'][] = [
-              'label' => 'Pagamentos por UF / Munic&iacute;pio',
-              'title' => 'Ir para Pagamentos por UF / Munic&iacute;pio',
-              'link' => '/default/consultardadosprojeto/pagamentos-por-uf-municipio/?idPronac=' . $idPronacHash,
-              'ajax' => true,
-              'grupo' => []
+                'label' => 'Pagamentos por UF / Munic&iacute;pio',
+                'title' => 'Ir para Pagamentos por UF / Munic&iacute;pio',
+                'link' => "/projeto/#/{$idPronacHash}/pagamentos-uf-municipio",
+                'ajax' => false,
+                'grupo' => []
             ];
 
             $menu['prestacaodecontas']['submenu'][] = [
                 'label' => 'Pagamentos Consolidados',
                 'title' => 'Ir para Pagamentos Consolidados',
-                'link' => '/default/consultardadosprojeto/pagamentos-consolidados-por-uf-municipio/?idPronac=' . $idPronacHash,
-                'ajax' => true,
+                'link' => "/projeto/#/{$idPronacHash}/pagamentos-consolidados",
+                'ajax' => false,
                 'grupo' => []
             ];
-
-            if (in_array($this->permissoesMenu['FaseDoProjeto'], array('2', '3', '4', '5')) || !$this->usuarioExterno || $this->debug) {
-                $menu['prestacaodecontas']['submenu'][] = [
-                    'label' => 'Relat&oacute;rios trimestrais',
-                    'title' => 'Ir para Relat&oacute;rios trimestrais',
-                    'link' => '/default/consultardadosprojeto/relatorios-trimestrais/?idPronac=' . $idPronacHash,
-                    'ajax' => true,
-                    'grupo' => []
-                ];
-            }
 
             if (in_array($this->permissoesMenu['FaseDoProjeto'], array('4', '5')) || !$this->usuarioExterno || $this->debug) {
                 $menu['prestacaodecontas']['submenu'][] = [
                     'label' => 'Relat&oacute;rio de cumprimento do objeto',
                     'title' => 'Ir para Relat&oacute;rio de cumprimento do objeto',
-                    'link' => '/default/consultardadosprojeto/relatorio-final/?idPronac=' . $idPronacHash,
-                    'ajax' => true,
+                    'link' => "/projeto/#/{$idPronacHash}/relatorio-cumprimento-objeto",
+                    'ajax' => false,
                     'grupo' => []
                 ];
             }
+
+            $menu['prestacaodecontas']['submenu'][] = [
+                'label' => 'Laudo Final',
+                'title' => 'Ir para Pagamentos Consolidados',
+                'link' => "/projeto/#/{$idPronacHash}/laudo-final",
+                'ajax' => false,
+                'grupo' => []
+            ];
         }
 
         # Readequacao

@@ -1,24 +1,19 @@
 <template>
-  <div id="planilha-homologada">
-    <Carregando
-      v-if="loading"
-      :text="'Procurando planilha'"
-    />
-    <Planilha
-      v-if="Object.keys(planilha).length > 0"
-      :array-planilha="planilha"
-    >
-      <template slot-scope="slotProps">
-        <PlanilhaItensHomologados :table="slotProps.itens" />
-      </template>
-    </Planilha>
-    <div
-      v-if="semResposta"
-      class="card-panel padding 20 center-align"
-    >
-      {{ mensagem }}
+    <div id="planilha-homologada">
+        <Carregando
+            v-if="loading"
+            :text="'Procurando planilha'"/>
+        <Planilha
+            v-if="Object.keys(planilha).length > 0"
+            :array-planilha="planilha">
+            <template slot-scope="slotProps">
+                <PlanilhaItensHomologados :table="slotProps.itens"/>
+            </template>
+        </Planilha>
+        <div
+            v-if="semResposta"
+            class="card-panel padding 20 center-align">{{ mensagem }}</div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -28,40 +23,40 @@ import PlanilhaItensHomologados from '@/components/Planilha/PlanilhaItensHomolog
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'PlanilhaPropostaHomologada',
-  components: {
-    Carregando,
-    Planilha,
-    PlanilhaItensHomologados,
-  },
-  data() {
-    return {
-      loading: true,
-      semResposta: false,
-      mensagem: '',
-    };
-  },
-  watch: {
-    dadosProjeto(value) {
-      this.buscaPlanilhaHomologada(value.idPronac);
+    name: 'PlanilhaPropostaHomologada',
+    components: {
+        Carregando,
+        Planilha,
+        PlanilhaItensHomologados,
     },
-    planilha() {
-      this.loading = false;
+    data() {
+        return {
+            loading: true,
+            semResposta: false,
+            mensagem: '',
+        };
     },
-  },
-  created() {
-    this.buscaPlanilhaHomologada(this.dadosProjeto.idPronac);
-  },
-  computed: {
-    ...mapGetters({
-      dadosProjeto: 'projeto/projeto',
-      planilha: 'projeto/planilhaHomologada',
-    }),
-  },
-  methods: {
-    ...mapActions({
-      buscaPlanilhaHomologada: 'projeto/buscaPlanilhaHomologada',
-    }),
-  },
+    computed: {
+        ...mapGetters({
+            dadosProjeto: 'projeto/projeto',
+            planilha: 'projeto/planilhaHomologada',
+        }),
+    },
+    watch: {
+        dadosProjeto(value) {
+            this.buscaPlanilhaHomologada(value.idPronac);
+        },
+        planilha() {
+            this.loading = false;
+        },
+    },
+    created() {
+        this.buscaPlanilhaHomologada(this.dadosProjeto.idPronac);
+    },
+    methods: {
+        ...mapActions({
+            buscaPlanilhaHomologada: 'projeto/buscaPlanilhaHomologada',
+        }),
+    },
 };
 </script>

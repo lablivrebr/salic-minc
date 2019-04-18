@@ -1249,6 +1249,12 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/analise/controllers/RecursoRestController.php
+     * application/modules/dados-bancarios/controllers/ContasBancariasRestController.php
+     */
     public function recursoAction()
     {
         $mapperArea = new Agente_Model_AreaMapper();
@@ -1372,6 +1378,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/dados-bancarios/service/ContasBancarias.php
+     * application/modules/dados-bancarios/controllers/ContasBancariasRestController.php
+     */
     public function dadosBancariosAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -1394,6 +1405,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/dados-bancarios/service/Liberacao.php
+     */
     public function dadosBancariosLiberacaoAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -1416,6 +1432,10 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/dados-bancarios/service/Captacao.php
+     */
     public function dadosBancariosCaptacaoAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -1631,6 +1651,10 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/service/PagamentoUfMunicipio.php
+     */
     public function pagamentosPorUfMunicipioAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1650,6 +1674,10 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/service/PagamentoConsolidados.php
+     */
     public function pagamentosConsolidadosPorUfMunicipioAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1701,6 +1729,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/controllers/ExecucaoReceitaDespesaController.php
+     * application/modules/prestacao-contas/service/ExecucaoReceitaDespesa.php
+     */
     public function execucaoReceitaDespesaAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1724,6 +1757,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/controllers/RelatorioFisicoRestController.php
+     * application/modules/prestacao-contas/service/RelatorioFisico.php
+     */
     public function relatorioFisicoAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1836,6 +1874,10 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/service/RelatoriosTrimestrais.php
+     */
     public function relatoriosTrimestraisAction()
     {
         $this->_helper->layout->disableLayout();        // Desabilita o Zend Layout
@@ -1957,7 +1999,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $this->_helper->layout->disableLayout();// Desabilita o Zend Layout
     }
 
-
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/prestacao-contas/controllers/RelatorioCumprimentoObjetoRestController.php
+     * application/modules/prestacao-contas/service/RelatorioCumprimentoObjeto.php
+     */
     public function relatorioFinalAction()
     {
         $idpronac = $this->_request->getParam("idPronac");
@@ -4976,6 +5022,8 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
     }
 
     /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     *
      *
      */
     public function devolucoesDoIncentivadorAction()
@@ -5005,6 +5053,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         $this->view->dataDevolucaoFim = $this->getRequest()->getParam('dtDevolucaoFim');
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     *
+     *
+     */
     public function extratosBancariosAction()
     {
         $params = $this->_request->getParams();
@@ -5216,6 +5269,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     *
+     *
+     */
     public function conciliacaoBancariaAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -5384,6 +5442,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/projeto/service/certidoes-negativas/CertidoesNegativas.php
+     *
+     */
     public function inconsistenciaBancariaAction()
     {
         $idPronac = $this->_request->getParam("idPronac");
@@ -5552,6 +5615,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de RestControllers e Service >
+     * application/modules/dados-bancarios/controllers/ExtratosBancariosConsolidadoRestController.php
+     * application/modules/dados-bancarios/service/ExtratosBancariosConsolidado.php
+     */
     public function extratoContaMovimentoConsolidadoAction()
     {
         $params = $this->_request->getParams();
@@ -5740,6 +5808,11 @@ class ConsultarDadosProjetoController extends MinC_Controller_Action_Abstract
         }
     }
 
+    /**
+     * @deprecated migrado para nova estrutura de Rest e Service >
+     * application/modules/dados-bancarios/service/SaldoContas.php
+     * application/modules/dados-bancarios/controllers/SaldoContasRestController.php
+     */
     public function extratoDeSaldoBancarioAction()
     {
         $idPronac = $this->_request->getParam("idPronac");

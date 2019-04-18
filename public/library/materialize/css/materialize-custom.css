@@ -15,7 +15,7 @@ body.open #container-progress {
 }
 
 body.open .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
-  margin-right: 0px;
+    margin-right: 0px;
 }
 
 main {
@@ -33,8 +33,6 @@ main {
 label {
     color: #0e0e0e;
 }
-
-
 
 #sidenav-overlay {
     z-index: 988;
@@ -74,7 +72,6 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
     color: #00481d;
 }
 
-
 input:not([type]).invalid,
 input:not([type]):focus.invalid,
 input[type=text].invalid,
@@ -104,7 +101,6 @@ textarea.materialize-textarea:focus.invalid {
     color: #F44336;
 }
 
-
 /* label color */
 .input-field label {
     color: #1b5e20;
@@ -118,16 +114,19 @@ textarea.materialize-textarea:focus.invalid {
 .input-field {
     color: #1b5e20;
 }
+
 /* label focus color */
 .input-field input[type=text]:focus + label {
     color: #1b5e20;
 }
+
 /* label underline focus color */
 .input-field input[type=text]:focus,
 .input-field input[type=number]:focus {
     border-bottom: 1px solid #1b5e20;
     box-shadow: 0 1px 0 0 #1b5e20;
 }
+
 /* valid color */
 .input-field input[type=text].valid,
 .input-field input[type=number].valid {
@@ -198,7 +197,7 @@ textarea.materialize-textarea:focus:not([readonly]) + label[data-error] {
     color: #555;
     content: "Anterior";
     font-size: .9rem;
-    border: solid 1px rgba(51,51,51,0.12);
+    border: solid 1px rgba(51, 51, 51, 0.12);
     border-top: none;
     border-left: none;
 }
@@ -282,6 +281,7 @@ td.changed {
     width: 50%;
     vertical-align: top;
 }
+
 /*--------------------------------------------------------------
 x - FOOTER
 --------------------------------------------------------------*/
@@ -308,7 +308,7 @@ footer.page-footer {
     padding-top: 0;
 }
 
-footer a{
+footer a {
     color: #ffcc80;
 }
 
@@ -338,3 +338,45 @@ footer {
     width: 100%;
     background-size: 170px;
 }
+
+.template-vuetify .v-date-picker-table td,
+.template-vuetify .v-date-picker-table th {
+    padding: 0;
+}
+
+.template-vuetify input:not([type]),
+.template-vuetify input[type=text]:not(.browser-default),
+.template-vuetify input[type=password]:not(.browser-default),
+.template-vuetify input[type=email]:not(.browser-default),
+.template-vuetify input[type=url]:not(.browser-default),
+.template-vuetify input[type=time]:not(.browser-default),
+.template-vuetify input[type=date]:not(.browser-default),
+.template-vuetify input[type=datetime]:not(.browser-default),
+.template-vuetify input[type=datetime-local]:not(.browser-default),
+.template-vuetify input[type=tel]:not(.browser-default),
+.template-vuetify input[type=number]:not(.browser-default),
+.template-vuetify input[type=search]:not(.browser-default),
+.template-vuetify textarea.materialize-textarea {
+    border-bottom: none;
+     font-size: inherit;
+     margin: 0;
+     padding: 0;
+}
+
+.template-vuetify input:not([type]):focus:not([readonly]),
+.template-vuetify input[type=text]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=password]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=email]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=url]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=time]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=date]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=datetime]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=tel]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=number]:not(.browser-default):focus:not([readonly]),
+.template-vuetify input[type=search]:not(.browser-default):focus:not([readonly]),
+.template-vuetify textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: none;
+    box-shadow: none;
+}
+

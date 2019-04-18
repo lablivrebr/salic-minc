@@ -6,6 +6,7 @@
   </a>
 [![GitHub Issues Abertas](https://img.shields.io/github/issues/culturagovbr/salic-minc.svg?maxAge=2592000)]() 
 [![GitHub Issues Fechas](https://img.shields.io/github/issues-closed-raw/culturagovbr/salic-minc.svg?maxAge=2592000)]()
+[![Build Status](https://travis-ci.org/culturagovbr/salic-minc.svg?branch=master)](https://travis-ci.org/culturagovbr/salic-minc)
 
 Bem vindo/a à documentação do SALIC! Aqui você vai encontrar diversas documentações sobre o processo de desenvolvimento do SALIC, versionameno e publicação.
 

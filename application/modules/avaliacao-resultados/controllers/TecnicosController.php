@@ -40,7 +40,34 @@ class AvaliacaoResultados_TecnicosController extends MinC_Controller_Rest_Abstra
     public function getAction()
     {
 
-        $this->renderJsonResponse($estado, 200);
+            $orgaoSuperior = $this->getRequest()->getParam('id');
+
+            $idOrgaoDestinoSefic = 303;
+            $idOrgaoDestinoSav = 167;
+
+            switch ($orgaoSuperior){
+                case Orgaos::ORGAO_SUPERIOR_SEFIC:
+                    $idOrgaoDestino = $idOrgaoDestinoSefic;
+                    break;
+                case Orgaos::ORGAO_SUPERIOR_SAV:
+                    $idOrgaoDestino = $idOrgaoDestinoSav;
+                    break;
+            }
+
+            $idPerfilDestino = 124;
+            $tblProjetos = new Projetos();
+            $AgentesOrgao = $tblProjetos->buscarComboOrgaos($idOrgaoDestino, $idPerfilDestino);
+
+            foreach ($AgentesOrgao as $agentes) {
+                $dadosAgente[] = [
+                    'usu_codigo' => $agentes->usu_codigo,
+                    'usu_org_superior' => $agentes->org_superior,
+                    'usu_nome' => utf8_encode($agentes->usu_nome),
+                    'idperfil' => $idPerfilDestino,
+                    'idAgente' => $agentes->usu_codigo
+                ];
+            }
+            $this->renderJsonResponse($dadosAgente, 200);
     }
 
     public function headAction(){}

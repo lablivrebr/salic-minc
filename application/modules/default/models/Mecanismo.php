@@ -15,7 +15,7 @@ class Mecanismo extends MinC_Db_Table_Abstract
     protected $_name    = 'Mecanismo';
     protected $_schema  = 'SAC';
 
-    const INCENTIVO_FISCAL = 109;
+    const INCENTIVO_FISCAL_FEDERAL = 109;
 
     public function buscarMecanismo()
     {

@@ -46,25 +46,13 @@ class TramitacaoDocumento implements \MinC\Servico\IServicoRestZend
         foreach ($tramitacoes as $tramitacao) {
             $dsTipoDocumento = $tramitacao['dsTipoDocumento'];
             $noArquivo = $tramitacao['noArquivo'];
-            $objDateTimedtDocumento = ' ';
-            $objDateTimedtJuntada = ' ';
-
-            if (!empty($tramitacao['dtDocumento'])) {
-                $objDateTimedtDocumento = new \DateTime($tramitacao['dtDocumento']);
-                $objDateTimedtDocumento = $objDateTimedtDocumento->format('d/m/Y');
-            }
-
-            if (!empty($tramitacao['dtJuntada'])) {
-                $objDateTimedtJuntada = new \DateTime($tramitacao['dtJuntada']);
-                $objDateTimedtJuntada = $objDateTimedtJuntada->format('d/m/Y');
-            }
 
             $resultArray[] = [
                 'idDocumento' => $tramitacao['idDocumento'],
                 'dsTipoDocumento' => $dsTipoDocumento,
-                'dtDocumento' => $objDateTimedtDocumento,
+                'dtDocumento' => $tramitacao['dtDocumento'],
                 'noArquivo' => $noArquivo,
-                'dtAnexacao' => $objDateTimedtJuntada,
+                'dtAnexacao' => $tramitacao['dtJuntada'],
                 'Usuario' => $tramitacao['Usuario'],
                 'idLote' => $tramitacao['idLote'],
                 'Situacao' => $tramitacao['Situacao'],

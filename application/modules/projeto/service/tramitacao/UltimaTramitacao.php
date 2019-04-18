@@ -54,23 +54,12 @@ class UltimaTramitacao implements \MinC\Servico\IServicoRestZend
             $Emissor = $tramitacao['Emissor'];
             $Receptor = $tramitacao['Receptor'];
             $meDespacho = $tramitacao['meDespacho'];
-            $objDateTimeDtTramitacaoEnvio = ' ';
-            $objDateTimedtTramitacaoRecebida = ' ';
-
-            if (!empty($tramitacao['dtTramitacaoEnvio'])) {
-                $objDateTimeDtTramitacaoEnvio = new \DateTime($tramitacao['dtTramitacaoEnvio']);
-                $objDateTimeDtTramitacaoEnvio = $objDateTimeDtTramitacaoEnvio->format('d/m/Y');
-            }
-            if (!empty($tramitacao['dtTramitacaoRecebida'])) {
-                $objDateTimedtTramitacaoRecebida = new \DateTime($tramitacao['dtTramitacaoRecebida']);
-                $objDateTimedtTramitacaoRecebida = $objDateTimedtTramitacaoRecebida->format('d/m/Y');
-            }
 
             $resultArray[] = [
                 'Emissor' => $Emissor,
-                'dtTramitacaoEnvio' => $objDateTimeDtTramitacaoEnvio,
+                'dtTramitacaoEnvio' => $tramitacao['dtTramitacaoEnvio'],
                 'Receptor' => $Receptor,
-                'dtTramitacaoRecebida' => $objDateTimedtTramitacaoRecebida,
+                'dtTramitacaoRecebida' => $tramitacao['dtTramitacaoRecebida'],
                 'Situacao' => $tramitacao['Situacao'],
                 'Destino' => $tramitacao['Destino'],
                 'meDespacho' => $meDespacho,

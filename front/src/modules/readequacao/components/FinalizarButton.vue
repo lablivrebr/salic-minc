@@ -46,7 +46,7 @@
                     <h4>Readequação do Tipo:</h4>
                     <span v-html="dadosReadequacao.dsTipoReadequacao"/>
                     <h4>Data de abertura: </h4>
-                    <span v-html="dadosReadequacao.dtSolicitacao"/>
+                    <span>{{ dadosReadequacao.dtSolicitacao | formatarData }}</span>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
@@ -74,12 +74,14 @@
 <script>
 import _ from 'lodash';
 import { mapActions } from 'vuex';
+import { utils } from '@/mixins/utils';
 import validarFormulario from '../mixins/validarFormulario';
 import verificarPerfil from '../mixins/verificarPerfil';
 
 export default {
     name: 'FinalizarButton',
     mixins: [
+        utils,
         validarFormulario,
         verificarPerfil,
     ],

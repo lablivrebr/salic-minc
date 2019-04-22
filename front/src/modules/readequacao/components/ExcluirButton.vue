@@ -30,7 +30,7 @@
                     <h4>Readequação do Tipo:</h4>
                     <span v-html="dadosReadequacao.dsTipoReadequacao"/>
                     <h4>Data de abertura: </h4>
-                    <span v-html="dadosReadequacao.dtSolicitacao"/>
+                    <span>{{ dadosReadequacao.dtSolicitacao | formatarData }}</span>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
@@ -57,11 +57,15 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { utils } from '@/mixins/utils';
 import verificarPerfil from '../mixins/verificarPerfil';
 
 export default {
     name: 'ExcluirButton',
-    mixins: [verificarPerfil],
+    mixins: [
+        utils,
+        verificarPerfil,
+    ],
     props: {
         obj: {
             type: Object,

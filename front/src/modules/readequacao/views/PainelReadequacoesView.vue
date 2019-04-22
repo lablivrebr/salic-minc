@@ -2,6 +2,14 @@
     <v-container fluid>
         <v-layout column>
             <v-flex xs9>
+                <v-btn
+                    class="green--text text--darken-4"
+                    flat
+                    @click="voltar()"
+                >
+                    <v-icon class="mr-2">keyboard_backspace</v-icon>
+                    voltar ao projeto
+                </v-btn>
                 <v-subheader>
                     <h2 class="grey--text text--darken-4">Painel de Readequações</h2>
                     <v-spacer/>
@@ -209,6 +217,9 @@ export default {
         },
         getPerfis(tipo) {
             return this.perfisAceitos[tipo];
+        },
+        voltar() {
+            this.$router.back();
         },
     },
 };

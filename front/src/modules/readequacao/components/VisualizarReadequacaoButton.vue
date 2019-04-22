@@ -315,7 +315,7 @@ export default {
             return value;
         },
         readequacaoTipoSimples() {
-            if (this.outrosTiposSolicitacoes.indexOf(this.dadosReadequacao.idTipoReadequacao)) {
+            if (this.outrosTiposSolicitacoes.indexOf(this.dadosReadequacao.idTipoReadequacao) > -1) {
                 return false;
             }
             return true;

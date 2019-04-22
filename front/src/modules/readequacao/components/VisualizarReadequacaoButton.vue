@@ -71,6 +71,20 @@
                         </v-list>
                         <v-list
                             two-line
+                            subheader
+                        >
+                            <v-list-tile avatar>
+                                <v-list-tile-avatar>
+                                    <v-icon class="green lighten-1 white--text">list</v-icon>
+                                </v-list-tile-avatar>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>Status da análise</v-list-tile-title>
+                                    <v-list-tile-sub-title v-html="getStatusAnalise(dadosReadequacao.siEncaminhamento)"></v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </v-list>
+                        <v-list
+                            two-line
                         >
                             <v-list-tile
                                 avatar
@@ -319,6 +333,12 @@ export default {
                 return false;
             }
             return true;
+        },
+        getStatusAnalise(siEncaminhamento) {
+            if (Const.SI_ENCAMINHAMENTO.hasOwnProperty(siEncaminhamento)) {
+                return Const.SI_ENCAMINHAMENTO[siEncaminhamento];
+            }
+            return false;
         },
     },
 };

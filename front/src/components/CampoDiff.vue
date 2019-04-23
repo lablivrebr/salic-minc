@@ -156,7 +156,7 @@ export default {
                 }
                 const re = /<\//;
                 if (part.value.match(re)) {
-                    span = `<div class="display:inline-block" class="${color}">${part.value}</div>`;
+                    span = `<div class="${color}" style="display:inline-block">${part.value}</div>`;
                 } else {
                     span = `<span class="${color}">${part.value}</span>`;
                 }

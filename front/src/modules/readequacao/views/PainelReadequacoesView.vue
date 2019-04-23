@@ -2,15 +2,14 @@
     <v-container fluid>
         <v-layout column>
             <v-flex xs9>
-                <v-btn
-                    class="green--text text--darken-4"
-                    flat
-                    @click="voltar()"
-                >
-                    <v-icon class="mr-2">keyboard_backspace</v-icon>
-                    voltar ao projeto
-                </v-btn>
                 <v-subheader>
+                    <v-btn
+                        class="green--text text--darken-4"
+                        flat
+                        @click="voltar()"
+                    >
+                        <v-icon class="mr-2">keyboard_backspace</v-icon>
+                    </v-btn>
                     <h2 class="grey--text text--darken-4">Painel de Readequações</h2>
                     <v-spacer/>
                     <h3
@@ -18,7 +17,7 @@
                     >{{ dadosProjeto.Pronac }} - {{ dadosProjeto.NomeProjeto }}</h3>
                 </v-subheader>
                 <div v-if="loading">
-                    <carregando :text="'Carregando readequações...'"/>
+                    <carregando :text="'Carregando painel de readequações...'"/>
                 </div>
                 <div v-else-if="getReadequacoesProponente">
                     <v-tabs

@@ -20,7 +20,17 @@
             transition="dialog-bottom-transition"
             @keydown.esc="dialog = false"
         >
-            <v-card>
+            <v-card
+                v-if="loading"
+            >
+                <carregando
+                    :text="'Montando visualização de readequação...'"
+                    class="mt-5"
+                />
+            </v-card>
+            <v-card
+                v-else
+            >
                 <v-toolbar
                     dark
                     color="primary"
@@ -220,10 +230,11 @@
 </template>
 <script>
 import _ from 'lodash';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { utils } from '@/mixins/utils';
 import Const from '../const';
 import VisualizarCampoDetalhado from './VisualizarCampoDetalhado';
+import Carregando from '@/components/CarregandoVuetify';
 import CampoDiff from '@/components/CampoDiff';
 import verificarPerfil from '../mixins/verificarPerfil';
 import abrirArquivo from '../mixins/abrirArquivo';
@@ -233,6 +244,7 @@ export default {
     components: {
         VisualizarCampoDetalhado,
         CampoDiff,
+        Carregando,
     },
     mixins: [
         utils,
@@ -264,6 +276,7 @@ export default {
     data() {
         return {
             dialog: false,
+            loading: true,
             panel: [true, true],
             visualizarSolicitacao: false,
             visualizarJustificativa: false,
@@ -274,9 +287,24 @@ export default {
                 Const.TIPO_READEQUACAO_PLANO_DISTRIBUICAO,
                 Const.TIPO_READEQUACAO_SALDO_APLICACAO,
                 Const.TIPO_READEQUACAO_TRANSFERENCIA_RECURSOS,
-            ],
+                      ],
             mensagemPadraoOutrasSolicitacoes: 'Visualização indisponível para esse tipo de readequação.',
         };
+    },
+    watch: {
+        dialog() {
+            if (this.dialog === true) {
+                this.obterCampoAtual({
+                    idPronac: this.dadosReadequacao.idPronac,
+                    idTipoReadequacao: this.dadosReadequacao.idTipoReadequacao,
+                });
+            }
+        },
+        getDadosCampo() {
+            if (!_.isEmpty(this.getDadosCampo)) {
+                this.loading = false;
+            }
+        },
     },
     computed: {
         ...mapGetters({
@@ -316,6 +344,9 @@ export default {
         },
     },
     methods: {
+        ...mapActions({
+            obterCampoAtual: 'readequacao/obterCampoAtual',
+        }),
         perfilAceito() {
             return this.verificarPerfil(this.perfil, this.perfisAceitos);
         },

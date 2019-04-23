@@ -21,8 +21,11 @@
                     </v-btn>
                     Versão original
                 </v-card-title>
-                <v-card-text
-                    v-html="textDiff.before"
+                <v-card-text>
+                    <div
+                        class="display:inline-block"
+                        v-html="textDiff.before"/>
+                </v-card-text>
                 />
             </v-card>
         </v-flex>
@@ -48,9 +51,11 @@
                     </v-btn>
                     Versão alterada
                 </v-card-title>
-                <v-card-text
-                    v-html="textDiff.after"
-                />
+                <v-card-text>
+                    <div
+                        class="display:inline-block"
+                        v-html="textDiff.after"/>
+                </v-card-text>
             </v-card>
         </v-flex>
     </v-layout>
@@ -90,7 +95,7 @@ export default {
     },
     watch: {
         originalText() {
-            if (this.changedText !== '') {
+            if (this.originalText !== '') {
                 this.showDiff();
             }
         },
@@ -99,6 +104,9 @@ export default {
                 this.showDiff();
             }
         },
+    },
+    created() {
+        this.showDiff();
     },
     methods: {
         makeDiff(original, changed) {
@@ -137,11 +145,7 @@ export default {
                 } else {
                     color = this.colors.normal;
                 }
-                if (part.value.includes('<p>')) {
-                    span = `<div stlye="display:inline-block" class="${color}">${part.value}</div>`;
-                } else {
-                    span = `<span class="${color}">${part.value}</span>`;
-                }
+                span = `<span class="${color}">${part.value}</span>`;
                 if (part.removed === true) {
                     this.textDiff.before += span;
                 } else if (part.added === true) {

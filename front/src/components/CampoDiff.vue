@@ -5,6 +5,10 @@
             sm12
             xs12
         >
+            <h4
+                v-if="error"
+                v-html="emptyMessage"
+            />
             <v-card
                 flat
             >
@@ -22,8 +26,7 @@
                     Versão original
                 </v-card-title>
                 <v-card-text
-                    v-html="textDiff.before"
-                />
+                    v-html="tratarCampoVazio(textDiff.before)"
                 />
             </v-card>
         </v-flex>
@@ -49,8 +52,8 @@
                     </v-btn>
                     Versão alterada
                 </v-card-title>
-                <v-card-text 
-                    v-html="textDiff.after"
+                <v-card-text
+                    v-html="tratarCampoVazio(textDiff.after)"
                 />
             </v-card>
         </v-flex>
@@ -87,6 +90,8 @@ export default {
                 before: '',
                 after: '',
             },
+            error: false,
+            emptyMessage: 'Não é possível comparar: ambos lados devem estar preenchidos.',
         };
     },
     watch: {
@@ -128,8 +133,16 @@ export default {
             return dd;
         },
         showDiff() {
+            this.message = '';
             this.textDiff.after = '';
             this.textDiff.before = '';
+            if (this.originalText.trim() === ''
+                || this.changedText.trim() === '') {
+                this.error = true;
+                this.textDiff.before = this.originalText;
+                this.textDiff.after = this.changedText;
+                return;
+            }
             const dd = this.makeDiff(this.originalText, this.changedText);
             dd.forEach((part) => {
                 let color = '';
@@ -141,7 +154,12 @@ export default {
                 } else {
                     color = this.colors.normal;
                 }
-                span = `<span class="${color}">${part.value}</span>`;
+                const re = /<\//;
+                if (part.value.match(re)) {
+                    span = `<div class="display:inline-block" class="${color}">${part.value}</div>`;
+                } else {
+                    span = `<span class="${color}">${part.value}</span>`;
+                }
                 if (part.removed === true) {
                     this.textDiff.before += span;
                 } else if (part.added === true) {
@@ -151,6 +169,15 @@ export default {
                     this.textDiff.after += span;
                 }
             });
+        },
+        tratarCampoVazio(value) {
+            if (typeof value !== 'undefined') {
+                if (value.trim() === '') {
+                    const msgVazio = '<em>Campo vazio</em>';
+                    return msgVazio;
+                }
+            }
+            return value;
         },
     },
 };

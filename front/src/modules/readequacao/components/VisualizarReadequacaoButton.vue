@@ -89,7 +89,7 @@
                                 </v-list-tile-avatar>
                                 <v-list-tile-content>
                                     <v-list-tile-title>Status da análise</v-list-tile-title>
-                                    <v-list-tile-sub-title v-html="getStatusAnalise(dadosReadequacao.siEncaminhamento)"></v-list-tile-sub-title>
+                                    <v-list-tile-sub-title v-html="getStatusAnalise(dadosReadequacao.siEncaminhamento)"/>
                                 </v-list-tile-content>
                             </v-list-tile>
                         </v-list>
@@ -160,7 +160,7 @@
                             <v-card-text>
                                 <campo-diff
                                     v-if="readequacaoTipoSimples() && dadosReadequacao.dsSolicitacao"
-                                    :original-text="tratarCampoVazio(getDadosCampo.valor)"
+                                    :original-text="getDadosCampo.valor"
                                     :changed-text="textoSolicitacao"
                                     :method="'diffSentences'"
                                 />
@@ -287,24 +287,9 @@ export default {
                 Const.TIPO_READEQUACAO_PLANO_DISTRIBUICAO,
                 Const.TIPO_READEQUACAO_SALDO_APLICACAO,
                 Const.TIPO_READEQUACAO_TRANSFERENCIA_RECURSOS,
-                      ],
+            ],
             mensagemPadraoOutrasSolicitacoes: 'Visualização indisponível para esse tipo de readequação.',
         };
-    },
-    watch: {
-        dialog() {
-            if (this.dialog === true) {
-                this.obterCampoAtual({
-                    idPronac: this.dadosReadequacao.idPronac,
-                    idTipoReadequacao: this.dadosReadequacao.idTipoReadequacao,
-                });
-            }
-        },
-        getDadosCampo() {
-            if (!_.isEmpty(this.getDadosCampo)) {
-                this.loading = false;
-            }
-        },
     },
     computed: {
         ...mapGetters({
@@ -343,21 +328,27 @@ export default {
             return result;
         },
     },
+    watch: {
+        dialog() {
+            if (this.dialog === true) {
+                this.obterCampoAtual({
+                    idPronac: this.dadosReadequacao.idPronac,
+                    idTipoReadequacao: this.dadosReadequacao.idTipoReadequacao,
+                });
+            }
+        },
+        getDadosCampo() {
+            if (!_.isEmpty(this.getDadosCampo)) {
+                this.loading = false;
+            }
+        },
+    },
     methods: {
         ...mapActions({
             obterCampoAtual: 'readequacao/obterCampoAtual',
         }),
         perfilAceito() {
             return this.verificarPerfil(this.perfil, this.perfisAceitos);
-        },
-        tratarCampoVazio(value) {
-            if (typeof value !== 'undefined') {
-                if (value.trim() === '') {
-                    const msgVazio = '<em>Campo vazio</em>';
-                    return msgVazio;
-                }
-            }
-            return value;
         },
         readequacaoTipoSimples() {
             if (this.outrosTiposSolicitacoes.indexOf(this.dadosReadequacao.idTipoReadequacao) > -1) {
@@ -366,7 +357,7 @@ export default {
             return true;
         },
         getStatusAnalise(siEncaminhamento) {
-            if (Const.SI_ENCAMINHAMENTO.hasOwnProperty(siEncaminhamento)) {
+            if (Object.prototype.hasOwnProperty.call(Const.SI_ENCAMINHAMENTO, siEncaminhamento)) {
                 return Const.SI_ENCAMINHAMENTO[siEncaminhamento];
             }
             return false;

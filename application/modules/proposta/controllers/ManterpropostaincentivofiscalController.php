@@ -156,7 +156,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             if (count($agencia) > 0) {
                 echo "";
             } else {
-                echo "Ag&ecirc;ncia inv&aacute;lida";
+                echo "Ag&ecirc;ncia do Banco do Brasil n&atilde;o encontrada!";
             }
         } else {
             echo "Ag&ecirc;ncia inv&aacute;lida";
@@ -771,11 +771,11 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             $dtTemp = explode("/", $get->dtInicio);
             $dtInicio = $dtTemp[2] . $dtTemp[1] . $dtTemp[0];
 
-            $diffEmDias = $objData->CompararDatas(date("Ymd"), $dtInicio);
-            if ($diffEmDias < 0 || $diffEmDias < 90) {
-                $mensagem = "<br><font color='red'>A data inicial de realiza&ccedil;&atilde;o dever&aacute; ser no m&iacute;nimo 90 dias ap&oacute;s a data atual.</font>";
-                $bln = "false";
-            }
+//            $diffEmDias = $objData->CompararDatas(date("Ymd"), $dtInicio);
+//            if ($diffEmDias < 0 || $diffEmDias < 90) {
+//                $mensagem = "<br><font color='red'>A data inicial de realiza&ccedil;&atilde;o dever&aacute; ser no m&iacute;nimo 90 dias ap&oacute;s a data atual.</font>";
+//                $bln = "false";
+//            }
 
             if (!$objData->validarData($get->dtInicio)) {
                 $mensagem = "<br><font color='red'>Data de in&iacute;cio inv&aacute;lida</font>";

@@ -256,6 +256,8 @@ class Proposta_PlanoDistribuicaoController extends Proposta_GenericController
                 unset($dados['idDetalhaPlanoDistribuicao']);
             }
 
+            $dados['dsProduto'] = utf8_decode($dados['dsProduto']);
+
             $mdlDetalhaPlanoDistribuicao = new Proposta_Model_TbDetalhaPlanoDistribuicao($dados);
 
             $tbDetalhamentoMapper = new Proposta_Model_TbDetalhaPlanoDistribuicaoMapper();
@@ -265,7 +267,11 @@ class Proposta_PlanoDistribuicaoController extends Proposta_GenericController
                 $dados['idDetalhaPlanoDistribuicao'] = $id;
             }
 
-            $this->_helper->json(array('data' => $dados, 'success' => 'true', 'msg' => 'Detalhamento salvo com sucesso!'));
+            $this->_helper->json([
+                'data' => TratarArray::utf8EncodeArray($dados),
+                'success' => 'true',
+                'msg' => 'Detalhamento salvo com sucesso!'
+            ]);
         } catch (Exception $e) {
             $this->getResponse()
                 ->setHeader('Content-Type', 'application/json')
@@ -280,7 +286,7 @@ class Proposta_PlanoDistribuicaoController extends Proposta_GenericController
         $detalhamento = new Proposta_Model_DbTable_TbDetalhaPlanoDistribuicao();
         $dados = $detalhamento->listarPorMunicicipioUF($dados);
 
-        $this->_helper->json(array('data' => $dados->toArray(), 'success' => 'true'));
+        $this->_helper->json(array('data' => TratarArray::utf8EncodeArray($dados->toArray()), 'success' => 'true'));
     }
 
     public function detalharExcluirAction()

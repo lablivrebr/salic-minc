@@ -53,6 +53,42 @@ services:
   #   volumes:
   #     - ./api:/application
   #     - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+
+  ################################################
+  #  Serviço da nota fiscal eletronica
+  ################################################
+  # nfe-nginx-backend:
+  #   image: culturagovbr/nfe-nginx-backend
+  #   container_name: nfe-nginx
+  #   working_dir: /app
+  #   ports:
+  #     - "8081:8081"
+  #   depends_on:
+  #     - "nfe-php-fpm"
+
+  # nfe-php-fpm:
+  #   image: culturagovbr/nfe-php-fpm
+  #   container_name: nfe-php-fpm
+  #   working_dir: /app
+
+  # nfe-mongo:
+  #   image: culturagovbr/nfe-mongo
+  #   container_name: nfe-mongo
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: root
+  #     MONGO_DATA_DIR: /data
+  #   volumes:
+  #     - ./data:/data
+  #
+  # nfe-visual:
+  #   image: culturagovbr/nfe-visual
+  #   container_name: nfe-visual
+  #   ports:
+  #     - "8082:80"
+  ################################################
+  #  Serviço da nota fiscal eletronica
+  ################################################
 #    networks:
 #      static-network:
 #        ipv4_address: 172.20.0.3

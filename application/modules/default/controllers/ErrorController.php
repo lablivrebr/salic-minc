@@ -2,9 +2,6 @@
 
 class ErrorController extends Zend_Controller_Action
 {
-    /**
-     * @var $ravenClient Raven_Client
-     */
     private $ravenClient;
 
     public function init()
@@ -18,6 +15,18 @@ class ErrorController extends Zend_Controller_Action
     private function instanciarRaven($url)
     {
         $this->ravenClient = new Raven_Client($url);
+
+        $auth = Zend_Auth::getInstance();
+        $auth = $auth->getIdentity();
+        $auth->usu_seguranca = '********';
+        $auth->usu_controle = '********';
+        $auth->usu_validacao = '********';
+        $auth->Senha =  '********';
+
+        $this->ravenClient->user_context(array(
+            'auth' => $auth
+        ));
+
         $error_handler = new Raven_ErrorHandler($this->ravenClient);
         $error_handler->registerExceptionHandler();
         $error_handler->registerErrorHandler();
@@ -35,7 +44,7 @@ class ErrorController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setRender('error');
         $helper = $this->_helper->getHelper('Layout');
 
-        $this->view->message = 'Você precisa efetuar login para visualizar este conteúdo.';//<br /><a href="/">Clique aqui para fazer login ou realizar cadastro</a>
+        $this->view->message = 'Você precisa efetuar login para visualizar este conteúdo.';
         $this->view->errorType = 'login';
     }
 
@@ -66,7 +75,6 @@ class ErrorController extends Zend_Controller_Action
     public function errorPlanetAction()
     {
 
-//        $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setRender('error-planet');
 
         $this->view
@@ -97,17 +105,9 @@ class ErrorController extends Zend_Controller_Action
                 $this->view->message = 'Controller não encontrada';
                 break;
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
-                // 404 error -- controller or action not found
-                //$this->getResponse()->setHttpResponseCode(404);
                 $this->view->message = 'Action não encontrada';
                 break;
             default:
-                // application error
-                //$this->getResponse()->setHttpResponseCode(500);
-//                $this->view->message = $errors;
-//                $this->view->errorType = 'aplicacao';
-//                Zend_Debug::dump($errors);
-//                break;
         }
 
         // Log exception, if logger available
@@ -115,7 +115,6 @@ class ErrorController extends Zend_Controller_Action
         if ($log) {
             $log->crit($this->view->message, $errors->exception);
         }
-//
         // conditionally display exceptions
         if ($this->getInvokeArg('displayExceptions') == true) {
             $this->view->exception = $errors->exception;
@@ -179,5 +178,5 @@ class ErrorController extends Zend_Controller_Action
                 $this->view->message = 'Desculpe, ocorreu algum erro no sistema, tente novamente mais tarde!';
                 break;
         }
-    } // fecha errorAction()
-} // fecha class
+    }
+}

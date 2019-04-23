@@ -21,11 +21,9 @@
                     </v-btn>
                     Versão original
                 </v-card-title>
-                <v-card-text>
-                    <div
-                        class="display:inline-block"
-                        v-html="textDiff.before"/>
-                </v-card-text>
+                <v-card-text
+                    v-html="textDiff.before"
+                />
                 />
             </v-card>
         </v-flex>
@@ -51,11 +49,9 @@
                     </v-btn>
                     Versão alterada
                 </v-card-title>
-                <v-card-text>
-                    <div
-                        class="display:inline-block"
-                        v-html="textDiff.after"/>
-                </v-card-text>
+                <v-card-text 
+                    v-html="textDiff.after"
+                />
             </v-card>
         </v-flex>
     </v-layout>

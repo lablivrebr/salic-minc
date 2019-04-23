@@ -5,10 +5,6 @@
             sm12
             xs12
         >
-            <h4
-                v-if="error"
-                v-html="emptyMessage"
-            />
             <v-card
                 flat
             >
@@ -36,6 +32,15 @@
             sm12
             xs12
         >
+            <h4
+                v-if="error"
+                v-html="errorMessage"
+            />
+            <h4
+                v-if="textsEquals"
+                class="grey lighten-4 text-xs-center"
+                v-html="textsEqualsMessage"
+            />
             <v-card
                 flat
             >
@@ -91,7 +96,9 @@ export default {
                 after: '',
             },
             error: false,
-            emptyMessage: 'Não é possível comparar: ambos lados devem estar preenchidos.',
+            textsEquals: false,
+            errorMessage: 'Não é possível comparar: ambos lados devem estar preenchidos.',
+            textsEqualsMessage: 'Textos sem diferenças.',
         };
     },
     watch: {
@@ -144,6 +151,11 @@ export default {
                 return;
             }
             const dd = this.makeDiff(this.originalText, this.changedText);
+            if (dd.length === 1) {
+                this.textDiff.before = this.originalText;
+                this.textDiff.after = this.changedText;
+                this.textsEquals = true;
+            }
             dd.forEach((part) => {
                 let color = '';
                 let span = '';

@@ -46,4 +46,4 @@ new Vue({
   router,
   store,
   render: h => h(Index),
-}).$mount('#app');
+}).$mount('#app-content');

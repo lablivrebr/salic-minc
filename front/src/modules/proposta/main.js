@@ -10,25 +10,15 @@ import { store } from './config';
 
 Vue.config.productionTip = false;
 
-// window.onload = () => {
-//   /* eslint-disable-next-line */
-//     const main = new Vue({
-//     el: '#container-vue',
-//     store,
-//     components: {
-//       Proposta,
-//       PropostaDiff,
-//       PropostaProponente,
-//     },
-//   });
-// };
-
-new Vue({
-  store,
-  components: {
-    Proposta,
-    PropostaDiff,
-    PropostaProponente,
-  },
-  render: h => h(Index),
-}).$mount('#app');
+window.onload = () => {
+  /* eslint-disable-next-line */
+    const main = new Vue({
+    el: '#container-vue',
+    store,
+    components: {
+      Proposta,
+      PropostaDiff,
+      PropostaProponente,
+    },
+  });
+};

@@ -1,44 +1,50 @@
-let is_not_dev_server = process.env.NODE_ENV === 'production' || process.env.npm_lifecycle_event === 'watch';
+const IS_NOT_DEV_SERVER = process.env.NODE_ENV === 'production' || process.env.npm_lifecycle_event === 'watch';
+const PATH_LAYOUT = '../../application/layouts/scripts/';
+const TEMPLATE_IN_HTML = 'public/template_legado.html';
+const TEMPLATE_ZEND = '../application/layouts/scripts/layout.phtml';
 
 module.exports = {
-  publicPath: is_not_dev_server
+  publicPath: IS_NOT_DEV_SERVER
     ? 'public/dist'
     : '',
+  runtimeCompiler: true, //remover esta opcao apos migrar os templates de proposta
   filenameHashing: false,
   outputDir: '../public/dist',
   pages: {
     main: {
       entry: 'src/main.js',
       template: 'public/index.html',
-      filename: is_not_dev_server
-      ? '../../application/layouts/scripts/main.phtml'
+      filename: IS_NOT_DEV_SERVER
+      ? PATH_LAYOUT + '/main.phtml'
       : 'main.html',
     },
     avaliacao_resultados: {
       entry: 'src/modules/avaliacaoResultados/main.js',
       template: 'public/index.html',
-      filename: is_not_dev_server
-        ? '../../application/layouts/scripts/avaliacao_resultados.phtml'
+      filename: IS_NOT_DEV_SERVER
+        ? PATH_LAYOUT + '/avaliacao_resultados.phtml'
         : 'avaliacao_resultados.html',
     },
     proposta: {
       entry: 'src/modules/proposta/main.js',
-      template: '../../application/layouts/scripts/layout.phtml',
-      filename: is_not_dev_server
-        ? '../../application/layouts/scripts/proposta.phtml'
+      template: TEMPLATE_IN_HTML,
+      filename: IS_NOT_DEV_SERVER
+        ? PATH_LAYOUT + '/proposta.phtml'
         : 'proposta.html',
     },
     projeto: {
       entry: 'src/modules/projeto/main.js',
-      template: '../../application/layouts/scripts/layout.phtml',
-      filename: is_not_dev_server
-        ? '../../application/layouts/scripts/projeto.phtml'
+      template: TEMPLATE_ZEND,
+      filename: IS_NOT_DEV_SERVER
+        ? PATH_LAYOUT + '/projeto.phtml'
         : 'projeto.html',
     },
     foo: {
       entry: 'src/modules/foo/main.js',
       template: 'public/index.html',
-      filename: 'foo.html',
+      filename: IS_NOT_DEV_SERVER
+        ? PATH_LAYOUT + '/foo.phtml'
+        : 'foo.html',
     },
   },
   devServer: {
@@ -52,4 +58,9 @@ module.exports = {
       ]
     }
   },
+  // chainWebpack: (config) => {
+  //   config
+  //     .output
+  //     .filename('js/[name].js');
+  // },
 };

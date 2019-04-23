@@ -101,19 +101,7 @@ class Analise_AnaliseController extends Analise_GenericController
 
     public function visualizarprojetoAction()
     {
-//        $this->carregarScriptsVue();
-
-        $validator = new Zend_Validate_File_Exists();
-        $validator->addDirectory('application/layouts/scripts');
-        if (!$validator->isValid('proposta.phtml')) {
-            echo "Aguarde, atualizando o sistema...";
-            die;
-        }
-
-        //@todo cleber, aqui tem que importar apenas o script.
-
-        Zend_Layout::startMvc(array('layout' => 'proposta'));
-        $this->_helper->viewRenderer->setNoRender();
+        header('Content-type: text/html; charset=UTF-8');
 
         $idPronac = $this->getRequest()->getParam('idpronac');
 
@@ -356,13 +344,5 @@ class Analise_AnaliseController extends Analise_GenericController
         $valoresProjeto = $dbTableProjetos->obterValoresProjeto($idPronac);
 
         return $valoresProjeto['PercentualCaptado'];
-    }
-
-    private function carregarScriptsVue()
-    {
-        $gitTag = '?v=' . $this->view->gitTag();
-        $this->view->headScript()->offsetSetFile(99, '/public/dist/js/manifest.js' . $gitTag, 'text/javascript', array('charset' => 'utf-8'));
-        $this->view->headScript()->offsetSetFile(100, '/public/dist/js/vendor.js' . $gitTag, 'text/javascript', array('charset' => 'utf-8'));
-        $this->view->headScript()->offsetSetFile(101, '/public/dist/js/proposta.js'. $gitTag, 'text/javascript', array('charset' => 'utf-8'));
     }
 }

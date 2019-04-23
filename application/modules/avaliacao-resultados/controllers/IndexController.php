@@ -30,6 +30,8 @@ class AvaliacaoResultados_IndexController extends MinC_Controller_Action_Abstrac
 
     public function indexAction()
     {
-        $this->_helper->layout->disableLayout();
+        header('Content-type: text/html; charset=UTF-8');
+        Zend_Layout::startMvc(array('layout' => 'avaliacao_resultados'));
+        $this->_helper->viewRenderer->setNoRender();
     }
 }

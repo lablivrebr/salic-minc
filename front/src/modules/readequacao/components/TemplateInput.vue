@@ -18,15 +18,29 @@
             </v-flex>
             <v-flex
                 xs10
+                md2
+                class="text-xs-center"
+            >
+                <v-btn
+                    flat
+                    class="blue darken-1 text-xs-center"
+                    color="white"
+                    @click="copiarOriginal()"
+                >
+                    igualar
+                    <v-icon>sync</v-icon>
+                </v-btn>
+            </v-flex>
+            <v-flex
+                xs10
                 md5
-                offset-md2
             >
                 <v-card>
                     <v-card-title class="green lighten-2 title">Versão readequada</v-card-title>
                     <v-card-actions>
                         <v-text-field
                             :label="campo.titulo"
-                            :value="campoTexto"
+                            :value="dadosReadequacaoEmEdicao.dsSolicitacao"
                             :rules="rules"
                             counter
                             @input="updateCampo"
@@ -99,6 +113,10 @@ export default {
         },
         atualizarContador(valor) {
             this.$emit('editor-texto-counter', valor);
+        },
+        copiarOriginal() {
+            this.dadosReadequacaoEmEdicao.dsSolicitacao = this.campo.valor;
+            this.updateCampo(this.dadosReadequacaoEmEdicao.dsSolicitacao);
         },
     },
 };

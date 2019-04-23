@@ -17,8 +17,22 @@
             </v-flex>
             <v-flex
                 xs10
-                md6
-                offset-md1
+                md2
+                class="text-xs-center"
+            >
+                <v-btn
+                    flat
+                    class="blue darken-1 text-xs-center"
+                    color="white"
+                    @click="copiarOriginal()"
+                >
+                    igualar
+                    <v-icon>sync</v-icon>
+                </v-btn>
+            </v-flex>
+            <v-flex
+                xs10
+                md5
             >
                 <v-card min-height="336px">
                     <v-card-title class="green lighten-2 title">Versão readequada</v-card-title>
@@ -94,6 +108,10 @@ export default {
                 return msgVazio;
             }
             return value;
+        },
+        copiarOriginal() {
+            this.dadosReadequacaoEmEdicao.dsSolicitacao = this.campo.valor;
+            this.updateCampo(this.dadosReadequacaoEmEdicao.dsSolicitacao);
         },
     },
 };

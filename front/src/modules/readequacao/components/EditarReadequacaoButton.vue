@@ -397,11 +397,10 @@ export default {
             if (this.dialog === false
                 && this.recarregarReadequacoes === true) {
                 this.$emit('atualizar-readequacao', { idReadequacao: this.readequacaoEditada.idReadequacao });
+            } else {
+                this.obterDadosIniciais();
             }
         },
-    },
-    created() {
-        this.obterDadosIniciais();
     },
     methods: {
         ...mapActions({

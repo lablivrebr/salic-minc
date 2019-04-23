@@ -18,8 +18,22 @@
             </v-flex>
             <v-flex
                 xs10
+                md2
+                class="text-xs-center"
+            >
+                <v-btn
+                    flat
+                    class="blue darken-1 text-xs-center"
+                    color="white"
+                    @click="copiarOriginal()"
+                >
+                    igualar
+                    <v-icon>sync</v-icon>
+                </v-btn>
+            </v-flex>
+            <v-flex
+                xs10
                 md5
-                offset-md2
             >
                 <v-card
                     height="140px"
@@ -92,14 +106,13 @@ export default {
         return {
             date: '',
             dateFormatted: '',
-            today: new Date().toISOString().substr(0, 10),
             menu: false,
         };
     },
     watch: {
         date() {
             this.$emit('dados-update', this.date);
-            this.dateFormatted = this.formatDate(this.date);
+            this.setChangedDate(this.date);
         },
         campo() {
             if (this.campo.valor !== '') {
@@ -107,12 +120,23 @@ export default {
                 if (date === '') {
                     date = this.campo.valor.trim();
                 }
-                this.date = this.parseDate(date);
-                this.updateCampo(this.date);
+                this.setChangedDate(date);
             }
         },
     },
+    created() {
+        this.setChangedDate();
+    },
     methods: {
+        setChangedDate(newDate = '') {
+            let date = newDate;
+            if (newDate === '') {
+                date = this.dadosReadequacao.dsSolicitacao;
+            }
+            this.date = this.parseDate(date);
+            this.dateFormatted = this.formatDate(this.date);
+            this.updateCampo(this.date);
+        },
         prepareDate(date) {
             const [day, month, year] = date.substr(0, 10).split('-');
             return `${day}-${month}-${year}`;
@@ -143,6 +167,9 @@ export default {
         },
         atualizarContador(valor) {
             this.$emit('editor-texto-counter', valor);
+        },
+        copiarOriginal() {
+            this.setChangedDate(this.campo.valor);
         },
     },
 };

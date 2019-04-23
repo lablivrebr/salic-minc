@@ -61,7 +61,7 @@
                             two-line
                             subheader
                         >
-                            <v-subheader inset>Dados da Solicitação</v-subheader>
+                            <v-subheader inset>Dados da Solicitação - {{ dadosReadequacao.idReadequacao }}</v-subheader>
                             <v-list-tile avatar>
                                 <v-list-tile-avatar>
                                     <v-icon class="green lighten-1 white--text">person</v-icon>
@@ -187,9 +187,16 @@
                                 <v-list-tile-avatar>
                                     <v-icon class="green lighten-1 white--text">person</v-icon>
                                 </v-list-tile-avatar>
-                                <v-list-tile-content>
+                                <v-list-tile-content
+                                    v-if="dadosReadequacao.idAvaliador"
+                                >
                                     <v-list-tile-title>Nome do Avaliador</v-list-tile-title>
-                                    <v-list-tile-sub-title>Avaliador - {{ dadosReadequacao.idAvaliador }}</v-list-tile-sub-title>
+                                    <v-list-tile-sub-title>{{ dadosReadequacao.dsNomeAvaliador }}</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                                <v-list-tile-content
+                                    v-else
+                                >
+                                    <v-list-tile-title>Sem avaliação até o momento</v-list-tile-title>
                                 </v-list-tile-content>
                             </v-list-tile>
                             <v-list-tile avatar>

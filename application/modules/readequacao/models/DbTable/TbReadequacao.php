@@ -1981,6 +1981,13 @@ select grupo from sac..tbAtoAdministrativo where idAtoAdministrativo = (
             'agentes.dbo'
         );
         
+        $query->joinLeft(
+            ['usuarios' => 'Usuarios'],
+            'tbReadequacao.idAvaliador = usuarios.usu_codigo',
+            ['usu_nome AS dsNomeAvaliador'],
+            'tabelas.dbo'
+        );
+
         foreach ($where as $coluna => $valor) {
             $query->where($coluna, $valor);
         }

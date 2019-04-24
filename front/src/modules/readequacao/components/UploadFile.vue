@@ -1,39 +1,66 @@
 <template>
-    <v-card
-        elevation="4"
+    <div
+        class="pa-3"
     >
-        <file-pond
-            ref="pond"
-            :server="server"
-            :accepted-file-types="formatosAceitos"
-            :label-idle="textoBotao"
-            name="upload"
-            label-file-type-not-allowed="Tipo de arquivo inválido."
-            file-validate-type-label-expected-types="Somente {allTypes} serão aceitos."
-            label-button-remove-item="Excluir"
-            label-button-process-item="Upload"
-            allow-image-preview="false"
-            @removefile="arquivoAnexado()"
-            @processfile="arquivoAnexado()"
-        />
-    </v-card>
+        <v-btn
+            flat
+            class="green darken-1 pa-0"
+            color="white"
+        >
+            <label
+                class="blue darken-1 text-xs-center body-2 font-weight-medium white--text text-xs-center"
+                style="cursor: pointer; border-radius: .15rem; padding: .55rem; padding-left: 1rem; padding-right: 1rem;"
+            >
+                {{ textoBotao }}
+                <input
+                    id="arquivo"
+                    ref="file"
+                    type="file"
+                    style="display:none"
+                    @change="handleFileUpload()"
+                >
+                <v-icon
+                    small
+                    color="white"
+                >note_add</v-icon>
+            </label>
+        </v-btn>
+        <v-btn
+            v-if="possuiDocumento"
+            flat
+            class="green darken-1"
+            color="white"
+            @click="abrirArquivo(idDocumento)"
+        >
+            VISUALIZAR&nbsp;
+            <v-icon small>visibility</v-icon>
+        </v-btn>
+        <v-btn
+            v-if="possuiDocumento"
+            flat
+            class="red"
+            color="white"
+            @click="removerArquivo()"
+        >
+            EXCLUIR
+            <v-icon small>
+                delete
+            </v-icon>
+        </v-btn>
+    </div>
 </template>
 
 <script>
 import _ from 'lodash';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import vueFilePond from 'vue-filepond';
-import 'filepond/dist/filepond.min.css';
+import abrirArquivo from '../mixins/abrirArquivo';
 import Carregando from '@/components/CarregandoVuetify';
-
-const FilePond = vueFilePond(FilePondPluginFileValidateType);
 
 export default {
     name: 'UploadFile',
     components: {
         Carregando,
-        FilePond,
     },
+    mixins: [abrirArquivo],
     props: {
         formatosAceitos: {
             type: String,
@@ -67,22 +94,34 @@ export default {
                 revert: null,
                 fetch: null,
             },
+            file: '',
         };
     },
     computed: {
         textoBotao() {
-            const texto = (_.isNull(this.idDocumento)) ? 'CARREGAR ARQUIVO' : 'ALTERAR ARQUIVO';
-            return `<span class='subheading'>${texto}</span>`;
+            return (this.possuiDocumento) ? 'ALTERAR' : 'ADICIONAR';
+        },
+        possuiDocumento() {
+            if (_.isNull(this.idDocumento)
+                || this.idDocumento === 0) {
+                return false;
+            }
+            return true;
         },
     },
     methods: {
-        arquivoAnexado() {
-            if (this.$refs.pond.getFiles()[0]) {
-                const payload = this.$refs.pond.getFiles()[0].file;
+        handleFileUpload() {
+            const file = this.$refs.file.files[0];
+            this.file = file;
+            if (this.$refs.file.files[0]) {
+                const payload = this.$refs.file.files[0];
                 this.$emit('arquivo-anexado', payload);
             } else {
                 this.$emit('arquivo-removido');
             }
+        },
+        removerArquivo() {
+            this.$emit('arquivo-removido');
         },
     },
 };

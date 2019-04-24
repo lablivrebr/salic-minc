@@ -23,14 +23,6 @@ export const obterListaDeReadequacoes = async ({ commit }, params) => {
     return resultado;
 };
 
-export const buscaReadequacao = ({ commit }, params) => {
-    readequacaoHelperAPI.buscaReadequacao(params)
-        .then((response) => {
-            const { data } = response.data.data.items;
-            commit(types.SET_READEQUACAO, { readequacao: data });
-        });
-};
-
 export const buscaReadequacaoPronacTipo = ({ commit }, params) => {
     readequacaoHelperAPI.buscaReadequacaoPronacTipo(params)
         .then((response) => {
@@ -95,10 +87,17 @@ export const excluirReadequacao = ({ commit, dispatch }, params) => {
         });
 };
 
+export const obterReadequacao = ({ commit }, data) => {
+    if (typeof data.idReadequacao !== 'undefined') {
+        commit(types.GET_READEQUACAO, data);
+    }
+};
+
 export const updateReadequacao = ({ commit }, params) => {
     readequacaoHelperAPI.updateReadequacao(params)
         .then((response) => {
             commit(types.UPDATE_READEQUACAO, response.data.data.items);
+            commit(types.GET_READEQUACAO, response.data.data.items);
         });
 };
 

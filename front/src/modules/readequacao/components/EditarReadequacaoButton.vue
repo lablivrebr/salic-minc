@@ -69,91 +69,52 @@
                         xs10
                         offset-xs1
                     >
-                        <v-expansion-panel
-                            v-model="panel"
-                            expand
-                            popout
+                        <v-card
+                            v-if="getTemplateParaTipo"
                         >
-                            <v-expansion-panel-content
-                                readonly
-                                hide-actions
+                            <component
+                                :is="getTemplateParaTipo"
+                                :dados-readequacao="dadosReadequacao"
+                                :campo="getDadosCampo"
+                                :min-char="minChar.solicitacao"
+                                :rules="rules.solicitacao"
+                                @dados-update="atualizarCampo($event, 'dsSolicitacao')"
+                                @editor-texto-counter="atualizarContador($event, 'solicitacao')"
+                            />
+                        </v-card>
+                        <v-card
+                            class="mb-5"
+                        >
+                            <v-card-title
+                                class="green lighten-2 title"
                             >
-                                <v-card
-                                    v-if="getTemplateParaTipo"
-                                >
-                                    <component
-                                        :is="getTemplateParaTipo"
-                                        :dados-readequacao="dadosReadequacao"
-                                        :campo="getDadosCampo"
-                                        :min-char="minChar.solicitacao"
-                                        :rules="rules.solicitacao"
-                                        @dados-update="atualizarCampo($event, 'dsSolicitacao')"
-                                        @editor-texto-counter="atualizarContador($event, 'solicitacao')"
-                                    />
-                                </v-card>
-                            </v-expansion-panel-content>
-                            <v-expansion-panel-content
-                                readonly
-                                hide-actions
+                                Justificativa da readequação
+                            </v-card-title>
+                            <form-readequacao
+                                :dados-readequacao="dadosReadequacao"
+                                :min-char="minChar.justificativa"
+                                @dados-update="atualizarCampo($event, 'dsJustificativa')"
+                                @editor-texto-counter="atualizarContador($event, 'justificativa')"
+                            />
+                        </v-card>
+                        <v-card
+                            class="mb-5"
+                        >
+                            <v-card-title
+                                class="green lighten-2 title"
                             >
-
-                                <v-card
-                                    class="mb-5"
-                                >
-                                    <v-card-title
-                                        class="green lighten-2 title"
-                                    >
-                                        Justificativa da readequação
-                                    </v-card-title>
-                                    <form-readequacao
-                                        :dados-readequacao="dadosReadequacao"
-                                        :min-char="minChar.justificativa"
-                                        @dados-update="atualizarCampo($event, 'dsJustificativa')"
-                                        @editor-texto-counter="atualizarContador($event, 'justificativa')"
-                                    />
-                                    <v-card-text>
-                                        <v-layout row>
-                                            <v-flex xs3>
-                                                <upload-file
-                                                    :formatos-aceitos="formatosAceitos"
-                                                    :id-documento="dadosReadequacao.idDocumento"
-                                                    class="mt-1"
-                                                    @arquivo-anexado="atualizarArquivo($event)"
-                                                    @arquivo-removido="removerArquivo()"
-                                                />
-                                            </v-flex>
-                                            <v-flex xs1>
-                                                <template v-if="possuiDocumentoAnexado">
-                                                    <v-btn
-                                                        flat
-                                                        icon
-                                                        small
-                                                        class="green darken-1"
-                                                        color="white"
-                                                        @click="abrirArquivo(dadosReadequacao.idDocumento)"
-                                                    >
-                                                        <v-icon small>visibility</v-icon>
-                                                    </v-btn>
-                                                    <v-spacer/>
-                                                    <v-btn
-                                                        flat
-                                                        icon
-                                                        small
-                                                        class="red"
-                                                        color="white"
-                                                        @click="removerArquivo()"
-                                                    >
-                                                        <v-icon small>
-                                                            delete
-                                                        </v-icon>
-                                                    </v-btn>
-                                                </template>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-card-text>
-                                </v-card>
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
+                                Arquivo anexo
+                            </v-card-title>
+                            <v-card-actions>
+                                <upload-file
+                                    :formatos-aceitos="formatosAceitos"
+                                    :id-documento="getReadequacao.idDocumento"
+                                    class="mt-1"
+                                    @arquivo-anexado="atualizarArquivo($event)"
+                                    @arquivo-removido="removerArquivo()"
+                                />
+                            </v-card-actions>
+                        </v-card>
                         <v-footer
                             id="footer"
                             class="pb-4 pt-4 elevation-18"
@@ -231,7 +192,6 @@ import FinalizarButton from './FinalizarButton';
 import UploadFile from './UploadFile';
 import validarFormulario from '../mixins/validarFormulario';
 import verificarPerfil from '../mixins/verificarPerfil';
-import abrirArquivo from '../mixins/abrirArquivo';
 
 export default {
     name: 'EditarReadequacaoButton',
@@ -248,7 +208,6 @@ export default {
     mixins: [
         validarFormulario,
         verificarPerfil,
-        abrirArquivo,
     ],
     props: {
         dadosReadequacao: {
@@ -331,6 +290,7 @@ export default {
     computed: {
         ...mapGetters({
             campoAtual: 'readequacao/getCampoAtual',
+            getReadequacao: 'readequacao/getReadequacao',
         }),
         getTemplateParaTipo() {
             let templateName = false;
@@ -350,13 +310,6 @@ export default {
                 };
             }
             return {};
-        },
-        possuiDocumentoAnexado() {
-            if (this.dadosReadequacao.idDocumento
-                && this.dadosReadequacao.idDocumento !== '') {
-                return true;
-            }
-            return false;
         },
         perfilAceito() {
             return this.verificarPerfil(this.perfil, this.perfisAceitos);
@@ -406,6 +359,7 @@ export default {
         ...mapActions({
             obterCampoAtual: 'readequacao/obterCampoAtual',
             obterDocumento: 'readequacao/obterDocumento',
+            obterReadequacao: 'readequacao/obterReadequacao',
             updateReadequacao: 'readequacao/updateReadequacao',
             finalizarReadequacao: 'readequacao/finalizarReadequacao',
         }),
@@ -413,6 +367,7 @@ export default {
             if (
                 this.dadosReadequacao.idPronac && this.dadosReadequacao.idTipoReadequacao
             ) {
+                this.obterReadequacao(this.dadosReadequacao);
                 this.obterCampoAtual({
                     idPronac: this.dadosReadequacao.idPronac,
                     idTipoReadequacao: this.dadosReadequacao.idTipoReadequacao,
@@ -496,7 +451,7 @@ export default {
 </script>
 <style>
 
- #footer {
-     z-index: 10;
- }
+#footer {
+    z-index: 10;
+}
 </style>

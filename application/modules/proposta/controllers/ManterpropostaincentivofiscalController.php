@@ -252,7 +252,9 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             "stproposta" => isset($post['stproposta']) ? $post['stproposta'] : '',
             "idusuario" => isset($post['idusuario']) ? $post['idusuario'] : $this->idResponsavel,
             "sttipodemanda" => "NA", //seguindo sistema legado
-            "tpprorrogacao" => isset($post['tpprorrogacao']) ? $post['tpprorrogacao'] : ''
+            "tpprorrogacao" => isset($post['tpprorrogacao']) ? $post['tpprorrogacao'] : '',
+            "tptipicidade" => isset($post['tptipicidade']) ? $post['tptipicidade'] : '',
+            "tptipologia" => isset($post['tptipologia']) ? $post['tptipologia'] : ''
         );
 
         $dados['idpreprojeto'] = $idPreProjeto;
@@ -1091,5 +1093,27 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
         $this->view->idResponsavel = $this->idResponsavel;
         $this->view->idUsuario = $this->idUsuario;
         $this->view->idAgente = $this->idAgente;
+    }
+
+    public function obterTipologiasAjaxAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $intId = $this->getRequest()->getParam('id', null);
+
+        if (empty($intId)) {
+            throw new Exception('id &eacute; obrigat&oacute;rio');
+        }
+
+        $tableVerificacao = new Proposta_Model_DbTable_Verificacao();
+        $tipologias = $tableVerificacao->fetchPairs(
+            'idVerificacao',
+            'Descricao',
+            [
+            'idTipo' => $intId,
+            'stEstado' => 1,
+        ]);
+
+        $this->_helper->json(TratarArray::utf8EncodeArray($tipologias));
     }
 }

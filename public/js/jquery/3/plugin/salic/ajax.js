@@ -58,6 +58,19 @@
             });
         });
 
+        $.fn.getParams = function(filter = 'data-ajax-param-') {
+            var attributes = {};
+            if( this.length ) {
+                $.each( this[0].attributes, function( index, attr ) {
+                    if (attr.name.search(filter) >= 0) {
+                        attributes[ attr.name.split(filter).join('') ] = attr.value;
+                    }
+                } );
+            }
+
+            return attributes;
+        };
+
         elmBody.on('click', 'a[data-ajax-render]', function () {
             var objTarget = '#' + $(this).attr('id');
 
@@ -93,6 +106,42 @@
         $('#container-progress').fadeOut('slow');
     });
 
+
+    /**
+     *   Metodo para popular um select via ajax
+     */
+    $.ajaxSelectRender = function (objOption, callback) {
+        var objDefaults = {strUrl: '', objData: {}, objTarget: '', strSelected: ''},
+            objSettings = $.extend({}, objDefaults, objOption),
+            strUrl = objSettings.strUrl,
+            objData = objSettings.objData,
+            objTarget = objSettings.objTarget,
+            strSelected = objSettings.strSelected;
+
+        objTarget.html('<option selected>Carregando...</option>');
+        objTarget.material_select();
+
+        $3.ajax({
+            method: "POST",
+            url: strUrl,
+            data: objData
+        }).done(function (result) {
+            let strHtml = '';
+            $3.each(result, function(key, value){
+                if (strSelected && strSelected === key) {
+                    strHtml += '<option value="' + key + '" selected="selected">' + value + '</option>';
+                } else {
+                    strHtml += '<option value="' + key + '">' + value + '</option>';
+                }
+            });
+
+            if (typeof callback === 'function') {
+                callback.call(null, result);
+            }
+            objTarget.html(strHtml);
+            objTarget.material_select();
+        });
+    };
 
     /**
      * Cria uma div modal, executa um ajax renderizando o retorno dentro da modal e no final abre a modal com o conteudo renderizado.

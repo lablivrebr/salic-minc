@@ -288,6 +288,8 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
         $rsPreProjeto->stTipoDemanda = $dados["sttipodemanda"];
         $rsPreProjeto->idEdital = (isset($dados["idedital"])) ? $dados["idedital"] : null;
         $rsPreProjeto->tpProrrogacao = $dados["tpprorrogacao"];
+        $rsPreProjeto->tpTipicidade = $dados["tptipicidade"];
+        $rsPreProjeto->tpTipologia = $dados["tptipologia"];
 
         //SALVANDO O OBJETO
         $id = $rsPreProjeto->save();

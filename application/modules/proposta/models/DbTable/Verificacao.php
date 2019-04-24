@@ -48,4 +48,27 @@ class Proposta_Model_DbTable_Verificacao extends MinC_Db_Table_Abstract
 
         return $db->fetchAll($select);
     }
+
+    public function buscarTipicidades()
+    {
+        $select = $this->select();
+        $select->setIntegrityCheck(false);
+        $select->from(
+            ['a' => $this->_name],
+            [
+                'idVerificacao',
+                new Zend_Db_Expr('
+                    CASE
+                        WHEN a.idVerificacao = 713 THEN 31
+                        WHEN a.idVerificacao = 714 THEN 30
+                        WHEN a.idVerificacao = 715 THEN 29
+                    END as tipo'
+                ),
+                'Descricao as tipicidade'
+            ],
+            $this->_schema
+        );
+        $select->where('a.idTipo IN (?)', [28]);
+        return $this->fetchAll($select);
+    }
 }

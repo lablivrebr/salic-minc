@@ -111,7 +111,7 @@ if (isset($this->proposta['idpreprojeto'])) {
                                         </td>
                                         <td colspan="4">
                                             Nome da Proposta Cultural *
-                                            <br />
+                                            <br/>
                                             <input type="text" class="input_simples" name="nomeProjeto" id="nomeProjeto"
                                                    maxlength="500" title="Nome da Proposta Cultural" style="width:50em;"
                                                    value="<?php
@@ -126,7 +126,7 @@ if (isset($this->proposta['idpreprojeto'])) {
                                                 <div style="float:left; width: 100%">
                                                     Proponente:
                                                     <span
-                                                            style="color: blue;"><?php echo $this->proponente['descricao']; ?></span>
+                                                        style="color: blue;"><?php echo $this->proponente['descricao']; ?></span>
                                                 </div>
                                             </div>
                                         </td>
@@ -134,57 +134,41 @@ if (isset($this->proposta['idpreprojeto'])) {
                                 </table>
                                 <table class="tabela" cellpadding="1" cellspacing="1">
                                     <tr class="destacar centro">
-                                        <td colspan="5"><b>Tipicidade e seus limites or&ccedil;ament&aacute;rios</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5">
-                                            <p>
-                                                <input
-                                                    name="tpTipicidade"
-                                                    type="radio"
-                                                    id="singulares"
-                                                    <?= empty($this->proposta['tptipicidade'])
-                                                    || $this->proposta['tptipicidade'] == "713" ? 'checked=checked' : ''; ?>
-                                                    value="713"
-                                                    data-ajax-param-id="31"
-                                                />
-                                                <label for="singulares" style="font-weight: normal">Singulares, at&eacute; R$ 1.000.000,00 (Art. 4&ordm;, al&iacute;nea d)</label>
-                                            </p>
-                                            <p>
-                                                <input
-                                                    name="tpTipicidade"
-                                                    type="radio"
-                                                    id="especificos"
-                                                    <?= $this->proposta['tptipicidade'] == "714" ? 'checked=checked' : ''; ?>
-                                                    value="714"
-                                                    data-ajax-param-id="30"
-                                                />
-                                                <label for="especificos" style="font-weight: normal">Espec&iacute;ficos, at&eacute; R$ 6.000.000,00 (Art. 4&ordm;, &sect; 3&ordm;)</label>
-                                            </p>
-                                            <p>
-                                                <input
-                                                    name="tpTipicidade"
-                                                    type="radio"
-                                                    id="especiais"
-                                                    <?= $this->proposta['tptipicidade'] == "715" ? 'checked' : ''; ?>
-                                                    value="715"
-                                                    data-ajax-param-id="29"
-                                                />
-                                                <label for="especiais" style="font-weight: normal">Especiais, sem limite (Art. 4&ordm;, &sect; 2&ordm;)</label>
-                                            </p>
+                                        <td colspan="5"><b>Tipicidade e seus limites or&ccedil;ament&aacute;rios</b>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="5">
-                                        <label>Tipologia *</label>
-                                        <select
-                                            id="tpTipologia"
-                                            class="browser-default"
-                                            name="tpTipologia"
-                                            data-ajax-target-selected="<?= $this->proposta['tptipologia']; ?>"
-                                        >
-                                            <option value="" disabled selected>Selecione a tipicidade...</option>
-                                        </select>
+                                            <?php foreach ($this->tipicidades as $key => $tipicidade) : ?>
+                                                <p>
+                                                    <input
+                                                        name="tpTipicidade"
+                                                        type="radio"
+                                                        id="tipicidade_<?= $tipicidade['idVerificacao']; ?>"
+                                                        <?= (empty($this->proposta['tptipicidade']) && $key == 0)
+                                                        || $this->proposta['tptipicidade'] == $tipicidade['idVerificacao'] ? 'checked=checked' : ''; ?>
+                                                        value="<?= $tipicidade['idVerificacao']; ?>"
+                                                        data-ajax-param-id="<?= $tipicidade['tipo']; ?>"
+                                                    />
+                                                    <label
+                                                        for="tipicidade_<?= $tipicidade['idVerificacao']; ?>"
+                                                        style="font-weight: normal"
+                                                    ><?= $tipicidade['tipicidade']; ?></label>
+                                                </p>
+                                            <? endforeach; ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">
+                                            <label>Tipologia *</label>
+                                            <select
+                                                id="tpTipologia"
+                                                class="browser-default"
+                                                name="tpTipologia"
+                                                data-ajax-target-selected="<?= $this->proposta['tptipologia']; ?>"
+                                            >
+                                                <option value="" disabled selected>Selecione a tipicidade...</option>
+                                            </select>
                                         </td>
                                     </tr>
                                 </table>
@@ -545,12 +529,12 @@ if (isset($this->proposta['idpreprojeto'])) {
 
         $("#frmProposta").validate({
             rules: {
-                nomeProjeto: {required: true},
+                nomeProjeto: { required: true },
 //                resumoDoProjeto: {validarResumoDoProjeto: true, validarResumoDoProjeto1000: true},
-                agenciaBancaria: {required: true},
-                dtInicioDeExecucao: {required: true, minlength: 10},
-                dtFinalDeExecucao: {required: true, minlength: 10},
-                stProposta: {required: true}
+                agenciaBancaria: { required: true },
+                dtInicioDeExecucao: { required: true, minlength: 10 },
+                dtFinalDeExecucao: { required: true, minlength: 10 },
+                stProposta: { required: true }
             },
             messages: {
                 nomeProjeto: {
@@ -615,22 +599,22 @@ if (isset($this->proposta['idpreprojeto'])) {
                 }
 
                 <?php if (!$this->projeto) : ?>
-                    //valida data do ano anual
-                    if ($("#stProposta").val() == '614' && $("#dtInicioDeExecucao").val().length == 10) {
-                        ano_vigente = <?php echo date('Y')?>;
-                        ano_execucao = new Number($('#dtInicioDeExecucao').val().substr(6, 4));
-                        if (ano_vigente >= ano_execucao) {
-                            $("#ValidaStProposta").html("<font color='red'>O per&iacute;odo de execu&ccedil;&atilde;o de projetos de plano anual dever ser posterior ao ano vigente</font>");
-                            $("#dtInicioDeExecucao").focusin();
-                            return false;
-
-                        } else {
-                            $("#ValidaStProposta").html("");
-                        }
+                //valida data do ano anual
+                if ($("#stProposta").val() == '614' && $("#dtInicioDeExecucao").val().length == 10) {
+                    ano_vigente = <?php echo date('Y')?>;
+                    ano_execucao = new Number($('#dtInicioDeExecucao').val().substr(6, 4));
+                    if (ano_vigente >= ano_execucao) {
+                        $("#ValidaStProposta").html("<font color='red'>O per&iacute;odo de execu&ccedil;&atilde;o de projetos de plano anual dever ser posterior ao ano vigente</font>");
+                        $("#dtInicioDeExecucao").focusin();
+                        return false;
 
                     } else {
                         $("#ValidaStProposta").html("");
                     }
+
+                } else {
+                    $("#ValidaStProposta").html("");
+                }
                 <?php endif; ?>
 
                 form.submit();
@@ -714,11 +698,11 @@ if (isset($this->proposta['idpreprojeto'])) {
                 //REGRAS E MENSAGENS PARA OS CAMPOS CRIADOS
                 $("#dtAtoTombamento").rules("add", {
                     required: true,
-                    messages: {required: "<br>Data tombamento inv&aacute;lida"}
+                    messages: { required: "<br>Data tombamento inv&aacute;lida" }
                 });
                 $("#esferaTombamento").rules("add", {
                     required: true,
-                    messages: {required: "<br>Esfera inv&aacute;lida"}
+                    messages: { required: "<br>Esfera inv&aacute;lida" }
                 });
 
             } else {
@@ -741,23 +725,23 @@ if (isset($this->proposta['idpreprojeto'])) {
 
         // calendario
         $.datepicker.regional['pt-BR'] =
-        {
-            closeText: 'Fechar',
-            prevText: '&#x3c;Anterior',
-            nextText: 'Pr&oacute;ximo&#x3e;',
-            currentText: 'Hoje',
-            monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-            dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'S&aacute;bado'],
-            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            weekHeader: 'Sm',
-            dateFormat: 'dd/mm/yy',
-            firstDay: 0,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''
-        };
+            {
+                closeText: 'Fechar',
+                prevText: '&#x3c;Anterior',
+                nextText: 'Pr&oacute;ximo&#x3e;',
+                currentText: 'Hoje',
+                monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'S&aacute;bado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd/mm/yy',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''
+            };
         $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
 
         // id dos campos que utilizarï¿½o o calendï¿½rio
@@ -766,7 +750,7 @@ if (isset($this->proposta['idpreprojeto'])) {
 
     });
     $3(document).ready(function () {
-        $3("input[type=radio][name=tpTipicidade]:checked").each(function() {
+        $3("input[type=radio][name=tpTipicidade]:checked").each(function () {
             carregarComboTipologia($3(this).attr('data-ajax-param-id'));
         });
 
@@ -775,7 +759,7 @@ if (isset($this->proposta['idpreprojeto'])) {
         });
     });
 
-    const carregarComboTipologia = function(id) {
+    const carregarComboTipologia = function (id) {
         $3.ajaxSelectRender({
             strUrl: '/proposta/manterpropostaincentivofiscal/obter-tipologias-ajax',
             objTarget: $3('#tpTipologia'),

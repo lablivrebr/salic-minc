@@ -116,7 +116,7 @@
                                         m6
                                         lg3>
                                         <p>
-                                            <b>Proporcional</b><br>
+                                            <b>Promocional</b><br>
                                             {{ dado.QtdeVendaPromocional }}
                                         </p>
                                     </v-flex>
@@ -157,7 +157,7 @@
                                         m6
                                         lg3>
                                         <p>
-                                            <b>Proporcional</b><br>
+                                            <b>Promocional</b><br>
                                             {{ dado.PrecoUnitarioPromocional }}
                                         </p>
                                     </v-flex>
@@ -192,7 +192,7 @@
                                         m6
                                         lg3>
                                         <p>
-                                            <b>Proporcional</b><br>
+                                            <b>Promocional</b><br>
                                             {{ dado.ReceitaPro }}
                                         </p>
                                     </v-flex>

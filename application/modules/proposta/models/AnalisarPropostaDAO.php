@@ -78,7 +78,12 @@ class Proposta_Model_AnalisarPropostaDAO extends MinC_Db_Model
                     p.idEdital,
                     p.DtArquivamento,
                     p.stEstado,
-                    versac.Descricao as ExecucaoImediata
+                    p.stEstado,
+                    p.tpTipicidade,
+                    p.tpTipologia,
+                    versac.Descricao as ExecucaoImediata,
+                    vertipologia.Descricao as descricaoTipologia,
+                    vertipicidade.Descricao as descricaoTipicidade
                 FROM sac.dbo.PreProjeto p
                     left JOIN agentes.dbo.Agentes a			on p.idAgente = a.idAgente
                     left join agentes.dbo.endereconacional en		on p.idAgente = en.idAgente
@@ -98,6 +103,8 @@ class Proposta_Model_AnalisarPropostaDAO extends MinC_Db_Model
                     left join AGENTES.dbo.Uf uf                         on uf.idUf = en.UF
                     left join AGENTES.dbo.Municipios mun                on mun.idMunicipioIBGE = en.Cidade
                     left join SAC.dbo.Verificacao versac    on  p.stProposta = versac.idVerificacao
+                    left join SAC.dbo.Verificacao vertipologia on p.tpTipologia = vertipologia.idVerificacao
+                    left join SAC.dbo.Verificacao vertipicidade on p.tpTipicidade = vertipicidade.idVerificacao
                 WHERE idPreProjeto = {$idPreProjeto}";
         $db = Zend_Db_Table::getDefaultAdapter();
         $db->setFetchMode(Zend_DB::FETCH_OBJ);

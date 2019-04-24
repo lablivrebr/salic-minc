@@ -417,6 +417,8 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             $this->view->arquivoExecucaoImediata = $arquivoExecucaoImediata;
         }
 
+        $dbTableVerificacao = new Proposta_Model_DbTable_Verificacao();
+        $this->view->tipicidades = $dbTableVerificacao->buscarTipicidades();
 
         if ($this->isEditarProjeto($this->idPreProjeto)) {
             $tblProjetos = new Projetos();

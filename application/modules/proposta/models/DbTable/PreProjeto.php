@@ -118,6 +118,20 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
             )
         );
 
+        $slct->joinLeft(
+            ['vTipicidade' => 'Verificacao'],
+            'preprojeto.tpTipicidade = vTipicidade.idVerificacao',
+            ["vTipicidade.Descricao as DescricaoTipicidade"],
+            $this->_schema
+        );
+
+        $slct->joinLeft(
+            ['vTipologia' => 'Verificacao'],
+            'preprojeto.tpTipologia = vTipologia.idVerificacao',
+            ["vTipologia.Descricao as DescricaoTipologia"],
+            $this->_schema
+        );
+
         //adiciona quantos filtros foram enviados
         foreach ($where as $coluna => $valor) {
             $slct->where($coluna, $valor);
@@ -3433,6 +3447,20 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
         $slct->joinLeft(
             array('ver' => 'verificacao'), 'ver.idVerificacao = pp.stProposta',
             array('ver.Descricao as TipoExecucao'),
+            $this->_schema
+        );
+
+        $slct->joinLeft(
+            ['vTipicidade' => 'Verificacao'],
+            'pp.tpTipicidade = vTipicidade.idVerificacao',
+            ["vTipicidade.Descricao as DescricaoTipicidade"],
+            $this->_schema
+        );
+
+        $slct->joinLeft(
+            ['vTipologia' => 'Verificacao'],
+            'pp.tpTipologia = vTipologia.idVerificacao',
+            ["vTipologia.Descricao as DescricaoTipologia"],
             $this->_schema
         );
 

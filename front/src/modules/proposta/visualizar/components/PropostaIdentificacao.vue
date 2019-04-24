@@ -53,6 +53,37 @@
                 <v-card>
                     <v-card-title
                         primary
+                        class="title">Tipicidade e seus limites orçamentários</v-card-title>
+                    <v-card-text>
+                        <v-layout
+                            row
+                            wrap>
+                            <v-flex
+                                xs12
+                                sm6
+                                md6>
+                                <b>Tipicidade</b><br>
+                                <s-texto-simples :texto="proposta.DescricaoTipicidade"/>
+                            </v-flex>
+                            <v-flex
+                                xs12
+                                sm6
+                                md6>
+                                <b>Tipologia</b><br>
+                                <s-texto-simples :texto="proposta.DescricaoTipologia"/>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+            <v-flex
+                d-flex
+                xs12
+                sm12
+                md12>
+                <v-card>
+                    <v-card-title
+                        primary
                         class="title">Informações complementares</v-card-title>
                     <v-card-text>
                         <v-layout row>

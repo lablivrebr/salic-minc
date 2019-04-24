@@ -1117,19 +1117,6 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
         }
         $this->view->documentosExigidos = $arrDocumentosExigidos;
         $this->view->itensHistorico = Proposta_Model_AnalisarPropostaDAO::buscarHistorico($idPreProjeto);
-//        $this->view->itensPlanilhaOrcamentaria = Proposta_Model_AnalisarPropostaDAO::buscarPlanilhaOrcamentaria($idPreProjeto);
-
-//        $buscarProduto = ManterorcamentoDAO::buscarProdutos($this->idPreProjeto);
-        //        $this->view->Produtos = $buscarProduto;
-        //
-        //        $tbPlanilhaEtapa = new Proposta_Model_DbTable_TbPlanilhaEtapa();
-        //        $buscarEtapa = $tbPlanilhaEtapa->listarEtapasProdutos($this->idPreProjeto);
-        //
-        //        $this->view->Etapa = $buscarEtapa;
-
-        $preProjeto = new Proposta_Model_DbTable_PreProjeto();
-
-//        $buscarItem = $preProjeto->listarItensProdutos($this->idPreProjeto);
         $this->view->AnaliseCustos = Proposta_Model_DbTable_PreProjeto::analiseDeCustos($this->idPreProjeto);
 
         $this->view->idPreProjeto = $this->idPreProjeto;

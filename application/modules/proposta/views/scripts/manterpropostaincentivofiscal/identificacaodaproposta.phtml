@@ -132,6 +132,7 @@ if (isset($this->proposta['idpreprojeto'])) {
                                         </td>
                                     </tr>
                                 </table>
+                                <?php if ($this->tipicidades) : ?>
                                 <table class="tabela" cellpadding="1" cellspacing="1">
                                     <tr class="destacar centro">
                                         <td colspan="5"><b>Tipicidade e seus limites or&ccedil;ament&aacute;rios</b>
@@ -172,6 +173,7 @@ if (isset($this->proposta['idpreprojeto'])) {
                                         </td>
                                     </tr>
                                 </table>
+                                <?php endif; ?>
                                 <table class="tabela" cellpadding="1" cellspacing="1">
                                     <tr class="destacar centro">
                                         <td colspan="5"><b>Resumo da Proposta Cultural</b></td>

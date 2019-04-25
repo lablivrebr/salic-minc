@@ -380,6 +380,9 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
     {
         $this->validarEdicaoProposta();
 
+        $dbTableVerificacao = new Proposta_Model_DbTable_Verificacao();
+        $this->view->tipicidades = $dbTableVerificacao->buscarTipicidades();
+
         if (empty($this->_proposta["idpreprojeto"])) {
             $post = Zend_Registry::get('post');
 
@@ -416,9 +419,6 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
 
             $this->view->arquivoExecucaoImediata = $arquivoExecucaoImediata;
         }
-
-        $dbTableVerificacao = new Proposta_Model_DbTable_Verificacao();
-        $this->view->tipicidades = $dbTableVerificacao->buscarTipicidades();
 
         if ($this->isEditarProjeto($this->idPreProjeto)) {
             $tblProjetos = new Projetos();

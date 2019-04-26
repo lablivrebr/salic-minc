@@ -95,31 +95,31 @@
     }
 </style>
 
-<!-- ========== INÍCIO CONTEÚDO ========== -->
+<!-- ========== INÃCIO CONTEÃšDO ========== -->
 <div class="paginaA4">
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
-        <br clear="all" /><span class="TituloDoDocumento">Readequa&ccedil;&otilde;es - <?php echo ($this->nmPagina) ? $this->nmPagina : 'Aguardando Análise'; ?></span>
-        <br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php echo date('d/m/Y - H:i:s'); ?></span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Minist&eacute;rio da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Minist&eacute;rio da Cidadania</span>
+        <br clear="all" /><span class="TituloDoDocumento">Readequa&ccedil;&otilde;es - <?php echo ($this->nmPagina) ? $this->nmPagina : 'Aguardando AnÃ¡lise'; ?></span>
+        <br clear="all" /><span class="DataDoDocumento">Data da impressÃ£o: <?php echo date('d/m/Y - H:i:s'); ?></span>
         <br clear="all" /><br clear="all" /><span class="QntdRegistros"><?php echo count($this->dados).' projetos listados'; ?></span>
     </div>
-    
+
     <?php if($this->qtdRelatorios != 0){ ?>
     <table class="tabela tablesorter">
         <tr>
             <th>Pronac</th>
             <th nowrap>Nome do Projeto</th>
             <th nowrap>Resumo do Projeto</th>
-            <th>Situação</th>
-            <th>Dt.Início Execução</th>
-            <th>Dt.Fim Execução</th>
+            <th>SituaÃ§Ã£o</th>
+            <th>Dt.InÃ­cio ExecuÃ§Ã£o</th>
+            <th>Dt.Fim ExecuÃ§Ã£o</th>
             <th>Dt.Pedido</th>
-            <th>Dt.Início</th>
+            <th>Dt.InÃ­cio</th>
             <th>Dt.Final</th>
             <th nowrap>Meses sem captar</th>
             <th nowrap>% Captado</th>
-            <th>Diligência</th>
+            <th>DiligÃªncia</th>
             <th nowrap>Anexo</th>
         </tr>
         <?php foreach($this->dados as $dp){ ?>
@@ -138,7 +138,7 @@
             <td align="right"><?php echo $dp->Meses; ?></td>
             <td align="right"><?php echo $dp->Percentual; ?></td>
             <td align="center">
-                <?php $arrPrazo = $this->prazoRespostaDiligencia($dp->IdPRONAC, 171); 
+                <?php $arrPrazo = $this->prazoRespostaDiligencia($dp->IdPRONAC, 171);
                 $title = $arrPrazo['iconeDiligencia']['title']; ?>
                 <?php echo $title; ?>
             </td>
@@ -146,7 +146,7 @@
         </tr>
         <?php } ?>
     </table>
-        
+
     <?php } else { ?>
     <table class="tabela">
         <tr>
@@ -154,6 +154,6 @@
         </tr>
     </table>
     <?php } ?>
-    
+
 </div>
 

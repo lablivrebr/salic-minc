@@ -263,7 +263,7 @@ class Parecer_GerenciarParecerController extends MinC_Controller_Action_Abstract
                         }
                     } else {
                         // inabilitado
-                        $projeto->alterarSituacao($idPronac, null, 'C09', 'Projeto fora da pauta de reunio da CNIC porque o proponente est inabilitado no Ministrio da Cultura.');
+                        $projeto->alterarSituacao($idPronac, null, 'C09', 'Projeto fora da pauta de reuni&atilde;o da CNIC porque o proponente est&aacute; inabilitado no Minist&eacute;rio da Cidadania.');
                     }
                 }
                 //fluxo in2013
@@ -415,7 +415,7 @@ class Parecer_GerenciarParecerController extends MinC_Controller_Action_Abstract
                 }
             } else {
                 // inabilitado
-                $projeto->alterarSituacao($idPronac, null, 'C09', 'Projeto fora da pauta de reuni&atilde;o da CNIC porque o proponente est&aacute; inabilitado no Minist&eacute;rio da Cultura.');
+                $projeto->alterarSituacao($idPronac, null, 'C09', 'Projeto fora da pauta de reuni&atilde;o da CNIC porque o proponente est&aacute; inabilitado no Minist&eacute;rio da Cidadania.');
             }
 
             $db->commit();

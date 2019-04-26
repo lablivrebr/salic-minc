@@ -55,4 +55,11 @@ class Projeto_Model_DbTable_TbProjetoFase extends MinC_Db_Table_Abstract
 
         return $this->fetchAll($sql);
     }
+
+    public function isNormativo2019ByIdPreProjeto($idPreProjeto)
+    {
+        $projeto = $this->obterNormativoProjeto(['a.idProjeto = ?' => $idPreProjeto])->current();
+        return (empty($projeto)
+            || $projeto->idNormativo >= Projeto_Model_TbNormativo::INSTRUCAO_NORMATIVA_2019);
+    }
 }

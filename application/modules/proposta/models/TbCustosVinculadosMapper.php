@@ -48,7 +48,8 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
         $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_PADRAO_REMUNERACAO_CAPTACAO_DE_RECURSOS;
         $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_PADRAO_CAPTACAO_DE_RECURSOS_IN_2019;
 
-        if ($this->isNormativo2019ByIdPreProjeto($idPreProjeto)) {
+        $tbProjetoFase = new Projeto_Model_DbTable_TbProjetoFase();
+        if ($tbProjetoFase->isNormativo2019ByIdPreProjeto($idPreProjeto)) {
             $localizacao = $this->obterMunicipioUF($idPreProjeto);
             $idUFLocalizacao = $localizacao['idUFLocalizacao'];
             $idMunicipioLocalizacao = $localizacao['idMunicipioLocalizacao'];
@@ -173,14 +174,6 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
             'idUFLocalizacao' => $localizacao->idUF,
             'idMunicipioLocalizacao' => $localizacao->idMunicipio
         ];
-    }
-
-    private function isNormativo2019ByIdPreProjeto($idPreProjeto)
-    {
-        $tbProjetoFase = new Projeto_Model_DbTable_TbProjetoFase();
-        $projeto = $tbProjetoFase->obterNormativoProjeto(['a.idProjeto = ?' => $idPreProjeto])->current();
-        return (empty($projeto)
-            || $projeto->idNormativo == Projeto_Model_TbNormativo::INSTRUCAO_NORMATIVA_2019);
     }
 
     public function obterCustosVinculadosReadequacao($idPronac)

@@ -18,10 +18,10 @@
                         class="orange-text text-lighten-3 tooltipped"
                         data-position="top"
                         data-delay="50"
-                        data-tooltip="Ir para o portal de notícias, tutoriais e legislações da Lei Rouanet"
+                        data-tooltip="Ir para o portal de notícias, tutoriais e legislações da Lei de Incentivo &agrave; Cultura"
                         target="_blank"
                         href="http://rouanet.cultura.gov.br/"
-                        data-tooltip-id="11c539d7-9913-16c0-3c16-ce4e6364817f">LEI ROUANET</a>
+                        data-tooltip-id="11c539d7-9913-16c0-3c16-ce4e6364817f">LEI DE INCENTIVO &Agrave; CULTURA</a>
                 </v-flex>
                 <v-flex
                     xs3

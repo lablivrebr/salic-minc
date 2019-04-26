@@ -97,14 +97,14 @@
 <div class="paginaA4">
 
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" /><span class="TituloDoDocumento">Dados bancários - Captação</span>
         <br clear="all" /><span class="TituloDoDocumento">PRONAC: <?php echo $this->projeto->AnoProjeto.$this->projeto->Sequencial; ?> - <?php echo $this->projeto->NomeProjeto; ?></span>
         <br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php echo date('d/m/Y - H:i:s'); ?></span>
         <br clear="all" /><br clear="all" /><span class="QntdRegistros"><?php echo count($this->dados).' projetos listados'; ?></span>
     </div>
-    
+
 <!--    <table class="tabela">
         <tr class="destacar">
             <th>PRONAC</th>
@@ -115,7 +115,7 @@
             <td align="center"><?php echo $this->projeto->NomeProjeto; ?></td>
         </tr>
     </table>-->
-    
+
     <?php if($this->qtd > 0){ ?>
     <table class="tabela tablesorter">
         <thead>
@@ -145,7 +145,7 @@
             <?php $cnpjcpf=$d->CgcCPfMecena; $vlTotal=$vlTotal+$d->CaptacaoReal; } ?>
         </tbody>
     </table>
-    
+
     <br clear="all" />
 
     <table class="tabela">

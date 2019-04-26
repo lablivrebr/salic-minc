@@ -77,39 +77,41 @@ if (getenv('APPLICATION_ENV') != 'production') {
     <div class="footer-copyright">
         <div class="container">
             <div class="row" style="margin: 0">
-                <div class="col s12 m3 l3 offset-m1 offset-l1">
+                <div class="col s12 m4 l4 offset-m1 offset-l1">
                     <a
                         class="orange-text text-lighten-3 tooltipped"
                         data-position="top"
                         data-delay="50"
-                        data-tooltip="Ir para o portal de not&iacute;cias, tutoriais e legisla&ccedil;&otilde;es da Lei Rouanet"
+                        data-tooltip="Ir para o portal de not&iacute;cias, tutoriais e legisla&ccedil;&otilde;es da Lei de Incentivo &agrave; Cultura"
                         target="_blank"
-                        href="http://rouanet.cultura.gov.br/">LEI ROUANET</a>
-                </div>
-                <div class="col s12 m3 l3">
-                    <div class="center-align">
-                        <?php if ($strDb): ?>
-                            <?php echo $arrEnv[$strEnv]; ?> | <?php echo $arrDb[$strDb]; ?>
-                        <?php endif; ?>
-                    </div>
+                        href="http://leideincentivoacultura.cultura.gov.br/">LEI DE INCENTIVO &Agrave; CULTURA</a>
                 </div>
                 <div class="col s12 m3 l3">
                     <div class="center-align">
                         <?php echo $this->vcs(); ?>
                     </div>
                 </div>
-                <div class="col s12 m2 l2">
+                <div class="col s12 m3 l3">
                     <div class="center-align">
                         <a
                             class="orange-text text-lighten-3 tooltipped"
                             data-position="top"
                             data-delay="50"
-                            data-tooltip="Ir para o Site: Desenvolvimento Salic MinC"
+                            data-tooltip="Ir para a plataforma de desenvolvimento do Salic"
                             target="_blank"
                             href="https://github.com/culturagovbr/salic-minc">Desenvolvimento</a>
                     </div>
                 </div>
             </div>
+            <?php if ($strDb): ?>
+                <div class="row" style="margin: 10px 0">
+                    <div class="col s12 m12 l12">
+                        <div class="center-align">
+                            <?php echo $arrEnv[$strEnv]; ?> | <?php echo $arrDb[$strDb]; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </footer>

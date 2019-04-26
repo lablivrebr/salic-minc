@@ -98,11 +98,11 @@
 <!-- ========== INÍCIO CONTEÚDO ========== -->
 <div class="paginaA4">
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" />
             <span class="TituloDoDocumento">
-                Relatório - 
+                Relatório -
                 <?php if($this->situacaoPesquisa == 3){
                     echo 'Enviado para Pagamento';
                     } else if($this->situacaoPesquisa == 4){
@@ -117,7 +117,7 @@
         <br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php echo date('d/m/Y - H:i:s'); ?></span>
         <br clear="all" /><br clear="all" /><span class="QntdRegistros"><?php echo count($this->dados).' projetos listados'; ?></span>
     </div>
-        
+
     <?php if(count($this->dados) > 0): ?>
     <table class="tabela tablesorter" id="tabela">
         <thead>
@@ -166,7 +166,7 @@
                 <td><?php // echo $p->CNPJCPF ; ?></td>
                 <td><?php echo $this->formatarReal($p->vlPagamento); ?></td>
             </tr>
-            <?php  
+            <?php
                 $nmPa       = $p->Parecerista;
                 $nrDe       = $p->nrDespacho;
                 $nmProjeto  = $p->NomeProjeto;
@@ -191,7 +191,7 @@
         </tr>
     </table>
     <?php endif; ?>
-    
-    
+
+
 </div>
 <!-- ========== FIM CONTEÚDO ========== -->

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * @author Equipe RUP - Politec
@@ -7,13 +7,13 @@
  * @package application
  * @subpackage application.controller
  * @link http://www.cultura.gov.br
- * @copyright 2010 - Ministério da Cultura - Todos os direitos reservados.
+ * @copyright 2010 - MinistÃ©rio da Cultura - Todos os direitos reservados.
  */
 class SolicitarprorrogacaoController extends MinC_Controller_Action_Abstract
 {
     protected $idUsuario = 0;
     /**
-     * Reescreve o método init()
+     * Reescreve o mÃ©todo init()
      * @access public
      * @param void
      * @return void
@@ -21,9 +21,9 @@ class SolicitarprorrogacaoController extends MinC_Controller_Action_Abstract
     public function init()
     {
         parent::perfil(4);
-        
+
         /** Usuario Logado *********************************************** */
-        $auth = Zend_Auth::getInstance(); // instancia da autenticação
+        $auth = Zend_Auth::getInstance(); // instancia da autenticaÃ§Ã£o
         $this->idUsuario = $auth->getIdentity()->IdUsuario;
         $idpronac = $this->_request->getParam("idpronac");
         if (strlen($idpronac) > 7) {
@@ -54,13 +54,13 @@ class SolicitarprorrogacaoController extends MinC_Controller_Action_Abstract
         $dataI = explode('/', $_POST['dtInicio']);
         $dtI = checkdate($dataI[1], $dataI[0], $dataI[2]);
         if (!$dtI) {
-            parent::message("Data Início inválida.", "solicitarprorrogacao", "ERROR");
+            parent::message("Data InÃ­cio invÃ¡lida.", "solicitarprorrogacao", "ERROR");
         }
 
         $dataF = explode('/', $_POST['dtFinal']);
         $dtF = checkdate($dataF[1], $dataF[0], $dataF[2]);
         if (!$dtF) {
-            parent::message("Data Final inválida.", "solicitarprorrogacao", "ERROR");
+            parent::message("Data Final invÃ¡lida.", "solicitarprorrogacao", "ERROR");
         }
 
         $pa = new paChecklistSolicitacaoProrrogacaoPrazo();
@@ -76,13 +76,13 @@ class SolicitarprorrogacaoController extends MinC_Controller_Action_Abstract
 
             if (!empty($_FILES['arquivo']['tmp_name'])) {
                 $arquivoNome     = $_FILES['arquivo']['name']; // nome
-                $arquivoTemp     = $_FILES['arquivo']['tmp_name']; // nome temporário
+                $arquivoTemp     = $_FILES['arquivo']['tmp_name']; // nome temporÃ¡rio
                 $arquivoTipo     = $_FILES['arquivo']['type']; // tipo
                 $arquivoTamanho  = $_FILES['arquivo']['size']; // tamanho
 
                 if (!empty($arquivoNome) && !empty($arquivoTemp)) {
-                    $arquivoExtensao = Upload::getExtensao($arquivoNome); // extensão
-                    $arquivoBinario  = Upload::setBinario($arquivoTemp); // binário
+                    $arquivoExtensao = Upload::getExtensao($arquivoNome); // extensÃ£o
+                    $arquivoBinario  = Upload::setBinario($arquivoTemp); // binÃ¡rio
                     $arquivoHash     = Upload::setHash($arquivoTemp); // hash
                 }
 
@@ -108,7 +108,7 @@ class SolicitarprorrogacaoController extends MinC_Controller_Action_Abstract
                     'nmArquivo'         => $arquivoNome,
                     'sgExtensao'        => $arquivoExtensao,
                     'biArquivo'         => $data,
-                    'dsDocumento'       => 'Cadastro de Prorrogação de Prazo de Captação',
+                    'dsDocumento'       => 'Cadastro de Prorroga&ccedil;&atilde;o de Prazo de Capta&ccedil;&atilde;o',
                     'idPronac'          => $_POST['pronac'],
                     'idTipoDocumento'   => 27
                 );
@@ -136,7 +136,7 @@ class SolicitarprorrogacaoController extends MinC_Controller_Action_Abstract
             $vw = new vwSolicitarProrrogacaoPrazoCaptacao();
             $vw->inserir($dados);
 
-            parent::message("Pedido de prorrogação enviado ao Ministério da Cultura com sucesso!", "consultardadosprojeto/index?idPronac=". Seguranca::encrypt($DadosProjeto->IdPRONAC), "CONFIRM");
+            parent::message("Pedido de prorroga&ccedil;&atilde;o enviado ao Minist&eacute;rio da Cidadania com sucesso!", "consultardadosprojeto/index?idPronac=". Seguranca::encrypt($DadosProjeto->IdPRONAC), "CONFIRM");
         }
     }
 }

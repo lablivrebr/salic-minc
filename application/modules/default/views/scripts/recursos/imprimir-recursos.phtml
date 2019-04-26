@@ -94,16 +94,16 @@
 </style>
 
 <!-- ========== INÍCIO CONTEÚDO ========== -->
-<div class="paginaA4">           
-        
+<div class="paginaA4">
+
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" /><span class="TituloDoDocumento">Recursos - <?php echo ($this->nmPagina) ? $this->nmPagina : 'Aguardando Análise'; ?></span>
         <br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php echo date('d/m/Y - H:i:s'); ?></span>
         <br clear="all" /><br clear="all" /><span class="QntdRegistros"><?php echo count($this->dados).' projetos listados'; ?></span>
     </div>
-    
+
     <?php if($this->qtdRegistros > 0){ ?>
     <table class="tabela tablesorter">
         <thead>
@@ -155,6 +155,6 @@
         </tr>
     </table>
     <?php } ?>
-    
+
 </div>
 

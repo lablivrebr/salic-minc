@@ -89,7 +89,7 @@ class LoginController extends MinC_Controller_Action_Abstract
 
                 if ($buscar) { // acesso permitido
                     //                                    $auth = Zend_Auth::getInstance(); // instancia da autentica��o
-                    
+
                     //                                    // registra o primeiro grupo do usu�rio (pega unidade autorizada, org�o e grupo do usu�rio)
                     //                                    $Usuario = new Autenticacao_Model_Usuario();
                     //                                    $Grupo   = $Usuario->buscarUnidades($auth->getIdentity()->usu_codigo, 21); // busca todos os grupos do usu�rio
@@ -215,10 +215,10 @@ class LoginController extends MinC_Controller_Action_Abstract
                 $mens  = "Ol&aacute; $nome ,<br><br>";
                 $mens .= "Senha: $SenhaFinal <br><br>";
                 $mens .= "Esta &eacute; a sua senha de acesso ao Sistema de Apresenta&ccedil;&atilde;o de Projetos via Web do ";
-                $mens .= "Minist&eacute;rio da Cultura.<br><br>Lembramos que a mesma dever&aacute; ser ";
+                $mens .= "Minist&eacute;rio da Cidadania.<br><br>Lembramos que a mesma dever&aacute; ser ";
                 $mens .= "trocada no seu primeiro acesso ao sistema.<br><br>";
                 $mens .= "Esta &eacute; uma mensagem autom&aacute;tica. Por favor n&atilde;o responda.<br><br>";
-                $mens .= "Atenciosamente,<br>Minist&eacute;rio da Cultura";
+                $mens .= "Atenciosamente,<br>Minist&eacute;rio da Cidadania";
 
                 $enviaEmail = EmailDAO::enviarEmail($email, $assunto, $mens, $perfil);
                 parent::message("Cadastro efetuado com sucesso. Verifique a senha no seu email", "/login/index", "CONFIRM");
@@ -260,10 +260,10 @@ class LoginController extends MinC_Controller_Action_Abstract
             $mens  = "Ol&aacute; " . $nome . ",<br><br>";
             $mens .= "Senha....: " . $senhaFormatada . "<br><br>";
             $mens .= "Esta &eacute; a sua senha tempor&aacute;ria de acesso ao Sistema de Apresenta&ccedil;&atilde;o de Projetos via Web do ";
-            $mens .= "Minist&eacute;rio da Cultura.<br><br>Lembramos que a mesma dever&aacute; ser ";
+            $mens .= "Minist&eacute;rio da Cidadania.<br><br>Lembramos que a mesma dever&aacute; ser ";
             $mens .= "trocada no seu primeiro acesso ao sistema.<br><br>";
             $mens .= "Esta &eacute; uma mensagem autom&aacute;tica. Por favor n?o responda.<br><br>";
-            $mens .= "Atenciosamente,<br>Minist&eacute;rio da Cultura";
+            $mens .= "Atenciosamente,<br>Minist&eacute;rio da Cidadania";
 
             $email = $sgcAcessoBuscaCpfArray[0]['Email'];
             $enviaEmail = EmailDAO::enviarEmail($email, $assunto, $mens, $perfil);
@@ -384,10 +384,10 @@ class LoginController extends MinC_Controller_Action_Abstract
                 $mens  = "Ol&aacute; " . $nome . ",<br><br>";
                 $mens .= "Senha....: " . $senhaNova . "<br><br>";
                 $mens .= "Esta &eacute; a sua nova senha de acesso ao Sistema de Apresenta&ccedil;&atilde;o de Projetos via Web do ";
-                $mens .= "Minist&eacute;rio da Cultura.<br><br>Lembramos que a mesma dever&aacute; ser ";
+                $mens .= "Minist&eacute;rio da Cidadania.<br><br>Lembramos que a mesma dever&aacute; ser ";
                 $mens .= "trocada no seu primeiro acesso ao sistema.<br><br>";
                 $mens .= "Esta &eacute; uma mensagem autom&aacute;tica. Por favor n?o responda.<br><br>";
-                $mens .= "Atenciosamente,<br>Minist&eacute;rio da Cultura";
+                $mens .= "Atenciosamente,<br>Minist&eacute;rio da Cidadania";
 
                 //$enviaEmail = EmailDAO::enviarEmail($email, $assunto, $mens, $perfil);
                 parent::message("Senha alterada com sucesso!", "/login/index", "CONFIRM");
@@ -407,7 +407,7 @@ class LoginController extends MinC_Controller_Action_Abstract
         // verifica se o usu�rio logado � agente
         $idUsuario = $Usuario->getIdUsuario(null, $auth->getIdentity()->usu_identificacao);
         if (isset($auth->getIdentity()->usu_identificacao)) {
-            
+
             // caso n�o tenha idAgente, atribui o idUsuario
             $this->getIdUsuario = ($idUsuario) ? $idUsuario['idAgente'] : $auth->getIdentity()->usu_codigo;
             //$this->getIdUsuario = empty($this->getIdUsuario) ? 0 : $this->getIdUsuario;

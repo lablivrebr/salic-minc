@@ -19,24 +19,32 @@
                 <div v-if="loading">
                     <carregando :text="'Carregando painel de readequações...'"/>
                 </div>
-                <div v-else-if="getReadequacoesProponente">
+                <div v-else>
                     <v-tabs
                         color="#0a420e"
                         centered
                         dark
                         icons-and-text
+                        model="abaInicial"
+                        @change="trocaAba($event)"
                     >
                         <v-tabs-slider color="yellow"/>
-                        <v-tab href="#tab-1">Edição
+                        <v-tab
+                            href="#edicao"
+                        >Edição
                             <v-icon>edit</v-icon>
                         </v-tab>
-                        <v-tab href="#tab-2">Em Análise
+                        <v-tab
+                            href="#analise"
+                        >Em Análise
                             <v-icon>gavel</v-icon>
                         </v-tab>
-                        <v-tab href="#tab-3">Finalizadas
+                        <v-tab
+                            href="#finalizadas"
+                        >Finalizadas
                             <v-icon>check</v-icon>
                         </v-tab>
-                        <v-tab-item :value="'tab-1'">
+                        <v-tab-item :value="'edicao'">
                             <v-card>
                                 <tabela-readequacoes
                                     :dados-readequacao="getReadequacoesProponente"
@@ -45,24 +53,24 @@
                                     :item-em-edicao="itemEmEdicao"
                                     :min-char="minChar"
                                     :perfis-aceitos="getPerfis('proponente')"
-                                    :perfil="getUsuario.grupo_ativo"
+                                    :perfil="perfil"
                                     @excluir-readequacao="excluirReadequacao"
                                     @atualizar-readequacao="atualizarReadequacao"
                                 />
                             </v-card>
                         </v-tab-item>
-                        <v-tab-item :value="'tab-2'">
+                        <v-tab-item :value="'analise'">
                             <v-card>
                                 <tabela-readequacoes
                                     :dados-readequacao="getReadequacoesAnalise"
                                     :componentes="acoesAnalise"
                                     :dados-projeto="dadosProjeto"
                                     :perfis-aceitos="getPerfis('analise')"
-                                    :perfil="getUsuario.grupo_ativo"
+                                    :perfil="perfil"
                                 />
                             </v-card>
                         </v-tab-item>
-                        <v-tab-item :value="'tab-3'">
+                        <v-tab-item :value="'finalizadas'">
                             <v-card>
                                 <tabela-readequacoes
                                     :dados-readequacao="getReadequacoesFinalizadas"
@@ -96,6 +104,7 @@
     </v-container>
 </template>
 <script>
+import _ from 'lodash';
 import { mapActions, mapGetters } from 'vuex';
 import Const from '../const';
 import TabelaReadequacoes from '../components/TabelaReadequacoes';
@@ -105,6 +114,7 @@ import EditarReadequacaoButton from '../components/EditarReadequacaoButton';
 import VisualizarReadequacaoButton from '../components/VisualizarReadequacaoButton';
 import Carregando from '@/components/CarregandoVuetify';
 import CriarReadequacao from '../components/CriarReadequacao';
+import verificarPerfil from '../mixins/verificarPerfil';
 
 export default {
     name: 'PainelReadequacoesView',
@@ -117,18 +127,34 @@ export default {
         FinalizarButton,
         CriarReadequacao,
     },
+    mixins: [
+        verificarPerfil,
+    ],
     data() {
         return {
-            listaStatus: ['proponente', 'analise', 'finalizadas'],
+            listaStatus: [
+                'proponente',
+                'analise',
+                'finalizadas',
+            ],
             acoesProponente: {
                 usuario: '',
-                acoes: [ExcluirButton, EditarReadequacaoButton, VisualizarReadequacaoButton, FinalizarButton],
+                acoes: [
+                    ExcluirButton,
+                    EditarReadequacaoButton,
+                    VisualizarReadequacaoButton,
+                    FinalizarButton,
+                ],
             },
             acoesAnalise: {
-                acoes: [VisualizarReadequacaoButton],
+                acoes: [
+                    VisualizarReadequacaoButton,
+                ],
             },
             acoesFinalizadas: {
-                acoes: [VisualizarReadequacaoButton],
+                acoes: [
+                    VisualizarReadequacaoButton,
+                ],
             },
             itemEmEdicao: 0,
             loading: true,
@@ -154,6 +180,12 @@ export default {
                 solicitacao: 3,
                 justificativa: 10,
             },
+            abaInicial: '#edicao',
+            loaded: {
+                projeto: false,
+                readequacoes: false,
+                usuario: false,
+            },
         };
     },
     computed: {
@@ -164,14 +196,40 @@ export default {
             getReadequacoesFinalizadas: 'readequacao/getReadequacoesFinalizadas',
             dadosProjeto: 'projeto/projeto',
         }),
+        perfil() {
+            return this.getUsuario.grupo_ativo;
+        },
     },
     watch: {
+        getUsuario(value) {
+            if (typeof value === 'object') {
+                if (Object.keys(value).length > 0) {
+                    this.loaded.usuario = true;
+                }
+            }
+        },
         getReadequacoesProponente(value) {
             if (typeof value === 'object') {
                 if (Object.keys(value).length > 0) {
-                    this.loading = false;
+                    this.loaded.readequacoes = true;
                 }
             }
+        },
+        dadosProjeto(value) {
+            if (typeof value === 'object') {
+                if (Object.keys(value).length > 0) {
+                    this.loaded.projeto = true;
+                }
+            }
+        },
+        loaded: {
+            handler(value) {
+                const fullyLoaded = _.keys(value).every(i => i);
+                if (fullyLoaded) {
+                    this.loading = false;
+                }
+            },
+            deep: true,
         },
     },
     created() {
@@ -181,9 +239,7 @@ export default {
                 this.buscaProjeto(this.idPronac);
             }
         }
-        this.listaStatus.forEach((stStatusAtual) => {
-            this.obterReadequacoesPorStatus(stStatusAtual);
-        });
+        this.obterReadequacoesPorStatus('proponente');
     },
     methods: {
         ...mapActions({
@@ -217,8 +273,27 @@ export default {
         getPerfis(tipo) {
             return this.perfisAceitos[tipo];
         },
+        perfilAceito(tipoPerfil) {
+            /* função ainda não utilizada - será usada na visão do painel pelo técnico */
+            if (Object.prototype.hasOwnProperty.call(this.perfisAceitos, tipoPerfil)) {
+                return this.verificarPerfil(this.perfil, this.perfisAceitos[tipoPerfil]);
+            }
+            return false;
+        },
         voltar() {
             this.$router.back();
+        },
+        trocaAba(aba) {
+            let status = '';
+            if (aba === 'edicao') {
+                status = 'proponente';
+            } else {
+                status = aba;
+            }
+            this.obterListaDeReadequacoes({
+                idPronac: this.$route.params.idPronac,
+                stStatusAtual: status,
+            });
         },
     },
 };

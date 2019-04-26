@@ -23,7 +23,7 @@
             >
                 <v-btn
                     flat
-                    class="blue darken-1 text-xs-center"
+                    class="indigo darken-1 text-xs-center"
                     color="white"
                     @click="copiarOriginal()"
                 >

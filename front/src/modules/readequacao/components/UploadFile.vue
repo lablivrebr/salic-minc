@@ -4,11 +4,11 @@
     >
         <v-btn
             flat
-            class="green darken-1 pa-0"
+            class="green lighten-2 pa-0"
             color="white"
         >
             <label
-                class="blue darken-1 text-xs-center body-2 font-weight-medium white--text text-xs-center"
+                class="blue lighten-2 text-xs-center body-2 font-weight-medium white--text text-xs-center"
                 style="cursor: pointer; border-radius: .15rem; padding: .55rem; padding-left: 1rem; padding-right: 1rem;"
             >
                 {{ textoBotao }}
@@ -28,7 +28,7 @@
         <v-btn
             v-if="possuiDocumento"
             flat
-            class="green darken-1"
+            class="green lighten-2"
             color="white"
             @click="abrirArquivo(idDocumento)"
         >
@@ -38,7 +38,7 @@
         <v-btn
             v-if="possuiDocumento"
             flat
-            class="red"
+            class="red lighten-2"
             color="white"
             @click="removerArquivo()"
         >

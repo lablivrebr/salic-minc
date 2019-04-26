@@ -61,7 +61,10 @@
                             two-line
                             subheader
                         >
-                            <v-subheader inset>Dados da Solicitação - {{ dadosReadequacao.idReadequacao }}</v-subheader>
+                            <v-subheader
+                                inset
+                                class="title"
+                            >Dados da Solicitação - {{ dadosReadequacao.idReadequacao }}</v-subheader>
                             <v-list-tile avatar>
                                 <v-list-tile-avatar>
                                     <v-icon class="green lighten-1 white--text">person</v-icon>
@@ -167,8 +170,13 @@
                                 <div
                                     v-else
                                 >
-                                    <h4 v-html="dadosReadequacao.dsTipoReadequacao"/>
-                                    <span v-html="mensagemPadraoOutrasSolicitacoes"/>
+                                    <div
+                                        class="subheading pb-2"
+                                        v-html="dadosReadequacao.dsTipoReadequacao"
+                                    />
+                                    <span
+                                        class="font-italic"
+                                        v-html="mensagemPadraoOutrasSolicitacoes"/>
                                 </div>
                             </v-card-text>
                         </v-card>
@@ -310,7 +318,7 @@ export default {
                 Const.TIPO_READEQUACAO_SALDO_APLICACAO,
                 Const.TIPO_READEQUACAO_TRANSFERENCIA_RECURSOS,
             ],
-            mensagemPadraoOutrasSolicitacoes: 'Visualização indisponível para esse tipo de readequação.',
+            mensagemPadraoOutrasSolicitacoes: 'Sem visualização detalhada para esse tipo de readequação.',
         };
     },
     computed: {

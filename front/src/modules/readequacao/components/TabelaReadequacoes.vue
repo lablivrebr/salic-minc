@@ -1,12 +1,12 @@
 <template>
     <div
         v-if="loading"
-        mt-5
+        ma-5
     >
-        <carregando :text="'Carregando readequações...'"/>
+        <carregando :text="'Carregando lista de readequações...'"/>
     </div>
     <div
-        v-else-if="!loading"
+        v-else
     >
         <v-card
             flat
@@ -184,9 +184,13 @@ export default {
         itemEmEdicao() {
             this.bindClick = this.itemEmEdicao;
         },
-    },
-    created() {
-        this.loading = false;
+        dadosReadequacao(value) {
+            if (typeof value === 'object') {
+                if (Object.keys(value).length > 0) {
+                    this.loading = false;
+                }
+            }
+        },
     },
     methods: {
         excluirReadequacao() {

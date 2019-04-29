@@ -319,6 +319,7 @@ export default {
                 Const.TIPO_READEQUACAO_TRANSFERENCIA_RECURSOS,
             ],
             mensagemPadraoOutrasSolicitacoes: 'Sem visualização detalhada para esse tipo de readequação.',
+            textoSolicitacao: '',
         };
     },
     computed: {
@@ -346,17 +347,6 @@ export default {
             }
             return {};
         },
-        textoSolicitacao() {
-            let result = '';
-            if (this.dadosReadequacao.idTipoReadequacao === Const.TIPO_READEQUACAO_PERIODO_EXECUCAO
-                && this.dadosReadequacao.dsSolicitacao.trim() !== '') {
-                const [year, month, day] = this.dadosReadequacao.dsSolicitacao.substr(0, 10).split('-');
-                result = `${day}/${month}/${year}`;
-            } else {
-                result = this.dadosReadequacao.dsSolicitacao;
-            }
-            return result;
-        },
     },
     watch: {
         dialog() {
@@ -370,6 +360,15 @@ export default {
         getDadosCampo() {
             if (!_.isEmpty(this.getDadosCampo)) {
                 this.loading = false;
+            }
+        },
+        dadosReadequacao() {
+            if (this.dadosReadequacao.idTipoReadequacao === Const.TIPO_READEQUACAO_PERIODO_EXECUCAO
+                && this.dadosReadequacao.dsSolicitacao.trim() !== '') {
+                const [year, month, day] = this.dadosReadequacao.dsSolicitacao.substr(0, 10).split('-');
+                this.textoSolicitacao = `${day}/${month}/${year}`;
+            } else {
+                this.textoSolicitacao = this.dadosReadequacao.dsSolicitacao;
             }
         },
     },

@@ -1,30 +1,26 @@
 <template>
     <div
-        class="pa-3"
+        class="pa-2"
     >
         <v-btn
             flat
-            class="green lighten-2 pa-0"
+            class="blue lighten-2 mr-2"
             color="white"
+            @click="openFileDialog"
         >
-            <label
-                class="blue lighten-2 text-xs-center body-2 font-weight-medium white--text text-xs-center"
-                style="cursor: pointer; border-radius: .15rem; padding: .55rem; padding-left: 1rem; padding-right: 1rem;"
-            >
-                {{ textoBotao }}
-                <input
-                    id="arquivo"
-                    ref="file"
-                    type="file"
-                    style="display:none"
-                    @change="handleFileUpload()"
-                >
-                <v-icon
-                    small
-                    color="white"
-                >note_add</v-icon>
-            </label>
+            {{ textoBotao }}
+            <v-icon
+                small
+                color="white"
+            >note_add</v-icon>
         </v-btn>
+        <input
+            id="file-upload"
+            ref="file"
+            type="file"
+            style="display:none;"
+            @change="handleFileUpload()"
+        >
         <v-btn
             v-if="possuiDocumento"
             flat
@@ -110,6 +106,9 @@ export default {
         },
     },
     methods: {
+        openFileDialog() {
+            document.getElementById('file-upload').click();
+        },
         handleFileUpload() {
             const file = this.$refs.file.files[0];
             this.file = file;

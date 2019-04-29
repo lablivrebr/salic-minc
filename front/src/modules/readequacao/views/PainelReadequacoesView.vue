@@ -1,7 +1,35 @@
 <template>
     <v-container fluid>
-        <v-layout column>
-            <v-flex xs9>
+        <v-layout
+            v-if="!permissao"
+            column
+        >
+            <v-flex
+                offset-xs1
+            >
+                <v-btn
+                    class="green--text text--darken-4"
+                    flat
+                    @click="voltar()"
+                >
+                    <v-icon class="mr-2">keyboard_backspace</v-icon>
+                </v-btn>
+                <v-card>
+                    <salic-mensagem-erro :texto="'Sem permiss&atilde;o de acesso para este projeto'"/>
+                </v-card>
+            </v-flex>
+        </v-layout>
+        <v-layout
+            v-else
+        >
+            <v-flex
+                v-if="loading"
+                xs9
+                offset-xs2
+            >
+                <carregando :text="'Carregando painel de readequações...'"/>
+            </v-flex>
+            <v-flex v-else>
                 <v-subheader>
                     <v-btn
                         class="green--text text--darken-4"
@@ -16,75 +44,70 @@
                         class="grey--text text--darken-4"
                     >{{ dadosProjeto.Pronac }} - {{ dadosProjeto.NomeProjeto }}</h3>
                 </v-subheader>
-                <div v-if="loading">
-                    <carregando :text="'Carregando painel de readequações...'"/>
-                </div>
-                <div v-else>
-                    <v-tabs
-                        color="#0a420e"
-                        centered
-                        dark
-                        icons-and-text
-                        model="abaInicial"
-                        @change="trocaAba($event)"
-                    >
-                        <v-tabs-slider color="yellow"/>
-                        <v-tab
-                            href="#edicao"
-                        >Edição
-                            <v-icon>edit</v-icon>
-                        </v-tab>
-                        <v-tab
-                            href="#analise"
-                        >Em Análise
-                            <v-icon>gavel</v-icon>
-                        </v-tab>
-                        <v-tab
-                            href="#finalizadas"
-                        >Finalizadas
-                            <v-icon>check</v-icon>
-                        </v-tab>
-                        <v-tab-item :value="'edicao'">
-                            <v-card>
-                                <tabela-readequacoes
-                                    :dados-readequacao="getReadequacoesProponente"
-                                    :componentes="acoesProponente"
-                                    :dados-projeto="dadosProjeto"
-                                    :item-em-edicao="itemEmEdicao"
-                                    :min-char="minChar"
-                                    :perfis-aceitos="getPerfis('proponente')"
-                                    :perfil="perfil"
-                                    @excluir-readequacao="excluirReadequacao"
-                                    @atualizar-readequacao="atualizarReadequacao"
-                                />
-                            </v-card>
-                        </v-tab-item>
-                        <v-tab-item :value="'analise'">
-                            <v-card>
-                                <tabela-readequacoes
-                                    :dados-readequacao="getReadequacoesAnalise"
-                                    :componentes="acoesAnalise"
-                                    :dados-projeto="dadosProjeto"
-                                    :perfis-aceitos="getPerfis('analise')"
-                                    :perfil="perfil"
-                                />
-                            </v-card>
-                        </v-tab-item>
-                        <v-tab-item :value="'finalizadas'">
-                            <v-card>
-                                <tabela-readequacoes
-                                    :dados-readequacao="getReadequacoesFinalizadas"
-                                    :componentes="acoesFinalizadas"
-                                    :dados-projeto="dadosProjeto"
-                                />
-                            </v-card>
-                        </v-tab-item>
-                    </v-tabs>
-                    <criar-readequacao
-                        :id-pronac="dadosProjeto.idPronac"
-                        @criar-readequacao="criarReadequacao($event)"
-                    />
-                </div>
+                <v-tabs
+                    color="#0a420e"
+                    centered
+                    dark
+                    icons-and-text
+                    model="abaInicial"
+                    @change="trocaAba($event)"
+                >
+                    <v-tabs-slider color="yellow"/>
+                    <v-tab
+                        href="#edicao"
+                    >Edição
+                        <v-icon>edit</v-icon>
+                    </v-tab>
+                    <v-tab
+                        href="#analise"
+                    >Em Análise
+                        <v-icon>gavel</v-icon>
+                    </v-tab>
+                    <v-tab
+                        href="#finalizadas"
+                    >Finalizadas
+                        <v-icon>check</v-icon>
+                    </v-tab>
+                    <v-tab-item :value="'edicao'">
+                        <v-card>
+                            <tabela-readequacoes
+                                :dados-readequacao="getReadequacoesProponente"
+                                :componentes="acoesProponente"
+                                :dados-projeto="dadosProjeto"
+                                :item-em-edicao="itemEmEdicao"
+                                :min-char="minChar"
+                                :perfis-aceitos="getPerfis('proponente')"
+                                :perfil="perfil"
+                                @excluir-readequacao="excluirReadequacao"
+                                @atualizar-readequacao="atualizarReadequacao"
+                            />
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item :value="'analise'">
+                        <v-card>
+                            <tabela-readequacoes
+                                :dados-readequacao="getReadequacoesAnalise"
+                                :componentes="acoesAnalise"
+                                :dados-projeto="dadosProjeto"
+                                :perfis-aceitos="getPerfis('analise')"
+                                :perfil="perfil"
+                            />
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item :value="'finalizadas'">
+                        <v-card>
+                            <tabela-readequacoes
+                                :dados-readequacao="getReadequacoesFinalizadas"
+                                :componentes="acoesFinalizadas"
+                                :dados-projeto="dadosProjeto"
+                            />
+                        </v-card>
+                    </v-tab-item>
+                </v-tabs>
+                <criar-readequacao
+                    :id-pronac="dadosProjeto.idPronac"
+                    @criar-readequacao="criarReadequacao($event)"
+                />
             </v-flex>
         </v-layout>
         <v-snackbar
@@ -107,6 +130,7 @@
 import _ from 'lodash';
 import { mapActions, mapGetters } from 'vuex';
 import Const from '../const';
+import SalicMensagemErro from '@/components/SalicMensagemErro';
 import TabelaReadequacoes from '../components/TabelaReadequacoes';
 import ExcluirButton from '../components/ExcluirButton';
 import FinalizarButton from '../components/FinalizarButton';
@@ -126,6 +150,7 @@ export default {
         VisualizarReadequacaoButton,
         FinalizarButton,
         CriarReadequacao,
+        SalicMensagemErro,
     },
     mixins: [
         verificarPerfil,
@@ -186,6 +211,7 @@ export default {
                 readequacoes: false,
                 usuario: false,
             },
+            permissao: true,
         };
     },
     computed: {
@@ -218,13 +244,18 @@ export default {
         dadosProjeto(value) {
             if (typeof value === 'object') {
                 if (Object.keys(value).length > 0) {
+                    if (value.permissao === false) {
+                        this.permissao = false;
+                        return;
+                    }
+                    this.obterReadequacoesPorStatus('proponente');
                     this.loaded.projeto = true;
                 }
             }
         },
         loaded: {
             handler(value) {
-                const fullyLoaded = _.keys(value).every(i => i);
+                const fullyLoaded = _.keys(value).every(i => value[i]);
                 if (fullyLoaded) {
                     this.loading = false;
                 }
@@ -236,15 +267,14 @@ export default {
         if (typeof this.$route.params.idPronac !== 'undefined') {
             this.idPronac = this.$route.params.idPronac;
             if (Object.keys(this.dadosProjeto).length === 0) {
-                this.buscaProjeto(this.idPronac);
+                this.buscarProjetoCompleto(this.idPronac);
             }
         }
-        this.obterReadequacoesPorStatus('proponente');
     },
     methods: {
         ...mapActions({
             obterListaDeReadequacoes: 'readequacao/obterListaDeReadequacoes',
-            buscaProjeto: 'projeto/buscaProjeto',
+            buscarProjetoCompleto: 'projeto/buscarProjetoCompleto',
         }),
         obterReadequacoesPorStatus(stStatusAtual) {
             if (this.listaStatus.includes(stStatusAtual)) {

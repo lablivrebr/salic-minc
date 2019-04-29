@@ -140,6 +140,7 @@ export default {
             return dd;
         },
         showDiff() {
+            this.error = false;
             this.message = '';
             this.textDiff.after = '';
             this.textDiff.before = '';

@@ -41,7 +41,14 @@ class Readequacao_CampoAtualController extends MinC_Controller_Rest_Abstract
         $idTipoReadequacao = $this->getRequest()->getParam('idTipoReadequacao');
         
         $readequacaoService = new ReadequacaoService($this->getRequest(), $this->getResponse());
-        $data = $readequacaoService->buscarCampoAtual($idPronac, $idTipoReadequacao);
+        $permissao = $readequacaoService->verificarPermissaoNoProjeto();
+        if (!$permissao) {
+            $data['permissao'] = false;
+            $data['message'] = 'Você não tem permissão para visualizar esta readequação';
+            $this->customRenderJsonResponse($data, $code);
+        } else {
+            $data = $readequacaoService->buscarCampoAtual($idPronac, $idTipoReadequacao);
+        }
 
         $this->renderJsonResponse($data, $code);
     }

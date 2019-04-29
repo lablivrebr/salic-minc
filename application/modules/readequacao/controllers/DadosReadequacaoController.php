@@ -38,7 +38,15 @@ class Readequacao_DadosReadequacaoController extends MinC_Controller_Rest_Abstra
         $idReadequacao = $this->getRequest()->getParam('id');
 
         $readequacaoService = new ReadequacaoService($this->getRequest(), $this->getResponse());
-        $data = $readequacaoService->buscar($idReadequacao);
+        $permissao = $readequacaoService->verificarPermissaoNoProjeto();
+
+        if (!$permissao) {
+            $data['permissao'] = false;
+            $httpCode = 203;
+            $data['message'] = utf8_decode('Você não tem permissão para acessar este projeto');
+        } else {
+            $data = $readequacaoService->buscar($idReadequacao);
+        }
 
         $this->renderJsonResponse(\TratarArray::utf8EncodeArray($data), $code);
     }
@@ -57,7 +65,17 @@ class Readequacao_DadosReadequacaoController extends MinC_Controller_Rest_Abstra
         $stEstagioAtual = $this->getRequest()->getParam('stEstagioAtual');
 
         $readequacaoService = new ReadequacaoService($this->getRequest(), $this->getResponse());
-        $data = $readequacaoService->buscarReadequacoes($idPronac, $idTipoReadequacao, $stEstagioAtual);
+        $permissao = $readequacaoService->verificarPermissaoNoProjeto();
+
+        if (!$permissao) {
+            $data['permissao'] = false;
+            $code = 203;
+            $data['message'] = 'Você não tem permissão para acessar este projeto';
+            $this->customRenderJsonResponse($data, $code);
+        } else {
+            $code = 200;
+            $data = $readequacaoService->buscarReadequacoes($idPronac, $idTipoReadequacao, $stEstagioAtual);
+        }
 
         $this->renderJsonResponse(\TratarArray::utf8EncodeArray($data), $code);
     }
@@ -66,19 +84,42 @@ class Readequacao_DadosReadequacaoController extends MinC_Controller_Rest_Abstra
 
     public function postAction(){
         $readequacaoService = new ReadequacaoService($this->getRequest(), $this->getResponse());
-
-        $resposta = $readequacaoService->salvar();
-
-        $this->renderJsonResponse($resposta, 200);
+        $permissao = $readequacaoService->verificarPermissaoNoProjeto();
+        if (!$permissao) {
+            $data['permissao'] = false;
+            $code = 203;
+            $data['message'] = 'Você não tem permissão para alterar esta readequação';
+        } else {
+            $code = 200;
+            $response = $readequacaoService->salvar();
+            if ($response) {
+                $data = $response;
+            }
+        }
+        $this->renderJsonResponse($data, $code);
     }
 
     public function putAction(){}
 
     public function deleteAction(){
+        $data = [];
+        $code = 200;
         $readequacaoService = new ReadequacaoService($this->getRequest(), $this->getResponse());
-        
-        $resposta = $readequacaoService->remover();
-        
-        $this->renderJsonResponse($resposta, 204);
+        $permissao = $readequacaoService->verificarPermissaoNoProjeto();
+        if (!$permissao) {
+            $data['permissao'] = false;
+            $code = 203;
+            $data['message'] = 'Você não tem permissão para excluir esta readequação';
+        } else {
+            $response = $readequacaoService->remover();
+            if ($response) {
+                $data['error'] = false;
+                $data['message'] = 'Readequação excluída';
+            } else {
+                $data['error'] = true;
+                $data['message'] = 'Erro ao exclur readequação';
+            }
+        }
+        $this->customRenderJsonResponse($data, $code);
     }
 }

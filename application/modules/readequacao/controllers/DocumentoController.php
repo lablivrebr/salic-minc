@@ -37,7 +37,14 @@ class Readequacao_DocumentoController extends MinC_Controller_Rest_Abstract
         $idDocumento = $this->getRequest()->getParam('idDocumento');
         
         $readequacaoService = new ReadequacaoService($this->getRequest(), $this->getResponse());
-        $data = $readequacaoService->buscarDocumento($idReadequacao, $idDocumento);
+        $permissao = $readequacaoService->verificarPermissaoNoProjeto();
+        if (!$permissao) {
+            $data['permissao'] = false;
+            $data['message'] = 'Você não tem permissão para visualizar esta readequação';
+            $this->customRenderJsonResponse($data, $code);
+        } else {
+            $data = $readequacaoService->buscarDocumento($idReadequacao, $idDocumento);
+        }
         
         $this->renderJsonResponse($data, $code);
     }

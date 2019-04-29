@@ -36,7 +36,14 @@ class Readequacao_TiposDisponiveisController extends MinC_Controller_Rest_Abstra
         }
         
         $readequacaoService = new ReadequacaoService($this->getRequest(), $this->getResponse());
-        $data = $readequacaoService->buscarTiposDisponiveis($idPronac);
+        $permissao = $readequacaoService->verificarPermissaoNoProjeto();
+        if (!$permissao) {
+            $data['permissao'] = false;
+            $data['message'] = 'Você não tem permissão para visualizar esta readequação';
+            $this->customRenderJsonResponse($data, $code);
+        } else {
+            $data = $readequacaoService->buscarTiposDisponiveis($idPronac);
+        }
         
         $this->renderJsonResponse($data, $code);
     }

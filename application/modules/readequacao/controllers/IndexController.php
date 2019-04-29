@@ -27,12 +27,14 @@ class Readequacao_IndexController extends MinC_Controller_Rest_Abstract
         parent::__construct($request, $response, $invokeArgs);
     }
 
+    protected $idPronac;
+
     public function getAction() {}
 
     public function indexAction(){
         $data = [];
         $code = 200;
-        
+
         $idReadequacao = $this->getRequest()->getParam('idReadequacao');
         $idPronac = $this->getRequest()->getParam('idPronac');
         if (strlen($idPronac) > 7) {
@@ -43,7 +45,14 @@ class Readequacao_IndexController extends MinC_Controller_Rest_Abstract
         $stStatusAtual = $this->getRequest()->getParam('stStatusAtual');
         
         $readequacaoService = new ReadequacaoService($this->getRequest(), $this->getResponse());
-        $data = $readequacaoService->buscarReadequacoes($idPronac, $idTipoReadequacao, $stStatusAtual);
+        $permissao = $readequacaoService->verificarPermissaoNoProjeto();
+        if (!$permissao) {
+            $data['permissao'] = false;
+            $code = 203;
+            $data['message'] = 'Você não tem permissão para acessar este projeto';
+        } else {
+            $data = $readequacaoService->buscarReadequacoes($idPronac, $idTipoReadequacao, $stStatusAtual);
+        }
         
         $this->renderJsonResponse($data, $code);
     }

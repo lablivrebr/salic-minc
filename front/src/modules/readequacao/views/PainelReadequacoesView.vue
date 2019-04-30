@@ -25,7 +25,7 @@
             <v-flex
                 v-if="loading"
                 xs9
-                offset-xs2
+                offset-xs1
             >
                 <carregando :text="'Carregando painel de readequações...'"/>
             </v-flex>

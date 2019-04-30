@@ -23,16 +23,16 @@
                 <strong v-html="texto"/>
                 <v-btn
                     v-if="urlRetorno"
+                    :href="urlRetorno"
                     outline
                     color="error"
-                    :href="urlRetorno"
                     v-html="msgUrlRetorno"
                 />
                 <v-btn
                     v-if="rotaRetorno"
+                    :to="rotaRetorno"
                     outline
                     color="error"
-                    :to="rotaRetorno"
                     v-html="msgUrlRetorno"
                 />
             </v-flex>

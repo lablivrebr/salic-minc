@@ -165,7 +165,7 @@
                                     v-if="readequacaoTipoSimples() && dadosReadequacao.dsSolicitacao"
                                     :original-text="getDadosCampo.valor"
                                     :changed-text="textoSolicitacao"
-                                    :method="'diffSentences'"
+                                    :method="'diffWordsWithSpace'"
                                 />
                                 <div
                                     v-else

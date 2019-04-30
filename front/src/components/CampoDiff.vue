@@ -133,6 +133,9 @@ export default {
             case 'diffLines':
                 dd = Diff.diffLines(original, changed);
                 break;
+            case 'diffSentences':
+                dd = Diff.diffSentences(original, changed);
+                break;
             default:
                 dd = Diff.diffWordsWithSpace(original, changed);
                 break;
@@ -151,7 +154,10 @@ export default {
                 this.textDiff.after = this.changedText;
                 return;
             }
-            const dd = this.makeDiff(this.originalText, this.changedText);
+            const dd = this.makeDiff(
+                this.stripTags(this.originalText),
+                this.stripTags(this.changedText),
+            );
             if (dd.length === 1) {
                 this.textDiff.before = this.originalText;
                 this.textDiff.after = this.changedText;
@@ -182,6 +188,11 @@ export default {
                     this.textDiff.after += span;
                 }
             });
+        },
+        stripTags(html) {
+            const tmp = document.createElement('DIV');
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || '';
         },
         tratarCampoVazio(value) {
             if (typeof value !== 'undefined') {

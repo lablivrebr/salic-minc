@@ -114,6 +114,14 @@ Vue.component('readequacao-formulario', {
         },
     },
     mixins: [utils],
+    watch: {
+        objReadequacao: {
+            handler(value) {
+                this.readequacao = value;
+            },
+            deep: true,
+        },
+    },
     created() {
         if (_.isEmpty(this.objReadequacao)) {
             this.obterDadosReadequacao();

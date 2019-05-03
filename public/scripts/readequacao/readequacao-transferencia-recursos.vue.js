@@ -534,15 +534,13 @@ Vue.component('readequacao-transferencia-recursos', {
                 $3('#modalExcluir').modal('close');
                 self.projetosRecebedores = [];
                 self.projetoRecebedor = self.defaultProjetoRecebedor();
-                self.readequacao = {
-                    idPronac: null,
-                    idReadequacao: null,
-                    justificativa: '',
-                    idTipoReadequacao: null,
-                    dsSolicitacao: '',
-                    idDocumento: null,
-                    nomeArquivo: null
-                };
+                self.readequacao.idPronac = null;
+                self.readequacao.idReadequacao = null;
+                self.readequacao.justificativa = '';
+                self.readequacao.idTipoReadequacao = null;
+                self.readequacao.dsSolicitacao = '';
+                self.readequacao.idDocumento = null;
+                self.readequacao.nomeArquivo = null;
                 $3('.collapsible').collapsible('open', 0);
                 $3('.collapsible').collapsible('close', 1);
             }).fail((response) => {
@@ -582,6 +580,7 @@ Vue.component('readequacao-transferencia-recursos', {
                 }
             }).done((response) => {
                 self.projetoTransferidor = response.projeto;
+                self.loading = false;
             });
         },
         obterProjetosRecebedores() {

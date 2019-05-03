@@ -48,6 +48,11 @@ Vue.component('readequacao-transferencia-recursos-tipo-transferencia', {
             valorSelecionado: '',
 	    };
     },
+    watch: {
+        dsSolicitacao() {
+            this.valorSelecionado = parseInt(this.dsSolicitacao);
+        },
+    },
     methods: {
 	    selecionarTipoTransferencia() {
 	        this.$emit('eventoAtualizarDsSolicitacao', this.valorSelecionado);

@@ -561,12 +561,12 @@ Vue.component('readequacao-transferencia-recursos', {
                     siEncaminhamento: self.siEncaminhamento
                 }
             }).done((response) => {
-                if (_.isObject(response.readequacao)) {
-                    if (_.isEmpty(response.readequacao)) {
+                if (typeof response.data !== 'undefined') {
+                    if (typeof response.data.idReadequacao !== 'undefined') {
+                        self.readequacao = response.data;
+                    } else {
                         this.novaReadequacao = true;
                         this.loading = false;
-                    } else {
-                        self.readequacao = response.readequacao;
                     }
                 }
             });

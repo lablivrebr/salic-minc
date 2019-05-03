@@ -217,6 +217,14 @@ Vue.component('readequacao-transferencia-recursos', {
 			</a>												
 		</div>
 	</div>
+	<div id="modalCarregando" class="modal" style="height:auto">
+		<div class="modal-content center-align">
+            <h4>Gravando solicita&ccedil;&atilde;o</h4>
+		</div>
+		<div class="modal-footer">
+            <div class="progress"><div class="indeterminate"/></div>
+		</div>
+	</div>
     </div>
 </div>
 	    `,
@@ -476,6 +484,7 @@ Vue.component('readequacao-transferencia-recursos', {
 
                 return;
             }
+            $3('#modalCarregando').modal('open', { dismissible: false });
             let self = this;
             $3.ajax({
                 type: "POST",
@@ -487,6 +496,7 @@ Vue.component('readequacao-transferencia-recursos', {
                     dsSolicitacao: self.readequacao.dsSolicitacao
                 }
             }).done((response) => {
+                $3('#modalCarregando').modal('close');
                 $3('.collapsible').collapsible('close', 0);
                 $3('.collapsible').collapsible('open', 1);
                 self.readequacao.idReadequacao = response.readequacao;

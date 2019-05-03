@@ -29,7 +29,7 @@ Vue.component('readequacao-transferencia-recursos', {
           <b>Vl. a Comprovar: </b><span style="white-space:nowrap;">R$ {{ valorFormatado(this.projetoTransferidor.valorComprovar) }}</span>
         </div>
         <div
-          v-if="disponivelAdicionarRecebedor"
+          v-if="disponivelAdicionarRecebedor || disabled"
           class="col s2 green lighten-2">
           <strong>Saldo dispon&iacute;vel: </strong><span style="white-space:nowrap;">R$ {{ valorFormatado(saldoDisponivel) }}</span>
         </div>

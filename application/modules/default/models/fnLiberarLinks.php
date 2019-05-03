@@ -122,15 +122,25 @@ class fnLiberarLinks extends MinC_Db_Table_Abstract
            ->where('TipoAprovacao = ?', 1);
         $dadoPortaria = $db->fetchRow($NrPortaria);
 
-        # Verificar Percentual de capta��o
-        $PercentualCaptado = new Zend_Db_Expr("SELECT SAC.dbo.fnPercentualCaptado ('$dadosProjeto->AnoProjeto','$dadosProjeto->Sequencial') AS dado");
-        $PercentualCaptado = $db->fetchRow($PercentualCaptado);
-
-
-        $PercentualCaptado = ($PercentualCaptado->dado) ? $PercentualCaptado->dado : 0;
+        # regra para transferencia de recursos
         $Readequacao_Model_DbTable_TbReadequacao = new Readequacao_Model_DbTable_TbReadequacao();
-
-        # Verificar se ha diligancia para responder
+        $existeReadequacaoEmAndamento = $Readequacao_Model_DbTable_TbReadequacao->existeReadequacaoEmAndamento(
+            $idPronac,
+            Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_TRANSFERENCIA_RECURSOS
+        );
+        
+        $existeReadequacaoEmEdicao = $Readequacao_Model_DbTable_TbReadequacao->existeReadequacaoEmEdicao(
+            $idPronac,
+            Readequacao_Model_DbTable_TbReadequacao::TIPO_READEQUACAO_TRANSFERENCIA_RECURSOS
+        );
+        
+        if (!$existeReadequacaoEmAndamento
+            || $existeReadequacaoEmEdicao
+        ) {
+            $ReadequacaoTransferenciaRecursos = 1;
+        }
+        
+        # Verificar se ha diligencia para responder
         $vDiligencia = $db->select()
            ->from(
                'tbDiligencia',

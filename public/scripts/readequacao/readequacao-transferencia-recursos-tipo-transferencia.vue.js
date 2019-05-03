@@ -19,39 +19,41 @@ Vue.component('readequacao-transferencia-recursos-tipo-transferencia', {
 	</template>
 </div>
     `,
-    props: [
-	'dsSolicitacao',
-	'disabled'
-    ],
-    data: function() {
-	var tiposTransferencia = [
-	    {
-		'id': 1,
-		'nome': 'N\xE3o homologados'
-	    },
-	    {
-		'id': 2,
-		'nome': 'Homologados'
-	    },
-	    {
-		'id': 3,
-		'nome': 'Recursos remanescentes'
-	    },
-	];
-	
-	return {
-	    tiposTransferencia,
-	    valorSelecionado: ''
-	}
+    props: {
+        dsSolicitacao: {
+            type: [Number, String],
+            default: '',
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    data() {
+	    return {
+            tiposTransferencia: [
+                {
+		            id: 1,
+		            nome: 'N\xE3o homologados'
+	            },
+	            {
+		            id: 2,
+		            nome: 'Homologados'
+	            },
+	            {
+		            id: 3,
+		            nome: 'Recursos remanescentes'
+	            },
+	        ],
+            valorSelecionado: '',
+	    };
     },
     methods: {
-	selecionarTipoTransferencia: function() {
-	    this.$emit('eventoAtualizarDsSolicitacao', this.valorSelecionado);
-	}
+	    selecionarTipoTransferencia() {
+	        this.$emit('eventoAtualizarDsSolicitacao', this.valorSelecionado);
+	    }
     },
-    watch: {
-	dsSolicitacao: function(valor) {
-	    this.valorSelecionado = valor;
-	}
-    }
+    created() {
+	    this.valorSelecionado = parseInt(this.dsSolicitacao);
+    },
 });

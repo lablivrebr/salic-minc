@@ -36,7 +36,7 @@ Vue.component('readequacao-transferencia-recursos', {
 		<div v-else-if="!disponivelAdicionarRecebedor"
              class="center-align col s2"
              >
-		  <label class="card-panel red lighten-2 white-text">Saldo utilizado</label>
+		  <label class="card-panel red lighten-2 white-text">Saldo esgotado</label>
 		</div>        
       </div>
 	</div>
@@ -96,11 +96,13 @@ Vue.component('readequacao-transferencia-recursos', {
 							
 							<div class="col s6">
 								<label>Pronac recebedor</label>
-								<input type="text" 
-											 ref="projetoRecebedorIdPronac"
-											 v-model="projetoRecebedor.pronac" 
-                       @blur="selecionaPronacRecebedor"
-											 />
+								<input
+                                  type="text" 
+                                  ref="projetoRecebedorIdPronac"
+								  v-model="projetoRecebedor.pronac" 
+                                  @blur="selecionaPronacRecebedor"
+                                  @keyup="selecionaPronacRecebedor"
+                                  />
 								<span>{{ projetoRecebedor.nome }}</span>
 								</span>
 							</div>
@@ -126,7 +128,7 @@ Vue.component('readequacao-transferencia-recursos', {
 						<div v-else-if="!disponivelAdicionarRecebedor"
                             class="center-align"
                         >
-							<label class="card-panel red lighten-2 white-text">Sem saldo dispon&iacute;vel!</label>
+							<label class="card-panel red lighten-2 white-text">Sem saldo dispon&iacute;vel</label>
 						</div>
 					</form>
 				</div>
@@ -312,14 +314,13 @@ Vue.component('readequacao-transferencia-recursos', {
     computed: {
         totalRecebido() {
             self = this;
-
             return this.projetosRecebedores.reduce((total, projeto) => {
                 var resultado = parseFloat(total) + parseFloat(projeto.vlRecebido);
                 return resultado.toFixed(2);
             }, 0);
         },
         saldoDisponivel() {
-            var saldo = parseFloat(this.projetoTransferidor.valorComprovar) - parseFloat(this.totalRecebido);
+            const saldo = parseFloat(this.projetoTransferidor.valorComprovar) - parseFloat(this.totalRecebido);
             return saldo;
         },
         disponivelEditarProjetosRecebedores() {
@@ -569,9 +570,9 @@ Vue.component('readequacao-transferencia-recursos', {
                     siEncaminhamento: self.siEncaminhamento
                 }
             }).done((response) => {
-                if (typeof response.data !== 'undefined') {
-                    if (typeof response.data.idReadequacao !== 'undefined') {
-                        self.readequacao = response.data;
+                if (typeof response.readequacao !== 'undefined') {
+                    if (typeof response.readequacao.idReadequacao !== 'undefined') {
+                        self.readequacao = response.readequacao;
                     } else {
                         this.novaReadequacao = true;
                         this.loading = false;
@@ -614,7 +615,9 @@ Vue.component('readequacao-transferencia-recursos', {
         },
         selecionaPronacRecebedor() {
             let self = this;
-            if (this.projetoRecebedor.pronac == '') {
+            if (this.projetoRecebedor.pronac == ''
+                || this.projetoRecebedor.pronac.length < 6
+               ) {
                 return;
             }
             if (isNaN(this.projetoRecebedor.pronac)) {

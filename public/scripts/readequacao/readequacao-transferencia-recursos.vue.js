@@ -29,15 +29,20 @@ Vue.component('readequacao-transferencia-recursos', {
           <b>Vl. a Comprovar: </b><span style="white-space:nowrap;">R$ {{ valorFormatado(this.projetoTransferidor.valorComprovar) }}</span>
         </div>
         <div
-          v-if="disponivelAdicionarRecebedor || disabled"
+          v-if="disponivelAdicionarRecebedor && !disabled"
           class="col s2 green lighten-2">
           <strong>Saldo dispon&iacute;vel: </strong><span style="white-space:nowrap;">R$ {{ valorFormatado(saldoDisponivel) }}</span>
         </div>
-		<div v-else-if="!disponivelAdicionarRecebedor"
+		<div v-else-if="!disponivelAdicionarRecebedor && !disabled"
              class="center-align col s2"
              >
 		  <label class="card-panel red lighten-2 white-text">Saldo esgotado</label>
-		</div>        
+		</div>
+        <div
+          v-if="disabled">
+          <strong>Tipo de transfer&ecirc;ncia:</strong>
+          {{ nomeTipoTransferencia }}
+        </div>
       </div>
 	</div>
   </div>
@@ -183,7 +188,7 @@ Vue.component('readequacao-transferencia-recursos', {
 							<tfoot>
 								<tr>
 									<td></td>
-									<td class="right">Total transferido: </td>
+									<td>Total transferido: </td>
 									<td>R$ {{ totalRecebido }} </td>
 								</tr>
 							</tfoot>
@@ -292,6 +297,20 @@ Vue.component('readequacao-transferencia-recursos', {
             componente: 'readequacao-transferencia-recursos-tipo-transferencia',
             loading: true,
             novaReadequacao: false,
+            tiposTransferencia: [
+                {
+		            id: 1,
+		            nome: 'N\xE3o homologados'
+	            },
+	            {
+		            id: 2,
+		            nome: 'Homologados'
+	            },
+	            {
+		            id: 3,
+		            nome: 'Recursos remanescentes'
+	            },
+	        ],
         };
     },
     watch: {
@@ -322,6 +341,15 @@ Vue.component('readequacao-transferencia-recursos', {
         saldoDisponivel() {
             const saldo = parseFloat(this.projetoTransferidor.valorComprovar) - parseFloat(this.totalRecebido);
             return saldo;
+        },
+        nomeTipoTransferencia() {
+            const idTipoTransferencia = parseInt(this.readequacao.dsSolicitacao);
+            const tipos = this.tiposTransferencia;
+            for (let t = 0; t < tipos.length; t++) {
+                if (tipos[t].id === idTipoTransferencia) {
+                    return tipos[t].nome;
+                }
+            }
         },
         disponivelEditarProjetosRecebedores() {
             if (typeof this.readequacao.idReadequacao == 'undefined') {

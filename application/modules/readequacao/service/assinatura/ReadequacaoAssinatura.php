@@ -748,8 +748,9 @@ class ReadequacaoAssinatura implements IServico
             $arrData = [];
             $arrData['stEstado'] = \Readequacao_Model_DbTable_TbReadequacao::ST_ESTADO_FINALIZADO;
             $arrData['idSolicitacaoTransferenciaRecursos'] = $projetoRecebedor['idSolicitacao'];
-            // TODO: dando pau aqui
-            $statusSolicitacaoTransferenciaRecursos = $tbSolicitacaoTransferenciaRecursosMapper->save($arrData);
+
+            $data = new \Readequacao_Model_TbSolicitacaoTransferenciaRecursos($arrData);
+            $statusSolicitacaoTransferenciaRecursos = $tbSolicitacaoTransferenciaRecursosMapper->save($data);
 
             if ($statusProjetoRecebedorRecurso == false
                 || $statusSolicitacaoTransferenciaRecursos == false

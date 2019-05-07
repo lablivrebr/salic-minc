@@ -80,8 +80,8 @@
 <!-- inï¿½cio: área principal #conteudo -->
 <div class="paginaA4">
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" /><span class="TituloDoDocumento">Guia de Tramitação de Documentos - Enviado</span>
         <br clear="all" /><span class="DataDoDocumento">N&ordm; do Lote <?php echo $this->idLote; ?> - Data de Envio: <?php echo $dataAtual; ?></span>
         <br clear="all" /><br clear="all" /><span class="QntdRegistros"><?php echo count($this->docs); echo (count($this->docs) == 1) ? ' documento listado' : ' documentos listados'; ?></span>
@@ -97,7 +97,7 @@
             <td><?php $this->Emissor = trim($this->Emissor);  echo !empty($this->Emissor) ? $this->Emissor : '&nbsp;'; ?></td>
         </tr>
     </table>
-    
+
     <table class="tabela">
         <tr>
             <th>Processo</th>
@@ -114,7 +114,7 @@
         </tr>
         <?php } ?>
     </table>
-    
+
     <table class="tabela">
         <tr>
             <td><br />Recebi <?php echo (count($this->docs) == 1) ? 'o documento' : 'os documentos'; ?> acima<br /><br />em ______/______/________<br /><br />às ______:______ horas</td>

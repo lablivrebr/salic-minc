@@ -42,7 +42,7 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
         $rsProposta = [];
         if (!empty($rsProjeto)) {
             $tblProposta = new \Proposta_Model_DbTable_PreProjeto();
-            $rsProposta = $tblProposta->buscar(array('idPreProjeto=?'=> $rsProjeto->idProjeto))->current();
+            $rsProposta = $tblProposta->buscar(['idPreProjeto=?'=> $rsProjeto->idProjeto])->current();
         }
 
         if (empty($rsProposta)) {;
@@ -89,6 +89,8 @@ class DadosComplementares implements \MinC\Servico\IServicoRestZend
             'OutrasInformacoes' => $rsProposta['EstrategiadeExecucao'],
             'Sinopse' => $rsProposta['Sinopse'],
             'DescricaoAtividade' => $rsProposta['DescricaoAtividade'],
+            'DescricaoTipicidade' => $rsProposta['DescricaoTipicidade'],
+            'DescricaoTipologia' => $rsProposta['DescricaoTipologia'],
         ];
 
         $PropostaArray = array_map('trim', $PropostaArray);

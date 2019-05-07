@@ -1,0 +1,65 @@
+<?php if ($this->tipicidades) : ?>
+    <table class="tabela" cellpadding="1" cellspacing="1">
+        <tr class="destacar centro">
+            <td colspan="5"><b>Tipicidade e seus limites or&ccedil;ament&aacute;rios</b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <?php foreach ($this->tipicidades as $key => $tipicidade) : ?>
+                    <p>
+                        <input
+                            name="tpTipicidade"
+                            type="radio"
+                            id="tipicidade_<?= $tipicidade['idVerificacao']; ?>"
+                            <?= (empty($this->proposta['tptipicidade']) && $key == 0)
+                            || $this->proposta['tptipicidade'] == $tipicidade['idVerificacao'] ? 'checked=checked' : ''; ?>
+                            value="<?= $tipicidade['idVerificacao']; ?>"
+                            data-ajax-param-id="<?= $tipicidade['tipo']; ?>"
+                        />
+                        <label
+                            for="tipicidade_<?= $tipicidade['idVerificacao']; ?>"
+                            style="font-weight: normal"
+                        ><?= $tipicidade['tipicidade']; ?></label>
+                    </p>
+                <? endforeach; ?>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <label>Tipologia *</label>
+                <select
+                    id="tpTipologia"
+                    class="browser-default"
+                    name="tpTipologia"
+                    data-ajax-target-selected="<?= $this->proposta['tptipologia']; ?>"
+                >
+                    <option value="" disabled selected>Selecione a tipicidade...</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+<?php endif; ?>
+
+<script type="text/javascript">
+    $3(document).ready(function () {
+        $3("input[type=radio][name=tpTipicidade]:checked").each(function () {
+            carregarComboTipologia($3(this).attr('data-ajax-param-id'));
+        });
+
+        $3('body').on('click', 'input[name=tpTipicidade]', function () {
+            carregarComboTipologia($3(this).attr('data-ajax-param-id'));
+        });
+    });
+
+    const carregarComboTipologia = function (id) {
+        $3.ajaxSelectRender({
+            strUrl: '/proposta/manterpropostaincentivofiscal/obter-tipologias-ajax',
+            objTarget: $3('#tpTipologia'),
+            objData: {
+                id: id
+            },
+            strSelected: $3('#tpTipologia').attr('data-ajax-target-selected'),
+        });
+    };
+</script>

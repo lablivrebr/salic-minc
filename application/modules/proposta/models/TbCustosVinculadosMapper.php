@@ -45,49 +45,20 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
             Zend_DB::FETCH_ASSOC
         );
 
-        $estadosPercentualRemuneracao10 = ['RJ', 'SP'];
-
-        $estadosPercentualRemuneracao12 = [
-            'SC', 'RS', 'PR', 'ES', 'MG'
-        ];
-
-        $estadosPercentualRemuneracao15 = [
-            'AC', 'AP', 'AM', 'PA', 'RO', 'RR', 'TO',
-            'AL', 'BA', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE',
-            'DF', 'GO', 'MT', 'MS'
-        ];
-
-        $tbPlanoDistribuicao = new Proposta_Model_DbTable_PlanoDistribuicaoProduto();
-        $localizacoesProposta = $tbPlanoDistribuicao->obterUfsMunicipiosDoDetalhamento($idPreProjeto);
-
         $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_PADRAO_REMUNERACAO_CAPTACAO_DE_RECURSOS;
-        $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_PADRAO_CAPTACAO_DE_RECURSOS;
+        $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_PADRAO_CAPTACAO_DE_RECURSOS_IN_2019;
 
-        $idUFLocalizacao = null;
-        $idMunicipioLocalizacao = null;
-        foreach ($localizacoesProposta as $localizacao) {
-            if (in_array($localizacao->UF, $estadosPercentualRemuneracao12)) {
-                $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_UFS_RS_PR_SC_MG_ES_REMUNERACAO_CAPTACAO_DE_RECURSOS;
-                $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_UFS_RS_PR_SC_MG_ES;
-                $idUFLocalizacao = $localizacao->idUF;
-                $idMunicipioLocalizacao = $localizacao->idMunicipio;
-            }
-
-            if (in_array($localizacao->UF, $estadosPercentualRemuneracao10)) {
-                $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_PADRAO_REMUNERACAO_CAPTACAO_DE_RECURSOS;
-                $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_PADRAO_CAPTACAO_DE_RECURSOS;
-                $idUFLocalizacao = $localizacao->idUF;
-                $idMunicipioLocalizacao = $localizacao->idMunicipio;
-                break;
-            }
-
-            if (in_array($localizacao->UF, $estadosPercentualRemuneracao15)
-                && $percentualRemuneracaoCaptacao != $modelCustosVinculados::PERCENTUAL_UFS_RS_PR_SC_MG_ES_REMUNERACAO_CAPTACAO_DE_RECURSOS) {
-                $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_REGIOES_N_NE_CO_REMUNERACAO_CAPTACAO_DE_RECURSOS;
-                $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_REGIOES_N_NE_CO;
-                $idUFLocalizacao = $localizacao->idUF;
-                $idMunicipioLocalizacao = $localizacao->idMunicipio;
-            }
+        $tbProjetoFase = new Projeto_Model_DbTable_TbProjetoFase();
+        if ($tbProjetoFase->isNormativo2019ByIdPreProjeto($idPreProjeto)) {
+            $localizacao = $this->obterMunicipioUF($idPreProjeto);
+            $idUFLocalizacao = $localizacao['idUFLocalizacao'];
+            $idMunicipioLocalizacao = $localizacao['idMunicipioLocalizacao'];
+        } else {
+            $limites = $this->obterLimitesDeRemuneracaoCaptacao2017($idPreProjeto);
+            $percentualRemuneracaoCaptacao = $limites['percentualRemuneracaoCaptacao'];
+            $limiteRemuneracaoCaptacao = $limites['limiteRemuneracaoCaptacao'];
+            $idUFLocalizacao = $limites['idUFLocalizacao'];
+            $idMunicipioLocalizacao = $limites['idMunicipioLocalizacao'];
         }
 
         $percentualDivulgacao = $modelCustosVinculados::PERCENTUAL_DIVULGACAO_ATE_VALOR_LIMITE;
@@ -135,6 +106,74 @@ class Proposta_Model_TbCustosVinculadosMapper extends MinC_Db_Mapper
         $custosVinculados = $this->obterValoresDosItens($custosVinculados, $valorDoProjeto);
 
         return $custosVinculados;
+    }
+
+    private function obterLimitesDeRemuneracaoCaptacao2017($idPreProjeto)
+    {
+        $modelCustosVinculados = new Proposta_Model_TbCustosVinculados();
+
+        $estadosPercentualRemuneracao10 = ['RJ', 'SP'];
+
+        $estadosPercentualRemuneracao12 = [
+            'SC', 'RS', 'PR', 'ES', 'MG'
+        ];
+
+        $estadosPercentualRemuneracao15 = [
+            'AC', 'AP', 'AM', 'PA', 'RO', 'RR', 'TO',
+            'AL', 'BA', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE',
+            'DF', 'GO', 'MT', 'MS'
+        ];
+
+        $tbPlanoDistribuicao = new Proposta_Model_DbTable_PlanoDistribuicaoProduto();
+        $localizacoesProposta = $tbPlanoDistribuicao->obterUfsMunicipiosDoDetalhamento($idPreProjeto);
+
+        $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_PADRAO_REMUNERACAO_CAPTACAO_DE_RECURSOS;
+        $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_PADRAO_CAPTACAO_DE_RECURSOS;
+
+        $idUFLocalizacao = null;
+        $idMunicipioLocalizacao = null;
+        foreach ($localizacoesProposta as $localizacao) {
+            if (in_array($localizacao->UF, $estadosPercentualRemuneracao12)) {
+                $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_UFS_RS_PR_SC_MG_ES_REMUNERACAO_CAPTACAO_DE_RECURSOS;
+                $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_UFS_RS_PR_SC_MG_ES;
+                $idUFLocalizacao = $localizacao->idUF;
+                $idMunicipioLocalizacao = $localizacao->idMunicipio;
+            }
+
+            if (in_array($localizacao->UF, $estadosPercentualRemuneracao10)) {
+                $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_PADRAO_REMUNERACAO_CAPTACAO_DE_RECURSOS;
+                $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_PADRAO_CAPTACAO_DE_RECURSOS;
+                $idUFLocalizacao = $localizacao->idUF;
+                $idMunicipioLocalizacao = $localizacao->idMunicipio;
+                break;
+            }
+
+            if (in_array($localizacao->UF, $estadosPercentualRemuneracao15)
+                && $percentualRemuneracaoCaptacao != $modelCustosVinculados::PERCENTUAL_UFS_RS_PR_SC_MG_ES_REMUNERACAO_CAPTACAO_DE_RECURSOS) {
+                $percentualRemuneracaoCaptacao = $modelCustosVinculados::PERCENTUAL_REGIOES_N_NE_CO_REMUNERACAO_CAPTACAO_DE_RECURSOS;
+                $limiteRemuneracaoCaptacao = $modelCustosVinculados::LIMITE_REGIOES_N_NE_CO;
+                $idUFLocalizacao = $localizacao->idUF;
+                $idMunicipioLocalizacao = $localizacao->idMunicipio;
+            }
+        }
+
+        return [
+            'limiteRemuneracaoCaptacao' => $limiteRemuneracaoCaptacao,
+            'percentualRemuneracaoCaptacao' => $percentualRemuneracaoCaptacao,
+            'idUFLocalizacao' => $idUFLocalizacao,
+            'idMunicipioLocalizacao' => $idMunicipioLocalizacao
+        ];
+    }
+
+    private function obterMunicipioUF($idPreProjeto)
+    {
+        $tbPlanoDistribuicao = new Proposta_Model_DbTable_PlanoDistribuicaoProduto();
+        $localizacao = $tbPlanoDistribuicao->obterUfsMunicipiosDoDetalhamento($idPreProjeto)->current();
+
+        return [
+            'idUFLocalizacao' => $localizacao->idUF,
+            'idMunicipioLocalizacao' => $localizacao->idMunicipio
+        ];
     }
 
     public function obterCustosVinculadosReadequacao($idPronac)

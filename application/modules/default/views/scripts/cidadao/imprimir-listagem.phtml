@@ -99,8 +99,8 @@
 <!-- ========== INÍCIO CONTEÚDO ========== -->
 <div class="paginaA4">
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" /><span class="TituloDoDocumento">
             <?php if($this->reuniao['NrReuniao']){
                       echo 'Pauta da CNIC n&ordm; '.$this->reuniao['NrReuniao'].' - Vis&atilde;o Cidad&atilde;o';
@@ -132,7 +132,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php 
+            <?php
             $TotalSolicitado = 0;
             $TotalAprovado = 0;
             $TotalCaptado = 0;
@@ -155,10 +155,10 @@
                 <td align="right"><?php echo (!empty($d->vlAprovado)) ? @number_format($d->vlAprovado, 2, ",", ".") : ''; ?></td>
                 <td align="right"><?php echo (!empty($d->vlCaptado)) ? @number_format($d->vlCaptado, 2, ",", ".") : ''; ?></td>
             </tr>
-            <?php 
+            <?php
             $TotalSolicitado=$TotalSolicitado+$d->vlSolicitado;
             $TotalAprovado=$TotalAprovado+$d->vlAprovado;
-            $TotalCaptado=$TotalCaptado+$d->vlCaptado; 
+            $TotalCaptado=$TotalCaptado+$d->vlCaptado;
 
             } ?>
             <tr align="right">

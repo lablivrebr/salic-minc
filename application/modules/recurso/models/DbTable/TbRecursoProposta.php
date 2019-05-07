@@ -71,7 +71,7 @@ Mensagem autom&aacute;tica gerada pelo Sistema Salic. Favor N&Atilde;O RESPONDER
 Atenciosamente,
 <br />
 <br />
-Minist&eacute;rio da Cultura
+Minist&eacute;rio da Cidadania
 MENSAGEM_EMAIL;
 
         $preprojetoDbTable = new Proposta_Model_DbTable_PreProjeto();

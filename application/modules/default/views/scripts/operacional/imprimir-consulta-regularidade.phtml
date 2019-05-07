@@ -56,15 +56,15 @@
     }
 </style>
 
-<!-- inï¿½cio: área principal #conteudo -->
+<!-- inÃ¯Â¿Â½cio: Ã¡rea principal #conteudo -->
 <div class="paginaA4">
     <table class="tabela" style="border: 0px">
         <tr>
             <td align="center">
                 <img id="brasao" src="<?php echo $this->baseUrl() . "/public/img/brasaoArmas.jpg" ?>"/><br>
                 <b>
-                MINISTÉRIO DA CULTURA<br />
-                PROGRAMA NACIONAL DE APOIO À CULTURA<br /><br />
+                MINIST&Eacute;RIO DA CIDADANIA<br />
+                PROGRAMA NACIONAL DE APOIO &Agrave; CULTURA<br /><br />
                 </b>
             </td>
         </tr>
@@ -75,7 +75,7 @@
             <td class="destacar bold" align="center" style="font-size: 16px;">REGULARIDADE PROPONENTE</td>
         </tr>
     </table>
-    
+
     <table class="tabela">
         <tr>
             <th align="center" width="30%">CNPJ/CPF</th>
@@ -86,14 +86,14 @@
             <td align="center"><?php echo $this->nomeProponente; ?></td>
         </tr>
     </table>
-    
+
     <?php if(count($this->resultadoRegularidade)>0){ ?>
     <table class="tabela">
         <tr>
             <th>PRONAC</th>
             <th>NOME DO PROJETO</th>
-            <th>ÓRGÃO</th>
-            <th>OBSERVAÇÃO</th>
+            <th>&Oacute;RG&Atilde;O</th>
+            <th>OBSERVA&Ccedil;&Atilde;O</th>
         </tr>
         <?php foreach ($this->resultadoRegularidade as $r){ ?>
         <tr>
@@ -124,11 +124,3 @@
     <br clear="all" />
 
 </div>
-<!-- final: conteï¿½do principal #conteudo -->
-
-
-<!-- inï¿½cio: detalhe final da div conteudo #rodapeConteudo -->
-<div id="rodapeConteudo"><span></span></div>
-<!-- final: detalhe final da div conteudo #rodapeConteudo -->
-
-<br clear="all" />

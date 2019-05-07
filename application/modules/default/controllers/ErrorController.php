@@ -17,9 +17,14 @@ class ErrorController extends Zend_Controller_Action
         $this->ravenClient = new Raven_Client($url);
 
         $auth = Zend_Auth::getInstance();
+        $auth = $auth->getIdentity();
+        $auth->usu_seguranca = '********';
+        $auth->usu_controle = '********';
+        $auth->usu_validacao = '********';
+        $auth->Senha =  '********';
 
         $this->ravenClient->user_context(array(
-            'auth' => $auth->getIdentity()
+            'auth' => $auth
         ));
 
         $error_handler = new Raven_ErrorHandler($this->ravenClient);

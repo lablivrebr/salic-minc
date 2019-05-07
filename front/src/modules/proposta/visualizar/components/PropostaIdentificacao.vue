@@ -28,6 +28,22 @@
 
         <div class="card">
             <div class="card-content">
+                <h5>Tipicidade e seus limites orçamentários</h5>
+                <div class="row">
+                    <div class="col s12 l6 m6">
+                        <b>Tipicidade</b><br>
+                        <SalicTextoSimples :texto="proposta.DescricaoTipicidade"/>
+                    </div>
+                    <div class="col s12 l6 m6">
+                        <b>Tipologia</b><br>
+                        <SalicTextoSimples :texto="proposta.DescricaoTipologia"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-content">
                 <h5>Informa&ccedil;&otilde;es complementares</h5>
                 <div class="row">
                     <div

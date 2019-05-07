@@ -3,9 +3,9 @@
  function mascara ($val,$mask){
    $maskared = '';
    $k = 0;
- 
+
    for($i = 0; $i<=strlen($mask)-1; $i++) {
- 
+
          if($mask[$i] == '#') {
             if(isset($val[$k])){
              $maskared .= $val[$k++];
@@ -121,14 +121,14 @@
 <div class="paginaA4">
 
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" /><span class="TituloDoDocumento">Inconsist&ecirc;ncia Banc&aacute;ria</span>
         <br clear="all" /><span class="TituloDoDocumento">PRONAC: <?php echo $this->projeto->AnoProjeto.$this->projeto->Sequencial; ?> - <?php echo $this->projeto->NomeProjeto; ?></span>
         <br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php echo date('d/m/Y - H:i:s'); ?></span>
         <br clear="all" /><br clear="all" /><span class="QntdRegistros"><?php echo count($this->dados).' Registros listados'; ?></span>
     </div>
-    
+
 <!--    <table class="tabela">
         <tr class="destacar">
             <th>PRONAC</th>
@@ -139,7 +139,7 @@
             <td align="center"><?php echo $this->projeto->NomeProjeto; ?></td>
         </tr>
     </table>-->
-    
+
     <?php if($this->qtd > 0){ ?>
     <table class="tabela tablesorter">
         <thead>
@@ -167,7 +167,7 @@
         </thead>
         <tbody>
             <?php foreach($this->dados as $d){
-                 
+
                  $style= "";
 
                  if ($d->dsLancamento==="SEM INFORMAÇÕES BANCÁRIAS") {
@@ -175,22 +175,22 @@
                      $d->vlDebitado = "<center>-</center>";
                      $d->dtLancamento = "<center>-</center>";
                  }
- 
+
                  if ((strlen($d->CNPJCPF === '14' ))) {
                     $d->CNPJCPF = mascara($d->CNPJCPF,'##.###.###/####-##');
                  } else {
                     $d->CNPJCPF = mascara($d->CNPJCPF,'###.###.###-##');
                  }
- 
+
                  if ($d->vlDiferenca <> 0) {
                      $style = "style=\"color:red;font-weight:bold\"";
                  }
- 
+
                  if ($d->vlDebitado <> '<center>-</center>') {
                      $d->vlDebitado = 'R$ '. @number_format(($d->vlDebitado),2, ",", ".");
                      $d->vlDiferenca = 'R$ '. @number_format(($d->vlDiferenca),2, ",", ".");
                  }
- 
+
                  if ($d->dtLancamento <> "<center>-</center>") {
                      $d->dtLancamento = Data::tratarDataZend($d->dtLancamento,'Brasileira');
                  }
@@ -207,12 +207,12 @@
               <td align="center"><?php echo $d->dsLancamento; ?></td>
               <td align="center"><?php echo $d->dtLancamento; ?></td>
               <td align="right"><?php echo $d->vlDebitado; ?></td>
-              <td align="right"><?php echo $d->vlDiferenca; ?></td> 
+              <td align="right"><?php echo $d->vlDiferenca; ?></td>
             </tr>
             <?php } ?>
         </tbody>
     </table>
-    
+
     <br clear="all" />
 
     <?php } else { ?>

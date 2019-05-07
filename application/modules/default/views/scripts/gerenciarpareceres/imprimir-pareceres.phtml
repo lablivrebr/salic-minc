@@ -98,8 +98,8 @@
 
 <div class="paginaA4">
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" /><span class="TituloDoDocumento">Gerenciar Pareceres</span>
         <br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php echo date('d/m/Y - H:i:s'); ?></span>
     </div>
@@ -112,7 +112,7 @@
             <th align="center" nowrap>Situação</th>
             <th align="center" nowrap>Nome do Proponente</th>
             <th align="center" width="105">Dt Consolida&ccedil;&atilde;o</th>
-        </tr>	
+        </tr>
         <?php foreach($this->dados as $pc){ ?>
         <tr>
             <td align="center"><?php echo $pc->PRONAC; ?></td>
@@ -121,7 +121,7 @@
             <td align="left" style="padding-left: 20px;"><?php echo $pc->NomeProponente; ?></td>
             <td align="center" nowrap><?php echo $pc->DtConsolidacao; ?></td>
         </tr>
-        <?php } ?>	
+        <?php } ?>
     </table>
 
     <?php } else { ?>

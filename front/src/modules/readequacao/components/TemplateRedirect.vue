@@ -53,8 +53,9 @@ export default {
     methods: {
         executaRedirecionamento() {
             if (this.urlRedirect !== 'undefined') {
-                const routePath = this.urlRedirect + String(this.dadosReadequacao.idPronac);
+                let routePath = this.urlRedirect + String(this.dadosReadequacao.idPronac);
                 if (routePath.match(/#/)) {
+                    routePath = routePath.replace(/#/, '');
                     this.$router.push({ path: routePath });
                 } else {
                     window.location.href = routePath;

@@ -316,10 +316,13 @@ export default {
         },
     },
     watch: {
-        getDadosCampo() {
-            if (!_.isEmpty(this.getDadosCampo)) {
-                this.loading = false;
-            }
+        getDadosCampo: {
+            handler(value) {
+                if (!_.isEmpty(this.getDadosCampo)) {
+                    this.loading = false;
+                }
+            },
+            deep: true,
         },
         bindClick() {
             if (this.bindClick === this.dadosReadequacao.idReadequacao) {
@@ -377,12 +380,18 @@ export default {
             }
         },
         abrirEdicao() {
-            if (typeof this.getTemplateParaTipo === 'undefined') {
-                this.redirecionar = true;
-            } else {
-                this.dialog = true;
-            }
-            this.validar();
+            this.obterCampoAtual({
+                idPronac: this.dadosReadequacao.idPronac,
+                idTipoReadequacao: this.dadosReadequacao.idTipoReadequacao,
+            }).then(() => {
+                this.loading = false;
+                if (typeof this.getTemplateParaTipo === 'undefined') {
+                    this.redirecionar = true;
+                } else {
+                    this.dialog = true;
+                }
+                this.validar();
+            });
         },
         salvarReadequacao() {
             this.updateReadequacao(this.readequacaoEditada).then(() => {

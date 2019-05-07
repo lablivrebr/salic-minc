@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <comunication-service-notificacao-badge></comunication-service-notificacao-badge>
         <v-app :dark="isModoNoturno">
             <Cabecalho/>
             <v-content>

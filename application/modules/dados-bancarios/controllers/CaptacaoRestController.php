@@ -6,8 +6,8 @@ class DadosBancarios_CaptacaoRestController extends MinC_Controller_Rest_Abstrac
 {
      public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
     {
-//        $this->setValidateUserIsLogged();
-//
+        $this->setValidateUserIsLogged();
+
         parent::__construct($request, $response, $invokeArgs);
     }
 

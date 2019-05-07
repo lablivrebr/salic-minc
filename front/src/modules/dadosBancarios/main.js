@@ -1,0 +1,41 @@
+import Vue from 'vue';
+import pt from 'vuetify/lib/locale/pt';
+import Vuetify from 'vuetify';
+import Index from './Index';
+import 'vuetify/dist/vuetify.min.css';
+
+import {
+    router,
+    store,
+} from './config';
+
+
+Vue.use(Vuetify, {
+    theme: {
+        primary: '#0A420E',
+        secondary: '#00838F',
+        accent: '#9c27b0',
+        error: '#f44336',
+        warning: '#ffeb3b',
+        info: '#2196f3',
+        success: '#4caf50',
+    },
+    lang: {
+        locales: { pt },
+        current: 'pt',
+    },
+});
+Vue.config.productionTip = false;
+
+window.onload = () => {
+    /* eslint-disable-next-line */
+    const main = new Vue({
+        el: '#app',
+        router,
+        store,
+        components: {
+            Index,
+        },
+        template: '<Index/>',
+    });
+};

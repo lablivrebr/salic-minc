@@ -29,6 +29,7 @@ module.exports = {
         proposta: './src/modules/proposta/main.js',
         projeto: './src/modules/projeto/main.js',
         autenticacao: './src/modules/autenticacao/main.js',
+        dados_bancarios: './src/modules/dadosBancarios/main.js',
     },
     output: {
         path: config.build.assetsRoot,

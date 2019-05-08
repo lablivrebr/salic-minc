@@ -149,3 +149,8 @@ Se você ainda estiver com dúvidas, pergunte ao coleguinha e atualize este docu
 Atualmente nós suportamos, oficialmente, apenas as duas últimas versões dos seguintes navegadores:
 
 <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/chrome.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/firefox.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/edge.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/safari.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/opera.png" width="64" height="64">
+
+
+## Como utilizar um componente externo no salic
+
+Clique [aqui](./docs/ComponenteExterno.md)  para obter mais informaçoes.

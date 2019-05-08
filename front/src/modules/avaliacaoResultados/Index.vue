@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <v-app :dark="isModoNoturno">
+            <!--<communication-service-notificacao-badge />-->
             <SlNav/>
             <v-content>
                 <v-container

@@ -4,13 +4,17 @@
 import Vue from 'vue';
 import pt from 'vuetify/lib/locale/pt';
 import Vuetify from 'vuetify';
+import CommunicationWebapp from '@vinnyfs89/communication-webapp';
 import Index from './Index';
 import 'vuetify/dist/vuetify.min.css';
+
 
 import {
     router,
     store,
 } from './config';
+
+Vue.use(CommunicationWebapp, { store });
 
 
 Vue.use(Vuetify, {

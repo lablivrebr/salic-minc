@@ -118,6 +118,20 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
             )
         );
 
+        $slct->joinLeft(
+            ['vTipicidade' => 'Verificacao'],
+            'preprojeto.tpTipicidade = vTipicidade.idVerificacao',
+            ["vTipicidade.Descricao as DescricaoTipicidade"],
+            $this->_schema
+        );
+
+        $slct->joinLeft(
+            ['vTipologia' => 'Verificacao'],
+            'preprojeto.tpTipologia = vTipologia.idVerificacao',
+            ["vTipologia.Descricao as DescricaoTipologia"],
+            $this->_schema
+        );
+
         //adiciona quantos filtros foram enviados
         foreach ($where as $coluna => $valor) {
             $slct->where($coluna, $valor);
@@ -288,6 +302,8 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
         $rsPreProjeto->stTipoDemanda = $dados["sttipodemanda"];
         $rsPreProjeto->idEdital = (isset($dados["idedital"])) ? $dados["idedital"] : null;
         $rsPreProjeto->tpProrrogacao = $dados["tpprorrogacao"];
+        $rsPreProjeto->tpTipicidade = $dados["tptipicidade"];
+        $rsPreProjeto->tpTipologia = $dados["tptipologia"];
 
         //SALVANDO O OBJETO
         $id = $rsPreProjeto->save();
@@ -2569,7 +2585,7 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
         $movimentacao = $tbMovimentacao->buscar($whereMovimentacao, array(), 1)->current();
 
         if (!empty($movimentacao) && !$alterarprojeto) {
-            $validacao->dsInconsistencia = 'A proposta cultural encontra-se no minist&eacute;rio da cultura';
+            $validacao->dsInconsistencia = 'A proposta cultural encontra-se no minist&eacute;rio da Cidadania';
             $validacao->Observacao = '';
             $validacao->Url = '';
             $listaValidacao[] = clone($validacao);
@@ -2619,7 +2635,7 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
 
                 $regularidadeProponente = $db->fetchAll($sql);
                 if (!empty($regularidadeProponente)) {
-                    $validacao->dsInconsistencia = 'Proponente em situa&ccedil;&atilde;o IRREGULAR no Minist&eacute;rio da Cultura.';
+                    $validacao->dsInconsistencia = 'Proponente em situa&ccedil;&atilde;o IRREGULAR no Minist&eacute;rio da Cidadania.';
                     $validacao->Observacao = 'PENDENTE';
                     $validacao->Url = '';
                     $listaValidacao[] = clone($validacao);
@@ -2873,7 +2889,7 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
             $validacao->Url = '';
             return $validacao;
         } else {
-            $validacao->dsInconsistencia = '<font color=red><b> A PROPOSTA CULTURAL N&Atilde;O FOI ENVIADA AO MINIST&Eacute;RIO DA CULTURA DEVIDO &Agrave;S PEND&Ecirc;NCIAS ASSINALADAS ACIMA.</b></font>';
+            $validacao->dsInconsistencia = '<font color=red><b> A PROPOSTA CULTURAL N&Atilde;O FOI ENVIADA AO MINIST&Eacute;RIO DA CIDADANIA DEVIDO &Agrave;S PEND&Ecirc;NCIAS ASSINALADAS ACIMA.</b></font>';
             $validacao->Observacao = '';
             $validacao->Url = '';
             $listaValidacao[] = clone($validacao);
@@ -3431,6 +3447,20 @@ class Proposta_Model_DbTable_PreProjeto extends MinC_Db_Table_Abstract
         $slct->joinLeft(
             array('ver' => 'verificacao'), 'ver.idVerificacao = pp.stProposta',
             array('ver.Descricao as TipoExecucao'),
+            $this->_schema
+        );
+
+        $slct->joinLeft(
+            ['vTipicidade' => 'Verificacao'],
+            'pp.tpTipicidade = vTipicidade.idVerificacao',
+            ["vTipicidade.Descricao as DescricaoTipicidade"],
+            $this->_schema
+        );
+
+        $slct->joinLeft(
+            ['vTipologia' => 'Verificacao'],
+            'pp.tpTipologia = vTipologia.idVerificacao',
+            ["vTipologia.Descricao as DescricaoTipologia"],
             $this->_schema
         );
 

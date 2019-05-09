@@ -231,15 +231,10 @@
             <tr>
                 <td class="right-align destaque-texto-primary destacar-celula">
                     <b>
-                        <a
-                            :href="
-                                '/default'+
-                                    '/consultardadosprojeto'+
-                                    '/dados-bancarios-captacao'+
-                            '?idPronac=' + idPronac"
-                        >
+                        <router-link
+                            :to="{ name: 'Captacao', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlCaptado"/>
-                        </a>
+                        </router-link>
                     </b>
                 </td>
                 <td class="right-align">
@@ -267,14 +262,10 @@
                 </b></td>
                 <td class="right-align destaque-texto-primary">
                     <b>
-                        <a
-                            :href="
-                                '/default'+
-                                    '/consultardadosprojeto'+
-                                    '/dados-bancarios-captacao'+
-                            '?idPronac=' + idPronac">
+                        <router-link
+                            :to="{ name: 'Captacao', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.PercentualCaptado"/>
-                        </a>
+                        </router-link>
                     </b>
                 </td>
             </tr>
@@ -301,7 +292,7 @@
                     <b>
                         <router-link
                             v-if="dadosProjeto.vlComprovado > 0"
-                            :to="{ name: 'relacaodepagamentos', params: { idPronac: idPronac }}">
+                            :to="{ name: 'RelacaoPagamento', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.vlComprovado"/>
                         </router-link>
                         <SalicFormatarValor
@@ -317,7 +308,7 @@
                 <td class="right-align destaque-texto-primary">
                     <b>
                         <router-link
-                            :to="{ name: 'relacaodepagamentos', params: { idPronac: idPronac }}">
+                            :to="{ name: 'RelacaoPagamento', params: { idPronac: idPronac }}">
                             <SalicFormatarValor :valor="dadosProjeto.PercentualComprovado"/>
                         </router-link>
                     </b>

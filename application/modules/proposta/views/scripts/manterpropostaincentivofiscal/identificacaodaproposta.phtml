@@ -111,7 +111,7 @@ if (isset($this->proposta['idpreprojeto'])) {
                                         </td>
                                         <td colspan="4">
                                             Nome da Proposta Cultural *
-                                            <br />
+                                            <br/>
                                             <input type="text" class="input_simples" name="nomeProjeto" id="nomeProjeto"
                                                    maxlength="500" title="Nome da Proposta Cultural" style="width:50em;"
                                                    value="<?php
@@ -126,12 +126,13 @@ if (isset($this->proposta['idpreprojeto'])) {
                                                 <div style="float:left; width: 100%">
                                                     Proponente:
                                                     <span
-                                                            style="color: blue;"><?php echo $this->proponente['descricao']; ?></span>
+                                                        style="color: blue;"><?php echo $this->proponente['descricao']; ?></span>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                 </table>
+                                <?php echo $this->partial("/manterpropostaincentivofiscal/partials/tipicidades.phtml", $this); ?>
                                 <table class="tabela" cellpadding="1" cellspacing="1">
                                     <tr class="destacar centro">
                                         <td colspan="5"><b>Resumo da Proposta Cultural</b></td>
@@ -160,7 +161,7 @@ if (isset($this->proposta['idpreprojeto'])) {
                                     </tr>
                                     <tr>
                                         <td class="centro" width="150px;" nowrap>Mecanismo: <b>Incentivo Fiscal</b></td>
-                                        <td class="centro">
+                                        <td class="">
                                             <label for="stDataFixa">Data Fixa</label>
                                             <select class="select_simples" name="stDataFixa" id="stDataFixa"
                                                     style="width: 5em">
@@ -180,15 +181,15 @@ if (isset($this->proposta['idpreprojeto'])) {
                                                 </option>
                                             </select>
                                         </td>
-                                        <td class="centro">
+                                        <td class="">
                                             <label for="agenciaBancaria">Ag&ecirc;ncia Banc&aacute;ria *</label>
                                             <input type="text" class="input_simples" name="agenciaBancaria"
                                                    id="agenciaBancaria"
-                                                   maxlength="12" style="width:70px;"
+                                                   maxlength="5" style="width:70px;"
                                                    value="<?php echo $this->proposta['agenciabancaria']; ?>"/>
                                             <div id="ValidaAgencia" name="ValidaAgencia" style="color:#FF0000"></div>
                                         </td>
-                                        <td colspan="2" class="centro">
+                                        <td colspan="2" class="">
                                             <label for="areaabrangencia">&Eacute; proposta de audiovisual? </label>
                                             <select class="select_simples" name="areaabrangencia" id="areaabrangencia"
                                                     style="width: 5em">
@@ -399,7 +400,7 @@ if (isset($this->proposta['idpreprojeto'])) {
                                             referida norma
                                             ser&atilde;o alcan&ccedil;ados.
                                             <br/><br/>
-                                            Pergunta-chave: POR QUE A LEI ROUANET?
+                                            Pergunta-chave: POR QUE A LEI DE INCENTIVO &Agrave; CULTURA?
                                         </p>
 
                                         <textarea id="justificativa" class="browser-default editor"
@@ -489,12 +490,12 @@ if (isset($this->proposta['idpreprojeto'])) {
 
         $("#frmProposta").validate({
             rules: {
-                nomeProjeto: {required: true},
+                nomeProjeto: { required: true },
 //                resumoDoProjeto: {validarResumoDoProjeto: true, validarResumoDoProjeto1000: true},
-                agenciaBancaria: {required: true},
-                dtInicioDeExecucao: {required: true, minlength: 10},
-                dtFinalDeExecucao: {required: true, minlength: 10},
-                stProposta: {required: true}
+                agenciaBancaria: { required: true },
+                dtInicioDeExecucao: { required: true, minlength: 10 },
+                dtFinalDeExecucao: { required: true, minlength: 10 },
+                stProposta: { required: true }
             },
             messages: {
                 nomeProjeto: {
@@ -559,22 +560,22 @@ if (isset($this->proposta['idpreprojeto'])) {
                 }
 
                 <?php if (!$this->projeto) : ?>
-                    //valida data do ano anual
-                    if ($("#stProposta").val() == '614' && $("#dtInicioDeExecucao").val().length == 10) {
-                        ano_vigente = <?php echo date('Y')?>;
-                        ano_execucao = new Number($('#dtInicioDeExecucao').val().substr(6, 4));
-                        if (ano_vigente >= ano_execucao) {
-                            $("#ValidaStProposta").html("<font color='red'>O per&iacute;odo de execu&ccedil;&atilde;o de projetos de plano anual dever ser posterior ao ano vigente</font>");
-                            $("#dtInicioDeExecucao").focusin();
-                            return false;
-
-                        } else {
-                            $("#ValidaStProposta").html("");
-                        }
+                //valida data do ano anual
+                if ($("#stProposta").val() == '614' && $("#dtInicioDeExecucao").val().length == 10) {
+                    ano_vigente = <?php echo date('Y')?>;
+                    ano_execucao = new Number($('#dtInicioDeExecucao').val().substr(6, 4));
+                    if (ano_vigente >= ano_execucao) {
+                        $("#ValidaStProposta").html("<font color='red'>O per&iacute;odo de execu&ccedil;&atilde;o de projetos de plano anual dever ser posterior ao ano vigente</font>");
+                        $("#dtInicioDeExecucao").focusin();
+                        return false;
 
                     } else {
                         $("#ValidaStProposta").html("");
                     }
+
+                } else {
+                    $("#ValidaStProposta").html("");
+                }
                 <?php endif; ?>
 
                 form.submit();
@@ -658,11 +659,11 @@ if (isset($this->proposta['idpreprojeto'])) {
                 //REGRAS E MENSAGENS PARA OS CAMPOS CRIADOS
                 $("#dtAtoTombamento").rules("add", {
                     required: true,
-                    messages: {required: "<br>Data tombamento inv&aacute;lida"}
+                    messages: { required: "<br>Data tombamento inv&aacute;lida" }
                 });
                 $("#esferaTombamento").rules("add", {
                     required: true,
-                    messages: {required: "<br>Esfera inv&aacute;lida"}
+                    messages: { required: "<br>Esfera inv&aacute;lida" }
                 });
 
             } else {
@@ -685,42 +686,30 @@ if (isset($this->proposta['idpreprojeto'])) {
 
         // calendario
         $.datepicker.regional['pt-BR'] =
-        {
-            closeText: 'Fechar',
-            prevText: '&#x3c;Anterior',
-            nextText: 'Pr&oacute;ximo&#x3e;',
-            currentText: 'Hoje',
-            monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-            dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'S&aacute;bado'],
-            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            weekHeader: 'Sm',
-            dateFormat: 'dd/mm/yy',
-            firstDay: 0,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''
-        };
+            {
+                closeText: 'Fechar',
+                prevText: '&#x3c;Anterior',
+                nextText: 'Pr&oacute;ximo&#x3e;',
+                currentText: 'Hoje',
+                monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'S&aacute;bado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd/mm/yy',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''
+            };
         $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
 
         // id dos campos que utilizarï¿½o o calendï¿½rio
         $("#dtInicioDeExecucao, #dtFinalDeExecucao, #dtAtoTombamento").datepicker($.datepicker.regional['pt-BR']);
 
-        function layout_fluido() {
-            var janela = $(window).width();
 
-//            $("#navglobal").css("width", "100%");
-//            $("#conteudo").css("width", "100%");
-//            $("#titulo").css("width", "100%");
-//            $("#rodapeConteudo").css("width", "100%");
-//            $("#rodape").css("width", "100%");
-            $("div#rodapeConteudo").attr("id", "rodapeConteudo_com_menu");
-        }
-
-        layout_fluido();
     });
-
 
 </script>
 

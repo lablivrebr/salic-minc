@@ -92,7 +92,7 @@
 <script type="text/javascript" LANGUAGE="JavaScript">
     $(document).ready(function(){
         window.print();
-        
+
         var pagImpressao = '<?php echo $this->pagImpressao;?>';
         if(pagImpressao <= 2){
             //JSImprimir2();
@@ -100,7 +100,7 @@
         //window.print();
         //window.close();
     });
-    
+
 
     //DEVOLVE PROJETO PARA ANALISE TECNICA - PARECERISTA
     function JSImprimir()
@@ -156,8 +156,8 @@
     <div class="paginaA4">
 
         <div align="center">
-            <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-            <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+            <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+            <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
             <br clear="all" /><span class="TituloDoDocumento">PRONAC: <?php echo empty($this->NrProjeto) ? '<em>Dados n&atilde;o informados!</em>' : $this->NrProjeto; ?> - <?php echo empty($this->NomeProjeto) ? '<em>Dados n&atilde;o informados!</em>' : $this->NomeProjeto; ?></span>
             <br clear="all" /><span class="TituloDoDocumento">Proponente: <?php echo empty($this->NomeProponente) ? '<em>Dados n&atilde;o informados!</em>' : $this->NomeProponente; ?></span>
             <!--<br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php //echo date('d/m/Y - H:i:s'); ?></span>-->
@@ -606,8 +606,8 @@
                  </td>
             </tr>
         </table>
-  
-    
+
+
     <!-- DIVULGACAO -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('planodivulgacao',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -641,7 +641,7 @@
     </table>
     <?php endif; // if planodivulgacao ?>
 
-    
+
     <!-- PROVIDENCIA TOMADA -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('providenciatomada',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -676,8 +676,8 @@
         </tr>
     </table>
     <?php endif; // if providenciatomada ?>
-    
-    
+
+
     <!-- LOCAL DE REALIZACAO -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('localrealizacao_deslocamento',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -762,7 +762,7 @@
     </table>
     <?php endif; // if localrealizacao_deslocamento ?>
 
-    
+
     <!-- PLANO DE DISTRIBUICAO -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('planodistribuicao',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -896,7 +896,7 @@
     </table>
     <?php endif; // if planodistribuicao ?>
 
-    
+
     <!-- TRAMITACAO DE PROJETO -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('tramitacao',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -979,7 +979,7 @@
     </table>
     <?php endif; // if tramitacao ?>
 
-    
+
     <!-- DILIGENCIAS -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('diligencias',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -1141,8 +1141,8 @@
         </tr>
     </table>
     <?php endif; // if diligencias ?>
-    
-    
+
+
     <!-- PARECER CONSOLIDADO -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('parecer-consolidado',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -1288,8 +1288,8 @@
         </tr>
     </table>
     <?php endif; // if parecer-consolidado ?>
-    
-    
+
+
     <!-- PLANILHA ORCAMENTARIA -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('planilhaorcamentaria',$this->arrConteudoImpressao)): ?>
     <?php
@@ -1610,7 +1610,7 @@
                         </table>
                     </td>
                 </tr>
-                <?php $nrproduto++; 
+                <?php $nrproduto++;
             } //fechaForeachproduto
             ?>
             <tr class="master produto etapa cidade" produto="<?php echo $nrproduto; ?>"  fonte="<?php echo $nrfonte; ?>">
@@ -1824,7 +1824,7 @@
                         </table>
                     </td>
                 </tr>
-                <?php $nrproduto++; 
+                <?php $nrproduto++;
             } //fechaForeachproduto
             ?>
             <tr class="master produto etapa cidade" produto="<?php echo $nrproduto; ?>"  fonte="<?php echo $nrfonte; ?>">
@@ -1868,7 +1868,7 @@
     <?php } ?>
     <?php endif; // if planilhaorcamentaria ?>
 
-    
+
     <!-- CERTIDOES NEGATIVAS -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('certidoes',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -1895,7 +1895,7 @@
                                 <?php
                                     if($certidao->CodigoCertidao == 244){
                                         echo $certidao->Situacao;
-                                        
+
                                     } else {
                                         if($certidao->qtDias < 0){
                                             echo 'Vencida';
@@ -1977,7 +1977,7 @@
     </table>
     <?php endif; // if regularidadeproponente ?>
 
-    
+
     <!-- DOCUMENTOS ANEXADOS -->
     <?php if(isset($this->arrConteudoImpressao) && in_array('documentosanexados',$this->arrConteudoImpressao)): ?>
     <table class="tabela">
@@ -2015,8 +2015,8 @@
     </table>
     <?php endif; // if documentosanexados ?>
 
-    
-    
+
+
     <?php if(in_array($this->intFaseProjeto,array('2','3','4'))) { ?>
 
         <!-- RECURSOS -->

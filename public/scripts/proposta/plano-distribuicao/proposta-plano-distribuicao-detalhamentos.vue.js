@@ -188,6 +188,7 @@ Vue.component('proposta-plano-distribuicao-detalhamentos', {
                 >
             </proposta-plano-distribuicao-lista-detalhamentos>
             <proposta-plano-distribuicao-formulario-detalhamento
+                v-model="exibirFormulario"
                 :disabled="disabled"
                 :idplanodistribuicao="idplanodistribuicao"
                 :idpreprojeto="idpreprojeto"
@@ -202,7 +203,8 @@ Vue.component('proposta-plano-distribuicao-detalhamentos', {
     data: function () {
         return {
             detalhamentos: [],
-            detalhamento: {}
+            detalhamento: {},
+            exibirFormulario: false,
         }
     },
     mixins: [funcoes],
@@ -239,7 +241,8 @@ Vue.component('proposta-plano-distribuicao-detalhamentos', {
             }
         },
         editarDetalhamento(detalhamento, index) {
-            this.detalhamento = detalhamento;
+            this.exibirFormulario = true;
+            this.detalhamento = Object.assign({}, detalhamento);
         },
         salvarDetalhamento(detalhamento) {
 
@@ -250,9 +253,13 @@ Vue.component('proposta-plano-distribuicao-detalhamentos', {
                 data: detalhamento
             }).done(function (response) {
                 if (response.success == 'true') {
-                    let index = vue.$data.detalhamentos.map(item => item.idDetalhaPlanoDistribuicao).indexOf(response.data.idDetalhaPlanoDistribuicao);
-                    Vue.delete(vue.detalhamentos, index);
-                    vue.$data.detalhamentos.push(response.data);
+                    let index = vue.$data.detalhamentos.findIndex(item => item.idDetalhaPlanoDistribuicao == response.data.idDetalhaPlanoDistribuicao);
+
+                    if (index >= 0) {
+                        Object.assign(vue.$data.detalhamentos[index], detalhamento);
+                    } else {
+                        vue.$data.detalhamentos.push(response.data);
+                    }
                     vue.mensagemSucesso(response.msg);
                     detalhamentoEventBus.$emit('callBackSalvarDetalhamento', true);
                 }
@@ -276,6 +283,7 @@ Vue.component('proposta-plano-distribuicao-detalhamentos', {
     }
 });
 
+const VALOR_MEDIO_MAXIMO = 225;
 Vue.component('proposta-plano-distribuicao-lista-detalhamentos', {
     template: `
         <div class="row center-align">
@@ -329,7 +337,7 @@ Vue.component('proposta-plano-distribuicao-lista-detalhamentos', {
                                 :class="_uid + '_teste'"
                                 data-tooltip="Editar detalhamento"
                                 v-bind:disabled="!disabled"
-                                    @click.prevent="editar(detalhamento, index)">
+                                    @click="editar(detalhamento, index)">
                                 <i class="material-icons">edit</i>
                             </a>
                         </td>
@@ -366,34 +374,36 @@ Vue.component('proposta-plano-distribuicao-lista-detalhamentos', {
                         <td class="center-align"><b>{{ qtDistribuicaoGratuitaTotal }}</b>
                         </td>
                         <td class="right-align"><b>{{ receitaPrevistaTotal }}</b></td>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                 </tfoot>
             </table>
             
-            <table style="max-width: 300px" v-if="detalhamentos && detalhamentos.length > 0">
+            <table style="margin-top: 20px; max-width: 300px" v-if="detalhamentos && detalhamentos.length > 0">
                 <tr>
                     <th>
                         <b>Valor m&eacute;dio </b>
                     </th>
-                    <td class="center-align red" v-if="((valorMedioProponente.value() > 225) && (this.canalaberto == 0))"> 
-                        {{valorMedioProponenteFormatado}}
+                    <td class="center-align red darken-3 white-text" v-if="((valorMedioProponente.value() > valorMedioMaximo) && (this.canalaberto == 0))"> 
+                        <b>R$ {{valorMedioProponenteFormatado}}</b>
                     </td>
-                    <td class="center-align " v-else>{{valorMedioProponenteFormatado}}</td>
+                    <td class="center-align " v-else>R$ {{valorMedioProponenteFormatado}}</td>
                 </tr>
             </table>
         </div>
     `,
     data: function () {
-        return {}
+        return {
+            valorMedioMaximo: VALOR_MEDIO_MAXIMO,
+        }
     },
     mixins: [funcoes],
     watch: {
         detalhamentos: function () {
-            if ((numeral(this.valorMedioProponente).value() > 225
+            if ((numeral(this.valorMedioProponente).value() > this.valorMedioMaximo
                 && (this.canalaberto == 0))) {
-                this.mensagemAlerta("O valor medio:" + this.valorMedioProponenteFormatado + ", n\xE3o pode ultrapassar: 225,00");
-                this.$data.detalhamentos.splice(-1, 1)
+                this.mensagemAlerta("O valor m&eacute;dio: R$ " + this.valorMedioProponenteFormatado + ", n\xE3o pode ultrapassar: R$ " + this.formatarValor(this.valorMedioMaximo));
+                // this.$data.detalhamentos.splice(-1, 1)
             }
         }
     },
@@ -481,7 +491,7 @@ Vue.component('proposta-plano-distribuicao-lista-detalhamentos', {
             }, 600);
 
             this.$emit('eventoEditarDetalhamento', detalhamento, index);
-        }
+        },
     }
 });
 
@@ -494,9 +504,14 @@ const TIPO_LOCAL_FECHADO = 'f';
 const TIPO_ESPACO_PUBLICO = 's';
 const TIPO_ESPACO_PRIVADO = 'n';
 
-const DISTRIBUICAO_GRATUITA_PERCENTUAL_PADRAO = 0.3;
-const PRECO_POPULAR_PERCENTUAL_PADRAO = 0.2;
 const PROPONENTE_PERCENTUAL_PADRAO = 0.5;
+const PRECO_POPULAR_PERCENTUAL_PADRAO = 0.1;
+const DISTRIBUICAO_GRATUITA_PERCENTUAL_PADRAO = 0.4;
+
+const DISTRIBUICAO_GRATUITA_PERCENTUAL_PATROCINADOR = 0.1;
+const DISTRIBUICAO_GRATUITA_PERCENTUAL_DIVULGACAO = 0.1;
+
+const VALOR_MAXIMO_PRECO_POPULAR = 50.00;
 
 Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
     template: `
@@ -772,6 +787,11 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
                                     />
                                     <label class="active" :for="_uid + 'vlReceitaPopularParcial'">Valor meia R$</label>
                                 </div>
+                                <div class="col s12 m12 l12" >
+                                    <div class="small">
+                                        <i class="material-icons tiny left">info_outline</i> Valor de refer&ecirc;ncia do Vale Cultura: R$ {{formatarValor(this.valorMaximoPrecoPopular)}}
+                                    </div>
+                                </div>
                             </div>
                         </fieldset>
                         <fieldset class="distribuicao-gratuita">
@@ -791,7 +811,7 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
                                         ref="divulgacao"
                                     />
                                     <label class="active" :for="_uid + 'qtGratuitaDivulgacao'">
-                                        Divulga&ccedil;&atilde;o (At&eacute; {{ parseInt(distribuicao.qtExemplares * 0.1) }})
+                                        Divulga&ccedil;&atilde;o (At&eacute; {{ parseInt(distribuicao.qtExemplares * percentualGratuitoDivulgacao) }})
                                     </label>
                                 </div>
                                 <div class="input-field col s12 m6 l3">
@@ -802,7 +822,7 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
                                         ref="patrocinador"
                                     />
                                     <label class="active" :for="_uid + 'qtGratuitaPatrocinador'">
-                                        Patrocinador (At&eacute; {{ parseInt(distribuicao.qtExemplares * 0.1) }})
+                                        Patrocinador (At&eacute; {{ parseInt(distribuicao.qtExemplares * percentualGratuitoPatrocinador) }})
                                     </label>
                                 </div>
                                 <div class="input-field col s12 m6 l3">
@@ -866,15 +886,18 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
             active: false,
             visualizarFormulario: false,
             icon: 'add',
-            "distribuicaoGratuita": NAO,
-            "percentualGratuitoPadrao": DISTRIBUICAO_GRATUITA_PERCENTUAL_PADRAO,
-            "percentualPrecoPopularPadrao": PRECO_POPULAR_PERCENTUAL_PADRAO,
-            "percentualPrecoPopular": PRECO_POPULAR_PERCENTUAL_PADRAO,
-            "percentualProponentePadrao": PROPONENTE_PERCENTUAL_PADRAO,
-            "percentualProponente": PROPONENTE_PERCENTUAL_PADRAO,
-            "labelInteira": 'Inteira',
-            "inputUnitarioPopularIntegral": 0,
-            "inputUnitarioProponenteIntegral": 0,
+            distribuicaoGratuita: NAO,
+            percentualGratuitoPadrao: DISTRIBUICAO_GRATUITA_PERCENTUAL_PADRAO,
+            percentualGratuitoDivulgacao: DISTRIBUICAO_GRATUITA_PERCENTUAL_DIVULGACAO,
+            percentualGratuitoPatrocinador: DISTRIBUICAO_GRATUITA_PERCENTUAL_PATROCINADOR,
+            percentualPrecoPopularPadrao: PRECO_POPULAR_PERCENTUAL_PADRAO,
+            percentualPrecoPopular: PRECO_POPULAR_PERCENTUAL_PADRAO,
+            percentualProponentePadrao: PROPONENTE_PERCENTUAL_PADRAO,
+            percentualProponente: PROPONENTE_PERCENTUAL_PADRAO,
+            labelInteira: 'Inteira',
+            inputUnitarioPopularIntegral: 0,
+            inputUnitarioProponenteIntegral: 0,
+            valorMaximoPrecoPopular: VALOR_MAXIMO_PRECO_POPULAR,
         }
     },
     mixins: [funcoes],
@@ -884,7 +907,8 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
         'idmunicipioibge',
         'iduf',
         'disabled',
-        'editarDetalhamento'
+        'editarDetalhamento',
+        'value',
     ],
     created: function() {
         let vue = this;
@@ -905,7 +929,7 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
             }
         },
         "distribuicao.qtGratuitaDivulgacao": function (val) {
-            let limiteQuantidadeDivulgacao = parseInt(this.distribuicao.qtExemplares * 0.1);
+            let limiteQuantidadeDivulgacao = parseInt(this.distribuicao.qtExemplares * this.percentualGratuitoDivulgacao);
 
             if (val > limiteQuantidadeDivulgacao) {
                 this.mensagemAlerta("A quantidade n\xE3o pode passar de " + limiteQuantidadeDivulgacao);
@@ -920,7 +944,7 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
             this.distribuicao.qtGratuitaPopulacao = this.qtGratuitaPopulacaoMinimo;
         },
         "distribuicao.qtGratuitaPatrocinador": function (val) {
-            let limitePatrocinador = parseInt(this.distribuicao.qtExemplares * 0.1);
+            let limitePatrocinador = parseInt(this.distribuicao.qtExemplares * this.percentualGratuitoPatrocinador);
 
             if (val > limitePatrocinador) {
                 this.mensagemAlerta("A quantidade n\xE3o pode passar de " + limitePatrocinador);
@@ -935,12 +959,16 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
             this.distribuicao.qtGratuitaPopulacao = this.qtGratuitaPopulacaoMinimo;
         },
         "distribuicao.vlUnitarioPopularIntegral": function () {
-            if (this.distribuicao.vlUnitarioPopularIntegral > 75.00) {
-                this.mensagemAlerta('O pre\xE7o unit\xE1rio do pre\xE7o popular n\xE3o pode ser maior que R$ 75,00');
-                this.inputUnitarioPopularIntegral = this.formatarValor(75.00);
+            if (this.distribuicao.vlUnitarioPopularIntegral > this.valorMaximoPrecoPopular) {
+                this.mensagemAlerta('O pre\xE7o unit\xE1rio do pre\xE7o popular n\xE3o pode ser maior que R$ ' + this.formatarValor(this.valorMaximoPrecoPopular));
+                this.inputUnitarioPopularIntegral = this.formatarValor(this.valorMaximoPrecoPopular);
             }
         },
-        percentualProponente: function () {
+        percentualProponente: function (val) {
+            if (val > this.percentualProponentePadrao) {
+                this.mensagemAlerta("Percentual do Proponente n\u00E3o pode ser maior que " + this.percentualProponentePadrao * 100 + "%")
+            }
+
             this.percentualPrecoPopular = this.percentualMaximoPrecoPopular;
         },
         atualizarCalculosDistribuicao: function () {
@@ -980,8 +1008,8 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
             }
 
             this.distribuicao.vlReceitaPrevista = this.converterParaMoedaAmericana(this.vlReceitaPrevista);
-            this.distribuicao.qtGratuitaDivulgacao = parseInt(this.distribuicao.qtExemplares * 0.1);
-            this.distribuicao.qtGratuitaPatrocinador = parseInt(this.distribuicao.qtExemplares * 0.1);
+            this.distribuicao.qtGratuitaDivulgacao = parseInt(this.distribuicao.qtExemplares * this.percentualGratuitoDivulgacao);
+            this.distribuicao.qtGratuitaPatrocinador = parseInt(this.distribuicao.qtExemplares * this.percentualGratuitoPatrocinador);
             this.distribuicao.qtGratuitaPopulacao = this.qtGratuitaPopulacaoMinimo;
         },
         editarDetalhamento: function(object) {
@@ -992,6 +1020,7 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
 
                 // definir o percentual do proponente
                 let percentualProponente = (parseInt(object.qtProponenteIntegral) + parseInt(object.qtProponenteParcial)) / parseInt(object.qtExemplares);
+                console.log('percentual proponente', percentualProponente);
                 vue.percentualProponente = Number((percentualProponente).toFixed(2));
 
                 // definir o percentual do preco popular, é atualizado no proximo clico
@@ -1009,7 +1038,13 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
                     vue.distribuicaoGratuita = SIM;
                 }
             }
-        }
+        },
+        value(val) {
+            this.visualizarFormulario = val;
+        },
+        visualizarFormulario(val) {
+            this.$emit('input', val);
+        },
     },
     computed: {
         atualizarCalculosDistribuicao: function () {
@@ -1040,26 +1075,17 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
                 return 1;
             }
             return DISTRIBUICAO_GRATUITA_PERCENTUAL_PADRAO +
-                (this.percentualMaximoPrecoPopular - this.percentualPrecoPopular)
-                ;
+                (this.percentualMaximoPrecoPopular - this.percentualPrecoPopular);
         },
         percentualMaximoPrecoPopular: function () {
             return PRECO_POPULAR_PERCENTUAL_PADRAO + (PROPONENTE_PERCENTUAL_PADRAO - this.percentualProponente);
         },
         qtPrecoPopularValorIntegralLimite: function () {
-            var percentualPopularIntegral = 0.5;
-
-            if (this.distribuicao.tpVenda == TIPO_EXEMPLAR) {
-                percentualPopularIntegral = 1;
-            }
+            const percentualPopularIntegral = this.distribuicao.tpVenda == TIPO_EXEMPLAR ? 1 : 0.5;
             return parseInt((this.distribuicao.qtExemplares * this.percentualPrecoPopular) * percentualPopularIntegral);
         },
         qtPrecoPopularValorParcialLimite: function () {
-            let percentualPopularParcial = 0.5;
-
-            if (this.distribuicao.tpVenda == TIPO_EXEMPLAR) {
-                percentualPopularParcial = 0
-            }
+            const percentualPopularParcial = this.distribuicao.tpVenda == TIPO_EXEMPLAR ? 0 : 0.5;
             return parseInt((this.distribuicao.qtExemplares * this.percentualPrecoPopular) * percentualPopularParcial);
         },
         vlReceitaPopularIntegral: function () {
@@ -1096,17 +1122,11 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
     },
     methods: {
         obterQuantidadePorPercentual: function (percentualDistribuicao) {
-            let divisao = 0.5;
-
-            if (this.distribuicao.tpVenda == TIPO_EXEMPLAR) {
-                divisao = 1;
-            }
-
+            const divisao = this.distribuicao.tpVenda == TIPO_EXEMPLAR ? 1 : 0.5;
             return parseInt((this.distribuicao.qtExemplares * percentualDistribuicao) * divisao);
         },
         mostrarFormulario: function (id) {
-
-            this.visualizarFormulario = !this.visualizarFormulario;
+            this.visualizarFormulario = true;
             this.icon =  this.visualizarFormulario ? 'visibility_off' : 'add';
 
             if (this.visualizarFormulario == true) {
@@ -1145,6 +1165,11 @@ Vue.component('proposta-plano-distribuicao-formulario-detalhamento', {
                     this.mensagemAlerta("Pre\xE7o unit\xE1rio no Pre\xE7o Popular \xE9 obrigat\xF3rio!");
                     return;
                 }
+            }
+
+            if (this.percentualProponente > this.percentualProponentePadrao) {
+                this.mensagemAlerta("Percentual do Proponente n\u00E3o pode ser maior que " + this.percentualProponentePadrao * 100 + "%");
+                return;
             }
 
             if (this.distribuicao.qtGratuitaPopulacao < this.qtGratuitaPopulacaoMinimo) {

@@ -98,8 +98,8 @@
 <!-- ========== INÍCIO CONTEÚDO ========== -->
 <div class="paginaA4">
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" /><span class="TituloDoDocumento">Conta bancária cadastrada</span>
         <br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php echo date('d/m/Y - H:i:s'); ?></span>
         <!--<br clear="all" /><br clear="all" /><span class="QntdRegistros"><?php echo count($this->dados).' registros listados'; ?></span>-->
@@ -121,7 +121,7 @@
     </table>
 
     <br clear="all" />
-    
+
     <table class="tabela">
         <tr>
             <th colspan="4">Dados da conta</th>
@@ -139,9 +139,9 @@
             <td><?php echo $this->DadosBancarios['ContaLivre']; ?></td>
         </tr>
     </table>
-    
+
     <br clear="all" />
-    
+
     <?php if(count($this->Historicos)>0){ ?>
     <table class="tabela" style="margin-top: 20px; margin-bottom: 20px;" id="listadeArquivos">
         <tr class="destacar" style="font-weight: bold;" align="center">

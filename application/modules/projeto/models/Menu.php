@@ -615,6 +615,14 @@ class Projeto_Model_Menu extends MinC_Db_Table_Abstract
                     'grupo' => []
                 ];
             }
+
+            $menu['prestacaodecontas']['submenu'][] = [
+                'label' => 'Laudo Final',
+                'title' => 'Ir para Pagamentos Consolidados',
+                'link' => "/projeto/#/{$idPronacHash}/laudo-final",
+                'ajax' => false,
+                'grupo' => []
+            ];
         }
 
         # Readequacao

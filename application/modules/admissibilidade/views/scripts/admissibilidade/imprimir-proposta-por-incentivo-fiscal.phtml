@@ -160,6 +160,21 @@
                     </table>
                 </fieldset>
                 <fieldset>
+                    <legend>Tipicidade e seus limites or&ccedil;ament&aacute;rios</legend>
+                    <table class="tabela">
+                        <tr class="destacar">
+                            <td><b>Tipicidade</b></td>
+                            <td><b>Tipologia</b></td>
+                        </tr>
+                        <?php if (is_array($this->itensGeral) and count($this->itensGeral) > 0) { ?>
+                            <tr>
+                                <td><?= $this->itensGeral[0]->descricaoTipicidade; ?></td>
+                                <td><?= $this->itensGeral[0]->descricaoTipologia; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </fieldset>
+                <fieldset>
                     <legend>Informa&ccedil;&otilde;es Complementares</legend>
                     <table class="tabela">
                         <tr class="destacar">

@@ -1,13 +1,13 @@
-<!-- ========== INÍCIO BREADCRUMB (LINKS TOPO) ========== -->
+<!-- ========== INÃCIO BREADCRUMB (LINKS TOPO) ========== -->
 <script type="text/javascript">
    function TipoImprimir(){
         window.print()
    }
- 
+
 </script>
 <div id="breadcrumb">
 	<ul>
-		<li class="first"><a href="<?php echo $this->url(array('controller' => 'gerenciarparecer', 'action' => 'index'),'',true); ?>" title="Ir para Início">Início</a></li>
+		<li class="first"><a href="<?php echo $this->url(array('controller' => 'gerenciarparecer', 'action' => 'index'),'',true); ?>" title="Ir para InÃ­cio">InÃ­cio</a></li>
 		<li><a href="<?php echo $this->url(array('controller' => 'gerenciarparecer', 'action' => 'index'),'',true); ?>" title="Gerenciar Pareceres">Gerenciar Pareceres</a></li>
                 <li><a href="<?php echo $this->url(array('controller' => 'gerenciarparecer', 'action' => 'enviarpagamento'),'',true); ?>" title="Gerenciar Pareceres">Enviar pagamento</a></li>
 		<li class="last">Gerar Memorando</li>
@@ -15,21 +15,21 @@
 </div>
 <!-- ========== FIM BREADCRUMB (LINKS TOPO) ========== -->
 
-<!-- ========== INÍCIO TÍTULO ========== -->
+<!-- ========== INÃCIO TÃTULO ========== -->
 <div id="titulo">
     <div>Gerar Memorando<span class="voltar"><a href="#" onclick="voltar();">Voltar</a></span></div>
 </div>
 
-<!-- ========== INÍCIO CONTEÚDO ========== -->
+<!-- ========== INÃCIO CONTEÃšDO ========== -->
 
 <table width="80%" align="center">
     <tr>
         <td align="center">
             <img style="cursor:pointer;" title="Brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg">
           <br>
-            Ministerio da Cultura
+            Minist&eacute;rio da Cidadania
           <br>
-            Secretaria de Formento e Incentivo a Cultura
+            Secretaria de Formento e Incentivo &agrave; Cultura
          <br>
             Gabinete/SEFIC
         </td>
@@ -41,7 +41,7 @@
         <td align="right">Bras&iacute;lia, <?php echo date("d");?> de <?php echo $this->RetornaMes(date("m"));?> de <?php echo date("Y");?></td>
     </tr>
     <tr>
-        <td>&Agrave; Coordenação Geral de Execu&ccedil;&atilde;o Financeira</td>
+        <td>&Agrave; CoordenaÃ§Ã£o Geral de Execu&ccedil;&atilde;o Financeira</td>
     </tr>
     <tr>
         <td> Encaminhamos a V.Sa., Rela&ccedil;&atilde;o de Pareceres emitidos pelo parecerista <b><?php echo $this->dadosParecerista['Nome']; ?>, </b><b>CPF: <?php echo $this->dadosParecerista['CPF']; ?>, </b>cujo valor perfaz o montante de <b><?php echo $this->formatarReal($this->dadosParecerista['ValorTotal']); ?> </b>.
@@ -55,7 +55,7 @@
                     <td width="100" align="center"> <b>OBJETO DO PARECER   </b>  </td>
                     <td width="150" align="center"><b>VALOR PARECER      </b>   </td>
                     <td width="90"  align="center"><b>DATA               </b>   </td>
-                    <td width="150" align="center"><b>NÚMERO DO PROCESSO </b>   </td>
+                    <td width="150" align="center"><b>NÃšMERO DO PROCESSO </b>   </td>
     </tr>
                 <?php $i = 1; ?>
                 <?php foreach($this->dadosProduto as $key => $obj): ?>
@@ -76,7 +76,7 @@
         <br>
         <tr>
              <td>
-                 <p>Solicitamos que sejam tomadas as provid&ecirc;ncias necess&aacute;rias para efetuar o pagamento do valor acima citado, tendo em vista que os serviços foram devidamente realizados,
+                 <p>Solicitamos que sejam tomadas as provid&ecirc;ncias necess&aacute;rias para efetuar o pagamento do valor acima citado, tendo em vista que os serviÃ§os foram devidamente realizados,
                 conforme atesto inscrito nos pr&oacute;prios pareceres emitidos e cosntantes da rela&ccedil;&atilde;o que foram inclu&iacute;dos como pe&ccedil;as dos respectivos processos, sendo pass&iacute;veis
                 de verifica&ccedil;&atilde;o a qualquer tempo..
                  </p>
@@ -108,7 +108,7 @@
     </table>
 </table>
 
-<!-- ========== INÍCIO RODAPÉ DO CONTEÚDO ========== -->
+<!-- ========== INÃCIO RODAPÃ‰ DO CONTEÃšDO ========== -->
 <div id="rodapeConteudo"><span></span></div>
-<!-- ========== FIM RODAPÉ DO CONTEÚDO ========== -->
+<!-- ========== FIM RODAPÃ‰ DO CONTEÃšDO ========== -->
 <br clear="all" />

@@ -131,7 +131,7 @@ if($this->tipoPublicacao == 'prorrogacao') {
             Art. 1.&ordm; - Tornar p&uacute;blica a rela&ccedil;&atilde;o do(s) projeto(s) apoiado(s) por meio do mecanismo Incentivo a Projetos Culturais do Programa Nacional de Apoio &agrave; Cultura (PRONAC), institu&iacute;do pela Lei n&ordm; 8.313, de 23 de dezembro de 1991, que tiveram sua(s) presta&ccedil;&atilde;o(&otilde;es) de contas reprovada(s) no &acirc;mbito desta Secretaria, em observ&acirc;ncia ao disposto no par&aacute;grafo &uacute;nico do art. 70 da Constitui&ccedil;&atilde;o Federal, do &sect; 1&ordm; do art. 20 da Lei n&ordm; 8.313, de 1991, e com os artigos 90, 91 e 94 da Instru&ccedil;&atilde;o Normativa MinC n&ordm; 1, de 2013, conforme anexo.
         </p>
         <p class="saltoLinha">
-            Art. 2.&ordm; - Aplicar a san&ccedil;&atilde;o administrativa de INABILITA&Ccedil;&Atilde;O, nos termos do art. 97 da Instru&ccedil;&atilde;o Normativa MinC n&ordm; 01, de 2013, aos proponentes relacionados no anexo abaixo, pelo prazo de 03 (tr&ecirc;s) anos, contados a partir da publica&ccedil;&atilde;o desta Portaria, que implicar&aacute;, junto ao Minist&eacute;rio da Cultura, nas restri&ccedil;&otilde;es contidas no art. 99 da referida Instru&ccedil;&atilde;o Normativa.
+            Art. 2.&ordm; - Aplicar a san&ccedil;&atilde;o administrativa de INABILITA&Ccedil;&Atilde;O, nos termos do art. 97 da Instru&ccedil;&atilde;o Normativa MinC n&ordm; 01, de 2013, aos proponentes relacionados no anexo abaixo, pelo prazo de 03 (tr&ecirc;s) anos, contados a partir da publica&ccedil;&atilde;o desta Portaria, que implicar&aacute;, junto ao Minist&eacute;rio da Cidadania, nas restri&ccedil;&otilde;es contidas no art. 99 da referida Instru&ccedil;&atilde;o Normativa.
         </p>
         <p class="saltoLinha">
             Art. 3.&ordm;  Esta portaria entra em vigor na data de sua publica&ccedil;&atilde;o.
@@ -140,7 +140,7 @@ if($this->tipoPublicacao == 'prorrogacao') {
     ';
 } else if($this->tipoPublicacao == 'readequacao') {
     $relatorio .= '';
-    
+
 } else {
     $relatorio .= '
         <p class="saltoLinha">
@@ -158,7 +158,7 @@ if($this->tipoPublicacao == 'prorrogacao') {
 
 
 if($this->tipoPublicacao == 'readequacao') {
-    
+
     $AtualIdTipoReadequacao = 0;
     $nrArtigo = 1;
     $relatorio .= '
@@ -166,15 +166,15 @@ if($this->tipoPublicacao == 'readequacao') {
             ##TEX O(A) ' . htmlentities(utf8_encode($this->cargo)) . ', no uso de suas atribui&ccedil;&otilde;es legais, que lhe confere a Portaria n&ordm; ' . $this->textoPortaria . ', RESOLVE:
         </p>
     ';
-    
+
     foreach ($this->portaria as $portaria) {
-        
+
         $dsSolicitacaoReadequacao = $portaria->dsSolicitacao;
         $idTipoReadequacao = $portaria->idTipoReadequacao;
-        
+
         $tbAprovacao = new Aprovacao();
         $dadosAprovacaoInicial = $tbAprovacao->buscar(array('AnoProjeto+Sequencial=?'=>$portaria->pronac, 'TipoAprovacao=?'=>1))->current();
-        
+
         if($idTipoReadequacao == 12){
             if($AtualIdTipoReadequacao != $idTipoReadequacao){
                 $relatorio .= '
@@ -191,7 +191,7 @@ if($this->tipoPublicacao == 'readequacao') {
                 </p>
             ';
             $AtualIdTipoReadequacao = $idTipoReadequacao;
-            
+
         } else if($idTipoReadequacao == 15){
             if($AtualIdTipoReadequacao != $idTipoReadequacao){
                 $relatorio .= '
@@ -214,7 +214,7 @@ if($this->tipoPublicacao == 'readequacao') {
                 </p>
             ';
             $AtualIdTipoReadequacao = $idTipoReadequacao;
-            
+
         } else if($idTipoReadequacao == 3){
             if($AtualIdTipoReadequacao != $idTipoReadequacao){
                 $relatorio .= '
@@ -237,7 +237,7 @@ if($this->tipoPublicacao == 'readequacao') {
                 </p>
             ';
             $AtualIdTipoReadequacao = $idTipoReadequacao;
-            
+
         } else if($idTipoReadequacao == 10){
             if($AtualIdTipoReadequacao != $idTipoReadequacao){
                 $relatorio .= '
@@ -253,7 +253,7 @@ if($this->tipoPublicacao == 'readequacao') {
             } else {
                 $portaria->CgcCpf = Mascara::addMaskCPF($portaria->CgcCpf);
             }
-            
+
             $relatorio .= '
                 <p class="saltoLinha">
                     PRONAC: '. $portaria->pronac .' - ' . $portaria->NomeProjeto . ', publicado na portaria n&ordm; '. $dadosAprovacaoInicial->PortariaAprovacao .' de '. Data::tratarDataZend($dadosAprovacaoInicial->DtPortariaAprovacao, 'brasileira') .', publicada no D.O.U. em '. Data::tratarDataZend($dadosAprovacaoInicial->DtPublicacaoAprovacao, 'brasileira') .'.
@@ -266,11 +266,11 @@ if($this->tipoPublicacao == 'readequacao') {
                 </p>
             ';
             $AtualIdTipoReadequacao = $idTipoReadequacao;
-            
+
         } else {
 
         }
-        
+
     }
     $relatorio .= '
             <p></p>
@@ -287,9 +287,9 @@ if($this->tipoPublicacao == 'readequacao') {
 //    $txValor .= '<p class="saltoLinha">Valor Aprovado R$:&nbsp;&nbsp;' . $this->formatarReal($ValorAprovado) . '</p>';
 //    $txValor .= '<p class="saltoLinha">Valor Captado R$:&nbsp;&nbsp;' . $this->formatarReal($ValorCaptado) . '</p>';
 //    $txValor .= '<p class="saltoLinha">Valor a ser restitu&iacute;do ao FNC R$:&nbsp;&nbsp;' . $this->formatarReal($ValorAprovado-$ComprovacaoValidada) . '</p>';
-    
+
 } else {
-    
+
     // Inicio foreach Artigo 18
     $existeArt18 = false;
     $areaprojetoAnterior = 0;
@@ -321,9 +321,9 @@ if($this->tipoPublicacao == 'readequacao') {
         $ComprovacaoValidada    = $portaria->ComprovacaoValidada;
 
 	if ($this->tipoPublicacao == 'complementacao' || $this->tipoPublicacao == 'reducao') {
-	    $novoValor = $portaria->ValorAprovado;	    
+	    $novoValor = $portaria->ValorAprovado;
 	}
-	
+
         if($areaprojetoCodigo != $areaprojetoAnterior){
             $linhaArea = '<p class="saltoLinha_primeira">&Aacute;REA:&nbsp;&nbsp;' . $areaprojetoCodigo . '&nbsp;&nbsp;' . htmlentities(utf8_encode($areaprojeto)) . '&nbsp;&nbsp;(' . $artigo . ' , &sect;  1&ordm; )</p>';
         } else {
@@ -338,13 +338,13 @@ if($this->tipoPublicacao == 'readequacao') {
         } else if($this->tipoPublicacao == 'complementacao'){
             $txProcesso = '';
             $txValor = '<p class="saltoLinha">Valor Complementado:&nbsp;&nbsp;' . $this->formatarReal($vlapoio) . '</p>';
-            $txValor .= '<p class="saltoLinha">Valor total atual:&nbsp;&nbsp;' . $this->formatarReal($novoValor) . '</p>';		    
+            $txValor .= '<p class="saltoLinha">Valor total atual:&nbsp;&nbsp;' . $this->formatarReal($novoValor) . '</p>';
             $txPrazoCaptacao = '';
             $txResumoProjeto = '';
         } else if($this->tipoPublicacao == 'reducao'){
             $txProcesso = '';
             $txValor = '<p class="saltoLinha">Valor Reduzido:&nbsp;&nbsp;' . $this->formatarReal($vlapoio) . '</p>';
-            $txValor .= '<p class="saltoLinha">Valor total atual:&nbsp;&nbsp;' . $this->formatarReal($novoValor) . '</p>';	    
+            $txValor .= '<p class="saltoLinha">Valor total atual:&nbsp;&nbsp;' . $this->formatarReal($novoValor) . '</p>';
             $txPrazoCaptacao = '';
             $txResumoProjeto = '';
         } else if($this->tipoPublicacao == 'aprovacaoPrestacao'){
@@ -419,7 +419,7 @@ if($this->tipoPublicacao == 'readequacao') {
 	if ($this->tipoPublicacao == 'complementacao' || $this->tipoPublicacao == 'reducao') {
 	    $novoValor = $portaria->ValorAprovado;
 	}
-	
+
         if($areaprojetoCodigo != $areaprojetoAnterior2){
             $linhaArea = '<p class="saltoLinha_primeira">&Aacute;REA:&nbsp;&nbsp;' . $areaprojetoCodigo . '&nbsp;&nbsp;' . htmlentities(utf8_encode($areaprojeto)) . '&nbsp;&nbsp;(' . $artigo . ' , &sect;  1&ordm; )</p>';
         } else {
@@ -440,7 +440,7 @@ if($this->tipoPublicacao == 'readequacao') {
         } else if($this->tipoPublicacao == 'reducao'){
             $txProcesso = '';
             $txValor = '<p class="saltoLinha">Valor Reduzido:&nbsp;&nbsp;' . $this->formatarReal($vlapoio) . '</p>';
-            $txValor .= '<p class="saltoLinha">Valor total atual em:&nbsp;&nbsp;' . $this->formatarReal($novoValor) . '</p>';	    
+            $txValor .= '<p class="saltoLinha">Valor total atual em:&nbsp;&nbsp;' . $this->formatarReal($novoValor) . '</p>';
             $txPrazoCaptacao = '';
             $txResumoProjeto = '';
         } else if($this->tipoPublicacao == 'aprovacaoPrestacao'){

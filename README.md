@@ -48,6 +48,7 @@ Para parar o container basta digitar:
 * [Materialize](http://materializecss.com/)
 * [SqlServer](https://www.microsoft.com/en-us/sql-server/sql-server-2017)
 * [Cypress](https://www.cypress.io/)
+* [Sentry](https://sentry.io/welcome/)
 
 ## Documenta&ccedil;&atilde;o sobre a aplica&ccedil;&atilde;o
 * [Valida&ccedil;&otilde;es para versionamento](doc/Validacoes_para_versionamento.md)

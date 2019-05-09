@@ -156,7 +156,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             if (count($agencia) > 0) {
                 echo "";
             } else {
-                echo "Ag&ecirc;ncia inv&aacute;lida";
+                echo "Ag&ecirc;ncia do Banco do Brasil n&atilde;o encontrada!";
             }
         } else {
             echo "Ag&ecirc;ncia inv&aacute;lida";
@@ -252,7 +252,9 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             "stproposta" => isset($post['stproposta']) ? $post['stproposta'] : '',
             "idusuario" => isset($post['idusuario']) ? $post['idusuario'] : $this->idResponsavel,
             "sttipodemanda" => "NA", //seguindo sistema legado
-            "tpprorrogacao" => isset($post['tpprorrogacao']) ? $post['tpprorrogacao'] : ''
+            "tpprorrogacao" => isset($post['tpprorrogacao']) ? $post['tpprorrogacao'] : '',
+            "tptipicidade" => isset($post['tptipicidade']) ? $post['tptipicidade'] : '',
+            "tptipologia" => isset($post['tptipologia']) ? $post['tptipologia'] : ''
         );
 
         $dados['idpreprojeto'] = $idPreProjeto;
@@ -378,6 +380,13 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
     {
         $this->validarEdicaoProposta();
 
+        $tbProjetoFase = new Projeto_Model_DbTable_TbProjetoFase();
+        if (empty($this->idPreProjeto)
+            || $tbProjetoFase->isNormativo2019ByIdPreProjeto($this->idPreProjeto)) {
+            $dbTableVerificacao = new Proposta_Model_DbTable_Verificacao();
+            $this->view->tipicidades = $dbTableVerificacao->buscarTipicidades();
+        }
+
         if (empty($this->_proposta["idpreprojeto"])) {
             $post = Zend_Registry::get('post');
 
@@ -414,7 +423,6 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
 
             $this->view->arquivoExecucaoImediata = $arquivoExecucaoImediata;
         }
-
 
         if ($this->isEditarProjeto($this->idPreProjeto)) {
             $tblProjetos = new Projetos();
@@ -497,7 +505,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             $idPronac = $projeto['idpronac'];
 
             if ($arrResultado->Observacao === true) {
-                    $this->view->acao = $this->_urlPadrao . "/proposta/manterpropostaincentivofiscal/encaminharprojetoaominc";
+                $this->view->acao = $this->_urlPadrao . "/proposta/manterpropostaincentivofiscal/encaminharprojetoaominc";
             }
 
             $this->view->resultado = $arrResultado;
@@ -523,7 +531,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
 
                 $tblProjetos->alterarSituacao($idPronac, '', $codigoSituacao, $providenciaTomada, $this->idUsuario);
 
-                parent::message("Projeto encaminhado com sucesso para an&aacute;lise no Minist&eacute;rio da Cultura.", "/listarprojetos/listarprojetos", "CONFIRM");
+                parent::message("Projeto encaminhado com sucesso para an&aacute;lise no Minist&eacute;rio da Cidadania.", "/listarprojetos/listarprojetos", "CONFIRM");
             }
         }
     }
@@ -591,7 +599,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
                 $tbMovimentacao = new Proposta_Model_DbTable_TbMovimentacao();
                 $insert = $tbMovimentacao->insert($dados);
 
-                parent::message("Proposta encaminhada com sucesso para an&aacute;lise no Minist&eacute;rio da Cultura.", "/proposta/visualizar/index/idPreProjeto/" . $idPreProjeto, "CONFIRM");
+                parent::message("Proposta encaminhada com sucesso para an&aacute;lise no Minist&eacute;rio da Cidadania.", "/proposta/visualizar/index/idPreProjeto/" . $idPreProjeto, "CONFIRM");
             } else {
                 $this->view->resultado = $arrResultado;
             }
@@ -767,15 +775,15 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
         }
 
         //VERIFICA SE DATA INICIO E MAIOR QUE 90 DIAS DA DATA ATUAL
-        if (!empty($get->dtInicio) && strlen($get->dtInicio) == 10 && !$this->view->isEditarProjeto ) {
+        if (!empty($get->dtInicio) && strlen($get->dtInicio) == 10 && !$this->view->isEditarProjeto) {
             $dtTemp = explode("/", $get->dtInicio);
             $dtInicio = $dtTemp[2] . $dtTemp[1] . $dtTemp[0];
 
-            $diffEmDias = $objData->CompararDatas(date("Ymd"), $dtInicio);
-            if ($diffEmDias < 0 || $diffEmDias < 90) {
-                $mensagem = "<br><font color='red'>A data inicial de realiza&ccedil;&atilde;o dever&aacute; ser no m&iacute;nimo 90 dias ap&oacute;s a data atual.</font>";
-                $bln = "false";
-            }
+//            $diffEmDias = $objData->CompararDatas(date("Ymd"), $dtInicio);
+//            if ($diffEmDias < 0 || $diffEmDias < 90) {
+//                $mensagem = "<br><font color='red'>A data inicial de realiza&ccedil;&atilde;o dever&aacute; ser no m&iacute;nimo 90 dias ap&oacute;s a data atual.</font>";
+//                $bln = "false";
+//            }
 
             if (!$objData->validarData($get->dtInicio)) {
                 $mensagem = "<br><font color='red'>Data de in&iacute;cio inv&aacute;lida</font>";
@@ -885,7 +893,7 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
             'recordsTotal' => $recordsTotal ? $recordsTotal : 0,
             'draw' => $draw,
             'recordsFiltered' => $recordsFiltered ? $recordsFiltered : 0,
-            'teste' =>[$this->idAgente, $this->idResponsavel, $idAgente, array(), $order, $start, $length, $search]
+            'teste' => [$this->idAgente, $this->idResponsavel, $idAgente, array(), $order, $start, $length, $search]
         ));
     }
 
@@ -1092,5 +1100,27 @@ class Proposta_ManterpropostaincentivofiscalController extends Proposta_GenericC
         $this->view->idResponsavel = $this->idResponsavel;
         $this->view->idUsuario = $this->idUsuario;
         $this->view->idAgente = $this->idAgente;
+    }
+
+    public function obterTipologiasAjaxAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $intId = $this->getRequest()->getParam('id', null);
+
+        if (empty($intId)) {
+            throw new Exception('id &eacute; obrigat&oacute;rio');
+        }
+
+        $tableVerificacao = new Proposta_Model_DbTable_Verificacao();
+        $tipologias = $tableVerificacao->fetchPairs(
+            'idVerificacao',
+            'Descricao',
+            [
+                'idTipo' => $intId,
+                'stEstado' => 1,
+            ]);
+
+        $this->_helper->json(TratarArray::utf8EncodeArray($tipologias));
     }
 }

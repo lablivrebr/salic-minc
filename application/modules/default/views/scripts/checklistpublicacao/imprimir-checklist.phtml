@@ -140,17 +140,17 @@
 <!-- ========== INÍCIO CONTEÚDO ========== -->
 <div class="paginaA4">
     <div align="center">
-        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cultura"/>
-        <br clear="all" /><span class="TituloMinC">Ministério da Cultura</span>
+        <img id="brasao" src="<?php echo $this->baseUrl(); ?>/public/img/brasaoArmas.jpg" alt="Ministério da Cidadania"/>
+        <br clear="all" /><span class="TituloMinC">Ministério da Cidadania</span>
         <br clear="all" /><span class="SubTituloMinC">Secretaria de Fomento e Incentivo à Cultura</span>
         <br clear="all" /><span class="SubTituloMinC">Diretoria de Incentivo à Cultura</span>
         <br clear="all" /><span class="SubTituloMinC">Coordenação-Geral de Análise de Projetos de Incentivos Fiscais</span>
         <br clear="all" /><span class="SubTituloMinC">Coordenação de Aprovação de Projetos</span>
         <!--<br clear="all" /><span class="DataDoDocumento">Data da impressão: <?php //echo date('d/m/Y - H:i:s'); ?></span>-->
     </div>
-    
+
     <br clear="all" />
-    
+
     <?php foreach ($this->arrayGrupos as $g){ ?>
         <?php if ($g->gru_codigo == $this->grupoAtivo && $g->uog_orgao == $this->orgaoAtivo){ $siglaOrgao = $g->org_siglaautorizado; } ?>
     <?php } ?>
@@ -174,10 +174,10 @@
         <p style="text-align: justify;">2. Desta forma, visando a publicação da Portaria de Autorização para Captação de Recursos, esta Coordenação procedeu a verificação da plena instrução dos autos mediante a checagem da documentação jurídica e de regularidade fiscal, em observância ao disposto nos incisos I ou II, e inciso IV do art. 11º da Instrução Normativa nº 1, de 24/06/2013, bem assim nos incisos I ou II do art. 46 desta mesma Instrução e observamos que, na presente data, constam dos autos, em meio virtual, os documentos listados em espelho de documentos anexados.</p>
         <br clear="all" />
         <p style="text-align: justify;">3. Face ao resultado da análise documental realizada, constatamos que o projeto está plenamente instruído, conforme indicado no check list abaixo, resultando na necessidade de encaminhamento à Coordenação-Geral de Acompanhamento e Avaliação desta Secretaria para continuidade dos trâmites administrativos afetos à publicação da Portaria de Autorização para Captação de Recursos, de acordo com o disposto no art. 47 da Instrução Normativa nº 1, de 24/06/2013.</p>
-        
+
     </div>
 </div>
-    
+
 <div class="paginaA4">
     <div>
         <p>
@@ -207,7 +207,7 @@
                 <td align="center"><img src="<?php echo $this->baseUrl(); ?>/public/img/ok_16x16.png" alt="Ok"/></td>
             </tr>
             <tr>
-                <td>Espelho de regularidade do proponente junto ao Ministério da Cultura</td>
+                <td>Espelho de regularidade do proponente junto ao Ministério da Cidadania</td>
                 <td align="center"><img src="<?php echo $this->baseUrl(); ?>/public/img/ok_16x16.png" alt="Ok"/></td>
             </tr>
             <tr>
@@ -220,14 +220,14 @@
             </tr>
         </table>
         </p>
-        
+
         <br clear="all" />
         <p style="margin-left: 2em;">Atenciosamente,</p>
         <p style="font-size: 14px;" align="center">
             <?php echo $this->dados['agenteAdministrativoNome']; ?><br />
             <span style="font-weight: bold;"><?php echo $this->dados['agenteAdministrativoCargo']; ?></span>
         </p>
-        
+
         <br clear="all" />
         <p style="margin-left: 2em;">De acordo. À consideração da Coordenadora de Aprovação de Projetos.</p>
         <p align="right">Brasília, <?php echo $dataEscrita; ?>.</p>
@@ -235,7 +235,7 @@
             <?php echo $this->dados['chefeDivisaoNome']; ?><br />
             <span style="font-weight: bold;"><?php echo $this->dados['chefeDivisaoCargo']; ?></span>
         </p>
-        
+
         <br clear="all" />
         <p style="margin-left: 2em;">De acordo. Encaminhar o projeto para publicação.</p>
         <p align="right">Brasília, <?php echo $dataEscrita; ?>.</p>
@@ -243,7 +243,7 @@
             <?php echo $this->dados['coordAprovacaoNome']; ?><br />
             <span style="font-weight: bold;"><?php echo $this->dados['coordAprovacaoCargo']; ?></span>
         </p>
-        
+
 <!--        [agenteAdministrativoCargo] => Agente Administrativo
     [agenteAdministrativoNome] => Rômulo Menhô Barbosa
     [chefeDivisaoCargo] => Chefe de Divisão

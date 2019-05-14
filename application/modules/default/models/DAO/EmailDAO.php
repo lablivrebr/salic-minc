@@ -4,6 +4,11 @@ class EmailDAO extends Zend_Db_Table
     public static function enviarEmail($email, $assunto, $texto, $perfil = 'PerfilGrupoPRONAC')
     {
         $config = new Zend_Config_Ini(APPLICATION_PATH .'/configs/application.ini', APPLICATION_ENV);
+
+        if ($config->mail->isServicoHabilitado != true) {
+            return false;
+        }
+
         $emailDefault = $config->mail->default->toArray();
         $config = $config->mail->transport->toArray();
 

@@ -10,6 +10,7 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
     private $codOrgao = null;
     private $COD_CLASSIFICACAO_DOCUMENTO = 23;
     protected $auth;
+    private $configuracoesAplicacao;
 
     public function init()
     {
@@ -74,6 +75,8 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
             $this->codOrgao = $GrupoAtivo->codOrgao;
             $this->codOrgaoSuperior = (!empty($this->auth->getIdentity()->usu_org_max_superior)) ? $this->auth->getIdentity()->usu_org_max_superior : null;
         }
+
+        $this->configuracoesAplicacao = \Zend_Registry::get("config")->toArray();
     }
 
     public function indexAction()
@@ -868,12 +871,16 @@ class Admissibilidade_AdmissibilidadeController extends MinC_Controller_Action_A
             $tblAgente = new Agente_Model_DbTable_Agentes();
             $rsAgente = $tblAgente->buscarAgenteENome(array("a.idAgente = ?" => $rsProposta->idAgente))->current();
             $cnpjcpf = $rsAgente->CNPJCPF;
-            $wsWebServiceSEI = new ServicosSEI();
-            $arrRetornoGerarProcedimento = $wsWebServiceSEI->wsGerarProcedimento();
 
-            $chars = array(".", "/", "-");
-            $nrProcessoSemFormatacao = str_replace($chars, "", $arrRetornoGerarProcedimento->ProcedimentoFormatado);
-            $nrProcesso = $nrProcessoSemFormatacao;
+            $nrProcesso = '0140000000000000000';
+            if ($this->configuracoesAplicacao['SEI']['isServicoHabilitado'] == true) {
+                $wsWebServiceSEI = new ServicosSEI();
+                $arrRetornoGerarProcedimento = $wsWebServiceSEI->wsGerarProcedimento();
+
+                $chars = array(".", "/", "-");
+                $nrProcessoSemFormatacao = str_replace($chars, "", $arrRetornoGerarProcedimento->ProcedimentoFormatado);
+                $nrProcesso = $nrProcessoSemFormatacao;
+            }
 
             $this->incluirProjeto($this->idPreProjeto, $cnpjcpf, $idOrgao, $this->idUsuario, $nrProcesso, $rsProposta->stProposta);
             $tblProjeto = new Projetos();

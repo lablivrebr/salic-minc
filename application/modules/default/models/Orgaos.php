@@ -1,7 +1,7 @@
 <?php
 class Orgaos extends MinC_Db_Table_Abstract
 {
-    protected $_banco = 'SAC';
+    protected $_schema = 'SAC';
     protected $_name  = 'Orgaos';
     protected $_primary = 'Codigo';
 
@@ -176,7 +176,7 @@ class Orgaos extends MinC_Db_Table_Abstract
         //adiciona quantos filtros foram enviados
         //$slct->where("se.stEstado = ?", 1);
         $slct->where("se.Codigo = ?", $segmento);
-        
+
         return $this->fetchAll($slct);
     }
 
@@ -220,7 +220,7 @@ class Orgaos extends MinC_Db_Table_Abstract
         $query->where('Vinculo = 1');
         $query->where('idSecretaria = ' . Orgaos::ORGAO_IPHAN_PRONAC);
         $query->order('Sigla');
-        
+
         return $this->fetchAll($query);
     }
 
@@ -236,7 +236,7 @@ class Orgaos extends MinC_Db_Table_Abstract
             self::ORGAO_SUPERIOR_SAV,
             self::ORGAO_SAV_DAP
         );
-        
+
         return (!in_array($idOrgao, $orgaos)) ? true : false;
     }
 

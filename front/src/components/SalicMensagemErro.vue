@@ -1,20 +1,43 @@
 <template>
-    <div
-        class="card center-align"
-        style="margin: 20px auto; width:80%">
-        <div class="card-content">
-            <div class="row">
-                <div class="col s2 right-align"><i class="medium red-text material-icons">not_interested</i></div>
-                <div class="col s10 left-align">
-                    <br>
-                    <b v-html="texto"/>
-                    <a
-                        v-if="urlRetorno"
-                        href="urlRetorno"> {{ msgUrlRetorno }}</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <v-container>
+        <v-layout
+            row
+            wrap
+            align-center
+        >
+            <v-flex
+                offset-xs1
+                xs1
+                class="text-xs-center"
+            >
+                <v-icon
+                    size="56"
+                    class="red--text mr-2"
+                >not_interested
+                </v-icon>
+            </v-flex>
+            <v-flex
+                xs3
+                class="text-xs-left"
+            >
+                <strong v-html="texto"/>
+                <v-btn
+                    v-if="urlRetorno"
+                    :href="urlRetorno"
+                    outline
+                    color="error"
+                    v-html="msgUrlRetorno"
+                />
+                <v-btn
+                    v-if="rotaRetorno"
+                    :to="rotaRetorno"
+                    outline
+                    color="error"
+                    v-html="msgUrlRetorno"
+                />
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
@@ -31,6 +54,10 @@ export default {
         },
         msgUrlRetorno: {
             type: String,
+            default: 'Voltar',
+        },
+        rotaRetorno: {
+            type: [String, Object],
             default: '',
         },
     },

@@ -89,7 +89,7 @@ $arrMenuProponente['usuario']['menu'][] = array('label' => 'Alterar Dados', 'tit
 );
 
 $jwt = new Zend_Session_Namespace('jwt');
-if ($jwt->token) {
+if (Zend_Registry::get("config")->toArray()['nfe']) {
 
     $arrMenuProponente['nfe'] = [
         'id' => 'nfe',
